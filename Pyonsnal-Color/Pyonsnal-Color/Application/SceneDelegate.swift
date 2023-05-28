@@ -7,6 +7,8 @@
 
 import UIKit
 
+import ModernRIBs
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -20,6 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window: UIWindow = .init(windowScene: scene)
         self.window = window
         window.makeKeyAndVisible()
+        
+//        let result = AppRoot
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

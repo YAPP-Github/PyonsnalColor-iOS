@@ -37,6 +37,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BA437F082A23583400C5DFA8 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				BA9E23432A21EF3100A539D5 /* Assets.xcassets */,
+				BA9E23452A21EF3100A539D5 /* LaunchScreen.storyboard */,
+				BA9E23482A21EF3100A539D5 /* Info.plist */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		BA437F092A2358BA00C5DFA8 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				BA9E233A2A21EF3000A539D5 /* AppDelegate.swift */,
+				BA9E233C2A21EF3000A539D5 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		BA9E232E2A21EF3000A539D5 = {
 			isa = PBXGroup;
 			children = (
@@ -57,11 +76,8 @@
 		BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */ = {
 			isa = PBXGroup;
 			children = (
-				BA9E233A2A21EF3000A539D5 /* AppDelegate.swift */,
-				BA9E233C2A21EF3000A539D5 /* SceneDelegate.swift */,
-				BA9E23432A21EF3100A539D5 /* Assets.xcassets */,
-				BA9E23452A21EF3100A539D5 /* LaunchScreen.storyboard */,
-				BA9E23482A21EF3100A539D5 /* Info.plist */,
+				BA437F092A2358BA00C5DFA8 /* Application */,
+				BA437F082A23583400C5DFA8 /* Resource */,
 			);
 			path = "Pyonsnal-Color";
 			sourceTree = "<group>";
@@ -307,7 +323,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Pyonsnal-Color/Info.plist";
+				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -336,7 +352,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Pyonsnal-Color/Info.plist";
+				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
