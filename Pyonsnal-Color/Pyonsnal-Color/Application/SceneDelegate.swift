@@ -13,6 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    private var launchRouter: LaunchRouting?
+
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -22,8 +24,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window: UIWindow = .init(windowScene: scene)
         self.window = window
         window.makeKeyAndVisible()
-        
-//        let result = AppRoot
+
+        let rootBuilder: RootBuilder = .init(dependency: AppComponent())
+        let launchRouter: LaunchRouting = rootBuilder.build()
+        self.launchRouter = launchRouter
+        launchRouter.launch(from: window)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
