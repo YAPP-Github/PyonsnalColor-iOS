@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "modernribs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/DevYeom/ModernRIBs",
+      "state" : {
+        "revision" : "8884514a2b98e98dd381f941054a5cbb275eaaf2",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 2
+}
