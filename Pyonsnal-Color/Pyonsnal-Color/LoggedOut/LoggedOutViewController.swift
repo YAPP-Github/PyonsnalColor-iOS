@@ -5,8 +5,9 @@
 //  Created by 김진우 on 2023/05/28.
 //
 
-import ModernRIBs
 import UIKit
+import ModernRIBs
+import AuthenticationServices
 
 protocol LoggedOutPresentableListener: AnyObject {
 }
@@ -29,15 +30,7 @@ final class LoggedOutViewController:
         return stackView
     }()
 
-    private let appleLoginButton: UIButton = {
-        let button: UIButton = .init()
-        button.layer.cornerRadius = 8
-        button.backgroundColor = .black
-        button.setTitle("🍎 Apple Login", for: .normal)
-        button.setTitleColor(.systemRed, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        return button
-    }()
+    private let appleLoginButton = ASAuthorizationAppleIDButton()
 
     private let kakaoLoginButton: UIButton = {
         let button: UIButton = .init()
@@ -53,13 +46,17 @@ final class LoggedOutViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .green
-
         configureUI()
+        configureLayout()
     }
 
     // MARK: - Private Method
     private func configureUI() {
+        view.backgroundColor = .green
+        setAppleLoginButton()
+    }
+    
+    private func configureLayout() {
         view.addSubview(loginButtonStackView)
 
         loginButtonStackView.addArrangedSubview(appleLoginButton)
@@ -71,4 +68,55 @@ final class LoggedOutViewController:
             loginButtonStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
+    
+    private func setAppleLoginButton() {
+        appleLoginButton.addTarget(self, action: #selector(didTapAppleLoginButton),
+                                   for: .touchUpInside)
+    }
+    
+    @objc
+    private func didTapAppleLoginButton() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
 }
+
+extension LoggedOutViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            let userIdentifier = appleIDCredential.user
+            let fullName = appleIDCredential.fullName
+            let email = appleIDCredential.email
+
+            if let authorizationCode = appleIDCredential.authorizationCode, let identifyToken = appleIDCredential.identityToken {
+                let authorizationCodeString = String(data: authorizationCode, encoding: .utf8)
+                let identifyTokenString = String(data: identifyToken, encoding: .utf8)
+            }
+            /// TO DO : send to server
+            /// TO DO : get token from server
+            print("\(userIdentifier) \(fullName) \(email)")
+        default:
+            break
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        //handle error
+        print("error ocurred")
+    }
+}
+
+extension LoggedOutViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window ?? UIWindow()
+    }
+}
+
+
