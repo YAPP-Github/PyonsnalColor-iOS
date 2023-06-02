@@ -115,6 +115,10 @@ extension LoggedOutViewController: ASAuthorizationControllerDelegate {
             }
             /// TO DO : send to server
             /// TO DO : get token from server
+            /// save token to Keychain
+            if KeyChainManager.shared.addToken(token: "refreshToken", to: "refreshToken"),  KeyChainManager.shared.addToken(token: "accessToken", to: "accessToken") {
+                //routeToHome
+            }
             print("\(userIdentifier) \(fullName) \(email)")
         default:
             break
