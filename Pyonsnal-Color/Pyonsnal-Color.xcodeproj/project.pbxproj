@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */; };
+		B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */; };
+		B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */; };
 		BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */ = {isa = PBXBuildFile; productRef = BA437F062A2357DF00C5DFA8 /* ModernRIBs */; };
 		BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */; };
 		BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */; };
@@ -50,7 +53,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */,
 				BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */,
+				B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */,
+				B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +153,9 @@
 			name = "Pyonsnal-Color";
 			packageProductDependencies = (
 				BA437F062A2357DF00C5DFA8 /* ModernRIBs */,
+				B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */,
+				B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */,
+				B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */,
 			);
 			productName = "Pyonsnal-Color";
 			productReference = BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */;
@@ -178,6 +187,7 @@
 			mainGroup = BA9E232E2A21EF3000A539D5;
 			packageReferences = (
 				BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */,
+				B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = BA9E23382A21EF3000A539D5 /* Products */;
 			projectDirPath = "";
@@ -450,6 +460,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/DevYeom/ModernRIBs";
@@ -461,6 +479,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
 		BA437F062A2357DF00C5DFA8 /* ModernRIBs */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */;
