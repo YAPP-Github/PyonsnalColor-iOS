@@ -5,6 +5,7 @@
 //  Created by 김진우 on 2023/05/28.
 //
 
+import KakaoSDKUser
 import ModernRIBs
 import UIKit
 
@@ -56,6 +57,7 @@ final class LoggedOutViewController:
         view.backgroundColor = .green
 
         configureUI()
+        setupKakaoLoginButton()
     }
 
     // MARK: - Private Method
@@ -70,5 +72,36 @@ final class LoggedOutViewController:
             loginButtonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButtonStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+    
+    @objc
+    private func didTapKakaoLoginButton() {
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    let accessToken = oauthToken?.accessToken
+                    let refreshToken = oauthToken?.refreshToken
+                }
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    let accessToken = oauthToken?.accessToken
+                    let refreshToken = oauthToken?.refreshToken
+                }
+            }
+        }
+    }
+    
+    private func setupKakaoLoginButton() {
+        kakaoLoginButton.addTarget(
+            self,
+            action: #selector(didTapKakaoLoginButton),
+            for: .touchUpInside
+        )
     }
 }
