@@ -5,9 +5,10 @@
 //  Created by 김진우 on 2023/05/27.
 //
 
-import UIKit
-
+import KakaoSDKAuth
+import KakaoSDKCommon
 import ModernRIBs
+import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -29,6 +30,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let launchRouter: LaunchRouting = rootBuilder.build()
         self.launchRouter = launchRouter
         launchRouter.launch(from: window)
+        
+        KakaoSDK.initSDK(appKey: "fb4631d8906744937241d113a46d946b")
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if AuthApi.isKakaoTalkLoginUrl(url) {
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
