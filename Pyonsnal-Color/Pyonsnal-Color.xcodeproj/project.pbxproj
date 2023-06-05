@@ -23,6 +23,7 @@
 		BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882D2A24C3E600DA6257 /* RootBuilder.swift */; };
 		BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882E2A24C3E600DA6257 /* RootInteractor.swift */; };
 		BAED88342A24CB5E00DA6257 /* RootComponent+LoggedOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED88332A24CB5E00DA6257 /* RootComponent+LoggedOut.swift */; };
+		F0964E422A2A44500028DCA2 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		BAED882E2A24C3E600DA6257 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		BAED88332A24CB5E00DA6257 /* RootComponent+LoggedOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+LoggedOut.swift"; sourceTree = "<group>"; };
 		F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pyonsnal-Color.entitlements"; sourceTree = "<group>"; };
+		F0964E412A2A44500028DCA2 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				BA437F092A2358BA00C5DFA8 /* Application */,
 				BA437F082A23583400C5DFA8 /* Resource */,
 				BA437F112A235ED700C5DFA8 /* LoggedOut */,
+				F0964E402A2A43EC0028DCA2 /* Utils */,
 			);
 			path = "Pyonsnal-Color";
 			sourceTree = "<group>";
@@ -128,6 +131,14 @@
 				BAED88332A24CB5E00DA6257 /* RootComponent+LoggedOut.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		F0964E402A2A43EC0028DCA2 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F0964E412A2A44500028DCA2 /* KeyChainManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +244,7 @@
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
+				F0964E422A2A44500028DCA2 /* KeyChainManager.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
@@ -380,7 +392,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Pyonsnal-Color/Pyonsnal-Color.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FJ57DUH592;
+				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -393,7 +405,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "kr.co.yapp.22th.pyonsnalcolor-temp";
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.yapp.22th.pyonsnalcolor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -409,7 +421,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Pyonsnal-Color/Pyonsnal-Color.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FJ57DUH592;
+				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -422,7 +434,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "kr.co.yapp.22th.pyonsnalcolor-temp";
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.yapp.22th.pyonsnalcolor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
