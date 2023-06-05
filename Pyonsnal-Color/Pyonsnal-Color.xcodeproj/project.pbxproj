@@ -23,6 +23,7 @@
 		BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882D2A24C3E600DA6257 /* RootBuilder.swift */; };
 		BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882E2A24C3E600DA6257 /* RootInteractor.swift */; };
 		BAED88342A24CB5E00DA6257 /* RootComponent+LoggedOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED88332A24CB5E00DA6257 /* RootComponent+LoggedOut.swift */; };
+		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
 		F0964E422A2A44500028DCA2 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		BAED882D2A24C3E600DA6257 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		BAED882E2A24C3E600DA6257 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		BAED88332A24CB5E00DA6257 /* RootComponent+LoggedOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+LoggedOut.swift"; sourceTree = "<group>"; };
+		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pyonsnal-Color.entitlements"; sourceTree = "<group>"; };
 		F0964E412A2A44500028DCA2 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				F0964E412A2A44500028DCA2 /* KeyChainManager.swift */,
+				F02C8DA62A2E149700593A2D /* AppleLoginService.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				BAED88342A24CB5E00DA6257 /* RootComponent+LoggedOut.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
+				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

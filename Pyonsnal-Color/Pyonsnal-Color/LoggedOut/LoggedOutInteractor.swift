@@ -24,10 +24,13 @@ final class LoggedOutInteractor:
 
     weak var router: LoggedOutRouting?
     weak var listener: LoggedOutListener?
+    private var appleLoginService: AppleLoginService?
 
-    override init(presenter: LoggedOutPresentable) {
+    init(presenter: LoggedOutPresentable, appleLoginService: AppleLoginService) {
         super.init(presenter: presenter)
         presenter.listener = self
+        self.appleLoginService = appleLoginService
+        self.appleLoginService?.delegate = self
     }
 
     override func didBecomeActive() {
@@ -37,4 +40,19 @@ final class LoggedOutInteractor:
     override func willResignActive() {
         super.willResignActive()
     }
+    
+    func didTapAppleLoginButton() {
+        appleLoginService?.requestAppleLogin()
+    }
+}
+
+extension LoggedOutInteractor: AppleLoginServiceDelegate {
+    func didCompleteWithAuthorization(identifyToken: String) {
+        /// TO DO : send to server
+        /// get token from server
+        /// save token to Keychain
+        /// route to Home
+    }
+    
+    
 }

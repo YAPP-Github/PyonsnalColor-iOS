@@ -10,6 +10,7 @@ import ModernRIBs
 import AuthenticationServices
 
 protocol LoggedOutPresentableListener: AnyObject {
+    func didTapAppleLoginButton()
 }
 
 final class LoggedOutViewController:
@@ -30,7 +31,12 @@ final class LoggedOutViewController:
         return stackView
     }()
 
-    private let appleLoginButton = ASAuthorizationAppleIDButton()
+    private lazy var appleLoginButton = {
+        let button = ASAuthorizationAppleIDButton()
+        button.addTarget(self, action: #selector(didTapAppleLoginButton),
+                                   for: .touchUpInside)
+        return button
+    }()
 
     private let kakaoLoginButton: UIButton = {
         let button: UIButton = .init()
@@ -53,7 +59,6 @@ final class LoggedOutViewController:
     // MARK: - Private Method
     private func configureUI() {
         view.backgroundColor = .green
-        setAppleLoginButton()
     }
     
     private func configureLayout() {
@@ -69,58 +74,11 @@ final class LoggedOutViewController:
         ])
     }
     
-    private func setAppleLoginButton() {
-        appleLoginButton.addTarget(self, action: #selector(didTapAppleLoginButton),
-                                   for: .touchUpInside)
-    }
-    
     @objc
     private func didTapAppleLoginButton() {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
+        listener?.didTapAppleLoginButton()
     }
 }
 
-extension LoggedOutViewController: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName
-            let email = appleIDCredential.email
-
-            if let authorizationCode = appleIDCredential.authorizationCode, let identifyToken = appleIDCredential.identityToken {
-                let authorizationCodeString = String(data: authorizationCode, encoding: .utf8)
-                let identifyTokenString = String(data: identifyToken, encoding: .utf8)
-            }
-            /// TO DO : send to server
-            /// TO DO : get token from server
-            /// save token to Keychain
-            if KeyChainManager.shared.addToken(token: "refreshToken", to: "refreshToken"),  KeyChainManager.shared.addToken(token: "accessToken", to: "accessToken") {
-                //routeToHome
-            }
-            print("\(userIdentifier) \(fullName) \(email)")
-        default:
-            break
-        }
-    }
-    
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        //handle error
-        print("error ocurred")
-    }
-}
-
-extension LoggedOutViewController: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window ?? UIWindow()
-    }
-}
 
 
