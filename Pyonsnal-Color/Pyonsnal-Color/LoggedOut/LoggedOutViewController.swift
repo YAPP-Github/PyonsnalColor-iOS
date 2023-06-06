@@ -81,6 +81,19 @@ final class LoggedOutViewController:
     private func didTapAppleLoginButton() {
         listener?.didTapAppleLoginButton()
     }
+    
+    @objc
+    private func didTapKakaoLoginButton() {
+        listener?.requestKakaoLogin()
+    }
+    
+    private func setupKakaoLoginButton() {
+        kakaoLoginButton.addTarget(
+            self,
+            action: #selector(didTapKakaoLoginButton),
+            for: .touchUpInside
+        )
+    }
 }
 
 
