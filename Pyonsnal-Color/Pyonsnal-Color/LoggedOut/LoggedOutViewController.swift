@@ -6,10 +6,12 @@
 //
 
 import KakaoSDKUser
-import ModernRIBs
 import UIKit
+import ModernRIBs
+import AuthenticationServices
 
 protocol LoggedOutPresentableListener: AnyObject {
+    func didTapAppleLoginButton()
     func requestKakaoLogin()
 }
 
@@ -30,16 +32,8 @@ final class LoggedOutViewController:
         stackView.distribution = .fill
         return stackView
     }()
-
-    private let appleLoginButton: UIButton = {
-        let button: UIButton = .init()
-        button.layer.cornerRadius = 8
-        button.backgroundColor = .black
-        button.setTitle("🍎 Apple Login", for: .normal)
-        button.setTitleColor(.systemRed, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        return button
-    }()
+    
+    private let appleLoginButton = ASAuthorizationAppleIDButton()
 
     private let kakaoLoginButton: UIButton = {
         let button: UIButton = .init()
@@ -55,14 +49,17 @@ final class LoggedOutViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .green
-
         configureUI()
-        setupKakaoLoginButton()
+        configureLayout()
+        configureAction()
     }
 
     // MARK: - Private Method
     private func configureUI() {
+        view.backgroundColor = .green
+    }
+    
+    private func configureLayout() {
         view.addSubview(loginButtonStackView)
 
         loginButtonStackView.addArrangedSubview(appleLoginButton)
@@ -75,16 +72,30 @@ final class LoggedOutViewController:
         ])
     }
     
-    @objc
-    private func didTapKakaoLoginButton() {
-        listener?.requestKakaoLogin()
-    }
-    
-    private func setupKakaoLoginButton() {
+    private func configureAction() {
+        appleLoginButton.addTarget(
+            self,
+            action: #selector(didTapAppleLoginButton),
+            for: .touchUpInside)
+        
         kakaoLoginButton.addTarget(
             self,
             action: #selector(didTapKakaoLoginButton),
             for: .touchUpInside
         )
     }
+    
+    @objc
+    private func didTapAppleLoginButton() {
+        listener?.didTapAppleLoginButton()
+    }
+    
+    @objc
+    private func didTapKakaoLoginButton() {
+        listener?.requestKakaoLogin()
+    }
+
 }
+
+
+
