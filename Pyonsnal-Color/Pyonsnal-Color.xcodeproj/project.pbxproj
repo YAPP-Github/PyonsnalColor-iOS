@@ -28,7 +28,7 @@
 		BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882E2A24C3E600DA6257 /* RootInteractor.swift */; };
 		BAED88342A24CB5E00DA6257 /* RootComponent+LoggedOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED88332A24CB5E00DA6257 /* RootComponent+LoggedOut.swift */; };
 		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
-		F0964E422A2A44500028DCA2 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainManager.swift */; };
+		F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,7 +52,7 @@
 		BAED88332A24CB5E00DA6257 /* RootComponent+LoggedOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+LoggedOut.swift"; sourceTree = "<group>"; };
 		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pyonsnal-Color.entitlements"; sourceTree = "<group>"; };
-		F0964E412A2A44500028DCA2 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
+		F0964E412A2A44500028DCA2 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +155,7 @@
 		F0964E402A2A43EC0028DCA2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				F0964E412A2A44500028DCA2 /* KeyChainManager.swift */,
+				F0964E412A2A44500028DCA2 /* KeyChainService.swift */,
 				F02C8DA62A2E149700593A2D /* AppleLoginService.swift */,
 			);
 			path = Utils;
@@ -268,7 +268,7 @@
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
-				F0964E422A2A44500028DCA2 /* KeyChainManager.swift in Sources */,
+				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
