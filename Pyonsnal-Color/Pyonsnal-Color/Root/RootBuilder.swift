@@ -11,6 +11,12 @@ protocol RootDependency: Dependency {
 }
 
 final class RootComponent: Component<RootDependency> {
+    var appleLoginService: AppleLoginService
+    
+    override init(dependency: RootDependency) {
+        self.appleLoginService = AppleLoginService()
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder

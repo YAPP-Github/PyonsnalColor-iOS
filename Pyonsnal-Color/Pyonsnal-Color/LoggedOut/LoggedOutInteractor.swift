@@ -26,10 +26,10 @@ final class LoggedOutInteractor:
     weak var listener: LoggedOutListener?
     private var appleLoginService: AppleLoginService?
 
-    init(presenter: LoggedOutPresentable, appleLoginService: AppleLoginService) {
+    init(presenter: LoggedOutPresentable, dependency: LoggedOutDependency) {
         super.init(presenter: presenter)
         presenter.listener = self
-        self.appleLoginService = appleLoginService
+        self.appleLoginService = dependency.appleLoginService
         self.appleLoginService?.delegate = self
     }
 

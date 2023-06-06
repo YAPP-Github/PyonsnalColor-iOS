@@ -8,6 +8,7 @@
 import ModernRIBs
 
 protocol LoggedOutDependency: Dependency {
+    var appleLoginService: AppleLoginService { get }
 }
 
 final class LoggedOutComponent: Component<LoggedOutDependency> {
@@ -28,7 +29,7 @@ final class LoggedOutBuilder: Builder<LoggedOutDependency>, LoggedOutBuildable {
         let _: LoggedOutComponent = .init(dependency: dependency)
         let viewController: LoggedOutViewController = .init()
         let interactor: LoggedOutInteractor = .init(presenter: viewController,
-                                                    appleLoginService: AppleLoginService())
+                                                    dependency: dependency)
         interactor.listener = listener
 
         let router: LoggedOutRouter = .init(interactor: interactor, viewController: viewController)
