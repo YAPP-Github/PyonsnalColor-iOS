@@ -15,6 +15,8 @@
 		BA18074F2A2F0C7E00295398 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA18074E2A2F0C7E00295398 /* Alamofire */; };
 		BA1807522A2F0DE200295398 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BA1807512A2F0DE200295398 /* Kingfisher */; };
 		BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807542A2F151F00295398 /* ImageAssetKind.swift */; };
+		BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807592A2F170100295398 /* UIImageView+.swift */; };
+		BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18075B2A2F189A00295398 /* UIButton+.swift */; };
 		BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */ = {isa = PBXBuildFile; productRef = BA437F062A2357DF00C5DFA8 /* ModernRIBs */; };
 		BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */; };
 		BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */; };
@@ -38,6 +40,8 @@
 /* Begin PBXFileReference section */
 		B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginService.swift; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
+		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
+		BA18075B2A2F189A00295398 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
 		BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
 		BA437F142A235F5100C5DFA8 /* LoggedOutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutBuilder.swift; sourceTree = "<group>"; };
@@ -86,6 +90,15 @@
 				B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		BA1807532A2F13DA00295398 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BA1807592A2F170100295398 /* UIImageView+.swift */,
+				BA18075B2A2F189A00295398 /* UIButton+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		BA1807562A2F152800295398 /* ImageAssetKind */ = {
@@ -149,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */,
+				BA1807532A2F13DA00295398 /* Extension */,
 				BAED882A2A24C3DA00DA6257 /* Root */,
 				BA437F092A2358BA00C5DFA8 /* Application */,
 				BA437F082A23583400C5DFA8 /* Resource */,
@@ -284,11 +298,13 @@
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
+				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */,
+				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
 				BAED88342A24CB5E00DA6257 /* RootComponent+LoggedOut.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
