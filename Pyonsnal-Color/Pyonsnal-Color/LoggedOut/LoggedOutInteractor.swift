@@ -31,7 +31,7 @@ final class LoggedOutInteractor:
         self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
-        self.appleLoginService = appleLoginService
+        self.appleLoginService = dependency.appleLoginService
         self.appleLoginService?.delegate = self
     }
 

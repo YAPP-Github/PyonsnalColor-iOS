@@ -8,6 +8,7 @@
 import ModernRIBs
 
 protocol LoggedOutDependency: Dependency {
+    var appleLoginService: AppleLoginService { get }
     var kakaoLoginService: KakaoLoginService { get }
 }
 
