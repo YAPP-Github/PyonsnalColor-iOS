@@ -32,13 +32,8 @@ final class LoggedOutViewController:
         stackView.distribution = .fill
         return stackView
     }()
-
-    private lazy var appleLoginButton = {
-        let button = ASAuthorizationAppleIDButton()
-        button.addTarget(self, action: #selector(didTapAppleLoginButton),
-                                   for: .touchUpInside)
-        return button
-    }()
+    
+    private let appleLoginButton = ASAuthorizationAppleIDButton()
 
     private let kakaoLoginButton: UIButton = {
         let button: UIButton = .init()
@@ -56,7 +51,7 @@ final class LoggedOutViewController:
 
         configureUI()
         configureLayout()
-        setupKakaoLoginButton()
+        configureAction()
     }
 
     // MARK: - Private Method
@@ -77,6 +72,19 @@ final class LoggedOutViewController:
         ])
     }
     
+    private func configureAction() {
+        appleLoginButton.addTarget(
+            self,
+            action: #selector(didTapAppleLoginButton),
+            for: .touchUpInside)
+        
+        kakaoLoginButton.addTarget(
+            self,
+            action: #selector(didTapKakaoLoginButton),
+            for: .touchUpInside
+        )
+    }
+    
     @objc
     private func didTapAppleLoginButton() {
         listener?.didTapAppleLoginButton()
@@ -86,14 +94,7 @@ final class LoggedOutViewController:
     private func didTapKakaoLoginButton() {
         listener?.requestKakaoLogin()
     }
-    
-    private func setupKakaoLoginButton() {
-        kakaoLoginButton.addTarget(
-            self,
-            action: #selector(didTapKakaoLoginButton),
-            for: .touchUpInside
-        )
-    }
+
 }
 
 

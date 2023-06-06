@@ -20,7 +20,6 @@ enum SocialType: String {
     case apple
 }
 
-
 final class KeyChainService: NSObject {
     
     static let shared = KeyChainService()

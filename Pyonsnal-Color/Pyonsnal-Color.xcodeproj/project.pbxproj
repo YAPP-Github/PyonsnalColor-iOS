@@ -73,6 +73,8 @@
 		B2A57C3D2A2EF8FF005DB83E /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				F0964E412A2A44500028DCA2 /* KeyChainService.swift */,
+				F02C8DA62A2E149700593A2D /* AppleLoginService.swift */,
 				B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */,
 			);
 			path = Service;
@@ -135,7 +137,6 @@
 				BA437F082A23583400C5DFA8 /* Resource */,
 				BA437F112A235ED700C5DFA8 /* LoggedOut */,
 				B2A57C3D2A2EF8FF005DB83E /* Service */,
-				F0964E402A2A43EC0028DCA2 /* Utils */,
 			);
 			path = "Pyonsnal-Color";
 			sourceTree = "<group>";
@@ -150,15 +151,6 @@
 				BAED88332A24CB5E00DA6257 /* RootComponent+LoggedOut.swift */,
 			);
 			path = Root;
-			sourceTree = "<group>";
-		};
-		F0964E402A2A43EC0028DCA2 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				F0964E412A2A44500028DCA2 /* KeyChainService.swift */,
-				F02C8DA62A2E149700593A2D /* AppleLoginService.swift */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
