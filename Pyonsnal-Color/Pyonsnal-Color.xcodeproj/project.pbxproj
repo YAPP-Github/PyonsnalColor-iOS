@@ -11,6 +11,7 @@
 		B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */; };
 		B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */; };
 		B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */; };
+		BA1807492A2F0B3100295398 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA1807482A2F0B3100295398 /* SnapKit */; };
 		BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */ = {isa = PBXBuildFile; productRef = BA437F062A2357DF00C5DFA8 /* ModernRIBs */; };
 		BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */; };
 		BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */; };
@@ -64,6 +65,7 @@
 				BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */,
 				B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */,
 				B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */,
+				BA1807492A2F0B3100295398 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +177,7 @@
 				B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */,
 				B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */,
 				B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */,
+				BA1807482A2F0B3100295398 /* SnapKit */,
 			);
 			productName = "Pyonsnal-Color";
 			productReference = BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */;
@@ -207,6 +210,7 @@
 			packageReferences = (
 				BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */,
 				B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				BA1807472A2F0B3100295398 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = BA9E23382A21EF3000A539D5 /* Products */;
 			projectDirPath = "";
@@ -492,6 +496,14 @@
 				kind = branch;
 			};
 		};
+		BA1807472A2F0B3100295398 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/DevYeom/ModernRIBs";
@@ -517,6 +529,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		BA1807482A2F0B3100295398 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA1807472A2F0B3100295398 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 		BA437F062A2357DF00C5DFA8 /* ModernRIBs */ = {
 			isa = XCSwiftPackageProductDependency;
