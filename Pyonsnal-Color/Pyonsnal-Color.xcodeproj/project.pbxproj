@@ -13,6 +13,7 @@
 		B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */; };
 		BA1807492A2F0B3100295398 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA1807482A2F0B3100295398 /* SnapKit */; };
 		BA18074F2A2F0C7E00295398 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA18074E2A2F0C7E00295398 /* Alamofire */; };
+		BA1807522A2F0DE200295398 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BA1807512A2F0DE200295398 /* Kingfisher */; };
 		BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */ = {isa = PBXBuildFile; productRef = BA437F062A2357DF00C5DFA8 /* ModernRIBs */; };
 		BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */; };
 		BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */; };
@@ -63,6 +64,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */,
+				BA1807522A2F0DE200295398 /* Kingfisher in Frameworks */,
 				BA18074F2A2F0C7E00295398 /* Alamofire in Frameworks */,
 				BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */,
 				B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */,
@@ -181,6 +183,7 @@
 				B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */,
 				BA1807482A2F0B3100295398 /* SnapKit */,
 				BA18074E2A2F0C7E00295398 /* Alamofire */,
+				BA1807512A2F0DE200295398 /* Kingfisher */,
 			);
 			productName = "Pyonsnal-Color";
 			productReference = BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */;
@@ -215,6 +218,7 @@
 				B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				BA1807472A2F0B3100295398 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				BA18074D2A2F0C7E00295398 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				BA1807502A2F0DE200295398 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = BA9E23382A21EF3000A539D5 /* Products */;
 			projectDirPath = "";
@@ -516,6 +520,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		BA1807502A2F0DE200295398 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/DevYeom/ModernRIBs";
@@ -551,6 +563,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA18074D2A2F0C7E00295398 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		BA1807512A2F0DE200295398 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA1807502A2F0DE200295398 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		BA437F062A2357DF00C5DFA8 /* ModernRIBs */ = {
 			isa = XCSwiftPackageProductDependency;

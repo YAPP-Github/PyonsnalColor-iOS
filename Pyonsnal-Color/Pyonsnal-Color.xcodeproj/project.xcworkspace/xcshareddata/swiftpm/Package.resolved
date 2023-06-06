@@ -18,6 +18,14 @@
         "revision" : "d788f9a5a888f16253b9c3d9f3bd794835708c3f"
       }
     },
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "e8625b80c413457b13ea9be75d07f6e9f5830c19",
+        "version" : "7.7.0"
+      }
+    },
     {
       "identity" : "modernribs",
       "kind" : "remoteSourceControl",
