@@ -10,6 +10,7 @@ import ModernRIBs
 import UIKit
 
 protocol LoggedOutPresentableListener: AnyObject {
+    func requestKakaoLogin()
 }
 
 final class LoggedOutViewController:
@@ -76,25 +77,7 @@ final class LoggedOutViewController:
     
     @objc
     private func didTapKakaoLoginButton() {
-        if UserApi.isKakaoTalkLoginAvailable() {
-            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                if let error = error {
-                    print(error)
-                } else {
-                    let accessToken = oauthToken?.accessToken
-                    let refreshToken = oauthToken?.refreshToken
-                }
-            }
-        } else {
-            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-                if let error = error {
-                    print(error)
-                } else {
-                    let accessToken = oauthToken?.accessToken
-                    let refreshToken = oauthToken?.refreshToken
-                }
-            }
-        }
+        listener?.requestKakaoLogin()
     }
     
     private func setupKakaoLoginButton() {

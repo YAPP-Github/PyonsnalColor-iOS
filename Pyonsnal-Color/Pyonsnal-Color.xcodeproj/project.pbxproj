@@ -10,6 +10,7 @@
 		B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */; };
 		B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */; };
 		B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */; };
+		B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */; };
 		BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */ = {isa = PBXBuildFile; productRef = BA437F062A2357DF00C5DFA8 /* ModernRIBs */; };
 		BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */; };
 		BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginService.swift; sourceTree = "<group>"; };
 		BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
 		BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
 		BA437F142A235F5100C5DFA8 /* LoggedOutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutBuilder.swift; sourceTree = "<group>"; };
@@ -63,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B2A57C3D2A2EF8FF005DB83E /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		BA437F082A23583400C5DFA8 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +128,7 @@
 				BA437F092A2358BA00C5DFA8 /* Application */,
 				BA437F082A23583400C5DFA8 /* Resource */,
 				BA437F112A235ED700C5DFA8 /* LoggedOut */,
+				B2A57C3D2A2EF8FF005DB83E /* Service */,
 			);
 			path = "Pyonsnal-Color";
 			sourceTree = "<group>";
@@ -243,6 +254,7 @@
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
+				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
 				BAED88342A24CB5E00DA6257 /* RootComponent+LoggedOut.swift in Sources */,
