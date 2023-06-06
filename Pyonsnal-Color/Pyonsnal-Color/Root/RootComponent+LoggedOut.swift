@@ -11,4 +11,7 @@ protocol RootDependencyLoggedOut: Dependency {
 }
 
 extension RootComponent: LoggedOutDependency {
+    var kakaoLoginService: KakaoLoginService {
+        .init()
+    }
 }

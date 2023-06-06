@@ -5,10 +5,12 @@
 //  Created by 김진우 on 2023/05/28.
 //
 
+import KakaoSDKUser
 import ModernRIBs
 import UIKit
 
 protocol LoggedOutPresentableListener: AnyObject {
+    func requestKakaoLogin()
 }
 
 final class LoggedOutViewController:
@@ -56,6 +58,7 @@ final class LoggedOutViewController:
         view.backgroundColor = .green
 
         configureUI()
+        setupKakaoLoginButton()
     }
 
     // MARK: - Private Method
@@ -70,5 +73,18 @@ final class LoggedOutViewController:
             loginButtonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButtonStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+    
+    @objc
+    private func didTapKakaoLoginButton() {
+        listener?.requestKakaoLogin()
+    }
+    
+    private func setupKakaoLoginButton() {
+        kakaoLoginButton.addTarget(
+            self,
+            action: #selector(didTapKakaoLoginButton),
+            for: .touchUpInside
+        )
     }
 }

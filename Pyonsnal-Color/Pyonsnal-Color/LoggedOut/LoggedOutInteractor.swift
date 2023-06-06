@@ -24,8 +24,11 @@ final class LoggedOutInteractor:
 
     weak var router: LoggedOutRouting?
     weak var listener: LoggedOutListener?
+    
+    private var dependency: LoggedOutDependency?
 
-    override init(presenter: LoggedOutPresentable) {
+    init(presenter: LoggedOutPresentable, dependency: LoggedOutDependency) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -36,5 +39,9 @@ final class LoggedOutInteractor:
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func requestKakaoLogin() {
+        dependency?.kakaoLoginService.requestKakaoLogin()
     }
 }
