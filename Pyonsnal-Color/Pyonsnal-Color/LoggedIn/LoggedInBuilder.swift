@@ -8,20 +8,13 @@
 import ModernRIBs
 
 protocol LoggedInDependency: Dependency {
-    // TODO: Make sure to convert the variable into lower-camelcase.
     var loggedInViewController: LoggedInViewControllable { get }
-    // TODO: Declare the set of dependencies required by this RIB, but won't be
-    // created by this RIB.
 }
 
-final class LoggedInComponent: Component<LoggedInDependency> {
-
-    // TODO: Make sure to convert the variable into lower-camelcase.
+final class LoggedInComponent: Component<LoggedInDependency>, RootTabBarDependency {
     fileprivate var loggedInViewController: LoggedInViewControllable {
         return dependency.loggedInViewController
     }
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
 // MARK: - Builder
@@ -39,7 +32,14 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
     func build(withListener listener: LoggedInListener) -> LoggedInRouting {
         let component = LoggedInComponent(dependency: dependency)
         let interactor = LoggedInInteractor()
+        let rootTabBarBuilder = RootTabBarBuilder(dependency: component)
         interactor.listener = listener
-        return LoggedInRouter(interactor: interactor, viewController: component.loggedInViewController)
+        let router = LoggedInRouter(
+            interactor: interactor,
+            viewController: component.loggedInViewController,
+            rootTabBarBuilder: rootTabBarBuilder
+        )
+        
+        return router
     }
 }
