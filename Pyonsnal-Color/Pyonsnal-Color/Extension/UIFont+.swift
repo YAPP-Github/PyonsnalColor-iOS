@@ -19,9 +19,11 @@ extension UIFont {
         case regular = "-Regular"
     }
     
-    static func customFont(family: FontFamily = .pretendard,
-                           weight: FontWeight,
-                           size: CGFloat) -> UIFont {
+    static func customFont(
+        family: FontFamily = .pretendard,
+        weight: FontWeight,
+        size: CGFloat
+    ) -> UIFont {
         let fontName = family.rawValue + weight.rawValue
         let font = UIFont(name: fontName, size: size)
         return font ?? UIFont.systemFont(ofSize: size)
