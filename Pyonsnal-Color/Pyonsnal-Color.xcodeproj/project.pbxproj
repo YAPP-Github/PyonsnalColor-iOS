@@ -15,6 +15,10 @@
 		B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28204FF2A346FDD00F9242F /* ProfileHomeViewController.swift */; };
 		B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205002A346FDD00F9242F /* ProfileHomeBuilder.swift */; };
 		B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205012A346FDD00F9242F /* ProfileHomeInteractor.swift */; };
+		B282050A2A34700300F9242F /* EventHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205062A34700300F9242F /* EventHomeRouter.swift */; };
+		B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205072A34700300F9242F /* EventHomeViewController.swift */; };
+		B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205082A34700300F9242F /* EventHomeBuilder.swift */; };
+		B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205092A34700300F9242F /* EventHomeInteractor.swift */; };
 		B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */; };
 		B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */; };
 		B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */; };
@@ -56,6 +60,10 @@
 		B28204FF2A346FDD00F9242F /* ProfileHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHomeViewController.swift; sourceTree = "<group>"; };
 		B28205002A346FDD00F9242F /* ProfileHomeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHomeBuilder.swift; sourceTree = "<group>"; };
 		B28205012A346FDD00F9242F /* ProfileHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHomeInteractor.swift; sourceTree = "<group>"; };
+		B28205062A34700300F9242F /* EventHomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHomeRouter.swift; sourceTree = "<group>"; };
+		B28205072A34700300F9242F /* EventHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHomeViewController.swift; sourceTree = "<group>"; };
+		B28205082A34700300F9242F /* EventHomeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHomeBuilder.swift; sourceTree = "<group>"; };
+		B28205092A34700300F9242F /* EventHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHomeInteractor.swift; sourceTree = "<group>"; };
 		B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginService.swift; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
 		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
@@ -132,6 +140,10 @@
 		B2538B8E2A3454F100B7C3F0 /* EventHome */ = {
 			isa = PBXGroup;
 			children = (
+				B28205062A34700300F9242F /* EventHomeRouter.swift */,
+				B28205072A34700300F9242F /* EventHomeViewController.swift */,
+				B28205082A34700300F9242F /* EventHomeBuilder.swift */,
+				B28205092A34700300F9242F /* EventHomeInteractor.swift */,
 			);
 			path = EventHome;
 			sourceTree = "<group>";
@@ -393,10 +405,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B282050A2A34700300F9242F /* EventHomeRouter.swift in Sources */,
 				BA1807622A2F21D900295398 /* URLRequest+.swift in Sources */,
 				BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */,
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
+				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
@@ -412,6 +426,7 @@
 				B28204F32A345EB100F9242F /* RootComponent.swift in Sources */,
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
+				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
@@ -420,6 +435,7 @@
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
+				B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */,
 				BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
