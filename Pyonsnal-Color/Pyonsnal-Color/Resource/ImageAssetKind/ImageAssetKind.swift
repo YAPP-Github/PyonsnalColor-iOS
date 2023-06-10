@@ -8,7 +8,10 @@
 import UIKit
 
 enum ImageAssetKind: String {
-    case sample = "sample_not_use"
+    case loginApple = "login_apple"
+    case loginKakao = "login_kakao"
+    
+    case logo = "logo"
 }
 
 extension ImageAssetKind {
