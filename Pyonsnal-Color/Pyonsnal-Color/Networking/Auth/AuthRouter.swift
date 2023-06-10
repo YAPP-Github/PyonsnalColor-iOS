@@ -12,28 +12,24 @@ enum AuthRouter: URLRequestConvertible {
     case apple(token: String)
 
     private var baseURLString: String {
-        #if DEBUG
         return ""
-        #else
-        return ""
-        #endif
     }
 
-    var method: HTTPMethod {
+    private var method: HTTPMethod {
         switch self {
         case .apple:
             return .post
         }
     }
 
-    var path: String {
+    private var path: String {
         switch self {
         case .apple:
             return "/auth/apple"
         }
     }
 
-    var bodyData: Data? {
+    private var bodyData: Data? {
         switch self {
         case let .apple(token):
             let body: [String: String] = ["token": token]
@@ -42,14 +38,14 @@ enum AuthRouter: URLRequestConvertible {
         }
     }
 
-    var queryString: [URLQueryItem] {
+    private var queryString: [URLQueryItem] {
         switch self {
         case .apple:
             return []
         }
     }
 
-    var header: [String: String] {
+    private var header: [String: String] {
         switch self {
         case .apple:
             return [:]
