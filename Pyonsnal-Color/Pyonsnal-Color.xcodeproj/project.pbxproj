@@ -97,7 +97,6 @@
 				F0964E412A2A44500028DCA2 /* KeyChainService.swift */,
 				F02C8DA62A2E149700593A2D /* AppleLoginService.swift */,
 				B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */,
-				F069DBE52A30B9850001D3DD /* UIFont+.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -105,6 +104,7 @@
 		BA1807532A2F13DA00295398 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				F069DBE52A30B9850001D3DD /* UIFont+.swift */,
 				BA1807592A2F170100295398 /* UIImageView+.swift */,
 				BA18075B2A2F189A00295398 /* UIButton+.swift */,
 				BA1807612A2F21D900295398 /* URLRequest+.swift */,
