@@ -17,4 +17,24 @@ protocol EventHomePresentableListener: AnyObject {
 final class EventHomeViewController: UIViewController, EventHomePresentable, EventHomeViewControllable {
 
     weak var listener: EventHomePresentableListener?
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupViews() {
+        tabBarItem = UITabBarItem(
+            title: "홈",
+            image: UIImage(systemName: "basket"),
+            selectedImage: UIImage(systemName: "basket.fill")
+        )
+        
+        view.backgroundColor = .systemGray6
+    }
 }

@@ -17,4 +17,24 @@ protocol ProductHomePresentableListener: AnyObject {
 final class ProductHomeViewController: UIViewController, ProductHomePresentable, ProductHomeViewControllable {
 
     weak var listener: ProductHomePresentableListener?
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupViews() {
+        tabBarItem = UITabBarItem(
+            title: "홈",
+            image: UIImage(systemName: "house"),
+            selectedImage: UIImage(systemName: "house.fill")
+        )
+        
+        view.backgroundColor = .systemGray6
+    }
 }

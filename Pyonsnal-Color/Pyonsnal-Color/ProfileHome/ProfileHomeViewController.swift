@@ -17,4 +17,24 @@ protocol ProfileHomePresentableListener: AnyObject {
 final class ProfileHomeViewController: UIViewController, ProfileHomePresentable, ProfileHomeViewControllable {
 
     weak var listener: ProfileHomePresentableListener?
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupViews() {
+        tabBarItem = UITabBarItem(
+            title: "홈",
+            image: UIImage(systemName: "person"),
+            selectedImage: UIImage(systemName: "person.fill")
+        )
+        
+        view.backgroundColor = .systemGray6
+    }
 }
