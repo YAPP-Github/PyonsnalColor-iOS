@@ -19,9 +19,7 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     func replaceModel(viewController: ViewControllable) {
         targetViewController = viewController
 
-        guard !animationInProgress else {
-            return
-        }
+        guard !animationInProgress else { return }
 
         if presentedViewController != nil {
             animationInProgress = true
@@ -92,7 +90,7 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
 extension RootViewController: LoggedInViewControllable {
     func present(viewController: ViewControllable) {
         viewController.uiviewController.modalPresentationStyle = .fullScreen
-        present(viewController.uiviewController, animated: true)
+        replaceModel(viewController: viewController)
     }
     
     func dismiss(viewController: ModernRIBs.ViewControllable) {

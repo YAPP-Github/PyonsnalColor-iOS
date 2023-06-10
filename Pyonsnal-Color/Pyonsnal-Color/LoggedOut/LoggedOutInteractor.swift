@@ -15,7 +15,7 @@ protocol LoggedOutPresentable: Presentable {
 }
 
 protocol LoggedOutListener: AnyObject {
-    func didLogin(identifyToken: String)
+    func didLogin()
 }
 
 final class LoggedOutInteractor:
@@ -58,12 +58,12 @@ extension LoggedOutInteractor: AppleLoginServiceDelegate {
         /// TO DO : send to server
         /// get token from server
         /// save token to Keychain
-        listener?.didLogin(identifyToken: identifyToken)
+        listener?.didLogin()
     }
 }
 
 extension LoggedOutInteractor: KakaoLoginServiceDelegate {
     func didReceive(accessToken: String) {
-        listener?.didLogin(identifyToken: accessToken)
+        listener?.didLogin()
     }
 }
