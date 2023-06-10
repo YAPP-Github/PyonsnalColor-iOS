@@ -68,6 +68,7 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     private func presentTargetViewController() {
         if let targetViewController {
             animationInProgress = true
+            targetViewController.uiviewController.modalPresentationStyle = .fullScreen
             OperationQueue.main.addOperation {
                 self.present(targetViewController.uiviewController, animated: true) { [weak self] in
                     self?.animationInProgress = false
