@@ -8,6 +8,7 @@
 import ModernRIBs
 
 protocol RootTabBarRouting: ViewableRouting {
+    func attachTabs()
 }
 
 protocol RootTabBarPresentable: Presentable {
@@ -32,6 +33,8 @@ final class RootTabBarInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        
+        router?.attachTabs()
     }
 
     override func willResignActive() {

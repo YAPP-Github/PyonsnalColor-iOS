@@ -9,13 +9,46 @@ import ModernRIBs
 import UIKit
 
 protocol RootTabBarPresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
 }
 
-final class RootTabBarViewController: UIViewController, RootTabBarPresentable, RootTabBarViewControllable {
+final class RootTabBarViewController:
+    UITabBarController,
+    RootTabBarPresentable,
+    RootTabBarViewControllable {
 
+    //MARK: - Property
     weak var listener: RootTabBarPresentableListener?
+    
+    //MARK: - Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .white
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        setupTabBar()
+    }
+    
+    //MARK: - Internal Method
+    func setViewControllers(_ viewControllers: [ViewControllable]) {
+        super.setViewControllers(viewControllers.map(\.uiviewController), animated: false)
+    }
+    
+    //MARK: - Private Method
+    private func setupTabBar() {
+        var tabFrame = tabBar.frame
+        let tabBarHeight: CGFloat = .init(86)
+        
+        tabFrame.size.height = tabBarHeight
+        tabFrame.origin.y = view.frame.size.height - tabBarHeight
+        tabBar.frame = tabFrame
+        tabBar.tintColor = .black
+        tabBar.backgroundColor = .white
+        tabBar.layer.cornerRadius = 16
+        tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        tabBar.layer.applyShadow()
+    }
 }
-

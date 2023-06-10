@@ -35,6 +35,7 @@
 		B2F169DA2A3472EC008199D8 /* RootTabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */; };
 		B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */; };
 		B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DD2A347995008199D8 /* RootTabBarComponent.swift */; };
+		B2F169E02A34D07F008199D8 /* CALayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DF2A34D07F008199D8 /* CALayer+.swift */; };
 		BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807542A2F151F00295398 /* ImageAssetKind.swift */; };
 		BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807592A2F170100295398 /* UIImageView+.swift */; };
 		BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18075B2A2F189A00295398 /* UIButton+.swift */; };
@@ -83,6 +84,7 @@
 		B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarRouter.swift; sourceTree = "<group>"; };
 		B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarViewController.swift; sourceTree = "<group>"; };
 		B2F169DD2A347995008199D8 /* RootTabBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarComponent.swift; sourceTree = "<group>"; };
+		B2F169DF2A34D07F008199D8 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
 		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		BA18075B2A2F189A00295398 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				BA1807592A2F170100295398 /* UIImageView+.swift */,
 				BA18075B2A2F189A00295398 /* UIButton+.swift */,
 				BA1807612A2F21D900295398 /* URLRequest+.swift */,
+				B2F169DF2A34D07F008199D8 /* CALayer+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B282050A2A34700300F9242F /* EventHomeRouter.swift in Sources */,
+				B2F169E02A34D07F008199D8 /* CALayer+.swift in Sources */,
 				BA1807622A2F21D900295398 /* URLRequest+.swift in Sources */,
 				BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */,
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
