@@ -97,6 +97,7 @@ extension RootViewController: LoggedInViewControllable {
     
     func dismiss(viewController: ModernRIBs.ViewControllable) {
         if presentedViewController == viewController.uiviewController {
+            targetViewController = nil
             dismiss(animated: true)
         }
     }
