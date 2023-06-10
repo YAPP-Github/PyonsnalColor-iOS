@@ -86,9 +86,12 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
             label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-    
-    //MARK: - Internal Method
+}
+
+//MARK: - LoggedInViewControllable
+extension RootViewController: LoggedInViewControllable {
     func present(viewController: ViewControllable) {
+        viewController.uiviewController.modalPresentationStyle = .fullScreen
         present(viewController.uiviewController, animated: true)
     }
     
@@ -97,9 +100,4 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
             dismiss(animated: true)
         }
     }
-}
-
-//MARK: - LoggedInViewControllable
-extension RootViewController: LoggedInViewControllable {
-    
 }
