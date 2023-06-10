@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */; };
+		B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B912A34551D00B7C3F0 /* LoggedInBuilder.swift */; };
+		B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B922A34551D00B7C3F0 /* LoggedInInteractor.swift */; };
 		B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */; };
 		B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */; };
 		B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */; };
 		B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */; };
-		BA1807492A2F0B3100295398 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA1807482A2F0B3100295398 /* SnapKit */; };
-		BA18074F2A2F0C7E00295398 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA18074E2A2F0C7E00295398 /* Alamofire */; };
-		BA1807522A2F0DE200295398 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BA1807512A2F0DE200295398 /* Kingfisher */; };
+		B2B289D82A3459D700F7F1C4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B2B289D72A3459D700F7F1C4 /* SnapKit */; };
+		B2B289DB2A3459E700F7F1C4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B2B289DA2A3459E700F7F1C4 /* Alamofire */; };
+		B2B289DE2A3459FD00F7F1C4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B2B289DD2A3459FD00F7F1C4 /* Kingfisher */; };
 		BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807542A2F151F00295398 /* ImageAssetKind.swift */; };
 		BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807592A2F170100295398 /* UIImageView+.swift */; };
 		BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18075B2A2F189A00295398 /* UIButton+.swift */; };
@@ -41,6 +44,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInRouter.swift; sourceTree = "<group>"; };
+		B2538B912A34551D00B7C3F0 /* LoggedInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInBuilder.swift; sourceTree = "<group>"; };
+		B2538B922A34551D00B7C3F0 /* LoggedInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInteractor.swift; sourceTree = "<group>"; };
 		B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginService.swift; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
 		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
@@ -79,18 +85,56 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */,
-				BA1807522A2F0DE200295398 /* Kingfisher in Frameworks */,
-				BA18074F2A2F0C7E00295398 /* Alamofire in Frameworks */,
 				BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */,
+				B2B289DE2A3459FD00F7F1C4 /* Kingfisher in Frameworks */,
 				B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */,
+				B2B289DB2A3459E700F7F1C4 /* Alamofire in Frameworks */,
 				B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */,
-				BA1807492A2F0B3100295398 /* SnapKit in Frameworks */,
+				B2B289D82A3459D700F7F1C4 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B2538B8B2A3454D600B7C3F0 /* LoggedIn */ = {
+			isa = PBXGroup;
+			children = (
+				B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */,
+				B2538B912A34551D00B7C3F0 /* LoggedInBuilder.swift */,
+				B2538B922A34551D00B7C3F0 /* LoggedInInteractor.swift */,
+			);
+			path = LoggedIn;
+			sourceTree = "<group>";
+		};
+		B2538B8C2A3454E200B7C3F0 /* RootTabBar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RootTabBar;
+			sourceTree = "<group>";
+		};
+		B2538B8D2A3454EA00B7C3F0 /* ProductHome */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ProductHome;
+			sourceTree = "<group>";
+		};
+		B2538B8E2A3454F100B7C3F0 /* EventHome */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = EventHome;
+			sourceTree = "<group>";
+		};
+		B2538B8F2A3454FA00B7C3F0 /* ProfileHome */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ProfileHome;
+			sourceTree = "<group>";
+		};
 		B2A57C3D2A2EF8FF005DB83E /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +233,11 @@
 		BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */ = {
 			isa = PBXGroup;
 			children = (
+				B2538B8F2A3454FA00B7C3F0 /* ProfileHome */,
+				B2538B8E2A3454F100B7C3F0 /* EventHome */,
+				B2538B8D2A3454EA00B7C3F0 /* ProductHome */,
+				B2538B8C2A3454E200B7C3F0 /* RootTabBar */,
+				B2538B8B2A3454D600B7C3F0 /* LoggedIn */,
 				F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */,
 				BA18075D2A2F1D5A00295398 /* Networking */,
 				BA1807532A2F13DA00295398 /* Extension */,
@@ -245,9 +294,9 @@
 				B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */,
 				B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */,
 				B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */,
-				BA1807482A2F0B3100295398 /* SnapKit */,
-				BA18074E2A2F0C7E00295398 /* Alamofire */,
-				BA1807512A2F0DE200295398 /* Kingfisher */,
+				B2B289D72A3459D700F7F1C4 /* SnapKit */,
+				B2B289DA2A3459E700F7F1C4 /* Alamofire */,
+				B2B289DD2A3459FD00F7F1C4 /* Kingfisher */,
 			);
 			productName = "Pyonsnal-Color";
 			productReference = BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */;
@@ -280,9 +329,9 @@
 			packageReferences = (
 				BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */,
 				B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
-				BA1807472A2F0B3100295398 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				BA18074D2A2F0C7E00295398 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				BA1807502A2F0DE200295398 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				B2B289D62A3459D700F7F1C4 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				B2B289D92A3459E700F7F1C4 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B2B289DC2A3459FD00F7F1C4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = BA9E23382A21EF3000A539D5 /* Products */;
 			projectDirPath = "";
@@ -345,13 +394,16 @@
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */,
+				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
 				BAED88342A24CB5E00DA6257 /* RootComponent+LoggedOut.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
+				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
+				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
 				BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -574,25 +626,25 @@
 				kind = branch;
 			};
 		};
-		BA1807472A2F0B3100295398 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		B2B289D62A3459D700F7F1C4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:SnapKit/SnapKit.git";
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.0;
 			};
 		};
-		BA18074D2A2F0C7E00295398 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		B2B289D92A3459E700F7F1C4 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:Alamofire/Alamofire.git";
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.0;
 			};
 		};
-		BA1807502A2F0DE200295398 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		B2B289DC2A3459FD00F7F1C4 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:onevcat/Kingfisher.git";
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 7.0.0;
@@ -624,19 +676,19 @@
 			package = B2A57BE92A2C7596005DB83E /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
 		};
-		BA1807482A2F0B3100295398 /* SnapKit */ = {
+		B2B289D72A3459D700F7F1C4 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BA1807472A2F0B3100295398 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = B2B289D62A3459D700F7F1C4 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		BA18074E2A2F0C7E00295398 /* Alamofire */ = {
+		B2B289DA2A3459E700F7F1C4 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BA18074D2A2F0C7E00295398 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = B2B289D92A3459E700F7F1C4 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		BA1807512A2F0DE200295398 /* Kingfisher */ = {
+		B2B289DD2A3459FD00F7F1C4 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BA1807502A2F0DE200295398 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = B2B289DC2A3459FD00F7F1C4 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
 		BA437F062A2357DF00C5DFA8 /* ModernRIBs */ = {
