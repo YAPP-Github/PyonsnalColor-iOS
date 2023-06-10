@@ -8,13 +8,6 @@
 import ModernRIBs
 
 protocol RootTabBarDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
-}
-
-final class RootTabBarComponent: Component<RootTabBarDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
 // MARK: - Builder
@@ -24,17 +17,30 @@ protocol RootTabBarBuildable: Buildable {
 }
 
 final class RootTabBarBuilder: Builder<RootTabBarDependency>, RootTabBarBuildable {
-
+    
     override init(dependency: RootTabBarDependency) {
         super.init(dependency: dependency)
     }
-
+    
     func build(withListener listener: RootTabBarListener) -> RootTabBarRouting {
-        let component = RootTabBarComponent(dependency: dependency)
-        let viewController = RootTabBarViewController()
-        let interactor = RootTabBarInteractor(presenter: viewController)
+        let component: RootTabBarComponent = .init(dependency: dependency)
+        let tabBarController = RootTabBarViewController()
+        let interactor: RootTabBarInteractor = .init(presenter: tabBarController)
+        
+        let productHomeBuilder: ProductHomeBuilder = .init(dependency: component)
+        let eventHomeBuilder: EventHomeBuilder = .init(dependency: component)
+        let profileHomeBuilder: ProfileHomeBuilder = .init(dependency: component)
+        
         interactor.listener = listener
-        return RootTabBarRouter(interactor: interactor, viewController: viewController)
+        
+        let router = RootTabBarRouter(
+            interactor: interactor,
+            viewController: tabBarController,
+            productHomeBuilder: productHomeBuilder,
+            eventHomeBuilder: eventHomeBuilder,
+            profileHomeBuilder: profileHomeBuilder
+        )
+        
+        return router
     }
 }
-

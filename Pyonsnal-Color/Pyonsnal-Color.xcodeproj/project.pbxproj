@@ -34,6 +34,7 @@
 		B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */; };
 		B2F169DA2A3472EC008199D8 /* RootTabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */; };
 		B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */; };
+		B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DD2A347995008199D8 /* RootTabBarComponent.swift */; };
 		BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807542A2F151F00295398 /* ImageAssetKind.swift */; };
 		BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807592A2F170100295398 /* UIImageView+.swift */; };
 		BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18075B2A2F189A00295398 /* UIButton+.swift */; };
@@ -81,6 +82,7 @@
 		B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarInteractor.swift; sourceTree = "<group>"; };
 		B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarRouter.swift; sourceTree = "<group>"; };
 		B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarViewController.swift; sourceTree = "<group>"; };
+		B2F169DD2A347995008199D8 /* RootTabBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarComponent.swift; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
 		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		BA18075B2A2F189A00295398 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */,
 				B2F169D52A347208008199D8 /* RootTabBarBuilder.swift */,
 				B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */,
+				B2F169DD2A347995008199D8 /* RootTabBarComponent.swift */,
 			);
 			path = RootTabBar;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
+				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
