@@ -14,21 +14,19 @@ final class RootComponent: Component<RootDependency> {
     
     let rootViewController: RootViewController
     var appleLoginService: AppleLoginService
+    var kakaoLoginService: KakaoLoginService
     
     init(rootViewController: RootViewController,
          dependency: RootDependency
     ) {
         self.rootViewController = rootViewController
         self.appleLoginService = AppleLoginService()
+        self.kakaoLoginService = KakaoLoginService()
         super.init(dependency: dependency)
     }
 }
 
 extension RootComponent: LoggedOutDependency {
-    
-    var kakaoLoginService: KakaoLoginService {
-        .init()
-    }
 }
 
 extension RootComponent: LoggedInDependency {

@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.launchRouter = launchRouter
         launchRouter.launch(from: window)
         
-        KakaoSDK.initSDK(appKey: "fb4631d8906744937241d113a46d946b")
+        KakaoSDK.initSDK(appKey: "ab08022b3cceb8820b6d466a9ba01847")
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
