@@ -86,4 +86,20 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
             label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
+    
+    //MARK: - Internal Method
+    func present(viewController: ViewControllable) {
+        present(viewController.uiviewController, animated: true)
+    }
+    
+    func dismiss(viewController: ModernRIBs.ViewControllable) {
+        if presentedViewController == viewController.uiviewController {
+            dismiss(animated: true)
+        }
+    }
+}
+
+//MARK: - LoggedInViewControllable
+extension RootViewController: LoggedInViewControllable {
+    
 }

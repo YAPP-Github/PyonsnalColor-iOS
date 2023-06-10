@@ -10,15 +10,6 @@ import ModernRIBs
 protocol RootDependency: Dependency {
 }
 
-final class RootComponent: Component<RootDependency> {
-    var appleLoginService: AppleLoginService
-    
-    override init(dependency: RootDependency) {
-        self.appleLoginService = AppleLoginService()
-        super.init(dependency: dependency)
-    }
-}
-
 // MARK: - Builder
 
 protocol RootBuildable: Buildable {
@@ -32,15 +23,19 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
     }
 
     func build() -> LaunchRouting {
-        let component: RootComponent = .init(dependency: dependency)
-        let viewController: RootViewController = .init()
+        let viewController = RootViewController()
+        let component: RootComponent = .init(
+            rootViewController: viewController,
+            dependency: dependency
+        )
         let interactor: RootInteractor = .init(presenter: viewController)
-
         let loggedOutBuilder: LoggedOutBuilder = .init(dependency: component)
+        let loggedInBuilder: LoggedInBuilder = .init(dependency: component)
         let router: RootRouter = .init(
             interactor: interactor,
             viewController: viewController,
-            loggedOutBuilder: loggedOutBuilder
+            loggedOutBuilder: loggedOutBuilder,
+            loggedInBuilder: loggedInBuilder
         )
 
         return router
