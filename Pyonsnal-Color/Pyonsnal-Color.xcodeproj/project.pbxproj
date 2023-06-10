@@ -30,6 +30,10 @@
 		B2B289D82A3459D700F7F1C4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B2B289D72A3459D700F7F1C4 /* SnapKit */; };
 		B2B289DB2A3459E700F7F1C4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B2B289DA2A3459E700F7F1C4 /* Alamofire */; };
 		B2B289DE2A3459FD00F7F1C4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B2B289DD2A3459FD00F7F1C4 /* Kingfisher */; };
+		B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D52A347208008199D8 /* RootTabBarBuilder.swift */; };
+		B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */; };
+		B2F169DA2A3472EC008199D8 /* RootTabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */; };
+		B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */; };
 		BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807542A2F151F00295398 /* ImageAssetKind.swift */; };
 		BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807592A2F170100295398 /* UIImageView+.swift */; };
 		BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18075B2A2F189A00295398 /* UIButton+.swift */; };
@@ -73,6 +77,10 @@
 		B28205102A34702B00F9242F /* ProductHomeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeBuilder.swift; sourceTree = "<group>"; };
 		B28205112A34702B00F9242F /* ProductHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeInteractor.swift; sourceTree = "<group>"; };
 		B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginService.swift; sourceTree = "<group>"; };
+		B2F169D52A347208008199D8 /* RootTabBarBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarBuilder.swift; sourceTree = "<group>"; };
+		B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarInteractor.swift; sourceTree = "<group>"; };
+		B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarRouter.swift; sourceTree = "<group>"; };
+		B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarViewController.swift; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
 		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		BA18075B2A2F189A00295398 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
@@ -131,13 +139,6 @@
 			path = LoggedIn;
 			sourceTree = "<group>";
 		};
-		B2538B8C2A3454E200B7C3F0 /* RootTabBar */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = RootTabBar;
-			sourceTree = "<group>";
-		};
 		B2538B8D2A3454EA00B7C3F0 /* ProductHome */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +180,17 @@
 				B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		B2F169D42A3471EB008199D8 /* RootTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */,
+				B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */,
+				B2F169D52A347208008199D8 /* RootTabBarBuilder.swift */,
+				B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */,
+			);
+			path = RootTabBar;
 			sourceTree = "<group>";
 		};
 		BA1807532A2F13DA00295398 /* Extension */ = {
@@ -272,7 +284,7 @@
 				B2538B8F2A3454FA00B7C3F0 /* ProfileHome */,
 				B2538B8E2A3454F100B7C3F0 /* EventHome */,
 				B2538B8D2A3454EA00B7C3F0 /* ProductHome */,
-				B2538B8C2A3454E200B7C3F0 /* RootTabBar */,
+				B2F169D42A3471EB008199D8 /* RootTabBar */,
 				B2538B8B2A3454D600B7C3F0 /* LoggedIn */,
 				F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */,
 				BA18075D2A2F1D5A00295398 /* Networking */,
@@ -422,6 +434,8 @@
 				BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */,
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
+				B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */,
+				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
 				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
@@ -441,6 +455,7 @@
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
+				B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */,
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
@@ -452,6 +467,7 @@
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
 				B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */,
 				B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */,
+				B2F169DA2A3472EC008199D8 /* RootTabBarRouter.swift in Sources */,
 				BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
