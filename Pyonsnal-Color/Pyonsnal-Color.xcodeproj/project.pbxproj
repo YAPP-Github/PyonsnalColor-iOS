@@ -19,6 +19,10 @@
 		B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205072A34700300F9242F /* EventHomeViewController.swift */; };
 		B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205082A34700300F9242F /* EventHomeBuilder.swift */; };
 		B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205092A34700300F9242F /* EventHomeInteractor.swift */; };
+		B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B282050E2A34702B00F9242F /* ProductHomeRouter.swift */; };
+		B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B282050F2A34702B00F9242F /* ProductHomeViewController.swift */; };
+		B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205102A34702B00F9242F /* ProductHomeBuilder.swift */; };
+		B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205112A34702B00F9242F /* ProductHomeInteractor.swift */; };
 		B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */; };
 		B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */; };
 		B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */; };
@@ -64,6 +68,10 @@
 		B28205072A34700300F9242F /* EventHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHomeViewController.swift; sourceTree = "<group>"; };
 		B28205082A34700300F9242F /* EventHomeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHomeBuilder.swift; sourceTree = "<group>"; };
 		B28205092A34700300F9242F /* EventHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHomeInteractor.swift; sourceTree = "<group>"; };
+		B282050E2A34702B00F9242F /* ProductHomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeRouter.swift; sourceTree = "<group>"; };
+		B282050F2A34702B00F9242F /* ProductHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeViewController.swift; sourceTree = "<group>"; };
+		B28205102A34702B00F9242F /* ProductHomeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeBuilder.swift; sourceTree = "<group>"; };
+		B28205112A34702B00F9242F /* ProductHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeInteractor.swift; sourceTree = "<group>"; };
 		B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginService.swift; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
 		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
@@ -133,6 +141,10 @@
 		B2538B8D2A3454EA00B7C3F0 /* ProductHome */ = {
 			isa = PBXGroup;
 			children = (
+				B282050E2A34702B00F9242F /* ProductHomeRouter.swift */,
+				B282050F2A34702B00F9242F /* ProductHomeViewController.swift */,
+				B28205102A34702B00F9242F /* ProductHomeBuilder.swift */,
+				B28205112A34702B00F9242F /* ProductHomeInteractor.swift */,
 			);
 			path = ProductHome;
 			sourceTree = "<group>";
@@ -410,11 +422,13 @@
 				BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */,
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
+				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
 				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
+				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
@@ -425,6 +439,7 @@
 				B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */,
 				B28204F32A345EB100F9242F /* RootComponent.swift in Sources */,
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
+				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
@@ -435,6 +450,7 @@
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
+				B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */,
 				B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */,
 				BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */,
 			);
