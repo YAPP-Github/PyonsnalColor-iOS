@@ -39,12 +39,6 @@ final class RootTabBarViewController:
     
     //MARK: - Private Method
     private func setupTabBar() {
-        var tabFrame = tabBar.frame
-        let tabBarHeight: CGFloat = .init(86)
-        
-        tabFrame.size.height = tabBarHeight
-        tabFrame.origin.y = view.frame.size.height - tabBarHeight
-        tabBar.frame = tabFrame
         tabBar.tintColor = .black
         tabBar.backgroundColor = .white
         tabBar.layer.cornerRadius = 16
