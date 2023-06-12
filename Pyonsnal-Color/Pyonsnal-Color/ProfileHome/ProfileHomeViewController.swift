@@ -30,7 +30,7 @@ final class ProfileHomeViewController: UIViewController, ProfileHomePresentable,
     
     private func setupViews() {
         tabBarItem = UITabBarItem(
-            title: "홈",
+            title: "MY",
             image: UIImage(systemName: "person"),
             selectedImage: UIImage(systemName: "person.fill")
         )

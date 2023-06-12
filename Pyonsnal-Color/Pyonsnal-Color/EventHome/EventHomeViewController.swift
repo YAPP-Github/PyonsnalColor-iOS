@@ -30,7 +30,7 @@ final class EventHomeViewController: UIViewController, EventHomePresentable, Eve
     
     private func setupViews() {
         tabBarItem = UITabBarItem(
-            title: "홈",
+            title: "행사",
             image: UIImage(systemName: "basket"),
             selectedImage: UIImage(systemName: "basket.fill")
         )
