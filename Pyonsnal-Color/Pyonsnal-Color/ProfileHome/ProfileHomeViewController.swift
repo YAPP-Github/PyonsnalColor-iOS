@@ -29,6 +29,9 @@ final class ProfileHomeViewController: UIViewController, ProfileHomePresentable,
     }
     
     private func setupViews() {
+        let customFont = UIFont.customFont(weight: .medium, size: 12)
+        
+        tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
         tabBarItem = UITabBarItem(
             title: "MY",
             image: UIImage(systemName: "person"),

@@ -29,6 +29,9 @@ final class ProductHomeViewController: UIViewController, ProductHomePresentable,
     }
     
     private func setupViews() {
+        let customFont = UIFont.customFont(weight: .medium, size: 12)
+        
+        tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
         tabBarItem = UITabBarItem(
             title: "홈",
             image: UIImage(systemName: "house"),
