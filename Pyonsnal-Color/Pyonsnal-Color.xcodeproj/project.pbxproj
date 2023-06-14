@@ -61,6 +61,9 @@
 		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
 		F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F069DBE52A30B9850001D3DD /* UIFont+.swift */; };
 		F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainService.swift */; };
+		F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */; };
+		F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */; };
+		F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAC2A39F97900C55E27 /* String+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +120,9 @@
 		F069DBEA2A30BA8C0001D3DD /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pyonsnal-Color.entitlements"; sourceTree = "<group>"; };
 		F0964E412A2A44500028DCA2 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
+		F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
+		F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		F0D6FFAC2A39F97900C55E27 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +216,9 @@
 				BA18075B2A2F189A00295398 /* UIButton+.swift */,
 				BA1807612A2F21D900295398 /* URLRequest+.swift */,
 				B2F169DF2A34D07F008199D8 /* CALayer+.swift */,
+				F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */,
+				F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */,
+				F0D6FFAC2A39F97900C55E27 /* String+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -313,6 +322,7 @@
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F0D6FFA72A39F57600C55E27 /* Cell */,
 				BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */,
 			);
 			path = Common;
@@ -338,6 +348,13 @@
 				F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		F0D6FFA72A39F57600C55E27 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -462,6 +479,7 @@
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
+				F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */,
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
@@ -471,6 +489,7 @@
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
+				F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */,
 				BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */,
 				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
 				B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */,
@@ -479,6 +498,7 @@
 				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
 				B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */,
+				F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */,
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
