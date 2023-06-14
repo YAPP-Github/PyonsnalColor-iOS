@@ -52,6 +52,8 @@
 		BA9E23442A21EF3100A539D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA9E23432A21EF3100A539D5 /* Assets.xcassets */; };
 		BA9E23472A21EF3100A539D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA9E23452A21EF3100A539D5 /* LaunchScreen.storyboard */; };
 		BA9E23502A234B4D00A539D5 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BA9E234F2A234B4D00A539D5 /* .swiftlint.yml */; };
+		BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */; };
+		BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */; };
 		BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882B2A24C3E600DA6257 /* RootRouter.swift */; };
 		BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882C2A24C3E600DA6257 /* RootViewController.swift */; };
 		BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882D2A24C3E600DA6257 /* RootBuilder.swift */; };
@@ -102,6 +104,8 @@
 		BA9E23462A21EF3100A539D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA9E23482A21EF3100A539D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA9E234F2A234B4D00A539D5 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedOutViewController+ViewHolder.swift"; sourceTree = "<group>"; };
+		BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHolable.swift; sourceTree = "<group>"; };
 		BAED882B2A24C3E600DA6257 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		BAED882C2A24C3E600DA6257 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		BAED882D2A24C3E600DA6257 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
@@ -261,6 +265,7 @@
 			children = (
 				BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */,
 				BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */,
+				BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */,
 				BA437F142A235F5100C5DFA8 /* LoggedOutBuilder.swift */,
 				BA437F152A235F5100C5DFA8 /* LoggedOutInteractor.swift */,
 			);
@@ -292,6 +297,7 @@
 				B2538B8D2A3454EA00B7C3F0 /* ProductHome */,
 				B2F169D42A3471EB008199D8 /* RootTabBar */,
 				B2538B8B2A3454D600B7C3F0 /* LoggedIn */,
+				BAEA1BFB2A3477A80028A90A /* Common */,
 				F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */,
 				BA18075D2A2F1D5A00295398 /* Networking */,
 				BA1807532A2F13DA00295398 /* Extension */,
@@ -302,6 +308,14 @@
 				B2A57C3D2A2EF8FF005DB83E /* Service */,
 			);
 			path = "Pyonsnal-Color";
+			sourceTree = "<group>";
+		};
+		BAEA1BFB2A3477A80028A90A /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		BAED882A2A24C3DA00DA6257 /* Root */ = {
@@ -451,7 +465,9 @@
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
+				BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
+				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
