@@ -8,8 +8,8 @@
 import Foundation
 import KakaoSDKUser
 
-protocol KakaoLoginServiceDelegate: NSObject {
-    func didReceive(accessToken: String, refreshToken: String)
+protocol KakaoLoginServiceDelegate: AnyObject {
+    func didReceive(accessToken: String)
 }
 
 final class KakaoLoginService: NSObject {
@@ -22,12 +22,8 @@ final class KakaoLoginService: NSObject {
                 if let error = error {
                     print(error)
                 } else {
-                    if let accessToken = oauthToken?.accessToken,
-                       let refreshToken = oauthToken?.refreshToken {
-                        self?.delegate?.didReceive(
-                            accessToken: accessToken,
-                            refreshToken: refreshToken
-                        )
+                    if let accessToken = oauthToken?.accessToken {
+                        self?.delegate?.didReceive(accessToken: accessToken)
                     }
                 }
             }
@@ -36,12 +32,8 @@ final class KakaoLoginService: NSObject {
                 if let error = error {
                     print(error)
                 } else {
-                    if let accessToken = oauthToken?.accessToken,
-                       let refreshToken = oauthToken?.refreshToken {
-                        self?.delegate?.didReceive(
-                            accessToken: accessToken,
-                            refreshToken: refreshToken
-                        )
+                    if let accessToken = oauthToken?.accessToken {
+                        self?.delegate?.didReceive(accessToken: accessToken)
                     }
                 }
             }

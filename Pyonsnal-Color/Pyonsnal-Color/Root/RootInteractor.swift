@@ -8,6 +8,7 @@
 import ModernRIBs
 
 protocol RootRouting: ViewableRouting {
+    func routeToLoggedIn()
 }
 
 protocol RootPresentable: Presentable {
@@ -36,5 +37,9 @@ final class RootInteractor:
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didLogin() {
+        router?.routeToLoggedIn()
     }
 }

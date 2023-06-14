@@ -15,6 +15,7 @@ protocol LoggedOutPresentable: Presentable {
 }
 
 protocol LoggedOutListener: AnyObject {
+    func didLogin()
 }
 
 final class LoggedOutInteractor:
@@ -32,6 +33,7 @@ final class LoggedOutInteractor:
         super.init(presenter: presenter)
         presenter.listener = self
         dependency.appleLoginService.delegate = self
+        dependency.kakaoLoginService.delegate = self
     }
 
     override func didBecomeActive() {
@@ -45,6 +47,10 @@ final class LoggedOutInteractor:
     func didTapAppleLoginButton() {
         dependency.appleLoginService.requestAppleLogin()
     }
+    
+    func requestKakaoLogin() {
+        dependency.kakaoLoginService.requestKakaoLogin()
+    }
 }
 
 extension LoggedOutInteractor: AppleLoginServiceDelegate {
@@ -52,11 +58,12 @@ extension LoggedOutInteractor: AppleLoginServiceDelegate {
         /// TO DO : send to server
         /// get token from server
         /// save token to Keychain
-        /// route to Home
+        listener?.didLogin()
     }
-    
-    
-    func requestKakaoLogin() {
-        dependency.kakaoLoginService.requestKakaoLogin()
+}
+
+extension LoggedOutInteractor: KakaoLoginServiceDelegate {
+    func didReceive(accessToken: String) {
+        listener?.didLogin()
     }
 }

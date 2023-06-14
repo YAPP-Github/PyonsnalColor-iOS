@@ -19,9 +19,7 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     func replaceModel(viewController: ViewControllable) {
         targetViewController = viewController
 
-        guard !animationInProgress else {
-            return
-        }
+        guard !animationInProgress else { return }
 
         if presentedViewController != nil {
             animationInProgress = true
@@ -85,5 +83,20 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+}
+
+//MARK: - LoggedInViewControllable
+extension RootViewController: LoggedInViewControllable {
+    func present(viewController: ViewControllable) {
+        viewController.uiviewController.modalPresentationStyle = .fullScreen
+        replaceModel(viewController: viewController)
+    }
+    
+    func dismiss(viewController: ModernRIBs.ViewControllable) {
+        if presentedViewController == viewController.uiviewController {
+            targetViewController = nil
+            dismiss(animated: true)
+        }
     }
 }
