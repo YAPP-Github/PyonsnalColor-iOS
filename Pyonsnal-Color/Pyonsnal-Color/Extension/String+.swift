@@ -22,4 +22,9 @@ extension String {
                                       range: range)
         return attributedString
     }
+    
+    /// + "원"
+    func addWon() -> String {
+        return self + "원"
+    }
 }
