@@ -43,6 +43,6 @@ final class RootTabBarViewController:
         tabBar.backgroundColor = .white
         tabBar.layer.cornerRadius = 16
         tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        tabBar.layer.applyShadow()
+        tabBar.layer.applyShadow(color: .black, alpha: 0.25, width: 0, height: 4, blur: 4)
     }
 }
