@@ -54,6 +54,7 @@ final class ProductCell: UICollectionViewCell {
         
         let itemImageView: UIImageView = {
             let imageView = UIImageView()
+            //TO DO : fix color
             imageView.backgroundColor = .brown
             return imageView
         }()
@@ -75,7 +76,7 @@ final class ProductCell: UICollectionViewCell {
         let newLabel: UILabel = {
             let label = UILabel()
             label.text = "NEW"
-            label.font = .body4m
+            label.font = .label1
             //TO DO : fix color
             label.textColor = UIColor(
                 red: 236/255,
@@ -101,24 +102,28 @@ final class ProductCell: UICollectionViewCell {
         
         let originalPriceLabel: UILabel = {
             let label = UILabel()
+            label.font = .body3m
             label.text = "2,900".addWon()
             return label
         }()
         
         let discountPriceLabel: UILabel = {
             let label = UILabel()
+            label.font = .body4r
             label.text = "2,000".addWon()
             return label
         }()
         
-        let convinientTagImageView: UIImageView = {
+        let convenienceStoreTagImageView: UIImageView = {
             let imageView = UIImageView()
+            //TO DO : fix color
             imageView.backgroundColor = .blue
             return imageView
         }()
         
         let eventTagImageView: UIImageView = {
             let imageView = UIImageView()
+            //TO DO : fix color
             imageView.backgroundColor = .darkGray
             return imageView
         }()
@@ -132,7 +137,7 @@ final class ProductCell: UICollectionViewCell {
             stackView.addArrangedSubview(itemInfoContainerView)
             
             productImageContainerView.addSubview(itemImageView)
-            productImageContainerView.addSubview(convinientTagImageView)
+            productImageContainerView.addSubview(convenienceStoreTagImageView)
             productImageContainerView.addSubview(eventTagImageView)
             
             itemInfoContainerView.addSubview(newLabel)
@@ -148,10 +153,6 @@ final class ProductCell: UICollectionViewCell {
                 $0.edges.equalToSuperview()
             }
             
-            productImageContainerView.snp.makeConstraints {
-                $0.height.equalTo(Size.productImageContainerViewHeight)
-            }
-            
             dividerView.snp.makeConstraints {
                 $0.height.equalTo(Size.dividerHeight)
             }
@@ -161,7 +162,7 @@ final class ProductCell: UICollectionViewCell {
                 $0.trailing.bottom.equalToSuperview().inset(Size.productImageViewMargin)
             }
             
-            convinientTagImageView.snp.makeConstraints {
+            convenienceStoreTagImageView.snp.makeConstraints {
                 $0.top.leading.equalToSuperview().inset(Size.convinientTagImageViewMargin)
                 $0.width.height.equalTo(Size.convinientTagImageViewWidth)
             }
@@ -221,7 +222,7 @@ final class ProductCell: UICollectionViewCell {
         self.makeRounded(with: Size.cornerRadius)
         //TO DO : fix color
         viewHolder.discountPriceLabel.attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .black)
-        viewHolder.convinientTagImageView.makeRounded(with: Size.convinientTagImageViewWidth / 2)
+        viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convinientTagImageViewWidth / 2)
         viewHolder.eventTagImageView.makeRounded(with: Size.eventTagImageviewRadius)
     }
 }
