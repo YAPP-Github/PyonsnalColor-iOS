@@ -77,10 +77,12 @@ final class ProductCell: UICollectionViewCell {
             label.text = "NEW"
             label.font = .body4m
             //TO DO : fix color
-            label.textColor = UIColor(red: 236/255,
-                                      green: 102/255,
-                                      blue: 83/255,
-                                      alpha: 1)
+            label.textColor = UIColor(
+                red: 236/255,
+                green: 102/255,
+                blue: 83/255,
+                alpha: 1
+            )
             return label
         }()
         

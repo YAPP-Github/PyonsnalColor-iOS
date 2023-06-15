@@ -14,12 +14,16 @@ extension String {
         let attributedString = NSMutableAttributedString(string: self)
         let range = NSMakeRange(0, attributedString.length)
         
-        attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle,
-                                      value: NSUnderlineStyle.single.rawValue,
-                                      range: range)
-        attributedString.addAttribute(NSAttributedString.Key.strikethroughColor,
-                                      value: color,
-                                      range: range)
+        attributedString.addAttribute(
+            NSAttributedString.Key.strikethroughStyle,
+            value: NSUnderlineStyle.single.rawValue,
+            range: range
+        )
+        attributedString.addAttribute(
+            NSAttributedString.Key.strikethroughColor,
+            value: color,
+            range: range
+        )
         return attributedString
     }
     
