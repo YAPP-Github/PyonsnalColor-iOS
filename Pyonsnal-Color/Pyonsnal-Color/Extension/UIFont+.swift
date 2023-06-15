@@ -48,6 +48,9 @@ extension UIFont {
     static let body3r = customFont(weight: .regular, size: 14)
     static let body4r = customFont(weight: .regular, size: 12)
     
+    static let label1 = customFont(weight: .semiBold, size: 12)
+    static let label2 = customFont(weight: .semiBold, size: 10)
+    
     var customLineHeight: CGFloat {
         switch self {
         case .headLine:
@@ -62,6 +65,10 @@ extension UIFont {
             return 20
         case .body4m, .body4r:
             return 16
+        case .label1:
+            return 14
+        case .label2:
+            return 10
         default:
             break
         }
