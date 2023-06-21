@@ -11,12 +11,19 @@ import UIKit
 protocol ProductHomePresentableListener: AnyObject {
 }
 
-final class ProductHomeViewController: UIViewController, ProductHomePresentable, ProductHomeViewControllable {
+final class ProductHomeViewController:
+    UIViewController,
+    ProductHomePresentable,
+    ProductHomeViewControllable {
 
+    //MARK: - Interface
     weak var listener: ProductHomePresentableListener?
+    
+    //MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
     private let dataSource: [String] = ["전체", "CU", "GS25", "Emart24", "7-Eleven"]
     
+    //MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -27,6 +34,7 @@ final class ProductHomeViewController: UIViewController, ProductHomePresentable,
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,6 +43,7 @@ final class ProductHomeViewController: UIViewController, ProductHomePresentable,
         setupStoreCollectionView()
     }
     
+    //MARK: - Private Method
     private func setupViews() {
         let customFont = UIFont.customFont(weight: .medium, size: 12)
         
@@ -54,6 +63,7 @@ final class ProductHomeViewController: UIViewController, ProductHomePresentable,
     }
 }
 
+//MARK: - UICollectionViewDataSource
 extension ProductHomeViewController: UICollectionViewDataSource {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -83,6 +93,7 @@ extension ProductHomeViewController: UICollectionViewDataSource {
     }
 }
 
+//MARK: - UICollectionViewDelegateFlowLayout
 extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -94,7 +105,10 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
         label.font = UIFont.body3m
         label.sizeToFit()
 
-        return CGSize(width: label.frame.width + 22, height: label.frame.height + 22)
+        return CGSize(
+            width: label.frame.width + Constant.Size.leftRightMargin * 2,
+            height: label.frame.height + Constant.Size.headerBottomInset * 2
+        )
     }
 
     func collectionView(
@@ -107,7 +121,7 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
             label.text = title
             label.font = UIFont.body3m
             label.sizeToFit()
-            return partialResult + label.bounds.width + 22
+            return partialResult + label.bounds.width + Constant.Size.leftRightMargin * 2
         })
         let result = (collectionView.bounds.width - cellSizes) / CGFloat(dataSource.count - 1)
 
