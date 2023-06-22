@@ -44,6 +44,7 @@ final class ProductListViewController: UIViewController {
         
         configureLayout()
         configureDataSource()
+        applySnapshot()
     }
     
     //MARK: - Private Method
@@ -75,6 +76,7 @@ final class ProductListViewController: UIViewController {
         group.interItemSpacing = .fixed(Constant.Size.spacing)
         
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = Constant.Size.spacing
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
             leading: Constant.Size.spacing,
@@ -88,7 +90,7 @@ final class ProductListViewController: UIViewController {
     private func configureDataSource() {
         dataSource = DataSource(
             collectionView: productCollectionView
-        ) { collectionView, indexPath, itemIdentifier in
+        ) { collectionView, indexPath, _ in
             guard let cell: ProductCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: ProductCell.identifier,
                 for: indexPath
@@ -101,11 +103,13 @@ final class ProductListViewController: UIViewController {
     }
     
     //MARK: - Internal Method
-    func applySnapshot(sections: [Section], items: [Int]) {
+    private func applySnapshot() {
+        //TODO: 추후에 외부로부터 데이터 받아오도록 메서드 수정
+        //ex) updateSnapshot(items: [ProductEntity])
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         
-        snapshot.appendSections(sections)
-        snapshot.appendItems(items)
+        snapshot.appendSections([.product])
+        snapshot.appendItems(Array(1...40))
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }
