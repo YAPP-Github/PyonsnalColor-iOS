@@ -11,7 +11,7 @@ import SnapKit
 final class ConvenienceStorePageViewController: UIPageViewController {
     
     //MARK: - Property
-    private var productListViewControllers: [ProductListViewController] = []
+    var productListViewControllers: [ProductListViewController] = []
     var currentViewController: ProductListViewController? {
         didSet {
             //TODO: 페이지 동기화 코드

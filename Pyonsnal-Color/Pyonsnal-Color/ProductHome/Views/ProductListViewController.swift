@@ -28,7 +28,7 @@ final class ProductListViewController: UIViewController {
     private var dataSource: DataSource?
     
     //MARK: - View Component
-    private lazy var productCollectionView: UICollectionView = {
+    lazy var productCollectionView: UICollectionView = {
         let layout = configureCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         //TODO: AppColor 정해지면 수정
