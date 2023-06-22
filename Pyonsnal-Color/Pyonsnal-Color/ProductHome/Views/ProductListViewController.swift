@@ -9,13 +9,14 @@ import UIKit
 import SnapKit
 
 final class ProductListViewController: UIViewController {
-    
+    //TODO: Item타입 상품엔티티로 변경
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Int>
     
     enum Constant {
         enum Size {
             static let spacing: CGFloat = 16
             static let productCellHeight: CGFloat = 235
+            static let headerViewHeight: CGFloat = 22
         }
     }
     
@@ -30,10 +31,7 @@ final class ProductListViewController: UIViewController {
     private lazy var productCollectionView: UICollectionView = {
         let layout = configureCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(
-            ProductCell.self,
-            forCellWithReuseIdentifier: ProductCell.identifier
-        )
+        //TODO: AppColor 정해지면 수정
         collectionView.backgroundColor = .systemGray6
         return collectionView
     }()
@@ -43,8 +41,7 @@ final class ProductListViewController: UIViewController {
         super.viewDidLoad()
         
         configureLayout()
-        configureDataSource()
-        applySnapshot()
+        configureCollectionView()
     }
     
     //MARK: - Private Method
@@ -54,6 +51,13 @@ final class ProductListViewController: UIViewController {
         productCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+        productCollectionView.contentInset = UIEdgeInsets(
+            top: Constant.Size.spacing,
+            left: 0,
+            bottom: 0,
+            right: 0
+        )
     }
     
     private func configureCollectionViewLayout() -> UICollectionViewLayout {
@@ -83,8 +87,40 @@ final class ProductListViewController: UIViewController {
             bottom: 0,
             trailing: Constant.Size.spacing
         )
+        section.boundarySupplementaryItems = setupSupplementaryView()
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
+    }
+    
+    private func setupSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(Constant.Size.headerViewHeight)
+            ),
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        return [sectionHeader]
+    }
+    
+    private func configureCollectionView() {
+        registerCells()
+        configureDataSource()
+        configureHeaderView()
+        applySnapshot()
+    }
+    
+    private func registerCells() {
+        productCollectionView.register(
+            ProductCell.self,
+            forCellWithReuseIdentifier: ProductCell.identifier
+        )
+        productCollectionView.register(
+            ProductListHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: ProductListHeaderView.identifier
+        )
     }
     
     private func configureDataSource() {
@@ -102,9 +138,28 @@ final class ProductListViewController: UIViewController {
         }
     }
     
+    private func configureHeaderView() {
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+            if kind == UICollectionView.elementKindSectionHeader {
+                guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: ProductListHeaderView.identifier,
+                    for: indexPath
+                ) as? ProductListHeaderView else {
+                    return nil
+                }
+
+                headerView.configureLayout()
+                return headerView
+            } else {
+                return nil
+            }
+        }
+    }
+    
     //MARK: - Internal Method
     private func applySnapshot() {
-        //TODO: 추후에 외부로부터 데이터 받아오도록 메서드 수정
+        //TODO: 추후에 외부로부터 데이터 받아오도록 메서드 추가
         //ex) updateSnapshot(items: [ProductEntity])
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         
