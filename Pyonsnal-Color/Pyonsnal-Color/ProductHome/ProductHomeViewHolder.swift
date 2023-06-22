@@ -79,11 +79,18 @@ extension ProductHomeViewController {
             return collectionView
         }()
         
+        private let convenienceStorePageViewController: ConvenienceStorePageViewController = .init(
+            pageCount: 5,
+            transitionStyle: .scroll,
+            navigationOrientation: .horizontal
+        )
+        
         func place(in view: UIView) {
             view.addSubview(contentView)
             
             contentView.addSubview(headerStackView)
             contentView.addSubview(convenienceStoreCollectionView)
+            contentView.addSubview(convenienceStorePageViewController.view)
             
             headerStackView.addArrangedSubview(titleLabel)
             headerStackView.addArrangedSubview(alertButton)
@@ -102,6 +109,12 @@ extension ProductHomeViewController {
                 make.top.equalTo(headerStackView.snp.bottom)
                 make.leading.trailing.equalToSuperview().inset(16)
                 make.height.equalTo(44)
+            }
+            
+            convenienceStorePageViewController.view.snp.makeConstraints { make in
+                make.top.equalTo(convenienceStoreCollectionView.snp.bottom)
+                make.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview()
             }
         }
     }
