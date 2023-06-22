@@ -23,6 +23,15 @@ extension ProductHomeViewController {
     }
     
     final class ViewHolder: ViewHolderable {
+        let containerScrollView: UIScrollView = {
+            let scrollView = UIScrollView()
+            scrollView.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.showsVerticalScrollIndicator = false
+            scrollView.showsHorizontalScrollIndicator = false
+            scrollView.bounces = false
+            return scrollView
+        }()
+        
         private let contentView: UIView = {
             let view = UIView(frame: .zero)
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -30,7 +39,7 @@ extension ProductHomeViewController {
             return view
         }()
         
-        private let headerStackView: UIStackView = {
+        let headerStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .horizontal
@@ -79,14 +88,15 @@ extension ProductHomeViewController {
             return collectionView
         }()
         
-        private let convenienceStorePageViewController: ConvenienceStorePageViewController = .init(
+        let convenienceStorePageViewController: ConvenienceStorePageViewController = .init(
             pageCount: 5,
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
         )
         
         func place(in view: UIView) {
-            view.addSubview(contentView)
+            view.addSubview(containerScrollView)
+            containerScrollView.addSubview(contentView)
             
             contentView.addSubview(headerStackView)
             contentView.addSubview(convenienceStoreCollectionView)
@@ -97,8 +107,15 @@ extension ProductHomeViewController {
         }
         
         func configureConstraints(for view: UIView) {
+            containerScrollView.snp.makeConstraints { make in
+                make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
+                make.height.equalTo(view.snp.height)
+            }
+            
             contentView.snp.makeConstraints { make in
-                make.edges.equalTo(view.safeAreaLayoutGuide)
+                make.edges.equalToSuperview()
+                make.width.equalToSuperview()
+                make.height.equalToSuperview()
             }
             
             headerStackView.snp.makeConstraints { make in
@@ -108,13 +125,13 @@ extension ProductHomeViewController {
             convenienceStoreCollectionView.snp.makeConstraints { make in
                 make.top.equalTo(headerStackView.snp.bottom)
                 make.leading.trailing.equalToSuperview().inset(16)
-                make.height.equalTo(44)
+                make.height.equalTo(41)
             }
             
             convenienceStorePageViewController.view.snp.makeConstraints { make in
                 make.top.equalTo(convenienceStoreCollectionView.snp.bottom)
                 make.leading.trailing.equalToSuperview()
-                make.bottom.equalToSuperview()
+                make.bottom.equalTo(view.safeAreaLayoutGuide)
             }
         }
     }
