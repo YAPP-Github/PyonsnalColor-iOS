@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */; };
 		B24F1D332A431ECC00AA03DC /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D322A431ECC00AA03DC /* Reusable.swift */; };
+		B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */; };
 		B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */; };
 		B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B912A34551D00B7C3F0 /* LoggedInBuilder.swift */; };
 		B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B922A34551D00B7C3F0 /* LoggedInInteractor.swift */; };
@@ -76,6 +77,7 @@
 /* Begin PBXFileReference section */
 		B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStoreCell.swift; sourceTree = "<group>"; };
 		B24F1D322A431ECC00AA03DC /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInRouter.swift; sourceTree = "<group>"; };
 		B2538B912A34551D00B7C3F0 /* LoggedInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInBuilder.swift; sourceTree = "<group>"; };
 		B2538B922A34551D00B7C3F0 /* LoggedInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInteractor.swift; sourceTree = "<group>"; };
@@ -154,6 +156,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B24F1D342A43E30D00AA03DC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		B2538B8B2A3454D600B7C3F0 /* LoggedIn */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +177,7 @@
 		B2538B8D2A3454EA00B7C3F0 /* ProductHome */ = {
 			isa = PBXGroup;
 			children = (
+				B24F1D342A43E30D00AA03DC /* Views */,
 				B282050E2A34702B00F9242F /* ProductHomeRouter.swift */,
 				B282050F2A34702B00F9242F /* ProductHomeViewController.swift */,
 				B28205102A34702B00F9242F /* ProductHomeBuilder.swift */,
@@ -498,6 +509,7 @@
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
+				B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */,
 				F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */,
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
