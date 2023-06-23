@@ -8,15 +8,16 @@
 import UIKit
 import SnapKit
 
+protocol ConvenienceStorePageViewControllerDelegate: NSObject {
+    func didFinishPageTransition(index: Int)
+}
+
 final class ConvenienceStorePageViewController: UIPageViewController {
     
     //MARK: - Property
+    weak var pagingDelegate: ConvenienceStorePageViewControllerDelegate?
     var productListViewControllers: [ProductListViewController] = []
-    var currentViewController: ProductListViewController? {
-        didSet {
-            //TODO: 페이지 동기화 코드
-        }
-    }
+    var currentViewController: ProductListViewController?
     
     //MARK: - Initializer
     init(
@@ -52,6 +53,7 @@ final class ConvenienceStorePageViewController: UIPageViewController {
     private func configureViewController() {
         view.translatesAutoresizingMaskIntoConstraints = false
         dataSource = self
+        delegate = self
         
         if let firstViewController = productListViewControllers.first {
             setViewControllers([firstViewController], direction: .forward, animated: true)
@@ -84,5 +86,24 @@ extension ConvenienceStorePageViewController: UIPageViewControllerDataSource {
         
         currentViewController = productListViewControllers[index + 1]
         return currentViewController
+    }
+}
+
+//MARK: - UIPageViewControllerDelegate
+extension ConvenienceStorePageViewController: UIPageViewControllerDelegate {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        didFinishAnimating finished: Bool,
+        previousViewControllers: [UIViewController],
+        transitionCompleted completed: Bool
+    ) {
+        guard let viewControllers = pageViewController.viewControllers,
+              let viewController = viewControllers.first as? ProductListViewController,
+              let index = productListViewControllers.firstIndex(of: viewController)
+        else {
+            return
+        }
+        
+        pagingDelegate?.didFinishPageTransition(index: index)
     }
 }

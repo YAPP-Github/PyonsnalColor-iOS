@@ -23,6 +23,11 @@ final class ProductHomeViewController:
     private let viewHolder: ViewHolder = .init()
     private let dataSource: [String] = ["전체", "CU", "GS25", "Emart24", "7-Eleven"]
     private var innerScrollLastOffsetY: CGFloat = 0
+    private var currentPage: Int = 0 {
+        didSet {
+            bind(oldValue: oldValue, newValue: currentPage)
+        }
+    }
     
     //MARK: - Initializer
     init() {
@@ -66,9 +71,27 @@ final class ProductHomeViewController:
     }
     
     private func setupProductCollectionView() {
+        viewHolder.convenienceStorePageViewController.pagingDelegate = self
         viewHolder.convenienceStorePageViewController.productListViewControllers.forEach {
             $0.productCollectionView.delegate = self
         }
+    }
+    
+    private func bind(oldValue: Int, newValue: Int) {
+        let isForward = oldValue < newValue
+        let direction: UIPageViewController.NavigationDirection = isForward ? .forward : .reverse
+        viewHolder.convenienceStorePageViewController.setViewControllers(
+            [viewHolder.convenienceStorePageViewController.productListViewControllers[currentPage]],
+            direction: direction,
+            animated: true,
+            completion: nil
+        )
+        
+        viewHolder.convenienceStoreCollectionView.selectItem(
+            at: IndexPath(item: currentPage, section: 0),
+            animated: true,
+            scrollPosition: .centeredHorizontally
+        )
     }
 }
 
@@ -185,5 +208,19 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
         let result = (collectionView.bounds.width - cellSizes) / CGFloat(dataSource.count - 1)
 
         return floor(result * 10000) / 10000
+    }
+}
+
+//MARK: - UICollectionViewDelegate
+extension ProductHomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        currentPage = indexPath.item
+    }
+}
+
+//MARK: - ConvenienceStorePageViewControllerDelegate
+extension ProductHomeViewController: ConvenienceStorePageViewControllerDelegate {
+    func didFinishPageTransition(index: Int) {
+        currentPage = index
     }
 }
