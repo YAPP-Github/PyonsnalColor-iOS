@@ -67,6 +67,17 @@
 		BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882C2A24C3E600DA6257 /* RootViewController.swift */; };
 		BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882D2A24C3E600DA6257 /* RootBuilder.swift */; };
 		BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882E2A24C3E600DA6257 /* RootInteractor.swift */; };
+		F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */; };
+		F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */; };
+		F01535432A45A69800A2A8F2 /* EventHomeSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */; };
+		F01535452A45A6F800A2A8F2 /* ItemHeaderTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535442A45A6F800A2A8F2 /* ItemHeaderTitleView.swift */; };
+		F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535462A45A70300A2A8F2 /* EventBannerCell.swift */; };
+		F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */; };
+		F015354B2A45A8DD00A2A8F2 /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */; };
+		F015354F2A46088100A2A8F2 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015354E2A46088100A2A8F2 /* TabCell.swift */; };
+		F01535502A460CE700A2A8F2 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBEA2A30BA8C0001D3DD /* Pretendard-SemiBold.otf */; };
+		F01535512A460CE900A2A8F2 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE92A30BA8C0001D3DD /* Pretendard-Regular.otf */; };
+		F01535522A460CEC00A2A8F2 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */; };
 		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
 		F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F069DBE52A30B9850001D3DD /* UIFont+.swift */; };
 		F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainService.swift */; };
@@ -129,6 +140,14 @@
 		BAED882C2A24C3E600DA6257 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		BAED882D2A24C3E600DA6257 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		BAED882E2A24C3E600DA6257 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
+		F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeTabViewController.swift; sourceTree = "<group>"; };
+		F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomePageViewController.swift; sourceTree = "<group>"; };
+		F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeSectionLayout.swift; sourceTree = "<group>"; };
+		F01535442A45A6F800A2A8F2 /* ItemHeaderTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemHeaderTitleView.swift; sourceTree = "<group>"; };
+		F01535462A45A70300A2A8F2 /* EventBannerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventBannerCell.swift; sourceTree = "<group>"; };
+		F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventBannerItemCell.swift; sourceTree = "<group>"; };
+		F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
+		F015354E2A46088100A2A8F2 /* TabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		F069DBE52A30B9850001D3DD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -196,7 +215,14 @@
 		B2538B8E2A3454F100B7C3F0 /* EventHome */ = {
 			isa = PBXGroup;
 			children = (
+				F015354E2A46088100A2A8F2 /* TabCell.swift */,
+				F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */,
+				F01535462A45A70300A2A8F2 /* EventBannerCell.swift */,
+				F01535442A45A6F800A2A8F2 /* ItemHeaderTitleView.swift */,
+				F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */,
+				F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */,
 				B28205062A34700300F9242F /* EventHomeRouter.swift */,
+				F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */,
 				B28205072A34700300F9242F /* EventHomeViewController.swift */,
 				B28205082A34700300F9242F /* EventHomeBuilder.swift */,
 				B28205092A34700300F9242F /* EventHomeInteractor.swift */,
@@ -248,6 +274,7 @@
 				F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */,
 				F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */,
 				F0D6FFAC2A39F97900C55E27 /* String+.swift */,
+				F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */,
 				B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */,
 			);
 			path = Extension;
@@ -507,27 +534,33 @@
 				BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */,
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
+				F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */,
 				B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */,
 				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
 				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
+				F01535432A45A69800A2A8F2 /* EventHomeSectionLayout.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
 				B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */,
 				F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */,
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
+				F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
+				F015354F2A46088100A2A8F2 /* TabCell.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
 				B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */,
+				F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */,
+				F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */,
 				BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */,
 				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
 				B24F1D3A2A44345700AA03DC /* ProductListHeaderView.swift in Sources */,
@@ -540,6 +573,7 @@
 				F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */,
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
+				F015354B2A45A8DD00A2A8F2 /* NSObject+.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
 				B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */,
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
@@ -549,6 +583,7 @@
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
 				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
+				F01535452A45A6F800A2A8F2 /* ItemHeaderTitleView.swift in Sources */,
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
 				B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */,
 				B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */,
