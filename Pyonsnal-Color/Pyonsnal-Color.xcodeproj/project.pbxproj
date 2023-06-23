@@ -63,6 +63,7 @@
 		BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F202A2360E100C5DFA8 /* AppComponent.swift */; };
 		BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */; };
 		BA87501E2A519B3900B80088 /* ImageAssetKind+HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */; };
+		BA87E3D52A45D400000A9DEC /* GiftItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3D42A45D400000A9DEC /* GiftItemView.swift */; };
 		BA87E3DC2A4623E3000A9DEC /* GiftItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3DB2A4623E3000A9DEC /* GiftItemEntity.swift */; };
 		BA87E3DE2A4629B5000A9DEC /* ProductEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3DD2A4629B5000A9DEC /* ProductEntity.swift */; };
 		BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9E233A2A21EF3000A539D5 /* AppDelegate.swift */; };
@@ -163,6 +164,7 @@
 		BA437F202A2360E100C5DFA8 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreIcon.swift"; sourceTree = "<group>"; };
 		BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+HeaderView.swift"; sourceTree = "<group>"; };
+		BA87E3D42A45D400000A9DEC /* GiftItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftItemView.swift; sourceTree = "<group>"; };
 		BA87E3DB2A4623E3000A9DEC /* GiftItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftItemEntity.swift; sourceTree = "<group>"; };
 		BA87E3DD2A4629B5000A9DEC /* ProductEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEntity.swift; sourceTree = "<group>"; };
 		BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pyonsnal-Color.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -431,6 +433,14 @@
 				BA437F152A235F5100C5DFA8 /* LoggedOutInteractor.swift */,
 			);
 			path = LoggedOut;
+			sourceTree = "<group>";
+		};
+		BA87E3C72A45C579000A9DEC /* ProductDetail */ = {
+			isa = PBXGroup;
+			children = (
+				BA87E3D42A45D400000A9DEC /* GiftItemView.swift */,
+			);
+			path = ProductDetail;
 			sourceTree = "<group>";
 		};
 		BA87E3DA2A4623D7000A9DEC /* Entity */ = {
@@ -767,6 +777,7 @@
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
 				BA87E3DE2A4629B5000A9DEC /* ProductEntity.swift in Sources */,
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
+				BA87E3D52A45D400000A9DEC /* GiftItemView.swift in Sources */,
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F0EE10AC2A4B389A00B8DF4F /* AccountSettingViewController.swift in Sources */,
 				F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */,
