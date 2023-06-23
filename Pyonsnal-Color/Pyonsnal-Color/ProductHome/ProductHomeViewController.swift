@@ -128,9 +128,8 @@ extension ProductHomeViewController: UICollectionViewDataSource {
 //MARK: - UIScrollViewDelegate
 extension ProductHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let currentViewController = viewHolder.convenienceStorePageViewController.currentViewController else {
-            return
-        }
+        let pageViewController = viewHolder.convenienceStorePageViewController
+        guard let currentViewController = pageViewController.currentViewController else { return }
         
         let collectionView = currentViewController.productCollectionView
         let outerScroll = scrollView == viewHolder.containerScrollView
@@ -154,7 +153,10 @@ extension ProductHomeViewController: UIScrollViewDelegate {
             guard viewHolder.containerScrollView.contentOffset.y < outerScrollMaxOffset else { return }
   
             let scrolledHeight = scrollView.contentOffset.y - innerScrollLastOffsetY
-            let minOffsetY = min(viewHolder.containerScrollView.contentOffset.y + scrolledHeight ,outerScrollMaxOffset)
+            let minOffsetY = min(
+                viewHolder.containerScrollView.contentOffset.y + scrolledHeight,
+                outerScrollMaxOffset
+            )
             let offsetY = max(minOffsetY, 0)
             
             viewHolder.containerScrollView.contentOffset.y = offsetY

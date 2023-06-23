@@ -64,7 +64,10 @@ final class ConvenienceStorePageViewController: UIPageViewController {
 
 //MARK: - UIPageViewControllerDataSource
 extension ConvenienceStorePageViewController: UIPageViewControllerDataSource {
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerBefore viewController: UIViewController
+    ) -> UIViewController? {
         guard let productListViewController = viewController as? ProductListViewController,
               let index = productListViewControllers.firstIndex(of: productListViewController),
               index - 1 >= 0
@@ -76,7 +79,10 @@ extension ConvenienceStorePageViewController: UIPageViewControllerDataSource {
         return currentViewController
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerAfter viewController: UIViewController
+    ) -> UIViewController? {
         guard let productListViewController = viewController as? ProductListViewController,
               let index = productListViewControllers.firstIndex(of: productListViewController),
               index + 1 < productListViewControllers.count
