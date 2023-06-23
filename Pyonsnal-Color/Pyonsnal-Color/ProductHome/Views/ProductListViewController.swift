@@ -26,6 +26,7 @@ final class ProductListViewController: UIViewController {
     
     //MARK: - Private Property
     private var dataSource: DataSource?
+    private let refreshControl: UIRefreshControl = .init()
     
     //MARK: - View Component
     lazy var productCollectionView: UICollectionView = {
@@ -109,6 +110,7 @@ final class ProductListViewController: UIViewController {
         configureDataSource()
         configureHeaderView()
         applySnapshot()
+        configureRefreshControl()
     }
     
     private func registerCells() {
@@ -149,8 +151,7 @@ final class ProductListViewController: UIViewController {
             }
         }
     }
-    
-    //MARK: - Internal Method
+
     private func applySnapshot() {
         //TODO: 추후에 외부로부터 데이터 받아오도록 메서드 추가
         //ex) updateSnapshot(items: [ProductEntity])
@@ -159,5 +160,25 @@ final class ProductListViewController: UIViewController {
         snapshot.appendSections([.product])
         snapshot.appendItems(Array(1...40))
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func configureRefreshControl() {
+        refreshControl.addTarget(
+            self,
+            action: #selector(refreshByPull)
+            , for: .valueChanged
+        )
+        productCollectionView.refreshControl = refreshControl
+    }
+    
+    //MARK: - Objective Method
+    @objc
+    private func refreshByPull() {
+        productCollectionView.refreshControl?.beginRefreshing()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.applySnapshot()
+            self.productCollectionView.refreshControl?.endRefreshing()
+        }
     }
 }
