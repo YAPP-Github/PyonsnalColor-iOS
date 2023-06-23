@@ -79,4 +79,3 @@ extension UIColor {
     //Error
     static let error1 = UIColor(rgbHexString: "FF442A")!
 }
-
