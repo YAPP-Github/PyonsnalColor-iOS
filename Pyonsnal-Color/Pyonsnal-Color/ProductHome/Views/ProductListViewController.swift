@@ -112,15 +112,8 @@ final class ProductListViewController: UIViewController {
     }
     
     private func registerCells() {
-        productCollectionView.register(
-            ProductCell.self,
-            forCellWithReuseIdentifier: ProductCell.identifier
-        )
-        productCollectionView.register(
-            ProductListHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: ProductListHeaderView.identifier
-        )
+        productCollectionView.register(ProductCell.self)
+        productCollectionView.registerHeaderView(ProductListHeaderView.self)
     }
     
     private func configureDataSource() {
@@ -128,7 +121,7 @@ final class ProductListViewController: UIViewController {
             collectionView: productCollectionView
         ) { collectionView, indexPath, _ in
             guard let cell: ProductCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: ProductCell.identifier,
+                withReuseIdentifier: String(describing: ProductCell.self),
                 for: indexPath
             ) as? ProductCell else {
                 return UICollectionViewCell()
@@ -143,7 +136,7 @@ final class ProductListViewController: UIViewController {
             if kind == UICollectionView.elementKindSectionHeader {
                 guard let headerView = collectionView.dequeueReusableSupplementaryView(
                     ofKind: kind,
-                    withReuseIdentifier: ProductListHeaderView.identifier,
+                    withReuseIdentifier: String(describing: ProductListHeaderView.self),
                     for: indexPath
                 ) as? ProductListHeaderView else {
                     return nil

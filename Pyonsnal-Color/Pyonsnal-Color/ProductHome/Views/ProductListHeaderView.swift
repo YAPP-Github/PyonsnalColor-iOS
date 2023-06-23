@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class ProductListHeaderView: UICollectionReusableView, Reusable {
+final class ProductListHeaderView: UICollectionReusableView {
     
     private let sortLabel: UILabel = {
         let label = UILabel()

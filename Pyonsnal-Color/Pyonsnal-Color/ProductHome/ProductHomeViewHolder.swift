@@ -74,10 +74,7 @@ extension ProductHomeViewController {
             
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.translatesAutoresizingMaskIntoConstraints = false
-            collectionView.register(
-                ConvenienceStoreCell.self,
-                forCellWithReuseIdentifier: ConvenienceStoreCell.identifier
-            )
+            collectionView.register(ConvenienceStoreCell.self)
             collectionView.isScrollEnabled = false
             collectionView.layoutMargins = UIEdgeInsets(
                 top: 0,

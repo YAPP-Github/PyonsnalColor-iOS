@@ -86,7 +86,7 @@ extension ProductHomeViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ConvenienceStoreCell.identifier,
+            withReuseIdentifier: String(describing: ConvenienceStoreCell.self),
             for: indexPath
         ) as? ConvenienceStoreCell else {
             return UICollectionViewCell()

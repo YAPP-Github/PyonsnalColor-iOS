@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ConvenienceStoreCell: UICollectionViewCell, Reusable {
+final class ConvenienceStoreCell: UICollectionViewCell {
     enum Constant {
         enum Size {
             static let margin: CGFloat = 11
