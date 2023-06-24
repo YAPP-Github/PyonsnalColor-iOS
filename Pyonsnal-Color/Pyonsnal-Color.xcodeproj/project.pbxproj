@@ -215,10 +215,7 @@
 		B2538B8E2A3454F100B7C3F0 /* EventHome */ = {
 			isa = PBXGroup;
 			children = (
-				F015354E2A46088100A2A8F2 /* TabCell.swift */,
-				F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */,
-				F01535462A45A70300A2A8F2 /* EventBannerCell.swift */,
-				F01535442A45A6F800A2A8F2 /* ItemHeaderTitleView.swift */,
+				F01535532A46BF8A00A2A8F2 /* Views */,
 				F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */,
 				F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */,
 				B28205062A34700300F9242F /* EventHomeRouter.swift */,
@@ -395,6 +392,25 @@
 				B28204F22A345EB100F9242F /* RootComponent.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		F01535532A46BF8A00A2A8F2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F01535442A45A6F800A2A8F2 /* ItemHeaderTitleView.swift */,
+				F01535542A46BFA400A2A8F2 /* Cell */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F01535542A46BFA400A2A8F2 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				F01535462A45A70300A2A8F2 /* EventBannerCell.swift */,
+				F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */,
+				F015354E2A46088100A2A8F2 /* TabCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		F069DBE72A30BA7A0001D3DD /* Font */ = {

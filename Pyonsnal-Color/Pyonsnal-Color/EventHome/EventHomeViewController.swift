@@ -32,6 +32,7 @@ final class EventHomeViewController: UIViewController,
     enum Size {
         static let tabCollectionViewHeight: CGFloat = 44
         static let headerViewHeight: CGFloat = 50
+        static let collectionViewTop: CGFloat = 20
     }
     
     weak var listener: EventHomePresentableListener?
@@ -57,15 +58,15 @@ final class EventHomeViewController: UIViewController,
         
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
-        setupDummyData()
-        setTabCollectionView()
+        configureDummyData()
+        configureTabCollectionView()
         setPageViewController()
         setScrollView()
         configureUI()
     }
     
     // MARK: - Private method
-    private func setupDummyData() {
+    private func configureDummyData() {
         tabData = [Tab(name: "전체", isSelected: true),
                                       Tab(name: "GS25"),
                                       Tab(name: "이마트24"),
@@ -73,7 +74,7 @@ final class EventHomeViewController: UIViewController,
                                       Tab(name: "CU")]
     }
     
-    private func setTabCollectionView() {
+    private func configureTabCollectionView() {
         viewHolder.tabCollectionView.delegate = self
         viewHolder.tabCollectionView.dataSource = self
         viewHolder.tabCollectionView.register(TabCell.self, forCellWithReuseIdentifier: TabCell.className)
@@ -175,7 +176,7 @@ extension EventHomeViewController {
             contentView.snp.makeConstraints {
                 $0.width.equalToSuperview()
                 $0.height.equalTo(containerScrollView.frameLayoutGuide.snp.height).priority(.low)
-                $0.centerX.top.bottom.equalToSuperview()
+                $0.top.bottom.equalToSuperview()
             }
             
             headerStackView.snp.makeConstraints {
@@ -202,7 +203,8 @@ extension EventHomeViewController {
 }
 
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
-    func updateTabCell(index: Int) {
+    
+    func updateSelectedTabCell(index: Int) {
         updateSelectedTabCell(with: index)
     }
 }

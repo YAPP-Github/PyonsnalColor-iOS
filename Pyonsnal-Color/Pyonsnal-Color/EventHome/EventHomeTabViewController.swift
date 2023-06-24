@@ -14,6 +14,7 @@ protocol ScrollDelegate: AnyObject {
     func didEndDragging(scrollView: UIScrollView)
 }
 
+// 임의의 모델 타입
 struct ItemCard: Hashable {
     var uuid = UUID()
     var imageUrl: UIImage?
@@ -56,17 +57,17 @@ final class EventHomeTabViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupDummyData()
+        configureDummyData()
         configureUI()
         configureLayout()
-        setupCollectionView()
+        configureCollectionView()
         configureDatasource()
         configureHeaderView()
         makeSnapshot()
     }
     
     // MARK: - Private Method
-    private func setupDummyData() {
+    private func configureDummyData() {
         itemCards = [
             ItemCard(imageUrl: dummyImage,
                      itemName: "산리오)햄치즈에그모닝머핀ddd",
@@ -97,7 +98,7 @@ final class EventHomeTabViewController: UIViewController {
         headerTitle = ["이달의 이벤트 💌", "행사 상품 모아보기 👀"]
     }
     
-    func createLayout() -> UICollectionViewCompositionalLayout {
+    private func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout {
             [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
             guard let sectionIdentifier = self?.dataSource?.snapshot().sectionIdentifiers[sectionIndex] else {
@@ -131,8 +132,12 @@ final class EventHomeTabViewController: UIViewController {
                                   selectedImage: UIImage(systemName: "square.and.arrow.up.fill"))
     }
     
-    private func setupCollectionView() {
+    private func configureCollectionView() {
         collectionView.delegate = self
+        collectionView.contentInset = UIEdgeInsets(top: Size.topMargin,
+                                                   left: 0,
+                                                   bottom: 0,
+                                                   right: 0)
         registerCollectionViewCells()
         setRefreshControl()
     }

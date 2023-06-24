@@ -33,7 +33,6 @@ final class EventBannerCell: UICollectionViewCell {
     private var dataSource: UICollectionViewDiffableDataSource<SectionType, ItemType>?
     private let viewHolder: ViewHolder = .init()
     private var timer: Timer?
-    private var timerSecond = Constants.timeSecond
     private var currentIndex = 1 {
         didSet {
             updatePageCountLabel(with: currentIndex)

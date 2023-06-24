@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EventHomePageViewControllerDelegate: AnyObject {
-    func updateTabCell(index: Int)
+    func updateSelectedTabCell(index: Int)
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -16,7 +16,8 @@ final class EventHomePageViewController: UIPageViewController {
     // MARK: - Private property
     private var pageViewControllers = [EventHomeTabViewController]()
     private var currentIndex: Int = 0
-    private var tabCount: Int = 5
+    private var tabCount: Int = 5 // 임시
+    
     var currentViewController: EventHomeTabViewController?
     weak var pageDelegate: EventHomePageViewControllerDelegate?
     weak var scrollDelegate: ScrollDelegate?
@@ -25,17 +26,15 @@ final class EventHomePageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setPageViewControllers()
-        
     }
     
     // MARK: - Private Method
     private func setPageViewControllers() {
-        for index in 0..<tabCount {
+        for _ in 0..<tabCount {
             // dummy
-            let colors: [UIColor] = [.black, .blue, .brown, .cyan, .purple]
             let viewController = EventHomeTabViewController()
-            viewController.view.backgroundColor = colors[index]
             viewController.scrollDelegate = self
+            
             pageViewControllers.append(viewController)
             
         }
@@ -69,7 +68,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
             return
         }
         
-        self.pageDelegate?.updateTabCell(index: index)
+        self.pageDelegate?.updateSelectedTabCell(index: index)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {

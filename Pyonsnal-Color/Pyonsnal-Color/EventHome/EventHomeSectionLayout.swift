@@ -38,7 +38,7 @@ final class EventHomeSectionLayout {
     }
     
     
-    func eventLayout() -> NSCollectionLayoutSection {
+    private func eventLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -92,40 +92,6 @@ final class EventHomeSectionLayout {
                                                                                                            heightDimension: .absolute(Size.Header.height)),
                                                                         elementKind: ItemHeaderTitleView.className, alignment: .top)
         return [sectionHeader]
-    }
-}
-
-extension EventHomeSectionLayout {
-    func tabLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Tab.width),
-                                               heightDimension: .estimated(Size.Tab.height))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitems: [item])
-        let section = NSCollectionLayoutSection(group: group)
-        
-        section.contentInsets = NSDirectionalEdgeInsets(top: .zero,
-                                                        leading: Size.Tab.inset,
-                                                        bottom: .zero,
-                                                        trailing: Size.Tab.inset)
-        section.orthogonalScrollingBehavior = .continuous
-        return section
-    }
-    
-    func itemContainerLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(1.0))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitems: [item])
-        group.interItemSpacing = .fixed(Size.Item.inset)
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        return section
     }
 }
 
