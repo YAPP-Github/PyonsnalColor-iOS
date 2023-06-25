@@ -34,8 +34,8 @@ final class ProfileHomeViewController: UIViewController, ProfileHomePresentable,
         tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
         tabBarItem = UITabBarItem(
             title: "MY",
-            image: UIImage(systemName: "person"),
-            selectedImage: UIImage(systemName: "person.fill")
+            image: UIImage(named: "profile"),
+            selectedImage: UIImage(named: "profile.selected")
         )
         
         view.backgroundColor = .systemGray6

@@ -34,8 +34,8 @@ final class EventHomeViewController: UIViewController, EventHomePresentable, Eve
         tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
         tabBarItem = UITabBarItem(
             title: "행사",
-            image: UIImage(systemName: "basket"),
-            selectedImage: UIImage(systemName: "basket.fill")
+            image: UIImage(named: "event"),
+            selectedImage: UIImage(named: "event.selected")
         )
         
         view.backgroundColor = .systemGray6

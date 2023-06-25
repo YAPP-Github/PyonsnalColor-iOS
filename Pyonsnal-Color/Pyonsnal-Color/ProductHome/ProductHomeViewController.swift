@@ -58,8 +58,8 @@ final class ProductHomeViewController:
         tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
         tabBarItem = UITabBarItem(
             title: "홈",
-            image: UIImage(systemName: "house"),
-            selectedImage: UIImage(systemName: "house.fill")
+            image: UIImage(named: "home"),
+            selectedImage: UIImage(named: "home.selected")
         )
         
         view.backgroundColor = .white
