@@ -13,7 +13,7 @@ final class ProductListHeaderView: UICollectionReusableView {
     private let sortLabel: UILabel = {
         let label = UILabel()
         label.text = "최신순"
-        label.font = UIFont.body3m
+        label.font = .body3m
         label.textColor = .systemGray
         return label
     }()

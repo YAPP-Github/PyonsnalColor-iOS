@@ -54,7 +54,7 @@ extension ProductHomeViewController {
         private let titleLabel: UILabel = {
             let label = UILabel()
             label.text = Constant.Text.title
-            label.font = UIFont.title2
+            label.font = .title2
             return label
         }()
         

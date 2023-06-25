@@ -60,7 +60,6 @@ final class ConvenienceStoreCell: UICollectionViewCell {
             label.textColor = Constant.Color.deselectedColor
             return label
         }()
-//        let storeTitleLabel: ConvenienceStoreLabel = .init()
         
         let indicatorView: UIView = {
             let view = UIView()

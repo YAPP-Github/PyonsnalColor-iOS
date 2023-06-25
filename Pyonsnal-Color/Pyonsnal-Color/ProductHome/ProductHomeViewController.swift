@@ -53,7 +53,7 @@ final class ProductHomeViewController:
     
     //MARK: - Private Method
     private func setupViews() {
-        let customFont = UIFont.customFont(weight: .medium, size: 12)
+        let customFont: UIFont = .label2
         
         tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
         tabBarItem = UITabBarItem(
