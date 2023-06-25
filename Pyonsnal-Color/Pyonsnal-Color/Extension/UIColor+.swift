@@ -38,24 +38,45 @@ extension UIColor {
 extension UIColor {
     
     //Gray Scale
-    static let black = UIColor(rgbHexString: "#000000")
-    static let gray1 = UIColor(rgbHexString: "#333333")
-    static let gray2 = UIColor(rgbHexString: "#585858")
-    static let gray3 = UIColor(rgbHexString: "#7D7D7D")
-    static let gray4 = UIColor(rgbHexString: "#A3A3A3")
-    static let gray5 = UIColor(rgbHexString: "#CACACA")
-    static let gray6 = UIColor(rgbHexString: "#EDEDED")
-    static let gray7 = UIColor(rgbHexString: "#F5F5F5")
-    static let white = UIColor(rgbHexString: "#FFFFFF")
+    static let black = UIColor(rgbHexString: "1A1A1E")!
+    static let gray700 = UIColor(rgbHexString: "343437")!
+    static let gray600 = UIColor(rgbHexString: "4D4D51")!
+    static let gray500 = UIColor(rgbHexString: "808084")!
+    static let gray400 = UIColor(rgbHexString: "B3B3B6")!
+    static let gray300 = UIColor(rgbHexString: "CDCDCF")!
+    static let gray200 = UIColor(rgbHexString: "EAEAEC")!
+    static let gray100 = UIColor(rgbHexString: "F7F7F9")!
+    static let white = UIColor(rgbHexString: "FFFFFF")!
     
-    //Point Color
-    static let point1 = UIColor(rgbHexString: "#EC6653")
-    static let point2 = UIColor(rgbHexString: "#F1887A")
-    static let point3 = UIColor(rgbHexString: "#F6A9A2")
-    static let point4 = UIColor(rgbHexString: "#FACBC9")
-    static let point5 = UIColor(rgbHexString: "#FFECF0")
+    //Primary - Red
+    static let red500 = UIColor(rgbHexString: "FF625F")!
+    static let red400 = UIColor(rgbHexString: "FF8888")!
+    static let red300 = UIColor(rgbHexString: "FFAAAA")!
+    static let red200 = UIColor(rgbHexString: "FFCCCB")!
+    static let red100 = UIColor(rgbHexString: "FFF1F0")!
+    
+    //Primary - Green
+    static let green500 = UIColor(rgbHexString: "3DDE8F")!
+    static let green300 = UIColor(rgbHexString: "83EEBA")!
+    static let green100 = UIColor(rgbHexString: "EEFFF7")!
+    
+    //Primary - Orange
+    static let orange500 = UIColor(rgbHexString: "FFA724")!
+    static let orange300 = UIColor(rgbHexString: "FFCA75")!
+    static let orange100 = UIColor(rgbHexString: "FFF8EC")!
+    
+    //Primary - Blue
+    static let blue500 = UIColor(rgbHexString: "29BFFF")!
+    static let blue300 = UIColor(rgbHexString: "6DD7FF")!
+    static let blue100 = UIColor(rgbHexString: "EDFAFF")!
+    
+    //Store Color
+    static let sevenEleven = UIColor(rgbHexString: "ED4925")!
+    static let gs25 = UIColor(rgbHexString: "00D4EA")!
+    static let emart24 = UIColor(rgbHexString: "FCB426")!
+    static let cu = UIColor(rgbHexString: "A5CF4F")!
     
     //Error
-    static let error1 = UIColor(rgbHexString: "#FF442A")
+    static let error1 = UIColor(rgbHexString: "FF442A")!
 }
 
