@@ -11,6 +11,7 @@ final class TabCell: UICollectionViewCell {
         
     enum Size {
         static let dividerHeight: CGFloat = 2
+        static let titleLabelMargin: CGFloat = 12
     }
     
     // MARK: - Private property
@@ -64,7 +65,9 @@ extension TabCell {
         
         func configureConstraints(for view: UIView) {
             titleLabel.snp.makeConstraints {
-                $0.centerX.centerY.equalToSuperview()
+                $0.leading.equalToSuperview().offset(Size.titleLabelMargin)
+                $0.trailing.equalToSuperview().inset(Size.titleLabelMargin)
+                $0.centerY.equalToSuperview()
             }
             
             dividerView.snp.makeConstraints {

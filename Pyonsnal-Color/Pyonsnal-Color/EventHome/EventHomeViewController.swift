@@ -134,14 +134,10 @@ extension EventHomeViewController {
         }()
         
         let tabCollectionView: UICollectionView = {
-            let flowLayout = UICollectionViewFlowLayout()
-            let width = UIScreen.main.bounds.width
-            flowLayout.itemSize = CGSize(width: width / 5, height: Size.tabCollectionViewHeight)
-            flowLayout.minimumInteritemSpacing = 0
-            flowLayout.minimumLineSpacing = 0
-            flowLayout.scrollDirection = .horizontal
+            let tabSectionLayout = EventHomeSectionLayout().tabLayout()
+            let layout = UICollectionViewCompositionalLayout(section: tabSectionLayout)
             let collectionView = UICollectionView(frame: .zero,
-                                                  collectionViewLayout: flowLayout)
+                                                  collectionViewLayout: layout)
             collectionView.showsHorizontalScrollIndicator = false
             return collectionView
         }()

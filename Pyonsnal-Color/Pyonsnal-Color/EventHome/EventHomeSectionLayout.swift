@@ -30,7 +30,8 @@ final class EventHomeSectionLayout {
         enum Tab {
             static let width: CGFloat = 80
             static let height: CGFloat = 44
-            static let inset: CGFloat = 10
+            static let interspacing: CGFloat = 12
+            static let inset: CGFloat = 16
         }
         
         static let topMargin: CGFloat = 8
@@ -92,6 +93,26 @@ final class EventHomeSectionLayout {
                                                                                                            heightDimension: .absolute(Size.Header.height)),
                                                                         elementKind: ItemHeaderTitleView.className, alignment: .top)
         return [sectionHeader]
+    }
+}
+
+extension EventHomeSectionLayout {
+    func tabLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Tab.width),
+                                                 heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Tab.width),
+                                               heightDimension: .absolute(Size.Tab.height))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                      subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = Size.Tab.interspacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: .zero,
+                                                       leading: Size.Tab.inset,
+                                                       bottom: .zero,
+                                                       trailing: Size.Tab.inset)
+        section.orthogonalScrollingBehavior = .continuous
+        return section
     }
 }
 
