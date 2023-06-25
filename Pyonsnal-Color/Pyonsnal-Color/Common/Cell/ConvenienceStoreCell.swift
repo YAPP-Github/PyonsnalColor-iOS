@@ -10,8 +10,9 @@ import UIKit
 final class ConvenienceStoreCell: UICollectionViewCell {
     enum Constant {
         enum Size {
-            static let margin: CGFloat = 11
+            static let padding: UIEdgeInsets = .init(top: 11, left: 11, bottom: 11, right: 11)
             static let selectedViewHeight: CGFloat = 2
+            static let font: UIFont = .body3m
         }
         
         enum Color {
@@ -43,22 +44,23 @@ final class ConvenienceStoreCell: UICollectionViewCell {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.layoutMargins = UIEdgeInsets(
-                top: Constant.Size.margin,
-                left: Constant.Size.margin,
-                bottom: Constant.Size.margin,
-                right: Constant.Size.margin
+                top: Constant.Size.padding.top,
+                left: Constant.Size.padding.left,
+                bottom: Constant.Size.padding.right,
+                right: Constant.Size.padding.bottom
             )
             stackView.isLayoutMarginsRelativeArrangement = true
             return stackView
         }()
-        
+
         let storeTitleLabel: UILabel = {
             let label = UILabel()
-            label.font = UIFont.body3m
+            label.font = Constant.Size.font
             label.textAlignment = .center
             label.textColor = Constant.Color.deselectedColor
             return label
         }()
+//        let storeTitleLabel: ConvenienceStoreLabel = .init()
         
         let indicatorView: UIView = {
             let view = UIView()

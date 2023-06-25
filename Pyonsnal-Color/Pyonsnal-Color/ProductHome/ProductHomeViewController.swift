@@ -182,14 +182,15 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
+        let cellSize = ConvenienceStoreCell.Constant.Size.self
         let label = UILabel(frame: .zero)
         label.text = dataSource[indexPath.item]
-        label.font = UIFont.body3m
+        label.font = cellSize.font
         label.sizeToFit()
 
         return CGSize(
-            width: label.frame.width + Constant.Size.leftRightMargin * 2,
-            height: label.frame.height + Constant.Size.headerBottomInset * 2
+            width: label.frame.width + cellSize.padding.top + cellSize.padding.bottom,
+            height: label.frame.height + cellSize.padding.left + cellSize.padding.right
         )
     }
 
@@ -198,12 +199,13 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
+        let cellConstant = ConvenienceStoreCell.Constant.Size.self
         let cellSizes = dataSource.reduce(CGFloat(0), { partialResult, title in
             let label = UILabel(frame: .zero)
             label.text = title
-            label.font = UIFont.body3m
+            label.font = cellConstant.font
             label.sizeToFit()
-            return partialResult + label.bounds.width + Constant.Size.leftRightMargin * 2
+            return partialResult + label.bounds.width + cellConstant.padding.left * 2
         })
         let result = (collectionView.bounds.width - cellSizes) / CGFloat(dataSource.count - 1)
 
