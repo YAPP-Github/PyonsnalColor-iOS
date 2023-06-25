@@ -25,77 +25,96 @@ final class ConvenienceStoreCell: UICollectionViewCell {
         }
     }
     
+    enum Action {
+        case selection(Bool)
+    }
+    
     override var isSelected: Bool {
         didSet {
-            toggleSelectedColor(isSelected: isSelected)
+            update(.selection(isSelected))
         }
     }
     
-    private let containerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.layoutMargins = UIEdgeInsets(
-            top: Constant.Size.margin,
-            left: Constant.Size.margin,
-            bottom: Constant.Size.margin,
-            right: Constant.Size.margin
-        )
-        stackView.isLayoutMarginsRelativeArrangement = true
-        return stackView
-    }()
+    private let viewHolder: ViewHolder = .init()
     
-    private let storeTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.body3m
-        label.textAlignment = .center
-        label.textColor = Constant.Color.deselectedColor
-        return label
-    }()
-    
-    private let indicatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }()
+    final class ViewHolder: ViewHolderable {
+        
+        private let containerStackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .vertical
+            stackView.layoutMargins = UIEdgeInsets(
+                top: Constant.Size.margin,
+                left: Constant.Size.margin,
+                bottom: Constant.Size.margin,
+                right: Constant.Size.margin
+            )
+            stackView.isLayoutMarginsRelativeArrangement = true
+            return stackView
+        }()
+        
+        let storeTitleLabel: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.body3m
+            label.textAlignment = .center
+            label.textColor = Constant.Color.deselectedColor
+            return label
+        }()
+        
+        let indicatorView: UIView = {
+            let view = UIView()
+            view.backgroundColor = .clear
+            return view
+        }()
+        
+        func place(in view: UIView) {
+            view.addSubview(containerStackView)
+            view.addSubview(indicatorView)
+            
+            containerStackView.addArrangedSubview(storeTitleLabel)
+        }
+        
+        func configureConstraints(for view: UIView) {
+            containerStackView.snp.makeConstraints { make in
+                make.leading.top.trailing.equalToSuperview()
+            }
+            
+            indicatorView.snp.makeConstraints { make in
+                make.top.equalTo(containerStackView.snp.bottom)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(Constant.Size.selectedViewHeight)
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-        configureLayout()
+        viewHolder.place(in: contentView)
+        viewHolder.configureConstraints(for: contentView)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureLayout() {
-        contentView.addSubview(containerStackView)
-        contentView.addSubview(indicatorView)
-        
-        containerStackView.addArrangedSubview(storeTitleLabel)
-        
-        containerStackView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-        }
-        
-        indicatorView.snp.makeConstraints { make in
-            make.top.equalTo(containerStackView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(Constant.Size.selectedViewHeight)
+    private func update(_ action: Action) {
+        switch action {
+        case let .selection(isSelected):
+            toggleSelectedColor(isSelected: isSelected)
         }
     }
-    
+
     private func toggleSelectedColor(isSelected: Bool) {
         if isSelected {
-            storeTitleLabel.textColor = Constant.Color.selectedColor
-            indicatorView.backgroundColor = Constant.Color.selectedColor
+            viewHolder.storeTitleLabel.textColor = Constant.Color.selectedColor
+            viewHolder.indicatorView.backgroundColor = Constant.Color.selectedColor
         } else {
-            storeTitleLabel.textColor = Constant.Color.deselectedColor
-            indicatorView.backgroundColor = .clear
+            viewHolder.storeTitleLabel.textColor = Constant.Color.deselectedColor
+            viewHolder.indicatorView.backgroundColor = .clear
         }
     }
     
     func configureCell(title: String) {
-        storeTitleLabel.text = title
+        viewHolder.storeTitleLabel.text = title
     }
 }
