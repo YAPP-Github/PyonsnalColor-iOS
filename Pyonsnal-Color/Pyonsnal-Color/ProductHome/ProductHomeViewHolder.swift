@@ -25,7 +25,6 @@ extension ProductHomeViewController {
     final class ViewHolder: ViewHolderable {
         let containerScrollView: UIScrollView = {
             let scrollView = UIScrollView()
-            scrollView.translatesAutoresizingMaskIntoConstraints = false
             scrollView.showsVerticalScrollIndicator = false
             scrollView.showsHorizontalScrollIndicator = false
             scrollView.bounces = false
@@ -34,14 +33,12 @@ extension ProductHomeViewController {
         
         private let contentView: UIView = {
             let view = UIView(frame: .zero)
-            view.translatesAutoresizingMaskIntoConstraints = false
             view.backgroundColor = .white
             return view
         }()
         
         let headerStackView: UIStackView = {
             let stackView = UIStackView()
-            stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .horizontal
             stackView.layoutMargins = UIEdgeInsets(
                 top: Constant.Size.headerTopInset,
@@ -73,7 +70,6 @@ extension ProductHomeViewController {
             layout.scrollDirection = .vertical
             
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.translatesAutoresizingMaskIntoConstraints = false
             collectionView.register(ConvenienceStoreCell.self)
             collectionView.isScrollEnabled = false
             collectionView.layoutMargins = UIEdgeInsets(

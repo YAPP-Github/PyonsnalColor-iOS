@@ -46,7 +46,6 @@ final class ConvenienceStoreCell: UICollectionViewCell {
     
     private let storeTitleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.body3m
         label.textAlignment = .center
         label.textColor = Constant.Color.deselectedColor
@@ -55,7 +54,6 @@ final class ConvenienceStoreCell: UICollectionViewCell {
     
     private let selectedIndicatorView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         return view
     }()
