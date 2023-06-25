@@ -29,13 +29,13 @@ final class EventHomeViewController: UIViewController, EventHomePresentable, Eve
     }
     
     private func setupViews() {
-        let customFont = UIFont.customFont(weight: .medium, size: 12)
+        let customFont: UIFont = .label2
         
         tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
         tabBarItem = UITabBarItem(
             title: "행사",
-            image: UIImage(systemName: "basket"),
-            selectedImage: UIImage(systemName: "basket.fill")
+            image: UIImage(named: "event"),
+            selectedImage: UIImage(named: "event.selected")
         )
         
         view.backgroundColor = .systemGray6

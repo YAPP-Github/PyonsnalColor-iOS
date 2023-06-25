@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */; };
+		B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */; };
+		B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */; };
+		B24F1D3A2A44345700AA03DC /* ProductListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */; };
+		B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */; };
 		B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */; };
 		B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B912A34551D00B7C3F0 /* LoggedInBuilder.swift */; };
 		B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B922A34551D00B7C3F0 /* LoggedInInteractor.swift */; };
+		B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2674D0C2A42DBCA004193DE /* ProductHomeViewHolder.swift */; };
+		B2674D0E2A42DFF9004193DE /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBEA2A30BA8C0001D3DD /* Pretendard-SemiBold.otf */; };
+		B2674D0F2A42DFFC004193DE /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE92A30BA8C0001D3DD /* Pretendard-Regular.otf */; };
+		B2674D102A42DFFE004193DE /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */; };
 		B28204F32A345EB100F9242F /* RootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28204F22A345EB100F9242F /* RootComponent.swift */; };
 		B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28204FE2A346FDD00F9242F /* ProfileHomeRouter.swift */; };
 		B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28204FF2A346FDD00F9242F /* ProfileHomeViewController.swift */; };
@@ -68,9 +77,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStoreCell.swift; sourceTree = "<group>"; };
+		B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
+		B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomePageViewController.swift; sourceTree = "<group>"; };
+		B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListHeaderView.swift; sourceTree = "<group>"; };
+		B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInRouter.swift; sourceTree = "<group>"; };
 		B2538B912A34551D00B7C3F0 /* LoggedInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInBuilder.swift; sourceTree = "<group>"; };
 		B2538B922A34551D00B7C3F0 /* LoggedInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInteractor.swift; sourceTree = "<group>"; };
+		B2674D0C2A42DBCA004193DE /* ProductHomeViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeViewHolder.swift; sourceTree = "<group>"; };
 		B28204F22A345EB100F9242F /* RootComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootComponent.swift; sourceTree = "<group>"; };
 		B28204FE2A346FDD00F9242F /* ProfileHomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHomeRouter.swift; sourceTree = "<group>"; };
 		B28204FF2A346FDD00F9242F /* ProfileHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHomeViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +160,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B24F1D342A43E30D00AA03DC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */,
+				B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */,
+				B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		B2538B8B2A3454D600B7C3F0 /* LoggedIn */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,10 +183,12 @@
 		B2538B8D2A3454EA00B7C3F0 /* ProductHome */ = {
 			isa = PBXGroup;
 			children = (
+				B24F1D342A43E30D00AA03DC /* Views */,
 				B282050E2A34702B00F9242F /* ProductHomeRouter.swift */,
 				B282050F2A34702B00F9242F /* ProductHomeViewController.swift */,
 				B28205102A34702B00F9242F /* ProductHomeBuilder.swift */,
 				B28205112A34702B00F9242F /* ProductHomeInteractor.swift */,
+				B2674D0C2A42DBCA004193DE /* ProductHomeViewHolder.swift */,
 			);
 			path = ProductHome;
 			sourceTree = "<group>";
@@ -221,6 +248,7 @@
 				F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */,
 				F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */,
 				F0D6FFAC2A39F97900C55E27 /* String+.swift */,
+				B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -356,6 +384,7 @@
 			isa = PBXGroup;
 			children = (
 				F0D6FFAE2A39FFFA00C55E27 /* ProductCell.swift */,
+				B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -437,7 +466,10 @@
 			files = (
 				BA9E23502A234B4D00A539D5 /* .swiftlint.yml in Resources */,
 				BA9E23472A21EF3100A539D5 /* LaunchScreen.storyboard in Resources */,
+				B2674D0F2A42DFFC004193DE /* Pretendard-Regular.otf in Resources */,
 				BA9E23442A21EF3100A539D5 /* Assets.xcassets in Resources */,
+				B2674D0E2A42DFF9004193DE /* Pretendard-SemiBold.otf in Resources */,
+				B2674D102A42DFFE004193DE /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +514,7 @@
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
+				B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */,
 				F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */,
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
@@ -491,10 +524,13 @@
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
+				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
+				B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */,
 				BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */,
 				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
+				B24F1D3A2A44345700AA03DC /* ProductListHeaderView.swift in Sources */,
 				B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */,
 				B28204F32A345EB100F9242F /* RootComponent.swift in Sources */,
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
@@ -505,11 +541,13 @@
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
+				B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */,
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
+				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
 				B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */,
