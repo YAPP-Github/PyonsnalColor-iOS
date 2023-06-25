@@ -21,7 +21,8 @@ final class ProductHomeViewController:
     
     //MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
-    private let dataSource: [String] = ["전체", "CU", "GS25", "Emart24", "7-Eleven"]
+    private let convenienceStores: [String] = ["전체", "CU", "GS25", "Emart24", "7-Eleven"]
+    private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
     private var currentPage: Int = 0 {
         didSet {
@@ -101,7 +102,7 @@ extension ProductHomeViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return dataSource.count
+        return convenienceStores.count
     }
     
     func collectionView(
@@ -115,9 +116,9 @@ extension ProductHomeViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(title: dataSource[indexPath.item])
+        cell.configureCell(title: convenienceStores[indexPath.item])
         
-        if indexPath.item == 0 {
+        if indexPath.item == initialIndex {
             collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init())
         }
         
@@ -184,7 +185,7 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let cellSize = ConvenienceStoreCell.Constant.Size.self
         let label = UILabel(frame: .zero)
-        label.text = dataSource[indexPath.item]
+        label.text = convenienceStores[indexPath.item]
         label.font = cellSize.font
         label.sizeToFit()
 
@@ -200,14 +201,14 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
         let cellConstant = ConvenienceStoreCell.Constant.Size.self
-        let cellSizes = dataSource.reduce(CGFloat(0), { partialResult, title in
+        let cellSizes = convenienceStores.reduce(CGFloat(0), { partialResult, title in
             let label = UILabel(frame: .zero)
             label.text = title
             label.font = cellConstant.font
             label.sizeToFit()
             return partialResult + label.bounds.width + cellConstant.padding.left * 2
         })
-        let result = (collectionView.bounds.width - cellSizes) / CGFloat(dataSource.count - 1)
+        let result = (collectionView.bounds.width - cellSizes) / CGFloat(convenienceStores.count - 1)
 
         return floor(result * 10000) / 10000
     }
