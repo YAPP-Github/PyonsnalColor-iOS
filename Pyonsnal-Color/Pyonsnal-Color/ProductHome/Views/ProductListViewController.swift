@@ -17,6 +17,8 @@ final class ProductListViewController: UIViewController {
             static let spacing: CGFloat = 16
             static let productCellHeight: CGFloat = 235
             static let headerViewHeight: CGFloat = 22
+            static let spacingCount: CGFloat = 3
+            static let columnCount: CGFloat = 2
         }
     }
     
@@ -62,7 +64,8 @@ final class ProductListViewController: UIViewController {
     }
     
     private func configureCollectionViewLayout() -> UICollectionViewLayout {
-        let width = (UIScreen.main.bounds.width - Constant.Size.spacing * 3) / 2
+        let totalSpacing = Constant.Size.spacingCount * Constant.Size.spacing
+        let width = (UIScreen.main.bounds.width - totalSpacing) / Constant.Size.columnCount
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(width),
             heightDimension: .fractionalHeight(1.0)
@@ -76,7 +79,7 @@ final class ProductListViewController: UIViewController {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitem: item,
-            count: 2
+            count: Int(Constant.Size.columnCount)
         )
         group.interItemSpacing = .fixed(Constant.Size.spacing)
         
@@ -144,7 +147,6 @@ final class ProductListViewController: UIViewController {
                     return nil
                 }
 
-                headerView.configureLayout()
                 return headerView
             } else {
                 return nil

@@ -18,7 +18,17 @@ final class ProductListHeaderView: UICollectionReusableView {
         return label
     }()
     
-    func configureLayout() {
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
+        
+        configureLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureLayout() {
         addSubview(sortLabel)
         
         sortLabel.snp.makeConstraints { make in
