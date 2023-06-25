@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */; };
 		B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */; };
-		B24F1D382A44171800AA03DC /* ConvenienceStorePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D372A44171800AA03DC /* ConvenienceStorePageViewController.swift */; };
+		B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */; };
 		B24F1D3A2A44345700AA03DC /* ProductListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */; };
 		B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */; };
 		B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */; };
@@ -79,7 +79,7 @@
 /* Begin PBXFileReference section */
 		B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStoreCell.swift; sourceTree = "<group>"; };
 		B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
-		B24F1D372A44171800AA03DC /* ConvenienceStorePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStorePageViewController.swift; sourceTree = "<group>"; };
+		B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomePageViewController.swift; sourceTree = "<group>"; };
 		B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListHeaderView.swift; sourceTree = "<group>"; };
 		B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		B2538B902A34551D00B7C3F0 /* LoggedInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInRouter.swift; sourceTree = "<group>"; };
@@ -164,7 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */,
-				B24F1D372A44171800AA03DC /* ConvenienceStorePageViewController.swift */,
+				B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */,
 				B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */,
 			);
 			path = Views;
@@ -547,7 +547,7 @@
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
-				B24F1D382A44171800AA03DC /* ConvenienceStorePageViewController.swift in Sources */,
+				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
 				B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */,

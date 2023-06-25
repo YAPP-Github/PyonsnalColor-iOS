@@ -25,7 +25,7 @@ final class ProductHomeViewController:
     private var innerScrollLastOffsetY: CGFloat = 0
     private var currentPage: Int = 0 {
         didSet {
-            bind(oldValue: oldValue, newValue: currentPage)
+            bind(lastIndex: oldValue, newIndex: currentPage)
         }
     }
     
@@ -71,17 +71,17 @@ final class ProductHomeViewController:
     }
     
     private func setupProductCollectionView() {
-        viewHolder.convenienceStorePageViewController.pagingDelegate = self
-        viewHolder.convenienceStorePageViewController.productListViewControllers.forEach {
+        viewHolder.productHomePageViewController.pagingDelegate = self
+        viewHolder.productHomePageViewController.productListViewControllers.forEach {
             $0.productCollectionView.delegate = self
         }
     }
     
-    private func bind(oldValue: Int, newValue: Int) {
-        let isForward = oldValue < newValue
+    private func bind(lastIndex: Int, newIndex: Int) {
+        let isForward = lastIndex < newIndex
         let direction: UIPageViewController.NavigationDirection = isForward ? .forward : .reverse
-        viewHolder.convenienceStorePageViewController.setViewControllers(
-            [viewHolder.convenienceStorePageViewController.productListViewControllers[currentPage]],
+        viewHolder.productHomePageViewController.setViewControllers(
+            [viewHolder.productHomePageViewController.productListViewControllers[currentPage]],
             direction: direction,
             animated: true,
             completion: nil
@@ -128,7 +128,7 @@ extension ProductHomeViewController: UICollectionViewDataSource {
 //MARK: - UIScrollViewDelegate
 extension ProductHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageViewController = viewHolder.convenienceStorePageViewController
+        let pageViewController = viewHolder.productHomePageViewController
         guard let currentViewController = pageViewController.currentViewController else { return }
         
         let collectionView = currentViewController.productCollectionView
@@ -220,8 +220,8 @@ extension ProductHomeViewController: UICollectionViewDelegate {
     }
 }
 
-//MARK: - ConvenienceStorePageViewControllerDelegate
-extension ProductHomeViewController: ConvenienceStorePageViewControllerDelegate {
+//MARK: - ProductHomePageViewControllerDelegate
+extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     func didFinishPageTransition(index: Int) {
         currentPage = index
     }

@@ -18,7 +18,7 @@ extension ProductHomeViewController {
         
         enum Text {
             static let title: String = "차별화 상품 둘러보기"
-            static let alertImageName: String = "bell"
+            static let notificationImageName: String = "bell"
         }
     }
     
@@ -58,9 +58,9 @@ extension ProductHomeViewController {
             return label
         }()
         
-        private let alertButton: UIButton = {
+        private let notificationButton: UIButton = {
             let button = UIButton()
-            button.setImage(.init(systemName: Constant.Text.alertImageName), for: .normal)
+            button.setImage(.init(systemName: Constant.Text.notificationImageName), for: .normal)
             button.tintColor = .black
             return button
         }()
@@ -81,7 +81,7 @@ extension ProductHomeViewController {
             return collectionView
         }()
         
-        let convenienceStorePageViewController: ConvenienceStorePageViewController = .init(
+        let productHomePageViewController: ProductHomePageViewController = .init(
             pageCount: 5,
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
@@ -93,10 +93,10 @@ extension ProductHomeViewController {
             
             contentView.addSubview(headerStackView)
             contentView.addSubview(convenienceStoreCollectionView)
-            contentView.addSubview(convenienceStorePageViewController.view)
+            contentView.addSubview(productHomePageViewController.view)
             
             headerStackView.addArrangedSubview(titleLabel)
-            headerStackView.addArrangedSubview(alertButton)
+            headerStackView.addArrangedSubview(notificationButton)
         }
         
         func configureConstraints(for view: UIView) {
@@ -121,7 +121,7 @@ extension ProductHomeViewController {
                 make.height.equalTo(41)
             }
             
-            convenienceStorePageViewController.view.snp.makeConstraints { make in
+            productHomePageViewController.view.snp.makeConstraints { make in
                 make.top.equalTo(convenienceStoreCollectionView.snp.bottom)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalTo(view.safeAreaLayoutGuide)

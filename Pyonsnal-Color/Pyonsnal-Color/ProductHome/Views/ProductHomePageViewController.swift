@@ -1,5 +1,5 @@
 //
-//  ConvenienceStorePageViewController.swift
+//  ProductHomePageViewController.swift
 //  Pyonsnal-Color
 //
 //  Created by 김인호 on 2023/06/22.
@@ -8,14 +8,14 @@
 import UIKit
 import SnapKit
 
-protocol ConvenienceStorePageViewControllerDelegate: NSObject {
+protocol ProductHomePageViewControllerDelegate: AnyObject {
     func didFinishPageTransition(index: Int)
 }
 
-final class ConvenienceStorePageViewController: UIPageViewController {
+final class ProductHomePageViewController: UIPageViewController {
     
     //MARK: - Property
-    weak var pagingDelegate: ConvenienceStorePageViewControllerDelegate?
+    weak var pagingDelegate: ProductHomePageViewControllerDelegate?
     var productListViewControllers: [ProductListViewController] = []
     var currentViewController: ProductListViewController?
     
@@ -63,7 +63,7 @@ final class ConvenienceStorePageViewController: UIPageViewController {
 }
 
 //MARK: - UIPageViewControllerDataSource
-extension ConvenienceStorePageViewController: UIPageViewControllerDataSource {
+extension ProductHomePageViewController: UIPageViewControllerDataSource {
     func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController
@@ -96,7 +96,7 @@ extension ConvenienceStorePageViewController: UIPageViewControllerDataSource {
 }
 
 //MARK: - UIPageViewControllerDelegate
-extension ConvenienceStorePageViewController: UIPageViewControllerDelegate {
+extension ProductHomePageViewController: UIPageViewControllerDelegate {
     func pageViewController(
         _ pageViewController: UIPageViewController,
         didFinishAnimating finished: Bool,

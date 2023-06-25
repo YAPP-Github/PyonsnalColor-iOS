@@ -27,7 +27,7 @@ final class ConvenienceStoreCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            toggleCell(isSelected: isSelected)
+            toggleSelectedColor(isSelected: isSelected)
         }
     }
     
@@ -52,7 +52,7 @@ final class ConvenienceStoreCell: UICollectionViewCell {
         return label
     }()
     
-    private let selectedIndicatorView: UIView = {
+    private let indicatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
@@ -70,7 +70,7 @@ final class ConvenienceStoreCell: UICollectionViewCell {
     
     private func configureLayout() {
         contentView.addSubview(containerStackView)
-        contentView.addSubview(selectedIndicatorView)
+        contentView.addSubview(indicatorView)
         
         containerStackView.addArrangedSubview(storeTitleLabel)
         
@@ -78,20 +78,20 @@ final class ConvenienceStoreCell: UICollectionViewCell {
             make.leading.top.trailing.equalToSuperview()
         }
         
-        selectedIndicatorView.snp.makeConstraints { make in
+        indicatorView.snp.makeConstraints { make in
             make.top.equalTo(containerStackView.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(Constant.Size.selectedViewHeight)
         }
     }
     
-    private func toggleCell(isSelected: Bool) {
+    private func toggleSelectedColor(isSelected: Bool) {
         if isSelected {
             storeTitleLabel.textColor = Constant.Color.selectedColor
-            selectedIndicatorView.backgroundColor = Constant.Color.selectedColor
+            indicatorView.backgroundColor = Constant.Color.selectedColor
         } else {
             storeTitleLabel.textColor = Constant.Color.deselectedColor
-            selectedIndicatorView.backgroundColor = .clear
+            indicatorView.backgroundColor = .clear
         }
     }
     
