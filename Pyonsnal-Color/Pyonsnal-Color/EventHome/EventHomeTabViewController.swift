@@ -47,7 +47,8 @@ final class EventHomeTabViewController: UIViewController {
     }()
     
     // MARK: - Private property
-    private var dataSource: UICollectionViewDiffableDataSource<SectionType, ItemType>?
+    typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
+    private var dataSource: DataSource?
     private var itemCards: [ItemCard] = []
     private var headerTitle: [String] = []
     private var eventUrls: [String] = []
@@ -171,7 +172,7 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     private func configureDatasource() {
-        dataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
+        dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
             case .item(let item):
                 let cell: ProductCell? = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.className,

@@ -30,7 +30,8 @@ final class EventBannerCell: UICollectionViewCell {
     }
     
     // MARK: - Private property
-    private var dataSource: UICollectionViewDiffableDataSource<SectionType, ItemType>?
+    typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
+    private var dataSource: DataSource?
     private let viewHolder: ViewHolder = .init()
     private var timer: Timer?
     private var currentIndex = 1 {
@@ -75,7 +76,7 @@ final class EventBannerCell: UICollectionViewCell {
     }
     
     private func configureDatasource() {
-        dataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>(collectionView: viewHolder.collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
+        dataSource = DataSource(collectionView: viewHolder.collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
             case .event(let _):
                 let cell: EventBannerItemCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerItemCell.className, for: indexPath) as? EventBannerItemCell
