@@ -14,7 +14,7 @@ final class ProductCell: UICollectionViewCell {
         // TO DO : component margin 정리 주시면 CommonMarginManager로 분리 예정
         static let dividerMargin: CGFloat = 12
         static let productImageViewMargin: CGFloat = 25.5
-        static let convinientTagImageViewMargin: CGFloat = 12
+        static let convenientTagImageViewMargin: CGFloat = 12
         static let tagImageViewMargin: CGFloat = 12
         static let newImageViewMargin: CGFloat = 12
         static let titleLabelLeading: CGFloat = 4
@@ -25,7 +25,7 @@ final class ProductCell: UICollectionViewCell {
         
         static let dividerHeight: CGFloat = 1
         static let productImageContainerViewHeight: CGFloat = 171
-        static let convinientTagImageViewWidth: CGFloat = 36
+        static let convenientTagImageViewWidth: CGFloat = 36
         static let eventTagImageViewWidth: CGFloat = 38
         static let eventTagImageViewHeight: CGFloat = 20
         static let newImageViewWidth: CGFloat = 28
@@ -41,7 +41,6 @@ final class ProductCell: UICollectionViewCell {
         // MARK: - UI Component
         let stackView: UIStackView = {
             let stackView = UIStackView()
-            stackView.isLayoutMarginsRelativeArrangement = true
             stackView.axis = .vertical
             stackView.alignment = .center
             stackView.spacing = 0
@@ -165,8 +164,8 @@ final class ProductCell: UICollectionViewCell {
             }
             
             convenienceStoreTagImageView.snp.makeConstraints {
-                $0.top.leading.equalToSuperview().inset(Size.convinientTagImageViewMargin)
-                $0.width.height.equalTo(Size.convinientTagImageViewWidth)
+                $0.top.leading.equalToSuperview().inset(Size.convenientTagImageViewMargin)
+                $0.width.height.equalTo(Size.convenientTagImageViewWidth)
             }
             
             eventTagImageView.snp.makeConstraints {
@@ -222,7 +221,7 @@ final class ProductCell: UICollectionViewCell {
         self.makeRounded(with: Size.cornerRadius)
         //TO DO : fix color
         viewHolder.discountPriceLabel.attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .black)
-        viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convinientTagImageViewWidth / 2)
+        viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
         viewHolder.eventTagImageView.makeRounded(with: Size.eventTagImageviewRadius)
     }
 }

@@ -19,7 +19,7 @@ struct ItemCard: Hashable {
     var uuid = UUID()
     var imageUrl: UIImage?
     var itemName: String
-    var convinientStoreTagImage: UIImage?
+    var convenientStoreTagImage: UIImage?
     var eventTagImage: UIImage?
 }
 
@@ -71,27 +71,27 @@ final class EventHomeTabViewController: UIViewController {
         itemCards = [
             ItemCard(imageUrl: dummyImage,
                      itemName: "산리오)햄치즈에그모닝머핀ddd",
-                     convinientStoreTagImage: dummyImage,
+                     convenientStoreTagImage: dummyImage,
                      eventTagImage: dummyImage),
             ItemCard(imageUrl: dummyImage,
                      itemName: "나가사끼 짬뽕",
-                     convinientStoreTagImage: dummyImage,
+                     convenientStoreTagImage: dummyImage,
                      eventTagImage: dummyImage),
             ItemCard(imageUrl: dummyImage,
                      itemName: "나가사끼 짬뽕",
-                     convinientStoreTagImage: dummyImage,
+                     convenientStoreTagImage: dummyImage,
                      eventTagImage: dummyImage),
             ItemCard(imageUrl: dummyImage,
                      itemName: "나가사끼 짬뽕",
-                     convinientStoreTagImage: dummyImage,
+                     convenientStoreTagImage: dummyImage,
                      eventTagImage: dummyImage),
             ItemCard(imageUrl: dummyImage,
                      itemName: "나가사끼 짬뽕",
-                     convinientStoreTagImage: dummyImage,
+                     convenientStoreTagImage: dummyImage,
                      eventTagImage: dummyImage),
             ItemCard(imageUrl: dummyImage,
                      itemName: "나가사끼 짬뽕",
-                     convinientStoreTagImage: dummyImage,
+                     convenientStoreTagImage: dummyImage,
                      eventTagImage: dummyImage)
         ]
         eventUrls = ["test"]
