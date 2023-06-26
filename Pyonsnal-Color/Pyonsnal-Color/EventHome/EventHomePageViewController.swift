@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EventHomePageViewControllerDelegate: AnyObject {
-    func updateSelectedTabCell(index: Int)
+    func updateSelectedStoreCell(index: Int)
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -75,7 +75,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
             return
         }
         
-        self.pageDelegate?.updateSelectedTabCell(index: index)
+        self.pageDelegate?.updateSelectedStoreCell(index: index)
     }
     
     func pageViewController(

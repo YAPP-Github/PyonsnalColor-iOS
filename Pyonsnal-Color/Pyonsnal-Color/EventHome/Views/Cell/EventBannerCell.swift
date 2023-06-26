@@ -49,7 +49,7 @@ final class EventBannerCell: UICollectionViewCell {
         viewHolder.configureConstraints(for: contentView)
         configureUI()
         configureDatasource()
-        setupCollectionView()
+        configureCollectionView()
         makeSnapshot()
     }
     
@@ -85,14 +85,13 @@ final class EventBannerCell: UICollectionViewCell {
         }
     }
     
-    private func setupCollectionView() {
+    private func configureCollectionView() {
         viewHolder.collectionView.delegate = self
         registerCollectionViewCells()
     }
     
     private func registerCollectionViewCells() {
-        viewHolder.collectionView.register(EventBannerItemCell.self,
-                                           forCellWithReuseIdentifier: EventBannerItemCell.className)
+        viewHolder.collectionView.register(EventBannerItemCell.self)
     }
     
     private func makeSnapshot() {
@@ -117,11 +116,11 @@ extension EventBannerCell {
     private func setTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: Constants.timeSecond,
                                      repeats: true) { [weak self] _ in
-            self?.setAutoScroll()
+            self?.startAutoScroll()
         }
     }
     
-    private func setAutoScroll() {
+    private func startAutoScroll() {
         var updatedIndex = currentIndex + 1
         var indexPath: IndexPath
         var animated: Bool = true

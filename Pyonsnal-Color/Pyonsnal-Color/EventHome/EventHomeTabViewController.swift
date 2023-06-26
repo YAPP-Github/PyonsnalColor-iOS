@@ -115,7 +115,6 @@ final class EventHomeTabViewController: UIViewController {
         //TO DO : fix color
         view.backgroundColor = .gray
         collectionView.backgroundColor = .gray
-        setNavigationView()
     }
     
     private func configureLayout() {
@@ -124,13 +123,6 @@ final class EventHomeTabViewController: UIViewController {
             $0.top.equalTo(view.snp.top)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-    }
-    
-    private func setNavigationView() {
-        title = "이벤트"
-        tabBarItem = UITabBarItem(title: "이벤트",
-                                  image: UIImage(systemName: "square.and.arrow.up"),
-                                  selectedImage: UIImage(systemName: "square.and.arrow.up.fill"))
     }
     
     private func configureCollectionView() {

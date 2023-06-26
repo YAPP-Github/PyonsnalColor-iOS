@@ -74,7 +74,6 @@
 		F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535462A45A70300A2A8F2 /* EventBannerCell.swift */; };
 		F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */; };
 		F015354B2A45A8DD00A2A8F2 /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */; };
-		F015354F2A46088100A2A8F2 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015354E2A46088100A2A8F2 /* TabCell.swift */; };
 		F01535502A460CE700A2A8F2 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBEA2A30BA8C0001D3DD /* Pretendard-SemiBold.otf */; };
 		F01535512A460CE900A2A8F2 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE92A30BA8C0001D3DD /* Pretendard-Regular.otf */; };
 		F01535522A460CEC00A2A8F2 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */; };
@@ -148,7 +147,6 @@
 		F01535462A45A70300A2A8F2 /* EventBannerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventBannerCell.swift; sourceTree = "<group>"; };
 		F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventBannerItemCell.swift; sourceTree = "<group>"; };
 		F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
-		F015354E2A46088100A2A8F2 /* TabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		F069DBE52A30B9850001D3DD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -411,7 +409,6 @@
 			children = (
 				F01535462A45A70300A2A8F2 /* EventBannerCell.swift */,
 				F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */,
-				F015354E2A46088100A2A8F2 /* TabCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -572,7 +569,6 @@
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
-				F015354F2A46088100A2A8F2 /* TabCell.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
