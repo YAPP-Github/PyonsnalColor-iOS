@@ -134,9 +134,11 @@ extension EventBannerCell {
         }
         
         currentIndex = updatedIndex
-        viewHolder.collectionView.scrollToItem(at: indexPath,
-                                               at: .right,
-                                               animated: animated)
+        viewHolder.collectionView.scrollToItem(
+            at: indexPath,
+            at: .right,
+            animated: animated
+        )
     }
     
     private func updatePageCountLabel(with index: Int) {
@@ -149,12 +151,16 @@ extension EventBannerCell {
     private func setPageCountLabelText(with updatedIndex: Int) {
         //TO DO :fix color
         let attributedText = NSMutableAttributedString()
-        attributedText.appendAttributes(string: "\(currentIndex)",
-                                        font: .body4r,
-                                        color: .white)
-        attributedText.appendAttributes(string: "/\(eventBannerUrls.count)",
-                                        font: .body4r,
-                                        color: .darkGray)
+        attributedText.appendAttributes(
+            string: "\(currentIndex)",
+            font: .body4r,
+            color: .white
+        )
+        attributedText.appendAttributes(
+            string: "/\(eventBannerUrls.count)",
+            font: .body4r,
+            color: .darkGray
+        )
         viewHolder.pageCountLabel.attributedText = attributedText
     }
     

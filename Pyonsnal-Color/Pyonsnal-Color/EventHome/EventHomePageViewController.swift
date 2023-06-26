@@ -43,25 +43,32 @@ final class EventHomePageViewController: UIPageViewController {
         self.dataSource = self
         if let firstViewController = pageViewControllers.first {
             currentViewController = firstViewController
-            setViewControllers([firstViewController], direction: .forward, animated: true)
+            setViewControllers([firstViewController],
+                               direction: .forward,
+                               animated: true)
         }
     }
     
-    //tabCollecionview 클릭시 연결할 함수
     func updatePage(_ index: Int) {
         let viewController = pageViewControllers[index]
 
         let direction: UIPageViewController.NavigationDirection = currentIndex <= index ? .forward : .reverse
         currentIndex = index
         
-        setViewControllers([viewController], direction: direction, animated: true) { (result) in }
+        setViewControllers([viewController],
+                           direction: direction,
+                           animated: true)
     }
     
 }
 
 extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        didFinishAnimating finished: Bool,
+        previousViewControllers: [UIViewController],
+        transitionCompleted completed: Bool
+    ) {
         guard let viewControllers = pageViewController.viewControllers,
               let viewController = viewControllers.first as? EventHomeTabViewController,
               let index = pageViewControllers.firstIndex(of: viewController) else {
@@ -71,7 +78,10 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
         self.pageDelegate?.updateSelectedTabCell(index: index)
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerBefore viewController: UIViewController
+    ) -> UIViewController? {
         if let viewController = viewController as? EventHomeTabViewController {
             guard let index = pageViewControllers.firstIndex(of: viewController) else { return nil }
             let beforeIndex = index - 1
@@ -84,7 +94,10 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
         return nil
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerAfter viewController: UIViewController
+    ) -> UIViewController? {
         if let viewController =  viewController as? EventHomeTabViewController {
             guard let index = pageViewControllers.firstIndex(of: viewController) else { return nil }
             let afterIndex = index + 1

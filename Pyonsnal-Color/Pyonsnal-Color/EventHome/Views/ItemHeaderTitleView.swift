@@ -24,8 +24,10 @@ final class ItemHeaderTitleView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(isEventLayout: Bool,
-                title: String) {
+    func update(
+        isEventLayout: Bool,
+        title: String
+    ) {
         if isEventLayout {
             viewHolder.sortLabel.isHidden = true
         }
@@ -57,6 +59,7 @@ extension ItemHeaderTitleView {
             view.addSubview(sortLabel)
         }
         
+        // to do fix layout
         func configureConstraints(for view: UIView) {
             titleLabel.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(16)
