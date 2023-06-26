@@ -14,6 +14,7 @@ enum ImageAssetKind: String {
     case logo = "logo"
     
     case tag_new = "tag_new"
+    case bellSimple = "bellSimple"
 }
 
 extension ImageAssetKind {
