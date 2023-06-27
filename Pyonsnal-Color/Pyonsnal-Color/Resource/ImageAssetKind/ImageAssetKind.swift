@@ -12,6 +12,7 @@ enum ImageAssetKind: String {
     case loginKakao = "login_kakao"
     
     case logo = "logo"
+    case default_profile = "default_profile"
 }
 
 extension ImageAssetKind {
