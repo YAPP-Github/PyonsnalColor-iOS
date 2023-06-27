@@ -10,9 +10,7 @@ import ModernRIBs
 import SnapKit
 
 protocol ProfileHomePresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
+    func didTapAccountSetting() //계정 설정
 }
 
 final class ProfileHomeViewController: UIViewController,
@@ -25,6 +23,8 @@ final class ProfileHomeViewController: UIViewController,
         static let profileContainerViewHeight: CGFloat = 104
         
         static let dividerMargin: CGFloat = 12
+        static let cellHeight: CGFloat = 48
+        static let dividerHeight: CGFloat = 1
     }
     
     enum Section: String {
@@ -39,7 +39,6 @@ final class ProfileHomeViewController: UIViewController,
     private let sectionData: [Section] = [.notification, .setting]
     private let alarmData = ["알림 설정", "전체 알림", "키워드 알림"]
     private let settingData = ["기타", "이메일로 문의하기", "버전정보", "만든 사람들", "계정 설정"]
-    
     //MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -63,7 +62,6 @@ final class ProfileHomeViewController: UIViewController,
         viewHolder.tableView.delegate = self
         viewHolder.tableView.dataSource = self
         viewHolder.tableView.register(ProfileCell.self)
-        viewHolder.tableView.separatorStyle = .none
     }
     
     private func configureTabBarItem() {
@@ -89,7 +87,7 @@ extension ProfileHomeViewController: UITableViewDataSource {
     }
     
     private func isSubLabelToShow(section: Section, index: Int) -> Bool {
-        let versionInfoIndex = 1
+        let versionInfoIndex = 2
         return (section == .setting) && (index == versionInfoIndex)
     }
     
@@ -133,20 +131,25 @@ extension ProfileHomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = sectionData[indexPath.section]
+        let defaultHeight = Size.cellHeight
         if isDividerToShow(section: section, index: indexPath.row) {
-            return 48 + 1
+            return defaultHeight + Size.dividerHeight
         }
-        return 48
+        return defaultHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sectionData[indexPath.section]
+        let accountSettingIndex = 4
         if !isSectionIndex(with: indexPath.row) {
             switch section {
             case .notification:
                 print(alarmData[indexPath.row])
             case .setting:
-                print(settingData[indexPath.row])
+                if indexPath.row == accountSettingIndex {
+                    listener?.didTapAccountSetting()
+                }
+                
             }
         }
     }
@@ -191,6 +194,8 @@ extension ProfileHomeViewController {
         
         let tableView: UITableView = {
             let tableView = UITableView()
+            tableView.separatorStyle = .none
+            tableView.bounces = false
             return tableView
         }()
         
