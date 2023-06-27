@@ -227,7 +227,7 @@ extension ProfileHomeViewController {
             }
             
             nickNameLabel.snp.makeConstraints {
-                $0.leading.equalTo(profileImageView.snp.trailing).offset(12)
+                $0.leading.equalTo(profileImageContainerView.snp.trailing).offset(12)
                 $0.centerY.equalTo(profileContainerView.snp.centerY)
                 $0.trailing.greaterThanOrEqualTo(-12)
             }
