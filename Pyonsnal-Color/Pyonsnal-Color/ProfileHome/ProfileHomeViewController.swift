@@ -106,7 +106,7 @@ extension ProfileHomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as? ProfileCell
+        let cell: ProfileCell = tableView.dequeueReusableCell(for: indexPath)
         
         let section = sectionData[indexPath.section]
         let isSectionIndex = isSectionIndex(with: indexPath.row)
@@ -114,15 +114,15 @@ extension ProfileHomeViewController: UITableViewDataSource {
         let isSubLabelsToShow = isSubLabelToShow(section: section, index: indexPath.row)
         switch section {
             case .notification:
-                cell?.update(text: alarmData[indexPath.row],
+                cell.update(text: alarmData[indexPath.row],
                              isSectionIndex: isSectionIndex)
             case .setting:
-                cell?.update(text: settingData[indexPath.row],
+                cell.update(text: settingData[indexPath.row],
                              isSectionIndex: isSectionIndex)
         }
-        cell?.setDividerHidden(isShow: isDividerToShow)
-        cell?.setSubLabelHidden(isShow: isSubLabelsToShow)
-        return cell ?? UITableViewCell()
+        cell.setDividerHidden(isShow: isDividerToShow)
+        cell.setSubLabelHidden(isShow: isSubLabelsToShow)
+        return cell
     }
 }
 
@@ -233,7 +233,7 @@ extension ProfileHomeViewController {
             }
             
             tableView.snp.makeConstraints {
-                $0.top.equalTo(profileContainerView.snp.bottom).offset(Size.dividerMargin)
+                $0.top.equalTo(profileContainerView.snp.bottom).offset(12)
                 $0.leading.trailing.bottom.equalToSuperview()
             }
             

@@ -77,15 +77,15 @@ extension AccountSettingViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell") as? ProfileCell
+        let cell: ProfileCell = tableView.dequeueReusableCell(for: indexPath)
         let text = accountSettingData[indexPath.row]
-        cell?.update(text: text,
-                     isSectionIndex: false)
-        return cell ?? UITableViewCell()
+        cell.update(text: text,
+                    isSectionIndex: false)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 48
+        return Size.cellHeight
     }
     
     
