@@ -12,8 +12,6 @@ extension ProductHomeViewController {
     enum Constant {
         enum Size {
             static let leftRightMargin: CGFloat = 16
-            static let headerTopInset: CGFloat = 11
-            static let headerBottomInset: CGFloat = 11
         }
         
         enum Text {
@@ -37,33 +35,7 @@ extension ProductHomeViewController {
             return view
         }()
         
-        let headerStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.layoutMargins = UIEdgeInsets(
-                top: Constant.Size.headerTopInset,
-                left: Constant.Size.leftRightMargin,
-                bottom: Constant.Size.headerTopInset,
-                right: Constant.Size.leftRightMargin
-            )
-            stackView.isLayoutMarginsRelativeArrangement = true
-            stackView.distribution = .equalSpacing
-            return stackView
-        }()
-        
-        private let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = Constant.Text.title
-            label.font = .title2
-            return label
-        }()
-        
-        private let notificationButton: UIButton = {
-            let button = UIButton()
-            button.setImage(.init(systemName: Constant.Text.notificationImageName), for: .normal)
-            button.tintColor = .black
-            return button
-        }()
+        let titleNavigationBar = TitleNavigationBar(title: Constant.Text.title)
         
         let convenienceStoreCollectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
@@ -91,12 +63,9 @@ extension ProductHomeViewController {
             view.addSubview(containerScrollView)
             containerScrollView.addSubview(contentView)
             
-            contentView.addSubview(headerStackView)
+            contentView.addSubview(titleNavigationBar)
             contentView.addSubview(convenienceStoreCollectionView)
             contentView.addSubview(productHomePageViewController.view)
-            
-            headerStackView.addArrangedSubview(titleLabel)
-            headerStackView.addArrangedSubview(notificationButton)
         }
         
         func configureConstraints(for view: UIView) {
@@ -111,12 +80,12 @@ extension ProductHomeViewController {
                 make.height.equalToSuperview()
             }
             
-            headerStackView.snp.makeConstraints { make in
+            titleNavigationBar.snp.makeConstraints { make in
                 make.leading.trailing.top.equalToSuperview()
             }
             
             convenienceStoreCollectionView.snp.makeConstraints { make in
-                make.top.equalTo(headerStackView.snp.bottom)
+                make.top.equalTo(titleNavigationBar.snp.bottom)
                 make.leading.trailing.equalToSuperview().inset(16)
                 make.height.equalTo(41)
             }
