@@ -9,6 +9,7 @@ import ModernRIBs
 import UIKit
 
 protocol ProductHomePresentableListener: AnyObject {
+    func didTapNotificationButton()
 }
 
 final class ProductHomeViewController:
@@ -49,6 +50,7 @@ final class ProductHomeViewController:
         viewHolder.configureConstraints(for: view)
         setupStoreCollectionView()
         setupProductCollectionView()
+        configureNotificationButton()
     }
     
     //MARK: - Private Method
@@ -93,6 +95,26 @@ final class ProductHomeViewController:
             animated: true,
             scrollPosition: .centeredHorizontally
         )
+    }
+    
+    private func configureNotificationButton() {
+        viewHolder.notificationButton.addTarget(
+            self,
+            action: #selector(didTabNotificationButton),
+            for: .touchUpInside
+        )
+    }
+    
+    func showNotificationList(_ viewController: ModernRIBs.ViewControllable) {
+        let notificationListViewController = viewController.uiviewController
+        
+        notificationListViewController.modalPresentationStyle = .fullScreen
+        present(notificationListViewController, animated: true)
+    }
+    
+    @objc
+    func didTabNotificationButton() {
+        listener?.didTapNotificationButton()
     }
 }
 
