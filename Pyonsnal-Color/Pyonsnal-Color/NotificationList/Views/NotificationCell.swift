@@ -30,6 +30,7 @@ final class NotificationCell: UITableViewCell {
         contentView.backgroundColor = .clear
         selectionStyle = .none
         viewHolder.containerStackView.makeRounded(with: 16)
+        viewHolder.categoryTagImageView.image = notification.image
     }
 }
 
@@ -72,8 +73,7 @@ extension NotificationCell {
         
         let categoryTagImageView: UIImageView = {
             let imageView = UIImageView()
-            imageView.backgroundColor = .systemPink
-            imageView.makeRounded(with: 20)
+            imageView.makeRounded(with: 13)
             return imageView
         }()
         
