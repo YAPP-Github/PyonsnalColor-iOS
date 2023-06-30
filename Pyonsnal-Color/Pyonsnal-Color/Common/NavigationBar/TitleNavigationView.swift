@@ -1,5 +1,5 @@
 //
-//  TitleNavigationBar.swift
+//  TitleNavigationView.swift
 //  Pyonsnal-Color
 //
 //  Created by 김인호 on 2023/06/28.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class TitleNavigationBar: UIView {
+final class TitleNavigationView: UIView {
     
     enum Constant {
         enum Size {
@@ -60,7 +60,9 @@ final class TitleNavigationBar: UIView {
         
         containerStackView.addArrangedSubview(titleLabel)
         containerStackView.addArrangedSubview(notificationButton)
-        
+    }
+    
+    private func configureConstraints() {
         containerStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
