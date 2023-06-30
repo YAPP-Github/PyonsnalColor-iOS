@@ -12,6 +12,9 @@ enum ImageAssetKind: String {
     case loginKakao = "login_kakao"
     
     case logo = "logo"
+    case productTag = "product_tag"
+    case eventTag = "event_tag"
+    case keywordTag = "keyword_tag"
     
     case tagNew = "tag_new"
     case bellSimple = "bellSimple"
