@@ -9,6 +9,7 @@ import ModernRIBs
 import UIKit
 
 protocol NotificationListPresentableListener: AnyObject {
+    func didTabBackButton()
 }
 
 //TODO: 나중에 Entity폴더로 이동
@@ -56,6 +57,7 @@ final class NotificationListViewController:
         viewHolder.configureConstraints(for: view)
         configureDummyData()
         configureTableView()
+        configureBackButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,6 +109,19 @@ final class NotificationListViewController:
             NotificationCell.self,
             forCellReuseIdentifier: NotificationCell.identifier
         )
+    }
+    
+    private func configureBackButton() {
+        viewHolder.backButton.addTarget(
+            self,
+            action: #selector(didTabBackButton),
+            for: .touchUpInside
+        )
+    }
+    
+    @objc
+    func didTabBackButton() {
+        listener?.didTabBackButton()
     }
 }
 
