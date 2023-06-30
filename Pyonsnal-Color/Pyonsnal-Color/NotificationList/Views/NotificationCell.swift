@@ -24,7 +24,7 @@ final class NotificationCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(with notification: Notification) {
+    func configureCell(with notification: NotificationEntity) {
         viewHolder.descriptionLabel.text = notification.description
         viewHolder.dateLabel.text = notification.date
         contentView.backgroundColor = .clear
@@ -125,8 +125,16 @@ extension NotificationCell {
                 make.height.equalTo(26)
             }
             
+            descriptionLabel.snp.makeConstraints { make in
+                make.height.greaterThanOrEqualTo(descriptionLabel.font.customLineHeight)
+            }
+            
+            dateLabel.snp.makeConstraints { make in
+                make.height.equalTo(dateLabel.font.customLineHeight)
+            }
+            
             spacingView.snp.makeConstraints { make in
-                make.height.equalTo(12  )
+                make.height.equalTo(12)
                 make.top.equalTo(containerStackView.snp.bottom)
                 make.leading.trailing.equalTo(containerStackView)
                 make.bottom.equalToSuperview()
