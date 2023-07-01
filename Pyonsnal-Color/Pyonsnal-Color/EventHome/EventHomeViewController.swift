@@ -112,7 +112,7 @@ final class EventHomeViewController: UIViewController,
         tabBarItem = UITabBarItem(
             title: TabBarItem.title,
             image: UIImage(named: ImageAssetKind.event.rawValue),
-            selectedImage: UIImage(named: ImageAssetKind.event_selected.rawValue)
+            selectedImage: UIImage(named: ImageAssetKind.eventSelected.rawValue)
         )
     }
     

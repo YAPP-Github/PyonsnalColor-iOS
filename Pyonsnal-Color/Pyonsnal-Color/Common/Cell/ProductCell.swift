@@ -78,7 +78,7 @@ final class ProductCell: UICollectionViewCell {
         let newImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
-            imageView.setImage(.tag_new)
+            imageView.setImage(.tagNew)
             return imageView
         }()
         
