@@ -26,7 +26,7 @@ final class EventBannerCell: UICollectionViewCell {
         }
         
         static let timeSecond: Double = 5.0
-        static let initialIndex: Int = 1
+        static let initialIndex: Int = 0
     }
     
     // MARK: - Private property
@@ -34,7 +34,7 @@ final class EventBannerCell: UICollectionViewCell {
     private var dataSource: DataSource?
     private let viewHolder: ViewHolder = .init()
     private var timer: Timer?
-    private var currentIndex = 1 {
+    private var currentIndex = 0 {
         didSet {
             updatePageCountLabel(with: currentIndex)
         }
@@ -51,6 +51,7 @@ final class EventBannerCell: UICollectionViewCell {
         configureDatasource()
         configureCollectionView()
         makeSnapshot()
+        setTimer()
     }
     
     required init?(coder: NSCoder) {
@@ -64,7 +65,7 @@ final class EventBannerCell: UICollectionViewCell {
     //TO DO : item 연결
     func update(_ eventBannerUrls: [String]) {
         if !eventBannerUrls.isEmpty {
-            setTimer()
+
         }
     }
     
@@ -80,6 +81,7 @@ final class EventBannerCell: UICollectionViewCell {
             switch item {
             case .event(let _):
                 let cell: EventBannerItemCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerItemCell.className, for: indexPath) as? EventBannerItemCell
+                cell?.update(index: indexPath.row)
                 return cell ?? UICollectionViewCell()
             }
         }
@@ -114,36 +116,35 @@ final class EventBannerCell: UICollectionViewCell {
 extension EventBannerCell {
     
     private func setTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: Constants.timeSecond,
-                                     repeats: true) { [weak self] _ in
-            self?.startAutoScroll()
+        DispatchQueue.main.async { [weak self] in
+            self?.timer = Timer.scheduledTimer(withTimeInterval: Constants.timeSecond,
+                                         repeats: true) { [weak self] _ in
+                self?.startAutoScroll()
+            }
         }
     }
     
     private func startAutoScroll() {
-        var updatedIndex = currentIndex + 1
+        let updatedIndex = currentIndex + 1
         var indexPath: IndexPath
         var animated: Bool = true
-        
         if updatedIndex < eventBannerUrls.count {
             indexPath = IndexPath(item: updatedIndex, section: 0)
         } else {
             indexPath = IndexPath(item: Constants.initialIndex, section: 0)
-            updatedIndex = Constants.initialIndex
             animated = false
         }
         
-        currentIndex = updatedIndex
-        viewHolder.collectionView.scrollToItem(
-            at: indexPath,
-            at: .right,
-            animated: animated
-        )
+        currentIndex = indexPath.item
+        viewHolder.collectionView.scrollToItem(at: indexPath,
+                                               at: .right,
+                                               animated: animated)
+
     }
     
     private func updatePageCountLabel(with index: Int) {
         guard !eventBannerUrls.isEmpty,
-              index <= eventBannerUrls.count else { return }
+              index < eventBannerUrls.count else { return }
         let updatedIndex = currentIndex + 1
         setPageCountLabelText(with: updatedIndex)
     }
@@ -152,7 +153,7 @@ extension EventBannerCell {
         //TO DO :fix color
         let attributedText = NSMutableAttributedString()
         attributedText.appendAttributes(
-            string: "\(currentIndex)",
+            string: "\(updatedIndex)",
             font: .body4r,
             color: .white
         )
@@ -179,7 +180,6 @@ extension EventBannerCell: UICollectionViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentIndex = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-        currentIndex += 1
         setTimer()
     }
 }
