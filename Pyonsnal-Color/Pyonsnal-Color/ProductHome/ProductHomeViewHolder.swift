@@ -35,7 +35,7 @@ extension ProductHomeViewController {
             return view
         }()
         
-        let titleNavigationBar = TitleNavigationBar(title: Constant.Text.title)
+        let titleNavigationView = TitleNavigationView(title: Constant.Text.title)
         
         let convenienceStoreCollectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
@@ -63,7 +63,7 @@ extension ProductHomeViewController {
             view.addSubview(containerScrollView)
             containerScrollView.addSubview(contentView)
             
-            contentView.addSubview(titleNavigationBar)
+            contentView.addSubview(titleNavigationView)
             contentView.addSubview(convenienceStoreCollectionView)
             contentView.addSubview(productHomePageViewController.view)
         }
@@ -80,12 +80,12 @@ extension ProductHomeViewController {
                 make.height.equalToSuperview()
             }
             
-            titleNavigationBar.snp.makeConstraints { make in
+            titleNavigationView.snp.makeConstraints { make in
                 make.leading.trailing.top.equalToSuperview()
             }
             
             convenienceStoreCollectionView.snp.makeConstraints { make in
-                make.top.equalTo(titleNavigationBar.snp.bottom)
+                make.top.equalTo(titleNavigationView.snp.bottom)
                 make.leading.trailing.equalToSuperview().inset(16)
                 make.height.equalTo(41)
             }

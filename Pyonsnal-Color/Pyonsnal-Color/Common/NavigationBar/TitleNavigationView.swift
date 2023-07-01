@@ -18,6 +18,7 @@ final class TitleNavigationView: UIView {
                 bottom: 11,
                 right: 16
             )
+            static let indicatorWidth: CGFloat = 5
         }
         
         enum Text {
@@ -48,10 +49,18 @@ final class TitleNavigationView: UIView {
         return button
     }()
     
+    private let notificationIndicator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemPink
+        view.makeRounded(with: Constant.Size.indicatorWidth / 2)
+        return view
+    }()
+    
     convenience init(title: String) {
         self.init(frame: .zero)
         
         configureLayout()
+        configureConstraints()
         titleLabel.text = title
     }
     
@@ -60,13 +69,30 @@ final class TitleNavigationView: UIView {
         
         containerStackView.addArrangedSubview(titleLabel)
         containerStackView.addArrangedSubview(notificationButton)
+        
+        notificationButton.addSubview(notificationIndicator)
     }
     
     private func configureConstraints() {
         containerStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+        notificationIndicator.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview()
+            make.width.height.equalTo(Constant.Size.indicatorWidth)
+        }
     }
     
-    //TODO: 알림버튼에 알림 데이터와 연결 후 데이터 여부에 따라 버튼 이미지 변경
+    func setTitle(_ text: String) {
+        titleLabel.text = text
+    }
+    
+    func setImage(_ image: ImageAssetKind) {
+        notificationButton.setImage(image, for: .normal)
+    }
+    
+    func showNotificationIndicator(hasNotification: Bool) {
+        notificationIndicator.isHidden = hasNotification ? false : true
+    }
 }
