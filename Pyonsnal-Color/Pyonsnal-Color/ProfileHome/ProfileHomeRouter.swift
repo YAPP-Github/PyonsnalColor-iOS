@@ -24,18 +24,18 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
     private let accountSettingBuilder: AccountSettingBuildable
     private var accountSetting: ViewableRouting?
 
-    init(interactor: ProfileHomeInteractable,
-         viewController: ProfileHomeViewControllable,
-         accountSettingBuilder: AccountSettingBuildable) {
+    init(
+        interactor: ProfileHomeInteractable,
+        viewController: ProfileHomeViewControllable,
+        accountSettingBuilder: AccountSettingBuildable
+    ) {
         self.accountSettingBuilder = accountSettingBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
     
     func attachAccountSetting() {
-        if accountSetting != nil {
-            return
-        }
+        if accountSetting != nil { return }
         
         let accountSettingRouter = accountSettingBuilder.build(withListener: interactor)
         accountSetting = accountSettingRouter
@@ -51,6 +51,5 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
         self.accountSetting = nil
         detachChild(accountSetting)
     }
-    
     
 }

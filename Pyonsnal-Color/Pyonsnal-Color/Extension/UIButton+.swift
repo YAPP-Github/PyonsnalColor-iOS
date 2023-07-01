@@ -22,19 +22,25 @@ extension UIButton {
         guard let text else { return }
         let attributedText = NSMutableAttributedString(string: text)
         let range = (text as NSString).range(of: text)
-        attributedText.addAttribute(.underlineStyle,
-                                    value: NSUnderlineStyle.single.rawValue,
-                                    range: range)
+        attributedText.addAttribute(
+            .underlineStyle,
+            value: NSUnderlineStyle.single.rawValue,
+            range: range
+        )
         if let color {
-            attributedText.addAttribute(.foregroundColor,
-                                        value: color,
-                                        range: range)
+            attributedText.addAttribute(
+                .foregroundColor,
+                value: color,
+                range: range
+            )
         }
         
         if let font {
-            attributedText.addAttribute(.font,
-                                        value: font,
-                                        range: range)
+            attributedText.addAttribute(
+                .font,
+                value: font,
+                range: range
+            )
         }
         self.setAttributedTitle(attributedText, for: .normal)
     }

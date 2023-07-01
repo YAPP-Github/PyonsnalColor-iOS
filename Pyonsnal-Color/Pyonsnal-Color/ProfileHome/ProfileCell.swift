@@ -40,7 +40,7 @@ final class ProfileCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(text: String, isSectionIndex: Bool) {
+    func update(text: String, isSectionIndex: Bool = false) {
         if isSectionIndex {
             //to do fix color
             viewHolder.titleLabel.textColor = .darkGray
@@ -83,7 +83,7 @@ extension ProfileCell {
             label.font = .body3r
             //to do fix color
             label.textColor = .darkGray
-            label.text = AppInfo.shared.appVersion
+            label.text = AppInfoService.shared.appVersion
             label.isHidden = true
             return label
         }()
