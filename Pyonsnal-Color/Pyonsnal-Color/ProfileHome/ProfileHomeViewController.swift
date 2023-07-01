@@ -199,11 +199,19 @@ extension ProfileHomeViewController {
             return tableView
         }()
         
+        private let dividerView: UIView = {
+            let view = UIView()
+            // to do fix color
+            view.backgroundColor = .gray
+            return view
+        }()
+        
         func place(in view: UIView) {
             view.addSubview(profileContainerView)
             profileContainerView.addSubview(profileImageContainerView)
             profileImageContainerView.addSubview(profileImageView)
             profileContainerView.addSubview(nickNameLabel)
+            view.addSubview(dividerView)
             view.addSubview(tableView)
         }
         
@@ -232,8 +240,14 @@ extension ProfileHomeViewController {
                 $0.trailing.greaterThanOrEqualTo(-12)
             }
             
+            dividerView.snp.makeConstraints {
+                $0.top.equalTo(profileContainerView.snp.bottom)
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(12)
+            }
+            
             tableView.snp.makeConstraints {
-                $0.top.equalTo(profileContainerView.snp.bottom).offset(12)
+                $0.top.equalTo(dividerView.snp.bottom)
                 $0.leading.trailing.bottom.equalToSuperview()
             }
             
