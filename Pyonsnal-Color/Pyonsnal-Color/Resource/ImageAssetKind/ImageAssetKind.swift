@@ -13,6 +13,12 @@ enum ImageAssetKind: String {
     
     case logo = "logo"
     
+    // MARK: - StoreTag
+    case sevenEleven = "7-eleven"
+    case cu = "cu"
+    case gs25 = "gs25"
+    case emart24 = "emart24"
+    case pyonsnalColor = "pyonsnalColor"
     case tagNew = "tag_new"
     case bellSimple = "bellSimple"
     

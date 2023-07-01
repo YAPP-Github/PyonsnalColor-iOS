@@ -113,6 +113,7 @@ final class ProductCell: UICollectionViewCell {
         let convenienceStoreTagImageView: UIImageView = {
             let imageView = UIImageView()
             //TO DO : fix color
+            imageView.setImage(.emart24)
             imageView.backgroundColor = .blue
             return imageView
         }()
