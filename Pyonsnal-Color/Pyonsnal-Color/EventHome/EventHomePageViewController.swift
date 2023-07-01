@@ -9,6 +9,8 @@ import UIKit
 
 protocol EventHomePageViewControllerDelegate: AnyObject {
     func updateSelectedStoreCell(index: Int)
+    func didTapEventBannerCell()
+    func didTapProductItemCell()
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -34,7 +36,7 @@ final class EventHomePageViewController: UIPageViewController {
             // dummy
             let viewController = EventHomeTabViewController()
             viewController.scrollDelegate = self
-            
+            viewController.delegate = self
             pageViewControllers.append(viewController)
             
         }
@@ -75,7 +77,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
             return
         }
         
-        self.pageDelegate?.updateSelectedStoreCell(index: index)
+        pageDelegate?.updateSelectedStoreCell(index: index)
     }
     
     func pageViewController(
@@ -114,6 +116,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
     
 }
 
+// MARK: - ScrollDelegate
 extension EventHomePageViewController: ScrollDelegate {
     func didScroll(scrollView: UIScrollView) {
         scrollDelegate?.didScroll(scrollView: scrollView)
@@ -125,5 +128,16 @@ extension EventHomePageViewController: ScrollDelegate {
     
     func didEndDragging(scrollView: UIScrollView) {
         scrollDelegate?.didEndDragging(scrollView: scrollView)
+    }
+}
+
+// MARK: - EventHomeTabViewControllerDelegate
+extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
+    func didTapEventBannerCell() {
+        pageDelegate?.didTapEventBannerCell()
+    }
+    
+    func didTapProductCell() {
+        pageDelegate?.didTapProductItemCell()
     }
 }

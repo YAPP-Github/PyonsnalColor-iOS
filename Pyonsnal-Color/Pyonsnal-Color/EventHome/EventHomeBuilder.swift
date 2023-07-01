@@ -12,7 +12,8 @@ protocol EventHomeDependency: Dependency {
     // created by this RIB.
 }
 
-final class EventHomeComponent: Component<EventHomeDependency> {
+final class EventHomeComponent: Component<EventHomeDependency>,
+                                EventDetailDependency {
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
@@ -32,8 +33,11 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
     func build(withListener listener: EventHomeListener) -> EventHomeRouting {
         let component = EventHomeComponent(dependency: dependency)
         let viewController = EventHomeViewController()
+        let eventDetailBuilder = EventDetailBuilder(dependency: component)
         let interactor = EventHomeInteractor(presenter: viewController)
         interactor.listener = listener
-        return EventHomeRouter(interactor: interactor, viewController: viewController)
+        return EventHomeRouter(interactor: interactor,
+                               viewController: viewController,
+                               eventDetailBuilder: eventDetailBuilder)
     }
 }

@@ -14,6 +14,11 @@ protocol ScrollDelegate: AnyObject {
     func didEndDragging(scrollView: UIScrollView)
 }
 
+protocol EventHomeTabViewControllerDelegate: AnyObject {
+    func didTapEventBannerCell()
+    func didTapProductCell()
+}
+
 // 임의의 모델 타입
 struct ItemCard: Hashable {
     var uuid = UUID()
@@ -40,6 +45,8 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     weak var scrollDelegate: ScrollDelegate?
+    weak var delegate: EventHomeTabViewControllerDelegate?
+    
     lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: createLayout())
@@ -173,6 +180,7 @@ final class EventHomeTabViewController: UIViewController {
             case .event(let item):
                 let cell: EventBannerCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerCell.className, for: indexPath) as? EventBannerCell
                 cell?.update(self.eventUrls)
+                cell?.delegate = self
                 return cell ?? UICollectionViewCell()
             }
         }
@@ -200,7 +208,7 @@ final class EventHomeTabViewController: UIViewController {
     
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        //append event section
+        // append event section
         if !eventUrls.isEmpty {
             snapshot.appendSections([.event])
             let eventUrls = eventUrls.map { eventUrl in
@@ -209,7 +217,7 @@ final class EventHomeTabViewController: UIViewController {
             snapshot.appendItems(eventUrls, toSection: .event)
         }
         
-        //append item section
+        // append item section
         if !itemCards.isEmpty {
             snapshot.appendSections([.item])
             let itemCards = itemCards.map { itemCard in
@@ -222,8 +230,9 @@ final class EventHomeTabViewController: UIViewController {
     }
 }
 
-
+// MARK: - UICollectionViewDelegate
 extension EventHomeTabViewController: UICollectionViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollDelegate?.didScroll(scrollView: scrollView)
     }
@@ -234,5 +243,11 @@ extension EventHomeTabViewController: UICollectionViewDelegate {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         scrollDelegate?.didEndDragging(scrollView: scrollView)
+    }
+}
+
+extension EventHomeTabViewController: EventBannerCellDelegate {
+    func didTapEventBannerCell() {
+        delegate?.didTapEventBannerCell()
     }
 }

@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+protocol EventBannerCellDelegate: AnyObject {
+    func didTapEventBannerCell()
+}
+
 final class EventBannerCell: UICollectionViewCell {
     
     enum SectionType: Hashable {
@@ -28,6 +32,8 @@ final class EventBannerCell: UICollectionViewCell {
         static let timeSecond: Double = 5.0
         static let initialIndex: Int = 0
     }
+    
+    weak var delegate: EventBannerCellDelegate?
     
     // MARK: - Private property
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
@@ -82,6 +88,7 @@ final class EventBannerCell: UICollectionViewCell {
             case .event(let _):
                 let cell: EventBannerItemCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerItemCell.className, for: indexPath) as? EventBannerItemCell
                 cell?.update(index: indexPath.row)
+                cell?.delegate = self
                 return cell ?? UICollectionViewCell()
             }
         }
@@ -182,6 +189,17 @@ extension EventBannerCell: UICollectionViewDelegate {
         currentIndex = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
         setTimer()
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didTapEventBannerCell()
+    }
+}
+
+//MARK: - EventBannerItemCellDelegate
+extension EventBannerCell: EventBannerItemCellDelegate {
+    func didTapEventBannerCell() {
+        delegate?.didTapEventBannerCell()
+    }
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
@@ -243,7 +261,6 @@ extension EventBannerCell {
                 $0.trailing.equalToSuperview().inset(10)
             }
         }
-        
-        
+
     }
 }

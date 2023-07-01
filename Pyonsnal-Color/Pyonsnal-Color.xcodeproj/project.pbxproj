@@ -98,6 +98,10 @@
 		F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535462A45A70300A2A8F2 /* EventBannerCell.swift */; };
 		F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */; };
 		F015354B2A45A8DD00A2A8F2 /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */; };
+		F0168D512A500AC900978ED9 /* EventDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0168D4D2A500AC900978ED9 /* EventDetailRouter.swift */; };
+		F0168D522A500AC900978ED9 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0168D4E2A500AC900978ED9 /* EventDetailViewController.swift */; };
+		F0168D532A500AC900978ED9 /* EventDetailBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0168D4F2A500AC900978ED9 /* EventDetailBuilder.swift */; };
+		F0168D542A500AC900978ED9 /* EventDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0168D502A500AC900978ED9 /* EventDetailInteractor.swift */; };
 		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
 		F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */; };
 		F0687BED2A529679004B5EAE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0687BEC2A529679004B5EAE /* Config.swift */; };
@@ -207,6 +211,10 @@
 		F01535462A45A70300A2A8F2 /* EventBannerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventBannerCell.swift; sourceTree = "<group>"; };
 		F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventBannerItemCell.swift; sourceTree = "<group>"; };
 		F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
+		F0168D4D2A500AC900978ED9 /* EventDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailRouter.swift; sourceTree = "<group>"; };
+		F0168D4E2A500AC900978ED9 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
+		F0168D4F2A500AC900978ED9 /* EventDetailBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailBuilder.swift; sourceTree = "<group>"; };
+		F0168D502A500AC900978ED9 /* EventDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailInteractor.swift; sourceTree = "<group>"; };
 		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreTag.swift"; sourceTree = "<group>"; };
 		F0687BEC2A529679004B5EAE /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -300,6 +308,7 @@
 		B2538B8E2A3454F100B7C3F0 /* EventHome */ = {
 			isa = PBXGroup;
 			children = (
+				F0168D4C2A500AAB00978ED9 /* EventDetail */,
 				F01535532A46BF8A00A2A8F2 /* Views */,
 				F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */,
 				F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */,
@@ -571,6 +580,17 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		F0168D4C2A500AAB00978ED9 /* EventDetail */ = {
+			isa = PBXGroup;
+			children = (
+				F0168D4D2A500AC900978ED9 /* EventDetailRouter.swift */,
+				F0168D4E2A500AC900978ED9 /* EventDetailViewController.swift */,
+				F0168D4F2A500AC900978ED9 /* EventDetailBuilder.swift */,
+				F0168D502A500AC900978ED9 /* EventDetailInteractor.swift */,
+			);
+			path = EventDetail;
+			sourceTree = "<group>";
+		};
 		F0687BEB2A529666004B5EAE /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -587,6 +607,7 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+
 		F069DBE72A30BA7A0001D3DD /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,6 +769,7 @@
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
 				F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */,
 				B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */,
+				F0168D542A500AC900978ED9 /* EventDetailInteractor.swift in Sources */,
 				BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */,
 				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* ImageNavigationViewDelegate.swift in Sources */,
@@ -768,6 +790,7 @@
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
 				F0EE10A12A4B122A00B8DF4F /* UITableView+.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
+				F0168D532A500AC900978ED9 /* EventDetailBuilder.swift in Sources */,
 				F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */,
 				F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
@@ -790,12 +813,14 @@
 				F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */,
 				F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */,
 				BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */,
+				F0168D512A500AC900978ED9 /* EventDetailRouter.swift in Sources */,
 				BA87E3DC2A4623E3000A9DEC /* GiftItemEntity.swift in Sources */,
 				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
 				B24F1D3A2A44345700AA03DC /* ProductListHeaderView.swift in Sources */,
 				B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */,
 				F0D8FEBE2A3EDB6B000B530A /* UIColor+.swift in Sources */,
 				B28204F32A345EB100F9242F /* RootComponent.swift in Sources */,
+				F0168D522A500AC900978ED9 /* EventDetailViewController.swift in Sources */,
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				BA87E3E02A462AD9000A9DEC /* ProductTagListView.swift in Sources */,
 				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,

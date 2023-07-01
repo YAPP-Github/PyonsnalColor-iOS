@@ -13,6 +13,8 @@ protocol EventHomePresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
+    func didTapEventBannerCell()
+    func didTapProductCell()
 }
 
 struct Tab: Hashable {
@@ -240,6 +242,14 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         let indexPath = IndexPath(row: index, section: 0)
         setSelectedConvenienceStoreCell(with: indexPath)
     }
+    
+    func didTapEventBannerCell() {
+        listener?.didTapEventBannerCell()
+    }
+    
+    func didTapProductItemCell() {
+        listener?.didTapProductCell()
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -295,7 +305,6 @@ extension EventHomeViewController: UICollectionViewDelegateFlowLayout {
         return floor(result * 10000) / 10000
     }
 }
-
 
 // MARK: - UIScrollViewDelegate
 extension EventHomeViewController: UIScrollViewDelegate {
