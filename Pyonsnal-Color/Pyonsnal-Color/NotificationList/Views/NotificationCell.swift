@@ -18,18 +18,22 @@ final class NotificationCell: UITableViewCell {
         
         viewHolder.place(in: contentView)
         viewHolder.configureConstraints(for: contentView)
+        configureCell()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(with notification: NotificationEntity) {
+    private func configureCell() {
+        viewHolder.containerStackView.makeRounded(with: 16)
+        backgroundColor = .clear
+        selectionStyle = .none
+    }
+    
+    func updateCell(with notification: NotificationEntity) {
         viewHolder.descriptionLabel.text = notification.description
         viewHolder.dateLabel.text = notification.date
-        contentView.backgroundColor = .clear
-        selectionStyle = .none
-        viewHolder.containerStackView.makeRounded(with: 16)
         viewHolder.categoryTagImageView.image = notification.image
     }
 }

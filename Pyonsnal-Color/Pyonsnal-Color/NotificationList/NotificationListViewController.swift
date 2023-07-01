@@ -63,11 +63,7 @@ final class NotificationListViewController:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if notifications.isEmpty {
-            viewHolder.notificationsTableView.isHidden = true
-        } else {
-            viewHolder.emptyNotificationLabel.isHidden = true
-        }
+        hideTableViewOrLabel()
     }
     
     //MARK: - Private Method
@@ -119,8 +115,16 @@ final class NotificationListViewController:
         )
     }
     
+    private func hideTableViewOrLabel() {
+        if notifications.isEmpty {
+            viewHolder.notificationsTableView.isHidden = true
+        } else {
+            viewHolder.emptyNotificationLabel.isHidden = true
+        }
+    }
+    
     @objc
-    func didTabBackButton() {
+    private func didTabBackButton() {
         listener?.didTabBackButton()
     }
 }
@@ -139,16 +143,8 @@ extension NotificationListViewController: UITableViewDataSource, UITableViewDele
             return UITableViewCell()
         }
 
-        cell.configureCell(with: notifications[indexPath.row])
+        cell.updateCell(with: notifications[indexPath.row])
          
         return cell
-    }
-
-    func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
-        cell.backgroundColor = .clear
     }
 }
