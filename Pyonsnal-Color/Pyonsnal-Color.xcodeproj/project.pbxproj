@@ -76,7 +76,7 @@
 		F0D6FFAF2A39FFFA00C55E27 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAE2A39FFFA00C55E27 /* ProductCell.swift */; };
 		F0EE10A12A4B122A00B8DF4F /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A02A4B122A00B8DF4F /* UITableView+.swift */; };
 		F0EE10A32A4B242C00B8DF4F /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A22A4B242C00B8DF4F /* ProfileCell.swift */; };
-		F0EE10A52A4B2E5200B8DF4F /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A42A4B2E5200B8DF4F /* AppInfo.swift */; };
+		F0EE10A52A4B2E5200B8DF4F /* AppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A42A4B2E5200B8DF4F /* AppInfoService.swift */; };
 		F0EE10AB2A4B389A00B8DF4F /* AccountSettingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A72A4B389A00B8DF4F /* AccountSettingRouter.swift */; };
 		F0EE10AC2A4B389A00B8DF4F /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A82A4B389A00B8DF4F /* AccountSettingViewController.swift */; };
 		F0EE10AD2A4B389A00B8DF4F /* AccountSettingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A92A4B389A00B8DF4F /* AccountSettingBuilder.swift */; };
@@ -150,7 +150,7 @@
 		F0D6FFAE2A39FFFA00C55E27 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		F0EE10A02A4B122A00B8DF4F /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
 		F0EE10A22A4B242C00B8DF4F /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
-		F0EE10A42A4B2E5200B8DF4F /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		F0EE10A42A4B2E5200B8DF4F /* AppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoService.swift; sourceTree = "<group>"; };
 		F0EE10A72A4B389A00B8DF4F /* AccountSettingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingRouter.swift; sourceTree = "<group>"; };
 		F0EE10A82A4B389A00B8DF4F /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
 		F0EE10A92A4B389A00B8DF4F /* AccountSettingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingBuilder.swift; sourceTree = "<group>"; };
@@ -235,6 +235,7 @@
 		B2A57C3D2A2EF8FF005DB83E /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				F0EE10A42A4B2E5200B8DF4F /* AppInfoService.swift */,
 				F0964E412A2A44500028DCA2 /* KeyChainService.swift */,
 				F02C8DA62A2E149700593A2D /* AppleLoginService.swift */,
 				B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */,
@@ -373,7 +374,6 @@
 			children = (
 				F0D6FFA72A39F57600C55E27 /* Cell */,
 				BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */,
-				F0EE10A42A4B2E5200B8DF4F /* AppInfo.swift */,
 				F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */,
 			);
 			path = Common;
@@ -578,7 +578,7 @@
 				F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */,
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
-				F0EE10A52A4B2E5200B8DF4F /* AppInfo.swift in Sources */,
+				F0EE10A52A4B2E5200B8DF4F /* AppInfoService.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
 				B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */,
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,

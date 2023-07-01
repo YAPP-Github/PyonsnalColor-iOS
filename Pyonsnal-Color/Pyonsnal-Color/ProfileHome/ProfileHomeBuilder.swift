@@ -37,8 +37,10 @@ final class ProfileHomeBuilder: Builder<ProfileHomeDependency>,
         let interactor = ProfileHomeInteractor(presenter: viewController)
         interactor.listener = listener
         let accountSettingBuilder = AccountSettingBuilder(dependency: component)
-        return ProfileHomeRouter(interactor: interactor,
-                                 viewController: viewController,
-                                 accountSettingBuilder: accountSettingBuilder)
+        return ProfileHomeRouter(
+            interactor: interactor,
+            viewController: viewController,
+            accountSettingBuilder: accountSettingBuilder
+        )
     }
 }

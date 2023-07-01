@@ -111,17 +111,17 @@ extension ProfileHomeViewController: UITableViewDataSource {
         let section = sectionData[indexPath.section]
         let isSectionIndex = isSectionIndex(with: indexPath.row)
         let isDividerToShow = isDividerToShow(section: section, index: indexPath.row)
-        let isSubLabelsToShow = isSubLabelToShow(section: section, index: indexPath.row)
+        let isSubLabelToShow = isSubLabelToShow(section: section, index: indexPath.row)
         switch section {
-            case .notification:
-                cell.update(text: alarmData[indexPath.row],
+        case .notification:
+            cell.update(text: alarmData[indexPath.row],
                              isSectionIndex: isSectionIndex)
-            case .setting:
-                cell.update(text: settingData[indexPath.row],
+        case .setting:
+            cell.update(text: settingData[indexPath.row],
                              isSectionIndex: isSectionIndex)
         }
         cell.setDividerHidden(isShow: isDividerToShow)
-        cell.setSubLabelHidden(isShow: isSubLabelsToShow)
+        cell.setSubLabelHidden(isShow: isSubLabelToShow)
         return cell
     }
 }

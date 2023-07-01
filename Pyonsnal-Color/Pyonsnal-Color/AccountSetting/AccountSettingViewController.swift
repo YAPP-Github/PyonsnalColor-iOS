@@ -49,18 +49,25 @@ final class AccountSettingViewController: UIViewController,
     }
     
     private func configureAction() {
-        viewHolder.backButton.addTarget(self,
-                                        action: #selector(didTapBackButton), for: .touchUpInside)
-        viewHolder.secessionButton.addTarget(self,
-                                             action: #selector(didTapSecessionButton),
-                                             for: .touchUpInside)
+        viewHolder.backButton.addTarget(
+            self,
+            action: #selector(didTapBackButton),
+            for: .touchUpInside
+        )
+        viewHolder.deleteAccount.addTarget(
+            self,
+            action: #selector(didTapDeleteAccountButton),
+            for: .touchUpInside
+        )
     }
     
-    @objc private func didTapBackButton() {
+    @objc
+    private func didTapBackButton() {
         listener?.didTapBackButton()
     }
     
-    @objc private func didTapSecessionButton() {
+    @objc
+    private func didTapDeleteAccountButton() {
         // TO DO : 회원 탈퇴 로직
     }
 }
@@ -79,8 +86,7 @@ extension AccountSettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ProfileCell = tableView.dequeueReusableCell(for: indexPath)
         let text = accountSettingData[indexPath.row]
-        cell.update(text: text,
-                    isSectionIndex: false)
+        cell.update(text: text)
         return cell
     }
     
@@ -119,7 +125,7 @@ extension AccountSettingViewController {
             return tableView
         }()
         
-        let secessionButton: UIButton = {
+        let deleteAccount: UIButton = {
             let button = UIButton()
             button.addUnderLine(with: "회원 탈퇴",
                                 color: UIColor.gray,
@@ -133,7 +139,7 @@ extension AccountSettingViewController {
             headerView.addSubview(titleLabel)
             view.addSubview(tableView)
             
-            view.addSubview(secessionButton)
+            view.addSubview(deleteAccount)
         }
         
         func configureConstraints(for view: UIView) {
@@ -159,13 +165,12 @@ extension AccountSettingViewController {
                 $0.height.equalTo(AccountSettingViewController.Size.cellTotalHeight)
             }
             
-            secessionButton.snp.makeConstraints {
+            deleteAccount.snp.makeConstraints {
                 $0.leading.equalTo(16)
                 $0.bottom.equalToSuperview().inset(Size.secessionButtonBottom)
             }
         }
         
-        
-        
+
     }
 }
