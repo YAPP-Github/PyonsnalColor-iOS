@@ -166,19 +166,11 @@ extension ProfileHomeViewController {
             return view
         }()
         
-        private let profileImageContainerView: UIView = {
-            let view = UIView()
-            // to do fix color
-            view.backgroundColor = .white
-            view.makeRounded(with: Size.profileImageViewSize / 2)
-            view.makeBorder(width: 1, color: UIColor.black.cgColor)
-            return view
-        }()
-        
         private let profileImageView: UIImageView = {
             let imageView = UIImageView()
-            imageView.setImage(.default_profile)
             imageView.contentMode = .scaleAspectFit
+            imageView.setImage(.pyonsnalColor)
+            // to do fix color
             return imageView
         }()
         
@@ -208,9 +200,8 @@ extension ProfileHomeViewController {
         
         func place(in view: UIView) {
             view.addSubview(profileContainerView)
-            profileContainerView.addSubview(profileImageContainerView)
-            profileImageContainerView.addSubview(profileImageView)
             profileContainerView.addSubview(nickNameLabel)
+            profileContainerView.addSubview(profileImageView)
             view.addSubview(dividerView)
             view.addSubview(tableView)
         }
@@ -222,20 +213,15 @@ extension ProfileHomeViewController {
                 $0.height.equalTo(Size.profileContainerViewHeight)
             }
             
-            profileImageContainerView.snp.makeConstraints {
+            // to do fix using common margin
+            profileImageView.snp.makeConstraints {
                 $0.size.equalTo(Size.profileImageViewSize)
                 $0.leading.equalToSuperview().offset(Size.profileImageViewLeading)
                 $0.centerY.equalToSuperview()
             }
             
-            // to do fix using common margin
-            profileImageView.snp.makeConstraints {
-                $0.leading.top.equalToSuperview().offset(8)
-                $0.trailing.bottom.equalToSuperview().offset(-8)
-            }
-            
             nickNameLabel.snp.makeConstraints {
-                $0.leading.equalTo(profileImageContainerView.snp.trailing).offset(12)
+                $0.leading.equalTo(profileImageView.snp.trailing).offset(12)
                 $0.centerY.equalTo(profileContainerView.snp.centerY)
                 $0.trailing.greaterThanOrEqualTo(-12)
             }

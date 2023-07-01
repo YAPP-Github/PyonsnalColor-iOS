@@ -12,7 +12,13 @@ enum ImageAssetKind: String {
     case loginKakao = "login_kakao"
     
     case logo = "logo"
-    case default_profile = "default_profile"
+    
+    // MARK: - StoreTag
+    case sevenEleven = "7-eleven"
+    case cu = "cu"
+    case gs25 = "gs25"
+    case emart24 = "emart24"
+    case pyonsnalColor = "pyonsnalColor"
 }
 
 extension ImageAssetKind {
