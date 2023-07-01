@@ -191,7 +191,7 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
 
         return CGSize(
             width: label.frame.width + cellSize.padding.top + cellSize.padding.bottom,
-            height: label.frame.height + cellSize.padding.left + cellSize.padding.right
+            height: ConvenienceStoreCell.Constant.Size.height
         )
     }
 

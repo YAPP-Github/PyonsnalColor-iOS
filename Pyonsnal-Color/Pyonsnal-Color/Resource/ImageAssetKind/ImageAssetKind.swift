@@ -12,6 +12,12 @@ enum ImageAssetKind: String {
     case loginKakao = "login_kakao"
     
     case logo = "logo"
+    
+    case tagNew = "tag_new"
+    case bellSimple = "bellSimple"
+    
+    case event = "event"
+    case eventSelected = "event.selected"
 }
 
 extension ImageAssetKind {
