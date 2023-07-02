@@ -19,4 +19,13 @@ extension UICollectionView {
             withReuseIdentifier: String(describing: viewClass.self)
         )
     }
+    
+    func dequeueReusableCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
+        guard let cell = self.dequeueReusableCell(withReuseIdentifier: T.identifier, for: indexPath) as? T else {
+            fatalError("Unexpected identifier : \(T.identifier)")
+        }
+        return cell
+    }
 }
+
+extension UICollectionViewCell: ItemIdentifier {}

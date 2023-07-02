@@ -12,7 +12,8 @@ protocol ProfileHomeDependency: Dependency {
     // created by this RIB.
 }
 
-final class ProfileHomeComponent: Component<ProfileHomeDependency> {
+final class ProfileHomeComponent: Component<ProfileHomeDependency>,
+                                  AccountSettingDependency {
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
@@ -23,7 +24,8 @@ protocol ProfileHomeBuildable: Buildable {
     func build(withListener listener: ProfileHomeListener) -> ProfileHomeRouting
 }
 
-final class ProfileHomeBuilder: Builder<ProfileHomeDependency>, ProfileHomeBuildable {
+final class ProfileHomeBuilder: Builder<ProfileHomeDependency>,
+                                ProfileHomeBuildable {
 
     override init(dependency: ProfileHomeDependency) {
         super.init(dependency: dependency)
@@ -34,6 +36,11 @@ final class ProfileHomeBuilder: Builder<ProfileHomeDependency>, ProfileHomeBuild
         let viewController = ProfileHomeViewController()
         let interactor = ProfileHomeInteractor(presenter: viewController)
         interactor.listener = listener
-        return ProfileHomeRouter(interactor: interactor, viewController: viewController)
+        let accountSettingBuilder = AccountSettingBuilder(dependency: component)
+        return ProfileHomeRouter(
+            interactor: interactor,
+            viewController: viewController,
+            accountSettingBuilder: accountSettingBuilder
+        )
     }
 }

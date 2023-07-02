@@ -8,7 +8,8 @@
 import ModernRIBs
 
 protocol ProfileHomeRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachAccountSetting()
+    func detachAccountSetting()
 }
 
 protocol ProfileHomePresentable: Presentable {
@@ -20,7 +21,10 @@ protocol ProfileHomeListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
-final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>, ProfileHomeInteractable, ProfileHomePresentableListener {
+final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>,
+                                   ProfileHomeInteractable,
+                                   ProfileHomePresentableListener {
+
 
     weak var router: ProfileHomeRouting?
     weak var listener: ProfileHomeListener?
@@ -34,11 +38,17 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        // TODO: Implement business logic here.
     }
 
     override func willResignActive() {
         super.willResignActive()
-        // TODO: Pause any business logic.
+    }
+    
+    func didTapAccountSetting() {
+        router?.attachAccountSetting()
+    }
+    
+    func didTapBackButton() {
+        router?.detachAccountSetting()
     }
 }

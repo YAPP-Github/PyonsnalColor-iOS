@@ -15,6 +15,7 @@ enum ImageAssetKind: String {
     
     case tagNew = "tag_new"
     case bellSimple = "bellSimple"
+    case defaultPyonsnalColor = "default_PyonsnalColor"
     
     case event = "event"
     case eventSelected = "event.selected"
