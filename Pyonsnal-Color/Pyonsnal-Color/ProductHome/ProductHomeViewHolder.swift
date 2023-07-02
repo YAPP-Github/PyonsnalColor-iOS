@@ -87,7 +87,7 @@ extension ProductHomeViewController {
             convenienceStoreCollectionView.snp.makeConstraints { make in
                 make.top.equalTo(titleNavigationView.snp.bottom)
                 make.leading.trailing.equalToSuperview().inset(16)
-                make.height.equalTo(41)
+                make.height.equalTo(ConvenienceStoreCell.Constant.Size.height)
             }
             
             productHomePageViewController.view.snp.makeConstraints { make in

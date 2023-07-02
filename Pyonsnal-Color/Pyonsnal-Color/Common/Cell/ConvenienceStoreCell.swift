@@ -11,8 +11,9 @@ final class ConvenienceStoreCell: UICollectionViewCell {
     enum Constant {
         enum Size {
             static let padding: UIEdgeInsets = .init(top: 11, left: 11, bottom: 11, right: 11)
-            static let selectedViewHeight: CGFloat = 2
+            static let selectedViewHeight: CGFloat = 3
             static let font: UIFont = .body3m
+            static let height: CGFloat = 44
         }
         
         enum Color {
@@ -81,7 +82,7 @@ final class ConvenienceStoreCell: UICollectionViewCell {
             
             indicatorView.snp.makeConstraints { make in
                 make.top.equalTo(containerStackView.snp.bottom)
-                make.leading.trailing.equalToSuperview()
+                make.leading.trailing.bottom.equalToSuperview()
                 make.height.equalTo(Constant.Size.selectedViewHeight)
             }
         }
@@ -117,5 +118,12 @@ final class ConvenienceStoreCell: UICollectionViewCell {
     
     func configureCell(title: String) {
         viewHolder.storeTitleLabel.text = title
+    }
+    
+    func getWidth() -> CGFloat {
+        viewHolder.storeTitleLabel.sizeToFit()
+        return viewHolder.storeTitleLabel.frame.width
+        + Constant.Size.padding.left
+        + Constant.Size.padding.right
     }
 }
