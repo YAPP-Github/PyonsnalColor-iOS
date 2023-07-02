@@ -137,7 +137,7 @@ extension ProductHomeViewController: UIScrollViewDelegate {
         let innerScroll = !outerScroll
         let downScroll = scrollView.panGestureRecognizer.translation(in: scrollView).y < 0
         let upScroll = !downScroll
-        let outerScrollMaxOffset = viewHolder.headerStackView.frame.height
+        let outerScrollMaxOffset = viewHolder.titleNavigationView.frame.height
         
         if innerScroll && upScroll {
             guard viewHolder.containerScrollView.contentOffset.y > 0 else { return }
