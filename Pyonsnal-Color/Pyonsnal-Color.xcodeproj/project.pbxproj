@@ -89,6 +89,7 @@
 		F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */; };
 		F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAC2A39F97900C55E27 /* String+.swift */; };
 		F0D6FFAF2A39FFFA00C55E27 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAE2A39FFFA00C55E27 /* ProductCell.swift */; };
+		F0D8FEBE2A3EDB6B000B530A /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D8FEBD2A3EDB6B000B530A /* UIColor+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -167,6 +168,7 @@
 		F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		F0D6FFAC2A39F97900C55E27 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		F0D6FFAE2A39FFFA00C55E27 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
+		F0D8FEBD2A3EDB6B000B530A /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,6 +305,7 @@
 				F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */,
 				F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */,
 				F0D6FFAC2A39F97900C55E27 /* String+.swift */,
+				F0D8FEBD2A3EDB6B000B530A /* UIColor+.swift */,
 				F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */,
 				B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */,
 				BA00B7352A46B83A00BB3795 /* CGFloat+.swift */,
@@ -618,6 +621,7 @@
 				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
 				B24F1D3A2A44345700AA03DC /* ProductListHeaderView.swift in Sources */,
 				B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */,
+				F0D8FEBE2A3EDB6B000B530A /* UIColor+.swift in Sources */,
 				B28204F32A345EB100F9242F /* RootComponent.swift in Sources */,
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,
