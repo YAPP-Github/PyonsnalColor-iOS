@@ -11,7 +11,7 @@ import SnapKit
 final class ImageNavigationView: UIView {
     // MARK: - Declaration
     struct Payload {
-        let iconImageKind: ImageAssetKind.Icon
+        let iconImageKind: ImageAssetKind.StoreIcon
     }
     
     // MARK: - UI Component
@@ -22,7 +22,7 @@ final class ImageNavigationView: UIView {
     
     private let backButton: UIButton = {
         let button: UIButton = .init(frame: .zero)
-        button.backgroundColor = .cyan
+        button.setImage(.iconBack, for: .normal)
         return button
     }()
     
@@ -78,8 +78,8 @@ final class ImageNavigationView: UIView {
         }
         
         backButton.snp.makeConstraints { make in
-            make.size.equalTo(40)
-            make.leading.equalToSuperview().offset(.spacing8)
+            make.size.equalTo(24)
+            make.leading.equalToSuperview().offset(.spacing16)
             make.centerY.equalToSuperview()
         }
         
