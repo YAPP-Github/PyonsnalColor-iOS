@@ -42,8 +42,7 @@ final class ProfileCell: UITableViewCell {
     
     func update(text: String, isSectionIndex: Bool = false) {
         if isSectionIndex {
-            //to do fix color
-            viewHolder.titleLabel.textColor = .darkGray
+            viewHolder.titleLabel.textColor = .gray500
             viewHolder.titleLabel.font = .body3r
             updateSectionTitleLayout()
         }
@@ -73,16 +72,14 @@ extension ProfileCell {
         let titleLabel: UILabel = {
             let label = UILabel()
             label.font = .body2m
-            //to do fix color
-            label.textColor = .black
+            label.textColor = .gray700
             return label
         }()
         
         lazy var subLabel: UILabel = {
             let label = UILabel()
             label.font = .body3r
-            //to do fix color
-            label.textColor = .darkGray
+            label.textColor = .gray500
             label.text = AppInfoService.shared.appVersion
             label.isHidden = true
             return label
@@ -91,8 +88,7 @@ extension ProfileCell {
         let dividerView: UIView = {
             let view = UIView()
             view.isHidden = true
-            //to do fix color
-            view.backgroundColor = .gray
+            view.backgroundColor = .gray100
             return view
         }()
         

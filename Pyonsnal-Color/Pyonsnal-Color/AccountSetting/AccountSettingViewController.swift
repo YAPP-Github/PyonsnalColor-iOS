@@ -128,7 +128,7 @@ extension AccountSettingViewController {
         let deleteAccount: UIButton = {
             let button = UIButton()
             button.addUnderLine(with: "회원 탈퇴",
-                                color: UIColor.gray,
+                                color: .gray500,
                                 font: .body2m)
             return button
         }()

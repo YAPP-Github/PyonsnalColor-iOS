@@ -161,7 +161,6 @@ extension ProfileHomeViewController {
         
         private let profileContainerView: UIView = {
             let view = UIView()
-            // to do fix color
             view.backgroundColor = .white
             return view
         }()
@@ -169,8 +168,7 @@ extension ProfileHomeViewController {
         private let profileImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
-            imageView.setImage(.pyonsnalColor)
-            // to do fix color
+            imageView.setImage(.defaultPyonsnalColor)
             return imageView
         }()
         
@@ -178,7 +176,6 @@ extension ProfileHomeViewController {
             let label = UILabel()
             label.font = .title2
             label.text = "양볼 빵빵 다람쥐"
-            // to do fix color
             label.textColor = .black
             label.numberOfLines = 1
             return label
@@ -193,8 +190,7 @@ extension ProfileHomeViewController {
         
         private let dividerView: UIView = {
             let view = UIView()
-            // to do fix color
-            view.backgroundColor = .gray
+            view.backgroundColor = .gray100
             return view
         }()
         
