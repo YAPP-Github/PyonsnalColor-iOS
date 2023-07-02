@@ -61,13 +61,14 @@
 		BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F142A235F5100C5DFA8 /* LoggedOutBuilder.swift */; };
 		BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F152A235F5100C5DFA8 /* LoggedOutInteractor.swift */; };
 		BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F202A2360E100C5DFA8 /* AppComponent.swift */; };
+		BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */; };
+		BA87501E2A519B3900B80088 /* ImageAssetKind+HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */; };
 		BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9E233A2A21EF3000A539D5 /* AppDelegate.swift */; };
 		BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9E233C2A21EF3000A539D5 /* SceneDelegate.swift */; };
 		BA9E23442A21EF3100A539D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA9E23432A21EF3100A539D5 /* Assets.xcassets */; };
 		BA9E23472A21EF3100A539D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA9E23452A21EF3100A539D5 /* LaunchScreen.storyboard */; };
 		BA9E23502A234B4D00A539D5 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BA9E234F2A234B4D00A539D5 /* .swiftlint.yml */; };
 		BAAB90332A4FFE3E003A7647 /* ImageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB90322A4FFE3E003A7647 /* ImageNavigationView.swift */; };
-		BAAB90352A504D6D003A7647 /* ImageAssetKind+Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB90342A504D6D003A7647 /* ImageAssetKind+Icon.swift */; };
 		BAAB90372A5051D2003A7647 /* ImageNavigationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB90362A5051D2003A7647 /* ImageNavigationViewDelegate.swift */; };
 		BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */; };
 		BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */; };
@@ -150,6 +151,8 @@
 		BA437F142A235F5100C5DFA8 /* LoggedOutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutBuilder.swift; sourceTree = "<group>"; };
 		BA437F152A235F5100C5DFA8 /* LoggedOutInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutInteractor.swift; sourceTree = "<group>"; };
 		BA437F202A2360E100C5DFA8 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
+		BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreIcon.swift"; sourceTree = "<group>"; };
+		BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+HeaderView.swift"; sourceTree = "<group>"; };
 		BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pyonsnal-Color.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA9E233A2A21EF3000A539D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA9E233C2A21EF3000A539D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -158,7 +161,6 @@
 		BA9E23482A21EF3100A539D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA9E234F2A234B4D00A539D5 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BAAB90322A4FFE3E003A7647 /* ImageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNavigationView.swift; sourceTree = "<group>"; };
-		BAAB90342A504D6D003A7647 /* ImageAssetKind+Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+Icon.swift"; sourceTree = "<group>"; };
 		BAAB90362A5051D2003A7647 /* ImageNavigationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNavigationViewDelegate.swift; sourceTree = "<group>"; };
 		BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedOutViewController+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHolable.swift; sourceTree = "<group>"; };
@@ -348,7 +350,8 @@
 			children = (
 				BA1807542A2F151F00295398 /* ImageAssetKind.swift */,
 				F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */,
-				BAAB90342A504D6D003A7647 /* ImageAssetKind+Icon.swift */,
+				BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */,
+				BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */,
 			);
 			path = ImageAssetKind;
 			sourceTree = "<group>";
@@ -644,11 +647,11 @@
 				BA1807622A2F21D900295398 /* URLRequest+.swift in Sources */,
 				BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */,
 				BAAB90332A4FFE3E003A7647 /* ImageNavigationView.swift in Sources */,
-				BAAB90352A504D6D003A7647 /* ImageAssetKind+Icon.swift in Sources */,
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
 				F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */,
 				B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */,
+				BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */,
 				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* ImageNavigationViewDelegate.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
@@ -692,6 +695,7 @@
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
+				BA87501E2A519B3900B80088 /* ImageAssetKind+HeaderView.swift in Sources */,
 				B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */,
 				F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */,
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
