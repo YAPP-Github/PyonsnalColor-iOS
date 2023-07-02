@@ -231,6 +231,8 @@
 			isa = PBXGroup;
 			children = (
 				B24F1D4A2A4BB82D00AA03DC /* TitleNavigationView.swift */,
+				BAAB90322A4FFE3E003A7647 /* ImageNavigationView.swift */,
+				BAAB90362A5051D2003A7647 /* ImageNavigationViewDelegate.swift */,
 			);
 			path = NavigationBar;
 			sourceTree = "<group>";
@@ -447,20 +449,10 @@
 			path = "Pyonsnal-Color";
 			sourceTree = "<group>";
 		};
-		BAAB902F2A4FFDFE003A7647 /* NavigationBar+ */ = {
-			isa = PBXGroup;
-			children = (
-				BAAB90322A4FFE3E003A7647 /* ImageNavigationView.swift */,
-				BAAB90362A5051D2003A7647 /* ImageNavigationViewDelegate.swift */,
-			);
-			path = "NavigationBar+";
-			sourceTree = "<group>";
-		};
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				B24F1D492A4BB81000AA03DC /* NavigationBar */,
-				BAAB902F2A4FFDFE003A7647 /* NavigationBar+ */,
 				F0D6FFA72A39F57600C55E27 /* Cell */,
 				BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */,
 				F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */,
