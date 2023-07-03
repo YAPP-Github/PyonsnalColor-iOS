@@ -30,7 +30,7 @@ extension NotificationListViewController {
             return view
         }()
         
-        //TODO: 커스텀 네비게이션바로 변경 (임시 네비바)
+        // TODO: 커스텀 네비게이션바로 변경 (임시 네비바)
         let navigationView: UIView = {
             let view = UIView()
             view.backgroundColor = .white
@@ -98,7 +98,7 @@ extension NotificationListViewController {
                 make.bottom.equalTo(view)
             }
             
-            //TODO: 커스텀 네비바 적용
+            // TODO: 커스텀 네비바 적용
             navigationView.snp.makeConstraints { make in
                 make.top.leading.trailing.equalToSuperview()
                 make.height.equalTo(48)

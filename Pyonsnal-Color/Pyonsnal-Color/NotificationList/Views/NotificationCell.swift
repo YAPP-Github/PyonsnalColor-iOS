@@ -91,7 +91,7 @@ extension NotificationCell {
         let dateLabel: UILabel = {
             let label = UILabel()
             label.font = .body3r
-            //TODO: color 적용
+            // TODO: color 적용
             label.textColor = .systemGray
             return label
         }()

@@ -12,7 +12,7 @@ protocol NotificationListPresentableListener: AnyObject {
     func didTabBackButton()
 }
 
-//TODO: 나중에 Entity폴더로 이동
+// TODO: 나중에 Entity폴더로 이동
 struct NotificationEntity: Hashable {
     enum Category: Hashable {
         case product
