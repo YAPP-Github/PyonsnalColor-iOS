@@ -52,16 +52,16 @@ final class RootTabBarRouter:
     func attachTabs() {
         let productHome = productHomeBuilder.build(withListener: interactor)
         let eventHome = eventHomeBuilder.build(withListener: interactor)
-        let profilHome = profileHomeBuilder.build(withListener: interactor)
+        let profileHome = profileHomeBuilder.build(withListener: interactor)
         
         attachChild(productHome)
         attachChild(eventHome)
-        attachChild(profilHome)
+        attachChild(profileHome)
         
         let viewControllers: [ViewControllable] = [
-            productHome.viewControllable,
-            eventHome.viewControllable,
-            profilHome.viewControllable
+            NavigationControllable(root: productHome.viewControllable),
+            NavigationControllable(root: eventHome.viewControllable),
+            NavigationControllable(root: profileHome.viewControllable)
         ]
         
         viewController.setViewControllers(viewControllers)
