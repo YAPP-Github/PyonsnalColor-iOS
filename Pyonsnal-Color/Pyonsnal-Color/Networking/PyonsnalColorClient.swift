@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import Alamofire
 
-final class PyonsnalColorClient: NetworkRequest {
+final class PyonsnalColorClient: NetworkRequestable {
     
     static let shared = PyonsnalColorClient()
     

@@ -72,7 +72,7 @@
 		BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882D2A24C3E600DA6257 /* RootBuilder.swift */; };
 		BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882E2A24C3E600DA6257 /* RootInteractor.swift */; };
 		F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */; };
-		F00022482A52812E00FFB4A4 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022472A52812E00FFB4A4 /* NetworkRequest.swift */; };
+		F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */; };
 		F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */; };
 		F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */; };
 		F01535432A45A69800A2A8F2 /* EventHomeSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */; };
@@ -167,7 +167,7 @@
 		BAED882D2A24C3E600DA6257 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		BAED882E2A24C3E600DA6257 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestBuilder.swift; sourceTree = "<group>"; };
-		F00022472A52812E00FFB4A4 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestable.swift; sourceTree = "<group>"; };
 		F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeTabViewController.swift; sourceTree = "<group>"; };
 		F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomePageViewController.swift; sourceTree = "<group>"; };
 		F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeSectionLayout.swift; sourceTree = "<group>"; };
@@ -364,7 +364,7 @@
 			children = (
 				F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */,
 				F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */,
-				F00022472A52812E00FFB4A4 /* NetworkRequest.swift */,
+				F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */,
 				F0687BF02A52AC92004B5EAE /* Error */,
 				F0687BEB2A529666004B5EAE /* Config */,
 				BA18075E2A2F1D6500295398 /* Auth */,
@@ -733,7 +733,7 @@
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F0EE10AC2A4B389A00B8DF4F /* AccountSettingViewController.swift in Sources */,
-				F00022482A52812E00FFB4A4 /* NetworkRequest.swift in Sources */,
+				F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				F0687BEF2A52A933004B5EAE /* TokenEntity.swift in Sources */,
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
