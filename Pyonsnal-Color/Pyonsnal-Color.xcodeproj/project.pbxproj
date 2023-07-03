@@ -71,6 +71,8 @@
 		BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882C2A24C3E600DA6257 /* RootViewController.swift */; };
 		BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882D2A24C3E600DA6257 /* RootBuilder.swift */; };
 		BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882E2A24C3E600DA6257 /* RootInteractor.swift */; };
+		F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */; };
+		F00022482A52812E00FFB4A4 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022472A52812E00FFB4A4 /* NetworkRequest.swift */; };
 		F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */; };
 		F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */; };
 		F01535432A45A69800A2A8F2 /* EventHomeSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */; };
@@ -83,13 +85,19 @@
 		F01535522A460CEC00A2A8F2 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */; };
 		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
 		F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */; };
+		F0687BED2A529679004B5EAE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0687BEC2A529679004B5EAE /* Config.swift */; };
+		F0687BEF2A52A933004B5EAE /* TokenEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0687BEE2A52A933004B5EAE /* TokenEntity.swift */; };
 		F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F069DBE52A30B9850001D3DD /* UIFont+.swift */; };
 		F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */; };
 		F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainService.swift */; };
+		F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */; };
+		F0C87AF02A51D74900EA4C76 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */; };
+		F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */; };
 		F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */; };
 		F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */; };
 		F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAC2A39F97900C55E27 /* String+.swift */; };
 		F0D6FFAF2A39FFFA00C55E27 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAE2A39FFFA00C55E27 /* ProductCell.swift */; };
+		F0D8FEBE2A3EDB6B000B530A /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D8FEBD2A3EDB6B000B530A /* UIColor+.swift */; };
 		F0EE10A12A4B122A00B8DF4F /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A02A4B122A00B8DF4F /* UITableView+.swift */; };
 		F0EE10A32A4B242C00B8DF4F /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A22A4B242C00B8DF4F /* ProfileCell.swift */; };
 		F0EE10A52A4B2E5200B8DF4F /* AppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A42A4B2E5200B8DF4F /* AppInfoService.swift */; };
@@ -158,6 +166,8 @@
 		BAED882C2A24C3E600DA6257 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		BAED882D2A24C3E600DA6257 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		BAED882E2A24C3E600DA6257 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
+		F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestBuilder.swift; sourceTree = "<group>"; };
+		F00022472A52812E00FFB4A4 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeTabViewController.swift; sourceTree = "<group>"; };
 		F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomePageViewController.swift; sourceTree = "<group>"; };
 		F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeSectionLayout.swift; sourceTree = "<group>"; };
@@ -167,6 +177,8 @@
 		F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
 		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreTag.swift"; sourceTree = "<group>"; };
+		F0687BEC2A529679004B5EAE /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		F0687BEE2A52A933004B5EAE /* TokenEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenEntity.swift; sourceTree = "<group>"; };
 		F069DBE52A30B9850001D3DD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		F069DBE92A30BA8C0001D3DD /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
@@ -174,10 +186,14 @@
 		F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassNameRenderable.swift; sourceTree = "<group>"; };
 		F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pyonsnal-Color.entitlements"; sourceTree = "<group>"; };
 		F0964E412A2A44500028DCA2 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
+		F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyonsnalColorClient.swift; sourceTree = "<group>"; };
+		F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
 		F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		F0D6FFAC2A39F97900C55E27 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		F0D6FFAE2A39FFFA00C55E27 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
+		F0D8FEBD2A3EDB6B000B530A /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		F0EE10A02A4B122A00B8DF4F /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
 		F0EE10A22A4B242C00B8DF4F /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		F0EE10A42A4B2E5200B8DF4F /* AppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoService.swift; sourceTree = "<group>"; };
@@ -346,6 +362,11 @@
 		BA18075D2A2F1D5A00295398 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */,
+				F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */,
+				F00022472A52812E00FFB4A4 /* NetworkRequest.swift */,
+				F0687BF02A52AC92004B5EAE /* Error */,
+				F0687BEB2A529666004B5EAE /* Config */,
 				BA18075E2A2F1D6500295398 /* Auth */,
 			);
 			path = Networking;
@@ -413,6 +434,7 @@
 		BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */ = {
 			isa = PBXGroup;
 			children = (
+				F0C87AF12A51DFB800EA4C76 /* Model */,
 				F0EE10A62A4B387A00B8DF4F /* AccountSetting */,
 				BA00B73A2A46B95300BB3795 /* 3rdParty */,
 				BA00B7372A46B8A600BB3795 /* DesignSystem */,
@@ -476,6 +498,22 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		F0687BEB2A529666004B5EAE /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				F0687BEC2A529679004B5EAE /* Config.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		F0687BF02A52AC92004B5EAE /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		F069DBE72A30BA7A0001D3DD /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,6 +522,15 @@
 				F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		F0C87AF12A51DFB800EA4C76 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */,
+				F0687BEE2A52A933004B5EAE /* TokenEntity.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		F0D6FFA72A39F57600C55E27 /* Cell */ = {
@@ -634,6 +681,7 @@
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				F01535432A45A69800A2A8F2 /* EventHomeSectionLayout.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
+				F0687BED2A529679004B5EAE /* Config.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
 				F0EE10A32A4B242C00B8DF4F /* ProfileCell.swift in Sources */,
 				B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */,
@@ -642,10 +690,12 @@
 				F0EE10A12A4B122A00B8DF4F /* UITableView+.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
 				F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */,
+				F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				B24F1D4B2A4BB82D00AA03DC /* TitleNavigationView.swift in Sources */,
+				F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */,
 				F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
@@ -667,6 +717,7 @@
 				B28204F32A345EB100F9242F /* RootComponent.swift in Sources */,
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,
+				F0C87AF02A51D74900EA4C76 /* NetworkError.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
 				B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */,
 				F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */,
@@ -677,11 +728,14 @@
 				F015354B2A45A8DD00A2A8F2 /* NSObject+.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
 				B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */,
+				F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */,
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F0EE10AC2A4B389A00B8DF4F /* AccountSettingViewController.swift in Sources */,
+				F00022482A52812E00FFB4A4 /* NetworkRequest.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
+				F0687BEF2A52A933004B5EAE /* TokenEntity.swift in Sources */,
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
 				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,

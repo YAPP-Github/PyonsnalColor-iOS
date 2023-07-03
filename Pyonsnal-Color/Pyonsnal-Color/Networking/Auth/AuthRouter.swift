@@ -8,74 +8,44 @@
 import Foundation
 import Alamofire
 
-enum AuthRouter: URLRequestConvertible {
+enum AuthRouter: NetworkRequestBuilder {
     case apple(token: String)
+}
 
-    private var baseURLString: String {
-        return ""
+extension AuthRouter {
+    var urlString: String {
+        return Config.shared.baseURLString
     }
 
-    private var method: HTTPMethod {
+    var method: HTTPMethod {
         switch self {
         case .apple:
             return .post
         }
     }
 
-    private var path: String {
+    var path: String {
         switch self {
         case .apple:
             return "/auth/apple"
         }
     }
 
-    private var bodyData: Data? {
+    var body: [String : Any]? {
         switch self {
-        case let .apple(token):
-            let body: [String: String] = ["token": token]
-            let data = try? JSONEncoder().encode(body)
-            return data
+        case .apple(let token):
+            return ["token" : token]
         }
     }
 
-    private var queryString: [URLQueryItem] {
-        switch self {
-        case .apple:
-            return []
-        }
+    var queryItems: [URLQueryItem]? {
+        return nil
     }
 
-    private var header: [String: String] {
+    var headers: [HTTPHeader]? {
         switch self {
         case .apple:
-            return [:]
+            return Config.shared.getDefaultHeader()
         }
-    }
-
-    func asURLRequest() throws -> URLRequest {
-        // Set URL
-        var urlComponent: URLComponents? = .init(string: baseURLString + path)
-        if !queryString.isEmpty {
-            urlComponent?.queryItems = queryString
-        }
-        guard let url: URL = urlComponent?.url else {
-            fatalError("asURLRequest() - URL get fail")
-        }
-        var request: URLRequest = .init(url: url)
-
-        // Set Method
-        request.method = method
-
-        // Set Header
-        header.forEach { (key, value) in
-            request.setValue(value, forHTTPHeaderField: key)
-        }
-
-        // Set Body
-        if let bodyData {
-            request.httpBody = bodyData
-        }
-
-        return request
     }
 }
