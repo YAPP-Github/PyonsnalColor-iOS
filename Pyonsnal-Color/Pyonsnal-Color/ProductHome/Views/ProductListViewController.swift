@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 final class ProductListViewController: UIViewController {
-    // TODO: Item타입 상품엔티티로 변경
+    //TODO: Item타입 상품엔티티로 변경
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Int>
     
     enum Constant {
@@ -34,7 +34,7 @@ final class ProductListViewController: UIViewController {
     lazy var productCollectionView: UICollectionView = {
         let layout = configureCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        // TODO: AppColor 정해지면 수정
+        //TODO: AppColor 정해지면 수정
         collectionView.backgroundColor = .systemGray6
         return collectionView
     }()
@@ -155,7 +155,7 @@ final class ProductListViewController: UIViewController {
     }
 
     private func applySnapshot() {
-        // TODO: 추후에 외부로부터 데이터 받아오도록 메서드 추가
+        //TODO: 추후에 외부로부터 데이터 받아오도록 메서드 추가
         //ex) updateSnapshot(items: [ProductEntity])
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         

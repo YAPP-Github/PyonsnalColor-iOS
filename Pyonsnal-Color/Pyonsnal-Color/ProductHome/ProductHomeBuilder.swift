@@ -8,9 +8,13 @@
 import ModernRIBs
 
 protocol ProductHomeDependency: Dependency {
+    // TODO: Declare the set of dependencies required by this RIB, but cannot be
+    // created by this RIB.
 }
 
-final class ProductHomeComponent: Component<ProductHomeDependency>, NotificationListDependency {
+final class ProductHomeComponent: Component<ProductHomeDependency> {
+
+    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
 // MARK: - Builder
@@ -29,14 +33,7 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         let component = ProductHomeComponent(dependency: dependency)
         let viewController = ProductHomeViewController()
         let interactor = ProductHomeInteractor(presenter: viewController)
-        
-        let notificationList: NotificationListBuilder = .init(dependency: component)
-        
         interactor.listener = listener
-        return ProductHomeRouter(
-            interactor: interactor,
-            viewController: viewController,
-            notificationList: notificationList
-        )
+        return ProductHomeRouter(interactor: interactor, viewController: viewController)
     }
 }
