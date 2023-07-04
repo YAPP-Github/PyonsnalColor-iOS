@@ -43,7 +43,7 @@ final class TitleNavigationView: UIView {
     
     private let notificationButton: UIButton = {
         let button = UIButton()
-        //TODO: 추가될 알림버튼 이미지 적용
+        // TODO: 추가될 알림버튼 이미지 적용
         button.setImage(.init(systemName: "bell"), for: .normal)
         button.tintColor = .black
         return button
