@@ -15,7 +15,6 @@ protocol NetworkRequestBuilder: URLRequestConvertible {
     var method: HTTPMethod { get }
     var headers: [HTTPHeader]? { get }
     var body: [String: Any]? { get }
-    var urlRequest: URLRequest? { get }
 }
 
 extension NetworkRequestBuilder {
