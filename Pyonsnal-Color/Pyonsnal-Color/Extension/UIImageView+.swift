@@ -16,6 +16,14 @@ extension UIImageView {
     func setImage(_ kind: ImageAssetKind.StoreTag) {
         self.image = kind.image
     }
+
+    func setImage(_ kind: ImageAssetKind.StoreIcon) {
+        self.image = kind.image
+    }
+    
+    func setImage(_ kind: ImageAssetKind.HeaderView) {
+        self.image = kind.image
+    }
     
     func setImage(with url: URL) {
         self.kf.setImage(with: url)
