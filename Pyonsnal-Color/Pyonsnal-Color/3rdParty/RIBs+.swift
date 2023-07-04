@@ -25,6 +25,7 @@ final class NavigationControllable: ViewControllable {
 extension ViewControllable {
     
     func pushViewController(_ viewControllable: ViewControllable, animated: Bool) {
+        hideTabBarWhenPushed(viewControllable)
         if let navigationController = uiviewController as? UINavigationController {
             navigationController.pushViewController(
                 viewControllable.uiviewController,
@@ -44,5 +45,9 @@ extension ViewControllable {
         } else {
             uiviewController.navigationController?.popViewController(animated: animated)
         }
+    }
+    
+    private func hideTabBarWhenPushed(_ viewControllable: ViewControllable) {
+        viewControllable.uiviewController.hidesBottomBarWhenPushed = true
     }
 }

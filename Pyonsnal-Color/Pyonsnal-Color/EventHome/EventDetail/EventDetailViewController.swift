@@ -30,29 +30,24 @@ final class EventDetailViewController: UIViewController,
     }
     
     private func configureAction() {
-        viewHolder.backButton.addTarget(self,
-                                        action: #selector(didTapBackButton),
-                                        for: .touchUpInside)
+        viewHolder.imageNavigationView.delegate = self
     }
-    
-    @objc
-    private func didTapBackButton() {
+
+}
+
+// MARK: - ImageNavigationViewDelegate
+extension EventDetailViewController: ImageNavigationViewDelegate {
+    @objc func didTapBackButton() {
         listener?.didTapBackButton()
     }
 }
 
 extension EventDetailViewController {
+    // MARK: - UI Component
     final class ViewHolder: ViewHolderable {
-        private let headerView: UIView = {
-            let view = UIView()
-            view.backgroundColor = .cyan
+        let imageNavigationView: ImageNavigationView = {
+            let view = ImageNavigationView(payload: .init(iconImageKind: .iconGS))
             return view
-        }()
-        
-        let backButton: UIButton = {
-            let button = UIButton()
-            button.backgroundColor = .blue
-            return button
         }()
         
         private let containerScrollView: UIScrollView = {
@@ -68,27 +63,20 @@ extension EventDetailViewController {
         }()
         
         func place(in view: UIView) {
-            view.addSubview(headerView)
-            headerView.addSubview(backButton)
+            view.addSubview(imageNavigationView)
             view.addSubview(containerScrollView)
             containerScrollView.addSubview(eventImageView)
         }
         
         func configureConstraints(for view: UIView) {
-            headerView.snp.makeConstraints {
+            imageNavigationView.snp.makeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(50)
-            }
-            
-            backButton.snp.makeConstraints {
-                $0.size.equalTo(24)
-                $0.leading.equalToSuperview().offset(12)
-                $0.centerY.equalToSuperview()
+                $0.height.equalTo(48)
             }
             
             containerScrollView.snp.makeConstraints {
-                $0.top.equalTo(headerView.snp.bottom)
+                $0.top.equalTo(imageNavigationView.snp.bottom)
                 $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
                 $0.height.equalTo(view.snp.height)
             }

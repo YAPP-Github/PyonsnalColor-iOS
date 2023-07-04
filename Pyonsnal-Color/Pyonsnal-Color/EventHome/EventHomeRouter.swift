@@ -34,17 +34,16 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
     
     func attachEventDetail() {
         guard eventDetailRouting == nil else { return }
-        let router = eventDetailBuilder.build(withListener: interactor)
-        viewController.uiviewController.modalPresentationStyle = .fullScreen
-        viewController.uiviewController.present(router.viewControllable.uiviewController,
-                                                animated: true)
-        attachChild(router)
-        self.eventDetailRouting = router
+        let eventDetailRouter = eventDetailBuilder.build(withListener: interactor)
+        viewController.pushViewController(eventDetailRouter.viewControllable,
+                                          animated: true)
+        attachChild(eventDetailRouter)
+        self.eventDetailRouting = eventDetailRouter
     }
     
     func detachEventDetail() {
         guard let router = eventDetailRouting else { return }
-        viewController.uiviewController.dismiss(animated: true)
+        viewController.popViewController(animated: true)
         self.eventDetailRouting = nil
         detachChild(router)
     }
