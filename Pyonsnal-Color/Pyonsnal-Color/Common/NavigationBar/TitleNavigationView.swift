@@ -56,12 +56,23 @@ final class TitleNavigationView: UIView {
         return view
     }()
     
+    weak var delegate: TitleNavigationViewDelegate?
+    
     convenience init(title: String) {
         self.init(frame: .zero)
         
+        configureView()
         configureLayout()
         configureConstraints()
         titleLabel.text = title
+    }
+    
+    private func configureView() {
+        notificationButton.addTarget(
+            self,
+            action: #selector(didTabNotificationButton),
+            for: .touchUpInside
+        )
     }
     
     private func configureLayout() {
@@ -82,6 +93,10 @@ final class TitleNavigationView: UIView {
             make.top.trailing.equalToSuperview()
             make.width.height.equalTo(Constant.Size.indicatorWidth)
         }
+    }
+    
+    @objc private func didTabNotificationButton() {
+        delegate?.didTabNotificationButton()
     }
     
     func setTitle(_ text: String) {
