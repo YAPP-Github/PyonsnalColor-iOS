@@ -30,7 +30,7 @@ final class GiftInformationView: UIView {
         let label: UILabel = .init(frame: .zero)
         label.numberOfLines = 0
         label.font = .body3m
-        label.textColor = .init(hexCode: "#B3B3B6")
+        label.textColor = .init(rgbHexString: "B3B3B6")
         label.text = Constant.Text.principleLabelText
         return label
     }()

@@ -18,10 +18,10 @@ final class GiftItemView: UIView {
         }
         
         enum Color {
-            static let contentViewBackgroundColor: UIColor = .init(hexCode: "#F7F7F9")
-            static let contentViewBorderColor: UIColor = .init(hexCode: "#EAEAEC")
+            static let contentViewBackgroundColor: UIColor = .init(rgbHexString: "#F7F7F9")
+            static let contentViewBorderColor: UIColor = .init(rgbHexString: "#EAEAEC")
             static let giftImageBackgroundColor: UIColor = .white
-            static let giftTitleTextColor: UIColor = .init(hexCode: "#343437")
+            static let giftTitleTextColor: UIColor = .init(rgbHexString: "#343437")
             static let giftPriceTextColor: UIColor = .black
         }
     }
@@ -31,7 +31,7 @@ final class GiftItemView: UIView {
         let view: UIView = .init(frame: .zero)
         view.backgroundColor = Constant.Color.contentViewBackgroundColor
         view.makeRounded(with: Constant.Size.contentViewRound)
-        view.makeBorder(with: Constant.Size.contentViewBorderWidth, color: Constant.Color.contentViewBorderColor)
+        view.makeBorder(width: Constant.Size.contentViewBorderWidth, color: Constant.Color.contentViewBorderColor.cgColor)
         return view
     }()
     

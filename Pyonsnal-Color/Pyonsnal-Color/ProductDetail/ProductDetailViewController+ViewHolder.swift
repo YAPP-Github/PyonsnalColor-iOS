@@ -29,7 +29,7 @@ extension ProductDetailViewController {
         }()
         
         // 상품 이미지 뷰
-        private let productImageBackgroundView: UIView = {
+        private let productImageContainerView: UIView = {
             let view: UIView = .init(frame: .zero)
             view.backgroundColor = .white
             return view
@@ -45,12 +45,12 @@ extension ProductDetailViewController {
         // 중간 라인
         private let lineView: UIView = {
             let view: UIView = .init(frame: .zero)
-            view.backgroundColor = .init(hexCode: "#F7F7F9")
+            view.backgroundColor = .init(rgbHexString: "#F7F7F9")
             return view
         }()
         
         // 상품 정보 뷰
-        private let productInformationBackgroundView: UIView = {
+        private let productInformationContainerView: UIView = {
             let view: UIView = .init(frame: .zero)
             view.backgroundColor = .white
             return view
@@ -58,7 +58,7 @@ extension ProductDetailViewController {
         
         let updateDateLabel: UILabel = {
             let label: UILabel = .init(frame: .zero)
-            label.textColor = .init(hexCode: "#B3B3B6")
+            label.textColor = .init(rgbHexString: "#B3B3B6")
             label.font = .body3r
             return label
         }()
@@ -75,28 +75,28 @@ extension ProductDetailViewController {
             return productTagListView
         }()
         
-        private let textBackgroundView: UIView = {
+        private let textContainerView: UIView = {
             let view: UIView = .init(frame: .zero)
             return view
         }()
         
         let productNameLabel: UILabel = {
             let label: UILabel = .init(frame: .zero)
-            label.textColor = .init(hexCode: "#343437")
+            label.textColor = .init(rgbHexString: "#343437")
             label.font = .title1
             return label
         }()
         
         let productPriceLabel: UILabel = {
             let label: UILabel = .init(frame: .zero)
-            label.textColor = .init(hexCode: "#1A1A1E")
+            label.textColor = .init(rgbHexString: "#1A1A1E")
             label.font = .headLine
             return label
         }()
         
         let productDescriptionLabel: UILabel = {
             let label: UILabel = .init(frame: .zero)
-            label.textColor = .init(hexCode: "#4D4D51")
+            label.textColor = .init(rgbHexString: "#4D4D51")
             label.font = .body2r
             return label
         }()
@@ -114,22 +114,22 @@ extension ProductDetailViewController {
             
             contentScrollView.addSubview(contentStackView)
             
-            contentStackView.addArrangedSubview(productImageBackgroundView)
+            contentStackView.addArrangedSubview(productImageContainerView)
             contentStackView.addArrangedSubview(lineView)
-            contentStackView.addArrangedSubview(productInformationBackgroundView)
+            contentStackView.addArrangedSubview(productInformationContainerView)
             
-            productImageBackgroundView.addSubview(productImageView)
+            productImageContainerView.addSubview(productImageView)
             
-            productInformationBackgroundView.addSubview(updateDateLabel)
-            productInformationBackgroundView.addSubview(textInfoStackView)
+            productInformationContainerView.addSubview(updateDateLabel)
+            productInformationContainerView.addSubview(textInfoStackView)
             
             textInfoStackView.addArrangedSubview(productTagListView)
-            textInfoStackView.addArrangedSubview(textBackgroundView)
+            textInfoStackView.addArrangedSubview(textContainerView)
             
-            textBackgroundView.addSubview(productNameLabel)
-            textBackgroundView.addSubview(productPriceLabel)
-            textBackgroundView.addSubview(productDescriptionLabel)
-            textBackgroundView.addSubview(giftInformationView)
+            textContainerView.addSubview(productNameLabel)
+            textContainerView.addSubview(productPriceLabel)
+            textContainerView.addSubview(productDescriptionLabel)
+            textContainerView.addSubview(giftInformationView)
         }
         
         func configureConstraints(for view: UIView) {
@@ -170,7 +170,7 @@ extension ProductDetailViewController {
                 make.leading.trailing.equalToSuperview().inset(16)
             }
             
-            textBackgroundView.snp.makeConstraints { make in
+            textContainerView.snp.makeConstraints { make in
                 make.leading.trailing.equalToSuperview().inset(16)
             }
             
