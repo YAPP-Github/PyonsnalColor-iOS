@@ -98,11 +98,7 @@ final class ProductHomeViewController:
     }
     
     private func configureNotificationButton() {
-        viewHolder.notificationButton.addTarget(
-            self,
-            action: #selector(didTabNotificationButton),
-            for: .touchUpInside
-        )
+        viewHolder.titleNavigationView.delegate = self
     }
     
     func showNotificationList(_ viewController: ModernRIBs.ViewControllable) {
@@ -117,6 +113,9 @@ final class ProductHomeViewController:
         listener?.didTapNotificationButton()
     }
 }
+
+//MARK: - TitleNavigationViewDelegate {
+extension ProductHomeViewController: TitleNavigationViewDelegate { }
 
 //MARK: - UICollectionViewDataSource
 extension ProductHomeViewController: UICollectionViewDataSource {
