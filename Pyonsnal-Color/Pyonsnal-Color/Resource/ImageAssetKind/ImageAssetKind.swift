@@ -22,6 +22,12 @@ enum ImageAssetKind: String {
     
     case event = "event"
     case eventSelected = "event.selected"
+    
+    /// TermsOfUse
+    case iconClose = "icon_close"
+    case check = "check"
+    case checkSelected = "check.selected"
+    case iconArrow = "icon_arrow"
 }
 
 extension ImageAssetKind {

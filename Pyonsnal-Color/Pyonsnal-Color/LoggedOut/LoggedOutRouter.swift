@@ -7,7 +7,8 @@
 
 import ModernRIBs
 
-protocol LoggedOutInteractable: Interactable {
+protocol LoggedOutInteractable: Interactable,
+                                TermsOfUseListener {
     var router: LoggedOutRouting? { get set }
     var listener: LoggedOutListener? { get set }
 }
@@ -15,13 +16,32 @@ protocol LoggedOutInteractable: Interactable {
 protocol LoggedOutViewControllable: ViewControllable {
 }
 
-final class LoggedOutRouter:
-    ViewableRouter<LoggedOutInteractable,
-    LoggedOutViewControllable>,
-    LoggedOutRouting {
-
-    override init(interactor: LoggedOutInteractable, viewController: LoggedOutViewControllable) {
+final class LoggedOutRouter: ViewableRouter<LoggedOutInteractable, LoggedOutViewControllable>,
+                             LoggedOutRouting {
+    
+    private let termsOfUseBuilder: TermsOfUseBuilder
+    private var termsOfUseRouting: ViewableRouting?
+    
+    init(
+        interactor: LoggedOutInteractable,
+        viewController: LoggedOutViewControllable,
+        termsOfUseBuilder: TermsOfUseBuilder
+    ) {
+        self.termsOfUseBuilder = termsOfUseBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
+    
+    func routeToTermsOfUse() {
+        guard termsOfUseRouting == nil else { return }
+        let termsOfUseRouter = termsOfUseBuilder.build(withListener: interactor)
+        termsOfUseRouting = termsOfUseRouter
+        attachChild(termsOfUseRouter)
+        if let termsOfUseViewController = termsOfUseRouting?.viewControllable.uiviewController {
+            termsOfUseViewController.modalPresentationStyle = .overFullScreen
+            viewController.uiviewController.present(termsOfUseViewController, animated: true)
+        }
+        
+    }
+    
 }

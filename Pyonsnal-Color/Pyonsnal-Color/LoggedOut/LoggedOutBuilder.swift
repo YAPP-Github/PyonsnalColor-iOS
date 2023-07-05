@@ -13,7 +13,7 @@ protocol LoggedOutDependency: Dependency {
     var authClient: AuthAPIService { get }
 }
 
-final class LoggedOutComponent: Component<LoggedOutDependency> {
+final class LoggedOutComponent: Component<LoggedOutDependency>, TermsOfUseDependency {
 }
 
 // MARK: - Builder
@@ -28,15 +28,19 @@ final class LoggedOutBuilder: Builder<LoggedOutDependency>, LoggedOutBuildable {
     }
 
     func build(withListener listener: LoggedOutListener) -> LoggedOutRouting {
-        let _: LoggedOutComponent = .init(dependency: dependency)
+        let component: LoggedOutComponent = .init(dependency: dependency)
         let viewController: LoggedOutViewController = .init()
+        let termsOfUseBuilder = TermsOfUseBuilder(dependency: component)
+        
         let interactor: LoggedOutInteractor = .init(
             presenter: viewController,
             dependency: dependency
         )
         interactor.listener = listener
 
-        let router: LoggedOutRouter = .init(interactor: interactor, viewController: viewController)
+        let router: LoggedOutRouter = .init(interactor: interactor,
+                                            viewController: viewController,
+                                            termsOfUseBuilder: termsOfUseBuilder)
         return router
     }
 }

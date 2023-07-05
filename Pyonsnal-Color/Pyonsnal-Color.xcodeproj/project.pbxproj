@@ -122,6 +122,12 @@
 		F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F069DBE52A30B9850001D3DD /* UIFont+.swift */; };
 		F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */; };
 		F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainService.swift */; };
+		F097EF222A5603AD00A7FB9C /* TermsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038B4F82A55EB67008D5BF0 /* TermsButton.swift */; };
+		F097EF252A5605E400A7FB9C /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF242A5605E400A7FB9C /* PrimaryButton.swift */; };
+		F0C582C12A55E83400DAD387 /* TermsOfUseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BD2A55E83400DAD387 /* TermsOfUseRouter.swift */; };
+		F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */; };
+		F0C582C32A55E83400DAD387 /* TermsOfUseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */; };
+		F0C582C42A55E83400DAD387 /* TermsOfUseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */; };
 		F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */; };
 		F0C87AF02A51D74900EA4C76 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */; };
 		F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */; };
@@ -243,6 +249,7 @@
 		F0168D4F2A500AC900978ED9 /* EventDetailBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailBuilder.swift; sourceTree = "<group>"; };
 		F0168D502A500AC900978ED9 /* EventDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailInteractor.swift; sourceTree = "<group>"; };
 		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
+		F038B4F82A55EB67008D5BF0 /* TermsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsButton.swift; sourceTree = "<group>"; };
 		F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreTag.swift"; sourceTree = "<group>"; };
 		F0687BEC2A529679004B5EAE /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F069DBE52A30B9850001D3DD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -252,6 +259,11 @@
 		F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassNameRenderable.swift; sourceTree = "<group>"; };
 		F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pyonsnal-Color.entitlements"; sourceTree = "<group>"; };
 		F0964E412A2A44500028DCA2 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
+		F097EF242A5605E400A7FB9C /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		F0C582BD2A55E83400DAD387 /* TermsOfUseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseRouter.swift; sourceTree = "<group>"; };
+		F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
+		F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseBuilder.swift; sourceTree = "<group>"; };
+		F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseInteractor.swift; sourceTree = "<group>"; };
 		F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyonsnalColorClient.swift; sourceTree = "<group>"; };
 		F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
@@ -612,6 +624,7 @@
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F097EF232A5605CD00A7FB9C /* Button */,
 				BA0D77F32A56C12C0041C2D5 /* Tag */,
 				B24F1D492A4BB81000AA03DC /* NavigationBar */,
 				F0D6FFA72A39F57600C55E27 /* Cell */,
@@ -687,6 +700,26 @@
 				F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		F097EF232A5605CD00A7FB9C /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				F097EF242A5605E400A7FB9C /* PrimaryButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		F0C582BC2A55E81700DAD387 /* TermsOfUse */ = {
+			isa = PBXGroup;
+			children = (
+				F0C582BD2A55E83400DAD387 /* TermsOfUseRouter.swift */,
+				F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */,
+				F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */,
+				F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */,
+				F038B4F82A55EB67008D5BF0 /* TermsButton.swift */,
+			);
+			path = TermsOfUse;
 			sourceTree = "<group>";
 		};
 		F0C87AF12A51DFB800EA4C76 /* Model */ = {
@@ -829,6 +862,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F097EF222A5603AD00A7FB9C /* TermsButton.swift in Sources */,
 				B282050A2A34700300F9242F /* EventHomeRouter.swift in Sources */,
 				B2F169E02A34D07F008199D8 /* CALayer+.swift in Sources */,
 				B21C1A8C2A513FBB007D98E9 /* RIBs+.swift in Sources */,
@@ -844,6 +878,7 @@
 				BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */,
 				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* ImageNavigationViewDelegate.swift in Sources */,
+				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
 				F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */,
 				F0EE10B02A4B4DF600B8DF4F /* ItemIdentifier.swift in Sources */,
@@ -903,6 +938,7 @@
 				BA87E3E02A462AD9000A9DEC /* ProductTagListView.swift in Sources */,
 				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,
 				F0C87AF02A51D74900EA4C76 /* NetworkError.swift in Sources */,
+				F0C582C32A55E83400DAD387 /* TermsOfUseBuilder.swift in Sources */,
 				B2A5294C2A57F2220010656A /* LogoutPopupInteractor.swift in Sources */,
 				BA87E3CF2A45C5A1000A9DEC /* ProductDetailInteractor.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
@@ -935,6 +971,7 @@
 				B24CAAE62A55AC35005BE499 /* NotificationListRouter.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
 				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,
+				F0C582C12A55E83400DAD387 /* TermsOfUseRouter.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				F01535452A45A6F800A2A8F2 /* ItemHeaderTitleView.swift in Sources */,
 				B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */,
@@ -946,6 +983,8 @@
 				BA00B73C2A46B98700BB3795 /* SnapKit+.swift in Sources */,
 				BA87E3CD2A45C5A1000A9DEC /* ProductDetailViewController.swift in Sources */,
 				B2F169DA2A3472EC008199D8 /* RootTabBarRouter.swift in Sources */,
+				F097EF252A5605E400A7FB9C /* PrimaryButton.swift in Sources */,
+				F0C582C42A55E83400DAD387 /* TermsOfUseInteractor.swift in Sources */,
 				BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

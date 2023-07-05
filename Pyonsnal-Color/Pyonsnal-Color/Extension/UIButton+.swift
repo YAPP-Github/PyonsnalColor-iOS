@@ -49,6 +49,11 @@ extension UIButton {
         self.setAttributedTitle(attributedText, for: .normal)
     }
     
+    /// 버튼 텍스트를 설정합니다.
+    func setText(with text: String?) {
+        self.setTitle(text, for: .normal)
+	}
+
     func setCustomFont(text: String, color: UIColor, font: UIFont) {
         let attributedString = NSMutableAttributedString(string: text)
         let range = (text as NSString).range(of: text)
@@ -56,4 +61,5 @@ extension UIButton {
         attributedString.addAttribute(.font, value: font, range: range)
         setAttributedTitle(attributedString, for: .normal)
     }
+
 }

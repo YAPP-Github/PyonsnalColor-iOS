@@ -10,6 +10,7 @@ import Combine
 import Foundation
 
 protocol LoggedOutRouting: ViewableRouting {
+    func routeToTermsOfUse()
 }
 
 protocol LoggedOutPresentable: Presentable {
@@ -73,12 +74,13 @@ final class LoggedOutInteractor:
 
 extension LoggedOutInteractor: AppleLoginServiceDelegate {
     func didCompleteWithAuthorization(identifyToken: String) {
+        router?.routeToTermsOfUse()
         /// TO DO : send to server
         /// get token from server
         /// save token to Keychain
         
 //        listener?.didLogin()
-        requestAppleLogin(with: identifyToken)
+//        requestAppleLogin(with: identifyToken)
     }
 }
 
