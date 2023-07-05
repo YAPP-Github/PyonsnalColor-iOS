@@ -61,13 +61,13 @@ final class TitleNavigationView: UIView {
     convenience init(title: String) {
         self.init(frame: .zero)
         
-        configureView()
+        configureAction()
         configureLayout()
         configureConstraints()
         titleLabel.text = title
     }
     
-    private func configureView() {
+    private func configureAction() {
         notificationButton.addTarget(
             self,
             action: #selector(didTabNotificationButton),
