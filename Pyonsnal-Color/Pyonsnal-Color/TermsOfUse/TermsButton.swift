@@ -10,7 +10,12 @@ import UIKit
 final class TermsButton: UIButton {
     
     // MARK: - Initializer
-    init(text: String?, textColor: UIColor, font: UIFont) {
+    init(
+        text: String?,
+        textColor: UIColor,
+        font: UIFont,
+        isSelected: Bool
+    ) {
         super.init(frame: .zero)
         configureUI(with: text,
                     textColor: textColor,
@@ -19,6 +24,18 @@ final class TermsButton: UIButton {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setButtonStateToggle(isSelected: Bool) {
+        self.isSelected = !isSelected
+    }
+    
+    func setButtonState(isSelected: Bool) {
+        self.isSelected = isSelected
+    }
+    
+    func isCurrentSelected() -> Bool {
+        return isSelected
     }
     
     // MARK: - Private method

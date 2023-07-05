@@ -10,9 +10,8 @@ import UIKit
 import SnapKit
 
 protocol TermsOfUsePresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
+    func dismissViewController()
+    func routeToLoggedIn()
 }
 
 final class TermsOfUseViewController: UIViewController,
@@ -47,12 +46,58 @@ final class TermsOfUseViewController: UIViewController,
         super.viewDidLoad()
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
+        configureAction()
     }
+    
+    func configureAction() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapBackgroundView))
+        viewHolder.backGroundView.addGestureRecognizer(tapGestureRecognizer)
+        viewHolder.closeButton.addTarget(self,
+                                            action: #selector(didTapCloseButton),
+                                            for: .touchUpInside)
+        viewHolder.allAgreeButton.addTarget(self,
+                                            action: #selector(didTapAllAgreeButton),
+                                            for: .touchUpInside)
+        viewHolder.joinButton.addTarget(self,
+                                        action: #selector(didTapJoinButton),
+                                        for: .touchUpInside)
+    }
+    
+    @objc
+    private func didTapBackgroundView() {
+        listener?.dismissViewController()
+    }
+    
+    @objc
+    private func didTapCloseButton() {
+        listener?.dismissViewController()
+    }
+    
+    @objc
+    private func didTapAllAgreeButton() {
+        let toggledSelected = !viewHolder.allAgreeButton.isCurrentSelected()
+        viewHolder.allAgreeButton.setButtonState(isSelected: toggledSelected)
+        viewHolder.subButtonVerticalStackView.arrangedSubviews.forEach { stackView in
+            stackView.subviews.forEach { termsButton in
+                if let termsButton = termsButton as? TermsButton {
+                    termsButton.isSelected = toggledSelected
+                }
+            }
+        }
+        // 가입 완료 버튼 활성화
+        let buttonEnabled: PrimaryButton.ButtonSelectable = toggledSelected == true ? .enabled : .disabled
+        viewHolder.joinButton.setState(with: buttonEnabled)
+    }
+    
+    @objc func didTapJoinButton() {
+        listener?.routeToLoggedIn()
+    }
+    
 }
 
 extension TermsOfUseViewController {
     final class ViewHolder: ViewHolderable {
-        private let backGroundView: UIView = {
+        let backGroundView: UIView = {
             let view = UIView()
             view.backgroundColor = .black
             view.layer.opacity = 0.5
@@ -82,21 +127,22 @@ extension TermsOfUseViewController {
             return label
         }()
         
-        private let closeButton: UIButton = {
+        let closeButton: UIButton = {
             let button = UIButton()
             button.setImage(.iconClose, for: .normal)
             button.tintColor = .gray700
             return button
         }()
 
-        private let allAgreeButton: TermsButton = {
+        let allAgreeButton: TermsButton = {
             let button = TermsButton(text: "모두 동의",
                                      textColor: .black,
-                                     font: .title2)
+                                     font: .title2,
+                                     isSelected: false)
             return button
         }()
         
-        private let subButtonVerticalStackView: UIStackView = {
+        let subButtonVerticalStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.spacing = .spacing12
@@ -110,7 +156,7 @@ extension TermsOfUseViewController {
             return view
         }()
         
-        private let joinButton: PrimaryButton = {
+        let joinButton: PrimaryButton = {
             let button = PrimaryButton(state: .disabled)
             button.setText(with: "가입완료")
             return button
@@ -142,7 +188,8 @@ extension TermsOfUseViewController {
                 let subTermsButton: TermsButton = {
                     let button = TermsButton(text: nil,
                                              textColor: .gray700,
-                                             font: .title3)
+                                             font: .title3,
+                                             isSelected: false)
                     return button
                 }()
                 subButtonVerticalStackView.addArrangedSubview(buttonHorizontalStackView)
@@ -225,7 +272,6 @@ extension TermsOfUseViewController {
             }
             
         }
-        
         
     }
 }

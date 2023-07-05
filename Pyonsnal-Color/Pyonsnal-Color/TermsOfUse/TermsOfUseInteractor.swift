@@ -17,10 +17,11 @@ protocol TermsOfUsePresentable: Presentable {
 }
 
 protocol TermsOfUseListener: AnyObject {
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func detachTermsOfUse()
 }
 
 final class TermsOfUseInteractor: PresentableInteractor<TermsOfUsePresentable>, TermsOfUseInteractable, TermsOfUsePresentableListener {
+    
 
     weak var router: TermsOfUseRouting?
     weak var listener: TermsOfUseListener?
@@ -40,5 +41,13 @@ final class TermsOfUseInteractor: PresentableInteractor<TermsOfUsePresentable>, 
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func dismissViewController() {
+        listener?.detachTermsOfUse()
+    }
+    
+    func routeToLoggedIn() {
+        // TO DO 
     }
 }

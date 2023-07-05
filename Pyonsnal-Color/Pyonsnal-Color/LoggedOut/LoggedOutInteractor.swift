@@ -10,7 +10,8 @@ import Combine
 import Foundation
 
 protocol LoggedOutRouting: ViewableRouting {
-    func routeToTermsOfUse()
+    func attachTermsOfUse()
+    func detachTermsOfUse()
 }
 
 protocol LoggedOutPresentable: Presentable {
@@ -70,11 +71,15 @@ final class LoggedOutInteractor:
             }.store(in: &cancellable)
     }
     
+    func detachTermsOfUse() {
+        router?.detachTermsOfUse()
+    }
+    
 }
 
 extension LoggedOutInteractor: AppleLoginServiceDelegate {
     func didCompleteWithAuthorization(identifyToken: String) {
-        router?.routeToTermsOfUse()
+        router?.attachTermsOfUse()
         /// TO DO : send to server
         /// get token from server
         /// save token to Keychain
@@ -86,6 +91,7 @@ extension LoggedOutInteractor: AppleLoginServiceDelegate {
 
 extension LoggedOutInteractor: KakaoLoginServiceDelegate {
     func didReceive(accessToken: String) {
+        router?.attachTermsOfUse()
         dependency.authClient.kakaoLogin(accessToken: accessToken)
             .sink { [weak self] response in
                 if let userAuth = response.value {

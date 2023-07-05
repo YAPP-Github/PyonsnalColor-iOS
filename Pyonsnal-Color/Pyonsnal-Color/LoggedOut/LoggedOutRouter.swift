@@ -32,7 +32,7 @@ final class LoggedOutRouter: ViewableRouter<LoggedOutInteractable, LoggedOutView
         interactor.router = self
     }
     
-    func routeToTermsOfUse() {
+    func attachTermsOfUse() {
         guard termsOfUseRouting == nil else { return }
         let termsOfUseRouter = termsOfUseBuilder.build(withListener: interactor)
         termsOfUseRouting = termsOfUseRouter
@@ -41,7 +41,15 @@ final class LoggedOutRouter: ViewableRouter<LoggedOutInteractable, LoggedOutView
             termsOfUseViewController.modalPresentationStyle = .overFullScreen
             viewController.uiviewController.present(termsOfUseViewController, animated: true)
         }
-        
+    }
+    
+    func detachTermsOfUse() {
+        if let termsOfUseRouting {
+            self.termsOfUseRouting = nil
+            detachChild(termsOfUseRouting)
+            viewController.uiviewController.dismiss(animated: true)
+        }
+       
     }
     
 }

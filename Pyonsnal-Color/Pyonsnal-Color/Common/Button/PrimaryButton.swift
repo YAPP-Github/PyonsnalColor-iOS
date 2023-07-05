@@ -63,7 +63,6 @@ final class PrimaryButton: UIButton {
     init(state: ButtonSelectable) {
         super.init(frame: .zero)
         setState(with: state)
-        updateUI(attribute: state.attributes)
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +72,7 @@ final class PrimaryButton: UIButton {
     // MARK: - Method
     func setState(with state: ButtonSelectable) {
         self.isEnabled = state.bool
+        updateUI(attribute: state.attributes)
     }
     
     func updateUI(attribute: ButtonAttributes) {
