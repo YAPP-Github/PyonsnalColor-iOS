@@ -107,15 +107,15 @@ final class ProductHomeViewController:
         notificationListViewController.modalPresentationStyle = .fullScreen
         present(notificationListViewController, animated: true)
     }
-    
+}
+
+//MARK: - TitleNavigationViewDelegate {
+extension ProductHomeViewController: TitleNavigationViewDelegate {
     @objc
     func didTabNotificationButton() {
         listener?.didTapNotificationButton()
     }
 }
-
-//MARK: - TitleNavigationViewDelegate {
-extension ProductHomeViewController: TitleNavigationViewDelegate { }
 
 //MARK: - UICollectionViewDataSource
 extension ProductHomeViewController: UICollectionViewDataSource {
