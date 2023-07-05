@@ -6,6 +6,8 @@
 //
 
 import ModernRIBs
+import Combine
+import Foundation
 
 protocol LoggedOutRouting: ViewableRouting {
 }
@@ -27,7 +29,8 @@ final class LoggedOutInteractor:
     weak var listener: LoggedOutListener?
     
     private var dependency: LoggedOutDependency
-
+    private var cancellable = Set<AnyCancellable>()
+    
     init(presenter: LoggedOutPresentable, dependency: LoggedOutDependency) {
         self.dependency = dependency
         super.init(presenter: presenter)
@@ -51,6 +54,22 @@ final class LoggedOutInteractor:
     func requestKakaoLogin() {
         dependency.kakaoLoginService.requestKakaoLogin()
     }
+    
+    private func requestAppleLogin(with identifyToken: String) {
+        let appleAuthRouter = AuthRouter.apple(token: identifyToken)
+        PyonsnalColorClient.shared.request(
+            appleAuthRouter,
+            model: TokenEntity.self
+        )
+        .sink { [weak self] response in
+            if response.error != nil {
+                // error handling
+            } else {
+                print(response.value)
+            }
+        }.store(in: &cancellable)
+    }
+    
 }
 
 extension LoggedOutInteractor: AppleLoginServiceDelegate {
@@ -58,7 +77,9 @@ extension LoggedOutInteractor: AppleLoginServiceDelegate {
         /// TO DO : send to server
         /// get token from server
         /// save token to Keychain
-        listener?.didLogin()
+        
+//        listener?.didLogin()
+        requestAppleLogin(with: identifyToken)
     }
 }
 
