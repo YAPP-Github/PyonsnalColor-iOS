@@ -9,7 +9,6 @@ import ModernRIBs
 import UIKit
 
 protocol ProductHomePresentableListener: AnyObject {
-    func didTapNotificationButton()
 }
 
 final class ProductHomeViewController:
@@ -50,7 +49,6 @@ final class ProductHomeViewController:
         viewHolder.configureConstraints(for: view)
         setupStoreCollectionView()
         setupProductCollectionView()
-        configureNotificationButton()
     }
     
     //MARK: - Private Method
@@ -96,7 +94,7 @@ final class ProductHomeViewController:
             scrollPosition: .centeredHorizontally
         )
     }
-    
+
     private func configureNotificationButton() {
         viewHolder.titleNavigationView.delegate = self
     }
