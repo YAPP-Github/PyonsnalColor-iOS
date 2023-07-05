@@ -43,7 +43,7 @@ final class TitleNavigationView: UIView {
     
     private let notificationButton: UIButton = {
         let button = UIButton()
-        // TODO: 추가될 알림버튼 이미지 적용
+        //TODO: 추가될 알림버튼 이미지 적용
         button.setImage(.init(systemName: "bell"), for: .normal)
         button.tintColor = .black
         return button
@@ -56,23 +56,12 @@ final class TitleNavigationView: UIView {
         return view
     }()
     
-    weak var delegate: TitleNavigationViewDelegate?
-    
     convenience init(title: String) {
         self.init(frame: .zero)
         
-        configureAction()
         configureLayout()
         configureConstraints()
         titleLabel.text = title
-    }
-    
-    private func configureAction() {
-        notificationButton.addTarget(
-            self,
-            action: #selector(didTabNotificationButton),
-            for: .touchUpInside
-        )
     }
     
     private func configureLayout() {
@@ -93,10 +82,6 @@ final class TitleNavigationView: UIView {
             make.top.trailing.equalToSuperview()
             make.width.height.equalTo(Constant.Size.indicatorWidth)
         }
-    }
-    
-    @objc private func didTabNotificationButton() {
-        delegate?.didTabNotificationButton()
     }
     
     func setTitle(_ text: String) {
