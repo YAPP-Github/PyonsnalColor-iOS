@@ -59,7 +59,7 @@ final class LoggedOutInteractor:
         let appleAuthRouter = AuthRouter.apple(token: identifyToken)
         PyonsnalColorClient.shared.request(
             appleAuthRouter,
-            model: TokenEntity.self
+            model: LoginResponseEntity.self
         )
         .sink { [weak self] response in
             if response.error != nil {
