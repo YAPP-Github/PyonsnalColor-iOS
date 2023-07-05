@@ -94,6 +94,25 @@ final class ProductHomeViewController:
             scrollPosition: .centeredHorizontally
         )
     }
+
+    private func configureNotificationButton() {
+        viewHolder.titleNavigationView.delegate = self
+    }
+    
+    func showNotificationList(_ viewController: ModernRIBs.ViewControllable) {
+        let notificationListViewController = viewController.uiviewController
+        
+        notificationListViewController.modalPresentationStyle = .fullScreen
+        present(notificationListViewController, animated: true)
+    }
+}
+
+//MARK: - TitleNavigationViewDelegate {
+extension ProductHomeViewController: TitleNavigationViewDelegate {
+    @objc
+    func didTabNotificationButton() {
+        listener?.didTapNotificationButton()
+    }
 }
 
 //MARK: - UICollectionViewDataSource
