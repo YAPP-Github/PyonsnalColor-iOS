@@ -16,6 +16,11 @@ extension ProductDetailViewController {
             return view
         }()
         
+        let imageNavigationView: ImageNavigationView = {
+            let imageNavigationView = ImageNavigationView()
+            return imageNavigationView
+        }()
+        
         private let contentScrollView: UIScrollView = {
             let scrollView: UIScrollView = .init(frame: .zero)
             scrollView.backgroundColor = .white
@@ -71,7 +76,8 @@ extension ProductDetailViewController {
         }()
         
         private let productTagListView: ProductTagListView = {
-            let productTagListView: ProductTagListView = .init(frame: .zero)
+            let productTagListView: ProductTagListView = .init()
+            productTagListView.payload = .init(isNew: true, eventTags: [.discount, .freebie])
             return productTagListView
         }()
         
@@ -110,6 +116,7 @@ extension ProductDetailViewController {
         func place(in view: UIView) {
             view.addSubview(contentView)
             
+            contentView.addSubview(imageNavigationView)
             contentView.addSubview(contentScrollView)
             
             contentScrollView.addSubview(contentStackView)
@@ -137,8 +144,13 @@ extension ProductDetailViewController {
                 make.edges.equalTo(view.safeAreaLayoutGuide)
             }
             
+            imageNavigationView.snp.makeConstraints { make in
+                make.leading.top.trailing.equalToSuperview()
+            }
+            
             contentScrollView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
+                make.top.equalTo(imageNavigationView.snp.bottom)
+                make.leading.bottom.trailing.equalToSuperview()
             }
             
             contentStackView.snp.makeConstraints { make in
@@ -166,7 +178,6 @@ extension ProductDetailViewController {
             }
             
             productTagListView.snp.makeConstraints { make in
-                make.height.equalTo(24)
                 make.leading.trailing.equalToSuperview().inset(16)
             }
             
