@@ -52,7 +52,7 @@
 		BA00B73C2A46B98700BB3795 /* SnapKit+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B73B2A46B98700BB3795 /* SnapKit+.swift */; };
 		BA0BFB722A5463BD0019AED7 /* EventTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0BFB712A5463BD0019AED7 /* EventTag.swift */; };
 		BA0D77F62A56C6FB0041C2D5 /* EventTagBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0D77F52A56C6FB0041C2D5 /* EventTagBig.swift */; };
-		BA0D77F82A56CCB00041C2D5 /* NewTagBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0D77F72A56CCB00041C2D5 /* NewTagBig.swift */; };
+		BA0D77F92A56DC550041C2D5 /* NewTagBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0D77F72A56CCB00041C2D5 /* NewTagBig.swift */; };
 		BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807542A2F151F00295398 /* ImageAssetKind.swift */; };
 		BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807592A2F170100295398 /* UIImageView+.swift */; };
 		BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18075B2A2F189A00295398 /* UIButton+.swift */; };
@@ -98,9 +98,6 @@
 		F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535462A45A70300A2A8F2 /* EventBannerCell.swift */; };
 		F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535482A45A8BD00A2A8F2 /* EventBannerItemCell.swift */; };
 		F015354B2A45A8DD00A2A8F2 /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */; };
-		F01535502A460CE700A2A8F2 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBEA2A30BA8C0001D3DD /* Pretendard-SemiBold.otf */; };
-		F01535512A460CE900A2A8F2 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE92A30BA8C0001D3DD /* Pretendard-Regular.otf */; };
-		F01535522A460CEC00A2A8F2 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */; };
 		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
 		F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */; };
 		F0687BED2A529679004B5EAE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0687BEC2A529679004B5EAE /* Config.swift */; };
@@ -124,7 +121,6 @@
 		F0EE10AD2A4B389A00B8DF4F /* AccountSettingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A92A4B389A00B8DF4F /* AccountSettingBuilder.swift */; };
 		F0EE10AE2A4B389A00B8DF4F /* AccountSettingInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10AA2A4B389A00B8DF4F /* AccountSettingInteractor.swift */; };
 		F0EE10B02A4B4DF600B8DF4F /* ItemIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */; };
-		F0D8FEBE2A3EDB6B000B530A /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D8FEBD2A3EDB6B000B530A /* UIColor+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -238,7 +234,6 @@
 		F0EE10A92A4B389A00B8DF4F /* AccountSettingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingBuilder.swift; sourceTree = "<group>"; };
 		F0EE10AA2A4B389A00B8DF4F /* AccountSettingInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingInteractor.swift; sourceTree = "<group>"; };
 		F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemIdentifier.swift; sourceTree = "<group>"; };
-		F0D8FEBD2A3EDB6B000B530A /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -773,6 +768,7 @@
 				F0EE10A12A4B122A00B8DF4F /* UITableView+.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
 				F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */,
+				BA0D77F92A56DC550041C2D5 /* NewTagBig.swift in Sources */,
 				F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */,
