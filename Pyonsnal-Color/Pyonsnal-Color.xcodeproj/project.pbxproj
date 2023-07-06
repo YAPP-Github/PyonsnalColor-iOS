@@ -51,6 +51,8 @@
 		BA00B7392A46B8BF00BB3795 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B7382A46B8BF00BB3795 /* Spacing.swift */; };
 		BA00B73C2A46B98700BB3795 /* SnapKit+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B73B2A46B98700BB3795 /* SnapKit+.swift */; };
 		BA0BFB722A5463BD0019AED7 /* EventTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0BFB712A5463BD0019AED7 /* EventTag.swift */; };
+		BA0D77F62A56C6FB0041C2D5 /* EventTagBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0D77F52A56C6FB0041C2D5 /* EventTagBig.swift */; };
+		BA0D77F82A56CCB00041C2D5 /* NewTagBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0D77F72A56CCB00041C2D5 /* NewTagBig.swift */; };
 		BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807542A2F151F00295398 /* ImageAssetKind.swift */; };
 		BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807592A2F170100295398 /* UIImageView+.swift */; };
 		BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18075B2A2F189A00295398 /* UIButton+.swift */; };
@@ -161,6 +163,8 @@
 		BA00B7382A46B8BF00BB3795 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		BA00B73B2A46B98700BB3795 /* SnapKit+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+.swift"; sourceTree = "<group>"; };
 		BA0BFB712A5463BD0019AED7 /* EventTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTag.swift; sourceTree = "<group>"; };
+		BA0D77F52A56C6FB0041C2D5 /* EventTagBig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTagBig.swift; sourceTree = "<group>"; };
+		BA0D77F72A56CCB00041C2D5 /* NewTagBig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTagBig.swift; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
 		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		BA18075B2A2F189A00295398 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
@@ -365,6 +369,15 @@
 			path = 3rdParty;
 			sourceTree = "<group>";
 		};
+		BA0D77F32A56C12C0041C2D5 /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				BA0D77F52A56C6FB0041C2D5 /* EventTagBig.swift */,
+				BA0D77F72A56CCB00041C2D5 /* NewTagBig.swift */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
 		BA1807532A2F13DA00295398 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +536,7 @@
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				BA0D77F32A56C12C0041C2D5 /* Tag */,
 				B24F1D492A4BB81000AA03DC /* NavigationBar */,
 				F0D6FFA72A39F57600C55E27 /* Cell */,
 				BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */,
@@ -769,6 +783,7 @@
 				F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
+				BA0D77F62A56C6FB0041C2D5 /* EventTagBig.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
 				B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */,
