@@ -39,7 +39,7 @@ final class RootInteractor:
         super.willResignActive()
     }
     
-    func didLogin() {
+    func routeToLoggedIn() {
         router?.routeToLoggedIn()
     }
 }

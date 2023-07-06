@@ -11,22 +11,21 @@ import SnapKit
 
 protocol TermsOfUsePresentableListener: AnyObject {
     func dismissViewController()
-    func routeToLoggedIn()
+    func routeToLoggedInIfNeeded()
+    func routeToWebView(subTermsInfo: SubTerms)
 }
 
 final class TermsOfUseViewController: UIViewController,
                                       TermsOfUsePresentable,
                                       TermsOfUseViewControllable {
-    struct SubTerms {
-        let title: String
-        var hasNextPage: Bool = false
-    }
     
     enum Constants {
         enum Text {
+            static let allAgree = "모두 동의"
             static let title = "서비스 이용에 동의해주세요."
         }
         enum Size {
+            static let popupViewCornerRadius: CGFloat = 16
             static let popupViewHeight: CGFloat = 450
         }
     }
@@ -37,9 +36,14 @@ final class TermsOfUseViewController: UIViewController,
     private let viewHolder: ViewHolder = .init()
     
     static let subTerms: [SubTerms] = [
-        SubTerms(title: "(필수) 만 14세 이상입니다."),
-        SubTerms(title: "(필수) 서비스 이용약관 동의", hasNextPage: true),
-        SubTerms(title: "(필수) 개인정보 처리방침 동의", hasNextPage: true)
+        SubTerms(title: "(필수) 만 14세 이상입니다.",
+                 type: .age),
+        SubTerms(title: "(필수) 서비스 이용약관 동의",
+                 hasNextPage: true,
+                 type: .use),
+        SubTerms(title: "(필수) 개인정보 처리방침 동의",
+                 hasNextPage: true,
+                 type: .privateInfo)
     ]
     
     override func viewDidLoad() {
@@ -50,17 +54,32 @@ final class TermsOfUseViewController: UIViewController,
     }
     
     func configureAction() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapBackgroundView))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                          action: #selector(didTapBackgroundView))
         viewHolder.backGroundView.addGestureRecognizer(tapGestureRecognizer)
         viewHolder.closeButton.addTarget(self,
-                                            action: #selector(didTapCloseButton),
-                                            for: .touchUpInside)
+                                         action: #selector(didTapCloseButton),
+                                         for: .touchUpInside)
         viewHolder.allAgreeButton.addTarget(self,
                                             action: #selector(didTapAllAgreeButton),
                                             for: .touchUpInside)
         viewHolder.joinButton.addTarget(self,
                                         action: #selector(didTapJoinButton),
                                         for: .touchUpInside)
+        
+        for subTermsButton in viewHolder.subTermsButtons {
+            subTermsButton.addTarget(self,
+                                     action: #selector(didTapTermsButton(_:)),
+                                     for: .touchUpInside)
+        }
+        
+        for (index, subTermsArrowButton) in viewHolder.subTermsOfArrowButtons.enumerated() {
+            subTermsArrowButton.tag = index
+            subTermsArrowButton.addTarget(self,
+                                          action: #selector(didTapTermsArrowButton(_:)),
+                                          for: .touchUpInside)
+        }
+            
     }
     
     @objc
@@ -76,27 +95,63 @@ final class TermsOfUseViewController: UIViewController,
     @objc
     private func didTapAllAgreeButton() {
         let toggledSelected = !viewHolder.allAgreeButton.isCurrentSelected()
+        
+        //set allAgreeButton
         viewHolder.allAgreeButton.setButtonState(isSelected: toggledSelected)
-        viewHolder.subButtonVerticalStackView.arrangedSubviews.forEach { stackView in
-            stackView.subviews.forEach { termsButton in
-                if let termsButton = termsButton as? TermsButton {
-                    termsButton.isSelected = toggledSelected
-                }
-            }
+        
+        //set subTermsButtons
+        viewHolder.subTermsButtons.forEach { subTermsButton in
+            subTermsButton.setButtonState(isSelected: toggledSelected)
         }
-        // 가입 완료 버튼 활성화
-        let buttonEnabled: PrimaryButton.ButtonSelectable = toggledSelected == true ? .enabled : .disabled
-        viewHolder.joinButton.setState(with: buttonEnabled)
+        // set joinButton
+        setJoinButtonState(with: toggledSelected)
     }
     
-    @objc func didTapJoinButton() {
-        listener?.routeToLoggedIn()
+    @objc
+    private func didTapTermsButton(_ sender: TermsButton) {
+        let toggledState = !sender.isSelected
+        let isSubTermsButtonSelected = viewHolder.subTermsButtons.allSatisfy { $0.isSelected }
+        
+        //set subTermsButtons
+        sender.setButtonState(isSelected: toggledState)
+        
+        //set allAgreeButton
+        viewHolder.allAgreeButton.setButtonState(isSelected: isSubTermsButtonSelected)
+        
+        // set joinButton
+        let allAgreeButtonState = viewHolder.allAgreeButton.isCurrentSelected()
+        let joinButtonState = isSubTermsButtonSelected && allAgreeButtonState
+        setJoinButtonState(with: joinButtonState)
+    }
+    
+    @objc
+    private func didTapTermsArrowButton(_ sender: UIButton) {
+        let subTerms = TermsOfUseViewController.subTerms[sender.tag]
+        listener?.routeToWebView(subTermsInfo: subTerms)
+    }
+    
+    @objc
+    private func didTapJoinButton() {
+        listener?.routeToLoggedInIfNeeded()
+    }
+    
+    private func setJoinButtonState(with isAllSelected: Bool) {
+        let buttonEnabled: PrimaryButton.ButtonSelectable = isAllSelected ? .enabled : .disabled
+        viewHolder.joinButton.setState(with: buttonEnabled)
     }
     
 }
 
 extension TermsOfUseViewController {
     final class ViewHolder: ViewHolderable {
+        var subTermsButtons: [TermsButton] {
+            return [subTermsOfAgeButton, subTermsOfUseButton, subTermsOfPrivateInfoButton]
+        }
+        
+        var subTermsOfArrowButtons: [UIButton] {
+            return [UIButton(), subTermsOfUseArrowButton, subTermsOfPrivateInfoArrowButton]
+        }
+        
         let backGroundView: UIView = {
             let view = UIView()
             view.backgroundColor = .black
@@ -106,7 +161,7 @@ extension TermsOfUseViewController {
         
         private let popUpView: UIView = {
             let view = UIView()
-            view.makeRoundCorners(cornerRadius: 16,
+            view.makeRoundCorners(cornerRadius: Constants.Size.popupViewCornerRadius,
                                   maskedCorners: [.layerMinXMinYCorner,
                                                   .layerMaxXMinYCorner])
             view.backgroundColor = .white
@@ -134,11 +189,12 @@ extension TermsOfUseViewController {
             return button
         }()
 
+        // MARK: allAgreeButton
         let allAgreeButton: TermsButton = {
-            let button = TermsButton(text: "모두 동의",
-                                     textColor: .black,
+            let button = TermsButton(textColor: .black,
                                      font: .title2,
                                      isSelected: false)
+            button.setText(with: Constants.Text.allAgree)
             return button
         }()
         
@@ -156,6 +212,41 @@ extension TermsOfUseViewController {
             return view
         }()
         
+        // MARK: subTermsButton
+        let subTermsOfAgeButton: TermsButton = {
+            let button = TermsButton(textColor: .gray700,
+                                     font: .title3,
+                                     isSelected: false)
+            return button
+        }()
+        
+        let subTermsOfUseButton: TermsButton = {
+            let button = TermsButton(textColor: .gray700,
+                                     font: .title3,
+                                     isSelected: false)
+            return button
+        }()
+        
+        private let subTermsOfPrivateInfoButton: TermsButton = {
+            let button = TermsButton(textColor: .gray700,
+                                     font: .title3,
+                                     isSelected: false)
+            return button
+        }()
+        
+        private let subTermsOfUseArrowButton: UIButton = {
+            let button = UIButton()
+            button.setImage(.iconArrow, for: .normal)
+            return button
+        }()
+        
+        private let subTermsOfPrivateInfoArrowButton: UIButton = {
+            let button = UIButton()
+            button.setImage(.iconArrow, for: .normal)
+            return button
+        }()
+        
+        // MARK: joinButton
         let joinButton: PrimaryButton = {
             let button = PrimaryButton(state: .disabled)
             button.setText(with: "가입완료")
@@ -175,7 +266,9 @@ extension TermsOfUseViewController {
             
             popUpView.addSubview(subButtonVerticalStackView)
             popUpView.addSubview(joinButton)
-            for subTerm in subTerms {
+            for (index, subTerm) in subTerms.enumerated() {
+                
+                //매번 생성 필요하여 여기에서 생성
                 let buttonHorizontalStackView: UIStackView = {
                     let stackView = UIStackView()
                     stackView.axis = .horizontal
@@ -185,25 +278,11 @@ extension TermsOfUseViewController {
                     return stackView
                 }()
                 
-                let subTermsButton: TermsButton = {
-                    let button = TermsButton(text: nil,
-                                             textColor: .gray700,
-                                             font: .title3,
-                                             isSelected: false)
-                    return button
-                }()
                 subButtonVerticalStackView.addArrangedSubview(buttonHorizontalStackView)
-                subTermsButton.setText(with: subTerm.title)
-                buttonHorizontalStackView.addArrangedSubview(subTermsButton)
-                
+                subTermsButtons[index].setText(with: subTerm.title)
+                buttonHorizontalStackView.addArrangedSubview(subTermsButtons[index])
                 if subTerm.hasNextPage {
-                    
-                    let subTermsRouteButton: UIButton = {
-                        let button = UIButton()
-                        button.setImage(.iconArrow, for: .normal)
-                        return button
-                    }()
-                    buttonHorizontalStackView.addArrangedSubview(subTermsRouteButton)
+                    buttonHorizontalStackView.addArrangedSubview(subTermsOfArrowButtons[index])
                 }
             }
             

@@ -19,7 +19,7 @@ protocol LoggedOutPresentable: Presentable {
 }
 
 protocol LoggedOutListener: AnyObject {
-    func didLogin()
+    func routeToLoggedIn()
 }
 
 final class LoggedOutInteractor:
@@ -73,6 +73,10 @@ final class LoggedOutInteractor:
     
     func detachTermsOfUse() {
         router?.detachTermsOfUse()
+    }
+    
+    func routeToLoggedIn() {
+        listener?.routeToLoggedIn()
     }
     
 }

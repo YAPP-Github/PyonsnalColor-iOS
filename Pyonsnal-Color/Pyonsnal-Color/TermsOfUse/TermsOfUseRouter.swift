@@ -17,10 +17,16 @@ protocol TermsOfUseViewControllable: ViewControllable {
 }
 
 final class TermsOfUseRouter: ViewableRouter<TermsOfUseInteractable, TermsOfUseViewControllable>, TermsOfUseRouting {
+    
 
     // TODO: Constructor inject child builder protocols to allow building children.
     override init(interactor: TermsOfUseInteractable, viewController: TermsOfUseViewControllable) {
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func routeToWebView() {
+        print("append webView")
+        //webView 붙이기
     }
 }

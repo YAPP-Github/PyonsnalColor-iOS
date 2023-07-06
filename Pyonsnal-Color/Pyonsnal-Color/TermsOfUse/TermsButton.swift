@@ -11,14 +11,12 @@ final class TermsButton: UIButton {
     
     // MARK: - Initializer
     init(
-        text: String?,
         textColor: UIColor,
         font: UIFont,
         isSelected: Bool
     ) {
         super.init(frame: .zero)
-        configureUI(with: text,
-                    textColor: textColor,
+        configureUI(textColor: textColor,
                     font: font)
     }
     
@@ -39,11 +37,9 @@ final class TermsButton: UIButton {
     }
     
     // MARK: - Private method
-    private func configureUI(with text: String?,
-                             textColor: UIColor,
+    private func configureUI(textColor: UIColor,
                              font: UIFont) {
         self.backgroundColor = .blue500
-        self.setText(with: text)
         self.titleLabel?.font = font
         self.setTitleColor(textColor, for: .normal)
         self.setImage(.check, for: .normal)

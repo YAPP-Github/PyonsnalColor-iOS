@@ -8,7 +8,7 @@
 import ModernRIBs
 
 protocol TermsOfUseRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func routeToWebView()
 }
 
 protocol TermsOfUsePresentable: Presentable {
@@ -18,6 +18,7 @@ protocol TermsOfUsePresentable: Presentable {
 
 protocol TermsOfUseListener: AnyObject {
     func detachTermsOfUse()
+    func routeToLoggedIn()
 }
 
 final class TermsOfUseInteractor: PresentableInteractor<TermsOfUsePresentable>, TermsOfUseInteractable, TermsOfUsePresentableListener {
@@ -47,7 +48,13 @@ final class TermsOfUseInteractor: PresentableInteractor<TermsOfUsePresentable>, 
         listener?.detachTermsOfUse()
     }
     
-    func routeToLoggedIn() {
-        // TO DO 
+    func routeToLoggedInIfNeeded() {
+        // 로그인 request with 어떤 로그인 버튼 클릭했는지랑
+        // 토큰 저장
+        listener?.routeToLoggedIn()
+    }
+    
+    func routeToWebView(subTermsInfo: SubTerms) {
+        router?.routeToWebView()
     }
 }
