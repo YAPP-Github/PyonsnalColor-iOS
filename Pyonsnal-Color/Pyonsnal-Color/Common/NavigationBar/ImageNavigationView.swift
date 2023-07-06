@@ -17,6 +17,7 @@ final class ImageNavigationView: UIView {
     // MARK: - UI Component
     private let contentView: UIView = {
         let view: UIView = .init(frame: .zero)
+        view.backgroundColor = .white
         return view
     }()
     
@@ -36,12 +37,14 @@ final class ImageNavigationView: UIView {
     weak var delegate: ImageNavigationViewDelegate?
     
     // MARK: - Private Property
-    private let payload: Payload
+    var payload: Payload? {
+        didSet {
+            updateUI()
+        }
+    }
     
     // MARK: - Initializer
-    init(payload: Payload) {
-        self.payload = payload
-        
+    init() {
         super.init(frame: .zero)
         
         configureView()
@@ -58,10 +61,13 @@ final class ImageNavigationView: UIView {
         delegate?.didTapBackButton()
     }
     
+    private func updateUI() {
+        guard let payload else { return }
+        iconImageView.setImage(payload.iconImageKind)
+    }
+    
     private func configureUI() {
         backButton.addTarget(self, action: #selector(backButtonAction(_:)), for: .touchUpInside)
-        
-        iconImageView.setImage(payload.iconImageKind)
     }
     
     private func configureView() {
