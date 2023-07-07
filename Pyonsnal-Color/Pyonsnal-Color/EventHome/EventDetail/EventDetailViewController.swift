@@ -35,6 +35,8 @@ final class EventDetailViewController: UIViewController,
         if let imageUrl = URL(string: imageUrl) {
             viewHolder.eventImageView.setImage(with: imageUrl)
         }
+        // TO DO : 이것도 받아오도록 바뀌어야 함
+        viewHolder.imageNavigationView.payload = .init(iconImageKind: .iconCU)
     }
     
     // MARK: - Private Method
@@ -55,8 +57,8 @@ extension EventDetailViewController {
     // MARK: - UI Component
     final class ViewHolder: ViewHolderable {
         let imageNavigationView: ImageNavigationView = {
-            let view = ImageNavigationView(payload: .init(iconImageKind: .iconGS))
-            return view
+            let imageNavigationView = ImageNavigationView()
+            return imageNavigationView
         }()
         
         private let containerScrollView: UIScrollView = {
