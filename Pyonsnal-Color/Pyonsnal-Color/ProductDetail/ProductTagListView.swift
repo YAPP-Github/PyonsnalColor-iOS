@@ -55,12 +55,12 @@ final class ProductTagListView: UIView {
         
         labelStackView.subviews.forEach { $0.removeFromSuperview() }
         if payload.isNew {
-            let newTag = NewTagBig()
+            let newTag = NewTagBigView()
             labelStackView.addArrangedSubview(newTag)
         }
         
         payload.eventTags.forEach {
-            let eventTagBig = EventTagBig(payload: .init(eventTag: $0))
+            let eventTagBig = EventTagBigView(payload: .init(eventTag: $0))
             labelStackView.addArrangedSubview(eventTagBig)
         }
     }

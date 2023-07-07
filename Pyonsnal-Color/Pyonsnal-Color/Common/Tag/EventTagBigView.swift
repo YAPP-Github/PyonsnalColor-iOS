@@ -1,42 +1,52 @@
 //
-//  NewTagBig.swift
+//  EventTagBigView.swift
 //  Pyonsnal-Color
 //
-//  Created by 김진우 on 2023/07/06.
+//  Created by 김진우 on 2023/07/07.
 //
 
 import UIKit
 import SnapKit
 
-final class NewTagBig: UIView {
+final class EventTagBigView: UIView {
     // MARK: - Declaration
     enum Constant {
         enum Size {
-            static let titleLabelWidth: CGFloat = 46
-            static let titleLabelHeight: CGFloat = 24
+            static let round5: CGFloat = 12
         }
+    }
+    
+    struct Payload {
+        let eventTag: EventTag
     }
     
     // MARK: - UI Component
     private let contentView: UIView = {
         let view: UIView = .init(frame: .zero)
+        view.backgroundColor = .green500
+        view.makeRounded(with: Constant.Size.round5)
         return view
     }()
     
     private let titleLabel: UILabel = {
         let label: UILabel = .init(frame: .zero)
-        label.font = .title1
-        label.textColor = .red500
-        label.text = "NEW"
+        label.font = .body3m
+        label.textColor = .white
         return label
     }()
     
+    // MARK: - Interface
+    var payload: Payload?
+    
     // MARK: - Initializer
-    init() {
+    init(payload: Payload?) {
+        self.payload = payload
+        
         super.init(frame: .zero)
         
         configureView()
         configureConstraint()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -44,6 +54,12 @@ final class NewTagBig: UIView {
     }
     
     // MARK: - Private Method
+    private func configureUI() {
+        guard let payload else { return }
+        
+        titleLabel.text = payload.eventTag.name
+    }
+    
     private func configureView() {
         addSubview(contentView)
         
@@ -56,9 +72,8 @@ final class NewTagBig: UIView {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.width.equalTo(Constant.Size.titleLabelWidth)
-            make.height.equalTo(Constant.Size.titleLabelHeight)
-            make.edges.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(.spacing2)
+            make.leading.trailing.equalToSuperview().inset(.spacing10)
         }
     }
 }
