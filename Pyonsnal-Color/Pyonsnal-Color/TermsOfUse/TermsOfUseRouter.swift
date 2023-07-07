@@ -39,7 +39,7 @@ final class TermsOfUseRouter: ViewableRouter<TermsOfUseInteractable,
         let commonWebViewBuilder = commonWebViewBuilder.build(withListener: interactor, subTerms: terms)
         self.commonWebViewRouting = commonWebViewBuilder
         attachChild(commonWebViewBuilder)
-        viewController.uiviewController.modalPresentationStyle = .fullScreen
+        commonWebViewBuilder.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
         viewController.uiviewController.present(commonWebViewBuilder.viewControllable.uiviewController, animated: true)
     }
 
