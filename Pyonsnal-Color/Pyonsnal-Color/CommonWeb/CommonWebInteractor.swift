@@ -1,5 +1,5 @@
 //
-//  CommonWebViewInteractor.swift
+//  CommonWebInteractor.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/07/07.
@@ -7,30 +7,30 @@
 
 import ModernRIBs
 
-protocol CommonWebViewRouting: ViewableRouting {
+protocol CommonWebRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
-protocol CommonWebViewPresentable: Presentable {
-    var listener: CommonWebViewPresentableListener? { get set }
+protocol CommonWebPresentable: Presentable {
+    var listener: CommonWebPresentableListener? { get set }
     func update(with subTermsInfo: SubTerms)
 }
 
-protocol CommonWebViewListener: AnyObject {
+protocol CommonWebListener: AnyObject {
     func detachCommonWebView()
 }
 
-final class CommonWebViewInteractor: PresentableInteractor<CommonWebViewPresentable>, CommonWebViewInteractable, CommonWebViewPresentableListener {
+final class CommonWebInteractor: PresentableInteractor<CommonWebPresentable>, CommonWebInteractable, CommonWebPresentableListener {
 
-    weak var router: CommonWebViewRouting?
-    weak var listener: CommonWebViewListener?
-    private let component: CommonWebViewComponent
+    weak var router: CommonWebRouting?
+    weak var listener: CommonWebListener?
+    private let component: CommonWebComponent
     
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
     init(
-        presenter: CommonWebViewPresentable,
-        component: CommonWebViewComponent
+        presenter: CommonWebPresentable,
+        component: CommonWebComponent
     ) {
         self.component = component
         super.init(presenter: presenter)

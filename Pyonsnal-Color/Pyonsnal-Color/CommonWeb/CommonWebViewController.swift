@@ -1,27 +1,27 @@
 //
-//  CommonWebViewViewController.swift
+//  CommonWebViewController.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/07/07.
 //
 
-import ModernRIBs
 import UIKit
 import WebKit
+import ModernRIBs
 
-protocol CommonWebViewPresentableListener: AnyObject {
+protocol CommonWebPresentableListener: AnyObject {
     func detachCommonWebView()
 }
 
-final class CommonWebViewViewController: UIViewController,
-                                         CommonWebViewPresentable,
-                                         CommonWebViewViewControllable {
+final class CommonWebViewController: UIViewController,
+                                         CommonWebPresentable,
+                                         CommonWebViewControllable {
 
     enum Size {
         static let navigationViewHeight: CGFloat = 47
     }
     
-    weak var listener: CommonWebViewPresentableListener?
+    weak var listener: CommonWebPresentableListener?
     private let viewHolder: ViewHolder = .init()
     
     override func viewDidLoad() {
@@ -52,13 +52,13 @@ final class CommonWebViewViewController: UIViewController,
 }
 
 // MARK: - BackNavigationViewDelegate
-extension CommonWebViewViewController: BackNavigationViewDelegate {
+extension CommonWebViewController: BackNavigationViewDelegate {
     func didTapBackButton() {
         listener?.detachCommonWebView()
     }
 }
 
-extension CommonWebViewViewController {
+extension CommonWebViewController {
     class ViewHolder: ViewHolderable {
         // MARK: - UI Component
         let navigationView: BackNavigationView = {

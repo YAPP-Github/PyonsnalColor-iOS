@@ -8,7 +8,7 @@
 import ModernRIBs
 
 protocol TermsOfUseInteractable: Interactable,
-                                 CommonWebViewListener {
+                                 CommonWebListener {
     var router: TermsOfUseRouting? { get set }
     var listener: TermsOfUseListener? { get set }
 }
@@ -21,32 +21,32 @@ final class TermsOfUseRouter: ViewableRouter<TermsOfUseInteractable,
                               TermsOfUseViewControllable>,
                               TermsOfUseRouting {
     
-    private let commonWebViewBuilder: CommonWebViewBuildable
-    private var commonWebViewRouting: ViewableRouting?
+    private let commonWebBuilder: CommonWebBuildable
+    private var commonWebRouting: ViewableRouting?
     
     init(
         interactor: TermsOfUseInteractable,
         viewController: TermsOfUseViewControllable,
-        commonWebViewBuilder: CommonWebViewBuildable
+        commonWebBuilder: CommonWebBuildable
     ) {
-        self.commonWebViewBuilder = commonWebViewBuilder
+        self.commonWebBuilder = commonWebBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
     
     func attachCommonWebView(with terms: SubTerms) {
-        if commonWebViewRouting != nil { return }
-        let commonWebViewBuilder = commonWebViewBuilder.build(withListener: interactor, subTerms: terms)
-        self.commonWebViewRouting = commonWebViewBuilder
-        attachChild(commonWebViewBuilder)
-        commonWebViewBuilder.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
-        viewController.uiviewController.present(commonWebViewBuilder.viewControllable.uiviewController, animated: true)
+        if commonWebRouting != nil { return }
+        let commonWebBuilder = commonWebBuilder.build(withListener: interactor, subTerms: terms)
+        self.commonWebRouting = commonWebBuilder
+        attachChild(commonWebBuilder)
+        commonWebBuilder.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
+        viewController.uiviewController.present(commonWebBuilder.viewControllable.uiviewController, animated: true)
     }
 
     func detachCommonWebView() {
-        guard let commonWebViewRouting else { return }
-        self.commonWebViewRouting = nil
-        detachChild(commonWebViewRouting)
+        guard let commonWebRouting else { return }
+        self.commonWebRouting = nil
+        detachChild(commonWebRouting)
         viewController.uiviewController.dismiss(animated: true)
     }
 }

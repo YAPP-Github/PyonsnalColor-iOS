@@ -1,7 +1,7 @@
 //
 //  TermsOfUseBuilder.swift
 //  Pyonsnal-Color
-//
+// 
 //  Created by 조소정 on 2023/07/06.
 //
 
@@ -12,7 +12,7 @@ protocol TermsOfUseDependency: Dependency {
 }
 
 final class TermsOfUseComponent: Component<TermsOfUseDependency>,
-                                 CommonWebViewDependency {
+                                 CommonWebDependency {
 
 }
 
@@ -32,9 +32,9 @@ final class TermsOfUseBuilder: Builder<TermsOfUseDependency>, TermsOfUseBuildabl
     func build(withListener listener: TermsOfUseListener) -> TermsOfUseRouting {
         let component = TermsOfUseComponent(dependency: dependency)
         let viewController = TermsOfUseViewController()
-        let commonWebViewBuilder = CommonWebViewBuilder(dependency: component)
+        let commonWebBuilder = CommonWebBuilder(dependency: component)
         let interactor = TermsOfUseInteractor(presenter: viewController)
         interactor.listener = listener
-        return TermsOfUseRouter(interactor: interactor, viewController: viewController, commonWebViewBuilder: commonWebViewBuilder)
+        return TermsOfUseRouter(interactor: interactor, viewController: viewController, commonWebBuilder: commonWebBuilder)
     }
 }
