@@ -15,7 +15,7 @@ protocol ScrollDelegate: AnyObject {
 }
 
 protocol EventHomeTabViewControllerDelegate: AnyObject {
-    func didTapEventBannerCell()
+    func didTapEventBannerCell(with imageUrl: String)
     func didTapProductCell()
 }
 
@@ -247,7 +247,7 @@ extension EventHomeTabViewController: UICollectionViewDelegate {
 }
 
 extension EventHomeTabViewController: EventBannerCellDelegate {
-    func didTapEventBannerCell() {
-        delegate?.didTapEventBannerCell()
+    func didTapEventBannerCell(with imageUrl: String) {
+        delegate?.didTapEventBannerCell(with: imageUrl)
     }
 }

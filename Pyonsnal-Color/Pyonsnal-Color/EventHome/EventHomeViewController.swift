@@ -13,7 +13,7 @@ protocol EventHomePresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    func didTapEventBannerCell()
+    func didTapEventBannerCell(with imageUrl: String)
     func didTapProductCell()
 }
 
@@ -243,8 +243,8 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         setSelectedConvenienceStoreCell(with: indexPath)
     }
     
-    func didTapEventBannerCell() {
-        listener?.didTapEventBannerCell()
+    func didTapEventBannerCell(with imageUrl: String) {
+        listener?.didTapEventBannerCell(with: imageUrl)
     }
     
     func didTapProductItemCell() {

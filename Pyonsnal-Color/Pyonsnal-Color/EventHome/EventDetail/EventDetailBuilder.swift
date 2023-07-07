@@ -13,14 +13,17 @@ protocol EventDetailDependency: Dependency {
 }
 
 final class EventDetailComponent: Component<EventDetailDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    var imageUrl: String
+    init(imageUrl: String, dependency: EventDetailDependency) {
+        self.imageUrl = imageUrl
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder
 
 protocol EventDetailBuildable: Buildable {
-    func build(withListener listener: EventDetailListener) -> EventDetailRouting
+    func build(withListener listener: EventDetailListener, imageUrl: String) -> EventDetailRouting
 }
 
 final class EventDetailBuilder: Builder<EventDetailDependency>, EventDetailBuildable {
@@ -29,10 +32,11 @@ final class EventDetailBuilder: Builder<EventDetailDependency>, EventDetailBuild
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: EventDetailListener) -> EventDetailRouting {
-        let component = EventDetailComponent(dependency: dependency)
+    func build(withListener listener: EventDetailListener,
+               imageUrl: String) -> EventDetailRouting {
+        let component = EventDetailComponent(imageUrl: imageUrl, dependency: dependency)
         let viewController = EventDetailViewController()
-        let interactor = EventDetailInteractor(presenter: viewController)
+        let interactor = EventDetailInteractor(presenter: viewController, imageUrl: imageUrl)
         interactor.listener = listener
         return EventDetailRouter(interactor: interactor, viewController: viewController)
     }

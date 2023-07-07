@@ -5,8 +5,9 @@
 //  Created by 조소정 on 2023/07/01.
 //
 
-import ModernRIBs
 import UIKit
+import ModernRIBs
+import Kingfisher
 
 protocol EventDetailPresentableListener: AnyObject {
     func didTapBackButton()
@@ -29,6 +30,14 @@ final class EventDetailViewController: UIViewController,
         configureAction()
     }
     
+    // MARK: - EventDetailPresentable
+    func update(with imageUrl: String) {
+        if let imageUrl = URL(string: imageUrl) {
+            viewHolder.eventImageView.setImage(with: imageUrl)
+        }
+    }
+    
+    // MARK: - Private Method
     private func configureAction() {
         viewHolder.imageNavigationView.delegate = self
     }
@@ -56,9 +65,8 @@ extension EventDetailViewController {
             return scrollView
         }()
         
-        private let eventImageView: UIImageView = {
+        let eventImageView: UIImageView = {
             let imageView = UIImageView()
-            imageView.image = UIImage(named: "testEventDetailImage")
             return imageView
         }()
         
@@ -84,6 +92,12 @@ extension EventDetailViewController {
             eventImageView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
                 $0.width.equalToSuperview()
+                updateImageViewHeight()
+            }
+        }
+        
+        func updateImageViewHeight() {
+            eventImageView.snp.makeConstraints {
                 if let image = eventImageView.image {
                     $0.height.equalTo(image.size.height)
                 }
