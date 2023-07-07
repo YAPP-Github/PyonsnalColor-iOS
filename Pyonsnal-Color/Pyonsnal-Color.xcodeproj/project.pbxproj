@@ -95,8 +95,8 @@
 		BA9E23442A21EF3100A539D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA9E23432A21EF3100A539D5 /* Assets.xcassets */; };
 		BA9E23472A21EF3100A539D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA9E23452A21EF3100A539D5 /* LaunchScreen.storyboard */; };
 		BA9E23502A234B4D00A539D5 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BA9E234F2A234B4D00A539D5 /* .swiftlint.yml */; };
-		BAAB90332A4FFE3E003A7647 /* ImageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB90322A4FFE3E003A7647 /* ImageNavigationView.swift */; };
-		BAAB90372A5051D2003A7647 /* ImageNavigationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB90362A5051D2003A7647 /* ImageNavigationViewDelegate.swift */; };
+		BAAB90332A4FFE3E003A7647 /* BackNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB90322A4FFE3E003A7647 /* BackNavigationView.swift */; };
+		BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB90362A5051D2003A7647 /* BackNavigationViewDelegate.swift */; };
 		BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */; };
 		BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */; };
 		BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882B2A24C3E600DA6257 /* RootRouter.swift */; };
@@ -230,8 +230,8 @@
 		BA9E23462A21EF3100A539D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA9E23482A21EF3100A539D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA9E234F2A234B4D00A539D5 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		BAAB90322A4FFE3E003A7647 /* ImageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNavigationView.swift; sourceTree = "<group>"; };
-		BAAB90362A5051D2003A7647 /* ImageNavigationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNavigationViewDelegate.swift; sourceTree = "<group>"; };
+		BAAB90322A4FFE3E003A7647 /* BackNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackNavigationView.swift; sourceTree = "<group>"; };
+		BAAB90362A5051D2003A7647 /* BackNavigationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackNavigationViewDelegate.swift; sourceTree = "<group>"; };
 		BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedOutViewController+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHolable.swift; sourceTree = "<group>"; };
 		BAED882B2A24C3E600DA6257 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
@@ -334,8 +334,8 @@
 			children = (
 				B24F1D4A2A4BB82D00AA03DC /* TitleNavigationView.swift */,
 				B250884D2A5411890040BA50 /* TitleNavigationViewDelegate.swift */,
-				BAAB90322A4FFE3E003A7647 /* ImageNavigationView.swift */,
-				BAAB90362A5051D2003A7647 /* ImageNavigationViewDelegate.swift */,
+				BAAB90322A4FFE3E003A7647 /* BackNavigationView.swift */,
+				BAAB90362A5051D2003A7647 /* BackNavigationViewDelegate.swift */,
 			);
 			path = NavigationBar;
 			sourceTree = "<group>";
@@ -726,15 +726,23 @@
 			path = UrlConstant;
 			sourceTree = "<group>";
 		};
+		F097EF3A2A57BA5800A7FB9C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F038B4F82A55EB67008D5BF0 /* TermsButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F0C582BC2A55E81700DAD387 /* TermsOfUse */ = {
 			isa = PBXGroup;
 			children = (
+				F097EF3A2A57BA5800A7FB9C /* View */,
 				F097EF292A5717B900A7FB9C /* SubTerms.swift */,
 				F0C582BD2A55E83400DAD387 /* TermsOfUseRouter.swift */,
 				F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */,
 				F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */,
 				F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */,
-				F038B4F82A55EB67008D5BF0 /* TermsButton.swift */,
 			);
 			path = TermsOfUse;
 			sourceTree = "<group>";
@@ -886,7 +894,7 @@
 				B21C1A8C2A513FBB007D98E9 /* RIBs+.swift in Sources */,
 				BA1807622A2F21D900295398 /* URLRequest+.swift in Sources */,
 				BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */,
-				BAAB90332A4FFE3E003A7647 /* ImageNavigationView.swift in Sources */,
+				BAAB90332A4FFE3E003A7647 /* BackNavigationView.swift in Sources */,
 				B24F1D502A4EC72200AA03DC /* DateFormatter+.swift in Sources */,
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
@@ -895,7 +903,7 @@
 				F0168D542A500AC900978ED9 /* EventDetailInteractor.swift in Sources */,
 				BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */,
 				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
-				BAAB90372A5051D2003A7647 /* ImageNavigationViewDelegate.swift in Sources */,
+				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
 				F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */,

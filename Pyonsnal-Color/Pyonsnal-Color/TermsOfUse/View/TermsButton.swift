@@ -24,6 +24,7 @@ final class TermsButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Method
     func setButtonStateToggle(isSelected: Bool) {
         self.isSelected = !isSelected
     }
@@ -39,7 +40,6 @@ final class TermsButton: UIButton {
     // MARK: - Private method
     private func configureUI(textColor: UIColor,
                              font: UIFont) {
-        self.backgroundColor = .blue500
         self.titleLabel?.font = font
         self.setTitleColor(textColor, for: .normal)
         self.setImage(.check, for: .normal)
