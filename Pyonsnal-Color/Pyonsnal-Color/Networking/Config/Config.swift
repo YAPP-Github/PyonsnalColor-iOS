@@ -14,7 +14,7 @@ final class Config {
     
     private init() {}
     
-    let baseURLString = "http://13.124.33.214:8080"
+    let baseURLString = "https://pyonsnalcolor.store"
     private var headers: [HTTPHeader]?
     
     private let defaultHeaders: [HTTPHeader] = [
