@@ -23,9 +23,11 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
     private let eventDetailBuilder: EventDetailBuilder
     private var eventDetailRouting: ViewableRouting?
 
-    init(interactor: EventHomeInteractable,
-         viewController: EventHomeViewControllable,
-         eventDetailBuilder: EventDetailBuilder) {
+    init(
+        interactor: EventHomeInteractable,
+        viewController: EventHomeViewControllable,
+        eventDetailBuilder: EventDetailBuilder
+    ) {
         self.eventDetailBuilder = eventDetailBuilder
         super.init(interactor: interactor,
                    viewController: viewController)
@@ -36,8 +38,10 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         guard eventDetailRouting == nil else { return }
         let eventDetailRouter = eventDetailBuilder.build(withListener: interactor,
                                                          imageUrl: imageUrl)
-        viewController.pushViewController(eventDetailRouter.viewControllable,
-                                          animated: true)
+        viewController.pushViewController(
+            eventDetailRouter.viewControllable,
+            animated: true
+        )
         attachChild(eventDetailRouter)
         self.eventDetailRouting = eventDetailRouter
     }
