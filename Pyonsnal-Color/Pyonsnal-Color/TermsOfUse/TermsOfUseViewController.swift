@@ -117,17 +117,16 @@ final class TermsOfUseViewController: UIViewController,
     @objc
     private func didTapTermsButton(_ sender: TermsButton) {
         let toggledState = !sender.isSelected
-        let isSubTermsButtonSelected = viewHolder.subTermsButtons.allSatisfy { $0.isSelected }
-        
         //set subTermsButtons
         sender.setButtonState(isSelected: toggledState)
         
+        let isAllSubTermsButtonSelected = viewHolder.subTermsButtons.allSatisfy { $0.isSelected }
         //set allAgreeButton
-        viewHolder.allAgreeButton.setButtonState(isSelected: isSubTermsButtonSelected)
+        viewHolder.allAgreeButton.setButtonState(isSelected: isAllSubTermsButtonSelected)
         
         // set joinButton
         let allAgreeButtonState = viewHolder.allAgreeButton.isCurrentSelected()
-        let joinButtonState = isSubTermsButtonSelected && allAgreeButtonState
+        let joinButtonState = isAllSubTermsButtonSelected && allAgreeButtonState
         setJoinButtonState(with: joinButtonState)
     }
     
