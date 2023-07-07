@@ -25,10 +25,6 @@ final class TermsButton: UIButton {
     }
     
     // MARK: - Method
-    func setButtonStateToggle(isSelected: Bool) {
-        self.isSelected = !isSelected
-    }
-    
     func setButtonState(isSelected: Bool) {
         self.isSelected = isSelected
     }
