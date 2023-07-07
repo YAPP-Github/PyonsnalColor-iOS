@@ -13,7 +13,9 @@ protocol LoggedOutDependency: Dependency {
     var authClient: AuthAPIService { get }
 }
 
-final class LoggedOutComponent: Component<LoggedOutDependency>, TermsOfUseDependency {
+final class LoggedOutComponent: Component<LoggedOutDependency>,
+                                TermsOfUseDependency {
+
 }
 
 // MARK: - Builder

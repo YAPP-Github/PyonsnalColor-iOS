@@ -16,5 +16,16 @@ struct SubTerms {
         case age
         case use
         case privateInfo
+        
+        var urlString: String? {
+            switch self {
+            case .age:
+                return nil
+            case .use:
+                return TermsOfUseUrl.use
+            case .privateInfo:
+                return TermsOfUseUrl.privateInfo
+            }
+        }
     }
 }

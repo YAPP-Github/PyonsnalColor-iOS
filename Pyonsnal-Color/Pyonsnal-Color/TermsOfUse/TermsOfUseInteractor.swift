@@ -8,7 +8,8 @@
 import ModernRIBs
 
 protocol TermsOfUseRouting: ViewableRouting {
-    func routeToWebView()
+    func attachCommonWebView(with terms: SubTerms)
+    func detachCommonWebView()
 }
 
 protocol TermsOfUsePresentable: Presentable {
@@ -55,6 +56,10 @@ final class TermsOfUseInteractor: PresentableInteractor<TermsOfUsePresentable>, 
     }
     
     func routeToWebView(subTermsInfo: SubTerms) {
-        router?.routeToWebView()
+        router?.attachCommonWebView(with: subTermsInfo)
+    }
+    
+    func detachCommonWebView() {
+        router?.detachCommonWebView()
     }
 }

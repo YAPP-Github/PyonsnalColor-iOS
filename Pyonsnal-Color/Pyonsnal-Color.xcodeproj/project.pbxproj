@@ -127,6 +127,10 @@
 		F097EF2A2A5717B900A7FB9C /* SubTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF292A5717B900A7FB9C /* SubTerms.swift */; };
 		F097EF2C2A57181B00A7FB9C /* TermsOfUseUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF2B2A57181B00A7FB9C /* TermsOfUseUrl.swift */; };
 		F097EF2E2A57187400A7FB9C /* ProfileUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF2D2A57187400A7FB9C /* ProfileUrl.swift */; };
+		F097EF342A571DD300A7FB9C /* CommonWebViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF302A571DD300A7FB9C /* CommonWebViewRouter.swift */; };
+		F097EF352A571DD300A7FB9C /* CommonWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF312A571DD300A7FB9C /* CommonWebViewViewController.swift */; };
+		F097EF362A571DD300A7FB9C /* CommonWebViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF322A571DD300A7FB9C /* CommonWebViewBuilder.swift */; };
+		F097EF372A571DD300A7FB9C /* CommonWebViewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF332A571DD300A7FB9C /* CommonWebViewInteractor.swift */; };
 		F0C582C12A55E83400DAD387 /* TermsOfUseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BD2A55E83400DAD387 /* TermsOfUseRouter.swift */; };
 		F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */; };
 		F0C582C32A55E83400DAD387 /* TermsOfUseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */; };
@@ -266,6 +270,10 @@
 		F097EF292A5717B900A7FB9C /* SubTerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubTerms.swift; sourceTree = "<group>"; };
 		F097EF2B2A57181B00A7FB9C /* TermsOfUseUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseUrl.swift; sourceTree = "<group>"; };
 		F097EF2D2A57187400A7FB9C /* ProfileUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUrl.swift; sourceTree = "<group>"; };
+		F097EF302A571DD300A7FB9C /* CommonWebViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewRouter.swift; sourceTree = "<group>"; };
+		F097EF312A571DD300A7FB9C /* CommonWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewViewController.swift; sourceTree = "<group>"; };
+		F097EF322A571DD300A7FB9C /* CommonWebViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewBuilder.swift; sourceTree = "<group>"; };
+		F097EF332A571DD300A7FB9C /* CommonWebViewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewInteractor.swift; sourceTree = "<group>"; };
 		F0C582BD2A55E83400DAD387 /* TermsOfUseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseRouter.swift; sourceTree = "<group>"; };
 		F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
 		F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseBuilder.swift; sourceTree = "<group>"; };
@@ -602,6 +610,8 @@
 		BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */ = {
 			isa = PBXGroup;
 			children = (
+				F097EF2F2A571DB000A7FB9C /* CommonWebView */,
+				F0C582BC2A55E81700DAD387 /* TermsOfUse */,
 				B2A529442A57F1E30010656A /* LogoutPopup */,
 				F0C87AF12A51DFB800EA4C76 /* Model */,
 				F0EE10A62A4B387A00B8DF4F /* AccountSetting */,
@@ -724,6 +734,17 @@
 				F097EF2D2A57187400A7FB9C /* ProfileUrl.swift */,
 			);
 			path = UrlConstant;
+			sourceTree = "<group>";
+		};
+		F097EF2F2A571DB000A7FB9C /* CommonWebView */ = {
+			isa = PBXGroup;
+			children = (
+				F097EF302A571DD300A7FB9C /* CommonWebViewRouter.swift */,
+				F097EF312A571DD300A7FB9C /* CommonWebViewViewController.swift */,
+				F097EF322A571DD300A7FB9C /* CommonWebViewBuilder.swift */,
+				F097EF332A571DD300A7FB9C /* CommonWebViewInteractor.swift */,
+			);
+			path = CommonWebView;
 			sourceTree = "<group>";
 		};
 		F097EF3A2A57BA5800A7FB9C /* View */ = {
@@ -906,7 +927,9 @@
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
+				F097EF342A571DD300A7FB9C /* CommonWebViewRouter.swift in Sources */,
 				F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */,
+				F097EF372A571DD300A7FB9C /* CommonWebViewInteractor.swift in Sources */,
 				F0EE10B02A4B4DF600B8DF4F /* ItemIdentifier.swift in Sources */,
 				BA87E3CC2A45C5A1000A9DEC /* ProductDetailRouter.swift in Sources */,
 				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
@@ -936,6 +959,7 @@
 				F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
+				F097EF362A571DD300A7FB9C /* CommonWebViewBuilder.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
 				B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */,
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
@@ -1005,6 +1029,7 @@
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
 				B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */,
 				B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */,
+				F097EF352A571DD300A7FB9C /* CommonWebViewViewController.swift in Sources */,
 				F097EF2A2A5717B900A7FB9C /* SubTerms.swift in Sources */,
 				F0D6FFAF2A39FFFA00C55E27 /* ProductCell.swift in Sources */,
 				BA00B7392A46B8BF00BB3795 /* Spacing.swift in Sources */,

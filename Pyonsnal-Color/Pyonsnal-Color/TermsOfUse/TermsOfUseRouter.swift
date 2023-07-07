@@ -7,7 +7,8 @@
 
 import ModernRIBs
 
-protocol TermsOfUseInteractable: Interactable {
+protocol TermsOfUseInteractable: Interactable,
+                                 CommonWebViewListener {
     var router: TermsOfUseRouting? { get set }
     var listener: TermsOfUseListener? { get set }
 }
@@ -16,17 +17,36 @@ protocol TermsOfUseViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
-final class TermsOfUseRouter: ViewableRouter<TermsOfUseInteractable, TermsOfUseViewControllable>, TermsOfUseRouting {
+final class TermsOfUseRouter: ViewableRouter<TermsOfUseInteractable,
+                              TermsOfUseViewControllable>,
+                              TermsOfUseRouting {
     
-
-    // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: TermsOfUseInteractable, viewController: TermsOfUseViewControllable) {
+    private let commonWebViewBuilder: CommonWebViewBuildable
+    private var commonWebViewRouting: ViewableRouting?
+    
+    init(
+        interactor: TermsOfUseInteractable,
+        viewController: TermsOfUseViewControllable,
+        commonWebViewBuilder: CommonWebViewBuildable
+    ) {
+        self.commonWebViewBuilder = commonWebViewBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
     
-    func routeToWebView() {
-        print("append webView")
-        //webView 붙이기
+    func attachCommonWebView(with terms: SubTerms) {
+        if commonWebViewRouting != nil { return }
+        let commonWebViewBuilder = commonWebViewBuilder.build(withListener: interactor, subTerms: terms)
+        self.commonWebViewRouting = commonWebViewBuilder
+        attachChild(commonWebViewBuilder)
+        viewController.uiviewController.modalPresentationStyle = .fullScreen
+        viewController.uiviewController.present(commonWebViewBuilder.viewControllable.uiviewController, animated: true)
+    }
+
+    func detachCommonWebView() {
+        guard let commonWebViewRouting else { return }
+        self.commonWebViewRouting = nil
+        detachChild(commonWebViewRouting)
+        viewController.uiviewController.dismiss(animated: true)
     }
 }

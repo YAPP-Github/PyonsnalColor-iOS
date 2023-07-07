@@ -22,11 +22,18 @@ final class TermsOfUseViewController: UIViewController,
     enum Constants {
         enum Text {
             static let allAgree = "모두 동의"
+            static let join = "가입완료"
             static let title = "서비스 이용에 동의해주세요."
         }
         enum Size {
+            static let closeButtonSize = 24
             static let popupViewCornerRadius: CGFloat = 16
             static let popupViewHeight: CGFloat = 450
+            static let popUpHeaderViewHeight: CGFloat = 68
+            static let allAggreeButtonTop: CGFloat = 40
+            static let termsButtonHeight: CGFloat = 40
+            static let dividerHeight: CGFloat = 1
+            static let joinButtonHeight: CGFloat = 52
         }
     }
     
@@ -202,7 +209,6 @@ extension TermsOfUseViewController {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.spacing = .spacing12
-            stackView.backgroundColor = .green300
             return stackView
         }()
         
@@ -215,21 +221,21 @@ extension TermsOfUseViewController {
         // MARK: subTermsButton
         let subTermsOfAgeButton: TermsButton = {
             let button = TermsButton(textColor: .gray700,
-                                     font: .title3,
+                                     font: .body2r,
                                      isSelected: false)
             return button
         }()
         
         let subTermsOfUseButton: TermsButton = {
             let button = TermsButton(textColor: .gray700,
-                                     font: .title3,
+                                     font: .body2r,
                                      isSelected: false)
             return button
         }()
         
         private let subTermsOfPrivateInfoButton: TermsButton = {
             let button = TermsButton(textColor: .gray700,
-                                     font: .title3,
+                                     font: .body2r,
                                      isSelected: false)
             return button
         }()
@@ -249,7 +255,7 @@ extension TermsOfUseViewController {
         // MARK: joinButton
         let joinButton: PrimaryButton = {
             let button = PrimaryButton(state: .disabled)
-            button.setText(with: "가입완료")
+            button.setText(with: Constants.Text.join)
             return button
         }()
         
@@ -274,7 +280,6 @@ extension TermsOfUseViewController {
                     stackView.axis = .horizontal
                     stackView.distribution = .fillProportionally
                     stackView.spacing = .spacing16
-                    stackView.backgroundColor = .brown
                     return stackView
                 }()
                 
@@ -294,41 +299,39 @@ extension TermsOfUseViewController {
             }
             
             popUpView.snp.makeConstraints {
-                $0.leading.trailing.equalToSuperview()
+                $0.leading.bottom.trailing.equalToSuperview()
                 $0.height.equalTo(Constants.Size.popupViewHeight)
-                $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             }
             
             popUpHeaderView.snp.makeConstraints {
-                popUpHeaderView.backgroundColor = .gray100
                 $0.leading.trailing.top.equalToSuperview()
-                $0.height.equalTo(68)
+                $0.height.equalTo(Constants.Size.popUpHeaderViewHeight)
             }
             
             titleLabel.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.top.equalToSuperview().offset(.spacing40)
-                $0.trailing.greaterThanOrEqualTo(20)
+                $0.trailing.greaterThanOrEqualToSuperview().offset(.spacing20)
             }
             
             closeButton.snp.makeConstraints {
                 $0.top.equalToSuperview().offset(.spacing12)
                 $0.trailing.equalToSuperview().inset(.spacing12)
-                $0.size.equalTo(24)
+                $0.size.equalTo(Constants.Size.closeButtonSize)
             }
             
             allAgreeButton.snp.makeConstraints {
-                $0.top.equalTo(popUpHeaderView.snp.bottom).offset(46)
+                $0.top.equalTo(popUpHeaderView.snp.bottom).offset(Constants.Size.allAggreeButtonTop)
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.trailing.equalToSuperview().inset(.spacing16)
-                $0.height.equalTo(40)
+                $0.height.equalTo(Constants.Size.termsButtonHeight)
             }
             
             dividerView.snp.makeConstraints {
                 $0.top.equalTo(allAgreeButton.snp.bottom).offset(.spacing12)
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.trailing.equalToSuperview().inset(.spacing16)
-                $0.height.equalTo(1)
+                $0.height.equalTo(Constants.Size.dividerHeight)
             }
             
             subButtonVerticalStackView.snp.makeConstraints {
@@ -339,14 +342,14 @@ extension TermsOfUseViewController {
             
             subButtonVerticalStackView.arrangedSubviews.forEach { buttonHorizontalStackView in
                 buttonHorizontalStackView.snp.makeConstraints {
-                    $0.height.equalTo(40)
+                    $0.height.equalTo(Constants.Size.termsButtonHeight)
                 }
             }
             
             joinButton.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.trailing.equalToSuperview().inset(.spacing16)
-                $0.height.equalTo(52)
+                $0.height.equalTo(Constants.Size.joinButtonHeight)
                 $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             }
             
