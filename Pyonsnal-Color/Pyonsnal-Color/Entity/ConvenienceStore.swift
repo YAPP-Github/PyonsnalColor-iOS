@@ -8,6 +8,7 @@
 import Foundation
 
 enum ConvenienceStore: String, Decodable {
+    case all = "all"
     case cu = "CU"
     case gs25 = "GS25"
     case emart24 = "EMART24"
