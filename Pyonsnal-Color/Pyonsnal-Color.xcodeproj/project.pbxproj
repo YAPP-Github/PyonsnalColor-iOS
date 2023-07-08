@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B21C1A8C2A513FBB007D98E9 /* RIBs+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */; };
+		B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259022A590ECA006C5223 /* ConvenienceStore.swift */; };
+		B24259052A590FCF006C5223 /* BrandProductEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259042A590FCF006C5223 /* BrandProductEntity.swift */; };
 		B24CAAE22A55AC2B005BE499 /* NotificationListViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D472A4AD7ED00AA03DC /* NotificationListViewHolder.swift */; };
 		B24CAAE32A55AC2D005BE499 /* NotificationListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D412A4AD7B600AA03DC /* NotificationListBuilder.swift */; };
 		B24CAAE42A55AC2F005BE499 /* NotificationListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D422A4AD7B600AA03DC /* NotificationListInteractor.swift */; };
@@ -87,7 +89,7 @@
 		BA87E3D52A45D400000A9DEC /* GiftItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3D42A45D400000A9DEC /* GiftItemView.swift */; };
 		BA87E3D72A45D40A000A9DEC /* GiftInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3D62A45D40A000A9DEC /* GiftInformationView.swift */; };
 		BA87E3DC2A4623E3000A9DEC /* GiftItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3DB2A4623E3000A9DEC /* GiftItemEntity.swift */; };
-		BA87E3DE2A4629B5000A9DEC /* ProductEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3DD2A4629B5000A9DEC /* ProductEntity.swift */; };
+		BA87E3DE2A4629B5000A9DEC /* EventProductEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3DD2A4629B5000A9DEC /* EventProductEntity.swift */; };
 		BA87E3E02A462AD9000A9DEC /* ProductTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3DF2A462AD9000A9DEC /* ProductTagListView.swift */; };
 		BA8924542A582ED200D1B097 /* EventTagBigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8924532A582ED200D1B097 /* EventTagBigView.swift */; };
 		BA8924562A582EE700D1B097 /* NewTagBigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8924552A582EE700D1B097 /* NewTagBigView.swift */; };
@@ -158,6 +160,8 @@
 
 /* Begin PBXFileReference section */
 		B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RIBs+.swift"; sourceTree = "<group>"; };
+		B24259022A590ECA006C5223 /* ConvenienceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStore.swift; sourceTree = "<group>"; };
+		B24259042A590FCF006C5223 /* BrandProductEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandProductEntity.swift; sourceTree = "<group>"; };
 		B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStoreCell.swift; sourceTree = "<group>"; };
 		B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomePageViewController.swift; sourceTree = "<group>"; };
@@ -227,7 +231,7 @@
 		BA87E3D42A45D400000A9DEC /* GiftItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftItemView.swift; sourceTree = "<group>"; };
 		BA87E3D62A45D40A000A9DEC /* GiftInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftInformationView.swift; sourceTree = "<group>"; };
 		BA87E3DB2A4623E3000A9DEC /* GiftItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftItemEntity.swift; sourceTree = "<group>"; };
-		BA87E3DD2A4629B5000A9DEC /* ProductEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEntity.swift; sourceTree = "<group>"; };
+		BA87E3DD2A4629B5000A9DEC /* EventProductEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventProductEntity.swift; sourceTree = "<group>"; };
 		BA87E3DF2A462AD9000A9DEC /* ProductTagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTagListView.swift; sourceTree = "<group>"; };
 		BA8924532A582ED200D1B097 /* EventTagBigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTagBigView.swift; sourceTree = "<group>"; };
 		BA8924552A582EE700D1B097 /* NewTagBigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTagBigView.swift; sourceTree = "<group>"; };
@@ -593,8 +597,10 @@
 			children = (
 				BA3F6F032A5885F400BD9154 /* Auth */,
 				BA87E3DB2A4623E3000A9DEC /* GiftItemEntity.swift */,
-				BA87E3DD2A4629B5000A9DEC /* ProductEntity.swift */,
+				BA87E3DD2A4629B5000A9DEC /* EventProductEntity.swift */,
+				B24259042A590FCF006C5223 /* BrandProductEntity.swift */,
 				BA0BFB712A5463BD0019AED7 /* EventTag.swift */,
+				B24259022A590ECA006C5223 /* ConvenienceStore.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1019,16 +1025,19 @@
 				BA4818CD2A59405300BF9CAD /* AuthAPIService.swift in Sources */,
 				F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */,
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
-				BA87E3DE2A4629B5000A9DEC /* ProductEntity.swift in Sources */,
 				BAB54A952A5949B700D45A80 /* ImageAssetKind+Splash.swift in Sources */,
+				BA87E3DE2A4629B5000A9DEC /* EventProductEntity.swift in Sources */,
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
 				B2A5294B2A57F2220010656A /* LogoutPopupBuilder.swift in Sources */,
 				BA87E3D52A45D400000A9DEC /* GiftItemView.swift in Sources */,
+				B24259052A590FCF006C5223 /* BrandProductEntity.swift in Sources */,
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F0EE10AC2A4B389A00B8DF4F /* AccountSettingViewController.swift in Sources */,
 				F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */,
 				BA87E3D12A45C600000A9DEC /* ProductDetailViewController+ViewHolder.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
+				B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */,
+				F0687BEF2A52A933004B5EAE /* LoginResponseEntity.swift in Sources */,
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
 				B24CAAE62A55AC35005BE499 /* NotificationListRouter.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,

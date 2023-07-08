@@ -42,7 +42,7 @@ final class ProductDetailViewController:
         
         self.product = .init(
             imageURL: .init(string: "https://www.google.com")!,
-            updated: "업데이트 23.06.24",
+            updatedTime: "업데이트 23.06.24",
             name: "오리온) 눈을 감자",
             price: "3800원",
             description: "상세 정보 없음",
@@ -51,14 +51,14 @@ final class ProductDetailViewController:
     }
     
     // ViewModel 바인딩으로 대체 예정
-    var product: ProductEntity? {
+    var product: EventProductEntity? {
         didSet { updateUI() }
     }
     
     private func updateUI() {
         guard let product else { return }
         
-        viewHolder.updateDateLabel.text = product.updated
+        viewHolder.updateDateLabel.text = product.updatedTime
         viewHolder.productNameLabel.text = product.name
         viewHolder.productPriceLabel.text = product.price
         viewHolder.productDescriptionLabel.text = product.description
