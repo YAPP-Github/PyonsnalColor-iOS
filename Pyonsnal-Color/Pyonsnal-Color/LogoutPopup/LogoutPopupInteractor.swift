@@ -47,7 +47,7 @@ final class LogoutPopupInteractor:
         if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
         } else {
-            
+            // TODO: 로그아웃 로직 구현
         }
     }
     
@@ -55,7 +55,7 @@ final class LogoutPopupInteractor:
         if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
         } else {
-            
+            // TODO: 회원탈퇴 로직 구현
         }
     }
     
