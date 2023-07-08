@@ -48,4 +48,12 @@ extension UIButton {
         }
         self.setAttributedTitle(attributedText, for: .normal)
     }
+    
+    func setCustomFont(text: String, color: UIColor, font: UIFont) {
+        let attributedString = NSMutableAttributedString(string: text)
+        let range = (text as NSString).range(of: text)
+        attributedString.addAttribute(.foregroundColor, value: color, range: range)
+        attributedString.addAttribute(.font, value: font, range: range)
+        setAttributedTitle(attributedString, for: .normal)
+    }
 }

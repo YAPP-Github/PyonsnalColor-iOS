@@ -62,12 +62,12 @@ final class LogoutPopupViewController:
         if isLogout {
             viewHolder.titleLabel.text = Text.Logout.title
             viewHolder.descriptionLabel.text = Text.Logout.description
-            viewHolder.dismissButton.setAttributedTitle(
+            viewHolder.dismissButton.setCustomFont(
                 text: Text.Logout.dismissButtonText,
                 color: .black,
                 font: .body2m
             )
-            viewHolder.confirmButton.setAttributedTitle(
+            viewHolder.confirmButton.setCustomFont(
                 text: Text.Logout.confirmButtonText,
                 color: .red500,
                 font: .body2m
@@ -75,12 +75,12 @@ final class LogoutPopupViewController:
         } else {
             viewHolder.titleLabel.text = Text.DeleteAccount.title
             viewHolder.descriptionLabel.text = Text.DeleteAccount.description
-            viewHolder.dismissButton.setAttributedTitle(
+            viewHolder.dismissButton.setCustomFont(
                 text: Text.DeleteAccount.dismissButtonText,
                 color: .black,
                 font: .body2m
             )
-            viewHolder.confirmButton.setAttributedTitle(
+            viewHolder.confirmButton.setCustomFont(
                 text: Text.DeleteAccount.confirmButtonText,
                 color: .red500,
                 font: .body2m
