@@ -5,8 +5,10 @@
 //  Created by 김인호 on 2023/07/08.
 //
 
-struct BrandProductEntity: Decodable {
-    let imageURL: String
+import Foundation
+
+struct BrandProductEntity: Decodable, ProductConvertable {
+    let imageURL: URL
     let storeType: ConvenienceStore
     let updatedTime: String
     let name: String

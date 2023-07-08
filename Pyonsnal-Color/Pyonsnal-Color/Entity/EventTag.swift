@@ -5,7 +5,7 @@
 //  Created by 김진우 on 2023/07/04.
 //
 
-enum EventTag: String {
+enum EventTag: String, Decodable {
     case discount
     case freebie
     case onePlusOne

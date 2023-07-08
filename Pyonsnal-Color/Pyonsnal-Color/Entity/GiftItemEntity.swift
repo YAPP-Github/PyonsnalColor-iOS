@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GiftItemEntity {
+struct GiftItemEntity: Decodable {
     let name: String
     let price: String
     let imageURL: URL
