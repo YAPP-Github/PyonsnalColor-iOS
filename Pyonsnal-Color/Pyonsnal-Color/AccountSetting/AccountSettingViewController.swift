@@ -10,6 +10,8 @@ import UIKit
 
 protocol AccountSettingPresentableListener: AnyObject {
     func didTapBackButton()
+    func didTapDeleteAccountButton()
+    func didTapLogoutButton()
 }
 
 final class AccountSettingViewController: UIViewController,
@@ -23,6 +25,10 @@ final class AccountSettingViewController: UIViewController,
         static var cellTotalHeight: CGFloat {
             return rows * cellHeight
         }
+    }
+    
+    enum Index {
+        static let logout: Int = 1
     }
     
     weak var listener: AccountSettingPresentableListener?
@@ -68,13 +74,15 @@ final class AccountSettingViewController: UIViewController,
     
     @objc
     private func didTapDeleteAccountButton() {
-        // TO DO : 회원 탈퇴 로직
+        listener?.didTapDeleteAccountButton()
     }
 }
 
 extension AccountSettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(accountSettingData[indexPath.row])
+        if indexPath.row == Index.logout {
+            listener?.didTapLogoutButton()
+        }
     }
 }
 

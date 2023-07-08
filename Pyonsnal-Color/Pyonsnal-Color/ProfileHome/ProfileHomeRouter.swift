@@ -41,7 +41,7 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
         accountSetting = accountSettingRouter
         attachChild(accountSettingRouter)
         let accountSettingViewController = accountSettingRouter.viewControllable.uiviewController
-        viewController.uiviewController.modalPresentationStyle = .fullScreen
+        accountSettingViewController.modalPresentationStyle = .fullScreen
         viewController.uiviewController.present(accountSettingViewController, animated: true)
     }
     

@@ -42,6 +42,10 @@
 		B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B282050F2A34702B00F9242F /* ProductHomeViewController.swift */; };
 		B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205102A34702B00F9242F /* ProductHomeBuilder.swift */; };
 		B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205112A34702B00F9242F /* ProductHomeInteractor.swift */; };
+		B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529452A57F2220010656A /* LogoutPopupRouter.swift */; };
+		B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529462A57F2220010656A /* LogoutPopupViewController.swift */; };
+		B2A5294B2A57F2220010656A /* LogoutPopupBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */; };
+		B2A5294C2A57F2220010656A /* LogoutPopupInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529482A57F2220010656A /* LogoutPopupInteractor.swift */; };
 		B2A57BEB2A2C7596005DB83E /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEA2A2C7596005DB83E /* KakaoSDKAuth */; };
 		B2A57BED2A2C7596005DB83E /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEC2A2C7596005DB83E /* KakaoSDKCommon */; };
 		B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = B2A57BEE2A2C7596005DB83E /* KakaoSDKUser */; };
@@ -169,6 +173,10 @@
 		B282050F2A34702B00F9242F /* ProductHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeViewController.swift; sourceTree = "<group>"; };
 		B28205102A34702B00F9242F /* ProductHomeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeBuilder.swift; sourceTree = "<group>"; };
 		B28205112A34702B00F9242F /* ProductHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeInteractor.swift; sourceTree = "<group>"; };
+		B2A529452A57F2220010656A /* LogoutPopupRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupRouter.swift; sourceTree = "<group>"; };
+		B2A529462A57F2220010656A /* LogoutPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupViewController.swift; sourceTree = "<group>"; };
+		B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupBuilder.swift; sourceTree = "<group>"; };
+		B2A529482A57F2220010656A /* LogoutPopupInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupInteractor.swift; sourceTree = "<group>"; };
 		B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginService.swift; sourceTree = "<group>"; };
 		B2F169D52A347208008199D8 /* RootTabBarBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarBuilder.swift; sourceTree = "<group>"; };
 		B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarInteractor.swift; sourceTree = "<group>"; };
@@ -373,6 +381,17 @@
 			path = ProfileHome;
 			sourceTree = "<group>";
 		};
+		B2A529442A57F1E30010656A /* LogoutPopup */ = {
+			isa = PBXGroup;
+			children = (
+				B2A529452A57F2220010656A /* LogoutPopupRouter.swift */,
+				B2A529462A57F2220010656A /* LogoutPopupViewController.swift */,
+				B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */,
+				B2A529482A57F2220010656A /* LogoutPopupInteractor.swift */,
+			);
+			path = LogoutPopup;
+			sourceTree = "<group>";
+		};
 		B2A57C3D2A2EF8FF005DB83E /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -564,6 +583,7 @@
 		BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */ = {
 			isa = PBXGroup;
 			children = (
+				B2A529442A57F1E30010656A /* LogoutPopup */,
 				F0C87AF12A51DFB800EA4C76 /* Model */,
 				F0EE10A62A4B387A00B8DF4F /* AccountSetting */,
 				BA00B73A2A46B95300BB3795 /* 3rdParty */,
@@ -856,6 +876,7 @@
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
+				B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */,
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
 				B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */,
 				B24F1D4E2A4C5F2F00AA03DC /* NotificationCell.swift in Sources */,
@@ -882,6 +903,7 @@
 				BA87E3E02A462AD9000A9DEC /* ProductTagListView.swift in Sources */,
 				B28205142A34702B00F9242F /* ProductHomeBuilder.swift in Sources */,
 				F0C87AF02A51D74900EA4C76 /* NetworkError.swift in Sources */,
+				B2A5294C2A57F2220010656A /* LogoutPopupInteractor.swift in Sources */,
 				BA87E3CF2A45C5A1000A9DEC /* ProductDetailInteractor.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
 				B24CAAE42A55AC2F005BE499 /* NotificationListInteractor.swift in Sources */,
@@ -902,6 +924,7 @@
 				B2538B932A34551D00B7C3F0 /* LoggedInRouter.swift in Sources */,
 				BA87E3DE2A4629B5000A9DEC /* ProductEntity.swift in Sources */,
 				BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */,
+				B2A5294B2A57F2220010656A /* LogoutPopupBuilder.swift in Sources */,
 				BA87E3D52A45D400000A9DEC /* GiftItemView.swift in Sources */,
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F0EE10AC2A4B389A00B8DF4F /* AccountSettingViewController.swift in Sources */,
@@ -914,6 +937,7 @@
 				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				F01535452A45A6F800A2A8F2 /* ItemHeaderTitleView.swift in Sources */,
+				B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */,
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
 				B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */,
 				B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */,

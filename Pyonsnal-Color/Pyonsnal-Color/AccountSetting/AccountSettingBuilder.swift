@@ -12,7 +12,7 @@ protocol AccountSettingDependency: Dependency {
     // created by this RIB.
 }
 
-final class AccountSettingComponent: Component<AccountSettingDependency> {
+final class AccountSettingComponent: Component<AccountSettingDependency>, LogoutPopupDependency {
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
@@ -34,7 +34,11 @@ final class AccountSettingBuilder: Builder<AccountSettingDependency>, AccountSet
         let viewController = AccountSettingViewController()
         let interactor = AccountSettingInteractor(presenter: viewController)
         interactor.listener = listener
-        return AccountSettingRouter(interactor: interactor,
-                                    viewController: viewController)
+        let logoutPopupBuilder = LogoutPopupBuilder(dependency: component)
+        return AccountSettingRouter(
+            interactor: interactor,
+            viewController: viewController,
+            logoutPopupBuilder: logoutPopupBuilder
+        )
     }
 }

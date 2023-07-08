@@ -8,7 +8,8 @@
 import ModernRIBs
 
 protocol AccountSettingRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachPopup(isLogout: Bool)
+    func detachPopup()
 }
 
 protocol AccountSettingPresentable: Presentable {
@@ -44,5 +45,17 @@ final class AccountSettingInteractor: PresentableInteractor<AccountSettingPresen
     
     func didTapBackButton() {
         listener?.didTapBackButton()
+    }
+    
+    func didTapLogoutButton() {
+        router?.attachPopup(isLogout: true)
+    }
+    
+    func didTapDeleteAccountButton() {
+        router?.attachPopup(isLogout: false)
+    }
+    
+    func popupDidTabDismissButton() {
+        router?.detachPopup()
     }
 }
