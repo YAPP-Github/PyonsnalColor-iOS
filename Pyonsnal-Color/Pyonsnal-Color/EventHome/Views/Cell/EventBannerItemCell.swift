@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol EventBannerItemCellDelegate: AnyObject {
-    func didTapBannerItemCell()
+    func didTapEventBannerCell(with imageUrl: String)
 }
 
 final class EventBannerItemCell: UICollectionViewCell {
@@ -24,7 +24,6 @@ final class EventBannerItemCell: UICollectionViewCell {
         super.init(frame: .zero)
         viewHolder.place(in: contentView)
         viewHolder.configureConstraints(for: contentView)
-        configureAction()
     }
     
     required init?(coder: NSCoder) {
@@ -33,20 +32,6 @@ final class EventBannerItemCell: UICollectionViewCell {
     
     func update(index: Int) {
         viewHolder.eventImageView.image = UIImage(systemName: testImage[index])
-    }
-    
-    // MARK: - Private Method
-    private func configureAction() {
-        let gestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(didTapBannerItemCell)
-        )
-        viewHolder.eventImageView.addGestureRecognizer(gestureRecognizer)
-    }
-    
-    @objc func didTapBannerItemCell() {
-        // TO DO : 클릭시 리블렛 연결
-        delegate?.didTapBannerItemCell()
     }
 }
 

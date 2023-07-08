@@ -8,7 +8,8 @@
 import ModernRIBs
 
 protocol EventHomeRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachEventDetail(with imageUrl: String)
+    func detachEventDetail()
 }
 
 protocol EventHomePresentable: Presentable {
@@ -41,4 +42,17 @@ final class EventHomeInteractor: PresentableInteractor<EventHomePresentable>, Ev
         super.willResignActive()
         // TODO: Pause any business logic.
     }
+    
+    func didTapEventBannerCell(with imageUrl: String) {
+        router?.attachEventDetail(with: imageUrl)
+    }
+    
+    func didTapBackButton() {
+        router?.detachEventDetail()
+    }
+    
+    func didTapProductCell() {
+        // TO DO : 아이템 카드 클릭시
+    }
+    
 }
