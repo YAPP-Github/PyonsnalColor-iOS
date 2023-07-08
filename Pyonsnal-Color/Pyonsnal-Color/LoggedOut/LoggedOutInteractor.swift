@@ -56,18 +56,17 @@ final class LoggedOutInteractor:
     }
     
     private func requestAppleLogin(with identifyToken: String) {
-        let appleAuthRouter = AuthRouter.apple(token: identifyToken)
-        PyonsnalColorClient.shared.request(
-            appleAuthRouter,
-            model: LoginResponseEntity.self
-        )
-        .sink { [weak self] response in
-            if response.error != nil {
-                // error handling
-            } else {
-                print(response.value)
-            }
-        }.store(in: &cancellable)
+        dependency.authClient.appleLogin(token: identifyToken)
+            .sink { [weak self] response in
+                if let userAuth = response.value {
+                    print("Apple login success: \(userAuth.accessToken)")
+                    self?.listener?.didLogin()
+                } else if response.error != nil {
+                    // TODO: error handling
+                } else {
+                    // TODO: error handling
+                }
+            }.store(in: &cancellable)
     }
     
 }
@@ -85,6 +84,15 @@ extension LoggedOutInteractor: AppleLoginServiceDelegate {
 
 extension LoggedOutInteractor: KakaoLoginServiceDelegate {
     func didReceive(accessToken: String) {
-        listener?.didLogin()
+        dependency.authClient.kakaoLogin(accessToken: accessToken)
+            .sink { [weak self] response in
+                if let userAuth = response.value {
+                    print("Kakao login success: \(userAuth.accessToken)")
+                    self?.listener?.didLogin()
+                } else if let responseError = response.error {
+                } else {
+                    // TODO: error handling
+                }
+            }.store(in: &cancellable)
     }
 }

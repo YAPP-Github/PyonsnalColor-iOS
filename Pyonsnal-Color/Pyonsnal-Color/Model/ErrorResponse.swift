@@ -8,6 +8,7 @@
 import Foundation
 
 struct ErrorResponse: Decodable {
-    var code: String?
-    var message: String?
+    let code: String?
+    let message: String?
+    let bodyString: String?
 }

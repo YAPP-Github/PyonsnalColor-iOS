@@ -15,6 +15,7 @@ final class RootComponent: Component<RootDependency> {
     let rootViewController: RootViewController
     var appleLoginService: AppleLoginService
     var kakaoLoginService: KakaoLoginService
+    var authClient: AuthAPIService
     
     init(rootViewController: RootViewController,
          dependency: RootDependency
@@ -22,6 +23,8 @@ final class RootComponent: Component<RootDependency> {
         self.rootViewController = rootViewController
         self.appleLoginService = AppleLoginService()
         self.kakaoLoginService = KakaoLoginService()
+        let pyonsnalColorClient = PyonsnalColorClient()
+        self.authClient = .init(client: pyonsnalColorClient)
         super.init(dependency: dependency)
     }
 }
