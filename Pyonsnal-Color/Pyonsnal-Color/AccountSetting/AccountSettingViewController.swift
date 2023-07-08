@@ -20,6 +20,7 @@ final class AccountSettingViewController: UIViewController,
     enum Size {
         static let backButtonSize: CGFloat = 24
         static let secessionButtonBottom: CGFloat = 34
+        static let headerViewHeight: CGFloat = 48
         static let cellHeight: CGFloat = 48
         static let rows: CGFloat = 2
         static var cellTotalHeight: CGFloat {
@@ -44,6 +45,7 @@ final class AccountSettingViewController: UIViewController,
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureTableView()
+        configureUI()
         configureAction()
     }
     
@@ -55,11 +57,7 @@ final class AccountSettingViewController: UIViewController,
     }
     
     private func configureAction() {
-        viewHolder.backButton.addTarget(
-            self,
-            action: #selector(didTapBackButton),
-            for: .touchUpInside
-        )
+        viewHolder.backNavigationView.delegate = self
         viewHolder.deleteAccount.addTarget(
             self,
             action: #selector(didTapDeleteAccountButton),
@@ -67,14 +65,23 @@ final class AccountSettingViewController: UIViewController,
         )
     }
     
-    @objc
-    private func didTapBackButton() {
-        listener?.didTapBackButton()
+    private func configureUI() {
+        viewHolder.backNavigationView.payload = BackNavigationView.Payload(
+            mode: .text,
+            title: "계정 설정",
+            iconImageKind: nil
+        )
     }
     
     @objc
     private func didTapDeleteAccountButton() {
         listener?.didTapDeleteAccountButton()
+    }
+}
+
+extension AccountSettingViewController: BackNavigationViewDelegate {
+    @objc func didTapBackButton() {
+        listener?.didTapBackButton()
     }
 }
 
@@ -108,15 +115,9 @@ extension AccountSettingViewController: UITableViewDataSource {
 //MARK: - UI Component
 extension AccountSettingViewController {
     class ViewHolder: ViewHolderable {
-        let headerView: UIView = { // TO DO : 커스텀 뷰로 변경 예정
-            let view = UIView()
-            return view
-        }()
-        
-        let backButton: UIButton = {
-            let button = UIButton()
-            button.setImage(.actions, for: .normal) // 임시
-            return button
+        let backNavigationView: BackNavigationView = {
+            let backNavigationView = BackNavigationView()
+            return backNavigationView
         }()
         
         let titleLabel: UILabel = {
@@ -142,33 +143,22 @@ extension AccountSettingViewController {
         }()
         
         func place(in view: UIView) {
-            view.addSubview(headerView)
-            headerView.addSubview(backButton)
-            headerView.addSubview(titleLabel)
+            view.addSubview(backNavigationView)
             view.addSubview(tableView)
             
             view.addSubview(deleteAccount)
         }
         
         func configureConstraints(for view: UIView) {
-            headerView.snp.makeConstraints {
+            
+            backNavigationView.snp.makeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(50) // 임의
-            }
-            
-            backButton.snp.makeConstraints {
-                $0.size.equalTo(Size.backButtonSize)
-                $0.leading.equalToSuperview().offset(16)
-                $0.centerY.equalToSuperview()
-            }
-            
-            titleLabel.snp.makeConstraints {
-                $0.centerX.centerY.equalToSuperview()
+                $0.height.equalTo(Size.headerViewHeight) // 임의
             }
             
             tableView.snp.makeConstraints {
-                $0.top.equalTo(headerView.snp.bottom)
+                $0.top.equalTo(backNavigationView.snp.bottom)
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(AccountSettingViewController.Size.cellTotalHeight)
             }
