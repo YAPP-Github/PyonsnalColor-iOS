@@ -32,8 +32,8 @@ extension MemberAPI {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .logout:
-            return [URLQueryItem(name: "tokenDto", value: "accessTokenTemp")]
+        case .logout: // TO DO : accessToken값으로 변경
+            return [URLQueryItem(name: "tokenDto", value: "accessToken")]
         case .info, .withdraw:
             return nil
         }
@@ -49,12 +49,18 @@ extension MemberAPI {
     }
     
     var headers: [HTTPHeader]? {
-        let accessTokenHeader: [HTTPHeader] = [HTTPHeader(name: "Content-Type", value: "Bearer accessToken")]
+        let accessTokenHeader: [HTTPHeader] = [HTTPHeader(name: "Content-Type", value: "Bearer accessToken")] //TO DO : accesstoken으로 변경
         Config.shared.setHeaders(headers: accessTokenHeader)
         return Config.shared.getHeader()
     }
     
-    var body: [String : Any]? {
-        return nil
+    var body: [String: Any]? {
+        switch self {
+        case .logout:
+            return ["accessToken": "accessToken",
+                    "refreshToken": "refreshToken"]
+        case .info, .withdraw:
+            return nil
+        }
     }
 }

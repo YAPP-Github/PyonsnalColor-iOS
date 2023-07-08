@@ -52,9 +52,9 @@ final class LogoutPopupInteractor:
     }
     
     func didTabConfirmButton(_ text: String?) {
-        if let text, text == Text.dismiss {
+        if let text, text == Text.dismiss { // 로그아웃
             listener?.popupDidTabDismissButton()
-        } else {
+        } else { // 회원 탈퇴
             // TODO: 회원탈퇴 로직 구현
         }
     }
