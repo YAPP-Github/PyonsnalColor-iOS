@@ -9,6 +9,7 @@ import ModernRIBs
 
 protocol RootRouting: ViewableRouting {
     func routeToLoggedIn()
+    func routeToLoggedOut()
 }
 
 protocol RootPresentable: Presentable {
@@ -25,8 +26,11 @@ final class RootInteractor:
 
     weak var router: RootRouting?
     weak var listener: RootListener?
+    
+    private let dependency: RootDependency
 
-    override init(presenter: RootPresentable) {
+    init(presenter: RootPresentable, dependency: RootDependency) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -41,5 +45,14 @@ final class RootInteractor:
     
     func routeToLoggedIn() {
         router?.routeToLoggedIn()
+    }
+    
+    func checkLoginedIn() {
+        if let accessToken = dependency.userAuthService.getAccessToken() {
+            print("Access Token: \(accessToken)")
+            router?.routeToLoggedIn()
+        } else {
+            router?.routeToLoggedOut()
+        }
     }
 }
