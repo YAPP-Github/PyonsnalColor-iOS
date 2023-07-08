@@ -6,6 +6,7 @@
 //
 
 import ModernRIBs
+import Combine
 
 protocol LogoutPopupRouting: ViewableRouting {
 }
@@ -29,8 +30,12 @@ final class LogoutPopupInteractor:
 
     weak var router: LogoutPopupRouting?
     weak var listener: LogoutPopupListener?
-
-    override init(presenter: LogoutPopupPresentable) {
+    
+    private let component: LogoutPopupComponent
+    private var cancellable = Set<AnyCancellable>()
+    
+    init(presenter: LogoutPopupPresentable, component: LogoutPopupComponent) {
+        self.component = component
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -47,15 +52,36 @@ final class LogoutPopupInteractor:
         if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
         } else {
-            // TODO: 로그아웃 로직 구현
+            logout()
         }
+    }
+    
+    private func logout() {
+        component.memberAPIService.logout()
+            .sink { [weak self] response in
+                if response.error != nil {
+                    // 처음 화면으로 이동
+                    // at, rt 삭제
+                }
+            }.store(in: &cancellable)
+    }
+    
+    private func deleteAccount() {
+        component.memberAPIService.widthraw()
+            .sink { [weak self] response in
+                if response.error != nil {
+                    // 처음 화면으로 이동
+                    // at, rt 삭제
+                    
+                }
+            }.store(in: &cancellable)
     }
     
     func didTabConfirmButton(_ text: String?) {
         if let text, text == Text.dismiss { // 로그아웃
             listener?.popupDidTabDismissButton()
         } else { // 회원 탈퇴
-            // TODO: 회원탈퇴 로직 구현
+            deleteAccount()
         }
     }
     
