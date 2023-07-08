@@ -11,6 +11,7 @@ import UIKit
 protocol AccountSettingPresentableListener: AnyObject {
     func didTapBackButton()
     func didTapDeleteAccountButton()
+    func didTapUseSection(with subTerms: SubTerms)
     func didTapLogoutButton()
 }
 
@@ -29,6 +30,7 @@ final class AccountSettingViewController: UIViewController,
     }
     
     enum Index {
+        static let use: Int = 0
         static let logout: Int = 1
     }
     
@@ -87,7 +89,11 @@ extension AccountSettingViewController: BackNavigationViewDelegate {
 
 extension AccountSettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == Index.logout {
+        if indexPath.row == Index.use {
+            let title = accountSettingData[Index.use]
+            let subTerms = SubTerms(title: title, type: .use)
+            listener?.didTapUseSection(with: subTerms)
+        } else if indexPath.row == Index.logout {
             listener?.didTapLogoutButton()
         }
     }
@@ -154,7 +160,7 @@ extension AccountSettingViewController {
             backNavigationView.snp.makeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(Size.headerViewHeight) // 임의
+                $0.height.equalTo(Size.headerViewHeight)
             }
             
             tableView.snp.makeConstraints {

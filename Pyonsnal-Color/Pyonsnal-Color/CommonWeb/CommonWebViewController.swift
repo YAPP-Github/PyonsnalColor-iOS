@@ -15,7 +15,7 @@ protocol CommonWebPresentableListener: AnyObject {
 
 final class CommonWebViewController: UIViewController,
                                          CommonWebPresentable,
-                                         CommonWebViewControllable {
+                                     CommonWebViewControllable {
 
     enum Size {
         static let navigationViewHeight: CGFloat = 47
@@ -33,16 +33,20 @@ final class CommonWebViewController: UIViewController,
     }
     
     func update(with subTermsInfo: SubTerms) {
-        viewHolder.backNavigationView.payload = .init(
-            mode: .text,
-            title: subTermsInfo.title,
-            iconImageKind: nil
-        )
+        setNavigationViewTitle(with: subTermsInfo.title)
         if let urlString = subTermsInfo.type.urlString,
             let url = URL(string: urlString) {
             let urlRequest = URLRequest(url: url)
             viewHolder.webView.load(urlRequest)
         }
+    }
+    
+    private func setNavigationViewTitle(with title: String) {
+        viewHolder.backNavigationView.payload = .init(
+            mode: .text,
+            title: title,
+            iconImageKind: nil
+        )
     }
     
     // MARK: - Private method
