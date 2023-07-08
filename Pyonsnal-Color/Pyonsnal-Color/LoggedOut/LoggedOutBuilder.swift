@@ -40,9 +40,11 @@ final class LoggedOutBuilder: Builder<LoggedOutDependency>, LoggedOutBuildable {
         )
         interactor.listener = listener
 
-        let router: LoggedOutRouter = .init(interactor: interactor,
-                                            viewController: viewController,
-                                            termsOfUseBuilder: termsOfUseBuilder)
+        let router: LoggedOutRouter = .init(
+            interactor: interactor,
+            viewController: viewController,
+            termsOfUseBuilder: termsOfUseBuilder
+        )
         return router
     }
 }

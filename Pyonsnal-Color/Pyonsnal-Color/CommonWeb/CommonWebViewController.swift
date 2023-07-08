@@ -62,9 +62,11 @@ extension CommonWebViewController {
     class ViewHolder: ViewHolderable {
         // MARK: - UI Component
         let navigationView: BackNavigationView = {
-            let navigationView = BackNavigationView(payload: .init(mode: .text,
-                                                                   title: "",
-                                                                   iconImageKind: nil))
+            let navigationView = BackNavigationView(payload: .init(
+                mode: .text,
+                title: "",
+                iconImageKind: nil
+            ))
             return navigationView
             
         }()

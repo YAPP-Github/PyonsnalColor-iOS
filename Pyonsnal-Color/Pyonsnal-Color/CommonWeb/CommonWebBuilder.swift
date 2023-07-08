@@ -14,8 +14,7 @@ protocol CommonWebDependency: Dependency {
 final class CommonWebComponent: Component<CommonWebDependency> {
     var subTerms: SubTerms
     
-    init(dependency: CommonWebDependency,
-         subTerms: SubTerms) {
+    init(dependency: CommonWebDependency, subTerms: SubTerms) {
         self.subTerms = subTerms
         super.init(dependency: dependency)
     }
@@ -35,11 +34,9 @@ final class CommonWebBuilder: Builder<CommonWebDependency>, CommonWebBuildable {
     
     func build(withListener listener: CommonWebListener,
                subTerms: SubTerms) -> CommonWebRouting {
-        let component = CommonWebComponent(dependency: dependency,
-                                               subTerms: subTerms)
+        let component = CommonWebComponent(dependency: dependency, subTerms: subTerms)
         let viewController = CommonWebViewController()
-        let interactor = CommonWebInteractor(presenter: viewController,
-                                             component: component)
+        let interactor = CommonWebInteractor(presenter: viewController, component: component)
         interactor.listener = listener
         return CommonWebRouter(interactor: interactor,
                                viewController: viewController)

@@ -12,7 +12,7 @@ final class PrimaryButton: UIButton {
     enum ButtonSelectable {
         case disabled
         case enabled
-        case `default`
+        case normal
         
         var bool: Bool {
             switch self {
@@ -30,10 +30,12 @@ final class PrimaryButton: UIButton {
             ButtonAttributes(textColor: .red500, backgroundColor: .black)
         }
         private var defaultAttributes: ButtonAttributes {
-            ButtonAttributes(textColor: .black,
-                             backgroundColor: .white,
-                             borderWidth: 1,
-                             borderColor: .black)
+            ButtonAttributes(
+                textColor: .black,
+                backgroundColor: .white,
+                borderWidth: 1,
+                borderColor: .black
+            )
         }
         
         var attributes: ButtonAttributes {
@@ -42,7 +44,7 @@ final class PrimaryButton: UIButton {
                 return disabledAttributes
             case .enabled:
                 return enableAttributes
-            case .`default`:
+            case .normal:
                 return defaultAttributes
             }
         }
