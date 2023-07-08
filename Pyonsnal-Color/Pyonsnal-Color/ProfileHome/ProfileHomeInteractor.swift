@@ -19,13 +19,13 @@ protocol ProfileHomePresentable: Presentable {
 }
 
 protocol ProfileHomeListener: AnyObject {
+    func routeToLoggedOut()
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
 final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>,
                                    ProfileHomeInteractable,
                                    ProfileHomePresentableListener {
-
 
     weak var router: ProfileHomeRouting?
     weak var listener: ProfileHomeListener?
@@ -63,5 +63,9 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
     
     func didTapBackButton() {
         router?.detachAccountSetting()
+    }
+    
+    func routeToLoggedOut() {
+        listener?.routeToLoggedOut()
     }
 }

@@ -42,6 +42,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     }
 
     func routeToLoggedOut() {
+        if loggedOut != nil { return }
         let loggedOut = loggedOutBuilder.build(withListener: interactor)
         self.loggedOut = loggedOut
         attachChild(loggedOut)
@@ -59,4 +60,14 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         self.loggedIn = loggedIn
         attachChild(loggedIn)
     }
+    
+    func routeToLoggedOutFromLogout() {
+        if let loggedIn {
+            detachChild(loggedIn)
+            self.loggedIn = nil
+        }
+        
+        routeToLoggedOut()
+    }
+    
 }

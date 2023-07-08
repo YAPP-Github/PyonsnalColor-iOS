@@ -21,6 +21,7 @@ protocol AccountSettingPresentable: Presentable {
 
 protocol AccountSettingListener: AnyObject {
     func didTapBackButton()
+    func routeToLoggedOut()
 }
 
 final class AccountSettingInteractor: PresentableInteractor<AccountSettingPresentable>, AccountSettingInteractable, AccountSettingPresentableListener {
@@ -68,4 +69,9 @@ final class AccountSettingInteractor: PresentableInteractor<AccountSettingPresen
     func detachCommonWebView() {
         router?.detachCommonWebView()
     }
+    
+    func routeToLoggedOut() {
+        listener?.routeToLoggedOut()
+    }
+    
 }

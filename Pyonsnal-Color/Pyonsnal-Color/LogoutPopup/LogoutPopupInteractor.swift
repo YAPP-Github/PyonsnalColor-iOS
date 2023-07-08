@@ -9,6 +9,7 @@ import ModernRIBs
 import Combine
 
 protocol LogoutPopupRouting: ViewableRouting {
+    
 }
 
 protocol LogoutPopupPresentable: Presentable {
@@ -17,6 +18,7 @@ protocol LogoutPopupPresentable: Presentable {
 
 protocol LogoutPopupListener: AnyObject {
     func popupDidTabDismissButton()
+    func routeToLoggedOut()
 }
 
 final class LogoutPopupInteractor:
@@ -51,8 +53,9 @@ final class LogoutPopupInteractor:
     func didTabDismissButton(_ text: String?) {
         if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
-        } else {
-            logout()
+        } else { // xk
+//            deleteAccount()
+            listener?.routeToLoggedOut()
         }
     }
     
@@ -61,6 +64,7 @@ final class LogoutPopupInteractor:
             .sink { [weak self] response in
                 if response.error != nil {
                     // 처음 화면으로 이동
+                    self?.listener?.routeToLoggedOut()
                     // at, rt 삭제
                 }
             }.store(in: &cancellable)
@@ -71,6 +75,7 @@ final class LogoutPopupInteractor:
             .sink { [weak self] response in
                 if response.error != nil {
                     // 처음 화면으로 이동
+                    self?.listener?.routeToLoggedOut()
                     // at, rt 삭제
                     
                 }
@@ -78,10 +83,11 @@ final class LogoutPopupInteractor:
     }
     
     func didTabConfirmButton(_ text: String?) {
-        if let text, text == Text.dismiss { // 로그아웃
+        if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
-        } else { // 회원 탈퇴
-            deleteAccount()
+        } else { // 로그아웃
+//            logout()
+            listener?.routeToLoggedOut()
         }
     }
     
