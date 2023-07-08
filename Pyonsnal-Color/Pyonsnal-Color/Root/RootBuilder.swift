@@ -8,6 +8,7 @@
 import ModernRIBs
 
 protocol RootDependency: Dependency {
+    var userAuthService: UserAuthService { get }
 }
 
 // MARK: - Builder
@@ -28,7 +29,7 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
             rootViewController: viewController,
             dependency: dependency
         )
-        let interactor: RootInteractor = .init(presenter: viewController)
+        let interactor: RootInteractor = .init(presenter: viewController, dependency: dependency)
         let loggedOutBuilder: LoggedOutBuilder = .init(dependency: component)
         let loggedInBuilder: LoggedInBuilder = .init(dependency: component)
         let router: RootRouter = .init(

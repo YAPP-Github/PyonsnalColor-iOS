@@ -8,6 +8,7 @@
 import ModernRIBs
 
 final class AppComponent: Component<EmptyDependency>, RootDependency {
+    let userAuthService: UserAuthService = .init(keyChainService: .shared)
     init() {
         super.init(dependency: EmptyComponent())
     }
