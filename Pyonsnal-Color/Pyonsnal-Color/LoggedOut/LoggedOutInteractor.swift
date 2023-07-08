@@ -32,6 +32,12 @@ final class LoggedOutInteractor:
     
     private var dependency: LoggedOutDependency
     private var cancellable = Set<AnyCancellable>()
+    // Legacy...
+    enum LoginTask {
+        case apple(identifyToken: String)
+        case kakao(accessToken: String)
+    }
+    private var loginTask: LoginTask?
     
     init(presenter: LoggedOutPresentable, dependency: LoggedOutDependency) {
         self.dependency = dependency
@@ -62,7 +68,8 @@ final class LoggedOutInteractor:
             .sink { [weak self] response in
                 if let userAuth = response.value {
                     print("Apple login success: \(userAuth.accessToken)")
-                    self?.router?.attachTermsOfUse()
+                    self?.dependency.userAuthService.setAccessToken(userAuth.accessToken)
+                    self?.listener?.routeToLoggedIn()
                 } else if response.error != nil {
                     // TODO: error handling
                 } else {
@@ -71,12 +78,39 @@ final class LoggedOutInteractor:
             }.store(in: &cancellable)
     }
     
-    func detachTermsOfUse() {
-        router?.detachTermsOfUse()
+    private func requestKakaoLogin(with accessToken: String) {
+        dependency.authClient.kakaoLogin(accessToken: accessToken)
+            .sink { [weak self] response in
+                if let userAuth = response.value {
+                    print("Kakao login success: \(userAuth.accessToken)")
+                    self?.dependency.userAuthService.setAccessToken(userAuth.accessToken)
+                    self?.listener?.routeToLoggedIn()
+                } else if let responseError = response.error {
+                    // TODO: error handling
+                } else {
+                    // TODO: error handling
+                }
+            }.store(in: &cancellable)
     }
     
-    func routeToLoggedIn() {
-        listener?.routeToLoggedIn()
+    private func resumeLoginProcess() {
+        if let loginTask {
+            switch loginTask {
+            case .apple(let identifyToken):
+                requestAppleLogin(with: identifyToken)
+            case .kakao(let accessToken):
+                requestKakaoLogin(with: accessToken)
+            }
+        }
+        loginTask = nil
+    }
+    
+    func termsOfUseCloseButtonDidTap() {
+        loginTask = nil
+    }
+    
+    func termsOfUseAcceptButtonDidTap() {
+        resumeLoginProcess()
     }
     
 }
@@ -86,23 +120,14 @@ extension LoggedOutInteractor: AppleLoginServiceDelegate {
         /// TO DO : send to server
         /// get token from server
         /// save token to Keychain
-        
-        requestAppleLogin(with: identifyToken)
+        loginTask = .apple(identifyToken: identifyToken)
+        router?.attachTermsOfUse()
     }
 }
 
 extension LoggedOutInteractor: KakaoLoginServiceDelegate {
     func didReceive(accessToken: String) {
-        
-        dependency.authClient.kakaoLogin(accessToken: accessToken)
-            .sink { [weak self] response in
-                if let userAuth = response.value {
-                    print("Kakao login success: \(userAuth.accessToken)")
-                    self?.router?.attachTermsOfUse()
-                } else if let responseError = response.error {
-                } else {
-                    // TODO: error handling
-                }
-            }.store(in: &cancellable)
+        loginTask = .kakao(accessToken: accessToken)
+        router?.attachTermsOfUse()
     }
 }
