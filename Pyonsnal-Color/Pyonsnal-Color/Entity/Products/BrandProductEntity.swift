@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BrandProductEntity: Decodable, ProductConvertable {
+struct BrandProductEntity: Decodable, ProductConvertable, Hashable {
     let imageURL: URL
     let storeType: ConvenienceStore
     let updatedTime: String

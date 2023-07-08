@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ConvenienceStore: String, Decodable {
+enum ConvenienceStore: String, Decodable, Hashable {
     case all = "all"
     case cu = "CU"
     case gs25 = "GS25"
