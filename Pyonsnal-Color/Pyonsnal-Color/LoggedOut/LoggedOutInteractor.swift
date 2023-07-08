@@ -10,6 +10,8 @@ import Combine
 import Foundation
 
 protocol LoggedOutRouting: ViewableRouting {
+    func attachTermsOfUse()
+    func detachTermsOfUse()
 }
 
 protocol LoggedOutPresentable: Presentable {
@@ -17,7 +19,7 @@ protocol LoggedOutPresentable: Presentable {
 }
 
 protocol LoggedOutListener: AnyObject {
-    func didLogin()
+    func routeToLoggedIn()
 }
 
 final class LoggedOutInteractor:
@@ -60,13 +62,21 @@ final class LoggedOutInteractor:
             .sink { [weak self] response in
                 if let userAuth = response.value {
                     print("Apple login success: \(userAuth.accessToken)")
-                    self?.listener?.didLogin()
+                    self?.router?.attachTermsOfUse()
                 } else if response.error != nil {
                     // TODO: error handling
                 } else {
                     // TODO: error handling
                 }
             }.store(in: &cancellable)
+    }
+    
+    func detachTermsOfUse() {
+        router?.detachTermsOfUse()
+    }
+    
+    func routeToLoggedIn() {
+        listener?.routeToLoggedIn()
     }
     
 }
@@ -77,18 +87,18 @@ extension LoggedOutInteractor: AppleLoginServiceDelegate {
         /// get token from server
         /// save token to Keychain
         
-//        listener?.didLogin()
         requestAppleLogin(with: identifyToken)
     }
 }
 
 extension LoggedOutInteractor: KakaoLoginServiceDelegate {
     func didReceive(accessToken: String) {
+        
         dependency.authClient.kakaoLogin(accessToken: accessToken)
             .sink { [weak self] response in
                 if let userAuth = response.value {
                     print("Kakao login success: \(userAuth.accessToken)")
-                    self?.listener?.didLogin()
+                    self?.router?.attachTermsOfUse()
                 } else if let responseError = response.error {
                 } else {
                     // TODO: error handling

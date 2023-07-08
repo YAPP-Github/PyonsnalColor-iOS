@@ -1,5 +1,5 @@
 //
-//  ImageNavigationView.swift
+//  BackNavigationView.swift
 //  Pyonsnal-Color
 //
 //  Created by 김진우 on 2023/07/01.
@@ -8,10 +8,17 @@
 import UIKit
 import SnapKit
 
-final class ImageNavigationView: UIView {
+final class BackNavigationView: UIView {
     // MARK: - Declaration
     struct Payload {
-        let iconImageKind: ImageAssetKind.StoreIcon
+        var mode: TitleMode = .image
+        var title: String?
+        var iconImageKind: ImageAssetKind.StoreIcon?
+    }
+    
+    enum TitleMode {
+        case text
+        case image
     }
     
     // MARK: - UI Component
@@ -33,8 +40,15 @@ final class ImageNavigationView: UIView {
         return imageView
     }()
     
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .title2
+        label.textColor = .black
+        return label
+    }()
+    
     // MARK: - Interface
-    weak var delegate: ImageNavigationViewDelegate?
+    weak var delegate: BackNavigationViewDelegate?
     
     // MARK: - Private Property
     var payload: Payload? {
@@ -47,13 +61,17 @@ final class ImageNavigationView: UIView {
     init() {
         super.init(frame: .zero)
         
-        configureView()
+        configureView(with: payload?.mode ?? .image)
         configureConstraint()
         configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setText(with text: String) {
+        titleLabel.text = text
     }
     
     // MARK: - Private Method
@@ -63,18 +81,38 @@ final class ImageNavigationView: UIView {
     
     private func updateUI() {
         guard let payload else { return }
-        iconImageView.setImage(payload.iconImageKind)
+        if let iconImageKind = payload.iconImageKind {
+            iconImageView.setImage(iconImageKind)
+        }
+        titleLabel.text = payload.title
+        setContentViewToHidden(with: payload.mode)
     }
     
     private func configureUI() {
         backButton.addTarget(self, action: #selector(backButtonAction(_:)), for: .touchUpInside)
     }
     
-    private func configureView() {
+    private func configureView(with mode: TitleMode) {
         addSubview(contentView)
-        
-        contentView.addSubview(backButton)
+        contentView.addSubview(titleLabel)
         contentView.addSubview(iconImageView)
+        contentView.addSubview(backButton)
+        setContentViewToHidden(with: mode)
+        
+    }
+    
+    private func setContentViewToHidden(with mode: TitleMode) {
+        setInitContentView()
+        if mode == .text {
+            titleLabel.isHidden = false
+        } else if mode == .image {
+            iconImageView.isHidden = false
+        }
+    }
+    
+    private func setInitContentView() {
+        iconImageView.isHidden = true
+        titleLabel.isHidden = true
     }
     
     private func configureConstraint() {
@@ -92,6 +130,10 @@ final class ImageNavigationView: UIView {
         iconImageView.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.center.equalToSuperview()
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
 }
