@@ -15,7 +15,7 @@ final class RootComponent: Component<RootDependency> {
     let rootViewController: RootViewController
     var appleLoginService: AppleLoginService
     var kakaoLoginService: KakaoLoginService
-    var authClient: AuthClient
+    var authClient: AuthAPIService
     
     init(rootViewController: RootViewController,
          dependency: RootDependency

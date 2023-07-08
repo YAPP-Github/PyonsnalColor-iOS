@@ -25,7 +25,7 @@ final class PyonsnalColorClient: NetworkRequestable {
     ) -> ResponsePublisher<T> {
         return AF.request(urlRequest)
             .publishDecodable(type: T.self)
-            .map { [weak self] response in
+            .map { response in
                 response.mapError { _ in
                     if let curlString = response.request?.curlString {
                         print("Request curl: \(curlString)")
@@ -35,7 +35,7 @@ final class PyonsnalColorClient: NetworkRequestable {
                     guard let responseData = response.data else {
                         return NetworkError.unknown
                     }
-                    let responseError = try? self?.decoder.decode(ErrorResponse.self, from: responseData)
+                    let responseError = try? self.decoder.decode(ErrorResponse.self, from: responseData)
                     if let responseError {
                         dump(responseError)
                         return NetworkError.response(responseError)

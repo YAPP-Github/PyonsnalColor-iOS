@@ -1,11 +1,11 @@
 //
-//  AuthClient.swift
+//  AuthAPIService.swift
 //  Pyonsnal-Color
 //
 //  Created by 김진우 on 2023/07/08.
 //
 
-final class AuthClient {
+final class AuthAPIService {
     
     // MARK: - Private Property
     private let client: PyonsnalColorClient
