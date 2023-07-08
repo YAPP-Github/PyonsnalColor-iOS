@@ -33,7 +33,11 @@ final class CommonWebViewController: UIViewController,
     }
     
     func update(with subTermsInfo: SubTerms) {
-        viewHolder.navigationView.setText(with: subTermsInfo.title)
+        viewHolder.backNavigationView.payload = .init(
+            mode: .text,
+            title: subTermsInfo.title,
+            iconImageKind: nil
+        )
         if let urlString = subTermsInfo.type.urlString,
             let url = URL(string: urlString) {
             let urlRequest = URLRequest(url: url)
@@ -43,7 +47,7 @@ final class CommonWebViewController: UIViewController,
     
     // MARK: - Private method
     private func configureBackButton() {
-        viewHolder.navigationView.delegate = self
+        viewHolder.backNavigationView.delegate = self
     }
     
     private func configureUI() {
@@ -61,13 +65,9 @@ extension CommonWebViewController: BackNavigationViewDelegate {
 extension CommonWebViewController {
     class ViewHolder: ViewHolderable {
         // MARK: - UI Component
-        let navigationView: BackNavigationView = {
-            let navigationView = BackNavigationView(payload: .init(
-                mode: .text,
-                title: "",
-                iconImageKind: nil
-            ))
-            return navigationView
+        let backNavigationView: BackNavigationView = {
+            let backNavigationView = BackNavigationView()
+            return backNavigationView
             
         }()
                                                 
@@ -77,19 +77,19 @@ extension CommonWebViewController {
         }()
         
         func place(in view: UIView) {
-            view.addSubview(navigationView)
+            view.addSubview(backNavigationView)
             view.addSubview(webView)
         }
         
         func configureConstraints(for view: UIView) {
-            navigationView.snp.makeConstraints {
+            backNavigationView.snp.makeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(Size.navigationViewHeight)
             }
             
             webView.snp.makeConstraints {
-                $0.top.equalTo(navigationView.snp.bottom)
+                $0.top.equalTo(backNavigationView.snp.bottom)
                 $0.leading.trailing.bottom.equalToSuperview()
             }
         }

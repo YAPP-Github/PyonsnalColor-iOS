@@ -11,9 +11,9 @@ import SnapKit
 final class BackNavigationView: UIView {
     // MARK: - Declaration
     struct Payload {
-        let mode: TitleMode
-        let title: String?
-        let iconImageKind: ImageAssetKind.StoreIcon?
+        var mode: TitleMode = .image
+        var title: String?
+        var iconImageKind: ImageAssetKind.StoreIcon?
     }
     
     enum TitleMode {
@@ -61,7 +61,7 @@ final class BackNavigationView: UIView {
     init() {
         super.init(frame: .zero)
         
-        configureView(with: payload.mode)
+        configureView(with: payload?.mode ?? .image)
         configureConstraint()
         configureUI()
     }
@@ -81,16 +81,15 @@ final class BackNavigationView: UIView {
     
     private func updateUI() {
         guard let payload else { return }
-        iconImageView.setImage(payload.iconImageKind)
+        if let iconImageKind = payload.iconImageKind {
+            iconImageView.setImage(iconImageKind)
+        }
+        titleLabel.text = payload.title
+        setContentViewToHidden(with: payload.mode)
     }
     
     private func configureUI() {
         backButton.addTarget(self, action: #selector(backButtonAction(_:)), for: .touchUpInside)
-        if let iconImageKind = payload.iconImageKind {
-            iconImageView.setImage(iconImageKind)
-        }
-        
-        titleLabel.text = payload.title
     }
     
     private func configureView(with mode: TitleMode) {
@@ -107,7 +106,7 @@ final class BackNavigationView: UIView {
         if mode == .text {
             titleLabel.isHidden = false
         } else if mode == .image {
-            contentView.isHidden = false
+            iconImageView.isHidden = false
         }
     }
     

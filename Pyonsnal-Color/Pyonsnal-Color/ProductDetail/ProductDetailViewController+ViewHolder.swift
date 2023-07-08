@@ -16,9 +16,9 @@ extension ProductDetailViewController {
             return view
         }()
         
-        let imageNavigationView: ImageNavigationView = {
-            let imageNavigationView = ImageNavigationView()
-            return imageNavigationView
+        let backNavigationView: BackNavigationView = {
+            let backNavigationView = BackNavigationView()
+            return backNavigationView
         }()
         
         private let contentScrollView: UIScrollView = {
@@ -116,7 +116,7 @@ extension ProductDetailViewController {
         func place(in view: UIView) {
             view.addSubview(contentView)
             
-            contentView.addSubview(imageNavigationView)
+            contentView.addSubview(backNavigationView)
             contentView.addSubview(contentScrollView)
             
             contentScrollView.addSubview(contentStackView)
@@ -144,12 +144,12 @@ extension ProductDetailViewController {
                 make.edges.equalTo(view.safeAreaLayoutGuide)
             }
             
-            imageNavigationView.snp.makeConstraints { make in
+            backNavigationView.snp.makeConstraints { make in
                 make.leading.top.trailing.equalToSuperview()
             }
             
             contentScrollView.snp.makeConstraints { make in
-                make.top.equalTo(imageNavigationView.snp.bottom)
+                make.top.equalTo(backNavigationView.snp.bottom)
                 make.leading.bottom.trailing.equalToSuperview()
             }
             

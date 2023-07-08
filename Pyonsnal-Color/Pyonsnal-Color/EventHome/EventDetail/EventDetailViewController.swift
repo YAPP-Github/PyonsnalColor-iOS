@@ -36,18 +36,20 @@ final class EventDetailViewController: UIViewController,
             viewHolder.eventImageView.setImage(with: imageUrl)
         }
         // TO DO : 이것도 받아오도록 바뀌어야 함
-        viewHolder.imageNavigationView.payload = .init(iconImageKind: .iconCU)
+        viewHolder.backNavigationView.payload = .init(mode: .text,
+                                                      title: nil,
+                                                      iconImageKind: .iconCU)
     }
     
     // MARK: - Private Method
     private func configureAction() {
-        viewHolder.imageNavigationView.delegate = self
+        viewHolder.backNavigationView.delegate = self
     }
 
 }
 
 // MARK: - ImageNavigationViewDelegate
-extension EventDetailViewController: ImageNavigationViewDelegate {
+extension EventDetailViewController: BackNavigationViewDelegate {
     @objc func didTapBackButton() {
         listener?.didTapBackButton()
     }
@@ -56,9 +58,9 @@ extension EventDetailViewController: ImageNavigationViewDelegate {
 extension EventDetailViewController {
     // MARK: - UI Component
     final class ViewHolder: ViewHolderable {
-        let imageNavigationView: ImageNavigationView = {
-            let imageNavigationView = ImageNavigationView()
-            return imageNavigationView
+        let backNavigationView: BackNavigationView = {
+            let backNavigationView = BackNavigationView()
+            return backNavigationView
         }()
         
         private let containerScrollView: UIScrollView = {
@@ -73,20 +75,20 @@ extension EventDetailViewController {
         }()
         
         func place(in view: UIView) {
-            view.addSubview(imageNavigationView)
+            view.addSubview(backNavigationView)
             view.addSubview(containerScrollView)
             containerScrollView.addSubview(eventImageView)
         }
         
         func configureConstraints(for view: UIView) {
-            imageNavigationView.snp.makeConstraints {
+            backNavigationView.snp.makeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(48)
             }
             
             containerScrollView.snp.makeConstraints {
-                $0.top.equalTo(imageNavigationView.snp.bottom)
+                $0.top.equalTo(backNavigationView.snp.bottom)
                 $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
                 $0.height.equalTo(view.snp.height)
             }

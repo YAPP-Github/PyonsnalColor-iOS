@@ -62,7 +62,7 @@ final class LoggedOutInteractor:
             .sink { [weak self] response in
                 if let userAuth = response.value {
                     print("Apple login success: \(userAuth.accessToken)")
-                    self?.listener?.didLogin()
+                    self?.router?.attachTermsOfUse()
                 } else if response.error != nil {
                     // TODO: error handling
                 } else {
@@ -83,24 +83,22 @@ final class LoggedOutInteractor:
 
 extension LoggedOutInteractor: AppleLoginServiceDelegate {
     func didCompleteWithAuthorization(identifyToken: String) {
-        router?.attachTermsOfUse()
         /// TO DO : send to server
         /// get token from server
         /// save token to Keychain
         
-//        listener?.didLogin()
-//        requestAppleLogin(with: identifyToken)
+        requestAppleLogin(with: identifyToken)
     }
 }
 
 extension LoggedOutInteractor: KakaoLoginServiceDelegate {
     func didReceive(accessToken: String) {
-        router?.attachTermsOfUse()
+        
         dependency.authClient.kakaoLogin(accessToken: accessToken)
             .sink { [weak self] response in
                 if let userAuth = response.value {
                     print("Kakao login success: \(userAuth.accessToken)")
-                    self?.listener?.didLogin()
+                    self?.router?.attachTermsOfUse()
                 } else if let responseError = response.error {
                 } else {
                     // TODO: error handling
