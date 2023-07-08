@@ -225,4 +225,11 @@ final class ProductCell: UICollectionViewCell {
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
         viewHolder.eventTagImageView.makeRounded(with: Size.eventTagImageviewRadius)
     }
+    
+    func updateCell(with product: BrandProductEntity) {
+        viewHolder.titleLabel.text = product.name
+        viewHolder.convenienceStoreTagImageView.image = product.storeTagImage
+        viewHolder.itemImageView.setImage(with: product.imageURL)
+        viewHolder.originalPriceLabel.text = product.price
+    }
 }

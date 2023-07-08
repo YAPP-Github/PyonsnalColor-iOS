@@ -42,9 +42,12 @@ final class ProductDetailViewController:
         
         self.product = .init(
             imageURL: .init(string: "https://www.google.com")!,
+            storeType: .emart24,
             updatedTime: "업데이트 23.06.24",
             name: "오리온) 눈을 감자",
             price: "3800원",
+            originalPrice: "4000원",
+            eventType: .discount,
             description: "상세 정보 없음",
             giftItem: giftItem
         )
