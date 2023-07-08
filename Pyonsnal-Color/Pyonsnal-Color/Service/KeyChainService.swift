@@ -25,8 +25,8 @@ final class KeyChainService: NSObject {
     static let shared = KeyChainService()
     private override init() {}
     
-    func addToken(token: String, to key: String) -> Bool {
-        guard let tokenData = token.data(using: .utf8) else { return false }
+    func set(value: String, to key: String) -> Bool {
+        guard let tokenData = value.data(using: .utf8) else { return false }
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService : key,
@@ -37,7 +37,7 @@ final class KeyChainService: NSObject {
         return status == errSecSuccess
     }
     
-    func getToken(with key: String) -> String? {
+    func get(with key: String) -> String? {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService : key,
@@ -56,7 +56,7 @@ final class KeyChainService: NSObject {
         return nil
     }
     
-    func deleteToken(with key: String) -> Bool {
+    func delete(with key: String) -> Bool {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService : key,
