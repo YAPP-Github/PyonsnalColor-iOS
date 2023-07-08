@@ -29,6 +29,10 @@ extension UIImageView {
         self.image = kind.image
     }
     
+    func setImage(_ kind: ImageAssetKind.Splash) {
+        self.image = kind.image
+    }
+    
     func setImage(with url: URL) {
         self.kf.setImage(with: url)
     }
