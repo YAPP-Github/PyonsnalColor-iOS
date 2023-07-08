@@ -6,6 +6,7 @@
 //
 
 import ModernRIBs
+import Combine
 
 protocol ProfileHomeRouting: ViewableRouting {
     func attachAccountSetting()
@@ -14,7 +15,7 @@ protocol ProfileHomeRouting: ViewableRouting {
 
 protocol ProfileHomePresentable: Presentable {
     var listener: ProfileHomePresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
+    func update(with member: MemberInfoEntity)
 }
 
 protocol ProfileHomeListener: AnyObject {
@@ -28,16 +29,28 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
 
     weak var router: ProfileHomeRouting?
     weak var listener: ProfileHomeListener?
-
-    // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
-    override init(presenter: ProfileHomePresentable) {
+    private var cancellable = Set<AnyCancellable>()
+    private var component: ProfileHomeComponent
+    
+    init(presenter: ProfileHomePresentable, component: ProfileHomeComponent) {
+        self.component = component
         super.init(presenter: presenter)
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        component.memberAPIService.info()
+            .sink { [weak self] response in
+                if let memberInfo = response.value {
+                    print("info success: \(memberInfo)")
+                    self?.presenter.update(with: memberInfo)
+                } else if response.error != nil {
+                    // TODO: error handling
+                } else {
+                    // TODO: error handling
+                }
+            }.store(in: &cancellable)
     }
 
     override func willResignActive() {

@@ -8,14 +8,18 @@
 import ModernRIBs
 
 protocol ProfileHomeDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
 }
 
 final class ProfileHomeComponent: Component<ProfileHomeDependency>,
                                   AccountSettingDependency {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    var memberAPIService: MemberAPIService
+    
+    override init(dependency: ProfileHomeDependency) {
+        let pyonsnalColorClient = PyonsnalColorClient()
+        self.memberAPIService = .init(client: pyonsnalColorClient)
+        super.init(dependency: dependency)
+    }
+    
 }
 
 // MARK: - Builder
@@ -34,7 +38,7 @@ final class ProfileHomeBuilder: Builder<ProfileHomeDependency>,
     func build(withListener listener: ProfileHomeListener) -> ProfileHomeRouting {
         let component = ProfileHomeComponent(dependency: dependency)
         let viewController = ProfileHomeViewController()
-        let interactor = ProfileHomeInteractor(presenter: viewController)
+        let interactor = ProfileHomeInteractor(presenter: viewController, component: component)
         interactor.listener = listener
         let accountSettingBuilder = AccountSettingBuilder(dependency: component)
         return ProfileHomeRouter(

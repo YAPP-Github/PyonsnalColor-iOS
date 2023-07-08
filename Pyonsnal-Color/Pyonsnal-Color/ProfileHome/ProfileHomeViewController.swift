@@ -55,6 +55,10 @@ final class ProfileHomeViewController: UIViewController,
         configureTableView()
     }
     
+    func update(with member: MemberInfoEntity) {
+        viewHolder.nickNameLabel.text = member.nickname
+    }
+    
     //MARK: - Private Method
     private func configureTableView() {
         viewHolder.tableView.delegate = self
