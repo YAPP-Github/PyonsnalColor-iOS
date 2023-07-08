@@ -5,8 +5,6 @@
 //  Created by 김인호 on 2023/07/08.
 //
 
-import Foundation
-
 struct BrandProductEntity {
     let imageURL: URL
     let storeType: ConvenienceStore

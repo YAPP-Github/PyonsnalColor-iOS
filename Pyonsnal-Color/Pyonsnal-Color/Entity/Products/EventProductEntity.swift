@@ -5,8 +5,6 @@
 //  Created by 김진우 on 2023/06/24.
 //
 
-import Foundation
-
 struct EventProductEntity {
     let imageURL: URL
     let storeType: ConvenienceStore

@@ -10,6 +10,10 @@
 		B21C1A8C2A513FBB007D98E9 /* RIBs+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */; };
 		B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259022A590ECA006C5223 /* ConvenienceStore.swift */; };
 		B24259052A590FCF006C5223 /* BrandProductEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259042A590FCF006C5223 /* BrandProductEntity.swift */; };
+		B24259092A594140006C5223 /* ProductAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259082A594140006C5223 /* ProductAPIService.swift */; };
+		B242590B2A594368006C5223 /* ProductPageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B242590A2A594368006C5223 /* ProductPageEntity.swift */; };
+		B242590E2A5947E7006C5223 /* PageableEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B242590D2A5947E7006C5223 /* PageableEntity.swift */; };
+		B24259102A594862006C5223 /* SortEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B242590F2A594862006C5223 /* SortEntity.swift */; };
 		B24CAAE22A55AC2B005BE499 /* NotificationListViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D472A4AD7ED00AA03DC /* NotificationListViewHolder.swift */; };
 		B24CAAE32A55AC2D005BE499 /* NotificationListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D412A4AD7B600AA03DC /* NotificationListBuilder.swift */; };
 		B24CAAE42A55AC2F005BE499 /* NotificationListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D422A4AD7B600AA03DC /* NotificationListInteractor.swift */; };
@@ -162,6 +166,10 @@
 		B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RIBs+.swift"; sourceTree = "<group>"; };
 		B24259022A590ECA006C5223 /* ConvenienceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStore.swift; sourceTree = "<group>"; };
 		B24259042A590FCF006C5223 /* BrandProductEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandProductEntity.swift; sourceTree = "<group>"; };
+		B24259082A594140006C5223 /* ProductAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductAPIService.swift; sourceTree = "<group>"; };
+		B242590A2A594368006C5223 /* ProductPageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPageEntity.swift; sourceTree = "<group>"; };
+		B242590D2A5947E7006C5223 /* PageableEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageableEntity.swift; sourceTree = "<group>"; };
+		B242590F2A594862006C5223 /* SortEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortEntity.swift; sourceTree = "<group>"; };
 		B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStoreCell.swift; sourceTree = "<group>"; };
 		B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomePageViewController.swift; sourceTree = "<group>"; };
@@ -324,6 +332,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B24259072A5940F0006C5223 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B24259082A594140006C5223 /* ProductAPIService.swift */,
+			);
+			path = Products;
+			sourceTree = "<group>";
+		};
+		B242590C2A5943F6006C5223 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA87E3DD2A4629B5000A9DEC /* EventProductEntity.swift */,
+				B24259042A590FCF006C5223 /* BrandProductEntity.swift */,
+				B242590A2A594368006C5223 /* ProductPageEntity.swift */,
+				B242590D2A5947E7006C5223 /* PageableEntity.swift */,
+				B242590F2A594862006C5223 /* SortEntity.swift */,
+			);
+			path = Products;
+			sourceTree = "<group>";
+		};
 		B24F1D342A43E30D00AA03DC /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -521,6 +549,7 @@
 				F0687BF02A52AC92004B5EAE /* Error */,
 				F0687BEB2A529666004B5EAE /* Config */,
 				BA18075E2A2F1D6500295398 /* Auth */,
+				B24259072A5940F0006C5223 /* Products */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -597,8 +626,7 @@
 			children = (
 				BA3F6F032A5885F400BD9154 /* Auth */,
 				BA87E3DB2A4623E3000A9DEC /* GiftItemEntity.swift */,
-				BA87E3DD2A4629B5000A9DEC /* EventProductEntity.swift */,
-				B24259042A590FCF006C5223 /* BrandProductEntity.swift */,
+				B242590C2A5943F6006C5223 /* Products */,
 				BA0BFB712A5463BD0019AED7 /* EventTag.swift */,
 				B24259022A590ECA006C5223 /* ConvenienceStore.swift */,
 			);
@@ -939,6 +967,8 @@
 				F0168D542A500AC900978ED9 /* EventDetailInteractor.swift in Sources */,
 				BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */,
 				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
+				B242590B2A594368006C5223 /* ProductPageEntity.swift in Sources */,
+				BAAB90372A5051D2003A7647 /* ImageNavigationViewDelegate.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
@@ -972,6 +1002,7 @@
 				B24CAAE52A55AC33005BE499 /* NotificationListViewController.swift in Sources */,
 				B24F1D4B2A4BB82D00AA03DC /* TitleNavigationView.swift in Sources */,
 				F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */,
+				B242590E2A5947E7006C5223 /* PageableEntity.swift in Sources */,
 				F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
 				B2A57C3F2A2EF917005DB83E /* KakaoLoginService.swift in Sources */,
@@ -986,6 +1017,7 @@
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				F0EE10AE2A4B389A00B8DF4F /* AccountSettingInteractor.swift in Sources */,
 				F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */,
+				B24259102A594862006C5223 /* SortEntity.swift in Sources */,
 				B24CAAE32A55AC2D005BE499 /* NotificationListBuilder.swift in Sources */,
 				F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */,
 				B250884E2A5411890040BA50 /* TitleNavigationViewDelegate.swift in Sources */,
@@ -1016,6 +1048,7 @@
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
 				F0EE10A52A4B2E5200B8DF4F /* AppInfoService.swift in Sources */,
 				F015354B2A45A8DD00A2A8F2 /* NSObject+.swift in Sources */,
+				B24259092A594140006C5223 /* ProductAPIService.swift in Sources */,
 				BA87E3CE2A45C5A1000A9DEC /* ProductDetailBuilder.swift in Sources */,
 				BA8924542A582ED200D1B097 /* EventTagBigView.swift in Sources */,
 				BA8924582A583AD400D1B097 /* ImageAssetKind+Icon.swift in Sources */,
