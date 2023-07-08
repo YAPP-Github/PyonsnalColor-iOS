@@ -8,5 +8,5 @@
 import Foundation
 
 struct ProfileUrl {
-    static let team = "https://www.notion.so/ae5a240aecf540f3bf8f0364aa15f7b7?pvs=4"
+    static let team = "https://pentagonal-roquefort-ccf.notion.site/ae5a240aecf540f3bf8f0364aa15f7b7?pvs=4"
 }
