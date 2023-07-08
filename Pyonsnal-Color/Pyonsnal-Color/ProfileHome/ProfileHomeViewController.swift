@@ -28,7 +28,6 @@ final class ProfileHomeViewController: UIViewController,
     }
     
     enum Section: String {
-        case notification
         case setting
     }
     
@@ -36,8 +35,7 @@ final class ProfileHomeViewController: UIViewController,
     
     //MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
-    private let sectionData: [Section] = [.notification, .setting]
-    private let alarmData = ["알림 설정", "전체 알림", "키워드 알림"]
+    private let sectionData: [Section] = [.setting]
     private let settingData = ["기타", "이메일로 문의하기", "버전정보", "만든 사람들", "계정 설정"]
     //MARK: - Initializer
     init() {
@@ -82,10 +80,6 @@ extension ProfileHomeViewController: UITableViewDataSource {
         return index == 0
     }
     
-    private func isDividerToShow(section: Section, index: Int) -> Bool {
-        return (section == .notification) && (index == alarmData.count - 1)
-    }
-    
     private func isSubLabelToShow(section: Section, index: Int) -> Bool {
         let versionInfoIndex = 2
         return (section == .setting) && (index == versionInfoIndex)
@@ -98,8 +92,6 @@ extension ProfileHomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let section = sectionData[section]
         switch section {
-        case .notification:
-            return alarmData.count
         case .setting:
             return settingData.count
         }
@@ -110,17 +102,12 @@ extension ProfileHomeViewController: UITableViewDataSource {
         
         let section = sectionData[indexPath.section]
         let isSectionIndex = isSectionIndex(with: indexPath.row)
-        let isDividerToShow = isDividerToShow(section: section, index: indexPath.row)
         let isSubLabelToShow = isSubLabelToShow(section: section, index: indexPath.row)
         switch section {
-        case .notification:
-            cell.update(text: alarmData[indexPath.row],
-                             isSectionIndex: isSectionIndex)
         case .setting:
             cell.update(text: settingData[indexPath.row],
                              isSectionIndex: isSectionIndex)
         }
-        cell.setDividerHidden(isShow: isDividerToShow)
         cell.setSubLabelHidden(isShow: isSubLabelToShow)
         return cell
     }
@@ -132,9 +119,6 @@ extension ProfileHomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = sectionData[indexPath.section]
         let defaultHeight = Size.cellHeight
-        if isDividerToShow(section: section, index: indexPath.row) {
-            return defaultHeight + Size.dividerHeight
-        }
         return defaultHeight
     }
     
@@ -143,8 +127,6 @@ extension ProfileHomeViewController: UITableViewDelegate {
         let accountSettingIndex = 4
         if !isSectionIndex(with: indexPath.row) {
             switch section {
-            case .notification:
-                print(alarmData[indexPath.row])
             case .setting:
                 if indexPath.row == accountSettingIndex {
                     listener?.didTapAccountSetting()
