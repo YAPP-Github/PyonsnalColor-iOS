@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 
 final class ProductListViewController: UIViewController {
-    // TODO: Item타입 상품엔티티로 변경
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Int>
+
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, BrandProductEntity>
     
     enum Constant {
         enum Size {
@@ -34,7 +34,6 @@ final class ProductListViewController: UIViewController {
     lazy var productCollectionView: UICollectionView = {
         let layout = configureCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        // TODO: AppColor 정해지면 수정
         collectionView.backgroundColor = .systemGray6
         return collectionView
     }()
@@ -112,7 +111,7 @@ final class ProductListViewController: UIViewController {
         registerCells()
         configureDataSource()
         configureHeaderView()
-        applySnapshot()
+//        applySnapshot()
         configureRefreshControl()
     }
     
@@ -124,13 +123,15 @@ final class ProductListViewController: UIViewController {
     private func configureDataSource() {
         dataSource = DataSource(
             collectionView: productCollectionView
-        ) { collectionView, indexPath, _ in
+        ) { collectionView, indexPath, product in
             guard let cell: ProductCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: String(describing: ProductCell.self),
                 for: indexPath
             ) as? ProductCell else {
                 return UICollectionViewCell()
             }
+            
+            cell.updateCell(with: product)
             
             return cell
         }
@@ -154,13 +155,11 @@ final class ProductListViewController: UIViewController {
         }
     }
 
-    private func applySnapshot() {
-        // TODO: 추후에 외부로부터 데이터 받아오도록 메서드 추가
-        //ex) updateSnapshot(items: [ProductEntity])
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+    func applySnapshot(with products: [BrandProductEntity]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, BrandProductEntity>()
         
         snapshot.appendSections([.product])
-        snapshot.appendItems(Array(1...40))
+        snapshot.appendItems(products)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -179,7 +178,7 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.applySnapshot()
+//            self.applySnapshot()
             self.productCollectionView.refreshControl?.endRefreshing()
         }
     }

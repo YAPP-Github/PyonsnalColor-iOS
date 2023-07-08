@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProductHomePresentableListener: AnyObject {
     func didTapNotificationButton()
+    func didScrollToNextPage()
 }
 
 final class ProductHomeViewController:
@@ -106,6 +107,11 @@ final class ProductHomeViewController:
         
         notificationListViewController.modalPresentationStyle = .fullScreen
         present(notificationListViewController, animated: true)
+    }
+    
+    func updateProducts(with products: [BrandProductEntity]) {
+        let productsViewController = viewHolder.productHomePageViewController.currentViewController
+        productsViewController?.applySnapshot(with: products)
     }
 }
 

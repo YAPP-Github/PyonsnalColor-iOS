@@ -5,6 +5,7 @@
 //  Created by 김인호 on 2023/06/10.
 //
 
+import Combine
 import ModernRIBs
 
 protocol ProductHomeRouting: ViewableRouting {
@@ -14,27 +15,60 @@ protocol ProductHomeRouting: ViewableRouting {
 
 protocol ProductHomePresentable: Presentable {
     var listener: ProductHomePresentableListener? { get set }
+    
+    func updateProducts(with products: [BrandProductEntity])
 }
 
 protocol ProductHomeListener: AnyObject {
 }
 
-final class ProductHomeInteractor: PresentableInteractor<ProductHomePresentable>, ProductHomeInteractable, ProductHomePresentableListener {
+final class ProductHomeInteractor:
+    PresentableInteractor<ProductHomePresentable>,
+    ProductHomeInteractable,
+    ProductHomePresentableListener {
 
     weak var router: ProductHomeRouting?
     weak var listener: ProductHomeListener?
+    
+    private var dependency: ProductHomeDependency?
+    private var cancellable = Set<AnyCancellable>()
+    private let initialCount: Int = 20
+    private let productPerPage: Int = 10
+    private var currentPage: Int = 1
+    private var nextPage: Int { currentPage + 1 }
 
-    override init(presenter: ProductHomePresentable) {
+    init(
+        presenter: ProductHomePresentable,
+        dependency: ProductHomeDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        
+        requestProducts(pageNumber: currentPage, pageSize: initialCount)
     }
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    private func requestProducts(pageNumber: Int, pageSize: Int) {
+        dependency?.productAPIService.requestBrandProduct(
+            pageNumber: pageNumber,
+            pageSize: pageSize
+        ).sink { [weak self] response in
+            if let productPage = response.value {
+                print(self?.presenter)
+                print(productPage.content)
+                self?.presenter.updateProducts(with: productPage.content)
+            } else if response.error != nil {
+                // TODO: Error Handling
+            }
+        }.store(in: &cancellable)
     }
     
     func didTapNotificationButton() {
@@ -43,5 +77,10 @@ final class ProductHomeInteractor: PresentableInteractor<ProductHomePresentable>
     
     func notificationListDidTapBackButton() {
         router?.detachNotificationList()
+    }
+    
+    func didScrollToNextPage() {
+        requestProducts(pageNumber: nextPage, pageSize: productPerPage)
+        currentPage = nextPage
     }
 }

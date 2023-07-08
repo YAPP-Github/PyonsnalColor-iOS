@@ -16,25 +16,25 @@ final class ProductAPIService {
         self.client = client
     }
     
-    func requestBrandProduct<T: Decodable>(
+    func requestBrandProduct(
         pageNumber: Int,
         pageSize: Int,
         storeType: ConvenienceStore = .all
-    ) -> AnyPublisher<DataResponse<T, NetworkError>, Never> {
+    ) -> AnyPublisher<DataResponse<ProductPageEntity<BrandProductEntity>, NetworkError>, Never> {
         return client.request(
             ProductAPI.brandProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType),
-            model: T.self
+            model: ProductPageEntity.self
         )
     }
     
-    func requestEventProduct<T: Decodable>(
+    func requestEventProduct(
         pageNumber: Int,
         pageSize: Int,
         storeType: ConvenienceStore = .all
-    ) -> AnyPublisher<DataResponse<T, NetworkError>, Never> {
+    ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
         return client.request(
             ProductAPI.eventProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType),
-            model: T.self
+            model: ProductPageEntity.self
         )
     }
 }
