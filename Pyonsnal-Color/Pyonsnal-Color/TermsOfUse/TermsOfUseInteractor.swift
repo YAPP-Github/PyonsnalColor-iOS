@@ -18,8 +18,8 @@ protocol TermsOfUsePresentable: Presentable {
 }
 
 protocol TermsOfUseListener: AnyObject {
-    func detachTermsOfUse()
-    func routeToLoggedIn()
+    func termsOfUseCloseButtonDidTap()
+    func termsOfUseAcceptButtonDidTap()
 }
 
 final class TermsOfUseInteractor: PresentableInteractor<TermsOfUsePresentable>, TermsOfUseInteractable, TermsOfUsePresentableListener {
@@ -46,13 +46,13 @@ final class TermsOfUseInteractor: PresentableInteractor<TermsOfUsePresentable>, 
     }
     
     func dismissViewController() {
-        listener?.detachTermsOfUse()
+        listener?.termsOfUseCloseButtonDidTap()
     }
     
     func routeToLoggedInIfNeeded() {
         // 로그인 request with 어떤 로그인 버튼 클릭했는지랑
         // 토큰 저장
-        listener?.routeToLoggedIn()
+        listener?.termsOfUseAcceptButtonDidTap()
     }
     
     func routeToWebView(subTermsInfo: SubTerms) {
