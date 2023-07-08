@@ -35,6 +35,10 @@ extension Config {
         return headers
     }
     
+    func getHeader() -> [HTTPHeader]? {
+        return headers
+    }
+    
     private func setDefaultHeader() {
         self.headers = defaultHeaders
     }
