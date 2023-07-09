@@ -11,4 +11,5 @@ final class RootTabBarComponent: Component<RootTabBarDependency> {
 }
 
 extension RootTabBarComponent: ProductHomeDependency, EventHomeDependency, ProfileHomeDependency {
+    
 }

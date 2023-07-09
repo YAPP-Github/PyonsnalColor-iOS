@@ -7,7 +7,9 @@
 
 import ModernRIBs
 
-protocol AccountSettingInteractable: Interactable, LogoutPopupListener {
+protocol AccountSettingInteractable: Interactable,
+                                     LogoutPopupListener,
+                                     CommonWebListener {
     var router: AccountSettingRouting? { get set }
     var listener: AccountSettingListener? { get set }
 }
@@ -16,17 +18,24 @@ protocol AccountSettingViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
-final class AccountSettingRouter: ViewableRouter<AccountSettingInteractable, AccountSettingViewControllable>, AccountSettingRouting {
+final class AccountSettingRouter: ViewableRouter<AccountSettingInteractable,
+                                  AccountSettingViewControllable>,
+                                  AccountSettingRouting {    
 
     private let logoutPopupBuildable: LogoutPopupBuildable
     private var logoutPopupRouting: LogoutPopupRouting?
     
+    private let commonWebBuilderable: CommonWebBuildable
+    private var commonWebRouting: ViewableRouting?
+    
     init(
         interactor: AccountSettingInteractable,
         viewController: AccountSettingViewControllable,
-        logoutPopupBuilder: LogoutPopupBuildable
+        logoutPopupBuilder: LogoutPopupBuildable,
+        commonWebBuilderable: CommonWebBuilder
     ) {
         self.logoutPopupBuildable = logoutPopupBuilder
+        self.commonWebBuilderable = commonWebBuilderable
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -51,5 +60,21 @@ final class AccountSettingRouter: ViewableRouter<AccountSettingInteractable, Acc
         viewControllable.uiviewController.dismiss(animated: false)
         detachChild(logoutPopupRouting)
         self.logoutPopupRouting = nil
+    }
+    
+    func attachCommonWebView(with subTerms: SubTerms) {
+        if commonWebRouting != nil { return }
+        let commonWebBuilder = commonWebBuilderable.build(withListener: interactor, subTerms: subTerms)
+        self.commonWebRouting = commonWebBuilder
+        attachChild(commonWebBuilder)
+        viewController.pushViewController(commonWebBuilder.viewControllable, animated: true)
+        
+    }
+    
+    func detachCommonWebView() {
+        guard let commonWebRouting else { return }
+        self.commonWebRouting = nil
+        detachChild(commonWebRouting)
+        viewController.popViewController(animated: true)
     }
 }

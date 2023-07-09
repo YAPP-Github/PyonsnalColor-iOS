@@ -23,6 +23,7 @@ final class CommonWebComponent: Component<CommonWebDependency> {
 // MARK: - Builder
 
 protocol CommonWebBuildable: Buildable {
+    //termsOfUse
     func build(withListener listener: CommonWebListener, subTerms: SubTerms) -> CommonWebRouting
 }
 
@@ -32,8 +33,7 @@ final class CommonWebBuilder: Builder<CommonWebDependency>, CommonWebBuildable {
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: CommonWebListener,
-               subTerms: SubTerms) -> CommonWebRouting {
+    func build(withListener listener: CommonWebListener, subTerms: SubTerms) -> CommonWebRouting {
         let component = CommonWebComponent(dependency: dependency, subTerms: subTerms)
         let viewController = CommonWebViewController()
         let interactor = CommonWebInteractor(presenter: viewController, component: component)

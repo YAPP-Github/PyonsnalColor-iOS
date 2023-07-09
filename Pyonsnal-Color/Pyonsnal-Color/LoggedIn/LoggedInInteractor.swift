@@ -13,6 +13,7 @@ protocol LoggedInRouting: Routing {
 }
 
 protocol LoggedInListener: AnyObject {
+    func routeToLoggedOutFromLogout()
 }
 
 final class LoggedInInteractor: Interactor, LoggedInInteractable {
@@ -28,7 +29,10 @@ final class LoggedInInteractor: Interactor, LoggedInInteractable {
 
     override func willResignActive() {
         super.willResignActive()
-
         router?.cleanupViews()
+    }
+    
+    func routeToLoggedOut() {
+        listener?.routeToLoggedOutFromLogout()
     }
 }
