@@ -13,11 +13,15 @@ protocol LogoutPopupDependency: Dependency {
 }
 
 final class LogoutPopupComponent: Component<LogoutPopupDependency> {
-    var memberAPIService: MemberAPIService
+    let memberAPIService: MemberAPIService
+    let userAuthService: UserAuthService
     
     override init(dependency: LogoutPopupDependency) {
         let pyonsnalColorClient = PyonsnalColorClient()
-        self.memberAPIService = .init(client: pyonsnalColorClient)
+        let keyChainService = KeyChainService.shared
+        self.userAuthService = .init(keyChainService: keyChainService)
+        self.memberAPIService = .init(client: pyonsnalColorClient,
+                                      userAuthService: userAuthService)
         super.init(dependency: dependency)
     }
 }

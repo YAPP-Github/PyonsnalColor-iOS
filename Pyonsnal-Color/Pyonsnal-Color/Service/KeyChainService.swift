@@ -56,6 +56,7 @@ final class KeyChainService: NSObject {
         return nil
     }
     
+    @discardableResult
     func delete(with key: String) -> Bool {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,

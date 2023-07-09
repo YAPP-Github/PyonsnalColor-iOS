@@ -9,9 +9,11 @@ import Foundation
 import Alamofire
 
 enum MemberAPI: NetworkRequestBuilder {
+    static var accessToken: String?
+    
     case info
     case withdraw
-    case logout
+    case logout(accessToken: String, refreshToken: String)
 }
 
 extension MemberAPI {
@@ -32,8 +34,8 @@ extension MemberAPI {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .logout: // TO DO : accessToken값으로 변경
-            return [URLQueryItem(name: "tokenDto", value: "accessToken")]
+        case .logout(let accessToken, _):
+            return [URLQueryItem(name: "tokenDto", value: accessToken)]
         case .info, .withdraw:
             return nil
         }
@@ -49,16 +51,16 @@ extension MemberAPI {
     }
     
     var headers: [HTTPHeader]? {
-        let accessTokenHeader: [HTTPHeader] = [HTTPHeader(name: "Content-Type", value: "Bearer accessToken")] //TO DO : accesstoken으로 변경
-        Config.shared.setHeaders(headers: accessTokenHeader)
-        return Config.shared.getHeader()
+        if let accessToken = MemberAPI.accessToken {
+            return Config.shared.getAuthorizationHeader(with: accessToken)
+        }
+        return Config.shared.getDefaultHeader()
     }
     
     var body: [String: Any]? {
         switch self {
-        case .logout:
-            return ["accessToken": "accessToken",
-                    "refreshToken": "refreshToken"]
+        case .logout(let accessToken, let refreshToken):
+            return ["accessToken": accessToken, "refreshToken": refreshToken]
         case .info, .withdraw:
             return nil
         }

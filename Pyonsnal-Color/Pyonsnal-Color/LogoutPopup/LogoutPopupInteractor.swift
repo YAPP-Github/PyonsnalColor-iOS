@@ -59,12 +59,14 @@ final class LogoutPopupInteractor:
     }
     
     private func logout() {
-        component.memberAPIService.logout()
-            .sink { [weak self] response in
+        guard let accessToken = component.userAuthService.getAccessToken(), let refreshToken = component.userAuthService.getRefreshToken() else { return }
+        component.memberAPIService.logout(
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        ).sink { [weak self] response in
                 if response.value != nil {
-                    // 처음 화면으로 이동
+                    self?.deleteToken()
                     self?.listener?.routeToLoggedOut()
-                    // at, rt 삭제
                 }else if response.error != nil {
                     // Error handling
                 }
@@ -72,12 +74,12 @@ final class LogoutPopupInteractor:
     }
     
     private func deleteAccount() {
+        let accessToken = component.userAuthService.getAccessToken()
         component.memberAPIService.widthraw()
             .sink { [weak self] response in
                 if response.value != nil {
-                    // 처음 화면으로 이동
+                    self?.deleteToken()
                     self?.listener?.routeToLoggedOut()
-                    // at, rt 삭제
                 }else if response.error != nil {
                     // Error handling
                 }
@@ -90,6 +92,11 @@ final class LogoutPopupInteractor:
         } else { // 로그아웃
             logout()
         }
+    }
+    
+    private func deleteToken() {
+        component.userAuthService.deleteAccessToken()
+        component.userAuthService.deleteRefreshToken()
     }
     
 }

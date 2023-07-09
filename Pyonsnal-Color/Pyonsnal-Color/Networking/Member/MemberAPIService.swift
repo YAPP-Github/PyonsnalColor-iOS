@@ -11,21 +11,30 @@ final class MemberAPIService {
     
     // MARK: - Private Property
     private let client: PyonsnalColorClient
+    private let userAuthService: UserAuthService
+    private var accessToken: String?
     
     // MARK: - Initializer
-    init(client: PyonsnalColorClient) {
+    init(client: PyonsnalColorClient, userAuthService: UserAuthService) {
         self.client = client
+        self.userAuthService = userAuthService
+        self.accessToken = userAuthService.getAccessToken()
     }
     
     // MARK: - Interface
-    func logout() -> ResponsePublisher<EmptyResponse> {
+    func logout(
+        accessToken: String,
+        refreshToken: String
+    ) -> ResponsePublisher<EmptyResponse> {
+        MemberAPI.accessToken = accessToken
         return client.request(
-            MemberAPI.logout,
+            MemberAPI.logout(accessToken: accessToken, refreshToken: refreshToken),
             model: EmptyResponse.self
         )
     }
     
     func widthraw() -> ResponsePublisher<WithrawEntity> {
+        MemberAPI.accessToken = accessToken
         return client.request(
             MemberAPI.withdraw,
             model: WithrawEntity.self
@@ -33,6 +42,7 @@ final class MemberAPIService {
     }
     
     func info() -> ResponsePublisher<MemberInfoEntity> {
+        MemberAPI.accessToken = accessToken
         return client.request(
             MemberAPI.info,
             model: MemberInfoEntity.self

@@ -16,7 +16,10 @@ final class ProfileHomeComponent: Component<ProfileHomeDependency>,
     
     override init(dependency: ProfileHomeDependency) {
         let pyonsnalColorClient = PyonsnalColorClient()
-        self.memberAPIService = .init(client: pyonsnalColorClient)
+        let keyChainService = KeyChainService.shared
+        let usetAuthService = UserAuthService(keyChainService: keyChainService)
+        self.memberAPIService = .init(client: pyonsnalColorClient,
+                                      userAuthService: usetAuthService)
         super.init(dependency: dependency)
     }
     
