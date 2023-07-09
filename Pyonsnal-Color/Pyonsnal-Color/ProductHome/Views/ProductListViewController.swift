@@ -28,6 +28,7 @@ final class ProductListViewController: UIViewController {
     
     //MARK: - Private Property
     private var dataSource: DataSource?
+    weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
     
     //MARK: - View Component
@@ -44,6 +45,12 @@ final class ProductListViewController: UIViewController {
         
         configureLayout()
         configureCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        delegate?.viewWillAppear()
     }
     
     //MARK: - Private Method
@@ -111,7 +118,6 @@ final class ProductListViewController: UIViewController {
         registerCells()
         configureDataSource()
         configureHeaderView()
-//        applySnapshot()
         configureRefreshControl()
     }
     
@@ -178,7 +184,6 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.applySnapshot()
             self.productCollectionView.refreshControl?.endRefreshing()
         }
     }

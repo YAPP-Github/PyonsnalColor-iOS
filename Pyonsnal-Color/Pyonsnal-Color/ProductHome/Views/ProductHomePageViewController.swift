@@ -110,6 +110,7 @@ extension ProductHomePageViewController: UIPageViewControllerDelegate {
             return
         }
         
+        currentViewController = viewController
         pagingDelegate?.didFinishPageTransition(index: index)
     }
 }

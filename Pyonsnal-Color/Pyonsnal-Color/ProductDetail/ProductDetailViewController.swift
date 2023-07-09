@@ -49,7 +49,8 @@ final class ProductDetailViewController:
             originalPrice: "4000원",
             eventType: .discount,
             description: "상세 정보 없음",
-            giftItem: giftItem
+            giftItem: "",
+            isNew: true
         )
     }
     
@@ -65,6 +66,5 @@ final class ProductDetailViewController:
         viewHolder.productNameLabel.text = product.name
         viewHolder.productPriceLabel.text = product.price
         viewHolder.productDescriptionLabel.text = product.description
-        viewHolder.giftInformationView.giftItem = product.giftItem
     }
 }

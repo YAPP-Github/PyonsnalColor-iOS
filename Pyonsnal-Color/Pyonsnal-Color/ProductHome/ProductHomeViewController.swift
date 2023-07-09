@@ -9,6 +9,7 @@ import ModernRIBs
 import UIKit
 
 protocol ProductHomePresentableListener: AnyObject {
+    func didChangeStore(to store: ConvenienceStore)
     func didTapNotificationButton()
     func didScrollToNextPage()
 }
@@ -79,23 +80,34 @@ final class ProductHomeViewController:
         viewHolder.productHomePageViewController.productListViewControllers.forEach {
             $0.productCollectionView.delegate = self
         }
+        viewHolder.productHomePageViewController.productListViewControllers.forEach {
+            $0.delegate = self
+        }
     }
     
     private func bind(lastIndex: Int, newIndex: Int) {
         let isForward = lastIndex < newIndex
         let direction: UIPageViewController.NavigationDirection = isForward ? .forward : .reverse
-        viewHolder.productHomePageViewController.setViewControllers(
-            [viewHolder.productHomePageViewController.productListViewControllers[currentPage]],
+        let pageViewController = viewHolder.productHomePageViewController
+        pageViewController.setViewControllers(
+            [pageViewController.productListViewControllers[currentPage]],
             direction: direction,
             animated: true,
             completion: nil
         )
+        pageViewController.currentViewController = pageViewController.productListViewControllers[newIndex]
+        
         
         viewHolder.convenienceStoreCollectionView.selectItem(
             at: IndexPath(item: currentPage, section: 0),
             animated: true,
             scrollPosition: .centeredHorizontally
         )
+    }
+    
+    private func requestProducts(at index: Int) {
+        let store = ConvenienceStore.allCases[index]
+        listener?.didChangeStore(to: store)
     }
     
     private func configureNotificationButton() {
@@ -252,5 +264,11 @@ extension ProductHomeViewController: UICollectionViewDelegate {
 extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     func didFinishPageTransition(index: Int) {
         currentPage = index
+    }
+}
+
+extension ProductHomeViewController: ProductListDelegate {
+    func viewWillAppear() {
+        requestProducts(at: currentPage)
     }
 }

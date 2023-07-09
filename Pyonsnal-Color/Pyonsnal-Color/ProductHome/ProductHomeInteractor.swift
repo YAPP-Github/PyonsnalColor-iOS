@@ -33,6 +33,7 @@ final class ProductHomeInteractor:
     private var dependency: ProductHomeDependency?
     private var cancellable = Set<AnyCancellable>()
     private let initialCount: Int = 20
+    private let initialPage: Int = 1
     private let productPerPage: Int = 10
     private var currentPage: Int = 1
     private var nextPage: Int { currentPage + 1 }
@@ -56,10 +57,11 @@ final class ProductHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestProducts(pageNumber: Int, pageSize: Int) {
+    private func requestProducts(pageNumber: Int, pageSize: Int, store: ConvenienceStore = .all) {
         dependency?.productAPIService.requestBrandProduct(
             pageNumber: pageNumber,
-            pageSize: pageSize
+            pageSize: pageSize,
+            storeType: store
         ).sink { [weak self] response in
             if let productPage = response.value {
                 print(self?.presenter)
@@ -82,5 +84,9 @@ final class ProductHomeInteractor:
     func didScrollToNextPage() {
         requestProducts(pageNumber: nextPage, pageSize: productPerPage)
         currentPage = nextPage
+    }
+    
+    func didChangeStore(to store: ConvenienceStore) {
+        requestProducts(pageNumber: initialPage, pageSize: initialCount, store: store)
     }
 }
