@@ -34,7 +34,7 @@ final class ProductListViewController: UIViewController {
     lazy var productCollectionView: UICollectionView = {
         let layout = configureCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemGray6
+        collectionView.backgroundColor = .gray100
         return collectionView
     }()
     

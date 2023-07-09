@@ -10,9 +10,7 @@ import ModernRIBs
 import SnapKit
 
 protocol EventHomePresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
+    func viewWillAppear()
     func didTapEventBannerCell(with imageUrl: String)
     func didTapProductCell()
 }
@@ -79,6 +77,12 @@ final class EventHomeViewController: UIViewController,
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        listener?.viewWillAppear()
+    }
+    
     // MARK: - Private method
     private func configureDummyData() {
         tabData = [Tab(name: "전체"),
@@ -119,9 +123,16 @@ final class EventHomeViewController: UIViewController,
     }
     
     private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
-        viewHolder.convenienceStoreCollectionView.selectItem(at: indexPath,
-                                                             animated: true,
-                                                             scrollPosition: .init())
+        viewHolder.convenienceStoreCollectionView.selectItem(
+            at: indexPath,
+            animated: true,
+            scrollPosition: .init()
+        )
+    }
+    
+    func updateProducts(with products: [EventProductEntity]) {
+        let productsViewController = viewHolder.pageViewController.currentViewController
+        productsViewController?.applyEventProductsSnapshot(with: products)
     }
     
 }

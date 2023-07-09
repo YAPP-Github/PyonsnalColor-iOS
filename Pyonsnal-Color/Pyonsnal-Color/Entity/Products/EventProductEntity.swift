@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct EventProductEntity: Decodable, ProductConvertable {
+struct EventProductEntity: Decodable, ProductConvertable, Hashable {
     let imageURL: URL
     let storeType: ConvenienceStore
     let updatedTime: String
     let name: String
     let price: String
-    let originalPrice: String
+    let originalPrice: String?
     let eventType: EventTag?
     let description: String?
-    let giftItem: GiftItemEntity?
+    let giftItem: String?
     let isNew: Bool
     
     private enum CodingKeys: String, CodingKey {
