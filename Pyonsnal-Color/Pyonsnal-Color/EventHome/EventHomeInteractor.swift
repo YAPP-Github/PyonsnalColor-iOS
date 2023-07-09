@@ -32,6 +32,7 @@ final class EventHomeInteractor:
     
     private var dependency: EventHomeDependency?
     private var cancellable = Set<AnyCancellable>()
+    private let initialPage: Int = 1
     private let initialCount: Int = 20
     private let productPerPage: Int = 10
     private var currentPage: Int = 1
@@ -54,10 +55,11 @@ final class EventHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestProducts(pageNumber: Int, pageSize: Int) {
+    private func requestProducts(pageNumber: Int, pageSize: Int, store: ConvenienceStore = .all) {
         dependency?.productAPIService.requestEventProduct(
             pageNumber: pageNumber,
-            pageSize: pageSize
+            pageSize: pageSize,
+            storeType: store
         ).sink { [weak self] response in
             if let productPage = response.value {
                 print(self?.presenter)
@@ -83,4 +85,7 @@ final class EventHomeInteractor:
         requestProducts(pageNumber: currentPage, pageSize: initialCount)
     }
     
+    func didChangeStore(to store: ConvenienceStore) {
+        requestProducts(pageNumber: initialPage, pageSize: initialCount, store: store)
+    }
 }

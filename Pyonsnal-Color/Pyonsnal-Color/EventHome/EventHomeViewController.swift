@@ -13,6 +13,7 @@ protocol EventHomePresentableListener: AnyObject {
     func viewWillAppear()
     func didTapEventBannerCell(with imageUrl: String)
     func didTapProductCell()
+    func didChangeStore(to store: ConvenienceStore)
 }
 
 struct Tab: Hashable {
@@ -260,6 +261,10 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     
     func didTapProductItemCell() {
         listener?.didTapProductCell()
+    }
+    
+    func didChangeStore(to store: ConvenienceStore) {
+        listener?.didChangeStore(to: store)
     }
 }
 

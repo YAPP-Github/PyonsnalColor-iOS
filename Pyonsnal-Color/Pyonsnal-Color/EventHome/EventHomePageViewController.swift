@@ -11,6 +11,7 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
     func updateSelectedStoreCell(index: Int)
     func didTapEventBannerCell(with imageUrl: String)
     func didTapProductItemCell()
+    func didChangeStore(to store: ConvenienceStore)
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -37,6 +38,7 @@ final class EventHomePageViewController: UIPageViewController {
             let viewController = EventHomeTabViewController()
             viewController.scrollDelegate = self
             viewController.delegate = self
+            viewController.listDelegate = self
             pageViewControllers.append(viewController)
             
         }
@@ -139,5 +141,11 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
     
     func didTapProductCell() {
         pageDelegate?.didTapProductItemCell()
+    }
+}
+
+extension EventHomePageViewController: ProductListDelegate {
+    func viewWillAppear() {
+        pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
     }
 }

@@ -37,6 +37,7 @@ final class EventHomeTabViewController: UIViewController {
     
     weak var scrollDelegate: ScrollDelegate?
     weak var delegate: EventHomeTabViewControllerDelegate?
+    weak var listDelegate: ProductListDelegate?
     
     lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: .zero,
@@ -61,6 +62,12 @@ final class EventHomeTabViewController: UIViewController {
         configureCollectionView()
         configureDatasource()
         configureHeaderView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        listDelegate?.viewWillAppear()
     }
     
     // MARK: - Private Method
