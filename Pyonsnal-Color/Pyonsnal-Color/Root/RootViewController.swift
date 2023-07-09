@@ -36,14 +36,6 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         }
     }
 
-    // MARK: - UI Component
-    private let label: UILabel = {
-        let label: UILabel = .init()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Main"
-        return label
-    }()
-
     // MARK: - Private Property
     private var targetViewController: ViewControllable?
     private var animationInProgress: Bool = false
@@ -62,7 +54,6 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        configureUI()
     }
 
     // MARK: - Private Method
@@ -79,14 +70,6 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         }
     }
 
-    private func configureUI() {
-        view.addSubview(label)
-
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
 }
 
 //MARK: - LoggedInViewControllable
