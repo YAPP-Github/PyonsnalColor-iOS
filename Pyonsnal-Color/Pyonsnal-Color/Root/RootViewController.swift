@@ -9,6 +9,7 @@ import ModernRIBs
 import UIKit
 
 protocol RootPresentableListener: AnyObject {
+    func checkLoginedIn()
 }
 
 final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
@@ -65,6 +66,7 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     }
 
     // MARK: - Private Method
+    
     private func presentTargetViewController() {
         if let targetViewController {
             animationInProgress = true

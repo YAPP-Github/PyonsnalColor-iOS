@@ -11,6 +11,7 @@ protocol LoggedOutDependency: Dependency {
     var appleLoginService: AppleLoginService { get }
     var kakaoLoginService: KakaoLoginService { get }
     var authClient: AuthAPIService { get }
+    var userAuthService: UserAuthService { get }
 }
 
 final class LoggedOutComponent: Component<LoggedOutDependency>,

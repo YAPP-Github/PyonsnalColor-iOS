@@ -76,6 +76,7 @@
 		BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F202A2360E100C5DFA8 /* AppComponent.swift */; };
 		BA4818CD2A59405300BF9CAD /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4818CC2A59405300BF9CAD /* AuthAPIService.swift */; };
 		BA4818CF2A59410B00BF9CAD /* UserAuthEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4818CE2A59410B00BF9CAD /* UserAuthEntity.swift */; };
+		BA7532E22A595B140002659A /* UserAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7532E12A595B140002659A /* UserAuthService.swift */; };
 		BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */; };
 		BA87501E2A519B3900B80088 /* ImageAssetKind+HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */; };
 		BA87E3CC2A45C5A1000A9DEC /* ProductDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3C82A45C5A1000A9DEC /* ProductDetailRouter.swift */; };
@@ -215,6 +216,7 @@
 		BA437F202A2360E100C5DFA8 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		BA4818CC2A59405300BF9CAD /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		BA4818CE2A59410B00BF9CAD /* UserAuthEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAuthEntity.swift; sourceTree = "<group>"; };
+		BA7532E12A595B140002659A /* UserAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthService.swift; sourceTree = "<group>"; };
 		BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreIcon.swift"; sourceTree = "<group>"; };
 		BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+HeaderView.swift"; sourceTree = "<group>"; };
 		BA87E3C82A45C5A1000A9DEC /* ProductDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailRouter.swift; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 				F0964E412A2A44500028DCA2 /* KeyChainService.swift */,
 				F02C8DA62A2E149700593A2D /* AppleLoginService.swift */,
 				B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */,
+				BA7532E12A595B140002659A /* UserAuthService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -942,6 +945,7 @@
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				F01535432A45A69800A2A8F2 /* EventHomeSectionLayout.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
+				BA7532E22A595B140002659A /* UserAuthService.swift in Sources */,
 				BA8924562A582EE700D1B097 /* NewTagBigView.swift in Sources */,
 				F0687BED2A529679004B5EAE /* Config.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,

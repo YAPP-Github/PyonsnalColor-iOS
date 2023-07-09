@@ -41,12 +41,6 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         interactor.router = self
     }
 
-    override func didLoad() {
-        super.didLoad()
-
-        routeToLoggedOut()
-    }
-
     func routeToLoggedOut() {
         let loggedOut = loggedOutBuilder.build(withListener: interactor)
         self.loggedOut = loggedOut
