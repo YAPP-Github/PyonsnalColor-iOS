@@ -33,11 +33,11 @@ final class MemberAPIService {
         )
     }
     
-    func widthraw() -> ResponsePublisher<WithrawEntity> {
+    func widthraw() -> ResponsePublisher<EmptyResponse> {
         MemberAPI.accessToken = accessToken
         return client.request(
             MemberAPI.withdraw,
-            model: WithrawEntity.self
+            model: EmptyResponse.self
         )
     }
     

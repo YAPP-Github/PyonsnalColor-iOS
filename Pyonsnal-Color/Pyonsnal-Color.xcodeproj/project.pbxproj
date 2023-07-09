@@ -149,7 +149,6 @@
 		F0DFBC942A595171003F7660 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFBC932A595171003F7660 /* MemberAPI.swift */; };
 		F0DFBC962A59622A003F7660 /* MemberAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFBC952A59622A003F7660 /* MemberAPIService.swift */; };
 		F0DFBC982A5966CD003F7660 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFBC972A5966CD003F7660 /* EmptyResponse.swift */; };
-		F0DFBC9D2A5968BB003F7660 /* WithrawEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFBC9C2A5968BB003F7660 /* WithrawEntity.swift */; };
 		F0DFBC9F2A596953003F7660 /* MemberInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFBC9E2A596953003F7660 /* MemberInfoEntity.swift */; };
 		F0EE10A12A4B122A00B8DF4F /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A02A4B122A00B8DF4F /* UITableView+.swift */; };
 		F0EE10A32A4B242C00B8DF4F /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10A22A4B242C00B8DF4F /* ProfileCell.swift */; };
@@ -300,7 +299,6 @@
 		F0DFBC932A595171003F7660 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
 		F0DFBC952A59622A003F7660 /* MemberAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPIService.swift; sourceTree = "<group>"; };
 		F0DFBC972A5966CD003F7660 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
-		F0DFBC9C2A5968BB003F7660 /* WithrawEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithrawEntity.swift; sourceTree = "<group>"; };
 		F0DFBC9E2A596953003F7660 /* MemberInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoEntity.swift; sourceTree = "<group>"; };
 		F0EE10A02A4B122A00B8DF4F /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
 		F0EE10A22A4B242C00B8DF4F /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
@@ -819,7 +817,6 @@
 		F0DFBC992A5967B9003F7660 /* Member */ = {
 			isa = PBXGroup;
 			children = (
-				F0DFBC9C2A5968BB003F7660 /* WithrawEntity.swift */,
 				F0DFBC9E2A596953003F7660 /* MemberInfoEntity.swift */,
 			);
 			path = Member;
@@ -1074,7 +1071,6 @@
 				B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */,
 				B2538B942A34551D00B7C3F0 /* LoggedInBuilder.swift in Sources */,
 				B28205122A34702B00F9242F /* ProductHomeRouter.swift in Sources */,
-				F0DFBC9D2A5968BB003F7660 /* WithrawEntity.swift in Sources */,
 				B282050B2A34700300F9242F /* EventHomeViewController.swift in Sources */,
 				F097EF352A571DD300A7FB9C /* CommonWebViewController.swift in Sources */,
 				F097EF2A2A5717B900A7FB9C /* SubTerms.swift in Sources */,
