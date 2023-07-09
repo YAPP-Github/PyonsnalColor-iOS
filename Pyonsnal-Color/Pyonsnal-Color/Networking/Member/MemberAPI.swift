@@ -22,11 +22,11 @@ extension MemberAPI {
     var path: String {
         switch self {
         case .info:
-            return "/info"
+            return "/member/info"
         case .withdraw:
-            return "/withdraw"
+            return "/member/withdraw"
         case .logout:
-            return "/logout"
+            return "/member/logout"
         }
     }
     

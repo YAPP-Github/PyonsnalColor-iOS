@@ -53,19 +53,20 @@ final class LogoutPopupInteractor:
     func didTabDismissButton(_ text: String?) {
         if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
-        } else { // xk
-//            deleteAccount()
-            listener?.routeToLoggedOut()
+        } else { // 회원 탈퇴
+            deleteAccount()
         }
     }
     
     private func logout() {
         component.memberAPIService.logout()
             .sink { [weak self] response in
-                if response.error != nil {
+                if response.value != nil {
                     // 처음 화면으로 이동
                     self?.listener?.routeToLoggedOut()
                     // at, rt 삭제
+                }else if response.error != nil {
+                    // Error handling
                 }
             }.store(in: &cancellable)
     }
@@ -73,11 +74,12 @@ final class LogoutPopupInteractor:
     private func deleteAccount() {
         component.memberAPIService.widthraw()
             .sink { [weak self] response in
-                if response.error != nil {
+                if response.value != nil {
                     // 처음 화면으로 이동
                     self?.listener?.routeToLoggedOut()
                     // at, rt 삭제
-                    
+                }else if response.error != nil {
+                    // Error handling
                 }
             }.store(in: &cancellable)
     }
@@ -86,8 +88,7 @@ final class LogoutPopupInteractor:
         if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
         } else { // 로그아웃
-//            logout()
-            listener?.routeToLoggedOut()
+            logout()
         }
     }
     
