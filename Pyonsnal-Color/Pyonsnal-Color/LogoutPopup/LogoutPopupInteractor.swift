@@ -64,23 +64,25 @@ final class LogoutPopupInteractor:
             accessToken: accessToken,
             refreshToken: refreshToken
         ).sink { [weak self] response in
-                if response.value != nil {
-                    self?.deleteToken()
-                    self?.listener?.routeToLoggedOut()
-                }else if response.error != nil {
-                    // Error handling
-                }
-            }.store(in: &cancellable)
+            // 응답이 null로 옴
+            if response.error?.type == .emptyResponse {
+                self?.deleteToken()
+                self?.listener?.routeToLoggedOut()
+            }else {
+                // Error handling
+            }
+        }.store(in: &cancellable)
     }
     
     private func deleteAccount() {
         let accessToken = component.userAuthService.getAccessToken()
         component.memberAPIService.widthraw()
             .sink { [weak self] response in
-                if response.value != nil {
+                //응답이 null로 옴
+                if response.error?.type == .emptyResponse {
                     self?.deleteToken()
                     self?.listener?.routeToLoggedOut()
-                }else if response.error != nil {
+                }else {
                     // Error handling
                 }
             }.store(in: &cancellable)

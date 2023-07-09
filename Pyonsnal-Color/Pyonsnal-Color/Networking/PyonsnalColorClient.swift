@@ -33,7 +33,7 @@ final class PyonsnalColorClient: NetworkRequestable {
                         print("Request curl: nil")
                     }
                     guard let responseData = response.data else {
-                        return NetworkError.unknown
+                        return NetworkError.emptyResponse
                     }
                     let responseError = try? self.decoder.decode(ErrorResponse.self, from: responseData)
                     if let responseError {
