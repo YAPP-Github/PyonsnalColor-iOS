@@ -179,6 +179,7 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.delegate?.refreshByPull()
             self.productCollectionView.refreshControl?.endRefreshing()
         }
     }

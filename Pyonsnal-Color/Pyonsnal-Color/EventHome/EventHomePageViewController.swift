@@ -114,8 +114,6 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
         return nil
         
     }
-    
-    
 }
 
 // MARK: - ScrollDelegate
@@ -146,6 +144,10 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
 
 extension EventHomePageViewController: ProductListDelegate {
     func didLoadPageList() {
+        pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
+    }
+    
+    func refreshByPull() {
         pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
     }
 }

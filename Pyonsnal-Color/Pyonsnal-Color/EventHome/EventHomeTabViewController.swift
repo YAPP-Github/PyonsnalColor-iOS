@@ -104,7 +104,6 @@ final class EventHomeTabViewController: UIViewController {
         setRefreshControl()
     }
     
-    
     private func registerCollectionViewCells() {
         collectionView.register(ItemHeaderTitleView.self,
                                 forSupplementaryViewOfKind: ItemHeaderTitleView.className,
@@ -125,7 +124,8 @@ final class EventHomeTabViewController: UIViewController {
     @objc private func pullToRefresh() {
         collectionView.refreshControl?.beginRefreshing()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.listDelegate?.refreshByPull()
             self.collectionView.refreshControl?.endRefreshing()
         }
     }

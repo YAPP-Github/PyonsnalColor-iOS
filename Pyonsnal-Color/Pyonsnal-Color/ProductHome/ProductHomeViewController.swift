@@ -271,4 +271,8 @@ extension ProductHomeViewController: ProductListDelegate {
     func didLoadPageList() {
         requestProducts(at: currentPage)
     }
+    
+    func refreshByPull() {
+        requestProducts(at: currentPage)
+    }
 }
