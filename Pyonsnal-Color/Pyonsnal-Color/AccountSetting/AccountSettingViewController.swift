@@ -68,7 +68,7 @@ final class AccountSettingViewController: UIViewController,
     }
     
     private func configureUI() {
-        viewHolder.backNavigationView.payload = BackNavigationView.Payload(
+        viewHolder.backNavigationView.payload = .init(
             mode: .text,
             title: "계정 설정",
             iconImageKind: nil
