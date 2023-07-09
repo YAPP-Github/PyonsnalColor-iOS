@@ -107,6 +107,7 @@ final class LoggedOutInteractor:
     
     func termsOfUseCloseButtonDidTap() {
         loginTask = nil
+        router?.detachTermsOfUse()
     }
     
     func termsOfUseAcceptButtonDidTap() {

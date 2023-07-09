@@ -63,14 +63,9 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
 
         view.backgroundColor = .white
         configureUI()
-        
-        checkLoginedIn()
     }
 
     // MARK: - Private Method
-    private func checkLoginedIn() {
-        listener?.checkLoginedIn()
-    }
     
     private func presentTargetViewController() {
         if let targetViewController {

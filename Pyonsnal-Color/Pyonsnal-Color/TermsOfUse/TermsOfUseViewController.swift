@@ -22,7 +22,7 @@ final class TermsOfUseViewController: UIViewController,
     enum Constants {
         enum Text {
             static let allAgree = "모두 동의"
-            static let join = "가입완료"
+            static let acceptButtonTitle = "가입완료"
             static let title = "서비스 이용에 동의해주세요."
         }
         enum Size {
@@ -33,7 +33,7 @@ final class TermsOfUseViewController: UIViewController,
             static let allAggreeButtonTop: CGFloat = 40
             static let termsButtonHeight: CGFloat = 40
             static let dividerHeight: CGFloat = 1
-            static let joinButtonHeight: CGFloat = 52
+            static let acceptButtonHeight: CGFloat = 52
         }
     }
     
@@ -70,8 +70,8 @@ final class TermsOfUseViewController: UIViewController,
         viewHolder.allAgreeButton.addTarget(self,
                                             action: #selector(didTapAllAgreeButton),
                                             for: .touchUpInside)
-        viewHolder.joinButton.addTarget(self,
-                                        action: #selector(didTapJoinButton),
+        viewHolder.acceptButton.addTarget(self,
+                                        action: #selector(didTapAcceptButton),
                                         for: .touchUpInside)
         
         for subTermsButton in viewHolder.subTermsButtons {
@@ -110,8 +110,8 @@ final class TermsOfUseViewController: UIViewController,
         viewHolder.subTermsButtons.forEach { subTermsButton in
             subTermsButton.setButtonState(isSelected: toggledSelected)
         }
-        // set joinButton
-        setJoinButtonState(with: toggledSelected)
+        // set acceptButton
+        setAcceptButtonState(with: toggledSelected)
     }
     
     @objc
@@ -124,10 +124,10 @@ final class TermsOfUseViewController: UIViewController,
         //set allAgreeButton
         viewHolder.allAgreeButton.setButtonState(isSelected: isAllSubTermsButtonSelected)
         
-        // set joinButton
+        // set acceptButton
         let allAgreeButtonState = viewHolder.allAgreeButton.isCurrentSelected()
-        let joinButtonState = isAllSubTermsButtonSelected && allAgreeButtonState
-        setJoinButtonState(with: joinButtonState)
+        let acceptButtonState = isAllSubTermsButtonSelected && allAgreeButtonState
+        setAcceptButtonState(with: acceptButtonState)
     }
     
     @objc
@@ -137,13 +137,13 @@ final class TermsOfUseViewController: UIViewController,
     }
     
     @objc
-    private func didTapJoinButton() {
+    private func didTapAcceptButton() {
         listener?.routeToLoggedInIfNeeded()
     }
     
-    private func setJoinButtonState(with isAllSelected: Bool) {
+    private func setAcceptButtonState(with isAllSelected: Bool) {
         let buttonEnabled: PrimaryButton.ButtonSelectable = isAllSelected ? .enabled : .disabled
-        viewHolder.joinButton.setState(with: buttonEnabled)
+        viewHolder.acceptButton.setState(with: buttonEnabled)
     }
     
 }
@@ -251,10 +251,10 @@ extension TermsOfUseViewController {
             return button
         }()
         
-        // MARK: joinButton
-        let joinButton: PrimaryButton = {
+        // MARK: acceptButton
+        let acceptButton: PrimaryButton = {
             let button = PrimaryButton(state: .disabled)
-            button.setText(with: Constants.Text.join)
+            button.setText(with: Constants.Text.acceptButtonTitle)
             return button
         }()
         
@@ -270,7 +270,7 @@ extension TermsOfUseViewController {
             popUpView.addSubview(dividerView)
             
             popUpView.addSubview(subButtonVerticalStackView)
-            popUpView.addSubview(joinButton)
+            popUpView.addSubview(acceptButton)
             for (index, subTerm) in subTerms.enumerated() {
                 
                 //매번 생성 필요하여 여기에서 생성
@@ -345,10 +345,10 @@ extension TermsOfUseViewController {
                 }
             }
             
-            joinButton.snp.makeConstraints {
+            acceptButton.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.trailing.equalToSuperview().inset(.spacing16)
-                $0.height.equalTo(Constants.Size.joinButtonHeight)
+                $0.height.equalTo(Constants.Size.acceptButtonHeight)
                 $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             }
             

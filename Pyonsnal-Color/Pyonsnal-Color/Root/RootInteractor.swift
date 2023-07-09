@@ -37,6 +37,8 @@ final class RootInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        
+        checkLoginedIn()
     }
 
     override func willResignActive() {
