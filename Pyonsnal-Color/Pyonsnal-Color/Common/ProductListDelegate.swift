@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ProductListDelegate: AnyObject {
-    func viewWillAppear()
+    func didLoadPageList()
 }

@@ -268,7 +268,7 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
 }
 
 extension ProductHomeViewController: ProductListDelegate {
-    func viewWillAppear() {
+    func didLoadPageList() {
         requestProducts(at: currentPage)
     }
 }

@@ -10,7 +10,7 @@ import ModernRIBs
 import SnapKit
 
 protocol EventHomePresentableListener: AnyObject {
-    func viewWillAppear()
+    func didLoadEventHome()
     func didTapEventBannerCell(with imageUrl: String)
     func didTapProductCell()
     func didChangeStore(to store: ConvenienceStore)
@@ -76,12 +76,7 @@ final class EventHomeViewController: UIViewController,
         setPageViewController()
         setScrollView()
         configureUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        listener?.viewWillAppear()
+        listener?.didLoadEventHome()
     }
     
     // MARK: - Private method

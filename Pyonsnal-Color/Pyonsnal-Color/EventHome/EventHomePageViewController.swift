@@ -145,7 +145,7 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
 }
 
 extension EventHomePageViewController: ProductListDelegate {
-    func viewWillAppear() {
+    func didLoadPageList() {
         pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
     }
 }

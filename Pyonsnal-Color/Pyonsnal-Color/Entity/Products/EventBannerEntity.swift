@@ -8,11 +8,13 @@
 import Foundation
 
 struct EventBannerEntity: Decodable, Hashable {
+    let identifier: String
     let storeType: ConvenienceStore
-    let thumbnailImageURL: URL
-    let imageURL: URL
+    let thumbnailImageURL: String
+    let imageURL: String
     
     private enum CodingKeys: String, CodingKey {
+        case identifier = "id"
         case storeType
         case thumbnailImageURL = "thumbnailImage"
         case imageURL = "image"

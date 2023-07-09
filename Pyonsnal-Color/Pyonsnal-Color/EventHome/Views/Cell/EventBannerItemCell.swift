@@ -18,7 +18,6 @@ final class EventBannerItemCell: UICollectionViewCell {
     
     // MARK: - Private property
     private let viewHolder: ViewHolder = .init()
-    let testImage = ["star", "heart", "star.fill", "heart.fill", "trash"]
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -30,8 +29,10 @@ final class EventBannerItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(index: Int) {
-        viewHolder.eventImageView.image = UIImage(systemName: testImage[index])
+    func update(with imageURL: String) {
+        guard let url = URL(string: imageURL) else { return }
+        
+        viewHolder.eventImageView.setImage(with: url)
     }
 }
 

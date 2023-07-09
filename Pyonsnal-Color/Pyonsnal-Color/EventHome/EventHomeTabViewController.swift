@@ -27,7 +27,7 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     enum ItemType: Hashable {
-        case event(data: EventBannerEntity)
+        case event(data: [EventBannerEntity])
         case item(data: EventProductEntity)
     }
     
@@ -62,17 +62,11 @@ final class EventHomeTabViewController: UIViewController {
         configureCollectionView()
         configureDatasource()
         configureHeaderView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        listDelegate?.viewWillAppear()
+        listDelegate?.didLoadPageList()
     }
     
     // MARK: - Private Method
     private func configureDummyData() {
-//        eventUrls = ["test"]
         headerTitle = ["이달의 이벤트 💌", "행사 상품 모아보기 👀"]
     }
     
@@ -150,6 +144,7 @@ final class EventHomeTabViewController: UIViewController {
                 return cell ?? UICollectionViewCell()
             case .event(let item):
                 let cell: EventBannerCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerCell.className, for: indexPath) as? EventBannerCell
+
                 cell?.update(self.eventUrls)
                 cell?.delegate = self
                 return cell ?? UICollectionViewCell()
@@ -181,16 +176,16 @@ final class EventHomeTabViewController: UIViewController {
         guard let eventBanners = banners else { return }
         
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        let bannerItems = eventBanners.map { ItemType.event(data: $0) }
         
         eventUrls = eventBanners
         snapshot.appendSections([.event])
-        snapshot.appendItems(bannerItems, toSection: .event)
+        snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     func applyEventProductsSnapshot(with products: [EventProductEntity]) {
-        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        guard var snapshot = dataSource?.snapshot() else { return }
+        
         let eventProducts = products.map { ItemType.item(data: $0) }
         
         snapshot.appendSections([.item])

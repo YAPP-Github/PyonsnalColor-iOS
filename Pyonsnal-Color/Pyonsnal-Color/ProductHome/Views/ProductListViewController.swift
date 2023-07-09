@@ -45,12 +45,7 @@ final class ProductListViewController: UIViewController {
         
         configureLayout()
         configureCollectionView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        delegate?.viewWillAppear()
+        delegate?.didLoadPageList()
     }
     
     //MARK: - Private Method

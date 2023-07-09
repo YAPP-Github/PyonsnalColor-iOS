@@ -19,7 +19,7 @@ final class EventBannerCell: UICollectionViewCell {
     }
     
     enum ItemType: Hashable {
-        case event(imageUrl: String)
+        case event(banner: EventBannerEntity)
     }
     
     // MARK: - Constants
@@ -45,8 +45,7 @@ final class EventBannerCell: UICollectionViewCell {
             updatePageCountLabel(with: currentIndex)
         }
     }
-    //dummy image urls - 수정 예정
-    private var eventBannerUrls: [String] = ["test1", "test2", "test3", "test4", "test5"]
+    private var eventBannerUrls: [EventBannerEntity] = []
     
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -56,7 +55,7 @@ final class EventBannerCell: UICollectionViewCell {
         configureUI()
         configureDatasource()
         configureCollectionView()
-        makeSnapshot()
+//        makeSnapshot()
         setTimer()
     }
     
@@ -70,9 +69,9 @@ final class EventBannerCell: UICollectionViewCell {
     
     //TO DO : item 연결
     func update(_ eventBannerUrls: [EventBannerEntity]) {
-        if !eventBannerUrls.isEmpty {
-
-        }
+        self.eventBannerUrls = eventBannerUrls
+        
+        makeSnapshot(with: eventBannerUrls)
     }
     
     // MARK: - Private Method
@@ -87,7 +86,8 @@ final class EventBannerCell: UICollectionViewCell {
             switch item {
             case .event(let _):
                 let cell: EventBannerItemCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerItemCell.className, for: indexPath) as? EventBannerItemCell
-                cell?.update(index: indexPath.row)
+                let eventBanner = self.eventBannerUrls[indexPath.item]
+                cell?.update(with: eventBanner.thumbnailImageURL)
                 cell?.delegate = self
                 return cell ?? UICollectionViewCell()
             }
@@ -103,13 +103,13 @@ final class EventBannerCell: UICollectionViewCell {
         viewHolder.collectionView.register(EventBannerItemCell.self)
     }
     
-    private func makeSnapshot() {
+    private func makeSnapshot(with banners: [EventBannerEntity]) {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        //append event section
+
         if !eventBannerUrls.isEmpty {
             snapshot.appendSections([.event])
-            let eventUrls = eventBannerUrls.map { eventUrl in
-                return ItemType.event(imageUrl: eventUrl)
+            let eventUrls = banners.map { eventUrl in
+                return ItemType.event(banner: eventUrl)
             }
             snapshot.appendItems(eventUrls, toSection: .event)
         }
@@ -192,7 +192,7 @@ extension EventBannerCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = eventBannerUrls[indexPath.row]
-        delegate?.didTapEventBannerCell(with: model)
+        delegate?.didTapEventBannerCell(with: model.imageURL)
     }
 }
 

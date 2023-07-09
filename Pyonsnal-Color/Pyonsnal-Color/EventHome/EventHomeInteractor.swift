@@ -93,7 +93,7 @@ final class EventHomeInteractor:
         // TO DO : 아이템 카드 클릭시
     }
     
-    func viewWillAppear() {
+    func didLoadEventHome() {
         requestProducts(pageNumber: currentPage, pageSize: initialCount)
     }
     
