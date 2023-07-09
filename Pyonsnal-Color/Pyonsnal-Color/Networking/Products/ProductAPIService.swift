@@ -37,4 +37,13 @@ final class ProductAPIService {
             model: ProductPageEntity.self
         )
     }
+    
+    func requestEventBanner(
+        storeType: ConvenienceStore
+    ) -> AnyPublisher<DataResponse<[EventBannerEntity], NetworkError>, Never> {
+        return client.request(
+            ProductAPI.eventBanner(storeType: storeType),
+            model: [EventBannerEntity].self
+        )
+    }
 }

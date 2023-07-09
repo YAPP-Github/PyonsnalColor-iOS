@@ -17,6 +17,7 @@ protocol EventHomePresentable: Presentable {
     var listener: EventHomePresentableListener? { get set }
     
     func updateProducts(with products: [EventProductEntity])
+    func updateBanners(with banners: [EventBannerEntity])
 }
 
 protocol EventHomeListener: AnyObject {
@@ -69,6 +70,17 @@ final class EventHomeInteractor:
         }.store(in: &cancellable)
     }
     
+    private func requestEventBanners(store: ConvenienceStore) {
+        if store != .all {
+            dependency?.productAPIService.requestEventBanner(storeType: store)
+                .sink { [weak self] response in
+                    if let eventBanners = response.value {
+                        self?.presenter.updateBanners(with: eventBanners)
+                    }
+                }.store(in: &cancellable)
+        }
+    }
+    
     func didTapEventBannerCell(with imageUrl: String) {
         router?.attachEventDetail(with: imageUrl)
     }
@@ -87,5 +99,6 @@ final class EventHomeInteractor:
     
     func didChangeStore(to store: ConvenienceStore) {
         requestProducts(pageNumber: initialPage, pageSize: initialCount, store: store)
+        requestEventBanners(store: store)
     }
 }

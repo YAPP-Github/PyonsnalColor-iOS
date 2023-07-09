@@ -136,6 +136,11 @@ final class EventHomeViewController: UIViewController,
         productsViewController?.applyEventProductsSnapshot(with: products)
     }
     
+    func updateBanners(with banners: [EventBannerEntity]) {
+        let productsViewController = viewHolder.pageViewController.currentViewController
+        productsViewController?.applyEventBannerSnapshot(with: banners)
+    }
+    
 }
 
 // MARK: - UI Component

@@ -20,6 +20,7 @@ enum ProductAPI: NetworkRequestBuilder {
         pageSize: Int,
         storeType: ConvenienceStore
     )
+    case eventBanner(storeType: ConvenienceStore)
 }
 
 extension ProductAPI {
@@ -28,7 +29,7 @@ extension ProductAPI {
     
     var method: HTTPMethod {
         switch self {
-        case .brandProduct, .eventProduct:
+        case .brandProduct, .eventProduct, .eventBanner:
             return .get
         }
     }
@@ -39,6 +40,8 @@ extension ProductAPI {
             return "/products/pb-products"
         case .eventProduct:
             return "/products/event-products"
+        case .eventBanner:
+            return "/promotions"
         }
     }
     
@@ -55,6 +58,8 @@ extension ProductAPI {
         case let .eventProduct(pageNumber, pageSize, storeType):
             queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
             queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
+            queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType)"))
+        case let .eventBanner(storeType):
             queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType)"))
         }
         

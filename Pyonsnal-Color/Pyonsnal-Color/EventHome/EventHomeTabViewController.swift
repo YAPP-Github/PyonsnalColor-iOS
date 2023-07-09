@@ -27,7 +27,7 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     enum ItemType: Hashable {
-        case event(data: String)
+        case event(data: EventBannerEntity)
         case item(data: EventProductEntity)
     }
     
@@ -49,7 +49,7 @@ final class EventHomeTabViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     private var dataSource: DataSource?
     private var headerTitle: [String] = []
-    private var eventUrls: [String] = []
+    private var eventUrls: [EventBannerEntity] = []
     private let refreshControl = UIRefreshControl()
     private let dummyImage = UIImage(systemName: "note")
     private var lastContentOffSetY: CGFloat = 0
@@ -72,7 +72,7 @@ final class EventHomeTabViewController: UIViewController {
     
     // MARK: - Private Method
     private func configureDummyData() {
-        eventUrls = ["test"]
+//        eventUrls = ["test"]
         headerTitle = ["이달의 이벤트 💌", "행사 상품 모아보기 👀"]
     }
     
@@ -177,17 +177,24 @@ final class EventHomeTabViewController: UIViewController {
         }
     }
     
+    func applyEventBannerSnapshot(with banners: [EventBannerEntity]?) {
+        guard let eventBanners = banners else { return }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        let bannerItems = eventBanners.map { ItemType.event(data: $0) }
+        
+        eventUrls = eventBanners
+        snapshot.appendSections([.event])
+        snapshot.appendItems(bannerItems, toSection: .event)
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
     func applyEventProductsSnapshot(with products: [EventProductEntity]) {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        let eventUrls = eventUrls.map { ItemType.event(data: $0) }
         let eventProducts = products.map { ItemType.item(data: $0) }
-
-        snapshot.appendSections([.event])
-        snapshot.appendItems(eventUrls, toSection: .event)
         
         snapshot.appendSections([.item])
         snapshot.appendItems(eventProducts, toSection: .item)
-        
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }

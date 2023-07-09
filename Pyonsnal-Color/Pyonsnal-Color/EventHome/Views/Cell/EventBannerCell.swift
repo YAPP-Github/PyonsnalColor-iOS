@@ -69,7 +69,7 @@ final class EventBannerCell: UICollectionViewCell {
     }
     
     //TO DO : item 연결
-    func update(_ eventBannerUrls: [String]) {
+    func update(_ eventBannerUrls: [EventBannerEntity]) {
         if !eventBannerUrls.isEmpty {
 
         }
