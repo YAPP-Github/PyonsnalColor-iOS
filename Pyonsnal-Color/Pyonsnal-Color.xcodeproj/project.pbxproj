@@ -974,7 +974,7 @@
 				BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */,
 				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
 				B242590B2A594368006C5223 /* ProductPageEntity.swift in Sources */,
-				BAAB90372A5051D2003A7647 /* ImageNavigationViewDelegate.swift in Sources */,
+				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
@@ -1077,7 +1077,6 @@
 				BA87E3D12A45C600000A9DEC /* ProductDetailViewController+ViewHolder.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */,
-				F0687BEF2A52A933004B5EAE /* LoginResponseEntity.swift in Sources */,
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
 				B24CAAE62A55AC35005BE499 /* NotificationListRouter.swift in Sources */,
 				B24259122A594AB7006C5223 /* ProductAPI.swift in Sources */,
@@ -1247,6 +1246,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1276,6 +1276,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

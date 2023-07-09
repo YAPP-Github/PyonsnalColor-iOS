@@ -13,7 +13,9 @@ protocol ProductConvertable: Decodable {
     var updatedTime: String { get }
     var name: String { get }
     var price: String { get }
-    var description: String { get }
+    var description: String? { get }
+    var eventType: EventTag? { get }
+    var isNew: Bool { get }
 }
 
 extension ProductConvertable {

@@ -14,9 +14,10 @@ struct EventProductEntity: Decodable, ProductConvertable {
     let name: String
     let price: String
     let originalPrice: String
-    let eventType: EventTag
-    let description: String
+    let eventType: EventTag?
+    let description: String?
     let giftItem: GiftItemEntity?
+    let isNew: Bool
     
     private enum CodingKeys: String, CodingKey {
         case imageURL = "image"
@@ -28,5 +29,6 @@ struct EventProductEntity: Decodable, ProductConvertable {
         case eventType
         case description
         case giftItem = "giftImage"
+        case isNew
     }
 }

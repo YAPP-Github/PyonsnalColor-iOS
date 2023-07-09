@@ -13,7 +13,9 @@ struct BrandProductEntity: Decodable, ProductConvertable, Hashable {
     let updatedTime: String
     let name: String
     let price: String
-    let description: String
+    let description: String?
+    let eventType: EventTag?
+    let isNew: Bool
     
     private enum CodingKeys: String, CodingKey {
         case imageURL = "image"
@@ -22,5 +24,7 @@ struct BrandProductEntity: Decodable, ProductConvertable, Hashable {
         case name
         case price
         case description
+        case eventType
+        case isNew
     }
 }

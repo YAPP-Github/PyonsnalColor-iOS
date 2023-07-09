@@ -41,6 +41,7 @@ final class ProductCell: UICollectionViewCell {
         // MARK: - UI Component
         let stackView: UIStackView = {
             let stackView = UIStackView()
+            stackView.backgroundColor = .white
             stackView.axis = .vertical
             stackView.alignment = .center
             stackView.spacing = 0
@@ -49,28 +50,24 @@ final class ProductCell: UICollectionViewCell {
         
         let productImageContainerView: UIView = {
             let view = UIView()
-            //TO DO : fix color
             view.backgroundColor = .white
             return view
         }()
         
         let itemImageView: UIImageView = {
             let imageView = UIImageView()
-            //TO DO : fix color
-            imageView.backgroundColor = .brown
+            imageView.contentMode = .scaleAspectFit
             return imageView
         }()
         
         let dividerView: UIView = {
             let dividerView = UIView()
-            //TO DO : fix color
-            dividerView.backgroundColor = .black
+            dividerView.backgroundColor = .gray100
             return dividerView
         }()
         
         let itemInfoContainerView: UIView = {
             let view = UIView()
-            //TO DO : fix color
             view.backgroundColor = .white
             return view
         }()
@@ -84,7 +81,6 @@ final class ProductCell: UICollectionViewCell {
         
         let titleLabel: UILabel = {
             let label = UILabel()
-            label.text = "산리오)햄치즈에그모닝머핀ddd"
             label.font = .body4m
             label.numberOfLines = 1
             label.lineBreakMode = .byTruncatingTail
@@ -99,30 +95,29 @@ final class ProductCell: UICollectionViewCell {
         let originalPriceLabel: UILabel = {
             let label = UILabel()
             label.font = .body3m
-            label.text = "2,900".addWon()
             return label
         }()
         
         let discountPriceLabel: UILabel = {
             let label = UILabel()
             label.font = .body4r
-            label.text = "2,000".addWon()
             return label
         }()
         
         let convenienceStoreTagImageView: UIImageView = {
             let imageView = UIImageView()
-            //TO DO : fix color
-            imageView.setImage(.storeTagEmart24)
             imageView.backgroundColor = .blue
             return imageView
         }()
         
-        let eventTagImageView: UIImageView = {
-            let imageView = UIImageView()
-            //TO DO : fix color
-            imageView.backgroundColor = .darkGray
-            return imageView
+        let eventTagLabel: UILabel = {
+            let label = UILabel()
+            label.makeRounded(with: Spacing.spacing20.value)
+            label.backgroundColor = .green500
+            label.font = .body4m
+            label.textColor = .white
+            label.textAlignment = .center
+            return label
         }()
         
         // MARK: - Method
@@ -135,7 +130,7 @@ final class ProductCell: UICollectionViewCell {
             
             productImageContainerView.addSubview(itemImageView)
             productImageContainerView.addSubview(convenienceStoreTagImageView)
-            productImageContainerView.addSubview(eventTagImageView)
+            productImageContainerView.addSubview(eventTagLabel)
             
             itemInfoContainerView.addSubview(newImageView)
             itemInfoContainerView.addSubview(titleLabel)
@@ -152,6 +147,7 @@ final class ProductCell: UICollectionViewCell {
             
             productImageContainerView.snp.makeConstraints {
                 $0.width.equalTo(stackView.snp.width)
+                $0.height.equalTo(productImageContainerView.snp.width)
             }
             
             dividerView.snp.makeConstraints {
@@ -169,22 +165,27 @@ final class ProductCell: UICollectionViewCell {
                 $0.width.height.equalTo(Size.convenientTagImageViewWidth)
             }
             
-            eventTagImageView.snp.makeConstraints {
+            eventTagLabel.snp.makeConstraints {
                 $0.trailing.bottom.equalToSuperview().inset(Size.tagImageViewMargin)
                 $0.width.equalTo(Size.eventTagImageViewWidth)
                 $0.height.equalTo(Size.eventTagImageViewHeight)
             }
             
+            itemInfoContainerView.snp.makeConstraints {
+                $0.leading.equalTo(stackView)
+            }
+            
             newImageView.snp.makeConstraints {
                 $0.leading.top.equalToSuperview().offset(Size.newImageViewMargin)
                 $0.width.equalTo(Size.newImageViewWidth)
-                $0.bottom.equalTo(priceContainerView.snp.top)
+                $0.centerY.equalTo(titleLabel)
             }
             
             titleLabel.snp.makeConstraints {
                 $0.top.equalToSuperview().inset(Size.titleLabelMargin)
                 $0.leading.equalTo(newImageView.snp.trailing).offset(Size.titleLabelLeading)
                 $0.trailing.lessThanOrEqualTo(-Size.titleLabelMargin)
+                $0.height.equalTo(titleLabel.font.customLineHeight)
             }
             
             priceContainerView.snp.makeConstraints {
@@ -223,13 +224,23 @@ final class ProductCell: UICollectionViewCell {
         //TO DO : fix color
         viewHolder.discountPriceLabel.attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .black)
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
-        viewHolder.eventTagImageView.makeRounded(with: Size.eventTagImageviewRadius)
+        viewHolder.eventTagLabel.makeRounded(with: Size.eventTagImageviewRadius)
     }
     
-    func updateCell(with product: BrandProductEntity) {
+    func updateCell(with product: ProductConvertable) {
         viewHolder.titleLabel.text = product.name
         viewHolder.convenienceStoreTagImageView.image = product.storeTagImage
         viewHolder.itemImageView.setImage(with: product.imageURL)
-        viewHolder.originalPriceLabel.text = product.price
+        viewHolder.originalPriceLabel.text = product.price.addWon()
+        viewHolder.newImageView.isHidden = !product.isNew
+        hasEventType(product.eventType)
+    }
+    
+    private func hasEventType(_ event: EventTag?) {
+        if let event {
+            viewHolder.eventTagLabel.text = event.name
+        } else {
+            viewHolder.eventTagLabel.isHidden = true
+        }
     }
 }

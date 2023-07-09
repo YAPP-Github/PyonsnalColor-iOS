@@ -12,7 +12,7 @@ final class RootTabBarComponent: Component<RootTabBarDependency> {
 
 extension RootTabBarComponent: ProductHomeDependency, EventHomeDependency, ProfileHomeDependency {
     var productAPIService: ProductAPIService {
-        return ProductAPIService(client: PyonsnalColorClient.shared)
+        return ProductAPIService(client: PyonsnalColorClient())
     }
     
 }

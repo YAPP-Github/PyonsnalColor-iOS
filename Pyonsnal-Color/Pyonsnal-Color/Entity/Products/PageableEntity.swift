@@ -10,7 +10,7 @@ struct PageableEntity: Decodable {
     let pageSize: Int
     let isPaged: Bool
     let pageNumber: Int
-    let isUnpaged: Int
+    let isUnpaged: Bool
     
     private enum CodingKeys: String, CodingKey {
         case offset
