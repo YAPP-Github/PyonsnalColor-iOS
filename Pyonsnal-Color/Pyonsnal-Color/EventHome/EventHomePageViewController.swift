@@ -89,7 +89,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
         if let viewController = viewController as? EventHomeTabViewController {
             guard let index = pageViewControllers.firstIndex(of: viewController) else { return nil }
             let beforeIndex = index - 1
-            currentIndex = index
+            currentIndex = beforeIndex
             if beforeIndex >= 0, beforeIndex < pageViewControllers.count {
                 currentViewController = pageViewControllers[beforeIndex]
                 return pageViewControllers[beforeIndex]
@@ -105,7 +105,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
         if let viewController =  viewController as? EventHomeTabViewController {
             guard let index = pageViewControllers.firstIndex(of: viewController) else { return nil }
             let afterIndex = index + 1
-            currentIndex = index
+            currentIndex = afterIndex
             if afterIndex >= 0, afterIndex < pageViewControllers.count {
                 currentViewController = pageViewControllers[afterIndex]
                 return pageViewControllers[afterIndex]

@@ -55,8 +55,8 @@ final class EventBannerCell: UICollectionViewCell {
         configureUI()
         configureDatasource()
         configureCollectionView()
-//        makeSnapshot()
-        setTimer()
+//        TODO: 타이머 작동시 버그 발생문제 해결
+//        setTimer()
     }
     
     required init?(coder: NSCoder) {

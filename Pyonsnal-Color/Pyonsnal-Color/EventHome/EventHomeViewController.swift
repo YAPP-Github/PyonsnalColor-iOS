@@ -253,6 +253,7 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     func updateSelectedStoreCell(index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         setSelectedConvenienceStoreCell(with: indexPath)
+        didChangeStore(to: ConvenienceStore.allCases[index])
     }
     
     func didTapEventBannerCell(with imageUrl: String) {
