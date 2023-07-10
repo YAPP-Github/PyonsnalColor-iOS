@@ -41,6 +41,7 @@ final class ProductDetailViewController:
         )
         
         self.product = .init(
+            identifier: "",
             imageURL: .init(string: "https://www.google.com")!,
             storeType: .emart24,
             updatedTime: "업데이트 23.06.24",

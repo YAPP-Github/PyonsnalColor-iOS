@@ -54,13 +54,13 @@ extension ProductAPI {
         case let .brandProduct(pageNumber, pageSize, storeType):
             queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
             queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
-            queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType)"))
+            queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType.rawValue)"))
         case let .eventProduct(pageNumber, pageSize, storeType):
             queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
             queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
-            queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType)"))
+            queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType.rawValue)"))
         case let .eventBanner(storeType):
-            queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType)"))
+            queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType.rawValue)"))
         }
         
         return queryItems

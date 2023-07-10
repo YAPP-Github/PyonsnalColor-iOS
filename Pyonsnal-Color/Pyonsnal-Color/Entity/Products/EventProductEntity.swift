@@ -8,6 +8,7 @@
 import Foundation
 
 struct EventProductEntity: Decodable, ProductConvertable, Hashable {
+    let identifier: String
     let imageURL: URL
     let storeType: ConvenienceStore
     let updatedTime: String
@@ -20,6 +21,7 @@ struct EventProductEntity: Decodable, ProductConvertable, Hashable {
     let isNew: Bool
     
     private enum CodingKeys: String, CodingKey {
+        case identifier = "id"
         case imageURL = "image"
         case storeType
         case updatedTime
