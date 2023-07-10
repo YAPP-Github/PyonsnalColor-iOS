@@ -13,8 +13,17 @@ protocol LogoutPopupDependency: Dependency {
 }
 
 final class LogoutPopupComponent: Component<LogoutPopupDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    let memberAPIService: MemberAPIService
+    let userAuthService: UserAuthService
+    
+    override init(dependency: LogoutPopupDependency) {
+        let pyonsnalColorClient = PyonsnalColorClient()
+        let keyChainService = KeyChainService.shared
+        self.userAuthService = .init(keyChainService: keyChainService)
+        self.memberAPIService = .init(client: pyonsnalColorClient,
+                                      userAuthService: userAuthService)
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder
@@ -33,7 +42,7 @@ final class LogoutPopupBuilder: Builder<LogoutPopupDependency>, LogoutPopupBuild
     func build(withListener listener: LogoutPopupListener) -> LogoutPopupRouting {
         let component = LogoutPopupComponent(dependency: dependency)
         let viewController = LogoutPopupViewController()
-        let interactor = LogoutPopupInteractor(presenter: viewController)
+        let interactor = LogoutPopupInteractor(presenter: viewController, component: component)
         interactor.listener = listener
         return LogoutPopupRouter(interactor: interactor, viewController: viewController)
     }
@@ -41,7 +50,7 @@ final class LogoutPopupBuilder: Builder<LogoutPopupDependency>, LogoutPopupBuild
     func build(withListener listener: LogoutPopupListener, isLogout: Bool) -> LogoutPopupRouting {
         let component = LogoutPopupComponent(dependency: dependency)
         let viewController = LogoutPopupViewController(isLogout: isLogout)
-        let interactor = LogoutPopupInteractor(presenter: viewController)
+        let interactor = LogoutPopupInteractor(presenter: viewController, component: component)
         interactor.listener = listener
         return LogoutPopupRouter(interactor: interactor, viewController: viewController)
     }

@@ -203,7 +203,8 @@ extension LogoutPopupViewController {
             
             mainPopupView.snp.makeConstraints { make in
                 make.centerX.centerY.equalToSuperview()
-                make.width.equalTo(Constant.Size.popupWidth)
+                make.leading.equalToSuperview().offset(.spacing16)
+                make.trailing.equalToSuperview().inset(.spacing16)
                 make.height.equalTo(Constant.Size.popupHeight)
             }
             

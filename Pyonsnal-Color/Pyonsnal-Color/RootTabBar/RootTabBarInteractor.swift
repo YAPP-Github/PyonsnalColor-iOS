@@ -16,6 +16,7 @@ protocol RootTabBarPresentable: Presentable {
 }
 
 protocol RootTabBarListener: AnyObject {
+    func routeToLoggedOut()
 }
 
 final class RootTabBarInteractor:
@@ -39,5 +40,9 @@ final class RootTabBarInteractor:
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func routeToLoggedOut() {
+        listener?.routeToLoggedOut()
     }
 }

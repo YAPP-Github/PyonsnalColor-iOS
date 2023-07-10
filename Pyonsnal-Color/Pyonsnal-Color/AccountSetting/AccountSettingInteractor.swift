@@ -10,6 +10,8 @@ import ModernRIBs
 protocol AccountSettingRouting: ViewableRouting {
     func attachPopup(isLogout: Bool)
     func detachPopup()
+    func attachCommonWebView(with subTerms: SubTerms)
+    func detachCommonWebView()
 }
 
 protocol AccountSettingPresentable: Presentable {
@@ -19,6 +21,7 @@ protocol AccountSettingPresentable: Presentable {
 
 protocol AccountSettingListener: AnyObject {
     func didTapBackButton()
+    func routeToLoggedOut()
 }
 
 final class AccountSettingInteractor: PresentableInteractor<AccountSettingPresentable>, AccountSettingInteractable, AccountSettingPresentableListener {
@@ -58,4 +61,17 @@ final class AccountSettingInteractor: PresentableInteractor<AccountSettingPresen
     func popupDidTabDismissButton() {
         router?.detachPopup()
     }
+    
+    func didTapUseSection(with subTerms: SubTerms) {
+        router?.attachCommonWebView(with: subTerms)
+    }
+    
+    func detachCommonWebView() {
+        router?.detachCommonWebView()
+    }
+    
+    func routeToLoggedOut() {
+        listener?.routeToLoggedOut()
+    }
+    
 }

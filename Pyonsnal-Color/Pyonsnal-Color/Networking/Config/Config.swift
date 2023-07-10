@@ -35,7 +35,15 @@ extension Config {
         return headers
     }
     
+    func getAuthorizationHeader(with token: String) -> [HTTPHeader]? {
+        setDefaultHeader()
+        setHeaders(headers: [HTTPHeader(name: "Authorization", value: token)])
+        return headers
+    }
+    
     private func setDefaultHeader() {
+        self.headers = []
         self.headers = defaultHeaders
     }
+    
 }

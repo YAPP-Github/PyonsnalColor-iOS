@@ -40,14 +40,12 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
         let accountSettingRouter = accountSettingBuilder.build(withListener: interactor)
         accountSetting = accountSettingRouter
         attachChild(accountSettingRouter)
-        let accountSettingViewController = accountSettingRouter.viewControllable.uiviewController
-        accountSettingViewController.modalPresentationStyle = .fullScreen
-        viewController.uiviewController.present(accountSettingViewController, animated: true)
+        viewController.pushViewController(accountSettingRouter.viewControllable, animated: true)
     }
     
     func detachAccountSetting() {
         guard let accountSetting else { return }
-        viewController.uiviewController.dismiss(animated: true)
+        viewController.popViewController(animated: true)
         self.accountSetting = nil
         detachChild(accountSetting)
     }

@@ -9,7 +9,7 @@ final class UserAuthService {
     
     // MARK: - Private Property
     private let accessTokenKey: String = "UserAuthService.AccessToken.Key"
-//    private let refreshTokenKey: String = "UserAuthService.RefreshToken.Key"
+    private let refreshTokenKey: String = "UserAuthService.RefreshToken.Key"
     private let keyChainService: KeyChainService
     
     // MARK: - Initializer
@@ -22,15 +22,23 @@ final class UserAuthService {
         keyChainService.get(with: accessTokenKey)
     }
     
+    func getRefreshToken() -> String? {
+        keyChainService.get(with: refreshTokenKey)
+    }
+    
     func setAccessToken(_ token: String) {
         _ = keyChainService.set(value: token, to: accessTokenKey)
     }
     
-//    func refreshToken() -> String? {
-//        keyChainService.get(with: refreshTokenKey)
-//    }
+    func setRefreshToken(_ token: String) {
+        _ = keyChainService.set(value: token, to: refreshTokenKey)
+    }
     
-//    func setRefreshToken(_ token: String) {
-//        _ = keyChainService.set(value: token, to: refreshTokenKey)
-//    }
+    func deleteAccessToken() {
+        keyChainService.delete(with: accessTokenKey)
+    }
+    
+    func deleteRefreshToken() {
+        keyChainService.delete(with: refreshTokenKey)
+    }
 }

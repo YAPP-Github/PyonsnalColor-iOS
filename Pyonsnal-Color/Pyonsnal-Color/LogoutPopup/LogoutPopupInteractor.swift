@@ -6,8 +6,10 @@
 //
 
 import ModernRIBs
+import Combine
 
 protocol LogoutPopupRouting: ViewableRouting {
+    
 }
 
 protocol LogoutPopupPresentable: Presentable {
@@ -16,6 +18,7 @@ protocol LogoutPopupPresentable: Presentable {
 
 protocol LogoutPopupListener: AnyObject {
     func popupDidTabDismissButton()
+    func routeToLoggedOut()
 }
 
 final class LogoutPopupInteractor:
@@ -29,8 +32,12 @@ final class LogoutPopupInteractor:
 
     weak var router: LogoutPopupRouting?
     weak var listener: LogoutPopupListener?
-
-    override init(presenter: LogoutPopupPresentable) {
+    
+    private let component: LogoutPopupComponent
+    private var cancellable = Set<AnyCancellable>()
+    
+    init(presenter: LogoutPopupPresentable, component: LogoutPopupComponent) {
+        self.component = component
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -46,17 +53,52 @@ final class LogoutPopupInteractor:
     func didTabDismissButton(_ text: String?) {
         if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
-        } else {
-            // TODO: 로그아웃 로직 구현
+        } else { // 회원 탈퇴
+            deleteAccount()
         }
+    }
+    
+    private func logout() {
+        guard let accessToken = component.userAuthService.getAccessToken(), let refreshToken = component.userAuthService.getRefreshToken() else { return }
+        component.memberAPIService.logout(
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        ).sink { [weak self] response in
+            // 응답이 null로 옴
+            if response.error?.type == .emptyResponse {
+                self?.deleteToken()
+                self?.listener?.routeToLoggedOut()
+            }else {
+                // Error handling
+            }
+        }.store(in: &cancellable)
+    }
+    
+    private func deleteAccount() {
+        let accessToken = component.userAuthService.getAccessToken()
+        component.memberAPIService.widthraw()
+            .sink { [weak self] response in
+                //응답이 null로 옴
+                if response.error?.type == .emptyResponse {
+                    self?.deleteToken()
+                    self?.listener?.routeToLoggedOut()
+                }else {
+                    // Error handling
+                }
+            }.store(in: &cancellable)
     }
     
     func didTabConfirmButton(_ text: String?) {
         if let text, text == Text.dismiss {
             listener?.popupDidTabDismissButton()
-        } else {
-            // TODO: 회원탈퇴 로직 구현
+        } else { // 로그아웃
+            logout()
         }
+    }
+    
+    private func deleteToken() {
+        component.userAuthService.deleteAccessToken()
+        component.userAuthService.deleteRefreshToken()
     }
     
 }

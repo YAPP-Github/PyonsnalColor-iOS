@@ -69,6 +69,7 @@ final class LoggedOutInteractor:
                 if let userAuth = response.value {
                     print("Apple login success: \(userAuth.accessToken)")
                     self?.dependency.userAuthService.setAccessToken(userAuth.accessToken)
+                    self?.dependency.userAuthService.setRefreshToken(userAuth.refreshToken)
                     self?.listener?.routeToLoggedIn()
                 } else if response.error != nil {
                     // TODO: error handling
@@ -84,6 +85,7 @@ final class LoggedOutInteractor:
                 if let userAuth = response.value {
                     print("Kakao login success: \(userAuth.accessToken)")
                     self?.dependency.userAuthService.setAccessToken(userAuth.accessToken)
+                    self?.dependency.userAuthService.setRefreshToken(userAuth.refreshToken)
                     self?.listener?.routeToLoggedIn()
                 } else if let responseError = response.error {
                     // TODO: error handling
