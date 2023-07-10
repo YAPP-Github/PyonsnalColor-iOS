@@ -56,7 +56,7 @@ final class EventHomeTabViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureDummyData()
+        configureHeaderTitle()
         configureUI()
         configureLayout()
         configureCollectionView()
@@ -66,7 +66,7 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     // MARK: - Private Method
-    private func configureDummyData() {
+    private func configureHeaderTitle() {
         headerTitle = ["이달의 이벤트 💌", "행사 상품 모아보기 👀"]
     }
     
