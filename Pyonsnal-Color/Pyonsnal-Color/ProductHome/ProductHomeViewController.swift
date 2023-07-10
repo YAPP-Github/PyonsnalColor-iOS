@@ -109,6 +109,19 @@ final class ProductHomeViewController:
         let productsViewController = viewHolder.productHomePageViewController.currentViewController
         productsViewController?.applySnapshot(with: products)
     }
+    
+    func appendProducts(with products: [ConvenienceStore: [BrandProductEntity]]) {
+        let productsViewController = viewHolder.productHomePageViewController.currentViewController
+        let store = ConvenienceStore.allCases[currentPage]
+        
+        if let products = products[store] {
+            productsViewController?.applySnapshot(with: products)
+        }
+    }
+    
+    func didFinishPaging() {
+        isPaging = false
+    }
 }
 
 //MARK: - TitleNavigationViewDelegate {
