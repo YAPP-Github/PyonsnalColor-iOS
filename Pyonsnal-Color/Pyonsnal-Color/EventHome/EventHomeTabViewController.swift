@@ -188,7 +188,10 @@ final class EventHomeTabViewController: UIViewController {
         
         let eventProducts = products.map { ItemType.item(data: $0) }
         
-        snapshot.appendSections([.item])
+        if !snapshot.sectionIdentifiers.contains(.item) {
+            snapshot.appendSections([.item])
+        }
+        
         snapshot.appendItems(eventProducts, toSection: .item)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
