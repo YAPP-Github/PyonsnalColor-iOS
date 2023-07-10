@@ -9,7 +9,9 @@ import ModernRIBs
 import UIKit
 
 protocol ProductHomePresentableListener: AnyObject {
+    func didChangeStore(to store: ConvenienceStore)
     func didTapNotificationButton()
+    func didScrollToNextPage(store: ConvenienceStore)
 }
 
 final class ProductHomeViewController:
@@ -25,11 +27,8 @@ final class ProductHomeViewController:
     private let convenienceStores: [String] = ["전체", "CU", "GS25", "Emart24", "7-Eleven"]
     private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
-    private var currentPage: Int = 0 {
-        didSet {
-            bind(lastIndex: oldValue, newIndex: currentPage)
-        }
-    }
+    private var isPaging: Bool = false
+    private var currentPage: Int = 0
     
     //MARK: - Initializer
     init() {
@@ -78,23 +77,21 @@ final class ProductHomeViewController:
         viewHolder.productHomePageViewController.productListViewControllers.forEach {
             $0.productCollectionView.delegate = self
         }
+        viewHolder.productHomePageViewController.productListViewControllers.forEach {
+            $0.delegate = self
+        }
     }
     
-    private func bind(lastIndex: Int, newIndex: Int) {
-        let isForward = lastIndex < newIndex
-        let direction: UIPageViewController.NavigationDirection = isForward ? .forward : .reverse
-        viewHolder.productHomePageViewController.setViewControllers(
-            [viewHolder.productHomePageViewController.productListViewControllers[currentPage]],
-            direction: direction,
-            animated: true,
-            completion: nil
-        )
-        
+    private func setSelectedConvenienceStoreCell(with page: Int) {
         viewHolder.convenienceStoreCollectionView.selectItem(
-            at: IndexPath(item: currentPage, section: 0),
+            at: IndexPath(item: page, section: 0),
             animated: true,
             scrollPosition: .centeredHorizontally
         )
+    }
+    
+    private func requestProducts(store: ConvenienceStore) {
+        listener?.didChangeStore(to: store)
     }
     
     private func configureNotificationButton() {
@@ -106,6 +103,24 @@ final class ProductHomeViewController:
         
         notificationListViewController.modalPresentationStyle = .fullScreen
         present(notificationListViewController, animated: true)
+    }
+    
+    func updateProducts(with products: [BrandProductEntity]) {
+        let productsViewController = viewHolder.productHomePageViewController.currentViewController
+        productsViewController?.applySnapshot(with: products)
+    }
+    
+    func appendProducts(with products: [ConvenienceStore: [BrandProductEntity]]) {
+        let productsViewController = viewHolder.productHomePageViewController.currentViewController
+        let store = ConvenienceStore.allCases[currentPage]
+        
+        if let products = products[store] {
+            productsViewController?.applySnapshot(with: products)
+        }
+    }
+    
+    func didFinishPaging() {
+        isPaging = false
     }
 }
 
@@ -168,6 +183,14 @@ extension ProductHomeViewController: UIScrollViewDelegate {
             
             viewHolder.containerScrollView.contentOffset.y = maxOffsetY
             collectionView.contentOffset.y = innerScrollLastOffsetY
+        }
+        
+        let paginationHeight = (collectionView.contentSize.height - collectionView.bounds.height) * 0.9
+
+        if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
+            
+            isPaging = true
+            listener?.didScrollToNextPage(store: ConvenienceStore.allCases[currentPage])
         }
         
         if innerScroll && downScroll {
@@ -239,6 +262,7 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
 extension ProductHomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         currentPage = indexPath.item
+        viewHolder.productHomePageViewController.updatePage(to: currentPage)
     }
 }
 
@@ -246,5 +270,17 @@ extension ProductHomeViewController: UICollectionViewDelegate {
 extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     func didFinishPageTransition(index: Int) {
         currentPage = index
+        setSelectedConvenienceStoreCell(with: currentPage)
+    }
+}
+
+extension ProductHomeViewController: ProductListDelegate {
+    func didLoadPageList(store: ConvenienceStore) {
+        requestProducts(store: store)
+    }
+    
+    func refreshByPull() {
+        let store = ConvenienceStore.allCases[currentPage]
+        requestProducts(store: store)
     }
 }

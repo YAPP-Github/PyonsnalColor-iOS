@@ -8,14 +8,11 @@
 import ModernRIBs
 
 protocol EventHomeDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+    var productAPIService: ProductAPIService { get }
 }
 
 final class EventHomeComponent: Component<EventHomeDependency>,
                                 EventDetailDependency {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
 // MARK: - Builder
@@ -34,7 +31,10 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
         let component = EventHomeComponent(dependency: dependency)
         let viewController = EventHomeViewController()
         let eventDetailBuilder = EventDetailBuilder(dependency: component)
-        let interactor = EventHomeInteractor(presenter: viewController)
+        let interactor = EventHomeInteractor(
+            presenter: viewController,
+            dependency: dependency
+        )
         interactor.listener = listener
         return EventHomeRouter(interactor: interactor,
                                viewController: viewController,

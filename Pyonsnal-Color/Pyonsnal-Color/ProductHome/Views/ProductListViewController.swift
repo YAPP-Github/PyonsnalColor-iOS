@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 
 final class ProductListViewController: UIViewController {
-    // TODO: Item타입 상품엔티티로 변경
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Int>
+
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, BrandProductEntity>
     
     enum Constant {
         enum Size {
@@ -28,16 +28,26 @@ final class ProductListViewController: UIViewController {
     
     //MARK: - Private Property
     private var dataSource: DataSource?
+    weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
+    private let convenienceStore: ConvenienceStore
     
     //MARK: - View Component
     lazy var productCollectionView: UICollectionView = {
         let layout = configureCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        // TODO: AppColor 정해지면 수정
-        collectionView.backgroundColor = .systemGray6
+        collectionView.backgroundColor = .gray100
         return collectionView
     }()
+    
+    init(convenienceStore: ConvenienceStore) {
+        self.convenienceStore = convenienceStore
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -45,6 +55,7 @@ final class ProductListViewController: UIViewController {
         
         configureLayout()
         configureCollectionView()
+        delegate?.didLoadPageList(store: convenienceStore)
     }
     
     //MARK: - Private Method
@@ -112,7 +123,6 @@ final class ProductListViewController: UIViewController {
         registerCells()
         configureDataSource()
         configureHeaderView()
-        applySnapshot()
         configureRefreshControl()
     }
     
@@ -124,13 +134,15 @@ final class ProductListViewController: UIViewController {
     private func configureDataSource() {
         dataSource = DataSource(
             collectionView: productCollectionView
-        ) { collectionView, indexPath, _ in
+        ) { collectionView, indexPath, product in
             guard let cell: ProductCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: String(describing: ProductCell.self),
                 for: indexPath
             ) as? ProductCell else {
                 return UICollectionViewCell()
             }
+            
+            cell.updateCell(with: product)
             
             return cell
         }
@@ -153,17 +165,7 @@ final class ProductListViewController: UIViewController {
             }
         }
     }
-
-    private func applySnapshot() {
-        // TODO: 추후에 외부로부터 데이터 받아오도록 메서드 추가
-        //ex) updateSnapshot(items: [ProductEntity])
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         
-        snapshot.appendSections([.product])
-        snapshot.appendItems(Array(1...40))
-        dataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
     private func configureRefreshControl() {
         refreshControl.addTarget(
             self,
@@ -173,13 +175,21 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl = refreshControl
     }
     
+    func applySnapshot(with products: [BrandProductEntity]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, BrandProductEntity>()
+        
+        snapshot.appendSections([.product])
+        snapshot.appendItems(products)
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
     //MARK: - Objective Method
     @objc
     private func refreshByPull() {
         productCollectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.applySnapshot()
+            self.delegate?.refreshByPull()
             self.productCollectionView.refreshControl?.endRefreshing()
         }
     }

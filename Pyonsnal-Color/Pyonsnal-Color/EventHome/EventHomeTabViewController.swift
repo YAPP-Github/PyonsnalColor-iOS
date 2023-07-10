@@ -19,15 +19,6 @@ protocol EventHomeTabViewControllerDelegate: AnyObject {
     func didTapProductCell()
 }
 
-// 임의의 모델 타입
-struct ItemCard: Hashable {
-    var uuid = UUID()
-    var imageUrl: UIImage?
-    var itemName: String
-    var convenientStoreTagImage: UIImage?
-    var eventTagImage: UIImage?
-}
-
 final class EventHomeTabViewController: UIViewController {
     
     enum SectionType: Hashable {
@@ -36,8 +27,8 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     enum ItemType: Hashable {
-        case event(data: String)
-        case item(data: ItemCard)
+        case event(data: [EventBannerEntity])
+        case item(data: EventProductEntity)
     }
     
     enum Size {
@@ -46,6 +37,7 @@ final class EventHomeTabViewController: UIViewController {
     
     weak var scrollDelegate: ScrollDelegate?
     weak var delegate: EventHomeTabViewControllerDelegate?
+    weak var listDelegate: ProductListDelegate?
     
     lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: .zero,
@@ -56,53 +48,35 @@ final class EventHomeTabViewController: UIViewController {
     // MARK: - Private property
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     private var dataSource: DataSource?
-    private var itemCards: [ItemCard] = []
     private var headerTitle: [String] = []
-    private var eventUrls: [String] = []
+    private var eventUrls: [EventBannerEntity] = []
     private let refreshControl = UIRefreshControl()
     private let dummyImage = UIImage(systemName: "note")
     private var lastContentOffSetY: CGFloat = 0
+    private let convenienceStore: ConvenienceStore
+    
+    init(convenienceStore: ConvenienceStore) {
+        self.convenienceStore = convenienceStore
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureDummyData()
+        configureHeaderTitle()
         configureUI()
         configureLayout()
         configureCollectionView()
         configureDatasource()
         configureHeaderView()
-        makeSnapshot()
+        listDelegate?.didLoadPageList(store: convenienceStore)
     }
     
     // MARK: - Private Method
-    private func configureDummyData() {
-        itemCards = [
-            ItemCard(imageUrl: dummyImage,
-                     itemName: "산리오)햄치즈에그모닝머핀ddd",
-                     convenientStoreTagImage: dummyImage,
-                     eventTagImage: dummyImage),
-            ItemCard(imageUrl: dummyImage,
-                     itemName: "나가사끼 짬뽕",
-                     convenientStoreTagImage: dummyImage,
-                     eventTagImage: dummyImage),
-            ItemCard(imageUrl: dummyImage,
-                     itemName: "나가사끼 짬뽕",
-                     convenientStoreTagImage: dummyImage,
-                     eventTagImage: dummyImage),
-            ItemCard(imageUrl: dummyImage,
-                     itemName: "나가사끼 짬뽕",
-                     convenientStoreTagImage: dummyImage,
-                     eventTagImage: dummyImage),
-            ItemCard(imageUrl: dummyImage,
-                     itemName: "나가사끼 짬뽕",
-                     convenientStoreTagImage: dummyImage,
-                     eventTagImage: dummyImage),
-            ItemCard(imageUrl: dummyImage,
-                     itemName: "나가사끼 짬뽕",
-                     convenientStoreTagImage: dummyImage,
-                     eventTagImage: dummyImage)
-        ]
-        eventUrls = ["test"]
+    private func configureHeaderTitle() {
         headerTitle = ["이달의 이벤트 💌", "행사 상품 모아보기 👀"]
     }
     
@@ -119,9 +93,7 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     private func configureUI() {
-        //TO DO : fix color
-        view.backgroundColor = .gray
-        collectionView.backgroundColor = .gray
+        collectionView.backgroundColor = .gray100
     }
     
     private func configureLayout() {
@@ -141,7 +113,6 @@ final class EventHomeTabViewController: UIViewController {
         registerCollectionViewCells()
         setRefreshControl()
     }
-    
     
     private func registerCollectionViewCells() {
         collectionView.register(ItemHeaderTitleView.self,
@@ -163,9 +134,8 @@ final class EventHomeTabViewController: UIViewController {
     @objc private func pullToRefresh() {
         collectionView.refreshControl?.beginRefreshing()
         
-        //get data from api
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.makeSnapshot()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.listDelegate?.refreshByPull()
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
@@ -174,11 +144,17 @@ final class EventHomeTabViewController: UIViewController {
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
             case .item(let item):
-                let cell: ProductCell? = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.className,
-                                                                            for: indexPath) as? ProductCell
+                let cell: ProductCell? = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: ProductCell.className,
+                    for: indexPath
+                ) as? ProductCell
+                
+                cell?.updateCell(with: item)
+                
                 return cell ?? UICollectionViewCell()
             case .event(let item):
                 let cell: EventBannerCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerCell.className, for: indexPath) as? EventBannerCell
+
                 cell?.update(self.eventUrls)
                 cell?.delegate = self
                 return cell ?? UICollectionViewCell()
@@ -206,26 +182,27 @@ final class EventHomeTabViewController: UIViewController {
         }
     }
     
-    private func makeSnapshot() {
+    func applyEventBannerSnapshot(with banners: [EventBannerEntity]?) {
+        guard let eventBanners = banners else { return }
+        
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        // append event section
-        if !eventUrls.isEmpty {
-            snapshot.appendSections([.event])
-            let eventUrls = eventUrls.map { eventUrl in
-                return ItemType.event(data: eventUrl)
-            }
-            snapshot.appendItems(eventUrls, toSection: .event)
-        }
         
-        // append item section
-        if !itemCards.isEmpty {
+        eventUrls = eventBanners
+        snapshot.appendSections([.event])
+        snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func applyEventProductsSnapshot(with products: [EventProductEntity]) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        
+        let eventProducts = products.map { ItemType.item(data: $0) }
+        
+        if !snapshot.sectionIdentifiers.contains(.item) {
             snapshot.appendSections([.item])
-            let itemCards = itemCards.map { itemCard in
-                return ItemType.item(data: itemCard)
-            }
-            snapshot.appendItems(itemCards, toSection: .item)
         }
         
+        snapshot.appendItems(eventProducts, toSection: .item)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }

@@ -8,6 +8,7 @@
 import ModernRIBs
 
 protocol ProductHomeDependency: Dependency {
+    var productAPIService: ProductAPIService { get }
 }
 
 final class ProductHomeComponent: Component<ProductHomeDependency>, NotificationListDependency {
@@ -28,7 +29,10 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
     func build(withListener listener: ProductHomeListener) -> ProductHomeRouting {
         let component = ProductHomeComponent(dependency: dependency)
         let viewController = ProductHomeViewController()
-        let interactor = ProductHomeInteractor(presenter: viewController)
+        let interactor = ProductHomeInteractor(
+            presenter: viewController,
+            dependency: dependency
+        )
         
         let notificationList: NotificationListBuilder = .init(dependency: component)
         

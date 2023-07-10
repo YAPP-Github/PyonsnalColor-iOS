@@ -5,10 +5,12 @@
 //  Created by 김진우 on 2023/07/04.
 //
 
-enum EventTag: String {
-    case discount
-    case freebie
-    case onePlusOne
+enum EventTag: String, Decodable {
+    case discount = "DISCOUNT"
+    case freebie = "GIFT"
+    case onePlusOne = "ONE_TO_ONE"
+    case twoPlusOne = "TWO_TO_ONE"
+    case threePlusOne = "THREE_TO_ONE"
 }
 
 extension EventTag {
@@ -20,6 +22,10 @@ extension EventTag {
             return "증정품"
         case .onePlusOne:
             return "1 + 1"
+        case .twoPlusOne:
+            return "2 + 1"
+        case .threePlusOne:
+            return "3 + 1"
         }
     }
 }
