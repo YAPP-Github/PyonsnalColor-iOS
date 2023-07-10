@@ -54,7 +54,6 @@ extension ProductHomeViewController {
         }()
         
         let productHomePageViewController: ProductHomePageViewController = .init(
-            pageCount: 5,
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
         )

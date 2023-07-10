@@ -33,14 +33,12 @@ final class EventHomePageViewController: UIPageViewController {
     
     // MARK: - Private Method
     private func setPageViewControllers() {
-        for _ in 0..<tabCount {
-            // dummy
-            let viewController = EventHomeTabViewController()
+        for store in ConvenienceStore.allCases {
+            let viewController = EventHomeTabViewController(convenienceStore: store)
             viewController.scrollDelegate = self
             viewController.delegate = self
             viewController.listDelegate = self
             pageViewControllers.append(viewController)
-            
         }
         
         self.delegate = self
@@ -143,7 +141,7 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
 }
 
 extension EventHomePageViewController: ProductListDelegate {
-    func didLoadPageList() {
+    func didLoadPageList(store: ConvenienceStore) {
         pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
     }
     

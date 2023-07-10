@@ -17,6 +17,8 @@ protocol ProductHomePresentable: Presentable {
     var listener: ProductHomePresentableListener? { get set }
     
     func updateProducts(with products: [BrandProductEntity])
+    func appendProducts(with products: [ConvenienceStore: [BrandProductEntity]])
+    func didFinishPaging()
 }
 
 protocol ProductHomeListener: AnyObject {
@@ -32,11 +34,16 @@ final class ProductHomeInteractor:
     
     private var dependency: ProductHomeDependency?
     private var cancellable = Set<AnyCancellable>()
+    private let initialPage: Int = 0
     private let initialCount: Int = 20
-    private let initialPage: Int = 1
-    private let productPerPage: Int = 10
-    private var currentPage: Int = 1
-    private var nextPage: Int { currentPage + 1 }
+    private let productPerPage: Int = 20
+    private var storeLastPages: [ConvenienceStore: Int] = [:]
+    private var brandProducts: [ConvenienceStore: [BrandProductEntity]] = [:] {
+        didSet {
+            presenter.appendProducts(with: brandProducts)
+            presenter.didFinishPaging()
+        }
+    }
 
     init(
         presenter: ProductHomePresentable,
@@ -50,25 +57,38 @@ final class ProductHomeInteractor:
     override func didBecomeActive() {
         super.didBecomeActive()
         
-        requestProducts(pageNumber: currentPage, pageSize: initialCount)
+        requestInitialProducts()
     }
 
     override func willResignActive() {
         super.willResignActive()
     }
     
-    private func requestProducts(pageNumber: Int, pageSize: Int, store: ConvenienceStore = .all) {
+    private func requestInitialProducts(store: ConvenienceStore = .all) {
+        storeLastPages[store] = initialPage
+        
         dependency?.productAPIService.requestBrandProduct(
-            pageNumber: pageNumber,
-            pageSize: pageSize,
+            pageNumber: initialPage,
+            pageSize: initialCount,
             storeType: store
         ).sink { [weak self] response in
             if let productPage = response.value {
-                print(self?.presenter)
-                print(productPage.content)
-                self?.presenter.updateProducts(with: productPage.content)
+                self?.brandProducts[store] = productPage.content
             } else if response.error != nil {
                 // TODO: Error Handling
+            }
+        }.store(in: &cancellable)
+    }
+    
+    private func requestProducts(pageNumber: Int, store: ConvenienceStore) {
+        storeLastPages[store] = pageNumber
+        dependency?.productAPIService.requestBrandProduct(
+            pageNumber: pageNumber,
+            pageSize: productPerPage,
+            storeType: store
+        ).sink { [weak self] response in
+            if let productPage = response.value {
+                self?.brandProducts[store]? += productPage.content
             }
         }.store(in: &cancellable)
     }
@@ -81,12 +101,13 @@ final class ProductHomeInteractor:
         router?.detachNotificationList()
     }
     
-    func didScrollToNextPage() {
-        requestProducts(pageNumber: nextPage, pageSize: productPerPage)
-        currentPage = nextPage
+    func didScrollToNextPage(store: ConvenienceStore) {
+        if let lastPage = storeLastPages[store] {
+            requestProducts(pageNumber: lastPage + 1, store: store)
+        }
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        requestProducts(pageNumber: initialPage, pageSize: initialCount, store: store)
+        requestInitialProducts(store: store)
     }
 }

@@ -53,6 +53,16 @@ final class EventHomeTabViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private let dummyImage = UIImage(systemName: "note")
     private var lastContentOffSetY: CGFloat = 0
+    private let convenienceStore: ConvenienceStore
+    
+    init(convenienceStore: ConvenienceStore) {
+        self.convenienceStore = convenienceStore
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +72,7 @@ final class EventHomeTabViewController: UIViewController {
         configureCollectionView()
         configureDatasource()
         configureHeaderView()
-        listDelegate?.didLoadPageList()
+        listDelegate?.didLoadPageList(store: convenienceStore)
     }
     
     // MARK: - Private Method

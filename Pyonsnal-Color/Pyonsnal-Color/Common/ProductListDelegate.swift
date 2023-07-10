@@ -8,6 +8,6 @@
 import Foundation
 
 protocol ProductListDelegate: AnyObject {
-    func didLoadPageList()
+    func didLoadPageList(store: ConvenienceStore)
     func refreshByPull()
 }
