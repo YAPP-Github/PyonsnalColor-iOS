@@ -205,7 +205,6 @@ extension ProfileHomeViewController {
                 $0.height.equalTo(Size.profileContainerViewHeight)
             }
             
-            // to do fix using common margin
             profileImageView.snp.makeConstraints {
                 $0.size.equalTo(Size.profileImageViewSize)
                 $0.leading.equalToSuperview().offset(Size.profileImageViewLeading)
@@ -213,15 +212,15 @@ extension ProfileHomeViewController {
             }
             
             nickNameLabel.snp.makeConstraints {
-                $0.leading.equalTo(profileImageView.snp.trailing).offset(12)
+                $0.leading.equalTo(profileImageView.snp.trailing).offset(.spacing12)
                 $0.centerY.equalTo(profileContainerView.snp.centerY)
-                $0.trailing.greaterThanOrEqualTo(-12)
+                $0.trailing.greaterThanOrEqualToSuperview().inset(.spacing12)
             }
             
             dividerView.snp.makeConstraints {
                 $0.top.equalTo(profileContainerView.snp.bottom)
                 $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(12)
+                $0.height.equalTo(Size.dividerMargin)
             }
             
             tableView.snp.makeConstraints {

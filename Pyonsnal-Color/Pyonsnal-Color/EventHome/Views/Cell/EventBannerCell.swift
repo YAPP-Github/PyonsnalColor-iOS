@@ -156,7 +156,6 @@ extension EventBannerCell {
     }
     
     private func setPageCountLabelText(with updatedIndex: Int) {
-        //TO DO :fix color
         let attributedText = NSMutableAttributedString()
         attributedText.appendAttributes(
             string: "\(updatedIndex)",
@@ -166,7 +165,7 @@ extension EventBannerCell {
         attributedText.appendAttributes(
             string: "/\(eventBannerUrls.count)",
             font: .body4r,
-            color: .darkGray
+            color: .gray300
         )
         viewHolder.pageCountLabel.attributedText = attributedText
     }
@@ -228,8 +227,7 @@ extension EventBannerCell {
         
         let pageCountContainerView: UIView = {
             let view = UIView()
-            // TO DO : fix color
-            view.backgroundColor = UIColor.black
+            view.backgroundColor = .black
             view.layer.opacity = 0.5
             return view
         }()

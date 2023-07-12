@@ -119,6 +119,7 @@
 		F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */; };
 		F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */; };
 		F00609522A5EED4600A2A79D /* SettingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00609512A5EED4600A2A79D /* SettingInfo.swift */; };
+		F00609562A5EF87F00A2A79D /* CommonConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00609552A5EF87F00A2A79D /* CommonConstants.swift */; };
 		F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */; };
 		F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */; };
 		F01535432A45A69800A2A8F2 /* EventHomeSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */; };
@@ -276,6 +277,7 @@
 		F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestBuilder.swift; sourceTree = "<group>"; };
 		F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestable.swift; sourceTree = "<group>"; };
 		F00609512A5EED4600A2A79D /* SettingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingInfo.swift; sourceTree = "<group>"; };
+		F00609552A5EF87F00A2A79D /* CommonConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConstants.swift; sourceTree = "<group>"; };
 		F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeTabViewController.swift; sourceTree = "<group>"; };
 		F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomePageViewController.swift; sourceTree = "<group>"; };
 		F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeSectionLayout.swift; sourceTree = "<group>"; };
@@ -597,7 +599,7 @@
 		BA437F082A23583400C5DFA8 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				F097EF282A57179F00A7FB9C /* UrlConstant */,
+				F00609532A5EF83500A2A79D /* Constants */,
 				F069DBE72A30BA7A0001D3DD /* Font */,
 				BA1807562A2F152800295398 /* ImageAssetKind */,
 				BA9E23432A21EF3100A539D5 /* Assets.xcassets */,
@@ -732,6 +734,15 @@
 			path = Root;
 			sourceTree = "<group>";
 		};
+		F00609532A5EF83500A2A79D /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				F00609552A5EF87F00A2A79D /* CommonConstants.swift */,
+				F097EF282A57179F00A7FB9C /* Url */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		F01535532A46BF8A00A2A8F2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,13 +806,13 @@
 			path = Button;
 			sourceTree = "<group>";
 		};
-		F097EF282A57179F00A7FB9C /* UrlConstant */ = {
+		F097EF282A57179F00A7FB9C /* Url */ = {
 			isa = PBXGroup;
 			children = (
 				F097EF2B2A57181B00A7FB9C /* TermsOfUseUrl.swift */,
 				F097EF2D2A57187400A7FB9C /* ProfileUrl.swift */,
 			);
-			path = UrlConstant;
+			path = Url;
 			sourceTree = "<group>";
 		};
 		F097EF2F2A571DB000A7FB9C /* CommonWeb */ = {
@@ -1061,6 +1072,7 @@
 				B24F1D4E2A4C5F2F00AA03DC /* NotificationCell.swift in Sources */,
 				F0EE10AB2A4B389A00B8DF4F /* AccountSettingRouter.swift in Sources */,
 				F0EE10AD2A4B389A00B8DF4F /* AccountSettingBuilder.swift in Sources */,
+				F00609562A5EF87F00A2A79D /* CommonConstants.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				F0EE10AE2A4B389A00B8DF4F /* AccountSettingInteractor.swift in Sources */,
 				F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */,

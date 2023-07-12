@@ -19,7 +19,6 @@ final class EventHomePageViewController: UIPageViewController {
     // MARK: - Private property
     private(set) var pageViewControllers = [EventHomeTabViewController]()
     private var currentIndex: Int = 0
-//    private var tabCount: Int = 5 // 임시
     
     weak var pageDelegate: EventHomePageViewControllerDelegate?
     weak var scrollDelegate: ScrollDelegate?
@@ -61,7 +60,8 @@ final class EventHomePageViewController: UIPageViewController {
     
 }
 
-extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+extension EventHomePageViewController: UIPageViewControllerDelegate,
+                                       UIPageViewControllerDataSource {
     func pageViewController(
         _ pageViewController: UIPageViewController,
         didFinishAnimating finished: Bool,

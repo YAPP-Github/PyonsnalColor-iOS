@@ -17,16 +17,6 @@ protocol EventHomePresentableListener: AnyObject {
     func didScrollToNextPage(store: ConvenienceStore)
 }
 
-struct Tab: Hashable {
-    var id = UUID()
-    var name: String
-    var isSelected: Bool = false
-    
-    mutating func updateSelectedState() {
-        isSelected = false
-    }
-}
-
 final class EventHomeViewController: UIViewController,
                                      EventHomePresentable,
                                      EventHomeViewControllable {
@@ -53,7 +43,7 @@ final class EventHomeViewController: UIViewController,
     // MARK: - Private property
     private let viewHolder: ViewHolder = .init()
     private var innerScrollLastOffsetY: CGFloat = 0
-    private var tabData: [Tab] = []
+    private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
     private var isPaging: Bool = false
     
@@ -73,7 +63,6 @@ final class EventHomeViewController: UIViewController,
         
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
-        configureDummyData()
         configureTabCollectionView()
         setPageViewController()
         setScrollView()
@@ -82,14 +71,6 @@ final class EventHomeViewController: UIViewController,
     }
     
     // MARK: - Private method
-    private func configureDummyData() {
-        tabData = [Tab(name: "전체"),
-                   Tab(name: "CU"),
-                   Tab(name: "GS25"),
-                   Tab(name: "Emart24"),
-                   Tab(name: "7-eleven")]
-    }
-    
     private func configureTabCollectionView() {
         viewHolder.convenienceStoreCollectionView.delegate = self
         viewHolder.convenienceStoreCollectionView.dataSource = self
@@ -185,8 +166,10 @@ extension EventHomeViewController {
             return view
         }()
         
-        lazy var pageViewController = EventHomePageViewController(transitionStyle: .scroll,
-                                                                  navigationOrientation: .horizontal)
+        lazy var pageViewController = EventHomePageViewController(
+            transitionStyle: .scroll,
+            navigationOrientation: .horizontal
+        )
         func place(in view: UIView) {
             view.addSubview(containerScrollView)
             containerScrollView.addSubview(contentView)
@@ -256,12 +239,12 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
 // MARK: - UICollectionViewDataSource
 extension EventHomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tabData.count
+        return convenienceStores.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConvenienceStoreCell.className, for: indexPath) as? ConvenienceStoreCell else { return UICollectionViewCell() }
-        cell.configureCell(title: tabData[indexPath.row].name)
+        let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)
+        cell.configureCell(title: convenienceStores[indexPath.row])
         if indexPath.row == initIndex { // 초기 상태 selected
             setSelectedConvenienceStoreCell(with: indexPath)
         }
@@ -282,26 +265,24 @@ extension EventHomeViewController: UICollectionViewDelegate {
 
 extension EventHomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ConvenienceStoreCell.className, for: indexPath) as? ConvenienceStoreCell {
-            cell.configureCell(title: tabData[indexPath.row].name)
-            let width = cell.getWidth()
-            return CGSize(width: width,
-                          height: ConvenienceStoreCell.Constant.Size.height)
-        }
-        return .zero
+        let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)
+        cell.configureCell(title: convenienceStores[indexPath.row])
+        let width = cell.getWidth()
+        return CGSize(width: width,
+                      height: ConvenienceStoreCell.Constant.Size.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        //device에 따라 dynamic interspacing 대응
+        // device에 따라 dynamic interspacing 대응
         let cellConstant = ConvenienceStoreCell.Constant.Size.self
-        let cellSizes = tabData.reduce(CGFloat(0), { partialResult, title in
+        let cellSizes = convenienceStores.reduce(CGFloat(0), { partialResult, title in
             let label = UILabel(frame: .zero)
-            label.text = title.name
+            label.text = title
             label.font = cellConstant.font
             label.sizeToFit()
             return partialResult + label.bounds.width + cellConstant.padding.left * 2
         })
-        let result = (collectionView.bounds.width - cellSizes) / CGFloat(tabData.count - 1)
+        let result = (collectionView.bounds.width - cellSizes) / CGFloat(convenienceStores.count - 1)
         
         return floor(result * 10000) / 10000
     }
@@ -323,7 +304,6 @@ extension EventHomeViewController: UIScrollViewDelegate {
         let downScroll = swipeDirectionY < 0
         let upScroll = swipeDirectionY > 0
         let outerScrollMaxOffset: CGFloat = Size.headerViewHeight
-        
         
         if innerScroll && upScroll {
             //안쪽을 위로 스크롤할때 바깥쪽 스크롤뷰의 contentOffset을 0으로 줄이기

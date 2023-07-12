@@ -220,9 +220,9 @@ final class ProductCell: UICollectionViewCell {
     }
     
     private func configureUI() {
+        let attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .gray500)
+        viewHolder.discountPriceLabel.attributedText = attributedText
         self.makeRounded(with: Size.cornerRadius)
-        //TO DO : fix color
-        viewHolder.discountPriceLabel.attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .black)
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
         viewHolder.eventTagLabel.makeRounded(with: Size.eventTagImageviewRadius)
     }

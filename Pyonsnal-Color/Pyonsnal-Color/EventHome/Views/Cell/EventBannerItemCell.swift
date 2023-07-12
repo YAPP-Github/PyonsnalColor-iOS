@@ -40,7 +40,6 @@ extension EventBannerItemCell {
     class ViewHolder: ViewHolderable {
         let eventImageView: UIImageView = {
             let imageView = UIImageView()
-            // to do : fix color, image
             imageView.backgroundColor = .white
             imageView.contentMode = .scaleAspectFit
             return imageView

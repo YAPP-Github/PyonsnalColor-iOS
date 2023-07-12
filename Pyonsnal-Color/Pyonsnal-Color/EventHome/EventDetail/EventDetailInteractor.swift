@@ -13,7 +13,6 @@ protocol EventDetailRouting: ViewableRouting {
 
 protocol EventDetailPresentable: Presentable {
     var listener: EventDetailPresentableListener? { get set }
-   
     func update(with imageUrl: String, store: ConvenienceStore)
 }
 
@@ -30,8 +29,6 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
     weak var router: EventDetailRouting?
     weak var listener: EventDetailListener?
 
-    // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
     init(presenter: EventDetailPresentable, imageUrl: String, store: ConvenienceStore) {
         self.imageUrl = imageUrl
         self.store = store
