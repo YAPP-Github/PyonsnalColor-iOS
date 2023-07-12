@@ -16,7 +16,7 @@ protocol CommonWebPresentableListener: AnyObject {
 final class CommonWebViewController: UIViewController,
                                      CommonWebPresentable,
                                      CommonWebViewControllable {
-
+    
     enum Size {
         static let navigationViewHeight: CGFloat = 47
     }
@@ -30,6 +30,7 @@ final class CommonWebViewController: UIViewController,
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureBackButton()
+        configureWebView()
     }
     
     func update(with subTermsInfo: SubTerms) {
@@ -40,6 +41,19 @@ final class CommonWebViewController: UIViewController,
     func update(with settingInfo: SettingInfo) {
         setNavigationViewTitle(with: settingInfo.title)
         loadWebView(with: settingInfo.infoUrl?.urlString)
+    }
+    
+    // MARK: - Private method
+    private func configureBackButton() {
+        viewHolder.backNavigationView.delegate = self
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .white
+    }
+    
+    private func configureWebView() {
+        viewHolder.webView.navigationDelegate = self
     }
     
     private func setNavigationViewTitle(with title: String) {
@@ -58,13 +72,13 @@ final class CommonWebViewController: UIViewController,
         }
     }
     
-    // MARK: - Private method
-    private func configureBackButton() {
-        viewHolder.backNavigationView.delegate = self
-    }
-    
-    private func configureUI() {
-        view.backgroundColor = .white
+    private func setIndicatorView(isToShow: Bool) {
+        if isToShow {
+            viewHolder.indicatorView.startAnimating()
+        }else {
+            viewHolder.indicatorView.stopAnimating()
+        }
+        viewHolder.indicatorView.isHidden = !isToShow
     }
 }
 
@@ -73,6 +87,17 @@ extension CommonWebViewController: BackNavigationViewDelegate {
     func didTapBackButton() {
         listener?.detachCommonWebView()
     }
+}
+
+extension CommonWebViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        setIndicatorView(isToShow: true)
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        setIndicatorView(isToShow: false)
+    }
+    
 }
 
 extension CommonWebViewController {
@@ -89,9 +114,12 @@ extension CommonWebViewController {
             return webView
         }()
         
+        let indicatorView = UIActivityIndicatorView()
+        
         func place(in view: UIView) {
             view.addSubview(backNavigationView)
             view.addSubview(webView)
+            view.addSubview(indicatorView)
         }
         
         func configureConstraints(for view: UIView) {
@@ -104,6 +132,10 @@ extension CommonWebViewController {
             webView.snp.makeConstraints {
                 $0.top.equalTo(backNavigationView.snp.bottom)
                 $0.leading.trailing.bottom.equalToSuperview()
+            }
+            
+            indicatorView.snp.makeConstraints {
+                $0.center.equalToSuperview()
             }
         }
     }

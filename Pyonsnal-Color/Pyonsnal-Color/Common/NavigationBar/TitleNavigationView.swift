@@ -64,7 +64,7 @@ final class TitleNavigationView: UIView {
         configureLayout()
         configureConstraints()
         titleLabel.text = title
-        // 알림 관련 작업시 해당 코드 삭제
+        // TO DO : 알림 관련 작업시 해당 코드 삭제
         notificationButton.isHidden = true
     }
     
