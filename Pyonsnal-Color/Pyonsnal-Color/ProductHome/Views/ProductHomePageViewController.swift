@@ -17,7 +17,6 @@ final class ProductHomePageViewController: UIPageViewController {
     //MARK: - Property
     weak var pagingDelegate: ProductHomePageViewControllerDelegate?
     var productListViewControllers: [ProductListViewController] = []
-    var currentViewController: ProductListViewController?
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -42,13 +41,12 @@ final class ProductHomePageViewController: UIPageViewController {
         
         if let firstViewController = productListViewControllers.first {
             setViewControllers([firstViewController], direction: .forward, animated: true)
-            currentViewController = firstViewController
         }
     }
     
     func updatePage(to page: Int) {
-        guard let currentViewController,
-              let currentIndex = productListViewControllers.firstIndex(of: currentViewController)
+        guard let viewController = viewControllers?.first as? ProductListViewController,
+              let currentIndex = productListViewControllers.firstIndex(of: viewController)
         else {
             return
         }
@@ -61,7 +59,6 @@ final class ProductHomePageViewController: UIPageViewController {
             animated: true,
             completion: nil
         )
-        self.currentViewController = productListViewControllers[page]
     }
 }
 
@@ -113,7 +110,6 @@ extension ProductHomePageViewController: UIPageViewControllerDelegate {
             return
         }
         
-        currentViewController = viewController
         pagingDelegate?.didFinishPageTransition(index: index)
     }
 }

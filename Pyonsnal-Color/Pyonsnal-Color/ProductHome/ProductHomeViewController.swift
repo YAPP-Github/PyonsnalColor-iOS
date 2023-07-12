@@ -118,6 +118,14 @@ final class ProductHomeViewController:
         }
     }
     
+    func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore) {
+        if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
+            let pageViewController = viewHolder.productHomePageViewController
+            let viewController = pageViewController.productListViewControllers[storeIndex]
+            viewController.applySnapshot(with: products)
+        }
+    }
+    
     func didFinishPaging() {
         isPaging = false
     }
@@ -189,7 +197,7 @@ extension ProductHomeViewController: UIScrollViewDelegate {
             collectionView.contentOffset.y = innerScrollLastOffsetY
         }
         
-        let paginationHeight = (collectionView.contentSize.height - collectionView.bounds.height) * 0.9
+        let paginationHeight = abs(collectionView.contentSize.height - collectionView.bounds.height) * 0.9
 
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
             isPaging = true
