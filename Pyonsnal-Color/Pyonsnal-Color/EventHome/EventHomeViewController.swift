@@ -14,6 +14,7 @@ protocol EventHomePresentableListener: AnyObject {
     func didTapEventBannerCell(with imageUrl: String)
     func didTapProductCell()
     func didChangeStore(to store: ConvenienceStore)
+    func didScrollToNextPage(store: ConvenienceStore)
 }
 
 struct Tab: Hashable {
@@ -54,6 +55,7 @@ final class EventHomeViewController: UIViewController,
     private var innerScrollLastOffsetY: CGFloat = 0
     private var tabData: [Tab] = []
     private var initIndex: Int = 0
+    private var isPaging: Bool = false
     
     // MARK: - Initializer
     init() {
@@ -326,12 +328,18 @@ extension EventHomeViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UIScrollViewDelegate
 extension EventHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let collectionView = viewHolder.pageViewController.currentViewController?.collectionView else { return }
+        guard let currentViewController = viewHolder.pageViewController.viewControllers?.first,
+              let tabViewController = currentViewController as? EventHomeTabViewController
+        else {
+            return
+        }
 
+        let collectionView = tabViewController.collectionView
         let outerScroll = scrollView == viewHolder.containerScrollView
         let innerScroll = !outerScroll
-        let downScroll = scrollView.panGestureRecognizer.translation(in: scrollView).y < 0
-        let upScroll = !downScroll
+        let swipeDirectionY = scrollView.panGestureRecognizer.translation(in: scrollView).y
+        let downScroll = swipeDirectionY < 0
+        let upScroll = swipeDirectionY > 0
         let outerScrollMaxOffset: CGFloat = Size.headerViewHeight
         
         
@@ -344,6 +352,13 @@ extension EventHomeViewController: UIScrollViewDelegate {
             viewHolder.containerScrollView.contentOffset.y = maxOffsetY
             // 스크롤뷰의 contentOffset을 내림
             collectionView.contentOffset.y = innerScrollLastOffsetY
+        }
+        
+        let paginationHeight = abs(collectionView.contentSize.height - collectionView.bounds.height) * 0.9
+
+        if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
+            isPaging = true
+            listener?.didScrollToNextPage(store: tabViewController.convenienceStore)
         }
         
         if innerScroll && downScroll {

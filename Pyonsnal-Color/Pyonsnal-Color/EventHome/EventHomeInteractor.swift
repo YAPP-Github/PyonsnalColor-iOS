@@ -33,7 +33,7 @@ final class EventHomeInteractor:
     
     private var dependency: EventHomeDependency?
     private var cancellable = Set<AnyCancellable>()
-    private let initialPage: Int = 1
+    private let initialPage: Int = 0
     private let initialCount: Int = 20
     private let productPerPage: Int = 10
     private var currentPage: Int = 1
@@ -98,7 +98,16 @@ final class EventHomeInteractor:
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        requestProducts(pageNumber: initialPage, pageSize: initialCount, store: store)
-        requestEventBanners(store: store)
+        requestInitialProducts(store: store)
+        
+        if store != .all {
+            requestEventBanners(store: store)
+        }
+    }
+    
+    func didScrollToNextPage(store: ConvenienceStore) {
+        if let lastPage = storeLastPages[store] {
+            requestProducts(pageNumber: lastPage + 1, store: store)
+        }
     }
 }
