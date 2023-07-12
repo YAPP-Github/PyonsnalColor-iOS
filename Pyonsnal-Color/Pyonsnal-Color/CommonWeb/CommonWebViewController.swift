@@ -14,7 +14,7 @@ protocol CommonWebPresentableListener: AnyObject {
 }
 
 final class CommonWebViewController: UIViewController,
-                                         CommonWebPresentable,
+                                     CommonWebPresentable,
                                      CommonWebViewControllable {
 
     enum Size {
@@ -34,11 +34,12 @@ final class CommonWebViewController: UIViewController,
     
     func update(with subTermsInfo: SubTerms) {
         setNavigationViewTitle(with: subTermsInfo.title)
-        if let urlString = subTermsInfo.type.urlString,
-            let url = URL(string: urlString) {
-            let urlRequest = URLRequest(url: url)
-            viewHolder.webView.load(urlRequest)
-        }
+        loadWebView(with: subTermsInfo.type.urlString)
+    }
+    
+    func update(with settingInfo: SettingInfo) {
+        setNavigationViewTitle(with: settingInfo.title)
+        loadWebView(with: settingInfo.infoUrl?.urlString)
     }
     
     private func setNavigationViewTitle(with title: String) {
@@ -47,6 +48,14 @@ final class CommonWebViewController: UIViewController,
             title: title,
             iconImageKind: nil
         )
+    }
+    
+    private func loadWebView(with urlString: String?) {
+        if let urlString,
+           let url = URL(string: urlString) {
+            let urlRequest = URLRequest(url: url)
+            viewHolder.webView.load(urlRequest)
+        }
     }
     
     // MARK: - Private method

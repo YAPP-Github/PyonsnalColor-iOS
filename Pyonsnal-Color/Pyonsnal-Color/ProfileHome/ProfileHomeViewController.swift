@@ -10,7 +10,8 @@ import ModernRIBs
 import SnapKit
 
 protocol ProfileHomePresentableListener: AnyObject {
-    func didTapAccountSetting() //계정 설정
+    func didTapTeams(with settingInfo: SettingInfo) // 만든 사람들
+    func didTapAccountSetting() // 계정 설정
 }
 
 final class ProfileHomeViewController: UIViewController,
@@ -35,8 +36,13 @@ final class ProfileHomeViewController: UIViewController,
     
     //MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
-    private let sectionData: [Section] = [.setting]
-    private let settingData = ["기타", "이메일로 문의하기", "버전정보", "만든 사람들", "계정 설정"]
+    private let sections: [Section] = [.setting]
+    private let settings = [
+        SettingInfo(title: "기타"),
+        SettingInfo(title: "버전정보"),
+        SettingInfo(title: "만든 사람들"),
+        SettingInfo(title: "계정 설정")
+    ]
     //MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -67,9 +73,8 @@ final class ProfileHomeViewController: UIViewController,
     }
     
     private func configureTabBarItem() {
-        let customFont: UIFont = .label2
         
-        tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
+        tabBarItem.setTitleTextAttributes([.font: UIFont.label2], for: .normal)
         tabBarItem = UITabBarItem(
             title: "MY",
             image: UIImage(named: "profile"),
@@ -85,32 +90,32 @@ extension ProfileHomeViewController: UITableViewDataSource {
     }
     
     private func isSubLabelToShow(section: Section, index: Int) -> Bool {
-        let versionInfoIndex = 2
+        let versionInfoIndex = 1
         return (section == .setting) && (index == versionInfoIndex)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionData.count
+        return sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = sectionData[section]
+        let section = sections[section]
         switch section {
         case .setting:
-            return settingData.count
+            return settings.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ProfileCell = tableView.dequeueReusableCell(for: indexPath)
         
-        let section = sectionData[indexPath.section]
+        let section = sections[indexPath.section]
         let isSectionIndex = isSectionIndex(with: indexPath.row)
         let isSubLabelToShow = isSubLabelToShow(section: section, index: indexPath.row)
         switch section {
         case .setting:
-            cell.update(text: settingData[indexPath.row],
-                             isSectionIndex: isSectionIndex)
+            cell.update(text: settings[indexPath.row].title,
+                        isSectionIndex: isSectionIndex)
         }
         cell.setSubLabelHidden(isShow: isSubLabelToShow)
         return cell
@@ -121,18 +126,23 @@ extension ProfileHomeViewController: UITableViewDataSource {
 extension ProfileHomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = sectionData[indexPath.section]
+        let section = sections[indexPath.section]
         let defaultHeight = Size.cellHeight
         return defaultHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let section = sectionData[indexPath.section]
-        let accountSettingIndex = 4
+        let section = sections[indexPath.section]
+        let teamsIndex = 2
+        let accountSettingIndex = 3
         if !isSectionIndex(with: indexPath.row) {
             switch section {
             case .setting:
-                if indexPath.row == accountSettingIndex {
+                if indexPath.row == teamsIndex {
+                    let title = settings[indexPath.row].title
+                    let settingInfo = SettingInfo(title: title, infoUrl: .teams)
+                    listener?.didTapTeams(with: settingInfo)
+                } else if indexPath.row == accountSettingIndex {
                     listener?.didTapAccountSetting()
                 }
                 

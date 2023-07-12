@@ -14,6 +14,7 @@ protocol CommonWebRouting: ViewableRouting {
 protocol CommonWebPresentable: Presentable {
     var listener: CommonWebPresentableListener? { get set }
     func update(with subTermsInfo: SubTerms)
+    func update(with settingInfo: SettingInfo)
 }
 
 protocol CommonWebListener: AnyObject {
@@ -39,7 +40,11 @@ final class CommonWebInteractor: PresentableInteractor<CommonWebPresentable>, Co
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        self.presenter.update(with: component.subTerms)
+        if let subTerms = component.subTerms {
+            self.presenter.update(with: subTerms)
+        }else if let settingInfo = component.settingInfo {
+            self.presenter.update(with: settingInfo)
+        }
     }
 
     override func willResignActive() {
