@@ -13,7 +13,7 @@ protocol EventDetailRouting: ViewableRouting {
 
 protocol EventDetailPresentable: Presentable {
     var listener: EventDetailPresentableListener? { get set }
-    func update(with imageUrl: String, store: ConvenienceStore)
+    func update(with imageURL: String, store: ConvenienceStore)
 }
 
 protocol EventDetailListener: AnyObject {
@@ -24,13 +24,13 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
                                    EventDetailInteractable,
                                    EventDetailPresentableListener {
     
-    private var imageUrl: String
+    private var imageURL: String
     private var store: ConvenienceStore
     weak var router: EventDetailRouting?
     weak var listener: EventDetailListener?
 
-    init(presenter: EventDetailPresentable, imageUrl: String, store: ConvenienceStore) {
-        self.imageUrl = imageUrl
+    init(presenter: EventDetailPresentable, imageURL: String, store: ConvenienceStore) {
+        self.imageURL = imageURL
         self.store = store
         super.init(presenter: presenter)
         presenter.listener = self
@@ -38,7 +38,7 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        presenter.update(with: imageUrl, store: store)
+        presenter.update(with: imageURL, store: store)
     }
 
     override func willResignActive() {

@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol EventBannerCellDelegate: AnyObject {
-    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
+    func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
 }
 
 final class EventBannerCell: UICollectionViewCell {
@@ -196,8 +196,8 @@ extension EventBannerCell: UICollectionViewDelegate {
 
 //MARK: - EventBannerItemCellDelegate
 extension EventBannerCell: EventBannerItemCellDelegate {
-    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore) {
-        delegate?.didTapEventBannerCell(with: imageUrl, store: store)
+    func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
+        delegate?.didTapEventBannerCell(with: imageURL, store: store)
     }
 
 }

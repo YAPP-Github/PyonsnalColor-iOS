@@ -31,9 +31,9 @@ final class EventDetailViewController: UIViewController,
     }
     
     // MARK: - EventDetailPresentable
-    func update(with imageUrl: String, store storeType: ConvenienceStore) {
-        if let imageUrl = URL(string: imageUrl) {
-            viewHolder.eventImageView.setImage(with: imageUrl)
+    func update(with imageURL: String, store storeType: ConvenienceStore) {
+        if let imageURL = URL(string: imageURL) {
+            viewHolder.eventImageView.setImage(with: imageURL)
         }
         viewHolder.backNavigationView.payload = .init(mode: .image,
                                                       title: nil,
