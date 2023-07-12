@@ -55,8 +55,6 @@ final class EventBannerCell: UICollectionViewCell {
         configureUI()
         configureDatasource()
         configureCollectionView()
-//        TODO: 타이머 작동시 버그 발생문제 해결
-//        setTimer()
     }
     
     required init?(coder: NSCoder) {
@@ -68,6 +66,7 @@ final class EventBannerCell: UICollectionViewCell {
     }
     
     func update(_ eventBannerUrls: [EventBannerEntity]) {
+        self.setTimer()
         self.eventBannerUrls = eventBannerUrls
         
         makeSnapshot(with: eventBannerUrls)
