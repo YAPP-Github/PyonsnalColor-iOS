@@ -30,7 +30,7 @@ final class ProductListViewController: UIViewController {
     private var dataSource: DataSource?
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
-    private let convenienceStore: ConvenienceStore
+    let convenienceStore: ConvenienceStore
     
     //MARK: - View Component
     lazy var productCollectionView: UICollectionView = {

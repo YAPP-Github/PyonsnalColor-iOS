@@ -16,8 +16,7 @@ protocol ProductHomeRouting: ViewableRouting {
 protocol ProductHomePresentable: Presentable {
     var listener: ProductHomePresentableListener? { get set }
     
-    func updateProducts(with products: [BrandProductEntity])
-    func appendProducts(with products: [ConvenienceStore: [BrandProductEntity]])
+    func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]])
     func didFinishPaging()
 }
 
@@ -40,7 +39,7 @@ final class ProductHomeInteractor:
     private var storeLastPages: [ConvenienceStore: Int] = [:]
     private var brandProducts: [ConvenienceStore: [BrandProductEntity]] = [:] {
         didSet {
-            presenter.appendProducts(with: brandProducts)
+            presenter.updateProducts(with: brandProducts)
             presenter.didFinishPaging()
         }
     }
