@@ -154,23 +154,10 @@ final class EventHomeViewController: UIViewController,
 extension EventHomeViewController {
     
     class ViewHolder: ViewHolderable {
-        private let headerView: UIView = {
-            let view = UIView()
-            view.backgroundColor = .white
-            return view
-        }()
         
-        private let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = Header.title
-            label.font = .title2
-            return label
-        }()
-        
-        private let notificationButton: UIButton = {
-            let button = UIButton()
-            button.setImage(.bellSimple, for: .normal)
-            return button
+        private let titleNavigationView: TitleNavigationView = {
+            let titleNavigationView = TitleNavigationView(title: Header.title)
+            return titleNavigationView
         }()
         
         let containerScrollView: UIScrollView = {
@@ -203,9 +190,7 @@ extension EventHomeViewController {
         func place(in view: UIView) {
             view.addSubview(containerScrollView)
             containerScrollView.addSubview(contentView)
-            contentView.addSubview(headerView)
-            headerView.addSubview(titleLabel)
-            headerView.addSubview(notificationButton)
+            contentView.addSubview(titleNavigationView)
             contentView.addSubview(convenienceStoreCollectionView)
             contentView.addSubview(contentPageView)
             contentPageView.addSubview(pageViewController.view)
@@ -223,25 +208,13 @@ extension EventHomeViewController {
                 $0.top.bottom.equalToSuperview()
             }
             
-            headerView.snp.makeConstraints {
+            titleNavigationView.snp.makeConstraints {
                 $0.height.equalTo(Size.headerViewHeight)
                 $0.top.leading.trailing.equalToSuperview()
             }
             
-            titleLabel.snp.makeConstraints {
-                $0.leading.equalToSuperview().offset(Size.titleLabelLeading)
-                $0.top.equalToSuperview().offset(Size.headerMargin)
-                $0.centerY.equalToSuperview()
-            }
-            
-            notificationButton.snp.makeConstraints {
-                $0.trailing.equalToSuperview().inset(Size.notificationButtonTrailing)
-                $0.top.equalToSuperview().offset(Size.headerMargin)
-                $0.centerY.equalToSuperview()
-            }
-            
             convenienceStoreCollectionView.snp.makeConstraints {
-                $0.top.equalTo(headerView.snp.bottom)
+                $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
                 $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
                 $0.height.equalTo(ConvenienceStoreCell.Constant.Size.height)
