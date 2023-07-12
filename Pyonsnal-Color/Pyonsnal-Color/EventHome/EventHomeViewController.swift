@@ -128,14 +128,24 @@ final class EventHomeViewController: UIViewController,
         )
     }
     
-    func updateProducts(with products: [EventProductEntity]) {
-        let productsViewController = viewHolder.pageViewController.currentViewController
-        productsViewController?.applyEventProductsSnapshot(with: products)
+    func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore) {
+        if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
+            let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
+            
+            tabViewController.applyEventProductsSnapshot(with: products)
+        }
     }
     
-    func updateBanners(with banners: [EventBannerEntity]) {
-        let productsViewController = viewHolder.pageViewController.currentViewController
-        productsViewController?.applyEventBannerSnapshot(with: banners)
+    func updateBanners(with banners: [EventBannerEntity], at store: ConvenienceStore) {
+        if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
+            let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
+            
+            tabViewController.applyEventBannerSnapshot(with: banners)
+        }
+    }
+    
+    func didFinishPaging() {
+        isPaging = false
     }
     
 }
@@ -255,7 +265,6 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     func updateSelectedStoreCell(index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         setSelectedConvenienceStoreCell(with: indexPath)
-        didChangeStore(to: ConvenienceStore.allCases[index])
     }
     
     func didTapEventBannerCell(with imageUrl: String) {

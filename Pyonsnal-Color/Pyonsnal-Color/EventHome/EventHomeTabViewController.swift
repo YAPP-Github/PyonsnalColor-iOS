@@ -53,7 +53,7 @@ final class EventHomeTabViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private let dummyImage = UIImage(systemName: "note")
     private var lastContentOffSetY: CGFloat = 0
-    private let convenienceStore: ConvenienceStore
+    let convenienceStore: ConvenienceStore
     
     init(convenienceStore: ConvenienceStore) {
         self.convenienceStore = convenienceStore
