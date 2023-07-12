@@ -9,7 +9,7 @@ import Combine
 import ModernRIBs
 
 protocol EventHomeRouting: ViewableRouting {
-    func attachEventDetail(with imageUrl: String)
+    func attachEventDetail(with imageUrl: String, store: ConvenienceStore)
     func detachEventDetail()
 }
 
@@ -104,8 +104,8 @@ final class EventHomeInteractor:
         }
     }
     
-    func didTapEventBannerCell(with imageUrl: String) {
-        router?.attachEventDetail(with: imageUrl)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore) {
+        router?.attachEventDetail(with: imageUrl, store: store)
     }
     
     func didTapBackButton() {

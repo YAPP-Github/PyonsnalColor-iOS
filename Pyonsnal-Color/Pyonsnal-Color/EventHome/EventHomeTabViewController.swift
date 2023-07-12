@@ -15,7 +15,7 @@ protocol ScrollDelegate: AnyObject {
 }
 
 protocol EventHomeTabViewControllerDelegate: AnyObject {
-    func didTapEventBannerCell(with imageUrl: String)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
     func didTapProductCell()
 }
 
@@ -155,7 +155,7 @@ final class EventHomeTabViewController: UIViewController {
             case .event(let item):
                 let cell: EventBannerCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerCell.className, for: indexPath) as? EventBannerCell
 
-                cell?.update(self.eventUrls)
+                cell?.update(item)
                 cell?.delegate = self
                 return cell ?? UICollectionViewCell()
             }
@@ -187,9 +187,12 @@ final class EventHomeTabViewController: UIViewController {
         
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         
-        eventUrls = eventBanners
-        snapshot.appendSections([.event])
-        snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
+//        eventUrls = eventBanners
+        if !eventBanners.isEmpty {
+            snapshot.appendSections([.event])
+            snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
+        }
+        
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -224,7 +227,7 @@ extension EventHomeTabViewController: UICollectionViewDelegate {
 }
 
 extension EventHomeTabViewController: EventBannerCellDelegate {
-    func didTapEventBannerCell(with imageUrl: String) {
-        delegate?.didTapEventBannerCell(with: imageUrl)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore) {
+        delegate?.didTapEventBannerCell(with: imageUrl, store: store)
     }
 }

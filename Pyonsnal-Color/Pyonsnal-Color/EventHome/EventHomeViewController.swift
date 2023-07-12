@@ -11,7 +11,7 @@ import SnapKit
 
 protocol EventHomePresentableListener: AnyObject {
     func didLoadEventHome()
-    func didTapEventBannerCell(with imageUrl: String)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
     func didTapProductCell()
     func didChangeStore(to store: ConvenienceStore)
     func didScrollToNextPage(store: ConvenienceStore)
@@ -267,8 +267,8 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         setSelectedConvenienceStoreCell(with: indexPath)
     }
     
-    func didTapEventBannerCell(with imageUrl: String) {
-        listener?.didTapEventBannerCell(with: imageUrl)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore) {
+        listener?.didTapEventBannerCell(with: imageUrl, store: store)
     }
     
     func didTapProductItemCell() {

@@ -9,7 +9,7 @@ import UIKit
 
 protocol EventHomePageViewControllerDelegate: AnyObject {
     func updateSelectedStoreCell(index: Int)
-    func didTapEventBannerCell(with imageUrl: String)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
     func didTapProductItemCell()
     func didChangeStore(to store: ConvenienceStore)
 }
@@ -19,7 +19,7 @@ final class EventHomePageViewController: UIPageViewController {
     // MARK: - Private property
     private(set) var pageViewControllers = [EventHomeTabViewController]()
     private var currentIndex: Int = 0
-    private var tabCount: Int = 5 // 임시
+//    private var tabCount: Int = 5 // 임시
     
     weak var pageDelegate: EventHomePageViewControllerDelegate?
     weak var scrollDelegate: ScrollDelegate?
@@ -125,8 +125,8 @@ extension EventHomePageViewController: ScrollDelegate {
 
 // MARK: - EventHomeTabViewControllerDelegate
 extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
-    func didTapEventBannerCell(with imageUrl: String) {
-        pageDelegate?.didTapEventBannerCell(with: imageUrl)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore) {
+        pageDelegate?.didTapEventBannerCell(with: imageUrl, store: store)
     }
     
     func didTapProductCell() {

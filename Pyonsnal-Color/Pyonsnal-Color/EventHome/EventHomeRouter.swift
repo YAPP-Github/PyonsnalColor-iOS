@@ -34,10 +34,10 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         interactor.router = self
     }
     
-    func attachEventDetail(with imageUrl: String) {
+    func attachEventDetail(with imageUrl: String, store: ConvenienceStore) {
         guard eventDetailRouting == nil else { return }
         let eventDetailRouter = eventDetailBuilder.build(withListener: interactor,
-                                                         imageUrl: imageUrl)
+                                                         imageUrl: imageUrl, store: store)
         viewController.pushViewController(
             eventDetailRouter.viewControllable,
             animated: true

@@ -14,7 +14,7 @@ protocol EventDetailRouting: ViewableRouting {
 protocol EventDetailPresentable: Presentable {
     var listener: EventDetailPresentableListener? { get set }
    
-    func update(with imageUrl: String)
+    func update(with imageUrl: String, store: ConvenienceStore)
 }
 
 protocol EventDetailListener: AnyObject {
@@ -26,20 +26,22 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
                                    EventDetailPresentableListener {
     
     private var imageUrl: String
+    private var store: ConvenienceStore
     weak var router: EventDetailRouting?
     weak var listener: EventDetailListener?
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    init(presenter: EventDetailPresentable, imageUrl: String) {
+    init(presenter: EventDetailPresentable, imageUrl: String, store: ConvenienceStore) {
         self.imageUrl = imageUrl
+        self.store = store
         super.init(presenter: presenter)
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        presenter.update(with: imageUrl)
+        presenter.update(with: imageUrl, store: store)
     }
 
     override func willResignActive() {

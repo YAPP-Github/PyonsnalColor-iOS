@@ -229,7 +229,9 @@ final class ProductCell: UICollectionViewCell {
     
     func updateCell(with product: ProductConvertable) {
         viewHolder.titleLabel.text = product.name
-        viewHolder.convenienceStoreTagImageView.image = product.storeTagImage
+        if let storeTypeImage = product.storeType.storeTagImage {
+            viewHolder.convenienceStoreTagImageView.setImage(storeTypeImage)
+        }
         viewHolder.itemImageView.setImage(with: product.imageURL)
         viewHolder.originalPriceLabel.text = product.price.addWon()
         viewHolder.newImageView.isHidden = !product.isNew
