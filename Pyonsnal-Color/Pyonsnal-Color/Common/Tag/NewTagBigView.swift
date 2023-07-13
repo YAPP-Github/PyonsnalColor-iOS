@@ -1,5 +1,5 @@
 //
-//  NewTagBigView.swift
+//  NewTagView.swift
 //  Pyonsnal-Color
 //
 //  Created by 김진우 on 2023/07/07.
@@ -8,13 +8,17 @@
 import UIKit
 import SnapKit
 
-final class NewTagBigView: UIView {
+final class NewTagView: UIView {
     // MARK: - Declaration
     enum Constant {
         enum Size {
             static let titleLabelWidth: CGFloat = 46
             static let titleLabelHeight: CGFloat = 24
         }
+    }
+    
+    enum ViewMode {
+        case small, big
     }
     
     // MARK: - UI Component
@@ -25,18 +29,18 @@ final class NewTagBigView: UIView {
     
     private let titleLabel: UILabel = {
         let label: UILabel = .init(frame: .zero)
-        label.font = .title1
         label.textColor = .red500
         label.text = "NEW"
         return label
     }()
     
     // MARK: - Initializer
-    init() {
+    init(mode: ViewMode) {
         super.init(frame: .zero)
         
         configureView()
-        configureConstraint()
+        configureConstraint(with: mode)
+        updateTextFont(with: mode)
     }
     
     required init?(coder: NSCoder) {
@@ -50,15 +54,27 @@ final class NewTagBigView: UIView {
         contentView.addSubview(titleLabel)
     }
     
-    private func configureConstraint() {
+    private func configureConstraint(with mode: ViewMode) {
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.width.equalTo(Constant.Size.titleLabelWidth)
-            make.height.equalTo(Constant.Size.titleLabelHeight)
-            make.edges.equalToSuperview()
+        if mode == .big {
+            titleLabel.snp.makeConstraints { make in
+                make.width.equalTo(Constant.Size.titleLabelWidth)
+                make.height.equalTo(Constant.Size.titleLabelHeight)
+                make.edges.equalToSuperview()
+            }
+        } else if mode == .small {
+            titleLabel.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
         }
+        
     }
+    
+    private func updateTextFont(with mode: ViewMode) {
+        titleLabel.font = mode == .small ? .label1 : .title1
+    }
+
 }

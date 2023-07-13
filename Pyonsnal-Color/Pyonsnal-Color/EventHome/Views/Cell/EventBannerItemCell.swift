@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol EventBannerItemCellDelegate: AnyObject {
-    func didTapEventBannerCell(with imageUrl: String)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
 }
 
 final class EventBannerItemCell: UICollectionViewCell {
@@ -29,9 +29,9 @@ final class EventBannerItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(with imageURL: String) {
-        guard let url = URL(string: imageURL) else { return }
-        
+    func update(with imageURLString: String) {
+        guard let encodedURLString = imageURLString.encodedURLString,
+           let url = URL(string: encodedURLString) else { return }
         viewHolder.eventImageView.setImage(with: url)
     }
 }
@@ -40,7 +40,6 @@ extension EventBannerItemCell {
     class ViewHolder: ViewHolderable {
         let eventImageView: UIImageView = {
             let imageView = UIImageView()
-            // to do : fix color, image
             imageView.backgroundColor = .white
             imageView.contentMode = .scaleAspectFit
             return imageView

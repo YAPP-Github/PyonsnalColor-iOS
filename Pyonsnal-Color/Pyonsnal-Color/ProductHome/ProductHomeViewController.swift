@@ -25,7 +25,7 @@ final class ProductHomeViewController:
     
     //MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
-    private let convenienceStores: [String] = ["전체", "CU", "GS25", "Emart24", "7-Eleven"]
+    private let convenienceStores: [String] = CommonConstants.convenienceStore
     private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false

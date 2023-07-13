@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol EventBannerCellDelegate: AnyObject {
-    func didTapEventBannerCell(with imageUrl: String)
+    func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
 }
 
 final class EventBannerCell: UICollectionViewCell {
@@ -55,8 +55,6 @@ final class EventBannerCell: UICollectionViewCell {
         configureUI()
         configureDatasource()
         configureCollectionView()
-//        TODO: 타이머 작동시 버그 발생문제 해결
-//        setTimer()
     }
     
     required init?(coder: NSCoder) {
@@ -67,8 +65,8 @@ final class EventBannerCell: UICollectionViewCell {
         self.stopTimer()
     }
     
-    //TO DO : item 연결
     func update(_ eventBannerUrls: [EventBannerEntity]) {
+        self.setTimer()
         self.eventBannerUrls = eventBannerUrls
         
         makeSnapshot(with: eventBannerUrls)
@@ -88,6 +86,7 @@ final class EventBannerCell: UICollectionViewCell {
                 let cell: EventBannerItemCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerItemCell.className, for: indexPath) as? EventBannerItemCell
                 let eventBanner = self.eventBannerUrls[indexPath.item]
                 cell?.update(with: eventBanner.thumbnailImageURL)
+                self.updatePageCountLabel(with: self.currentIndex)
                 cell?.delegate = self
                 return cell ?? UICollectionViewCell()
             }
@@ -157,7 +156,6 @@ extension EventBannerCell {
     }
     
     private func setPageCountLabelText(with updatedIndex: Int) {
-        //TO DO :fix color
         let attributedText = NSMutableAttributedString()
         attributedText.appendAttributes(
             string: "\(updatedIndex)",
@@ -167,7 +165,7 @@ extension EventBannerCell {
         attributedText.appendAttributes(
             string: "/\(eventBannerUrls.count)",
             font: .body4r,
-            color: .darkGray
+            color: .gray300
         )
         viewHolder.pageCountLabel.attributedText = attributedText
     }
@@ -192,14 +190,14 @@ extension EventBannerCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = eventBannerUrls[indexPath.row]
-        delegate?.didTapEventBannerCell(with: model.imageURL)
+        delegate?.didTapEventBannerCell(with: model.imageURL, store: model.storeType)
     }
 }
 
 //MARK: - EventBannerItemCellDelegate
 extension EventBannerCell: EventBannerItemCellDelegate {
-    func didTapEventBannerCell(with imageUrl: String) {
-        delegate?.didTapEventBannerCell(with: imageUrl)
+    func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
+        delegate?.didTapEventBannerCell(with: imageURL, store: store)
     }
 
 }
@@ -229,8 +227,7 @@ extension EventBannerCell {
         
         let pageCountContainerView: UIView = {
             let view = UIView()
-            // TO DO : fix color
-            view.backgroundColor = UIColor.black
+            view.backgroundColor = .black
             view.layer.opacity = 0.5
             return view
         }()

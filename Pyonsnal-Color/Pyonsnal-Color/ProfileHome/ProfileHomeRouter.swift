@@ -8,7 +8,8 @@
 import ModernRIBs
 
 protocol ProfileHomeInteractable: Interactable,
-                                  AccountSettingListener {
+                                  AccountSettingListener,
+                                  CommonWebListener {
     var router: ProfileHomeRouting? { get set }
     var listener: ProfileHomeListener? { get set }
 }
@@ -21,15 +22,20 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
                                ProfileHomeViewControllable>,
                                ProfileHomeRouting {
     
+    private let commonWebBuilder: CommonWebBuildable
+    private var commonWebRouting: ViewableRouting?
+    
     private let accountSettingBuilder: AccountSettingBuildable
     private var accountSetting: ViewableRouting?
 
     init(
         interactor: ProfileHomeInteractable,
         viewController: ProfileHomeViewControllable,
-        accountSettingBuilder: AccountSettingBuildable
+        accountSettingBuilder: AccountSettingBuildable,
+        commonWebBuilder: CommonWebBuilder
     ) {
         self.accountSettingBuilder = accountSettingBuilder
+        self.commonWebBuilder = commonWebBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -48,6 +54,26 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
         viewController.popViewController(animated: true)
         self.accountSetting = nil
         detachChild(accountSetting)
+    }
+    
+    func attachCommonWebView(with settingInfo: SettingInfo) {
+        if commonWebRouting != nil { return }
+        let commonWebBuilder = commonWebBuilder.build(
+            withListener: interactor,
+            settingInfo: settingInfo
+        )
+        self.commonWebRouting = commonWebBuilder
+        attachChild(commonWebBuilder)
+        commonWebBuilder.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
+        viewController.uiviewController.present(commonWebBuilder.viewControllable.uiviewController,
+                                                animated: true)
+    }
+
+    func detachCommonWebView() {
+        guard let commonWebRouting else { return }
+        self.commonWebRouting = nil
+        detachChild(commonWebRouting)
+        viewController.uiviewController.dismiss(animated: true)
     }
     
 }
