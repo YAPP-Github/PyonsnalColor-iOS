@@ -31,13 +31,15 @@ final class EventDetailViewController: UIViewController,
     }
     
     // MARK: - EventDetailPresentable
-    func update(with imageURL: String, store storeType: ConvenienceStore) {
+    func update(with imageURL: String, store: ConvenienceStore) {
         if let imageURL = URL(string: imageURL) {
             viewHolder.eventImageView.setImage(with: imageURL)
         }
-        viewHolder.backNavigationView.payload = .init(mode: .image,
-                                                      title: nil,
-                                                      iconImageKind: storeType.storeIconImage)
+        viewHolder.backNavigationView.payload = .init(
+            mode: .image,
+            title: nil,
+            iconImageKind: store.storeIconImage
+        )
     }
     
     // MARK: - Private Method

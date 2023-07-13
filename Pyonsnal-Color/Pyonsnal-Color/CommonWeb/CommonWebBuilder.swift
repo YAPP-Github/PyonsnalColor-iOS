@@ -38,9 +38,11 @@ final class CommonWebBuilder: Builder<CommonWebDependency>, CommonWebBuildable {
     }
     
     func build(withListener listener: CommonWebListener, subTerms: SubTerms) -> CommonWebRouting {
-        let component = CommonWebComponent(dependency: dependency,
-                                           subTerms: subTerms,
-                                           settingInfo: nil)
+        let component = CommonWebComponent(
+            dependency: dependency,
+            subTerms: subTerms,
+            settingInfo: nil
+        )
         let viewController = CommonWebViewController()
         let interactor = CommonWebInteractor(presenter: viewController, component: component)
         interactor.listener = listener
@@ -49,9 +51,11 @@ final class CommonWebBuilder: Builder<CommonWebDependency>, CommonWebBuildable {
     }
     
     func build(withListener listener: CommonWebListener, settingInfo: SettingInfo) -> CommonWebRouting {
-        let component = CommonWebComponent(dependency: dependency,
-                                           subTerms: nil,
-                                           settingInfo: settingInfo)
+        let component = CommonWebComponent(
+            dependency: dependency,
+            subTerms: nil,
+            settingInfo: settingInfo
+        )
         let viewController = CommonWebViewController()
         let interactor = CommonWebInteractor(presenter: viewController, component: component)
         interactor.listener = listener
