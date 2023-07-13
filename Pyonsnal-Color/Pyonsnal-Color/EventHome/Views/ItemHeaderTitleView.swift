@@ -10,6 +10,10 @@ import SnapKit
 
 final class ItemHeaderTitleView: UICollectionReusableView {
     
+    enum Size {
+        static let labelGreaterThanEqualLeading: CGFloat = 100
+    }
+    
     // MARK: - Private property
     private let viewHolder: ViewHolder = .init()
     
@@ -47,7 +51,7 @@ extension ItemHeaderTitleView {
         
         let sortLabel: UILabel = {
             let label = UILabel()
-            // to do fix text, color
+            label.textColor = .gray500
             label.font = .body3m
             label.text = "최신순"
             return label
@@ -59,17 +63,16 @@ extension ItemHeaderTitleView {
             view.addSubview(sortLabel)
         }
         
-        // to do fix layout
         func configureConstraints(for view: UIView) {
             titleLabel.snp.makeConstraints {
-                $0.leading.equalToSuperview().offset(16)
+                $0.leading.equalToSuperview().offset(.spacing16)
                 $0.top.bottom.equalToSuperview()
             }
             
             sortLabel.snp.makeConstraints {
-                $0.trailing.equalToSuperview().inset(16)
+                $0.trailing.equalToSuperview().inset(.spacing16)
                 $0.top.bottom.equalToSuperview()
-                $0.leading.greaterThanOrEqualTo(100)
+                $0.leading.greaterThanOrEqualToSuperview().offset(Size.labelGreaterThanEqualLeading)
             }
         }
     }

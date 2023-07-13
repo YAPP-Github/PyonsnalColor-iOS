@@ -9,15 +9,16 @@ import Combine
 import ModernRIBs
 
 protocol EventHomeRouting: ViewableRouting {
-    func attachEventDetail(with imageUrl: String)
+    func attachEventDetail(with imageURL: String, store: ConvenienceStore)
     func detachEventDetail()
 }
 
 protocol EventHomePresentable: Presentable {
     var listener: EventHomePresentableListener? { get set }
     
-    func updateProducts(with products: [EventProductEntity])
-    func updateBanners(with banners: [EventBannerEntity])
+    func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore)
+    func updateBanners(with banners: [EventBannerEntity], at store: ConvenienceStore)
+    func didFinishPaging()
 }
 
 protocol EventHomeListener: AnyObject {
@@ -33,11 +34,11 @@ final class EventHomeInteractor:
     
     private var dependency: EventHomeDependency?
     private var cancellable = Set<AnyCancellable>()
-    private let initialPage: Int = 1
+    private let initialPage: Int = 0
     private let initialCount: Int = 20
-    private let productPerPage: Int = 10
-    private var currentPage: Int = 1
-    private var nextPage: Int { currentPage + 1 }
+    private let productPerPage: Int = 20
+    private var storeLastPages: [ConvenienceStore: Int] = [:]
+    private var eventProducts: [ConvenienceStore: [EventProductEntity]] = [:]
 
     init(
         presenter: EventHomePresentable,
@@ -56,16 +57,38 @@ final class EventHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestProducts(pageNumber: Int, pageSize: Int, store: ConvenienceStore = .all) {
+    private func requestInitialProducts(store: ConvenienceStore = .all) {
+        storeLastPages[store] = initialPage
+        
         dependency?.productAPIService.requestEventProduct(
-            pageNumber: pageNumber,
-            pageSize: pageSize,
+            pageNumber: initialPage,
+            pageSize: initialCount,
             storeType: store
         ).sink { [weak self] response in
             if let productPage = response.value {
-                print(self?.presenter)
-                print(productPage.content)
-                self?.presenter.updateProducts(with: productPage.content)
+                self?.eventProducts[store] = productPage.content
+                if let products = self?.eventProducts[store] {
+                    self?.presenter.updateProducts(with: products, at: store)
+                }
+            } else if response.error != nil {
+                // TODO: Error Handling
+            }
+        }.store(in: &cancellable)
+    }
+    
+    private func requestProducts(pageNumber: Int, store: ConvenienceStore) {
+        storeLastPages[store] = pageNumber
+        dependency?.productAPIService.requestEventProduct(
+            pageNumber: pageNumber,
+            pageSize: productPerPage,
+            storeType: store
+        ).sink { [weak self] response in
+            if let productPage = response.value {
+                self?.eventProducts[store]? += productPage.content
+                if let products = self?.eventProducts[store] {
+                    self?.presenter.updateProducts(with: products, at: store)
+                    self?.presenter.didFinishPaging()
+                }
             }
         }.store(in: &cancellable)
     }
@@ -75,14 +98,14 @@ final class EventHomeInteractor:
             dependency?.productAPIService.requestEventBanner(storeType: store)
                 .sink { [weak self] response in
                     if let eventBanners = response.value {
-                        self?.presenter.updateBanners(with: eventBanners)
+                        self?.presenter.updateBanners(with: eventBanners, at: store)
                     }
                 }.store(in: &cancellable)
         }
     }
     
-    func didTapEventBannerCell(with imageUrl: String) {
-        router?.attachEventDetail(with: imageUrl)
+    func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
+        router?.attachEventDetail(with: imageURL, store: store)
     }
     
     func didTapBackButton() {
@@ -94,11 +117,20 @@ final class EventHomeInteractor:
     }
     
     func didLoadEventHome() {
-        requestProducts(pageNumber: currentPage, pageSize: initialCount)
+        requestInitialProducts()
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        requestProducts(pageNumber: initialPage, pageSize: initialCount, store: store)
-        requestEventBanners(store: store)
+        requestInitialProducts(store: store)
+        
+        if store != .all {
+            requestEventBanners(store: store)
+        }
+    }
+    
+    func didScrollToNextPage(store: ConvenienceStore) {
+        if let lastPage = storeLastPages[store] {
+            requestProducts(pageNumber: lastPage + 1, store: store)
+        }
     }
 }

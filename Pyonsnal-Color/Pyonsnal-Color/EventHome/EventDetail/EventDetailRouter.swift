@@ -16,7 +16,8 @@ protocol EventDetailViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
-final class EventDetailRouter: ViewableRouter<EventDetailInteractable, EventDetailViewControllable>, EventDetailRouting {
+final class EventDetailRouter: ViewableRouter<EventDetailInteractable, EventDetailViewControllable>,
+                               EventDetailRouting {
     
     
     override init(interactor: EventDetailInteractable, viewController: EventDetailViewControllable) {

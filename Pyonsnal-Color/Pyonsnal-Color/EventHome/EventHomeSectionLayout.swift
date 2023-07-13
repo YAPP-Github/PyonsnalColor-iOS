@@ -55,7 +55,8 @@ final class EventHomeSectionLayout {
     }
     
     private func itemLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Item.width), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Item.width),
+                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -82,9 +83,12 @@ final class EventHomeSectionLayout {
     
     
     private func createSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                                                           heightDimension: .absolute(Size.Header.height)),
-                                                                        elementKind: ItemHeaderTitleView.className, alignment: .top)
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(Size.Header.height)),
+            elementKind: ItemHeaderTitleView.className,
+            alignment: .top
+        )
         return [sectionHeader]
     }
 }

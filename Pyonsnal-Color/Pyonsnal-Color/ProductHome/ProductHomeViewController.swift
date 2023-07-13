@@ -25,7 +25,7 @@ final class ProductHomeViewController:
     
     //MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
-    private let convenienceStores: [String] = ["전체", "CU", "GS25", "Emart24", "7-Eleven"]
+    private let convenienceStores: [String] = CommonConstants.convenienceStore
     private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
@@ -106,17 +106,23 @@ final class ProductHomeViewController:
         present(notificationListViewController, animated: true)
     }
     
-    func updateProducts(with products: [BrandProductEntity]) {
-        let productsViewController = viewHolder.productHomePageViewController.currentViewController
-        productsViewController?.applySnapshot(with: products)
+    func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]]) {
+        guard let viewController = viewHolder.productHomePageViewController.viewControllers?.first,
+              let productListViewController = viewController as? ProductListViewController
+        else {
+            return
+        }
+        
+        if let products = products[productListViewController.convenienceStore] {
+            productListViewController.applySnapshot(with: products)
+        }
     }
     
-    func appendProducts(with products: [ConvenienceStore: [BrandProductEntity]]) {
-        let productsViewController = viewHolder.productHomePageViewController.currentViewController
-        let store = ConvenienceStore.allCases[currentPage]
-        
-        if let products = products[store] {
-            productsViewController?.applySnapshot(with: products)
+    func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore) {
+        if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
+            let pageViewController = viewHolder.productHomePageViewController
+            let viewController = pageViewController.productListViewControllers[storeIndex]
+            viewController.applySnapshot(with: products)
         }
     }
     
@@ -167,13 +173,18 @@ extension ProductHomeViewController: UICollectionViewDataSource {
 extension ProductHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageViewController = viewHolder.productHomePageViewController
-        guard let currentViewController = pageViewController.currentViewController else { return }
+        guard let currentViewController = pageViewController.viewControllers?.first,
+              let productListViewController = currentViewController as? ProductListViewController
+        else {
+            return
+        }
         
-        let collectionView = currentViewController.productCollectionView
+        let collectionView = productListViewController.productCollectionView
         let outerScroll = scrollView == viewHolder.containerScrollView
         let innerScroll = !outerScroll
-        let downScroll = scrollView.panGestureRecognizer.translation(in: scrollView).y < 0
-        let upScroll = !downScroll
+        let swipeDirectionY = scrollView.panGestureRecognizer.translation(in: scrollView).y
+        let downScroll = swipeDirectionY < 0
+        let upScroll = swipeDirectionY > 0
         let outerScrollMaxOffset = viewHolder.titleNavigationView.frame.height
         
         if innerScroll && upScroll {
@@ -186,10 +197,9 @@ extension ProductHomeViewController: UIScrollViewDelegate {
             collectionView.contentOffset.y = innerScrollLastOffsetY
         }
         
-        let paginationHeight = (collectionView.contentSize.height - collectionView.bounds.height) * 0.9
+        let paginationHeight = abs(collectionView.contentSize.height - collectionView.bounds.height) * 0.9
 
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
-            
             isPaging = true
             listener?.didScrollToNextPage(store: ConvenienceStore.allCases[currentPage])
         }

@@ -31,4 +31,8 @@ extension String {
     func addWon() -> String {
         return self + "원"
     }
+    
+    var encodedURLString: String? {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+    }
 }

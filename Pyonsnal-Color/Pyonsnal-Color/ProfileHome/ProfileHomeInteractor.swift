@@ -9,6 +9,9 @@ import ModernRIBs
 import Combine
 
 protocol ProfileHomeRouting: ViewableRouting {
+    func attachCommonWebView(with settingInfo: SettingInfo)
+    func detachCommonWebView()
+    
     func attachAccountSetting()
     func detachAccountSetting()
 }
@@ -61,11 +64,19 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
         router?.attachAccountSetting()
     }
     
+    func didTapTeams(with settingInfo: SettingInfo) {
+        router?.attachCommonWebView(with: settingInfo)
+    }
+    
     func didTapBackButton() {
         router?.detachAccountSetting()
     }
     
     func routeToLoggedOut() {
         listener?.routeToLoggedOut()
+    }
+    
+    func detachCommonWebView() {
+        router?.detachCommonWebView()
     }
 }

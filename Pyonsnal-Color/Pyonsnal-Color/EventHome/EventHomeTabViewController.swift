@@ -15,7 +15,7 @@ protocol ScrollDelegate: AnyObject {
 }
 
 protocol EventHomeTabViewControllerDelegate: AnyObject {
-    func didTapEventBannerCell(with imageUrl: String)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
     func didTapProductCell()
 }
 
@@ -48,13 +48,14 @@ final class EventHomeTabViewController: UIViewController {
     // MARK: - Private property
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     private var dataSource: DataSource?
-    private var headerTitle: [String] = []
+    private let headerTitle: [String] = CommonConstants.eventTabHeaderTitle
     private var eventUrls: [EventBannerEntity] = []
     private let refreshControl = UIRefreshControl()
-    private let dummyImage = UIImage(systemName: "note")
     private var lastContentOffSetY: CGFloat = 0
-    private let convenienceStore: ConvenienceStore
     
+    let convenienceStore: ConvenienceStore
+    
+    // MARK: - Initializer
     init(convenienceStore: ConvenienceStore) {
         self.convenienceStore = convenienceStore
         super.init(nibName: nil, bundle: nil)
@@ -64,9 +65,9 @@ final class EventHomeTabViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureHeaderTitle()
         configureUI()
         configureLayout()
         configureCollectionView()
@@ -76,10 +77,6 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     // MARK: - Private Method
-    private func configureHeaderTitle() {
-        headerTitle = ["이달의 이벤트 💌", "행사 상품 모아보기 👀"]
-    }
-    
     private func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout {
             [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
@@ -144,20 +141,14 @@ final class EventHomeTabViewController: UIViewController {
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
             case .item(let item):
-                let cell: ProductCell? = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: ProductCell.className,
-                    for: indexPath
-                ) as? ProductCell
-                
-                cell?.updateCell(with: item)
-                
-                return cell ?? UICollectionViewCell()
+                let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.updateCell(with: item)
+                return cell
             case .event(let item):
-                let cell: EventBannerCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerCell.className, for: indexPath) as? EventBannerCell
-
-                cell?.update(self.eventUrls)
-                cell?.delegate = self
-                return cell ?? UICollectionViewCell()
+                let cell: EventBannerCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.update(item)
+                cell.delegate = self
+                return cell
             }
         }
     }
@@ -169,9 +160,11 @@ final class EventHomeTabViewController: UIViewController {
     private func makeSupplementaryView(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? {
         switch kind {
         case ItemHeaderTitleView.className:
-            let itemHeaderTitleView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                      withReuseIdentifier: kind,
-                                                                                      for: indexPath) as? ItemHeaderTitleView
+            let itemHeaderTitleView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: kind,
+                for: indexPath
+            ) as? ItemHeaderTitleView
             let sectionText = headerTitle[indexPath.section]
             let isEventLayout = indexPath.section == 0
             itemHeaderTitleView?.update(isEventLayout: isEventLayout,
@@ -182,14 +175,15 @@ final class EventHomeTabViewController: UIViewController {
         }
     }
     
-    func applyEventBannerSnapshot(with banners: [EventBannerEntity]?) {
-        guard let eventBanners = banners else { return }
+    func applyEventBannerSnapshot(with eventBanners: [EventBannerEntity]?) {
+        guard let eventBanners else { return }
         
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        if !eventBanners.isEmpty {
+            snapshot.appendSections([.event])
+            snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
+        }
         
-        eventUrls = eventBanners
-        snapshot.appendSections([.event])
-        snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -223,8 +217,9 @@ extension EventHomeTabViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - EventBannerCellDelegate
 extension EventHomeTabViewController: EventBannerCellDelegate {
-    func didTapEventBannerCell(with imageUrl: String) {
-        delegate?.didTapEventBannerCell(with: imageUrl)
+    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore) {
+        delegate?.didTapEventBannerCell(with: imageUrl, store: store)
     }
 }

@@ -14,9 +14,9 @@ protocol CommonWebPresentableListener: AnyObject {
 }
 
 final class CommonWebViewController: UIViewController,
-                                         CommonWebPresentable,
+                                     CommonWebPresentable,
                                      CommonWebViewControllable {
-
+    
     enum Size {
         static let navigationViewHeight: CGFloat = 47
     }
@@ -30,23 +30,17 @@ final class CommonWebViewController: UIViewController,
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureBackButton()
+        configureWebView()
     }
     
     func update(with subTermsInfo: SubTerms) {
         setNavigationViewTitle(with: subTermsInfo.title)
-        if let urlString = subTermsInfo.type.urlString,
-            let url = URL(string: urlString) {
-            let urlRequest = URLRequest(url: url)
-            viewHolder.webView.load(urlRequest)
-        }
+        loadWebView(with: subTermsInfo.type.urlString)
     }
     
-    private func setNavigationViewTitle(with title: String) {
-        viewHolder.backNavigationView.payload = .init(
-            mode: .text,
-            title: title,
-            iconImageKind: nil
-        )
+    func update(with settingInfo: SettingInfo) {
+        setNavigationViewTitle(with: settingInfo.title)
+        loadWebView(with: settingInfo.infoUrl?.urlString)
     }
     
     // MARK: - Private method
@@ -57,6 +51,35 @@ final class CommonWebViewController: UIViewController,
     private func configureUI() {
         view.backgroundColor = .white
     }
+    
+    private func configureWebView() {
+        viewHolder.webView.navigationDelegate = self
+    }
+    
+    private func setNavigationViewTitle(with title: String) {
+        viewHolder.backNavigationView.payload = .init(
+            mode: .text,
+            title: title,
+            iconImageKind: nil
+        )
+    }
+    
+    private func loadWebView(with urlString: String?) {
+        if let urlString,
+           let url = URL(string: urlString) {
+            let urlRequest = URLRequest(url: url)
+            viewHolder.webView.load(urlRequest)
+        }
+    }
+    
+    private func setIndicatorView(isToShow: Bool) {
+        if isToShow {
+            viewHolder.indicatorView.startAnimating()
+        }else {
+            viewHolder.indicatorView.stopAnimating()
+        }
+        viewHolder.indicatorView.isHidden = !isToShow
+    }
 }
 
 // MARK: - BackNavigationViewDelegate
@@ -64,6 +87,17 @@ extension CommonWebViewController: BackNavigationViewDelegate {
     func didTapBackButton() {
         listener?.detachCommonWebView()
     }
+}
+
+extension CommonWebViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        setIndicatorView(isToShow: true)
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        setIndicatorView(isToShow: false)
+    }
+    
 }
 
 extension CommonWebViewController {
@@ -80,9 +114,12 @@ extension CommonWebViewController {
             return webView
         }()
         
+        let indicatorView = UIActivityIndicatorView()
+        
         func place(in view: UIView) {
             view.addSubview(backNavigationView)
             view.addSubview(webView)
+            view.addSubview(indicatorView)
         }
         
         func configureConstraints(for view: UIView) {
@@ -95,6 +132,10 @@ extension CommonWebViewController {
             webView.snp.makeConstraints {
                 $0.top.equalTo(backNavigationView.snp.bottom)
                 $0.leading.trailing.bottom.equalToSuperview()
+            }
+            
+            indicatorView.snp.makeConstraints {
+                $0.center.equalToSuperview()
             }
         }
     }

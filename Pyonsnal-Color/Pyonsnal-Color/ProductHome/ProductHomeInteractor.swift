@@ -16,8 +16,8 @@ protocol ProductHomeRouting: ViewableRouting {
 protocol ProductHomePresentable: Presentable {
     var listener: ProductHomePresentableListener? { get set }
     
-    func updateProducts(with products: [BrandProductEntity])
-    func appendProducts(with products: [ConvenienceStore: [BrandProductEntity]])
+    func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]])
+    func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore)
     func didFinishPaging()
 }
 
@@ -38,12 +38,7 @@ final class ProductHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
-    private var brandProducts: [ConvenienceStore: [BrandProductEntity]] = [:] {
-        didSet {
-            presenter.appendProducts(with: brandProducts)
-            presenter.didFinishPaging()
-        }
-    }
+    private var brandProducts: [ConvenienceStore: [BrandProductEntity]] = [:]
 
     init(
         presenter: ProductHomePresentable,
@@ -74,6 +69,9 @@ final class ProductHomeInteractor:
         ).sink { [weak self] response in
             if let productPage = response.value {
                 self?.brandProducts[store] = productPage.content
+                if let products = self?.brandProducts[store] {
+                    self?.presenter.updateProducts(with: products, at: store)
+                }
             } else if response.error != nil {
                 // TODO: Error Handling
             }
@@ -89,6 +87,10 @@ final class ProductHomeInteractor:
         ).sink { [weak self] response in
             if let productPage = response.value {
                 self?.brandProducts[store]? += productPage.content
+                if let products = self?.brandProducts[store] {
+                    self?.presenter.updateProducts(with: products, at: store)
+                    self?.presenter.didFinishPaging()
+                }
             }
         }.store(in: &cancellable)
     }

@@ -72,12 +72,7 @@ final class ProductCell: UICollectionViewCell {
             return view
         }()
         
-        let newImageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFit
-            imageView.setImage(.tagNew)
-            return imageView
-        }()
+        let newTagView = NewTagView(mode: .small)
         
         let titleLabel: UILabel = {
             let label = UILabel()
@@ -132,7 +127,7 @@ final class ProductCell: UICollectionViewCell {
             productImageContainerView.addSubview(convenienceStoreTagImageView)
             productImageContainerView.addSubview(eventTagLabel)
             
-            itemInfoContainerView.addSubview(newImageView)
+            itemInfoContainerView.addSubview(newTagView)
             itemInfoContainerView.addSubview(titleLabel)
             itemInfoContainerView.addSubview(priceContainerView)
             
@@ -147,7 +142,7 @@ final class ProductCell: UICollectionViewCell {
             
             productImageContainerView.snp.makeConstraints {
                 $0.width.equalTo(stackView.snp.width)
-                $0.height.equalTo(productImageContainerView.snp.width)
+                $0.height.equalTo(Size.productImageContainerViewHeight)
             }
             
             dividerView.snp.makeConstraints {
@@ -175,7 +170,7 @@ final class ProductCell: UICollectionViewCell {
                 $0.leading.equalTo(stackView)
             }
             
-            newImageView.snp.makeConstraints {
+            newTagView.snp.makeConstraints {
                 $0.leading.top.equalToSuperview().offset(Size.newImageViewMargin)
                 $0.width.equalTo(Size.newImageViewWidth)
                 $0.centerY.equalTo(titleLabel)
@@ -183,7 +178,7 @@ final class ProductCell: UICollectionViewCell {
             
             titleLabel.snp.makeConstraints {
                 $0.top.equalToSuperview().inset(Size.titleLabelMargin)
-                $0.leading.equalTo(newImageView.snp.trailing).offset(Size.titleLabelLeading)
+                $0.leading.equalTo(newTagView.snp.trailing).offset(Size.titleLabelLeading)
                 $0.trailing.lessThanOrEqualTo(-Size.titleLabelMargin)
                 $0.height.equalTo(titleLabel.font.customLineHeight)
             }
@@ -220,19 +215,21 @@ final class ProductCell: UICollectionViewCell {
     }
     
     private func configureUI() {
+        let attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .gray500)
+        viewHolder.discountPriceLabel.attributedText = attributedText
         self.makeRounded(with: Size.cornerRadius)
-        //TO DO : fix color
-        viewHolder.discountPriceLabel.attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .black)
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
         viewHolder.eventTagLabel.makeRounded(with: Size.eventTagImageviewRadius)
     }
     
     func updateCell(with product: ProductConvertable) {
         viewHolder.titleLabel.text = product.name
-        viewHolder.convenienceStoreTagImageView.image = product.storeTagImage
+        if let storeTypeImage = product.storeType.storeTagImage {
+            viewHolder.convenienceStoreTagImageView.setImage(storeTypeImage)
+        }
         viewHolder.itemImageView.setImage(with: product.imageURL)
         viewHolder.originalPriceLabel.text = product.price.addWon()
-        viewHolder.newImageView.isHidden = !product.isNew
+        viewHolder.newTagView.isHidden = !product.isNew
         hasEventType(product.eventType)
     }
     

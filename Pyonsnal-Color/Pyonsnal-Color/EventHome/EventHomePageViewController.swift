@@ -9,7 +9,7 @@ import UIKit
 
 protocol EventHomePageViewControllerDelegate: AnyObject {
     func updateSelectedStoreCell(index: Int)
-    func didTapEventBannerCell(with imageUrl: String)
+    func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapProductItemCell()
     func didChangeStore(to store: ConvenienceStore)
 }
@@ -17,11 +17,9 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
 final class EventHomePageViewController: UIPageViewController {
     
     // MARK: - Private property
-    private var pageViewControllers = [EventHomeTabViewController]()
+    private(set) var pageViewControllers = [EventHomeTabViewController]()
     private var currentIndex: Int = 0
-    private var tabCount: Int = 5 // 임시
     
-    var currentViewController: EventHomeTabViewController?
     weak var pageDelegate: EventHomePageViewControllerDelegate?
     weak var scrollDelegate: ScrollDelegate?
 
@@ -44,7 +42,6 @@ final class EventHomePageViewController: UIPageViewController {
         self.delegate = self
         self.dataSource = self
         if let firstViewController = pageViewControllers.first {
-            currentViewController = firstViewController
             setViewControllers([firstViewController],
                                direction: .forward,
                                animated: true)
@@ -53,7 +50,6 @@ final class EventHomePageViewController: UIPageViewController {
     
     func updatePage(_ index: Int) {
         let viewController = pageViewControllers[index]
-
         let direction: UIPageViewController.NavigationDirection = currentIndex <= index ? .forward : .reverse
         currentIndex = index
         
@@ -64,7 +60,8 @@ final class EventHomePageViewController: UIPageViewController {
     
 }
 
-extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+extension EventHomePageViewController: UIPageViewControllerDelegate,
+                                       UIPageViewControllerDataSource {
     func pageViewController(
         _ pageViewController: UIPageViewController,
         didFinishAnimating finished: Bool,
@@ -77,6 +74,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
             return
         }
         
+        currentIndex = index
         pageDelegate?.updateSelectedStoreCell(index: index)
     }
     
@@ -87,9 +85,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
         if let viewController = viewController as? EventHomeTabViewController {
             guard let index = pageViewControllers.firstIndex(of: viewController) else { return nil }
             let beforeIndex = index - 1
-            currentIndex = beforeIndex
             if beforeIndex >= 0, beforeIndex < pageViewControllers.count {
-                currentViewController = pageViewControllers[beforeIndex]
                 return pageViewControllers[beforeIndex]
             }
         }
@@ -103,9 +99,7 @@ extension EventHomePageViewController: UIPageViewControllerDelegate, UIPageViewC
         if let viewController =  viewController as? EventHomeTabViewController {
             guard let index = pageViewControllers.firstIndex(of: viewController) else { return nil }
             let afterIndex = index + 1
-            currentIndex = afterIndex
             if afterIndex >= 0, afterIndex < pageViewControllers.count {
-                currentViewController = pageViewControllers[afterIndex]
                 return pageViewControllers[afterIndex]
             }
         }
@@ -131,8 +125,8 @@ extension EventHomePageViewController: ScrollDelegate {
 
 // MARK: - EventHomeTabViewControllerDelegate
 extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
-    func didTapEventBannerCell(with imageUrl: String) {
-        pageDelegate?.didTapEventBannerCell(with: imageUrl)
+    func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
+        pageDelegate?.didTapEventBannerCell(with: imageURL, store: store)
     }
     
     func didTapProductCell() {
@@ -142,7 +136,7 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
 
 extension EventHomePageViewController: ProductListDelegate {
     func didLoadPageList(store: ConvenienceStore) {
-        pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
+        pageDelegate?.didChangeStore(to: store)
     }
     
     func refreshByPull() {

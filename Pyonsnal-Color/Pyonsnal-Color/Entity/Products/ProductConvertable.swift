@@ -17,21 +17,4 @@ protocol ProductConvertable: Decodable {
     var eventType: EventTag? { get }
     var isNew: Bool { get }
 }
-
-extension ProductConvertable {
-    var storeTagImage: UIImage? {
-        switch storeType {
-        case .cu:
-            return ImageAssetKind.StoreTag.storeTagCU.image
-        case .gs25:
-            return ImageAssetKind.StoreTag.storeTagGS25.image
-        case .sevenEleven:
-            return ImageAssetKind.StoreTag.storeTagSevenEleven.image
-        case .emart24:
-            return ImageAssetKind.StoreTag.storeTagEmart24.image
-        case .all:
-            return nil
-        }
-    }
-}
  

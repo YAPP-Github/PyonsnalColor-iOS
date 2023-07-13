@@ -349,7 +349,8 @@ extension TermsOfUseViewController {
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.trailing.equalToSuperview().inset(.spacing16)
                 $0.height.equalTo(Constants.Size.acceptButtonHeight)
-                $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+                $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom)
+                $0.bottom.equalToSuperview().inset(.spacing16).priority(.low)
             }
             
         }

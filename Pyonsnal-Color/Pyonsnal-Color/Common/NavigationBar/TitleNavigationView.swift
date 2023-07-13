@@ -43,8 +43,7 @@ final class TitleNavigationView: UIView {
     
     private let notificationButton: UIButton = {
         let button = UIButton()
-        //TODO: 추가될 알림버튼 이미지 적용
-        button.setImage(.init(systemName: "bell"), for: .normal)
+        button.setImage(.bellSimple, for: .normal)
         button.tintColor = .black
         return button
     }()
@@ -65,6 +64,8 @@ final class TitleNavigationView: UIView {
         configureLayout()
         configureConstraints()
         titleLabel.text = title
+        // TO DO : 알림 관련 작업시 해당 코드 삭제
+        notificationButton.isHidden = true
     }
     
     private func configureAction() {

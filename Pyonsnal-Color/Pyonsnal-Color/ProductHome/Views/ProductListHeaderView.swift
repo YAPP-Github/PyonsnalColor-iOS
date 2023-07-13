@@ -14,7 +14,7 @@ final class ProductListHeaderView: UICollectionReusableView {
         let label = UILabel()
         label.text = "최신순"
         label.font = .body3m
-        label.textColor = .systemGray
+        label.textColor = .gray500
         return label
     }()
     
