@@ -1,8 +1,9 @@
-# 🎨 편스널 컬러
 
-(원래는 프로젝트 설명) 
-프로젝트 초기화 commit은 어디로 유실 되었는가...? 🤔
-아니면 네트웍 어딘가에... 떠다니고 있는가... 🔍
+# 🎨 편스널 컬러
+### 나에게 딱 맞는 편의점 상품 정보
+
+|<img src="https://github.com/YAPP-Github/PyonsnalColor-iOS/assets/71054048/3d2dac50-e8a0-44b4-bc79-8388333fadc1" width=250>|<img src="https://github.com/YAPP-Github/PyonsnalColor-iOS/assets/71054048/05899287-070c-485b-91b2-88b3ef46b282" width=250>|<img src="https://github.com/YAPP-Github/PyonsnalColor-iOS/assets/71054048/c0ea1ef8-85ff-4ce3-8265-d2a8e97b92be" width=250>|
+|:-:|:-:|:-:|
 
 ## 🧑‍💻 팀원
 
