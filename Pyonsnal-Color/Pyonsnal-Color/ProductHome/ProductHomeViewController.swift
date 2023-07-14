@@ -13,6 +13,7 @@ protocol ProductHomePresentableListener: AnyObject {
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore)
     func didTabProductCell(at index: Int)
+    func didSelect(with brandProduct: ProductConvertable)
 }
 
 final class ProductHomeViewController:
@@ -297,5 +298,9 @@ extension ProductHomeViewController: ProductListDelegate {
     func refreshByPull() {
         let store = ConvenienceStore.allCases[currentPage]
         requestProducts(store: store)
+    }
+    
+    func didSelect(with brandProduct: ProductConvertable) {
+        listener?.didSelect(with: brandProduct)
     }
 }

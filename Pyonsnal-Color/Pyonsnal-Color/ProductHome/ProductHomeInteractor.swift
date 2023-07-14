@@ -11,6 +11,8 @@ import ModernRIBs
 protocol ProductHomeRouting: ViewableRouting {
     func attachNotificationList()
     func detachNotificationList()
+    func attachProductDetail(with brandProduct: ProductConvertable)
+    func detachProductDetail()
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -107,6 +109,14 @@ final class ProductHomeInteractor:
         if let lastPage = storeLastPages[store] {
             requestProducts(pageNumber: lastPage + 1, store: store)
         }
+    }
+    
+    func didSelect(with brandProduct: ProductConvertable) {
+        router?.attachProductDetail(with: brandProduct)
+    }
+    
+    func popProductDetail() {
+        router?.detachProductDetail()
     }
     
     func didChangeStore(to store: ConvenienceStore) {
