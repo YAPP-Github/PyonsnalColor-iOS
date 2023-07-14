@@ -1315,6 +1315,7 @@
 				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "편스널컬러";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1345,6 +1346,7 @@
 				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "편스널컬러";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
