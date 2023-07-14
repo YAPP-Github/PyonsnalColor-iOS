@@ -33,7 +33,9 @@ extension UIImageView {
         self.image = kind.image
     }
     
-    func setImage(with url: URL) {
-        self.kf.setImage(with: url)
+    func setImage(with url: URL, completion: (() -> Void)? = nil) {
+        self.kf.setImage(with: url) { _ in
+            completion?()
+        }
     }
 }
