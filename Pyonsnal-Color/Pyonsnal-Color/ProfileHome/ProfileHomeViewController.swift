@@ -230,15 +230,4 @@ extension ProfileHomeViewController {
             
         }
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            OperationQueue.main.addOperation {
-                let vc = ProductDetailViewController()
-                self.present(vc, animated: true)
-            }
-        }
-    }
 }

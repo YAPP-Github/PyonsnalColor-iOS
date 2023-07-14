@@ -33,33 +33,6 @@ final class ProductDetailViewController:
     }
     
     // MARK: - Private Method
-    private func configureUI() {
-        let giftItem: GiftItemEntity = .init(
-            name: "화이트초콜릿모카 아이스",
-            price: "5,900원",
-            imageURL: .init(string: "https://www.google.com")!
-        )
-        
-        self.product = .init(
-            identifier: "",
-            imageURL: .init(string: "https://www.google.com")!,
-            storeType: .emart24,
-            updatedTime: "업데이트 23.06.24",
-            name: "오리온) 눈을 감자",
-            price: "3800원",
-            originalPrice: "4000원",
-            eventType: .discount,
-            description: "상세 정보 없음",
-            giftItem: "",
-            isNew: true
-        )
-    }
-    
-    // ViewModel 바인딩으로 대체 예정
-    var product: EventProductEntity? {
-        didSet { updateUI() }
-    }
-    
     private func updateUI() {
         guard let product else { return }
         
