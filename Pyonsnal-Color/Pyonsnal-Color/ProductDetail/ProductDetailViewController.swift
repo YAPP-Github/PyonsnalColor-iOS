@@ -9,6 +9,7 @@ import ModernRIBs
 import UIKit
 
 protocol ProductDetailPresentableListener: AnyObject {
+    func popViewController()
 }
 
 final class ProductDetailViewController:
@@ -18,6 +19,9 @@ final class ProductDetailViewController:
 {
     // MARK: - Interface
     weak var listener: ProductDetailPresentableListener?
+    var product: ProductConvertable? {
+        didSet { updateUI() }
+    }
     
     // MARK: - Private Method
     private let viewHolder: ViewHolder = .init()
@@ -29,16 +33,37 @@ final class ProductDetailViewController:
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         
-        configureUI()
+        configureAction()
     }
     
     // MARK: - Private Method
     private func updateUI() {
+        view.backgroundColor = .white
         guard let product else { return }
         
+        viewHolder.backNavigationView.payload = .init(
+            mode: .image,
+            title: nil,
+            iconImageKind: product.storeType.storeIcon
+        )
+        viewHolder.productImageView.setImage(with: product.imageURL)
+        viewHolder.productTagListView.payload = .init(
+            isNew: product.isNew,
+            eventTags: product.eventType
+        )
         viewHolder.updateDateLabel.text = product.updatedTime
         viewHolder.productNameLabel.text = product.name
         viewHolder.productPriceLabel.text = product.price
         viewHolder.productDescriptionLabel.text = product.description
+    }
+    
+    private func configureAction() {
+        viewHolder.backNavigationView.delegate = self
+    }
+}
+
+extension ProductDetailViewController: BackNavigationViewDelegate {
+    func didTapBackButton() {
+        listener?.popViewController()
     }
 }

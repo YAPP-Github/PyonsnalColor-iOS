@@ -135,7 +135,7 @@ extension ProductDetailViewController {
             textContainerView.addSubview(productNameLabel)
             textContainerView.addSubview(productPriceLabel)
             textContainerView.addSubview(productDescriptionLabel)
-            textContainerView.addSubview(giftInformationView)
+//            textContainerView.addSubview(giftInformationView)
         }
         
         func configureConstraints(for view: UIView) {
@@ -198,10 +198,11 @@ extension ProductDetailViewController {
                 make.leading.trailing.equalToSuperview()
             }
             
-            giftInformationView.snp.makeConstraints { make in
-                make.top.equalTo(productDescriptionLabel.snp.bottom).offset(40)
-                make.leading.trailing.bottom.equalToSuperview()
-            }
+//            giftInformationView.snp.makeConstraints { make in
+//                make.top.equalTo(productDescriptionLabel.snp.bottom).offset(.spacing40)
+//                make.leading.trailing.equalToSuperview()
+//                make.bottom.equalToSuperview().inset(.spacing40)
+//            }
         }
     }
 }
