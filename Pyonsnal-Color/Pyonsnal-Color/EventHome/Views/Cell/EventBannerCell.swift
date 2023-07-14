@@ -122,6 +122,7 @@ final class EventBannerCell: UICollectionViewCell {
 extension EventBannerCell {
     
     private func setTimer() {
+        if timer != nil { stopTimer() }
         DispatchQueue.main.async { [weak self] in
             self?.timer = Timer.scheduledTimer(withTimeInterval: Constants.timeSecond,
                                          repeats: true) { [weak self] _ in
