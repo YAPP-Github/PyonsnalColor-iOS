@@ -36,7 +36,7 @@ final class BackNavigationView: UIView {
     
     private let iconImageView: UIImageView = {
         let imageView: UIImageView = .init(frame: .zero)
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
