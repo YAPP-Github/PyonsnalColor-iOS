@@ -29,6 +29,7 @@ final class NewTagView: UIView {
     
     private let titleLabel: UILabel = {
         let label: UILabel = .init(frame: .zero)
+        label.font = .body3m
         label.textColor = .red500
         label.text = "NEW"
         return label

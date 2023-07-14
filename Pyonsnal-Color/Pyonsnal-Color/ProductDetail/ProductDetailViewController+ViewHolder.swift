@@ -40,9 +40,8 @@ extension ProductDetailViewController {
             return view
         }()
         
-        private let productImageView: UIImageView = {
+        let productImageView: UIImageView = {
             let imageView: UIImageView = .init(frame: .zero)
-            imageView.backgroundColor = .yellow
             imageView.contentMode = .scaleAspectFill
             return imageView
         }()
@@ -50,7 +49,7 @@ extension ProductDetailViewController {
         // 중간 라인
         private let lineView: UIView = {
             let view: UIView = .init(frame: .zero)
-            view.backgroundColor = .init(rgbHexString: "#F7F7F9")
+            view.backgroundColor = .gray100
             return view
         }()
         
@@ -63,7 +62,7 @@ extension ProductDetailViewController {
         
         let updateDateLabel: UILabel = {
             let label: UILabel = .init(frame: .zero)
-            label.textColor = .init(rgbHexString: "#B3B3B6")
+            label.textColor = .gray400
             label.font = .body3r
             return label
         }()
@@ -75,9 +74,8 @@ extension ProductDetailViewController {
             return stackView
         }()
         
-        private let productTagListView: ProductTagListView = {
+        let productTagListView: ProductTagListView = {
             let productTagListView: ProductTagListView = .init()
-            productTagListView.payload = .init(isNew: true, eventTags: [.discount, .freebie])
             return productTagListView
         }()
         
@@ -88,21 +86,22 @@ extension ProductDetailViewController {
         
         let productNameLabel: UILabel = {
             let label: UILabel = .init(frame: .zero)
-            label.textColor = .init(rgbHexString: "#343437")
+            label.textColor = .gray700
             label.font = .title1
             return label
         }()
         
         let productPriceLabel: UILabel = {
             let label: UILabel = .init(frame: .zero)
-            label.textColor = .init(rgbHexString: "#1A1A1E")
+            label.textColor = .black
             label.font = .headLine
             return label
         }()
         
         let productDescriptionLabel: UILabel = {
             let label: UILabel = .init(frame: .zero)
-            label.textColor = .init(rgbHexString: "#4D4D51")
+            label.numberOfLines = 0
+            label.textColor = .gray600
             label.font = .body2r
             return label
         }()
@@ -169,20 +168,20 @@ extension ProductDetailViewController {
             }
             
             updateDateLabel.snp.makeConstraints { make in
-                make.top.trailing.equalToSuperview().inset(16)
+                make.top.trailing.equalToSuperview().inset(.spacing16)
             }
             
             textInfoStackView.snp.makeConstraints { make in
-                make.top.equalTo(updateDateLabel.snp.bottom).offset(12)
+                make.top.equalTo(updateDateLabel.snp.bottom).offset(.spacing12)
                 make.leading.bottom.trailing.equalToSuperview()
             }
             
             productTagListView.snp.makeConstraints { make in
-                make.leading.trailing.equalToSuperview().inset(16)
+                make.leading.trailing.equalToSuperview().inset(.spacing16)
             }
             
             textContainerView.snp.makeConstraints { make in
-                make.leading.trailing.equalToSuperview().inset(16)
+                make.leading.trailing.equalToSuperview().inset(.spacing16)
             }
             
             productNameLabel.snp.makeConstraints { make in
@@ -190,12 +189,12 @@ extension ProductDetailViewController {
             }
             
             productPriceLabel.snp.makeConstraints { make in
-                make.top.equalTo(productNameLabel.snp.bottom).offset(4)
+                make.top.equalTo(productNameLabel.snp.bottom).offset(.spacing4)
                 make.leading.trailing.equalToSuperview()
             }
             
             productDescriptionLabel.snp.makeConstraints { make in
-                make.top.equalTo(productPriceLabel.snp.bottom).offset(16)
+                make.top.equalTo(productPriceLabel.snp.bottom).offset(.spacing16)
                 make.leading.trailing.equalToSuperview()
             }
             
