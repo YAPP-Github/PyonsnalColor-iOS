@@ -15,6 +15,17 @@ protocol EventHomePresentableListener: AnyObject {
     func didTapProductCell()
     func didChangeStore(to store: ConvenienceStore)
     func didScrollToNextPage(store: ConvenienceStore)
+    func didSelect(with brandProduct: ProductConvertable)
+}
+
+struct Tab: Hashable {
+    var id = UUID()
+    var name: String
+    var isSelected: Bool = false
+    
+    mutating func updateSelectedState() {
+        isSelected = false
+    }
 }
 
 final class EventHomeViewController: UIViewController,
@@ -218,6 +229,10 @@ extension EventHomeViewController {
 
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
+    func didSelect(with brandProduct: ProductConvertable) {
+        listener?.didSelect(with: brandProduct)
+    }
+    
     func updateSelectedStoreCell(index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         setSelectedConvenienceStoreCell(with: indexPath)

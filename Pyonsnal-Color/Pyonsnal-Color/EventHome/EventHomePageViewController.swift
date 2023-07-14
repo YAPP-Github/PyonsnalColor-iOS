@@ -12,6 +12,7 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapProductItemCell()
     func didChangeStore(to store: ConvenienceStore)
+    func didSelect(with brandProduct: ProductConvertable)
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -141,5 +142,9 @@ extension EventHomePageViewController: ProductListDelegate {
     
     func refreshByPull() {
         pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
+    }
+    
+    func didSelect(with brandProduct: ProductConvertable) {
+        pageDelegate?.didSelect(with: brandProduct)
     }
 }
