@@ -305,3 +305,16 @@ extension ProductHomeViewController: ProductListDelegate {
     func didSelect(with brandProduct: ProductConvertable) {
     }
 }
+
+extension ProductHomeViewController: ProductPresentable {
+    func didTabRootTabBar() {
+        guard let viewController = viewHolder.productHomePageViewController.viewControllers?.first,
+              let productListViewController = viewController as? ProductListViewController
+        else {
+            return
+        }
+        
+        productListViewController.scrollCollectionViewToTop()
+    }
+    
+}

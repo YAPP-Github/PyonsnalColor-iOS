@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B206F2572A629C2500959884 /* ProductPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206F2562A629C2500959884 /* ProductPresentable.swift */; };
 		B21C1A8C2A513FBB007D98E9 /* RIBs+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */; };
 		B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259022A590ECA006C5223 /* ConvenienceStore.swift */; };
 		B24259052A590FCF006C5223 /* BrandProductEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259042A590FCF006C5223 /* BrandProductEntity.swift */; };
@@ -178,6 +179,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B206F2562A629C2500959884 /* ProductPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPresentable.swift; sourceTree = "<group>"; };
 		B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RIBs+.swift"; sourceTree = "<group>"; };
 		B24259022A590ECA006C5223 /* ConvenienceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStore.swift; sourceTree = "<group>"; };
 		B24259042A590FCF006C5223 /* BrandProductEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandProductEntity.swift; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 				F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */,
 				F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */,
 				B27349DD2A5AA26300B97E59 /* ProductListDelegate.swift */,
+				B206F2562A629C2500959884 /* ProductPresentable.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1151,6 +1154,7 @@
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
 				B24CAAE62A55AC35005BE499 /* NotificationListRouter.swift in Sources */,
 				B24259122A594AB7006C5223 /* ProductAPI.swift in Sources */,
+				B206F2572A629C2500959884 /* ProductPresentable.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,
 				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,
 				F0C582C12A55E83400DAD387 /* TermsOfUseRouter.swift in Sources */,

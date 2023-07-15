@@ -185,6 +185,13 @@ final class ProductListViewController: UIViewController {
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
+    func scrollCollectionViewToTop() {
+        productCollectionView.setContentOffset(
+            .init(x: 0, y: Spacing.spacing16.negative.value),
+            animated: true
+        )
+    }
+    
     //MARK: - Objective Method
     @objc
     private func refreshByPull() {

@@ -47,3 +47,17 @@ final class RootTabBarViewController:
         tabBar.layer.applyShadow(color: .black, alpha: 0.15, width: 0, height: 0, blur: 4)
     }
 }
+
+extension RootTabBarViewController {
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        guard let index = tabBar.items?.firstIndex(of: item),
+              let viewControllers = viewControllers,
+              let navigationController = viewControllers[index] as? UINavigationController,
+              let productListViewController = navigationController.viewControllers[0] as? ProductPresentable
+        else {
+            return
+        }
+
+        productListViewController.didTabRootTabBar()
+    }
+}
