@@ -42,7 +42,7 @@ extension ProductDetailViewController {
         
         let productImageView: UIImageView = {
             let imageView: UIImageView = .init(frame: .zero)
-            imageView.contentMode = .scaleAspectFill
+            imageView.contentMode = .scaleAspectFit
             return imageView
         }()
         

@@ -26,7 +26,7 @@ final class EventHomeViewController: UIViewController,
         static let titleLabelLeading: CGFloat = 16
         static let headerMargin: CGFloat = 11
         static let notificationButtonTrailing: CGFloat = 17
-        static let headerViewHeight: CGFloat = 50
+        static let headerViewHeight: CGFloat = 48
         static let collectionViewTop: CGFloat = 20
         static let collectionViewLeaing: CGFloat = 16
     }

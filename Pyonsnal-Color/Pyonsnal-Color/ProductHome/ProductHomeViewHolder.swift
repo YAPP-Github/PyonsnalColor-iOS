@@ -11,6 +11,7 @@ import SnapKit
 extension ProductHomeViewController {
     enum Constant {
         enum Size {
+            static let backNavigationBarHeight: CGFloat = 48
             static let leftRightMargin: CGFloat = 16
         }
         
@@ -80,6 +81,7 @@ extension ProductHomeViewController {
             }
             
             titleNavigationView.snp.makeConstraints { make in
+                make.height.equalTo(Constant.Size.backNavigationBarHeight)
                 make.leading.trailing.top.equalToSuperview()
             }
             
