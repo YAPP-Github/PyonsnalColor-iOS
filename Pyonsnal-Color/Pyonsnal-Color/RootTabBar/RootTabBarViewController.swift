@@ -52,6 +52,8 @@ final class RootTabBarViewController:
 
 extension RootTabBarViewController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if lastSelectedItem == nil { lastSelectedItem = item }
+        
         guard lastSelectedItem == item else {
             lastSelectedItem = item
             return
