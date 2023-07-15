@@ -23,6 +23,13 @@ final class AuthAPIService {
         )
     }
     
+    func loginStatus(token: String, authType: AuthType) -> ResponsePublisher<UserLoginStatusEntity> {
+        return client.request(
+            AuthRouter.loginStatus(token: token, authType: authType),
+            model: UserLoginStatusEntity.self
+        )
+    }
+    
     func reissue(userAuth: UserAuthEntity) -> ResponsePublisher<UserAuthEntity> {
         return client.request(
             AuthRouter.reissue(userAuth: userAuth),

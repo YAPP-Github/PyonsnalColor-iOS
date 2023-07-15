@@ -100,19 +100,30 @@ final class LoggedOutInteractor:
         resumeLoginProcess()
     }
     
+    private func checkLoginStatus(token: String, authType: AuthType) {
+        dependency.authClient
+            .loginStatus(token: token, authType: authType)
+            .sink { [weak self] response in
+                if let isJoined = response.value?.isJoined, isJoined {
+                    self?.requestLogin(with: token, authType: authType)
+                } else {
+                    self?.router?.attachTermsOfUse()
+                }
+            }.store(in: &cancellable)
+    }
+    
 }
 
 extension LoggedOutInteractor: AppleLoginServiceDelegate {
     func didCompleteWithAuthorization(identifyToken: String) {
-        
         loginTask = .apple(identifyToken: identifyToken)
-        router?.attachTermsOfUse()
+        checkLoginStatus(token: identifyToken, authType: .apple)
     }
 }
 
 extension LoggedOutInteractor: KakaoLoginServiceDelegate {
     func didReceive(accessToken: String) {
         loginTask = .kakao(accessToken: accessToken)
-        router?.attachTermsOfUse()
+        checkLoginStatus(token: accessToken, authType: .kakao)
     }
 }

@@ -10,6 +10,7 @@ import Alamofire
 
 enum AuthRouter: NetworkRequestBuilder {
     case login(token: String, authType: AuthType)
+    case loginStatus(token: String, authType: AuthType)
     case reissue(userAuth: UserAuthEntity)
 }
 
@@ -20,7 +21,7 @@ extension AuthRouter {
 
     var method: HTTPMethod {
         switch self {
-        case .login, .reissue:
+        case .login, .loginStatus, .reissue:
             return .post
         }
     }
@@ -29,6 +30,8 @@ extension AuthRouter {
         switch self {
         case .login:
             return "/auth/login"
+        case .loginStatus:
+            return "/auth/status"
         case .reissue:
             return "/auth/reissue"
         }
@@ -36,7 +39,7 @@ extension AuthRouter {
 
     var body: [String: Any]? {
         switch self {
-        case .login(let token, let authType):
+        case .login(let token, let authType), .loginStatus(let token, let authType):
             return ["token": token, "oauthType": authType.rawValue]
         case .reissue(let userAuth):
             return [
@@ -52,7 +55,7 @@ extension AuthRouter {
 
     var headers: [HTTPHeader]? {
         switch self {
-        case .login, .reissue:
+        case .login, .loginStatus, .reissue:
             return Config.shared.getDefaultHeader()
         }
     }
