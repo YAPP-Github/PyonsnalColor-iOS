@@ -27,7 +27,7 @@ final class ProductListViewController: UIViewController {
     }
     
     //MARK: - Private Property
-    private var dataSource: DataSource?
+    private(set) var dataSource: DataSource?
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
     let convenienceStore: ConvenienceStore
@@ -124,8 +124,6 @@ final class ProductListViewController: UIViewController {
         configureDataSource()
         configureHeaderView()
         configureRefreshControl()
-        
-        productCollectionView.delegate = self
     }
     
     private func registerCells() {
@@ -196,12 +194,3 @@ final class ProductListViewController: UIViewController {
         }
     }
 }
-
-extension ProductListViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let item = dataSource?.itemIdentifier(for: indexPath) {
-            delegate?.didSelect(with: item)
-        }
-    }
-}
-

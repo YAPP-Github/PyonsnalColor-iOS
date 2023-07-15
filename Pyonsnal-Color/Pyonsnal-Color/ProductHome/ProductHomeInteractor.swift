@@ -122,8 +122,4 @@ final class ProductHomeInteractor:
     func didChangeStore(to store: ConvenienceStore) {
         requestInitialProducts(store: store)
     }
-    
-    func didTabProductCell(at index: Int) {
-        // TODO: 상품 상세 조회
-    }
 }

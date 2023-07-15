@@ -18,16 +18,6 @@ protocol EventHomePresentableListener: AnyObject {
     func didSelect(with brandProduct: ProductConvertable)
 }
 
-struct Tab: Hashable {
-    var id = UUID()
-    var name: String
-    var isSelected: Bool = false
-    
-    mutating func updateSelectedState() {
-        isSelected = false
-    }
-}
-
 final class EventHomeViewController: UIViewController,
                                      EventHomePresentable,
                                      EventHomeViewControllable {

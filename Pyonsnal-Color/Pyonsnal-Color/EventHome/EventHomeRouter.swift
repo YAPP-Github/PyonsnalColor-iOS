@@ -68,7 +68,8 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         let productDetailRouter = productDetail.build(withListener: interactor)
         productDetailRouting = productDetailRouter
         attachChild(productDetailRouter)
-        (productDetailRouting?.viewControllable as? ProductDetailViewController)?.product = product
+        let productDetailViewController = productDetailRouting?.viewControllable as? ProductDetailViewController
+        productDetailViewController?.product = product
         viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
     }
     
