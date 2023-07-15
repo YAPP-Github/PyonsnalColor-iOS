@@ -123,6 +123,7 @@
 		BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882E2A24C3E600DA6257 /* RootInteractor.swift */; };
 		F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */; };
 		F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */; };
+		F00352212A62B9F000A66FF9 /* AuthType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00352202A62B9F000A66FF9 /* AuthType.swift */; };
 		F00609522A5EED4600A2A79D /* SettingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00609512A5EED4600A2A79D /* SettingInfo.swift */; };
 		F00609562A5EF87F00A2A79D /* CommonConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00609552A5EF87F00A2A79D /* CommonConstants.swift */; };
 		F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */; };
@@ -282,6 +283,7 @@
 		BAED882E2A24C3E600DA6257 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestBuilder.swift; sourceTree = "<group>"; };
 		F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestable.swift; sourceTree = "<group>"; };
+		F00352202A62B9F000A66FF9 /* AuthType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthType.swift; sourceTree = "<group>"; };
 		F00609512A5EED4600A2A79D /* SettingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingInfo.swift; sourceTree = "<group>"; };
 		F00609552A5EF87F00A2A79D /* CommonConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConstants.swift; sourceTree = "<group>"; };
 		F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeTabViewController.swift; sourceTree = "<group>"; };
@@ -577,6 +579,7 @@
 		BA18075D2A2F1D5A00295398 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				F003521F2A62B9E200A66FF9 /* AuthType */,
 				F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */,
 				F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */,
 				F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */,
@@ -743,6 +746,14 @@
 				B28204F22A345EB100F9242F /* RootComponent.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		F003521F2A62B9E200A66FF9 /* AuthType */ = {
+			isa = PBXGroup;
+			children = (
+				F00352202A62B9F000A66FF9 /* AuthType.swift */,
+			);
+			path = AuthType;
 			sourceTree = "<group>";
 		};
 		F00609532A5EF83500A2A79D /* Constants */ = {
@@ -1155,6 +1166,7 @@
 				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,
 				F0C582C12A55E83400DAD387 /* TermsOfUseRouter.swift in Sources */,
 				F097EF2C2A57181B00A7FB9C /* TermsOfUseUrl.swift in Sources */,
+				F00352212A62B9F000A66FF9 /* AuthType.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				F01535452A45A6F800A2A8F2 /* ItemHeaderTitleView.swift in Sources */,
 				B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */,

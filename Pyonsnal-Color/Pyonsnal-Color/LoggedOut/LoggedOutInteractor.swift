@@ -63,11 +63,11 @@ final class LoggedOutInteractor:
         dependency.kakaoLoginService.requestKakaoLogin()
     }
     
-    private func requestAppleLogin(with identifyToken: String) {
-        dependency.authClient.appleLogin(token: identifyToken)
+    private func requestLogin(with token: String, authType: AuthType) {
+        dependency.authClient.login(token: token, authType: authType)
             .sink { [weak self] response in
                 if let userAuth = response.value {
-                    print("Apple login success: \(userAuth.accessToken)")
+                    print("login success: \(userAuth.accessToken)")
                     self?.dependency.userAuthService.setAccessToken(userAuth.accessToken)
                     self?.dependency.userAuthService.setRefreshToken(userAuth.refreshToken)
                     self?.listener?.routeToLoggedIn()
@@ -79,29 +79,13 @@ final class LoggedOutInteractor:
             }.store(in: &cancellable)
     }
     
-    private func requestKakaoLogin(with accessToken: String) {
-        dependency.authClient.kakaoLogin(accessToken: accessToken)
-            .sink { [weak self] response in
-                if let userAuth = response.value {
-                    print("Kakao login success: \(userAuth.accessToken)")
-                    self?.dependency.userAuthService.setAccessToken(userAuth.accessToken)
-                    self?.dependency.userAuthService.setRefreshToken(userAuth.refreshToken)
-                    self?.listener?.routeToLoggedIn()
-                } else if let responseError = response.error {
-                    // TODO: error handling
-                } else {
-                    // TODO: error handling
-                }
-            }.store(in: &cancellable)
-    }
-    
     private func resumeLoginProcess() {
         if let loginTask {
             switch loginTask {
             case .apple(let identifyToken):
-                requestAppleLogin(with: identifyToken)
+                requestLogin(with: identifyToken, authType: .apple)
             case .kakao(let accessToken):
-                requestKakaoLogin(with: accessToken)
+                requestLogin(with: accessToken, authType: .kakao)
             }
         }
         loginTask = nil
@@ -120,9 +104,7 @@ final class LoggedOutInteractor:
 
 extension LoggedOutInteractor: AppleLoginServiceDelegate {
     func didCompleteWithAuthorization(identifyToken: String) {
-        /// TO DO : send to server
-        /// get token from server
-        /// save token to Keychain
+        
         loginTask = .apple(identifyToken: identifyToken)
         router?.attachTermsOfUse()
     }
