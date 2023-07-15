@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol ProductHomeInteractable: Interactable, NotificationListListener {
+protocol ProductHomeInteractable: Interactable, NotificationListListener, ProductDetailListener {
     var router: ProductHomeRouting? { get set }
     var listener: ProductHomeListener? { get set }
 }
@@ -20,14 +20,19 @@ final class ProductHomeRouter:
     ProductHomeRouting {
     
     private let notificationList: NotificationListBuildable
+    private let productDetail: ProductDetailBuildable
+    
     private var notificationListRouting: NotificationListRouting?
+    private var productDetailRouting: ProductDetailRouting?
     
     init(
         interactor: ProductHomeInteractable,
         viewController: ProductHomeViewControllable,
-        notificationList: NotificationListBuildable
+        notificationList: NotificationListBuildable,
+        productDetail: ProductDetailBuildable
     ) {
         self.notificationList = notificationList
+        self.productDetail = productDetail
         super.init(interactor: interactor, viewController: viewController)
         
         interactor.router = self
@@ -55,5 +60,22 @@ final class ProductHomeRouter:
         viewControllable.uiviewController.dismiss(animated: true)
         detachChild(router)
         notificationListRouting = nil
+    }
+    
+    func attachProductDetail(with product: ProductConvertable) {
+        if productDetailRouting != nil { return }
+        
+        let productDetailRouter = productDetail.build(withListener: interactor)
+        productDetailRouting = productDetailRouter
+        attachChild(productDetailRouter)
+        (productDetailRouting?.viewControllable as? ProductDetailViewController)?.product = product
+        viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
+    }
+    
+    func detachProductDetail() {
+        guard let productDetailRouting else { return }
+        viewController.popViewController(animated: true)
+        self.productDetailRouting = nil
+        detachChild(productDetailRouting)
     }
 }

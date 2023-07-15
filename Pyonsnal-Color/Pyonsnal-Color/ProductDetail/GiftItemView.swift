@@ -31,7 +31,10 @@ final class GiftItemView: UIView {
         let view: UIView = .init(frame: .zero)
         view.backgroundColor = Constant.Color.contentViewBackgroundColor
         view.makeRounded(with: Constant.Size.contentViewRound)
-        view.makeBorder(width: Constant.Size.contentViewBorderWidth, color: Constant.Color.contentViewBorderColor.cgColor)
+        view.makeBorder(
+            width: Constant.Size.contentViewBorderWidth,
+            color: Constant.Color.contentViewBorderColor.cgColor
+        )
         return view
     }()
     

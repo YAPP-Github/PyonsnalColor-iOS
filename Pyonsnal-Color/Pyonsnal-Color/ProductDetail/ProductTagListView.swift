@@ -11,7 +11,7 @@ final class ProductTagListView: UIView {
     // MARK: - Declaration
     struct Payload {
         let isNew: Bool
-        let eventTags: [EventTag]
+        let eventTags: EventTag?
     }
     
     // MARK: - UI Component
@@ -59,10 +59,14 @@ final class ProductTagListView: UIView {
             labelStackView.addArrangedSubview(newTag)
         }
         
-        payload.eventTags.forEach {
-            let eventTagBig = EventTagBigView(payload: .init(eventTag: $0))
+        if let eventTag = payload.eventTags {
+            let eventTagBig = EventTagBigView(payload: .init(eventTag: eventTag))
             labelStackView.addArrangedSubview(eventTagBig)
         }
+//        payload.eventTags.forEach {
+//            let eventTagBig = EventTagBigView(payload: .init(eventTag: $0))
+//            labelStackView.addArrangedSubview(eventTagBig)
+//        }
     }
     
     private func configureView() {

@@ -44,3 +44,20 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
         }
     }
 }
+
+extension ConvenienceStore {
+    var storeIcon: ImageAssetKind.StoreIcon? {
+        switch self {
+        case .all:
+            return nil
+        case .cu:
+            return .iconCU
+        case .gs25:
+            return .iconGS
+        case .emart24:
+            return .iconEmart24
+        case .sevenEleven:
+            return .icon7Eleven
+        }
+    }
+}

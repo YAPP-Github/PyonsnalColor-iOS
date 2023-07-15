@@ -8,7 +8,8 @@
 import ModernRIBs
 
 protocol EventHomeInteractable: Interactable,
-                                EventDetailListener {
+                                EventDetailListener,
+                                ProductDetailListener {
     var router: EventHomeRouting? { get set }
     var listener: EventHomeListener? { get set }
 }
@@ -21,14 +22,19 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
                              EventHomeRouting {
 
     private let eventDetailBuilder: EventDetailBuilder
+    private let productDetail: ProductDetailBuildable
+    
     private var eventDetailRouting: ViewableRouting?
+    private var productDetailRouting: ProductDetailRouting?
 
     init(
         interactor: EventHomeInteractable,
         viewController: EventHomeViewControllable,
-        eventDetailBuilder: EventDetailBuilder
+        eventDetailBuilder: EventDetailBuilder,
+        productDetail: ProductDetailBuildable
     ) {
         self.eventDetailBuilder = eventDetailBuilder
+        self.productDetail = productDetail
         super.init(interactor: interactor,
                    viewController: viewController)
         interactor.router = self
@@ -56,4 +62,21 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         detachChild(router)
     }
     
+    func attachProductDetail(with product: ProductConvertable) {
+        if productDetailRouting != nil { return }
+        
+        let productDetailRouter = productDetail.build(withListener: interactor)
+        productDetailRouting = productDetailRouter
+        attachChild(productDetailRouter)
+        let productDetailViewController = productDetailRouting?.viewControllable as? ProductDetailViewController
+        productDetailViewController?.product = product
+        viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
+    }
+    
+    func detachProductDetail() {
+        guard let productDetailRouting else { return }
+        viewController.popViewController(animated: true)
+        self.productDetailRouting = nil
+        detachChild(productDetailRouting)
+    }
 }

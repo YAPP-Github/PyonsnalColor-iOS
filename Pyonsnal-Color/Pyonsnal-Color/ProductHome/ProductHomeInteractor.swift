@@ -11,6 +11,8 @@ import ModernRIBs
 protocol ProductHomeRouting: ViewableRouting {
     func attachNotificationList()
     func detachNotificationList()
+    func attachProductDetail(with brandProduct: ProductConvertable)
+    func detachProductDetail()
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -109,11 +111,15 @@ final class ProductHomeInteractor:
         }
     }
     
-    func didChangeStore(to store: ConvenienceStore) {
-        requestInitialProducts(store: store)
+    func didSelect(with brandProduct: ProductConvertable) {
+        router?.attachProductDetail(with: brandProduct)
     }
     
-    func didTabProductCell(at index: Int) {
-        // TODO: 상품 상세 조회
+    func popProductDetail() {
+        router?.detachProductDetail()
+    }
+    
+    func didChangeStore(to store: ConvenienceStore) {
+        requestInitialProducts(store: store)
     }
 }

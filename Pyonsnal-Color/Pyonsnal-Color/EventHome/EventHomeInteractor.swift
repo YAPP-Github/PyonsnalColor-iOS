@@ -11,6 +11,8 @@ import ModernRIBs
 protocol EventHomeRouting: ViewableRouting {
     func attachEventDetail(with imageURL: String, store: ConvenienceStore)
     func detachEventDetail()
+    func attachProductDetail(with brandProduct: ProductConvertable)
+    func detachProductDetail()
 }
 
 protocol EventHomePresentable: Presentable {
@@ -118,6 +120,14 @@ final class EventHomeInteractor:
     
     func didLoadEventHome() {
         requestInitialProducts()
+    }
+    
+    func didSelect(with brandProduct: ProductConvertable) {
+        router?.attachProductDetail(with: brandProduct)
+    }
+    
+    func popProductDetail() {
+        router?.detachProductDetail()
     }
     
     func didChangeStore(to store: ConvenienceStore) {

@@ -27,7 +27,7 @@ final class ProductListViewController: UIViewController {
     }
     
     //MARK: - Private Property
-    private var dataSource: DataSource?
+    private(set) var dataSource: DataSource?
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
     let convenienceStore: ConvenienceStore

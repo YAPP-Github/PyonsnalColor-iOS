@@ -204,6 +204,13 @@ final class EventHomeTabViewController: UIViewController {
 // MARK: - UICollectionViewDelegate
 extension EventHomeTabViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let item = dataSource?.itemIdentifier(for: indexPath),
+           case let .item(product) = item {
+            listDelegate?.didSelect(with: product)
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollDelegate?.didScroll(scrollView: scrollView)
     }

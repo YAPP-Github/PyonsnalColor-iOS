@@ -11,7 +11,9 @@ protocol ProductHomeDependency: Dependency {
     var productAPIService: ProductAPIService { get }
 }
 
-final class ProductHomeComponent: Component<ProductHomeDependency>, NotificationListDependency {
+final class ProductHomeComponent: Component<ProductHomeDependency>,
+                                    NotificationListDependency,
+                                    ProductDetailDependency {
 }
 
 // MARK: - Builder
@@ -35,12 +37,14 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         )
         
         let notificationList: NotificationListBuilder = .init(dependency: component)
+        let productDetail: ProductDetailBuilder = .init(dependency: component)
         
         interactor.listener = listener
         return ProductHomeRouter(
             interactor: interactor,
             viewController: viewController,
-            notificationList: notificationList
+            notificationList: notificationList,
+            productDetail: productDetail
         )
     }
 }

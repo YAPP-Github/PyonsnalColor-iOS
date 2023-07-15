@@ -18,6 +18,7 @@ protocol ProductDetailPresentable: Presentable {
 
 protocol ProductDetailListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func popProductDetail()
 }
 
 final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresentable>, ProductDetailInteractable, ProductDetailPresentableListener {
@@ -40,5 +41,9 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func popViewController() {
+        listener?.popProductDetail()
     }
 }

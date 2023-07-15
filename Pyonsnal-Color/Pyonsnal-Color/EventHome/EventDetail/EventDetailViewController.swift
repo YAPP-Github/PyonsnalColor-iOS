@@ -25,15 +25,20 @@ final class EventDetailViewController: UIViewController,
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
+        
+        configureUI()
         configureAction()
     }
     
     // MARK: - EventDetailPresentable
     func update(with imageURL: String, store: ConvenienceStore) {
         if let imageURL = URL(string: imageURL) {
-            viewHolder.eventImageView.setImage(with: imageURL)
+            viewHolder.eventImageView.setImage(with: imageURL) { [weak self] in
+                self?.viewHolder.updateImageViewHeight()
+            }
         }
         viewHolder.backNavigationView.payload = .init(
             mode: .image,
@@ -43,6 +48,10 @@ final class EventDetailViewController: UIViewController,
     }
     
     // MARK: - Private Method
+    private func configureUI() {
+        view.backgroundColor = .white
+    }
+    
     private func configureAction() {
         viewHolder.backNavigationView.delegate = self
     }
@@ -72,6 +81,7 @@ extension EventDetailViewController {
         
         let eventImageView: UIImageView = {
             let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
             return imageView
         }()
         
@@ -90,21 +100,20 @@ extension EventDetailViewController {
             
             containerScrollView.snp.makeConstraints {
                 $0.top.equalTo(backNavigationView.snp.bottom)
-                $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-                $0.height.equalTo(view.snp.height)
+                $0.leading.trailing.bottom.equalToSuperview()
             }
             
             eventImageView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
                 $0.width.equalToSuperview()
-                updateImageViewHeight()
             }
         }
         
         func updateImageViewHeight() {
             eventImageView.snp.makeConstraints {
                 if let image = eventImageView.image {
-                    $0.height.equalTo(image.size.height)
+                    let scale = image.size.width / eventImageView.bounds.width
+                    $0.height.equalTo(image.size.height / scale)
                 }
             }
         }

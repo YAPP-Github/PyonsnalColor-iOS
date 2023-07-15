@@ -12,7 +12,7 @@ protocol ProductHomePresentableListener: AnyObject {
     func didChangeStore(to store: ConvenienceStore)
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore)
-    func didTabProductCell(at index: Int)
+    func didSelect(with brandProduct: ProductConvertable)
 }
 
 final class ProductHomeViewController:
@@ -276,7 +276,10 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             currentPage = indexPath.item
             viewHolder.productHomePageViewController.updatePage(to: currentPage)
         } else {
-            listener?.didTabProductCell(at: indexPath.item)
+            if let productListViewController =  viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
+               let item = productListViewController.dataSource?.itemIdentifier(for: indexPath) {
+                listener?.didSelect(with: item)
+            }
         }
     }
 }
@@ -297,5 +300,8 @@ extension ProductHomeViewController: ProductListDelegate {
     func refreshByPull() {
         let store = ConvenienceStore.allCases[currentPage]
         requestProducts(store: store)
+    }
+    
+    func didSelect(with brandProduct: ProductConvertable) {
     }
 }
