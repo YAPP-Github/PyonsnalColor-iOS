@@ -19,6 +19,8 @@ final class RootTabBarViewController:
     //MARK: - Property
     weak var listener: RootTabBarPresentableListener?
     
+    private var lastSelectedItem: UITabBarItem?
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,5 +47,27 @@ final class RootTabBarViewController:
         tabBar.layer.cornerRadius = 16
         tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         tabBar.layer.applyShadow(color: .black, alpha: 0.15, width: 0, height: 0, blur: 4)
+    }
+}
+
+extension RootTabBarViewController {
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if lastSelectedItem == nil { lastSelectedItem = item }
+        
+        guard lastSelectedItem == item else {
+            lastSelectedItem = item
+            return
+        }
+        
+        guard let index = tabBar.items?.firstIndex(of: item),
+              let viewControllers = viewControllers,
+              let navigationController = viewControllers[index] as? UINavigationController,
+              let productListViewController = navigationController.viewControllers[0] as? ProductPresentable
+        else {
+            return
+        }
+
+        lastSelectedItem = item
+        productListViewController.didTabRootTabBar()
     }
 }

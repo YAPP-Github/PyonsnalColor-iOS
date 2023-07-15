@@ -379,3 +379,17 @@ extension EventHomeViewController: ScrollDelegate {
         self.scrollViewDidEndDragging(scrollView, willDecelerate: false)
     }
 }
+
+// MARK: - ProductPresentable
+extension EventHomeViewController: ProductPresentable {
+    func didTabRootTabBar() {
+        guard let viewController = viewHolder.pageViewController.viewControllers?.first,
+              let productListViewController = viewController as? EventHomeTabViewController
+        else {
+            return
+        }
+        
+        productListViewController.scrollCollectionViewToTop()
+    }
+    
+}

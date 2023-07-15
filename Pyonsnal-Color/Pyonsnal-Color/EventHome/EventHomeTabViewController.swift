@@ -206,6 +206,13 @@ final class EventHomeTabViewController: UIViewController {
         snapshot.appendItems(eventProducts, toSection: .item)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
+    
+    func scrollCollectionViewToTop() {
+        collectionView.setContentOffset(
+            .init(x: 0, y: Spacing.spacing16.negative.value),
+            animated: true
+        )
+    }
 }
 
 // MARK: - UICollectionViewDelegate
