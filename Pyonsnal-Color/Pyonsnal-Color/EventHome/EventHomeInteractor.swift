@@ -19,7 +19,7 @@ protocol EventHomePresentable: Presentable {
     var listener: EventHomePresentableListener? { get set }
     
     func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore)
-    func updateBanners(with banners: [EventBannerEntity], at store: ConvenienceStore)
+    func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore)
     func didFinishPaging()
 }
 
@@ -95,15 +95,26 @@ final class EventHomeInteractor:
         }.store(in: &cancellable)
     }
     
-    private func requestEventBanners(store: ConvenienceStore) {
-        if store != .all {
-            dependency?.productAPIService.requestEventBanner(storeType: store)
-                .sink { [weak self] response in
-                    if let eventBanners = response.value {
-                        self?.presenter.updateBanners(with: eventBanners, at: store)
-                    }
-                }.store(in: &cancellable)
-        }
+    private func requestProductWithBanners(store: ConvenienceStore) {
+        storeLastPages[store] = initialPage
+        let eventPublisher = dependency?.productAPIService.requestEventBanner(storeType: store)
+        let productPublisher = dependency?.productAPIService.requestEventProduct(
+            pageNumber: initialPage,
+            pageSize: initialCount,
+            storeType: store
+        )
+        guard let eventPublisher,
+              let productPublisher else { return }
+        
+        eventPublisher
+            .combineLatest(productPublisher)
+            .sink { [weak self] event, product in
+            self?.eventProducts[store] = product.value?.content
+            if let event = event.value,
+               let product = product.value?.content {
+                self?.presenter.update(with: product, banners: event, at: store)
+            }
+        }.store(in: &cancellable)
     }
     
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
@@ -131,11 +142,11 @@ final class EventHomeInteractor:
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        requestInitialProducts(store: store)
-        
-        if store != .all {
-            requestEventBanners(store: store)
+        if store == .all {
+            requestInitialProducts()
+            return
         }
+        requestProductWithBanners(store: store)
     }
     
     func didScrollToNextPage(store: ConvenienceStore) {

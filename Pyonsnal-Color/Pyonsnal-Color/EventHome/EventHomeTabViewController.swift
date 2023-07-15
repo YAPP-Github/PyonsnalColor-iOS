@@ -176,20 +176,26 @@ final class EventHomeTabViewController: UIViewController {
         }
     }
     
-    func applyEventBannerSnapshot(with eventBanners: [EventBannerEntity]?) {
-        guard let eventBanners else { return }
+    func applyEventProductsSnapshot(with products: [EventProductEntity]) {
+        guard var snapshot = dataSource?.snapshot() else { return }
         
+        let eventProducts = products.map { ItemType.item(data: $0) }
+        
+        if !snapshot.sectionIdentifiers.contains(.item) {
+            snapshot.appendSections([.item])
+        }
+        
+        snapshot.appendItems(eventProducts, toSection: .item)
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func applyEventBannerProducts(with eventBanners: [EventBannerEntity]?, products: [EventProductEntity]) {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        let eventBanners = eventBanners ?? []
         if !eventBanners.isEmpty {
             snapshot.appendSections([.event])
             snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
         }
-        
-        dataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
-    func applyEventProductsSnapshot(with products: [EventProductEntity]) {
-        guard var snapshot = dataSource?.snapshot() else { return }
         
         let eventProducts = products.map { ItemType.item(data: $0) }
         
