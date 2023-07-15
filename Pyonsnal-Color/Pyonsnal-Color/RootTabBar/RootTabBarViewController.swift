@@ -19,6 +19,8 @@ final class RootTabBarViewController:
     //MARK: - Property
     weak var listener: RootTabBarPresentableListener?
     
+    private var lastSelectedItem: UITabBarItem?
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +52,11 @@ final class RootTabBarViewController:
 
 extension RootTabBarViewController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        guard lastSelectedItem == item else {
+            lastSelectedItem = item
+            return
+        }
+        
         guard let index = tabBar.items?.firstIndex(of: item),
               let viewControllers = viewControllers,
               let navigationController = viewControllers[index] as? UINavigationController,
@@ -58,6 +65,7 @@ extension RootTabBarViewController {
             return
         }
 
+        lastSelectedItem = item
         productListViewController.didTabRootTabBar()
     }
 }
