@@ -44,7 +44,6 @@ extension ItemHeaderTitleView {
         
         let titleLabel: UILabel = {
             let label = UILabel()
-            // to do color
             label.font = .body2m
             return label
         }()
