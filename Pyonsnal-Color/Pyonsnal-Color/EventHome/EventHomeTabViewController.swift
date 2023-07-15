@@ -48,7 +48,7 @@ final class EventHomeTabViewController: UIViewController {
     // MARK: - Private property
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     private var dataSource: DataSource?
-    private let headerTitle: [String] = CommonConstants.eventTabHeaderTitle
+    private let headerTitle: [EventHeaderSection] = CommonConstants.eventTabHeaderTitle
     private var eventUrls: [EventBannerEntity] = []
     private let refreshControl = UIRefreshControl()
     private var lastContentOffSetY: CGFloat = 0
@@ -166,10 +166,20 @@ final class EventHomeTabViewController: UIViewController {
                 withReuseIdentifier: kind,
                 for: indexPath
             ) as? ItemHeaderTitleView
-            let sectionText = headerTitle[indexPath.section]
-            let isEventLayout = indexPath.section == 0
-            itemHeaderTitleView?.update(isEventLayout: isEventLayout,
-                                        title: sectionText)
+            
+            let sectionCount = dataSource?.snapshot().sectionIdentifiers.count
+            let titleText = headerTitle[indexPath.section].text
+            
+            if sectionCount == 2 {
+                if indexPath.section == 0 {
+                    itemHeaderTitleView?.update(isEventLayout: true, title: titleText)
+                } else {
+                    itemHeaderTitleView?.update(isEventLayout: false, title: titleText)
+                }
+            } else {
+                itemHeaderTitleView?.update(isEventLayout: false,
+                                            title: headerTitle[1].text)
+            }
             return itemHeaderTitleView
         default:
             return nil
