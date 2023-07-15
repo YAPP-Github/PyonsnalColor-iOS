@@ -9,8 +9,8 @@ import Foundation
 import Alamofire
 
 enum AuthRouter: NetworkRequestBuilder {
-    case apple(token: String)
-    case kakao(accessToken: String)
+    case login(token: String, authType: AuthType)
+    case loginStatus(token: String, authType: AuthType)
     case reissue(userAuth: UserAuthEntity)
 }
 
@@ -21,17 +21,17 @@ extension AuthRouter {
 
     var method: HTTPMethod {
         switch self {
-        case .apple, .kakao, .reissue:
+        case .login, .loginStatus, .reissue:
             return .post
         }
     }
 
     var path: String {
         switch self {
-        case .apple:
-            return "/auth/apple"
-        case .kakao:
-            return "/auth/kakao"
+        case .login:
+            return "/auth/login"
+        case .loginStatus:
+            return "/auth/status"
         case .reissue:
             return "/auth/reissue"
         }
@@ -39,10 +39,8 @@ extension AuthRouter {
 
     var body: [String: Any]? {
         switch self {
-        case .apple(let token):
-            return ["token": token]
-        case .kakao(let accessToken):
-            return ["token": accessToken]
+        case .login(let token, let authType), .loginStatus(let token, let authType):
+            return ["token": token, "oauthType": authType.rawValue]
         case .reissue(let userAuth):
             return [
                 "accessToken": userAuth.accessToken,
@@ -57,7 +55,7 @@ extension AuthRouter {
 
     var headers: [HTTPHeader]? {
         switch self {
-        case .apple, .kakao, .reissue:
+        case .login, .loginStatus, .reissue:
             return Config.shared.getDefaultHeader()
         }
     }

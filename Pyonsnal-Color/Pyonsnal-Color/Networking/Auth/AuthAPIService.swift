@@ -16,17 +16,17 @@ final class AuthAPIService {
     }
     
     // MARK: - Interface
-    func appleLogin(token: String) -> ResponsePublisher<UserAuthEntity> {
+    func login(token: String, authType: AuthType) -> ResponsePublisher<UserAuthEntity> {
         return client.request(
-            AuthRouter.apple(token: token),
+            AuthRouter.login(token: token, authType: authType),
             model: UserAuthEntity.self
         )
     }
     
-    func kakaoLogin(accessToken: String) -> ResponsePublisher<UserAuthEntity> {
+    func loginStatus(token: String, authType: AuthType) -> ResponsePublisher<UserLoginStatusEntity> {
         return client.request(
-            AuthRouter.kakao(accessToken: accessToken),
-            model: UserAuthEntity.self
+            AuthRouter.loginStatus(token: token, authType: authType),
+            model: UserLoginStatusEntity.self
         )
     }
     

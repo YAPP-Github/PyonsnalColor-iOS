@@ -8,18 +8,6 @@
 import Foundation
 import Security
 
-//저장할 임시 데이터
-enum Token: String {
-    case refreshToken
-    case accessToken
-    case socialType
-}
-
-enum SocialType: String {
-    case kakao
-    case apple
-}
-
 final class KeyChainService: NSObject {
     
     static let shared = KeyChainService()

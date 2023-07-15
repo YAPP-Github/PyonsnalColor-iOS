@@ -123,6 +123,8 @@
 		BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882E2A24C3E600DA6257 /* RootInteractor.swift */; };
 		F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */; };
 		F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */; };
+		F00352212A62B9F000A66FF9 /* AuthType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00352202A62B9F000A66FF9 /* AuthType.swift */; };
+		F00352242A62BD9F00A66FF9 /* UserLoginStatusEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00352232A62BD9F00A66FF9 /* UserLoginStatusEntity.swift */; };
 		F00609522A5EED4600A2A79D /* SettingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00609512A5EED4600A2A79D /* SettingInfo.swift */; };
 		F00609562A5EF87F00A2A79D /* CommonConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00609552A5EF87F00A2A79D /* CommonConstants.swift */; };
 		F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */; };
@@ -282,6 +284,8 @@
 		BAED882E2A24C3E600DA6257 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestBuilder.swift; sourceTree = "<group>"; };
 		F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestable.swift; sourceTree = "<group>"; };
+		F00352202A62B9F000A66FF9 /* AuthType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthType.swift; sourceTree = "<group>"; };
+		F00352232A62BD9F00A66FF9 /* UserLoginStatusEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginStatusEntity.swift; sourceTree = "<group>"; };
 		F00609512A5EED4600A2A79D /* SettingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingInfo.swift; sourceTree = "<group>"; };
 		F00609552A5EF87F00A2A79D /* CommonConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonConstants.swift; sourceTree = "<group>"; };
 		F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHomeTabViewController.swift; sourceTree = "<group>"; };
@@ -577,6 +581,7 @@
 		BA18075D2A2F1D5A00295398 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				F003521F2A62B9E200A66FF9 /* AuthType */,
 				F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */,
 				F00022452A5280FC00FFB4A4 /* NetworkRequestBuilder.swift */,
 				F00022472A52812E00FFB4A4 /* NetworkRequestable.swift */,
@@ -602,6 +607,7 @@
 			isa = PBXGroup;
 			children = (
 				BA4818CE2A59410B00BF9CAD /* UserAuthEntity.swift */,
+				F00352232A62BD9F00A66FF9 /* UserLoginStatusEntity.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -660,6 +666,7 @@
 		BA87E3DA2A4623D7000A9DEC /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				F00352222A62BD7F00A66FF9 /* Common */,
 				F0DFBC992A5967B9003F7660 /* Member */,
 				BA3F6F032A5885F400BD9154 /* Auth */,
 				BA87E3DB2A4623E3000A9DEC /* GiftItemEntity.swift */,
@@ -693,7 +700,6 @@
 				F097EF2F2A571DB000A7FB9C /* CommonWeb */,
 				F0C582BC2A55E81700DAD387 /* TermsOfUse */,
 				B2A529442A57F1E30010656A /* LogoutPopup */,
-				F0C87AF12A51DFB800EA4C76 /* Model */,
 				F0EE10A62A4B387A00B8DF4F /* AccountSetting */,
 				BA00B73A2A46B95300BB3795 /* 3rdParty */,
 				BA00B7372A46B8A600BB3795 /* DesignSystem */,
@@ -743,6 +749,23 @@
 				B28204F22A345EB100F9242F /* RootComponent.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		F003521F2A62B9E200A66FF9 /* AuthType */ = {
+			isa = PBXGroup;
+			children = (
+				F00352202A62B9F000A66FF9 /* AuthType.swift */,
+			);
+			path = AuthType;
+			sourceTree = "<group>";
+		};
+		F00352222A62BD7F00A66FF9 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				F0DFBC972A5966CD003F7660 /* EmptyResponse.swift */,
+				F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		F00609532A5EF83500A2A79D /* Constants */ = {
@@ -856,15 +879,6 @@
 				F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */,
 			);
 			path = TermsOfUse;
-			sourceTree = "<group>";
-		};
-		F0C87AF12A51DFB800EA4C76 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				F0DFBC972A5966CD003F7660 /* EmptyResponse.swift */,
-				F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		F0D6FFA72A39F57600C55E27 /* Cell */ = {
@@ -1077,6 +1091,7 @@
 				B24CAAE52A55AC33005BE499 /* NotificationListViewController.swift in Sources */,
 				B24F1D4B2A4BB82D00AA03DC /* TitleNavigationView.swift in Sources */,
 				F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */,
+				F00352242A62BD9F00A66FF9 /* UserLoginStatusEntity.swift in Sources */,
 				B242590E2A5947E7006C5223 /* PageableEntity.swift in Sources */,
 				F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
@@ -1155,6 +1170,7 @@
 				B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */,
 				F0C582C12A55E83400DAD387 /* TermsOfUseRouter.swift in Sources */,
 				F097EF2C2A57181B00A7FB9C /* TermsOfUseUrl.swift in Sources */,
+				F00352212A62B9F000A66FF9 /* AuthType.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				F01535452A45A6F800A2A8F2 /* ItemHeaderTitleView.swift in Sources */,
 				B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */,
