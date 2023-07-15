@@ -35,6 +35,7 @@ final class ProductHomePageViewController: UIPageViewController {
     }
     
     private func configureViewController() {
+        view.backgroundColor = .gray100
         view.translatesAutoresizingMaskIntoConstraints = false
         dataSource = self
         delegate = self

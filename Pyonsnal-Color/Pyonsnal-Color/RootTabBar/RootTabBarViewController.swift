@@ -23,7 +23,7 @@ final class RootTabBarViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .gray100
     }
     
     override func viewDidLayoutSubviews() {
@@ -39,10 +39,11 @@ final class RootTabBarViewController:
     
     //MARK: - Private Method
     private func setupTabBar() {
+        tabBar.isTranslucent = false
         tabBar.tintColor = .black
         tabBar.backgroundColor = .white
         tabBar.layer.cornerRadius = 16
         tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        tabBar.layer.applyShadow(color: .black, alpha: 0.25, width: 0, height: 4, blur: 4)
+        tabBar.layer.applyShadow(color: .black, alpha: 0.15, width: 0, height: 0, blur: 4)
     }
 }

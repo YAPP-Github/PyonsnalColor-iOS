@@ -32,6 +32,7 @@ final class EventHomePageViewController: UIPageViewController {
     
     // MARK: - Private Method
     private func setPageViewControllers() {
+        view.backgroundColor = .gray100
         for store in ConvenienceStore.allCases {
             let viewController = EventHomeTabViewController(convenienceStore: store)
             viewController.scrollDelegate = self
