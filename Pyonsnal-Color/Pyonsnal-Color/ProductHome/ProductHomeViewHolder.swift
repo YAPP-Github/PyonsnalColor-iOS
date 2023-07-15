@@ -11,7 +11,9 @@ import SnapKit
 extension ProductHomeViewController {
     enum Constant {
         enum Size {
+            static let backNavigationBarHeight: CGFloat = 48
             static let leftRightMargin: CGFloat = 16
+            static let storeCollectionViewSeparatorHeight: CGFloat = 1
         }
         
         enum Text {
@@ -42,6 +44,7 @@ extension ProductHomeViewController {
             layout.scrollDirection = .vertical
             
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.backgroundColor = .clear
             collectionView.register(ConvenienceStoreCell.self)
             collectionView.isScrollEnabled = false
             collectionView.layoutMargins = UIEdgeInsets(
@@ -51,6 +54,12 @@ extension ProductHomeViewController {
                 right: Constant.Size.leftRightMargin
             )
             return collectionView
+        }()
+        
+        let storeCollectionViewSeparator: UIView = {
+            let view: UIView = .init(frame: .zero)
+            view.backgroundColor = .gray200
+            return view
         }()
         
         let productHomePageViewController: ProductHomePageViewController = .init(
@@ -63,14 +72,14 @@ extension ProductHomeViewController {
             containerScrollView.addSubview(contentView)
             
             contentView.addSubview(titleNavigationView)
+            contentView.addSubview(storeCollectionViewSeparator)
             contentView.addSubview(convenienceStoreCollectionView)
             contentView.addSubview(productHomePageViewController.view)
         }
         
         func configureConstraints(for view: UIView) {
             containerScrollView.snp.makeConstraints { make in
-                make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
-                make.height.equalTo(view.snp.height)
+                make.edges.equalTo(view.safeAreaLayoutGuide)
             }
             
             contentView.snp.makeConstraints { make in
@@ -80,6 +89,7 @@ extension ProductHomeViewController {
             }
             
             titleNavigationView.snp.makeConstraints { make in
+                make.height.equalTo(Constant.Size.backNavigationBarHeight)
                 make.leading.trailing.top.equalToSuperview()
             }
             
@@ -89,8 +99,14 @@ extension ProductHomeViewController {
                 make.height.equalTo(ConvenienceStoreCell.Constant.Size.height)
             }
             
+            storeCollectionViewSeparator.snp.makeConstraints { make in
+                make.height.equalTo(Constant.Size.storeCollectionViewSeparatorHeight)
+                make.top.equalTo(convenienceStoreCollectionView.snp.bottom).inset(1)
+                make.leading.trailing.equalToSuperview()
+            }
+            
             productHomePageViewController.view.snp.makeConstraints { make in
-                make.top.equalTo(convenienceStoreCollectionView.snp.bottom)
+                make.top.equalTo(storeCollectionViewSeparator.snp.bottom)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalTo(view.safeAreaLayoutGuide)
             }

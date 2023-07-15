@@ -19,13 +19,13 @@ extension EventTag {
         case .discount:
             return "할인"
         case .freebie:
-            return "증정품"
+            return "증정"
         case .onePlusOne:
-            return "1 + 1"
+            return "1+1"
         case .twoPlusOne:
-            return "2 + 1"
+            return "2+1"
         case .threePlusOne:
-            return "3 + 1"
+            return "3+1"
         }
     }
 }

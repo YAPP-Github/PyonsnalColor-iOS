@@ -120,6 +120,8 @@ final class ProductListViewController: UIViewController {
     }
     
     private func configureCollectionView() {
+        productCollectionView.backgroundColor = .gray100
+        
         registerCells()
         configureDataSource()
         configureHeaderView()

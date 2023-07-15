@@ -56,6 +56,8 @@ final class ProfileHomeViewController: UIViewController,
     //MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .white
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureTableView()

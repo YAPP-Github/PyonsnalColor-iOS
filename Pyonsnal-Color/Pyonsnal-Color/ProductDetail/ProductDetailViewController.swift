@@ -54,7 +54,10 @@ final class ProductDetailViewController:
         viewHolder.updateDateLabel.text = product.updatedTime
         viewHolder.productNameLabel.text = product.name
         viewHolder.productPriceLabel.text = product.price
-        viewHolder.productDescriptionLabel.text = product.description
+        let description = product.description?
+            .components(separatedBy: .whitespacesAndNewlines)
+            .joined(separator: " ")
+        viewHolder.productDescriptionLabel.text = description
     }
     
     private func configureAction() {

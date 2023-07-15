@@ -26,9 +26,10 @@ final class EventHomeViewController: UIViewController,
         static let titleLabelLeading: CGFloat = 16
         static let headerMargin: CGFloat = 11
         static let notificationButtonTrailing: CGFloat = 17
-        static let headerViewHeight: CGFloat = 50
+        static let headerViewHeight: CGFloat = 48
         static let collectionViewTop: CGFloat = 20
         static let collectionViewLeaing: CGFloat = 16
+        static let storeCollectionViewSeparatorHeight: CGFloat = 1
     }
     
     enum Header {
@@ -152,8 +153,15 @@ extension EventHomeViewController {
             let flowLayout = UICollectionViewFlowLayout()
             let collectionView = UICollectionView(frame: .zero,
                                                   collectionViewLayout: flowLayout)
+            collectionView.backgroundColor = .clear
             collectionView.showsHorizontalScrollIndicator = false
             return collectionView
+        }()
+        
+        let storeCollectionViewSeparator: UIView = {
+            let view: UIView = .init(frame: .zero)
+            view.backgroundColor = .gray200
+            return view
         }()
         
         private let contentView: UIView = {
@@ -175,6 +183,7 @@ extension EventHomeViewController {
             view.addSubview(containerScrollView)
             containerScrollView.addSubview(contentView)
             contentView.addSubview(titleNavigationView)
+            contentView.addSubview(storeCollectionViewSeparator)
             contentView.addSubview(convenienceStoreCollectionView)
             contentView.addSubview(contentPageView)
             contentPageView.addSubview(pageViewController.view)
@@ -204,8 +213,14 @@ extension EventHomeViewController {
                 $0.height.equalTo(ConvenienceStoreCell.Constant.Size.height)
             }
             
+            storeCollectionViewSeparator.snp.makeConstraints { make in
+                make.height.equalTo(Size.storeCollectionViewSeparatorHeight)
+                make.top.equalTo(convenienceStoreCollectionView.snp.bottom).inset(1)
+                make.leading.trailing.equalToSuperview()
+            }
+            
             contentPageView.snp.makeConstraints {
-                $0.top.equalTo(convenienceStoreCollectionView.snp.bottom)
+                $0.top.equalTo(storeCollectionViewSeparator.snp.bottom)
                 $0.leading.trailing.bottom.equalToSuperview()
             }
 
