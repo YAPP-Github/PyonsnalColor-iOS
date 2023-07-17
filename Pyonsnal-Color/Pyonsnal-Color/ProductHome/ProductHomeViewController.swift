@@ -212,8 +212,9 @@ extension ProductHomeViewController: UIScrollViewDelegate {
                 viewHolder.containerScrollView.contentOffset.y + scrolledHeight,
                 outerScrollMaxOffset
             )
+            let offsetY = max(minOffsetY, 0)
             
-            viewHolder.containerScrollView.contentOffset.y = minOffsetY
+            viewHolder.containerScrollView.contentOffset.y = offsetY
             collectionView.contentOffset.y = innerScrollLastOffsetY
         }
     }
