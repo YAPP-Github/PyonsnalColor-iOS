@@ -346,8 +346,14 @@ extension EventHomeViewController: UIScrollViewDelegate {
             //안쪽을 아래로 스크롤할때 바깥쪽 먼저 아래로 스크롤
             guard viewHolder.containerScrollView.contentOffset.y < outerScrollMaxOffset else { return }
   
-            let minOffsetY = min(viewHolder.containerScrollView.contentOffset.y + scrollView.contentOffset.y - innerScrollLastOffsetY, outerScrollMaxOffset)
-            viewHolder.containerScrollView.contentOffset.y = minOffsetY
+            let scrolledHeight = scrollView.contentOffset.y - innerScrollLastOffsetY
+            let minOffsetY = min(
+                viewHolder.containerScrollView.contentOffset.y + scrolledHeight,
+                outerScrollMaxOffset
+            )
+            let offsetY = max(minOffsetY, 0)
+            
+            viewHolder.containerScrollView.contentOffset.y = offsetY
             collectionView.contentOffset.y = innerScrollLastOffsetY
         }
     }
