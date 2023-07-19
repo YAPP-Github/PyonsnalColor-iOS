@@ -92,6 +92,10 @@
 		BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F202A2360E100C5DFA8 /* AppComponent.swift */; };
 		BA4818CD2A59405300BF9CAD /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4818CC2A59405300BF9CAD /* AuthAPIService.swift */; };
 		BA4818CF2A59410B00BF9CAD /* UserAuthEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4818CE2A59410B00BF9CAD /* UserAuthEntity.swift */; };
+		BA50FD012A680AA900721782 /* ProductSearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FCFD2A680AA900721782 /* ProductSearchRouter.swift */; };
+		BA50FD022A680AA900721782 /* ProductSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FCFE2A680AA900721782 /* ProductSearchViewController.swift */; };
+		BA50FD032A680AA900721782 /* ProductSearchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FCFF2A680AA900721782 /* ProductSearchBuilder.swift */; };
+		BA50FD042A680AA900721782 /* ProductSearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FD002A680AA900721782 /* ProductSearchInteractor.swift */; };
 		BA7532E22A595B140002659A /* UserAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7532E12A595B140002659A /* UserAuthService.swift */; };
 		BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */; };
 		BA87501E2A519B3900B80088 /* ImageAssetKind+HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */; };
@@ -252,6 +256,10 @@
 		BA437F202A2360E100C5DFA8 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		BA4818CC2A59405300BF9CAD /* AuthAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		BA4818CE2A59410B00BF9CAD /* UserAuthEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAuthEntity.swift; sourceTree = "<group>"; };
+		BA50FCFD2A680AA900721782 /* ProductSearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchRouter.swift; sourceTree = "<group>"; };
+		BA50FCFE2A680AA900721782 /* ProductSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchViewController.swift; sourceTree = "<group>"; };
+		BA50FCFF2A680AA900721782 /* ProductSearchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchBuilder.swift; sourceTree = "<group>"; };
+		BA50FD002A680AA900721782 /* ProductSearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchInteractor.swift; sourceTree = "<group>"; };
 		BA7532E12A595B140002659A /* UserAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthService.swift; sourceTree = "<group>"; };
 		BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreIcon.swift"; sourceTree = "<group>"; };
 		BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+HeaderView.swift"; sourceTree = "<group>"; };
@@ -650,6 +658,17 @@
 			path = LoggedOut;
 			sourceTree = "<group>";
 		};
+		BA50FCFC2A680A8D00721782 /* ProductSearch */ = {
+			isa = PBXGroup;
+			children = (
+				BA50FCFD2A680AA900721782 /* ProductSearchRouter.swift */,
+				BA50FCFE2A680AA900721782 /* ProductSearchViewController.swift */,
+				BA50FCFF2A680AA900721782 /* ProductSearchBuilder.swift */,
+				BA50FD002A680AA900721782 /* ProductSearchInteractor.swift */,
+			);
+			path = ProductSearch;
+			sourceTree = "<group>";
+		};
 		BA87E3C72A45C579000A9DEC /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -699,6 +718,7 @@
 		BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */ = {
 			isa = PBXGroup;
 			children = (
+				BA50FCFC2A680A8D00721782 /* ProductSearch */,
 				F097EF2F2A571DB000A7FB9C /* CommonWeb */,
 				F0C582BC2A55E81700DAD387 /* TermsOfUse */,
 				B2A529442A57F1E30010656A /* LogoutPopup */,
@@ -1052,6 +1072,8 @@
 				BAED88322A24C3E600DA6257 /* RootInteractor.swift in Sources */,
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
 				F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */,
+				BA50FD012A680AA900721782 /* ProductSearchRouter.swift in Sources */,
+				BA50FD032A680AA900721782 /* ProductSearchBuilder.swift in Sources */,
 				B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */,
 				F0DFBC962A59622A003F7660 /* MemberAPIService.swift in Sources */,
 				F0168D542A500AC900978ED9 /* EventDetailInteractor.swift in Sources */,
@@ -1079,6 +1101,7 @@
 				B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */,
 				F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */,
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
+				BA50FD042A680AA900721782 /* ProductSearchInteractor.swift in Sources */,
 				F0EE10A12A4B122A00B8DF4F /* UITableView+.swift in Sources */,
 				B24CAAE22A55AC2B005BE499 /* NotificationListViewHolder.swift in Sources */,
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
@@ -1160,6 +1183,7 @@
 				B2A5294B2A57F2220010656A /* LogoutPopupBuilder.swift in Sources */,
 				BA87E3D52A45D400000A9DEC /* GiftItemView.swift in Sources */,
 				B24259052A590FCF006C5223 /* BrandProductEntity.swift in Sources */,
+				BA50FD022A680AA900721782 /* ProductSearchViewController.swift in Sources */,
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F0EE10AC2A4B389A00B8DF4F /* AccountSettingViewController.swift in Sources */,
 				F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */,
@@ -1331,7 +1355,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Pyonsnal-Color/Pyonsnal-Color.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
@@ -1365,7 +1389,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Pyonsnal-Color/Pyonsnal-Color.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
