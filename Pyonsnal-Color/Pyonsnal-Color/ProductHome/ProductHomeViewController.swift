@@ -26,7 +26,7 @@ final class ProductHomeViewController:
     
     //MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
-    private let convenienceStores: [String] = CommonConstants.convenienceStore
+    private let convenienceStores: [String] = CommonConstants.productHomeStore
     private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
