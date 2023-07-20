@@ -12,6 +12,7 @@ protocol ProductHomeDependency: Dependency {
 }
 
 final class ProductHomeComponent: Component<ProductHomeDependency>,
+                                    ProductSearchDependency,
                                     NotificationListDependency,
                                     ProductDetailDependency {
 }
@@ -36,6 +37,7 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
             dependency: dependency
         )
         
+        let productSearch: ProductSearchBuilder = .init(dependency: component)
         let notificationList: NotificationListBuilder = .init(dependency: component)
         let productDetail: ProductDetailBuilder = .init(dependency: component)
         
@@ -43,6 +45,7 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         return ProductHomeRouter(
             interactor: interactor,
             viewController: viewController,
+            productSearch: productSearch,
             notificationList: notificationList,
             productDetail: productDetail
         )

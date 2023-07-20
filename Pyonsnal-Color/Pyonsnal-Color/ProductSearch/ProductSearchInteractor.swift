@@ -18,6 +18,7 @@ protocol ProductSearchPresentable: Presentable {
 
 protocol ProductSearchListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func popProductSearch()
 }
 
 final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresentable>, ProductSearchInteractable, ProductSearchPresentableListener {
@@ -40,5 +41,9 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func popViewController() {
+        listener?.popProductSearch()
     }
 }

@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol ProductHomeInteractable: Interactable, NotificationListListener, ProductDetailListener {
+protocol ProductHomeInteractable: Interactable, ProductSearchListener, NotificationListListener, ProductDetailListener {
     var router: ProductHomeRouting? { get set }
     var listener: ProductHomeListener? { get set }
 }
@@ -19,23 +19,50 @@ final class ProductHomeRouter:
     ViewableRouter<ProductHomeInteractable, ProductHomeViewControllable>,
     ProductHomeRouting {
     
+    private let productSearch: ProductSearchBuildable
     private let notificationList: NotificationListBuildable
     private let productDetail: ProductDetailBuildable
     
+    private var productSearchRouting: ProductSearchRouting?
     private var notificationListRouting: NotificationListRouting?
     private var productDetailRouting: ProductDetailRouting?
     
     init(
         interactor: ProductHomeInteractable,
         viewController: ProductHomeViewControllable,
+        productSearch: ProductSearchBuildable,
         notificationList: NotificationListBuildable,
         productDetail: ProductDetailBuildable
     ) {
+        self.productSearch = productSearch
         self.notificationList = notificationList
         self.productDetail = productDetail
         super.init(interactor: interactor, viewController: viewController)
         
         interactor.router = self
+    }
+    
+    func attachProductSearch() {
+        guard productSearchRouting == nil else { return }
+        
+        let productSearchRouting = productSearch.build(withListener: interactor)
+        let viewController = productSearchRouting.viewControllable
+        
+        viewControllable.pushViewController(
+            viewController,
+            animated: true
+        )
+        
+        self.productSearchRouting = productSearchRouting
+        attachChild(productSearchRouting)
+    }
+    
+    func detachProductSearch() {
+        guard let productSearchRouting else { return }
+        
+        viewControllable.popViewController(animated: true)
+        self.productSearchRouting = nil
+        detachChild(productSearchRouting)
     }
     
     func attachNotificationList() {

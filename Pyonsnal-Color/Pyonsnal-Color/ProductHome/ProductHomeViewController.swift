@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProductHomePresentableListener: AnyObject {
     func didChangeStore(to store: ConvenienceStore)
+    func didTapSearchButton()
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
@@ -133,7 +134,10 @@ final class ProductHomeViewController:
 
 //MARK: - TitleNavigationViewDelegate {
 extension ProductHomeViewController: TitleNavigationViewDelegate {
-    @objc
+    func didTabSearchButton() {
+        listener?.didTapSearchButton()
+    }
+    
     func didTabNotificationButton() {
         listener?.didTapNotificationButton()
     }
