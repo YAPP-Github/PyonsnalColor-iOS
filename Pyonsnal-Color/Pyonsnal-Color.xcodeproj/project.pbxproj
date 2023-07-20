@@ -96,6 +96,7 @@
 		BA50FD022A680AA900721782 /* ProductSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FCFE2A680AA900721782 /* ProductSearchViewController.swift */; };
 		BA50FD032A680AA900721782 /* ProductSearchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FCFF2A680AA900721782 /* ProductSearchBuilder.swift */; };
 		BA50FD042A680AA900721782 /* ProductSearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FD002A680AA900721782 /* ProductSearchInteractor.swift */; };
+		BA50FD062A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FD052A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift */; };
 		BA50FD092A680D2500721782 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FD082A680D2500721782 /* SearchBarView.swift */; };
 		BA7532E22A595B140002659A /* UserAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7532E12A595B140002659A /* UserAuthService.swift */; };
 		BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */; };
@@ -262,6 +263,7 @@
 		BA50FCFE2A680AA900721782 /* ProductSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchViewController.swift; sourceTree = "<group>"; };
 		BA50FCFF2A680AA900721782 /* ProductSearchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchBuilder.swift; sourceTree = "<group>"; };
 		BA50FD002A680AA900721782 /* ProductSearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchInteractor.swift; sourceTree = "<group>"; };
+		BA50FD052A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductSearchViewController+ViewHolder.swift"; sourceTree = "<group>"; };
 		BA50FD082A680D2500721782 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		BA7532E12A595B140002659A /* UserAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthService.swift; sourceTree = "<group>"; };
 		BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreIcon.swift"; sourceTree = "<group>"; };
@@ -667,6 +669,7 @@
 			children = (
 				BA50FCFD2A680AA900721782 /* ProductSearchRouter.swift */,
 				BA50FCFE2A680AA900721782 /* ProductSearchViewController.swift */,
+				BA50FD052A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift */,
 				BA50FCFF2A680AA900721782 /* ProductSearchBuilder.swift */,
 				BA50FD002A680AA900721782 /* ProductSearchInteractor.swift */,
 			);
@@ -1155,6 +1158,7 @@
 				F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */,
 				B250884E2A5411890040BA50 /* TitleNavigationViewDelegate.swift in Sources */,
 				F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */,
+				BA50FD062A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift in Sources */,
 				BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */,
 				F0168D512A500AC900978ED9 /* EventDetailRouter.swift in Sources */,
 				BA87E3DC2A4623E3000A9DEC /* GiftItemEntity.swift in Sources */,
