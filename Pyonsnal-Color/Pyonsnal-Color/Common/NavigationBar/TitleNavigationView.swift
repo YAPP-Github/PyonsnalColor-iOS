@@ -41,6 +41,13 @@ final class TitleNavigationView: UIView {
         return label
     }()
     
+    private let searchButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.iconSearch, for: .normal)
+        button.tintColor = .gray700
+        return button
+    }()
+    
     private let notificationButton: UIButton = {
         let button = UIButton()
         button.setImage(.bellSimple, for: .normal)
@@ -69,6 +76,12 @@ final class TitleNavigationView: UIView {
     }
     
     private func configureAction() {
+        searchButton.addTarget(
+            self,
+            action: #selector(didTabSearchButton),
+            for: .touchUpInside
+        )
+        
         notificationButton.addTarget(
             self,
             action: #selector(didTabNotificationButton),
@@ -80,6 +93,7 @@ final class TitleNavigationView: UIView {
         addSubview(containerStackView)
         
         containerStackView.addArrangedSubview(titleLabel)
+        containerStackView.addArrangedSubview(searchButton)
         containerStackView.addArrangedSubview(notificationButton)
         
         notificationButton.addSubview(notificationIndicator)
@@ -94,6 +108,10 @@ final class TitleNavigationView: UIView {
             make.top.trailing.equalToSuperview()
             make.width.height.equalTo(Constant.Size.indicatorWidth)
         }
+    }
+    
+    @objc private func didTabSearchButton() {
+        delegate?.didTabSearchButton()
     }
     
     @objc private func didTabNotificationButton() {
