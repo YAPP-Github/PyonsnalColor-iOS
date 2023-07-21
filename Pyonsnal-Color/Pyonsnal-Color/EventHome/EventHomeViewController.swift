@@ -38,7 +38,7 @@ final class EventHomeViewController: UIViewController,
     }
     
     enum TabBarItem {
-        static let title = "행사"
+        static let title = "행사 상품"
     }
     
     weak var listener: EventHomePresentableListener?

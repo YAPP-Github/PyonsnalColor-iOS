@@ -60,7 +60,7 @@ final class ProductHomeViewController:
         
         tabBarItem.setTitleTextAttributes([.font: customFont], for: .normal)
         tabBarItem = UITabBarItem(
-            title: "홈",
+            title: "차별화 상품",
             image: UIImage(named: "home"),
             selectedImage: UIImage(named: "home.selected")
         )
