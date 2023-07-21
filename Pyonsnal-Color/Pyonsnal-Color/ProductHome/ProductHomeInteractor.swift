@@ -9,6 +9,8 @@ import Combine
 import ModernRIBs
 
 protocol ProductHomeRouting: ViewableRouting {
+    func attachProductSearch()
+    func detachProductSearch()
     func attachNotificationList()
     func detachNotificationList()
     func attachProductDetail(with brandProduct: ProductConvertable)
@@ -95,6 +97,14 @@ final class ProductHomeInteractor:
                 }
             }
         }.store(in: &cancellable)
+    }
+    
+    func didTapSearchButton() {
+        router?.attachProductSearch()
+    }
+    
+    func popProductSearch() {
+        router?.detachProductSearch()
     }
     
     func didTapNotificationButton() {

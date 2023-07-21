@@ -16,6 +16,10 @@ extension UIButton {
         self.setImage(kind.image, for: state)
     }
     
+    func setImage(_ kind: ImageAssetKind.Icon, for state: UIControl.State) {
+        self.setImage(kind.image, for: state)
+    }
+    
     /// 버튼 텍스트에 언더바를 그어줍니다.
     ///  - Parameter text: 언더바 적용할 text
     ///  - Parameter color: 언더바 및 텍스트  color

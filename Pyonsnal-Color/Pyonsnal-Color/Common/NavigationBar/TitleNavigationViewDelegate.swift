@@ -8,5 +8,6 @@
 import Foundation
 
 protocol TitleNavigationViewDelegate: AnyObject {
+    func didTabSearchButton()
     func didTabNotificationButton()
 }

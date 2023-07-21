@@ -9,6 +9,8 @@ import Combine
 import ModernRIBs
 
 protocol EventHomeRouting: ViewableRouting {
+    func attachProductSearch()
+    func detachProductSearch()
     func attachEventDetail(with imageURL: String, store: ConvenienceStore)
     func detachEventDetail()
     func attachProductDetail(with brandProduct: ProductConvertable)
@@ -115,6 +117,14 @@ final class EventHomeInteractor:
                 self?.presenter.update(with: product, banners: event, at: store)
             }
         }.store(in: &cancellable)
+    }
+    
+    func didTapSearchButton() {
+        router?.attachProductSearch()
+    }
+    
+    func popProductSearch() {
+        router?.detachProductSearch()
     }
     
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {

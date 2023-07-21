@@ -12,6 +12,7 @@ import SnapKit
 protocol EventHomePresentableListener: AnyObject {
     func didLoadEventHome()
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
+    func didTapSearchButton()
     func didTapProductCell()
     func didChangeStore(to store: ConvenienceStore)
     func didScrollToNextPage(store: ConvenienceStore)
@@ -65,6 +66,7 @@ final class EventHomeViewController: UIViewController,
         
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
+        configureNavigationView()
         configureTabCollectionView()
         setPageViewController()
         setScrollView()
@@ -73,6 +75,10 @@ final class EventHomeViewController: UIViewController,
     }
     
     // MARK: - Private method
+    private func configureNavigationView() {
+        viewHolder.titleNavigationView.delegate = self
+    }
+    
     private func configureTabCollectionView() {
         viewHolder.convenienceStoreCollectionView.delegate = self
         viewHolder.convenienceStoreCollectionView.dataSource = self
@@ -137,7 +143,7 @@ extension EventHomeViewController {
     
     class ViewHolder: ViewHolderable {
         
-        private let titleNavigationView: TitleNavigationView = {
+        let titleNavigationView: TitleNavigationView = {
             let titleNavigationView = TitleNavigationView(title: Header.title)
             return titleNavigationView
         }()
@@ -252,6 +258,15 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     
     func didChangeStore(to store: ConvenienceStore) {
         listener?.didChangeStore(to: store)
+    }
+}
+
+extension EventHomeViewController: TitleNavigationViewDelegate {
+    func didTabSearchButton() {
+        listener?.didTapSearchButton()
+    }
+    
+    func didTabNotificationButton() {
     }
 }
 

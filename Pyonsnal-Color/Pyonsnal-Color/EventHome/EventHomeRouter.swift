@@ -8,6 +8,7 @@
 import ModernRIBs
 
 protocol EventHomeInteractable: Interactable,
+                                ProductSearchListener,
                                 EventDetailListener,
                                 ProductDetailListener {
     var router: EventHomeRouting? { get set }
@@ -20,24 +21,51 @@ protocol EventHomeViewControllable: ViewControllable {
 
 final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeViewControllable>,
                              EventHomeRouting {
-
+    
+    private let productSearch: ProductSearchBuildable
     private let eventDetailBuilder: EventDetailBuilder
     private let productDetail: ProductDetailBuildable
     
+    private var productSearchRouting: ProductSearchRouting?
     private var eventDetailRouting: ViewableRouting?
     private var productDetailRouting: ProductDetailRouting?
 
     init(
         interactor: EventHomeInteractable,
         viewController: EventHomeViewControllable,
+        productSearch: ProductSearchBuildable,
         eventDetailBuilder: EventDetailBuilder,
         productDetail: ProductDetailBuildable
     ) {
+        self.productSearch = productSearch
         self.eventDetailBuilder = eventDetailBuilder
         self.productDetail = productDetail
         super.init(interactor: interactor,
                    viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachProductSearch() {
+        guard productSearchRouting == nil else { return }
+        
+        let productSearchRouting = productSearch.build(withListener: interactor)
+        let viewController = productSearchRouting.viewControllable
+        
+        viewControllable.pushViewController(
+            viewController,
+            animated: true
+        )
+        
+        self.productSearchRouting = productSearchRouting
+        attachChild(productSearchRouting)
+    }
+    
+    func detachProductSearch() {
+        guard let productSearchRouting else { return }
+        
+        viewControllable.popViewController(animated: true)
+        self.productSearchRouting = nil
+        detachChild(productSearchRouting)
     }
     
     func attachEventDetail(with imageURL: String, store: ConvenienceStore) {
