@@ -12,6 +12,7 @@ protocol EventHomeDependency: Dependency {
 }
 
 final class EventHomeComponent: Component<EventHomeDependency>,
+                                ProductSearchDependency,
                                 EventDetailDependency,
                                 ProductDetailDependency {
 }
@@ -37,9 +38,11 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
             presenter: viewController,
             dependency: dependency
         )
+        let productSearch: ProductSearchBuilder = .init(dependency: component)
         interactor.listener = listener
         return EventHomeRouter(interactor: interactor,
                                viewController: viewController,
+                               productSearch: productSearch,
                                eventDetailBuilder: eventDetailBuilder,
                                productDetail: productDetail)
     }
