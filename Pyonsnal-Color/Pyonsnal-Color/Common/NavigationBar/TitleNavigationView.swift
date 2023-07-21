@@ -13,10 +13,10 @@ final class TitleNavigationView: UIView {
     enum Constant {
         enum Size {
             static let stackViewMargin: UIEdgeInsets = .init(
-                top: 11,
-                left: 16,
-                bottom: 11,
-                right: 16
+                top: 14,
+                left: 20,
+                bottom: 14,
+                right: 20
             )
             static let indicatorWidth: CGFloat = 5
         }
@@ -35,6 +35,7 @@ final class TitleNavigationView: UIView {
         return stackView
     }()
     
+    // TODO: 네비바 레이블을 타이틀 이미지로 변경
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = Constant.Text.font
