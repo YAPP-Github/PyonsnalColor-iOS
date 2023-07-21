@@ -92,7 +92,7 @@ class Log {
             message: message,
             fileName: fileName,
             functionName: functionName,
-            logType: .debug
+            logType: .network
         )
     }
     
@@ -137,7 +137,7 @@ class Log {
         let fileName = "\(fileURL.lastPathComponent).\(pathExtension)"
         
         let message = """
-        [\(fileName)]
+        [\(logType.category) - \(fileName)]
         \(functionName)
         \(message)
         """
