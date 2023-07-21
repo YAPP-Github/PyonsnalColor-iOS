@@ -63,13 +63,6 @@ final class ProfileHomeViewController: UIViewController,
         configureTableView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        let vc = ProductSearchViewController()
-        present(vc, animated: true)
-    }
-    
     func update(with member: MemberInfoEntity) {
         viewHolder.nickNameLabel.text = member.nickname
     }
