@@ -144,7 +144,7 @@ extension EventHomeViewController {
     class ViewHolder: ViewHolderable {
         
         let titleNavigationView: TitleNavigationView = {
-            let titleNavigationView = TitleNavigationView(title: Header.title)
+            let titleNavigationView = TitleNavigationView()
             return titleNavigationView
         }()
         
