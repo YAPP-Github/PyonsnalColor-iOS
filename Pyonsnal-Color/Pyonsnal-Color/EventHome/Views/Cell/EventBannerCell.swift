@@ -83,12 +83,13 @@ final class EventBannerCell: UICollectionViewCell {
         dataSource = DataSource(collectionView: viewHolder.collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
             case .event(let _):
-                let cell: EventBannerItemCell? = collectionView.dequeueReusableCell(withReuseIdentifier: EventBannerItemCell.className, for: indexPath) as? EventBannerItemCell
+                let cell: EventBannerItemCell = collectionView.dequeueReusableCell(for: indexPath)
                 let eventBanner = self.eventBannerUrls[indexPath.item]
-                cell?.update(with: eventBanner.thumbnailImageURL)
+                cell.update(with: eventBanner.thumbnailImageURL)
+                cell.setImageContentMode(with: eventBanner.storeType)
                 self.updatePageCountLabel(with: self.currentIndex)
-                cell?.delegate = self
-                return cell ?? UICollectionViewCell()
+                cell.delegate = self
+                return cell
             }
         }
     }

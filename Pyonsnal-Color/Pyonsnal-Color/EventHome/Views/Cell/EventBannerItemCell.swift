@@ -34,6 +34,14 @@ final class EventBannerItemCell: UICollectionViewCell {
            let url = URL(string: encodedURLString) else { return }
         viewHolder.eventImageView.setImage(with: url)
     }
+    
+    func setImageContentMode(with storeType: ConvenienceStore) {
+        if storeType == .sevenEleven {
+            viewHolder.eventImageView.contentMode = .scaleAspectFit
+            return
+        }
+        viewHolder.eventImageView.contentMode = .scaleAspectFill
+    }
 }
 
 extension EventBannerItemCell {
@@ -41,7 +49,7 @@ extension EventBannerItemCell {
         let eventImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.backgroundColor = .white
-            imageView.contentMode = .scaleAspectFit
+            imageView.contentMode = .scaleAspectFill
             return imageView
         }()
         
