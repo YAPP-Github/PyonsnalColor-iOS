@@ -175,6 +175,7 @@
 		F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */; };
 		F0C582C32A55E83400DAD387 /* TermsOfUseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */; };
 		F0C582C42A55E83400DAD387 /* TermsOfUseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */; };
+		F0C6986A2A6BB1000019C677 /* ImageAsset+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C698692A6BB1000019C677 /* ImageAsset+Filter.swift */; };
 		F0C6985F2A6ABDDD0019C677 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6985E2A6ABDDD0019C677 /* Log.swift */; };
 		F0C698632A6ABE5B0019C677 /* OSLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C698612A6ABE2D0019C677 /* OSLog.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */; };
@@ -360,6 +361,7 @@
 		F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
 		F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseBuilder.swift; sourceTree = "<group>"; };
 		F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseInteractor.swift; sourceTree = "<group>"; };
+		F0C698692A6BB1000019C677 /* ImageAsset+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAsset+Filter.swift"; sourceTree = "<group>"; };
 		F0C6985E2A6ABDDD0019C677 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F0C698612A6ABE2D0019C677 /* OSLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSLog.framework; path = System/Library/Frameworks/OSLog.framework; sourceTree = SDKROOT; };
 		F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyonsnalColorClient.swift; sourceTree = "<group>"; };
@@ -636,6 +638,7 @@
 				F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */,
 				BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */,
 				BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */,
+				F0C698692A6BB1000019C677 /* ImageAsset+Filter.swift */,
 			);
 			path = ImageAssetKind;
 			sourceTree = "<group>";
@@ -1180,6 +1183,7 @@
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				BAE442C62A6D7B9E00BD6582 /* EmptyCell.swift in Sources */,
 				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
+				F0C6986A2A6BB1000019C677 /* ImageAsset+Filter.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
 				F097EF342A571DD300A7FB9C /* CommonWebRouter.swift in Sources */,
 				BABBB9662A69951700BC36A0 /* SearchBarViewDelegate.swift in Sources */,
