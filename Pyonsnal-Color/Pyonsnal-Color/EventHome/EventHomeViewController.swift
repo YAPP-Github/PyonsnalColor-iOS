@@ -22,7 +22,7 @@ protocol EventHomePresentableListener: AnyObject {
 final class EventHomeViewController: UIViewController,
                                      EventHomePresentable,
                                      EventHomeViewControllable {
-    
+    // MARK: - Interface
     enum Size {
         static let titleLabelLeading: CGFloat = 16
         static let headerMargin: CGFloat = 11
@@ -41,10 +41,22 @@ final class EventHomeViewController: UIViewController,
         static let title = "행사 상품"
     }
     
+    enum SectionType: Hashable {
+        case convenienceStore
+        case filter
+    }
+    
+    enum ItemType: Hashable {
+        case convenienceStore(storeName: String)
+        case filter(filterItem: String)
+    }
+    
+    typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     weak var listener: EventHomePresentableListener?
     
     // MARK: - Private property
     private let viewHolder: ViewHolder = .init()
+    private var dataSource: DataSource?
     private var innerScrollLastOffsetY: CGFloat = 0
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
@@ -67,7 +79,9 @@ final class EventHomeViewController: UIViewController,
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureNavigationView()
-        configureTabCollectionView()
+        configureDatasource()
+        makeSnapshot()
+        configureCollectionView()
         setPageViewController()
         setScrollView()
         configureUI()
@@ -79,10 +93,39 @@ final class EventHomeViewController: UIViewController,
         viewHolder.titleNavigationView.delegate = self
     }
     
-    private func configureTabCollectionView() {
-        viewHolder.convenienceStoreCollectionView.delegate = self
-        viewHolder.convenienceStoreCollectionView.dataSource = self
-        viewHolder.convenienceStoreCollectionView.register(ConvenienceStoreCell.self)
+    private func configureDatasource() {
+        dataSource = DataSource(collectionView: viewHolder.collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
+            switch item {
+            case .convenienceStore(let storeName):
+                let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.configureCell(title: storeName)
+                if indexPath.row == self.initIndex { // 초기 상태 selected
+                    self.setSelectedConvenienceStoreCell(with: indexPath)
+                }
+                return cell
+            case .filter(let filterItem):
+                let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+//                cell.configure(with: filterItem)
+                return cell
+            }
+            
+        }
+    }
+    
+    private func makeSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        snapshot.appendSections([.convenienceStore])
+        let items = CommonConstants.convenienceStore.map { storeName in
+            return ItemType.convenienceStore(storeName: storeName)
+        }
+        snapshot.appendItems(items, toSection: .convenienceStore)
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func configureCollectionView() {
+        viewHolder.collectionView.delegate = self
+        viewHolder.collectionView.register(ConvenienceStoreCell.self)
+        viewHolder.collectionView.register(CategoryFilterCell.self)
     }
     
     private func setPageViewController() {
@@ -110,7 +153,7 @@ final class EventHomeViewController: UIViewController,
     }
     
     private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
-        viewHolder.convenienceStoreCollectionView.selectItem(
+        viewHolder.collectionView.selectItem(
             at: indexPath,
             animated: true,
             scrollPosition: .init()
@@ -120,7 +163,6 @@ final class EventHomeViewController: UIViewController,
     func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore) {
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
             let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
-            
             tabViewController.applyEventProductsSnapshot(with: products)
         }
     }
@@ -154,7 +196,7 @@ extension EventHomeViewController {
             return scrollView
         }()
         
-        let convenienceStoreCollectionView: UICollectionView = {
+        let collectionView: UICollectionView = {
             let flowLayout = UICollectionViewFlowLayout()
             let collectionView = UICollectionView(frame: .zero,
                                                   collectionViewLayout: flowLayout)
@@ -189,7 +231,7 @@ extension EventHomeViewController {
             containerScrollView.addSubview(contentView)
             contentView.addSubview(titleNavigationView)
             contentView.addSubview(storeCollectionViewSeparator)
-            contentView.addSubview(convenienceStoreCollectionView)
+            contentView.addSubview(collectionView)
             contentView.addSubview(contentPageView)
             contentPageView.addSubview(pageViewController.view)
         }
@@ -211,7 +253,7 @@ extension EventHomeViewController {
                 $0.top.leading.trailing.equalToSuperview()
             }
             
-            convenienceStoreCollectionView.snp.makeConstraints {
+            collectionView.snp.makeConstraints {
                 $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
                 $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
@@ -220,7 +262,7 @@ extension EventHomeViewController {
             
             storeCollectionViewSeparator.snp.makeConstraints { make in
                 make.height.equalTo(Size.storeCollectionViewSeparatorHeight)
-                make.top.equalTo(convenienceStoreCollectionView.snp.bottom).inset(1)
+                make.top.equalTo(collectionView.snp.bottom).inset(1)
                 make.leading.trailing.equalToSuperview()
             }
             
@@ -270,27 +312,11 @@ extension EventHomeViewController: TitleNavigationViewDelegate {
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension EventHomeViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return convenienceStores.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)
-        cell.configureCell(title: convenienceStores[indexPath.row])
-        if indexPath.row == initIndex { // 초기 상태 selected
-            setSelectedConvenienceStoreCell(with: indexPath)
-        }
-        return cell
-    }
-}
-
 // MARK: - UICollectionViewDelegate
 extension EventHomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == viewHolder.convenienceStoreCollectionView {
+        if collectionView == viewHolder.collectionView {
             setSelectedConvenienceStoreCell(with: indexPath)
             viewHolder.pageViewController.updatePage(indexPath.row)
         }
