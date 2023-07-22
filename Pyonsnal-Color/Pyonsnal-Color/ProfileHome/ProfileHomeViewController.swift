@@ -78,7 +78,7 @@ final class ProfileHomeViewController: UIViewController,
         
         tabBarItem.setTitleTextAttributes([.font: UIFont.label2], for: .normal)
         tabBarItem = UITabBarItem(
-            title: "MY",
+            title: "마이페이지",
             image: UIImage(named: "profile"),
             selectedImage: UIImage(named: "profile.selected")
         )

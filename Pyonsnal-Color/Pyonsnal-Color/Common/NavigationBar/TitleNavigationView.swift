@@ -13,10 +13,10 @@ final class TitleNavigationView: UIView {
     enum Constant {
         enum Size {
             static let stackViewMargin: UIEdgeInsets = .init(
-                top: 11,
-                left: 16,
-                bottom: 11,
-                right: 16
+                top: 14,
+                left: 20,
+                bottom: 14,
+                right: 20
             )
             static let indicatorWidth: CGFloat = 5
         }
@@ -35,10 +35,10 @@ final class TitleNavigationView: UIView {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = Constant.Text.font
-        return label
+    private let titleImageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        imageView.setImage(.iconTitle)
+        return imageView
     }()
     
     private let searchButton: UIButton = {
@@ -64,13 +64,12 @@ final class TitleNavigationView: UIView {
     
     weak var delegate: TitleNavigationViewDelegate?
     
-    convenience init(title: String) {
+    convenience init() {
         self.init(frame: .zero)
         
         configureAction()
         configureLayout()
         configureConstraints()
-        titleLabel.text = title
         // TO DO : 알림 관련 작업시 해당 코드 삭제
         notificationButton.isHidden = true
     }
@@ -92,7 +91,7 @@ final class TitleNavigationView: UIView {
     private func configureLayout() {
         addSubview(containerStackView)
         
-        containerStackView.addArrangedSubview(titleLabel)
+        containerStackView.addArrangedSubview(titleImageView)
         containerStackView.addArrangedSubview(searchButton)
         containerStackView.addArrangedSubview(notificationButton)
         
@@ -108,6 +107,10 @@ final class TitleNavigationView: UIView {
             make.top.trailing.equalToSuperview()
             make.width.height.equalTo(Constant.Size.indicatorWidth)
         }
+        
+        searchButton.snp.makeConstraints { make in
+            make.width.height.equalTo(Spacing.spacing24.value)
+        }
     }
     
     @objc private func didTabSearchButton() {
@@ -116,10 +119,6 @@ final class TitleNavigationView: UIView {
     
     @objc private func didTabNotificationButton() {
         delegate?.didTabNotificationButton()
-    }
-    
-    func setTitle(_ text: String) {
-        titleLabel.text = text
     }
     
     func setImage(_ image: ImageAssetKind) {

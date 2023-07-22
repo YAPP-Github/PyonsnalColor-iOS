@@ -38,7 +38,7 @@ final class EventHomeViewController: UIViewController,
     }
     
     enum TabBarItem {
-        static let title = "행사"
+        static let title = "행사 상품"
     }
     
     weak var listener: EventHomePresentableListener?
@@ -144,7 +144,7 @@ extension EventHomeViewController {
     class ViewHolder: ViewHolderable {
         
         let titleNavigationView: TitleNavigationView = {
-            let titleNavigationView = TitleNavigationView(title: Header.title)
+            let titleNavigationView = TitleNavigationView()
             return titleNavigationView
         }()
         

@@ -15,16 +15,6 @@ final class ConvenienceStoreCell: UICollectionViewCell {
             static let font: UIFont = .body3m
             static let height: CGFloat = 44
         }
-        
-        enum Color {
-            static let selectedColor: UIColor = .black
-            static let deselectedColor: UIColor = .init(
-                red: 0.702,
-                green: 0.702,
-                blue: 0.714,
-                alpha: 1
-            )
-        }
     }
     
     enum Action {
@@ -58,7 +48,7 @@ final class ConvenienceStoreCell: UICollectionViewCell {
             let label = UILabel()
             label.font = Constant.Size.font
             label.textAlignment = .center
-            label.textColor = Constant.Color.deselectedColor
+            label.textColor = .gray700
             return label
         }()
         
@@ -108,10 +98,10 @@ final class ConvenienceStoreCell: UICollectionViewCell {
 
     private func toggleSelectedColor(isSelected: Bool) {
         if isSelected {
-            viewHolder.storeTitleLabel.textColor = Constant.Color.selectedColor
-            viewHolder.indicatorView.backgroundColor = Constant.Color.selectedColor
+            viewHolder.storeTitleLabel.textColor = .red500
+            viewHolder.indicatorView.backgroundColor = .red500
         } else {
-            viewHolder.storeTitleLabel.textColor = Constant.Color.deselectedColor
+            viewHolder.storeTitleLabel.textColor = .gray700
             viewHolder.indicatorView.backgroundColor = .clear
         }
     }

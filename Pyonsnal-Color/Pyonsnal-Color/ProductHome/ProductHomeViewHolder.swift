@@ -37,7 +37,7 @@ extension ProductHomeViewController {
             return view
         }()
         
-        let titleNavigationView = TitleNavigationView(title: Constant.Text.title)
+        let titleNavigationView = TitleNavigationView()
         
         let convenienceStoreCollectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
