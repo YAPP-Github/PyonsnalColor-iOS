@@ -42,7 +42,6 @@ final class EventHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
-    private var eventProducts: [ConvenienceStore: [EventProductEntity]] = [:]
 
     init(
         presenter: EventHomePresentable,
@@ -89,11 +88,8 @@ final class EventHomeInteractor:
             storeType: store
         ).sink { [weak self] response in
             if let productPage = response.value {
-                self?.eventProducts[store]? += productPage.content
-                if let products = self?.eventProducts[store] {
-                    self?.presenter.updateProducts(with: products, at: store)
-                    self?.presenter.didFinishPaging()
-                }
+                self?.presenter.updateProducts(with: productPage.content, at: store)
+                self?.presenter.didFinishPaging()
             }
         }.store(in: &cancellable)
     }
@@ -112,7 +108,6 @@ final class EventHomeInteractor:
         eventPublisher
             .combineLatest(productPublisher)
             .sink { [weak self] event, product in
-            self?.eventProducts[store] = product.value?.content
             if let event = event.value,
                let product = product.value?.content {
                 self?.presenter.update(with: product, banners: event, at: store)
