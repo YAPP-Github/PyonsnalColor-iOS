@@ -29,7 +29,7 @@ final class ProductHomeViewController:
     
     enum ItemType: Hashable {
         case convenienceStore(storeName: String)
-        case filter(filterItem: String)
+        case filter(filterItem: CategoryFilter)
     }
     
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
@@ -39,6 +39,7 @@ final class ProductHomeViewController:
     private let viewHolder: ViewHolder = .init()
     private var dataSource: DataSource?
     private let convenienceStores: [String] = CommonConstants.productHomeStore
+    private let filterItem: [FilterItem] = []
     private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
@@ -47,7 +48,6 @@ final class ProductHomeViewController:
     // MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
-        
         setupViews()
     }
     
@@ -70,7 +70,9 @@ final class ProductHomeViewController:
     
     // MARK: - Private Method
     private func configureDatasource() {
-        dataSource = DataSource(collectionView: viewHolder.collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
+        dataSource = DataSource(collectionView: viewHolder.collectionView)
+        { collectionView, indexPath, item -> UICollectionViewCell? in
+            print("snapshot \(indexPath) \(item)")
             switch item {
             case .convenienceStore(let storeName):
                 let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)
@@ -79,9 +81,9 @@ final class ProductHomeViewController:
                     self.setSelectedConvenienceStoreCell(with: indexPath)
                 }
                 return cell
-            case .filter(let filterItem):
+            case .filter(let filter):
                 let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-//                cell.configure(with: filterItem)
+                cell.configure(with: filter)
                 return cell
             }
             
@@ -90,12 +92,52 @@ final class ProductHomeViewController:
     
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        // append store
         snapshot.appendSections([.convenienceStore])
         let items = CommonConstants.convenienceStore.map { storeName in
             return ItemType.convenienceStore(storeName: storeName)
         }
         snapshot.appendItems(items, toSection: .convenienceStore)
+        
+        // append filter
+        let filters = makeCategoryFilter()
+        if !filters.isEmpty {
+            snapshot.appendSections([.filter])
+            let filterItems = filters.map { filter in
+                return ItemType.filter(filterItem: filter)
+            }
+            snapshot.appendItems(filterItems, toSection: .filter)
+        }
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func makeCategoryFilter() -> [CategoryFilter] {
+        var categoryFilters: [CategoryFilter] = []
+        // 정렬
+        if !FilterDummy.data.sortedMeta.isEmpty {
+            if let sortDefaultText = FilterDummy.data.sortedMeta.first(where: { $0.isSelected })?.name {
+                categoryFilters.append(CategoryFilter(defaultText: sortDefaultText))
+            }
+        }
+        
+        // 행사
+        if !FilterDummy.data.tagMetaData.isEmpty {
+            let eventDefaultText = "행사"
+            categoryFilters.append(CategoryFilter(defaultText: eventDefaultText))
+        }
+        
+        // 카테고리
+        if !FilterDummy.data.categoryMetaData.isEmpty {
+            let categoryDefaultText = "카테고리"
+            categoryFilters.append(CategoryFilter(defaultText: categoryDefaultText))
+        }
+        
+        // 상품 추천
+        if !FilterDummy.data.eventMetaData.isEmpty {
+            let eventDefaultText = "상품 추천"
+            categoryFilters.append(CategoryFilter(defaultText: eventDefaultText))
+        }
+        return categoryFilters
     }
     
     private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
@@ -122,6 +164,8 @@ final class ProductHomeViewController:
     
     private func setupStoreCollectionView() {
         viewHolder.collectionView.delegate = self
+        viewHolder.collectionView.register(ConvenienceStoreCell.self)
+        viewHolder.collectionView.register(CategoryFilterCell.self)
     }
     
     private func setupProductCollectionView() {

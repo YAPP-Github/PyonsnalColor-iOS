@@ -45,7 +45,6 @@ extension ProductHomeViewController {
             
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.backgroundColor = .clear
-            collectionView.register(ConvenienceStoreCell.self)
             collectionView.isScrollEnabled = false
             collectionView.layoutMargins = UIEdgeInsets(
                 top: 0,
@@ -96,7 +95,8 @@ extension ProductHomeViewController {
             collectionView.snp.makeConstraints { make in
                 make.top.equalTo(titleNavigationView.snp.bottom)
                 make.leading.trailing.equalToSuperview().inset(16)
-                make.height.equalTo(ConvenienceStoreCell.Constant.Size.height)
+                let height = ConvenienceStoreCell.Constant.Size.height + CategoryFilterCell.Size.height
+                make.height.equalTo(height)
             }
             
             storeCollectionViewSeparator.snp.makeConstraints { make in

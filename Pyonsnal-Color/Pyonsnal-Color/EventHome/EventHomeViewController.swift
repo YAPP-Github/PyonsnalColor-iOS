@@ -48,7 +48,7 @@ final class EventHomeViewController: UIViewController,
     
     enum ItemType: Hashable {
         case convenienceStore(storeName: String)
-        case filter(filterItem: String)
+        case filter(filterItem: CategoryFilter)
     }
     
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
@@ -105,7 +105,7 @@ final class EventHomeViewController: UIViewController,
                 return cell
             case .filter(let filterItem):
                 let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-//                cell.configure(with: filterItem)
+                cell.configure(with: filterItem)
                 return cell
             }
             
@@ -114,12 +114,52 @@ final class EventHomeViewController: UIViewController,
     
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        // append store
         snapshot.appendSections([.convenienceStore])
         let items = CommonConstants.convenienceStore.map { storeName in
             return ItemType.convenienceStore(storeName: storeName)
         }
         snapshot.appendItems(items, toSection: .convenienceStore)
+        
+        // append filter
+        let filters = makeCategoryFilter()
+        if !filters.isEmpty {
+            snapshot.appendSections([.filter])
+            let filterItems = filters.map { filter in
+                return ItemType.filter(filterItem: filter)
+            }
+            snapshot.appendItems(filterItems, toSection: .filter)
+        }
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func makeCategoryFilter() -> [CategoryFilter] {
+        var categoryFilters: [CategoryFilter] = []
+        // 정렬
+        if !FilterDummy.data.sortedMeta.isEmpty {
+            if let sortDefaultText = FilterDummy.data.sortedMeta.first(where: { $0.isSelected })?.name {
+                categoryFilters.append(CategoryFilter(defaultText: sortDefaultText))
+            }
+        }
+        
+        // 행사
+        if !FilterDummy.data.tagMetaData.isEmpty {
+            let eventDefaultText = "행사"
+            categoryFilters.append(CategoryFilter(defaultText: eventDefaultText))
+        }
+        
+        // 카테고리
+        if !FilterDummy.data.categoryMetaData.isEmpty {
+            let categoryDefaultText = "카테고리"
+            categoryFilters.append(CategoryFilter(defaultText: categoryDefaultText))
+        }
+        
+        // 상품 추천
+        if !FilterDummy.data.eventMetaData.isEmpty {
+            let eventDefaultText = "상품 추천"
+            categoryFilters.append(CategoryFilter(defaultText: eventDefaultText))
+        }
+        return categoryFilters
     }
     
     private func configureCollectionView() {
@@ -257,7 +297,8 @@ extension EventHomeViewController {
                 $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
                 $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
-                $0.height.equalTo(ConvenienceStoreCell.Constant.Size.height)
+                let height = ConvenienceStoreCell.Constant.Size.height + CategoryFilterCell.Size.height
+                $0.height.equalTo(height)
             }
             
             storeCollectionViewSeparator.snp.makeConstraints { make in
