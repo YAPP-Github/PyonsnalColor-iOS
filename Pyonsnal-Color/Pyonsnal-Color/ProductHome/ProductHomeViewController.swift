@@ -63,7 +63,6 @@ final class ProductHomeViewController:
     private func configureDatasource() {
         dataSource = TopCollectionViewDatasource.DataSource(collectionView: viewHolder.collectionView)
         { collectionView, indexPath, item -> UICollectionViewCell? in
-            print("snapshot \(indexPath) \(item)")
             switch item {
             case .convenienceStore(let storeName):
                 let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)

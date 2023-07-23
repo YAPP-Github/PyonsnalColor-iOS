@@ -61,24 +61,25 @@ final class EventHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestInitialProducts(store: ConvenienceStore = .all) {
-        storeLastPages[store] = initialPage
-        
-        dependency?.productAPIService.requestEventProduct(
-            pageNumber: initialPage,
-            pageSize: initialCount,
-            storeType: store
-        ).sink { [weak self] response in
-            if let productPage = response.value {
-                self?.eventProducts[store] = productPage.content
-                if let products = self?.eventProducts[store] {
-                    self?.presenter.updateProducts(with: products, at: store)
-                }
-            } else if response.error != nil {
-                // TODO: Error Handling
-            }
-        }.store(in: &cancellable)
-    }
+//    private func requestInitialProducts(store: ConvenienceStore) {
+//        storeLastPages[store] = initialPage
+//        
+//        dependency?.productAPIService.requestEventProduct(
+//            pageNumber: initialPage,
+//            pageSize: initialCount,
+//            storeType: store
+//        ).sink { [weak self] response in
+//            if let productPage = response.value {
+//                self?.eventProducts[store] = productPage.content
+//                if let products = self?.eventProducts[store] {
+//                    self?.presenter.updateProducts(with: productPage.content, at: store)
+//                }
+//                self?.presenter.updateProducts(with: productPage.content, at: store)
+//            } else if response.error != nil {
+//                // TODO: Error Handling
+//            }
+//        }.store(in: &cancellable)
+//    }
     
     private func requestProducts(pageNumber: Int, store: ConvenienceStore) {
         storeLastPages[store] = pageNumber
@@ -139,8 +140,9 @@ final class EventHomeInteractor:
         // TO DO : 아이템 카드 클릭시
     }
     
-    func didLoadEventHome() {
-        requestInitialProducts()
+    func didLoadEventHome(with store: ConvenienceStore) {
+        requestProductWithBanners(store: store)
+//        requestInitialProducts()
     }
     
     func didSelect(with brandProduct: ProductConvertable) {
@@ -152,10 +154,6 @@ final class EventHomeInteractor:
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        if store == .all {
-            requestInitialProducts()
-            return
-        }
         requestProductWithBanners(store: store)
     }
     

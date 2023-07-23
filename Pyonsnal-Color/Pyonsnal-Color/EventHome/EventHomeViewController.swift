@@ -10,7 +10,7 @@ import ModernRIBs
 import SnapKit
 
 protocol EventHomePresentableListener: AnyObject {
-    func didLoadEventHome()
+    func didLoadEventHome(with store: ConvenienceStore)
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapSearchButton()
     func didTapProductCell()
@@ -77,7 +77,9 @@ final class EventHomeViewController: UIViewController,
         setPageViewController()
         setScrollView()
         configureUI()
-        listener?.didLoadEventHome()
+        if let store = ConvenienceStore.allCases.first(where: { $0.convenienceStoreCellName == convenienceStores.first }) {
+            listener?.didLoadEventHome(with: store)
+        }
     }
     
     // MARK: - Private method
@@ -206,14 +208,14 @@ final class EventHomeViewController: UIViewController,
     }
     
     func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore) {
-        if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
+        if let storeIndex = convenienceStores.firstIndex(of: store.convenienceStoreCellName) {
             let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
             tabViewController.applyEventProductsSnapshot(with: products)
         }
     }
     
     func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore) {
-        if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
+        if let storeIndex = convenienceStores.firstIndex(of: store.convenienceStoreCellName) {
             let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
             tabViewController.applyEventBannerProducts(with: banners, products: products)
         }

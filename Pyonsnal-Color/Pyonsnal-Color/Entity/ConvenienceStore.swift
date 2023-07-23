@@ -43,6 +43,21 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
             return nil
         }
     }
+    
+    var convenienceStoreCellName: String {
+        switch self {
+        case .cu:
+            return "CU"
+        case .gs25:
+            return "GS25"
+        case .emart24:
+            return "Emart24"
+        case .sevenEleven:
+            return "7-Eleven"
+        case .all:
+            return "PICK!"
+        }
+    }
 }
 
 extension ConvenienceStore {
