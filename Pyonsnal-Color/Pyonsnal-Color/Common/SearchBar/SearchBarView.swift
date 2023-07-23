@@ -98,6 +98,12 @@ final class SearchBarView: UIView {
             action: #selector(textFieldDidChange(_:)),
             for: .editingChanged
         )
+        
+        cancelButton.addTarget(
+            self,
+            action: #selector(deleteButtonAction(_:)),
+            for: .touchUpInside
+        )
     }
     
     private func configureView() {
@@ -139,12 +145,9 @@ final class SearchBarView: UIView {
         }
     }
     
-    @objc private func backButtonAction(_ sender: UIButton) {
-        
-    }
-    
     @objc private func deleteButtonAction(_ sender: UIButton) {
-        
+        textField.text = nil
+        text = nil
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
