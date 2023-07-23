@@ -6,6 +6,7 @@
 //
 
 import ModernRIBs
+import Combine
 
 protocol ProductSearchRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -13,7 +14,8 @@ protocol ProductSearchRouting: ViewableRouting {
 
 protocol ProductSearchPresentable: Presentable {
     var listener: ProductSearchPresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
+    
+    func presentProducts(with items: [ProductCellType], isCanLoading: Bool)
 }
 
 protocol ProductSearchListener: AnyObject {
@@ -25,10 +27,32 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
 
     weak var router: ProductSearchRouting?
     weak var listener: ProductSearchListener?
+    
+    // MARK: - Private Property
+    private let dependency: ProductSearchDependency
+    private var cancellable = Set<AnyCancellable>()
+    private var keyword: String?
+    private var pageNumber: Int = 0
+    private let pageSize: Int = 20
+    private var isCanLoading: Bool = false
+    private var eventProductResult: [EventProductEntity] = [] {
+        didSet {
+            if eventProductResult.isEmpty {
+                presenter.presentProducts(with: [.empty], isCanLoading: isCanLoading)
+            } else {
+                let items: [ProductCellType] = eventProductResult.map { .item($0) }
+                presenter.presentProducts(with: items, isCanLoading: isCanLoading)
+            }
+        }
+    }
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: ProductSearchPresentable) {
+    init(
+        presenter: ProductSearchPresentable,
+        dependency: ProductSearchDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -45,5 +69,55 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     
     func popViewController() {
         listener?.popProductSearch()
+    }
+    
+    func search(with keyword: String?) {
+        self.keyword = keyword
+        self.pageNumber = 0
+        
+        if let keyword,
+           !keyword.isEmpty {
+            dependency.productAPIService.requestSearch(
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                name: keyword
+            )
+            .sink { [weak self] response in
+                if let productPage = response.value {
+                    let isLastPage = self?.pageNumber == (productPage.totalPages - 1)
+                    let contentIsEmpty = productPage.content.count == 0
+                    self?.isCanLoading = !isLastPage && !contentIsEmpty
+                    self?.eventProductResult = productPage.content
+                }
+            }
+            .store(in: &cancellable)
+        } else {
+            presenter.presentProducts(with: [.empty], isCanLoading: false)
+        }
+    }
+    
+    func loadMoreItems() {
+        if let keyword,
+           !keyword.isEmpty {
+            pageNumber += 1
+            dependency.productAPIService.requestSearch(
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                name: keyword
+            )
+            .sink { [weak self] response in
+                if let productPage = response.value {
+                    var currentProducts = self?.eventProductResult ?? []
+                    let isLastPage = self?.pageNumber == (productPage.totalPages - 1)
+                    let contentIsEmpty = productPage.content.count == 0
+                    self?.isCanLoading = !isLastPage && !contentIsEmpty
+                    currentProducts += productPage.content
+                    self?.eventProductResult = currentProducts
+                }
+            }
+            .store(in: &cancellable)
+        } else {
+            presenter.presentProducts(with: [.empty], isCanLoading: false)
+        }
     }
 }
