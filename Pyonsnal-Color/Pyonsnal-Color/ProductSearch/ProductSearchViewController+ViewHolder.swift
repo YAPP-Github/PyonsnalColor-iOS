@@ -39,12 +39,12 @@ extension ProductSearchViewController {
             return searchBarView
         }()
         
-        private let collectionView: UICollectionView = {
+        let collectionView: UICollectionView = {
             let layout: UICollectionViewFlowLayout = .init()
             layout.scrollDirection = .vertical
             
             let collectionView: UICollectionView = .init(frame: .zero, collectionViewLayout: layout)
-            collectionView.backgroundColor = .yellow
+            collectionView.backgroundColor = .gray200
             return collectionView
         }()
         
