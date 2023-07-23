@@ -22,7 +22,7 @@ final class CategoryFilterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with filterText: String, filterItem: [String]) {
+    func configure(with filterText: String?, filterItem: [String]) {
         viewHolder.button.setText(with: filterText)
     }
     

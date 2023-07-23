@@ -98,11 +98,16 @@ final class EventHomeViewController: UIViewController,
                 }
                 return cell
             case .filter(let filterItem):
-                let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.configure(with: filterItem.defaultText, filterItem: [])
-                return cell
+                switch filterItem.categoryFilterType {
+                case .refresh:
+                    let cell: RefreshCell = collectionView.dequeueReusableCell(for: indexPath)
+                    return cell
+                case .category:
+                    let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.configure(with: filterItem.defaultText, filterItem: [])
+                    return cell
+                }
             }
-            
         }
     }
     
@@ -119,11 +124,15 @@ final class EventHomeViewController: UIViewController,
         let filters = makeCategoryFilter()
         if !filters.isEmpty {
             snapshot.appendSections([.filter])
+            // keyword가 있다면
+            let refreshItem = CategoryFilter(categoryFilterType: .refresh)
+            snapshot.appendItems([ItemType.filter(filterItem: refreshItem)], toSection: .filter)
             let filterItems = filters.map { filter in
                 return ItemType.filter(filterItem: filter)
             }
             snapshot.appendItems(filterItems, toSection: .filter)
         }
+        
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -171,6 +180,7 @@ final class EventHomeViewController: UIViewController,
     private func configureCollectionView() {
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
+        viewHolder.collectionView.register(RefreshCell.self)
         viewHolder.collectionView.register(CategoryFilterCell.self)
         viewHolder.collectionView.collectionViewLayout = createLayout()
     }

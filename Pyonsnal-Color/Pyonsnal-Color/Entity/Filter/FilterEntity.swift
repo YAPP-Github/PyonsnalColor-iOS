@@ -8,8 +8,13 @@
 import Foundation
 
 struct CategoryFilter: Hashable {
-    var defaultText: String
+    var categoryFilterType: CategoryFilterType = .category
+    var defaultText: String?
     var isSelected: Bool = false
+    
+    enum CategoryFilterType {
+        case refresh, category
+    }
 }
 
 struct FilterEntity: Decodable {

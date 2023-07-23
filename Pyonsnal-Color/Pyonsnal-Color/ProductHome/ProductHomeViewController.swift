@@ -71,10 +71,16 @@ final class ProductHomeViewController:
                     self.setSelectedConvenienceStoreCell(with: indexPath)
                 }
                 return cell
-            case .filter(let filter):
-                let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.configure(with: filter.defaultText, filterItem: [])
-                return cell
+            case .filter(let filterItem):
+                switch filterItem.categoryFilterType {
+                case .refresh:
+                    let cell: RefreshCell = collectionView.dequeueReusableCell(for: indexPath)
+                    return cell
+                case .category:
+                    let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.configure(with: filterItem.defaultText, filterItem: [])
+                    return cell
+                }
             }
             
         }
@@ -93,6 +99,11 @@ final class ProductHomeViewController:
         let filters = makeCategoryFilter()
         if !filters.isEmpty {
             snapshot.appendSections([.filter])
+            
+            // keyword가 있다면
+            let refreshItem = CategoryFilter(categoryFilterType: .refresh)
+            snapshot.appendItems([ItemType.filter(filterItem: refreshItem)], toSection: .filter)
+            
             let filterItems = filters.map { filter in
                 return ItemType.filter(filterItem: filter)
             }
@@ -156,6 +167,7 @@ final class ProductHomeViewController:
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
         viewHolder.collectionView.register(CategoryFilterCell.self)
+        viewHolder.collectionView.register(RefreshCell.self)
         viewHolder.collectionView.collectionViewLayout = createLayout()
     }
     
