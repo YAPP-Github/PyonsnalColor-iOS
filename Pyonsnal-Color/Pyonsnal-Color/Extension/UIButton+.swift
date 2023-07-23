@@ -61,6 +61,14 @@ extension UIButton {
     func setText(with text: String?) {
         self.setTitle(text, for: .normal)
 	}
+    
+    /// 버튼 이미지 색상을 설정합니다.
+    func setImageTintColor(with color: UIColor) {
+        guard let currentImage = self.currentImage else { return }
+        let tintColorImage = currentImage.withRenderingMode(.alwaysTemplate)
+        self.setImage(tintColorImage, for: .normal)
+        self.tintColor = color
+    }
 
     func setCustomFont(text: String, color: UIColor, font: UIFont) {
         let attributedString = NSMutableAttributedString(string: text)

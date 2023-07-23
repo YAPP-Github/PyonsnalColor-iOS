@@ -7,22 +7,58 @@
 
 import UIKit
 
-class FilterButton: UIButton {
-    struct ButtonAttributes {
-        var textColor: UIColor?
-        var iconImage: UIImage?
+final class FilterButton: UIButton {
+    
+    enum Size {
+        static let borderWidth: CGFloat = 1
     }
     
     // MARK: - Initializer
     init() {
         super.init(frame: .zero)
+        initializeUI()
+        updateUIUnSelected()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateUI() {
+    // MARK: - Methods
+    func setSelectedState(isSelected: Bool) {
+        self.isSelected = isSelected
+    }
+    
+    func updateUISelected() {
+        self.isSelected = true
+        self.backgroundColor = .gray700
+        self.setImageTintColor(with: .white)
+        self.makeBorder(width: 0,
+                        color: UIColor.clear.cgColor)
+    }
+    
+    func updateUIUnSelected() {
+        self.isSelected = false
+        self.backgroundColor = .white
+        self.setImageTintColor(with: .gray500)
+        self.makeBorder(width: Size.borderWidth,
+                        color: UIColor.gray200.cgColor)
+    }
+    
+    // MARK: - Private methods
+    private func initializeUI() {
+        self.titleLabel?.font = .body3m
+        self.makeRounded(with: .spacing4)
+        self.makeBorder(width: Size.borderWidth,
+                        color: UIColor.gray200.cgColor)
+        self.setImage(.categoryFilter, for: .normal)
+        self.setTitleColor(.gray500, for: .normal)
+        self.setTitleColor(.white, for: .selected)
+        self.semanticContentAttribute = .forceRightToLeft
+        self.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                              left: .spacing10,
+                                              bottom: 0,
+                                              right: .spacing4)
         
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 extension ImageAssetKind {
     enum Filter: String {
         case sortFilter = "icon_filter_view"
-        case filter = "icon_filter"
+        case categoryFilter = "icon_filter"
         
         var image: UIImage? {
             return .init(named: self.rawValue)

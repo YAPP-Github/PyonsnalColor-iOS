@@ -7,35 +7,35 @@
 
 import UIKit
 
-class SortButton: UIButton {
+final class SortButton: UIButton {
+    
+    enum Size {
+        static let borderWidth: CGFloat = 1
+    }
     
     // MARK: - Initializer
-    init(title: String) {
+    init() {
         super.init(frame: .zero)
-        self.setText(with: title)
-        self.titleLabel?.font = .body3m
-        self.setImage(.sortFilter, for: .normal)
-        self.setTitleColor(.gray500, for: .normal)
-        self.setTitleColor(.white, for: .selected)
+        initializeUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Methods
-    func setSelectedState(isSelected: Bool) {
-        self.isSelected = isSelected
-    }
-    
-    func updateUISelected() {
-        self.tintColor = .white
-        self.backgroundColor = .gray700
-    }
-    
-    func updateUIUnSelected() {
-        self.tintColor = .gray500
-        self.backgroundColor = .white
+    // MARK: - Private methods
+    private func initializeUI() {
+        self.titleLabel?.font = .body3m
+        self.makeRounded(with: .spacing4)
+        self.makeBorder(width: Size.borderWidth,
+                        color: UIColor.gray200.cgColor)
+        self.setImage(.sortFilter, for: .normal)
+        self.setTitleColor(.gray500, for: .normal)
+        self.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                              left: .spacing6,
+                                              bottom: 0,
+                                              right: .spacing10)
+        
     }
 
 }
