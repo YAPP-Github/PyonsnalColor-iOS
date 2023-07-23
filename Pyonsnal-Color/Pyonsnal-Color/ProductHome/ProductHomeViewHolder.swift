@@ -41,8 +41,6 @@ extension ProductHomeViewController {
         
         let collectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .vertical
-            
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.backgroundColor = .clear
             collectionView.isScrollEnabled = false
@@ -94,8 +92,8 @@ extension ProductHomeViewController {
             
             collectionView.snp.makeConstraints { make in
                 make.top.equalTo(titleNavigationView.snp.bottom)
-                make.leading.trailing.equalToSuperview().inset(16)
-                let height = ConvenienceStoreCell.Constant.Size.height + CategoryFilterCell.Size.height
+                make.leading.trailing.equalToSuperview().inset(.spacing16)
+                let height = TopCommonLayout.ConvenienceStore.height + TopCommonLayout.CategoryFilter.height
                 make.height.equalTo(height)
             }
             

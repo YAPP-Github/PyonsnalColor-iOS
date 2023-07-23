@@ -10,10 +10,6 @@ import SnapKit
 
 final class CategoryFilterCell: UICollectionViewCell {
     
-    enum Size {
-        static let height: CGFloat = 56
-    }
-    
     private let viewHolder: ViewHolder = .init()
     
     override init(frame: CGRect) {
@@ -26,15 +22,14 @@ final class CategoryFilterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with filter: CategoryFilter) {
-        viewHolder.button.setTitle(filter.defaultText, for: .normal)
+    func configure(with filterText: String, filterItem: [String]) {
+        viewHolder.button.setText(with: filterText)
     }
     
     class ViewHolder: ViewHolderable {
 
-        let button: UIButton = {
-            let button = UIButton()
-            button.backgroundColor = .gray700
+        let button: FilterButton = {
+            let button = FilterButton()
             return button
         }()
         

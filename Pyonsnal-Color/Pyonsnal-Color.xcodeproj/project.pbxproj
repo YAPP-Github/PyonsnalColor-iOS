@@ -183,6 +183,8 @@
 		F0C6986C2A6BB5690019C677 /* SortButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6986B2A6BB5690019C677 /* SortButton.swift */; };
 		F0C6986E2A6BB57B0019C677 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6986D2A6BB57B0019C677 /* FilterButton.swift */; };
 		F0C698702A6C24630019C677 /* FilterEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6986F2A6C24630019C677 /* FilterEntity.swift */; };
+		F0C698732A6D4DBF0019C677 /* TopCommonLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C698722A6D4DBF0019C677 /* TopCommonLayout.swift */; };
+		F0C698762A6D4EBD0019C677 /* TopCollectionViewDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C698752A6D4EBD0019C677 /* TopCollectionViewDatasource.swift */; };
 		F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */; };
 		F0C87AF02A51D74900EA4C76 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */; };
 		F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */; };
@@ -374,6 +376,8 @@
 		F0C6986B2A6BB5690019C677 /* SortButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortButton.swift; sourceTree = "<group>"; };
 		F0C6986D2A6BB57B0019C677 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		F0C6986F2A6C24630019C677 /* FilterEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEntity.swift; sourceTree = "<group>"; };
+		F0C698722A6D4DBF0019C677 /* TopCommonLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCommonLayout.swift; sourceTree = "<group>"; };
+		F0C698752A6D4EBD0019C677 /* TopCollectionViewDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCollectionViewDatasource.swift; sourceTree = "<group>"; };
 		F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyonsnalColorClient.swift; sourceTree = "<group>"; };
 		F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
@@ -836,6 +840,8 @@
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F0C698742A6D4E980019C677 /* Protocol */,
+				F0C698712A6D4D8B0019C677 /* Layout */,
 				F0C6985D2A6ABDCB0019C677 /* Log */,
 				BAE442C02A6D2C6200BD6582 /* ReusableView */,
 				BA50FD072A680D1200721782 /* SearchBar */,
@@ -843,11 +849,6 @@
 				BA0D77F32A56C12C0041C2D5 /* Tag */,
 				B24F1D492A4BB81000AA03DC /* NavigationBar */,
 				F0D6FFA72A39F57600C55E27 /* Cell */,
-				BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */,
-				F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */,
-				F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */,
-				B27349DD2A5AA26300B97E59 /* ProductListDelegate.swift */,
-				B206F2562A629C2500959884 /* ProductPresentable.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1021,6 +1022,27 @@
 			path = Filter;
 			sourceTree = "<group>";
 		};
+		F0C698712A6D4D8B0019C677 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				F0C698722A6D4DBF0019C677 /* TopCommonLayout.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		F0C698742A6D4E980019C677 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */,
+				F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */,
+				F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */,
+				B27349DD2A5AA26300B97E59 /* ProductListDelegate.swift */,
+				B206F2562A629C2500959884 /* ProductPresentable.swift */,
+				F0C698752A6D4EBD0019C677 /* TopCollectionViewDatasource.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		F0D6FFA72A39F57600C55E27 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1182,6 +1204,7 @@
 				F097EF222A5603AD00A7FB9C /* TermsButton.swift in Sources */,
 				B282050A2A34700300F9242F /* EventHomeRouter.swift in Sources */,
 				B2F169E02A34D07F008199D8 /* CALayer+.swift in Sources */,
+				F0C698732A6D4DBF0019C677 /* TopCommonLayout.swift in Sources */,
 				F097EF2E2A57187400A7FB9C /* ProfileUrl.swift in Sources */,
 				B21C1A8C2A513FBB007D98E9 /* RIBs+.swift in Sources */,
 				BA1807622A2F21D900295398 /* URLRequest+.swift in Sources */,
@@ -1244,6 +1267,7 @@
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
 				BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */,
 				BA0BFB722A5463BD0019AED7 /* EventTag.swift in Sources */,
+				F0C698762A6D4EBD0019C677 /* TopCollectionViewDatasource.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				B28A592E2A726C6500431F39 /* CurationSectionLayout.swift in Sources */,
 				B24CAAE52A55AC33005BE499 /* NotificationListViewController.swift in Sources */,

@@ -28,7 +28,31 @@ struct FilterEntity: Decodable {
         var code: Int?
         var isSelected = false
     }
+}
 
+struct FilterDataEntity: Decodable {
+    var data: [FilterEntity]
+    
+    struct FilterEntity: Decodable {
+        var filterType: FilterType
+        var defaultText: String?
+        var isSelected: Bool
+        var filterItem: [FilterItemEntity]
+        
+        enum FilterType: Decodable {
+            case sort // 정렬
+            case recommend // 상품 추천
+            case category // 카테고리
+            case event // 행사
+        }
+        
+        struct FilterItemEntity: Decodable {
+            var defaultText: String?
+            var name: String?
+            var code: Int?
+            var isSelected = false
+        }
+    }
 }
 
 struct FilterDummy {

@@ -22,22 +22,13 @@ final class ProductHomeViewController:
     ProductHomeViewControllable {
 
     // MARK: - Interface
-    enum SectionType: Hashable {
-        case convenienceStore
-        case filter
-    }
-    
-    enum ItemType: Hashable {
-        case convenienceStore(storeName: String)
-        case filter(filterItem: CategoryFilter)
-    }
-    
-    typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     weak var listener: ProductHomePresentableListener?
+    typealias SectionType = TopCollectionViewDatasource.SectionType
+    typealias ItemType = TopCollectionViewDatasource.ItemType
     
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
-    private var dataSource: DataSource?
+    private var dataSource: TopCollectionViewDatasource.DataSource?
     private let convenienceStores: [String] = CommonConstants.productHomeStore
     private let filterItem: [FilterItem] = []
     private let initialIndex: Int = 0
@@ -63,14 +54,14 @@ final class ProductHomeViewController:
         viewHolder.configureConstraints(for: view)
         configureDatasource()
         makeSnapshot()
-        setupStoreCollectionView()
+        setupCollectionView()
         setupProductCollectionView()
         configureNotificationButton()
     }
     
     // MARK: - Private Method
     private func configureDatasource() {
-        dataSource = DataSource(collectionView: viewHolder.collectionView)
+        dataSource = TopCollectionViewDatasource.DataSource(collectionView: viewHolder.collectionView)
         { collectionView, indexPath, item -> UICollectionViewCell? in
             print("snapshot \(indexPath) \(item)")
             switch item {
@@ -83,7 +74,7 @@ final class ProductHomeViewController:
                 return cell
             case .filter(let filter):
                 let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.configure(with: filter)
+                cell.configure(with: filter.defaultText, filterItem: [])
                 return cell
             }
             
@@ -93,11 +84,11 @@ final class ProductHomeViewController:
     private func makeSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         // append store
-        snapshot.appendSections([.convenienceStore])
+        snapshot.appendSections([.convenienceStore(store: convenienceStores)])
         let items = convenienceStores.map { storeName in
             return ItemType.convenienceStore(storeName: storeName)
         }
-        snapshot.appendItems(items, toSection: .convenienceStore)
+        snapshot.appendItems(items, toSection: .convenienceStore(store: convenienceStores))
         
         // append filter
         let filters = makeCategoryFilter()
@@ -162,10 +153,23 @@ final class ProductHomeViewController:
         viewHolder.containerScrollView.delegate = self
     }
     
-    private func setupStoreCollectionView() {
+    private func setupCollectionView() {
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
         viewHolder.collectionView.register(CategoryFilterCell.self)
+        viewHolder.collectionView.collectionViewLayout = createLayout()
+    }
+    
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout {
+            [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
+            guard let sectionIdentifier = self?.dataSource?.snapshot().sectionIdentifiers[sectionIndex] else {
+                return nil
+            }
+            
+            let layout = TopCommonLayout()
+            return layout.section(at: sectionIdentifier)
+        }
     }
     
     private func setupProductCollectionView() {
@@ -246,7 +250,7 @@ extension ProductHomeViewController: TitleNavigationViewDelegate {
     }
 }
 
-//MARK: - UIScrollViewDelegate
+// MARK: - UIScrollViewDelegate
 extension ProductHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageViewController = viewHolder.productHomePageViewController
@@ -309,44 +313,6 @@ extension ProductHomeViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
-extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        let cellSize = ConvenienceStoreCell.Constant.Size.self
-        let label = UILabel(frame: .zero)
-        label.text = convenienceStores[indexPath.item]
-        label.font = cellSize.font
-        label.sizeToFit()
-
-        return CGSize(
-            width: label.frame.width + cellSize.padding.top + cellSize.padding.bottom,
-            height: ConvenienceStoreCell.Constant.Size.height
-        )
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        let cellConstant = ConvenienceStoreCell.Constant.Size.self
-        let cellSizes = convenienceStores.reduce(CGFloat(0), { partialResult, title in
-            let label = UILabel(frame: .zero)
-            label.text = title
-            label.font = cellConstant.font
-            label.sizeToFit()
-            return partialResult + label.bounds.width + cellConstant.padding.left * 2
-        })
-        let result = (collectionView.bounds.width - cellSizes) / CGFloat(convenienceStores.count - 1)
-
-        return floor(result * 10000) / 10000
-    }
-}
-
 // MARK: - UICollectionViewDelegate
 extension ProductHomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -370,6 +336,7 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     }
 }
 
+// MARK: - ProductListDelegate
 extension ProductHomeViewController: ProductListDelegate {
     func didLoadPageList(store: ConvenienceStore) {
         requestProducts(store: store)
@@ -385,6 +352,7 @@ extension ProductHomeViewController: ProductListDelegate {
     }
 }
 
+// MARK: - ProductPresentable
 extension ProductHomeViewController: ProductPresentable {
     func didTabRootTabBar() {
         let viewController = viewHolder.productHomePageViewController.viewControllers?.first
