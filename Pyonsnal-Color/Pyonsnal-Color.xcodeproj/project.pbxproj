@@ -123,6 +123,8 @@
 		BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB90362A5051D2003A7647 /* BackNavigationViewDelegate.swift */; };
 		BAB54A952A5949B700D45A80 /* ImageAssetKind+Splash.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB54A942A5949B700D45A80 /* ImageAssetKind+Splash.swift */; };
 		BABBB9662A69951700BC36A0 /* SearchBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABBB9652A69951700BC36A0 /* SearchBarViewDelegate.swift */; };
+		BAE442C62A6D7B9E00BD6582 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE442C52A6D7B9E00BD6582 /* EmptyCell.swift */; };
+		BAE442C82A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE442C72A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift */; };
 		BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */; };
 		BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */; };
 		BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882B2A24C3E600DA6257 /* RootRouter.swift */; };
@@ -292,6 +294,8 @@
 		BAAB90362A5051D2003A7647 /* BackNavigationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackNavigationViewDelegate.swift; sourceTree = "<group>"; };
 		BAB54A942A5949B700D45A80 /* ImageAssetKind+Splash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+Splash.swift"; sourceTree = "<group>"; };
 		BABBB9652A69951700BC36A0 /* SearchBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewDelegate.swift; sourceTree = "<group>"; };
+		BAE442C52A6D7B9E00BD6582 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		BAE442C72A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmptyCell+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedOutViewController+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHolable.swift; sourceTree = "<group>"; };
 		BAED882B2A24C3E600DA6257 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
@@ -926,6 +930,8 @@
 			children = (
 				F0D6FFAE2A39FFFA00C55E27 /* ProductCell.swift */,
 				B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */,
+				BAE442C52A6D7B9E00BD6582 /* EmptyCell.swift */,
+				BAE442C72A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1100,6 +1106,7 @@
 				B242590B2A594368006C5223 /* ProductPageEntity.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
+				BAE442C62A6D7B9E00BD6582 /* EmptyCell.swift in Sources */,
 				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
 				F097EF342A571DD300A7FB9C /* CommonWebRouter.swift in Sources */,
@@ -1134,6 +1141,7 @@
 				BA0BFB722A5463BD0019AED7 /* EventTag.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
 				B24CAAE52A55AC33005BE499 /* NotificationListViewController.swift in Sources */,
+				BAE442C82A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift in Sources */,
 				B24F1D4B2A4BB82D00AA03DC /* TitleNavigationView.swift in Sources */,
 				F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */,
 				F00352242A62BD9F00A66FF9 /* UserLoginStatusEntity.swift in Sources */,
