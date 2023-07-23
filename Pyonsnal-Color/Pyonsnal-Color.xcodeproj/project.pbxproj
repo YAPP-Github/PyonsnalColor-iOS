@@ -158,6 +158,8 @@
 		F0168D542A500AC900978ED9 /* EventDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0168D502A500AC900978ED9 /* EventDetailInteractor.swift */; };
 		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
 		F040E9D32A6D8E8800DF0C4A /* RefreshCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040E9D22A6D8E8800DF0C4A /* RefreshCell.swift */; };
+		F040E9D52A6D967300DF0C4A /* KeywordFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040E9D42A6D967300DF0C4A /* KeywordFilterCell.swift */; };
+		F040E9D72A6D993C00DF0C4A /* KeywordFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040E9D62A6D993C00DF0C4A /* KeywordFilter.swift */; };
 		F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */; };
 		F0687BED2A529679004B5EAE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0687BEC2A529679004B5EAE /* Config.swift */; };
 		F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F069DBE52A30B9850001D3DD /* UIFont+.swift */; };
@@ -349,6 +351,8 @@
 		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		F038B4F82A55EB67008D5BF0 /* TermsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsButton.swift; sourceTree = "<group>"; };
 		F040E9D22A6D8E8800DF0C4A /* RefreshCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshCell.swift; sourceTree = "<group>"; };
+		F040E9D42A6D967300DF0C4A /* KeywordFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordFilterCell.swift; sourceTree = "<group>"; };
+		F040E9D62A6D993C00DF0C4A /* KeywordFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordFilter.swift; sourceTree = "<group>"; };
 		F049E8C42A51CAE700E61199 /* ImageAssetKind+StoreTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreTag.swift"; sourceTree = "<group>"; };
 		F0687BEC2A529679004B5EAE /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F069DBE52A30B9850001D3DD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -519,9 +523,9 @@
 		B2538B8E2A3454F100B7C3F0 /* EventHome */ = {
 			isa = PBXGroup;
 			children = (
+				F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */,
 				F0168D4C2A500AAB00978ED9 /* EventDetail */,
 				F01535532A46BF8A00A2A8F2 /* Views */,
-				F01535422A45A69800A2A8F2 /* EventHomeSectionLayout.swift */,
 				F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */,
 				B28205062A34700300F9242F /* EventHomeRouter.swift */,
 				F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */,
@@ -1020,6 +1024,7 @@
 			children = (
 				F0C698672A6BB0390019C677 /* FilterType.swift */,
 				F0C6986F2A6C24630019C677 /* FilterEntity.swift */,
+				F040E9D62A6D993C00DF0C4A /* KeywordFilter.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1054,6 +1059,7 @@
 				BAE442C72A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift */,
 				F0C698642A6BA9B00019C677 /* CategoryFilterCell.swift */,
 				F040E9D22A6D8E8800DF0C4A /* RefreshCell.swift */,
+				F040E9D42A6D967300DF0C4A /* KeywordFilterCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1230,11 +1236,13 @@
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				BAE442C42A6D2C9000BD6582 /* LoadingReusableView+ViewHolder.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
+				F040E9D72A6D993C00DF0C4A /* KeywordFilter.swift in Sources */,
 				BAE442C62A6D7B9E00BD6582 /* EmptyCell.swift in Sources */,
 				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
 				F0C6986C2A6BB5690019C677 /* SortButton.swift in Sources */,
 				F0C698682A6BB0390019C677 /* FilterType.swift in Sources */,
 				F0C6986A2A6BB1000019C677 /* ImageAsset+Filter.swift in Sources */,
+				F040E9D52A6D967300DF0C4A /* KeywordFilterCell.swift in Sources */,
 				B28205132A34702B00F9242F /* ProductHomeViewController.swift in Sources */,
 				F097EF342A571DD300A7FB9C /* CommonWebRouter.swift in Sources */,
 				BABBB9662A69951700BC36A0 /* SearchBarViewDelegate.swift in Sources */,

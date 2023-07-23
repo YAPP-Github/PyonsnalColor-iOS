@@ -331,9 +331,14 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             currentPage = indexPath.item
             viewHolder.productHomePageViewController.updatePage(to: currentPage)
         } else {
-            if let productListViewController =  viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
-               let item = productListViewController.dataSource?.itemIdentifier(for: indexPath) {
-                listener?.didSelect(with: item)
+            
+            guard let productListViewController =  viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
+            let selectedItem = productListViewController.dataSource?.itemIdentifier(for: indexPath) else { return }
+            switch selectedItem {
+            case .keywordFilter(let keywordFilter):
+                print("TO DO")
+            case .product(let brandProduct):
+                listener?.didSelect(with: brandProduct)
             }
         }
     }

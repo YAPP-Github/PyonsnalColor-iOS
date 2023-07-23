@@ -22,11 +22,13 @@ protocol EventHomeTabViewControllerDelegate: AnyObject {
 final class EventHomeTabViewController: UIViewController {
     
     enum SectionType: Hashable {
+        case keywordFilter
         case event
         case item
     }
     
     enum ItemType: Hashable {
+        case keywordFilter(KeywordFilter)
         case event(data: [EventBannerEntity])
         case item(data: EventProductEntity)
     }
@@ -116,10 +118,9 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.register(ItemHeaderTitleView.self,
                                 forSupplementaryViewOfKind: ItemHeaderTitleView.className,
                                 withReuseIdentifier: ItemHeaderTitleView.className)
-        collectionView.register(EventBannerCell.self,
-                                forCellWithReuseIdentifier: EventBannerCell.className)
-        collectionView.register(ProductCell.self,
-                                forCellWithReuseIdentifier: ProductCell.className)
+        collectionView.register(KeywordFilterCell.self)
+        collectionView.register(EventBannerCell.self)
+        collectionView.register(ProductCell.self)
     }
     
     private func setRefreshControl() {
@@ -141,6 +142,10 @@ final class EventHomeTabViewController: UIViewController {
     private func configureDatasource() {
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
+            case .keywordFilter(let keywordFilter):
+                let cell: KeywordFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.configure(with: keywordFilter.name)
+                return cell
             case .item(let item):
                 let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.updateCell(with: item)
@@ -166,7 +171,7 @@ final class EventHomeTabViewController: UIViewController {
                 withReuseIdentifier: kind,
                 for: indexPath
             ) as? ItemHeaderTitleView
-            
+            if dataSource?.snapshot().sectionIdentifiers[indexPath.section] == .keywordFilter { return nil }
             let sectionCount = dataSource?.snapshot().sectionIdentifiers.count
             let titleText = headerTitle[indexPath.section].text
             
@@ -214,6 +219,21 @@ final class EventHomeTabViewController: UIViewController {
         }
         
         snapshot.appendItems(eventProducts, toSection: .item)
+        dataSource?.apply(snapshot, animatingDifferences: true)
+        // 임시로 여기서 apply
+        applyKeywordFilterSnapshot()
+    }
+    
+    func applyKeywordFilterSnapshot() {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        // append keywordFilter
+        let keywordItems = [KeywordFilter(name: "공부하기 좋은"), KeywordFilter(name: "야식용")].map { keywordFilter in
+            ItemType.keywordFilter(keywordFilter)
+        }
+        if !keywordItems.isEmpty {
+            snapshot.insertSections([.keywordFilter], beforeSection: .event)
+            snapshot.appendItems(keywordItems, toSection: .keywordFilter)
+        }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     

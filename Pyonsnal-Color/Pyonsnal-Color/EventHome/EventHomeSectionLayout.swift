@@ -27,10 +27,40 @@ final class EventHomeSectionLayout {
             static let height: CGFloat = 32
         }
         
+        enum KeywordFilter {
+            static let estimatedWidth: CGFloat = 96
+            static let height: CGFloat = 32
+        }
+        
         static let topMargin: CGFloat = 8
         static let bottomMargin: CGFloat = 20
     }
     
+    private func keywordFilterLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(Size.KeywordFilter.estimatedWidth),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(Size.KeywordFilter.height)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        group.interItemSpacing = .fixed(.spacing4)
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(
+            top: 0,
+            leading: .spacing16,
+            bottom: .spacing24,
+            trailing: 0
+        )
+        return section
+    }
     
     private func eventLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -50,11 +80,11 @@ final class EventHomeSectionLayout {
                                                         leading: 0,
                                                         bottom: Size.bottomMargin,
                                                         trailing: 0)
-        section.boundarySupplementaryItems = createSupplementaryView()
+        section.boundarySupplementaryItems = createEventSupplementaryView()
         return section
     }
     
-    private func itemLayout() -> NSCollectionLayoutSection {
+    private func itemLayout(from tab: EventHomeSectionLayout.Tab) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Item.width),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -76,13 +106,18 @@ final class EventHomeSectionLayout {
         section.contentInsets = NSDirectionalEdgeInsets(top: Size.topMargin,
                                                         leading: 0,
                                                         bottom: Size.Item.bottomMargin,
+                    
                                                         trailing: 0)
-        section.boundarySupplementaryItems = createSupplementaryView()
+        if tab == .home {
+            section.boundarySupplementaryItems = createHomeSupplementaryView()
+        } else if tab == .event {
+            section.boundarySupplementaryItems = createEventSupplementaryView()
+        }
+        
         return section
     }
     
-    
-    private func createSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
+    private func createEventSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .absolute(Size.Header.height)),
@@ -91,16 +126,42 @@ final class EventHomeSectionLayout {
         )
         return [sectionHeader]
     }
+    
+    private func createHomeSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(Size.Header.height)
+            ),
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        return [sectionHeader]
+    }
 }
 
 extension EventHomeSectionLayout {
-    
+    enum Tab {
+        case home
+        case event
+    }
     func section(at type: EventHomeTabViewController.SectionType) -> NSCollectionLayoutSection {
         switch type {
+        case .keywordFilter:
+            return keywordFilterLayout()
         case .event:
             return eventLayout()
         case .item:
-            return itemLayout()
+            return itemLayout(from: .event)
+        }
+    }
+    
+    func section(at type: ProductListViewController.SectionType) -> NSCollectionLayoutSection {
+        switch type {
+        case .keywordFilter:
+            return keywordFilterLayout()
+        case .product:
+            return itemLayout(from: .home)
         }
     }
 }

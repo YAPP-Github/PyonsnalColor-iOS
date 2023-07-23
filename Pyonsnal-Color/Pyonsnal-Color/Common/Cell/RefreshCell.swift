@@ -14,14 +14,17 @@ protocol RefreshCellDelegate: AnyObject {
 
 final class RefreshCell: UICollectionViewCell {
     
+    // MARK: - Interfaces
     enum Size {
         static let borderWidth: CGFloat = 1
     }
     
     weak var delegate: RefreshCellDelegate?
     
+    // MARK: - Private property
     private let viewHolder: ViewHolder = .init()
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         viewHolder.place(in: contentView)
@@ -53,6 +56,7 @@ final class RefreshCell: UICollectionViewCell {
     
     class ViewHolder: ViewHolderable {
         
+        // MARK: - UI Component
         let refreshButton: UIButton = {
             let button = UIButton()
             button.setImage(.refreshFilter, for: .normal)
