@@ -116,7 +116,7 @@ final class EventHomeViewController: UIViewController,
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         // append store
         snapshot.appendSections([.convenienceStore])
-        let items = CommonConstants.convenienceStore.map { storeName in
+        let items = convenienceStores.map { storeName in
             return ItemType.convenienceStore(storeName: storeName)
         }
         snapshot.appendItems(items, toSection: .convenienceStore)
