@@ -150,7 +150,7 @@ final class ProductCurationViewController: UIViewController {
         )
         let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
+                widthDimension: .absolute(UIScreen.main.bounds.width),
                 heightDimension: .absolute(Size.footerHeight)
             ),
             elementKind: UICollectionView.elementKindSectionFooter,
@@ -207,6 +207,12 @@ final class ProductCurationViewController: UIViewController {
                     for: indexPath
                 ) as? CurationFooterView else {
                     return nil
+                }
+                
+                if let numberOfSection = self.dataSource?.numberOfSections(in: collectionView) {
+                    if indexPath.section == numberOfSection - 1 {
+                        footerView.isHidden = true
+                    }
                 }
 
                 return footerView

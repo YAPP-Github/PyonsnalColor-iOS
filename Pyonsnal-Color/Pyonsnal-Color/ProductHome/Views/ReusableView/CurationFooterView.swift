@@ -33,4 +33,10 @@ final class CurationFooterView: UICollectionReusableView {
             make.height.equalTo(12)
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        isHidden = false
+    }
 }
