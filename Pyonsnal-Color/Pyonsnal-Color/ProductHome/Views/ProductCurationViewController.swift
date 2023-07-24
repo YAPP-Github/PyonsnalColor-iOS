@@ -33,7 +33,7 @@ final class ProductCurationViewController: UIViewController {
     }
     
     enum Item: Hashable {
-        case image(data: UIImage)
+        case image(data: UIImage?)
         case curation(data: BrandProductEntity)
     }
     
@@ -160,6 +160,7 @@ final class ProductCurationViewController: UIViewController {
     }
     
     private func registerCells() {
+        curationCollectionView.register(CurationImageCell.self)
         curationCollectionView.register(ProductCell.self)
         curationCollectionView.registerHeaderView(CurationHeaderView.self)
         curationCollectionView.registerFooterView(CurationFooterView.self)
@@ -171,7 +172,8 @@ final class ProductCurationViewController: UIViewController {
         ) { collectionView, indexPath, item in
             switch item {
             case .image:
-                return UICollectionViewCell()
+                let cell: CurationImageCell = collectionView.dequeueReusableCell(for: indexPath)
+                return cell
             case let .curation(data):
                 let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.updateCell(with: data)
@@ -217,6 +219,10 @@ final class ProductCurationViewController: UIViewController {
     // TODO: 외부에서 CurationEntity 받아오는 로직으로 수정
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        
+        // TODO: 이미지 변경
+        snapshot.appendSections([.image])
+        snapshot.appendItems([.image(data: UIImage(systemName: ""))])
         
         dummyData.forEach { curation in
             snapshot.appendSections([.curation(data: curation)])

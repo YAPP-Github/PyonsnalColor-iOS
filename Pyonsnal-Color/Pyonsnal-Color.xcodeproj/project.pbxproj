@@ -56,6 +56,7 @@
 		B28A59132A6E98DB00431F39 /* CurationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59122A6E98DB00431F39 /* CurationHeaderView.swift */; };
 		B28A59152A6E991100431F39 /* CurationFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59142A6E991100431F39 /* CurationFooterView.swift */; };
 		B28A59172A6E995500431F39 /* CurationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59162A6E995500431F39 /* CurationEntity.swift */; };
+		B28A591B2A6E9F3D00431F39 /* CurationImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A591A2A6E9F3D00431F39 /* CurationImageCell.swift */; };
 		B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529452A57F2220010656A /* LogoutPopupRouter.swift */; };
 		B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529462A57F2220010656A /* LogoutPopupViewController.swift */; };
 		B2A5294B2A57F2220010656A /* LogoutPopupBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */; };
@@ -244,6 +245,7 @@
 		B28A59122A6E98DB00431F39 /* CurationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationHeaderView.swift; sourceTree = "<group>"; };
 		B28A59142A6E991100431F39 /* CurationFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationFooterView.swift; sourceTree = "<group>"; };
 		B28A59162A6E995500431F39 /* CurationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationEntity.swift; sourceTree = "<group>"; };
+		B28A591A2A6E9F3D00431F39 /* CurationImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationImageCell.swift; sourceTree = "<group>"; };
 		B2A529452A57F2220010656A /* LogoutPopupRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupRouter.swift; sourceTree = "<group>"; };
 		B2A529462A57F2220010656A /* LogoutPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupViewController.swift; sourceTree = "<group>"; };
 		B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupBuilder.swift; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 		B24F1D342A43E30D00AA03DC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B28A59192A6E9F2500431F39 /* Cell */,
 				B28A59112A6E98C000431F39 /* ReusableView */,
 				B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */,
 				B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */,
@@ -529,6 +532,14 @@
 				B28A59142A6E991100431F39 /* CurationFooterView.swift */,
 			);
 			path = ReusableView;
+			sourceTree = "<group>";
+		};
+		B28A59192A6E9F2500431F39 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B28A591A2A6E9F3D00431F39 /* CurationImageCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		B2A529442A57F1E30010656A /* LogoutPopup */ = {
@@ -1254,6 +1265,7 @@
 				B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */,
 				F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */,
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
+				B28A591B2A6E9F3D00431F39 /* CurationImageCell.swift in Sources */,
 				BAED88312A24C3E600DA6257 /* RootBuilder.swift in Sources */,
 				F0EE10A52A4B2E5200B8DF4F /* AppInfoService.swift in Sources */,
 				F015354B2A45A8DD00A2A8F2 /* NSObject+.swift in Sources */,
