@@ -55,6 +55,7 @@
 		B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28205112A34702B00F9242F /* ProductHomeInteractor.swift */; };
 		B28A59132A6E98DB00431F39 /* CurationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59122A6E98DB00431F39 /* CurationHeaderView.swift */; };
 		B28A59152A6E991100431F39 /* CurationFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59142A6E991100431F39 /* CurationFooterView.swift */; };
+		B28A59172A6E995500431F39 /* CurationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59162A6E995500431F39 /* CurationEntity.swift */; };
 		B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529452A57F2220010656A /* LogoutPopupRouter.swift */; };
 		B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529462A57F2220010656A /* LogoutPopupViewController.swift */; };
 		B2A5294B2A57F2220010656A /* LogoutPopupBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */; };
@@ -242,6 +243,7 @@
 		B28205112A34702B00F9242F /* ProductHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomeInteractor.swift; sourceTree = "<group>"; };
 		B28A59122A6E98DB00431F39 /* CurationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationHeaderView.swift; sourceTree = "<group>"; };
 		B28A59142A6E991100431F39 /* CurationFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationFooterView.swift; sourceTree = "<group>"; };
+		B28A59162A6E995500431F39 /* CurationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationEntity.swift; sourceTree = "<group>"; };
 		B2A529452A57F2220010656A /* LogoutPopupRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupRouter.swift; sourceTree = "<group>"; };
 		B2A529462A57F2220010656A /* LogoutPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupViewController.swift; sourceTree = "<group>"; };
 		B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupBuilder.swift; sourceTree = "<group>"; };
@@ -740,6 +742,7 @@
 				B242590C2A5943F6006C5223 /* Products */,
 				BA0BFB712A5463BD0019AED7 /* EventTag.swift */,
 				B24259022A590ECA006C5223 /* ConvenienceStore.swift */,
+				B28A59162A6E995500431F39 /* CurationEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1183,6 +1186,7 @@
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
 				F0EE10A32A4B242C00B8DF4F /* ProfileCell.swift in Sources */,
 				B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */,
+				B28A59172A6E995500431F39 /* CurationEntity.swift in Sources */,
 				F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */,
 				BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */,
 				BA50FD042A680AA900721782 /* ProductSearchInteractor.swift in Sources */,
