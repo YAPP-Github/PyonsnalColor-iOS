@@ -72,8 +72,7 @@ final class ProductCurationViewController: UIViewController {
         configureLayout()
         registerCells()
         configureDataSource()
-        configureHeaderView()
-        configureFooterView()
+        configureSupplementaryView()
     }
     
     private func createLayout() -> UICollectionViewLayout {
@@ -163,11 +162,7 @@ final class ProductCurationViewController: UIViewController {
     private func registerCells() {
         curationCollectionView.register(ProductCell.self)
         curationCollectionView.registerHeaderView(CurationHeaderView.self)
-        curationCollectionView.register(
-            CurationFooterView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-            withReuseIdentifier: String(describing: CurationFooterView.self)
-        )
+        curationCollectionView.registerFooterView(CurationFooterView.self)
     }
     
     private func configureDataSource() {
@@ -185,7 +180,7 @@ final class ProductCurationViewController: UIViewController {
         }
     }
     
-    private func configureHeaderView() {
+    private func configureSupplementaryView() {
         dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             if kind == UICollectionView.elementKindSectionHeader {
                 guard let headerView = collectionView.dequeueReusableSupplementaryView(
@@ -217,9 +212,6 @@ final class ProductCurationViewController: UIViewController {
                 return nil
             }
         }
-    }
-    
-    private func configureFooterView() {
     }
     
     // TODO: 외부에서 CurationEntity 받아오는 로직으로 수정
