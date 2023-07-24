@@ -76,12 +76,12 @@ final class ProductHomeViewController:
     
     private func setupProductCollectionView() {
         viewHolder.productHomePageViewController.pagingDelegate = self
-        viewHolder.productHomePageViewController.productListViewControllers.forEach {
-            $0.productCollectionView.delegate = self
-        }
-        viewHolder.productHomePageViewController.productListViewControllers.forEach {
-            $0.delegate = self
-        }
+        viewHolder.productHomePageViewController.productListViewControllers
+            .compactMap({ $0 as? ProductListViewController })
+            .forEach { $0.productCollectionView.delegate = self }
+        viewHolder.productHomePageViewController.productListViewControllers
+            .compactMap({ $0 as? ProductListViewController })
+            .forEach { $0.delegate = self }
     }
     
     private func setSelectedConvenienceStoreCell(with page: Int) {
@@ -122,8 +122,14 @@ final class ProductHomeViewController:
     func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore) {
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
             let pageViewController = viewHolder.productHomePageViewController
-            let viewController = pageViewController.productListViewControllers[storeIndex]
-            viewController.applySnapshot(with: products)
+            if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
+                viewController.applySnapshot(with: products)
+            } else if let curationVC = pageViewController.productListViewControllers[storeIndex] as? ProductCurationViewController {
+                // TODO: Curation 전달 로직 수정
+                curationVC.dummyData[0].products = Array(products[0...6])
+                curationVC.dummyData[1].products = Array(products[7...12])
+                curationVC.dummyData[2].products = Array(products[13...18])
+            }
         }
     }
     

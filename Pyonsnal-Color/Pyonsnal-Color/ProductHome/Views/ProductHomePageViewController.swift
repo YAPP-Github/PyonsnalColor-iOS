@@ -16,7 +16,7 @@ final class ProductHomePageViewController: UIPageViewController {
     
     //MARK: - Property
     weak var pagingDelegate: ProductHomePageViewControllerDelegate?
-    var productListViewControllers: [ProductListViewController] = []
+    var productListViewControllers: [UIViewController] = []
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -28,7 +28,10 @@ final class ProductHomePageViewController: UIPageViewController {
     
     //MARK: - Private Method
     private func generateChildViewControllers() {
-        ConvenienceStore.allCases.forEach {
+        let curationViewController = ProductCurationViewController()
+        productListViewControllers.append(curationViewController)
+        
+        ConvenienceStore.allCases.filter({ $0 != .all }).forEach {
             let childViewController = ProductListViewController(convenienceStore: $0)
             productListViewControllers.append(childViewController)
         }
@@ -46,7 +49,7 @@ final class ProductHomePageViewController: UIPageViewController {
     }
     
     func updatePage(to page: Int) {
-        guard let viewController = viewControllers?.first as? ProductListViewController,
+        guard let viewController = viewControllers?.first,
               let currentIndex = productListViewControllers.firstIndex(of: viewController)
         else {
             return
@@ -69,8 +72,7 @@ extension ProductHomePageViewController: UIPageViewControllerDataSource {
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController
     ) -> UIViewController? {
-        guard let productListViewController = viewController as? ProductListViewController,
-              let index = productListViewControllers.firstIndex(of: productListViewController),
+        guard let index = productListViewControllers.firstIndex(of: viewController),
               index - 1 >= 0
         else {
             return nil
@@ -84,8 +86,7 @@ extension ProductHomePageViewController: UIPageViewControllerDataSource {
         _ pageViewController: UIPageViewController,
         viewControllerAfter viewController: UIViewController
     ) -> UIViewController? {
-        guard let productListViewController = viewController as? ProductListViewController,
-              let index = productListViewControllers.firstIndex(of: productListViewController),
+        guard let index = productListViewControllers.firstIndex(of: viewController),
               index + 1 < productListViewControllers.count
         else {
             return nil
@@ -105,7 +106,7 @@ extension ProductHomePageViewController: UIPageViewControllerDelegate {
         transitionCompleted completed: Bool
     ) {
         guard let viewControllers = pageViewController.viewControllers,
-              let viewController = viewControllers.first as? ProductListViewController,
+              let viewController = viewControllers.first,
               let index = productListViewControllers.firstIndex(of: viewController)
         else {
             return
