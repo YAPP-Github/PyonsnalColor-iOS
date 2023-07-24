@@ -432,7 +432,6 @@
 				B28A59112A6E98C000431F39 /* ReusableView */,
 				B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */,
 				B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */,
-				B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */,
 				B2B281C62A6BB5C4006C9C6B /* ProductCurationViewController.swift */,
 			);
 			path = Views;
@@ -525,6 +524,7 @@
 		B28A59112A6E98C000431F39 /* ReusableView */ = {
 			isa = PBXGroup;
 			children = (
+				B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */,
 				B28A59122A6E98DB00431F39 /* CurationHeaderView.swift */,
 				B28A59142A6E991100431F39 /* CurationFooterView.swift */,
 			);
