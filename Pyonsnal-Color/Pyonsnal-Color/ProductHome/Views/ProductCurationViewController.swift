@@ -83,9 +83,9 @@ final class ProductCurationViewController: UIViewController {
             
             switch section {
             case .image:
-                return self.configureImageSection()
+                return self.createImageSection()
             case .curation:
-                return self.configureCurationSection()
+                return self.createCurationSection()
             }
         }
         
@@ -100,7 +100,7 @@ final class ProductCurationViewController: UIViewController {
         }
     }
     
-    private func configureImageSection() -> NSCollectionLayoutSection {
+    private func createImageSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .fractionalHeight(1)
@@ -117,7 +117,7 @@ final class ProductCurationViewController: UIViewController {
         return section
     }
     
-    private func configureCurationSection() -> NSCollectionLayoutSection {
+    private func createCurationSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .fractionalWidth(1.4)
@@ -134,12 +134,12 @@ final class ProductCurationViewController: UIViewController {
         section.orthogonalScrollingBehavior = .groupPaging
         section.interGroupSpacing = Size.spacing
         section.contentInsets = Size.inset
-        section.boundarySupplementaryItems = configureSupplementaryView()
+        section.boundarySupplementaryItems = createSupplementaryView()
         
         return section
     }
     
-    private func configureSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
+    private func createSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
