@@ -32,6 +32,7 @@ final class ProductCell: UICollectionViewCell {
         static let priceContainerViewHeight: CGFloat = 64
         static let eventTagImageviewRadius: CGFloat = 10
         static let cornerRadius: CGFloat = 16
+        static let borderWidth: CGFloat = 1
     }
     
     private let viewHolder: ViewHolder = .init()
@@ -217,9 +218,10 @@ final class ProductCell: UICollectionViewCell {
     private func configureUI() {
         let attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .gray500)
         viewHolder.discountPriceLabel.attributedText = attributedText
-        self.makeRounded(with: Size.cornerRadius)
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
         viewHolder.eventTagLabel.makeRounded(with: Size.eventTagImageviewRadius)
+        makeRounded(with: Size.cornerRadius)
+        makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
     }
     
     func updateCell(with product: ProductConvertable) {
