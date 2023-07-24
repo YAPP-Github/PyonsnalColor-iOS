@@ -14,7 +14,7 @@ final class ProductCurationViewController: UIViewController {
     
     enum Size {
         static let cellCount: Int = 8
-        static let cellHeight: CGFloat = 224
+        static let cellHeight: CGFloat = 233
         static let imageHeight: CGFloat = 240
         static let headerHeight: CGFloat = 78
         static let footerHeight: CGFloat = 12
@@ -120,13 +120,13 @@ final class ProductCurationViewController: UIViewController {
     private func createCurationSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .fractionalWidth(1.4)
+            heightDimension: .fractionalHeight(1)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.42),
-            heightDimension: .absolute(Size.cellHeight)
+            heightDimension: .estimated(Size.cellHeight)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
