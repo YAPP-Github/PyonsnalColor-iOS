@@ -77,6 +77,9 @@ final class ProductHomeViewController:
     private func setupProductCollectionView() {
         viewHolder.productHomePageViewController.pagingDelegate = self
         viewHolder.productHomePageViewController.productListViewControllers
+            .compactMap({ $0 as? ProductCurationViewController })
+            .forEach { $0.delegate = self }
+        viewHolder.productHomePageViewController.productListViewControllers
             .compactMap({ $0 as? ProductListViewController })
             .forEach { $0.productCollectionView.delegate = self }
         viewHolder.productHomePageViewController.productListViewControllers
@@ -314,18 +317,18 @@ extension ProductHomeViewController: ProductListDelegate {
     }
     
     func didSelect(with brandProduct: ProductConvertable) {
+        listener?.didSelect(with: brandProduct)
     }
 }
 
 extension ProductHomeViewController: ProductPresentable {
     func didTabRootTabBar() {
-        guard let viewController = viewHolder.productHomePageViewController.viewControllers?.first,
-              let productListViewController = viewController as? ProductListViewController
-        else {
-            return
+        let viewController = viewHolder.productHomePageViewController.viewControllers?.first
+        if let listViewController = viewController as? ProductListViewController {
+            listViewController.scrollCollectionViewToTop()
+        } else if let curationViewController = viewController as? ProductCurationViewController {
+            curationViewController.scrollCollectionViewToTop()
         }
-        
-        productListViewController.scrollCollectionViewToTop()
     }
     
 }

@@ -37,6 +37,8 @@ final class ProductCurationViewController: UIViewController {
         case curation(data: BrandProductEntity)
     }
     
+    weak var delegate: ProductListDelegate?
+    
     private var dataSource: DataSource?
     var dummyData: [CurationEntity] = [
         CurationEntity(
@@ -69,6 +71,11 @@ final class ProductCurationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureCollectionView()
+    }
+    
+    private func configureCollectionView() {
+        curationCollectionView.delegate = self
         configureLayout()
         registerCells()
         configureDataSource()
@@ -237,5 +244,19 @@ final class ProductCurationViewController: UIViewController {
             }
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func scrollCollectionViewToTop() {
+        curationCollectionView.setContentOffset(.init(x: 0, y: 0), animated: true)
+    }
+}
+
+extension ProductCurationViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = dataSource?.itemIdentifier(for: indexPath)
+        
+        if case let .curation(product) = item {
+            delegate?.didSelect(with: product)
+        }
     }
 }
