@@ -35,6 +35,10 @@ final class ProductHomeViewController:
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
     private var currentPage: Int = 0
+    var isNeedToShowRefreshButton: Bool {
+        // keyword가 있다면
+        return true
+    }
     
     // MARK: - Initializer
     init() {
@@ -100,9 +104,11 @@ final class ProductHomeViewController:
         if !filters.isEmpty {
             snapshot.appendSections([.filter])
             
-            // keyword가 있다면
-            let refreshItem = CategoryFilter(categoryFilterType: .refresh)
-            snapshot.appendItems([ItemType.filter(filterItem: refreshItem)], toSection: .filter)
+            if isNeedToShowRefreshButton {
+                let refreshItem = CategoryFilter(categoryFilterType: .refresh)
+                let refreshItems = [ItemType.filter(filterItem: refreshItem)]
+                snapshot.appendItems(refreshItems, toSection: .filter)
+            }
             
             let filterItems = filters.map { filter in
                 return ItemType.filter(filterItem: filter)
@@ -112,33 +118,15 @@ final class ProductHomeViewController:
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
+    private func setSortFilterDefaultText() {
+        FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
+    }
+    
     func makeCategoryFilter() -> [CategoryFilter] {
-        var categoryFilters: [CategoryFilter] = []
-        // 정렬
-        if !FilterDummy.data.sortedMeta.isEmpty {
-            if let sortDefaultText = FilterDummy.data.sortedMeta.first(where: { $0.isSelected })?.name {
-                categoryFilters.append(CategoryFilter(defaultText: sortDefaultText))
-            }
+        setSortFilterDefaultText()
+        return FilterDummy.data.data.map { $0.defaultText }.map { defaultText in
+            CategoryFilter(defaultText: defaultText)
         }
-        
-        // 행사
-        if !FilterDummy.data.tagMetaData.isEmpty {
-            let eventDefaultText = "행사"
-            categoryFilters.append(CategoryFilter(defaultText: eventDefaultText))
-        }
-        
-        // 카테고리
-        if !FilterDummy.data.categoryMetaData.isEmpty {
-            let categoryDefaultText = "카테고리"
-            categoryFilters.append(CategoryFilter(defaultText: categoryDefaultText))
-        }
-        
-        // 상품 추천
-        if !FilterDummy.data.eventMetaData.isEmpty {
-            let eventDefaultText = "상품 추천"
-            categoryFilters.append(CategoryFilter(defaultText: eventDefaultText))
-        }
-        return categoryFilters
     }
     
     private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
