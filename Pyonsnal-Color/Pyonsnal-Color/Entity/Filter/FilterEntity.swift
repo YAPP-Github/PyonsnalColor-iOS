@@ -5,17 +5,7 @@
 //  Created by 조소정 on 2023/07/22.
 //
 
-import Foundation
-
-struct CategoryFilter: Hashable {
-    var categoryFilterType: CategoryFilterType = .category
-    var defaultText: String?
-    var isSelected: Bool = false
-    
-    enum CategoryFilterType {
-        case refresh, category
-    }
-}
+import UIKit
 
 struct FilterDataEntity: Decodable {
     var data: [FilterEntity]
@@ -27,34 +17,10 @@ class FilterEntity: Decodable {
     var isSelected: Bool = false
     var filterItem: [FilterItemEntity]
     
-    init(
-        filterType: FilterType,
-        defaultText: String? = nil,
-        filterItem: [FilterItemEntity]
-    ) {
+    init(filterType: FilterType, defaultText: String? = nil, filterItem: [FilterItemEntity]) {
         self.filterType = filterType
         self.defaultText = defaultText
         self.filterItem = filterItem
-    }
-    
-    enum FilterType: Decodable {
-        case sort // 정렬
-        case recommend // 상품 추천
-        case category // 카테고리
-        case event // 행사
-        case unknown
-        
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let type = try? container.decode(String.self)
-            switch type {
-            case "sort": self = .sort
-            case "recommend": self = .recommend
-            case "category": self = .category
-            case "event": self = .event
-            default: self = .unknown
-            }
-        }
     }
 }
 

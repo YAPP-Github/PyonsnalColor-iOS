@@ -11,7 +11,7 @@ extension ImageAssetKind {
     enum Filter: String {
         case refreshFilter = "icon_filter_refresh"
         case sortFilter = "icon_filter_view"
-        case categoryFilter = "icon_filter"
+        case filter = "icon_filter"
         
         var image: UIImage? {
             return .init(named: self.rawValue)

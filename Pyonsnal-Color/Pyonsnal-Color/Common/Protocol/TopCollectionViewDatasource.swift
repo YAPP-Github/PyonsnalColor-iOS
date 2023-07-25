@@ -15,7 +15,7 @@ class TopCollectionViewDatasource {
     
     enum ItemType: Hashable {
         case convenienceStore(storeName: String)
-        case filter(filterItem: CategoryFilter)
+        case filter(filterItem: FilterCellItem)
     }
     
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>

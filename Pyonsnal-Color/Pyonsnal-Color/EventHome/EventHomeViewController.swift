@@ -101,7 +101,7 @@ final class EventHomeViewController: UIViewController,
                 }
                 return cell
             case .filter(let filterItem):
-                switch filterItem.categoryFilterType {
+                switch filterItem.filterUseType {
                 case .refresh:
                     let cell: RefreshCell = collectionView.dequeueReusableCell(for: indexPath)
                     return cell
@@ -124,12 +124,12 @@ final class EventHomeViewController: UIViewController,
         snapshot.appendItems(items, toSection: .convenienceStore(store: convenienceStores))
         
         // append filter
-        let filters = makeCategoryFilter()
+        let filters = makeFilterCellItem()
         if !filters.isEmpty {
             snapshot.appendSections([.filter])
             
             if isNeedToShowRefreshButton {
-                let refreshItem = CategoryFilter(categoryFilterType: .refresh)
+                let refreshItem = FilterCellItem(filterUseType: .refresh)
                 let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
             }
@@ -147,10 +147,10 @@ final class EventHomeViewController: UIViewController,
         FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
     }
     
-    func makeCategoryFilter() -> [CategoryFilter] {
+    func makeFilterCellItem() -> [FilterCellItem] {
         setSortFilterDefaultText()
         return FilterDummy.data.data.map { $0.defaultText }.map { defaultText in
-            CategoryFilter(defaultText: defaultText)
+            FilterCellItem(defaultText: defaultText)
         }
     }
     

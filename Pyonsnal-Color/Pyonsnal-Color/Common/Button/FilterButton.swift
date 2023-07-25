@@ -51,7 +51,7 @@ final class FilterButton: UIButton {
         self.makeRounded(with: .spacing4)
         self.makeBorder(width: Size.borderWidth,
                         color: UIColor.gray200.cgColor)
-        self.setImage(.categoryFilter, for: .normal)
+        self.setImage(.filter, for: .normal)
         self.setTitleColor(.gray500, for: .normal)
         self.setTitleColor(.white, for: .selected)
         self.semanticContentAttribute = .forceRightToLeft

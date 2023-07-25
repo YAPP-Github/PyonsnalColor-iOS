@@ -1,45 +1,73 @@
 //
-//  Filter.swift
+//  FilterType.swift
 //  Pyonsnal-Color
 //
-//  Created by 조소정 on 2023/07/22.
+//  Created by 조소정 on 2023/07/25.
 //
 
-import UIKit
+import Foundation
 
-enum BottomSheetType {
-    case radio
-    case check
-    case checkWithImage
-}
-
-struct FilterItem {
-    var title: String?
-    var icon: UIImage?
-    var iconDirection: IconDirection
+enum FilterType: Decodable {
+    case sort // 정렬
+    case recommend // 상품 추천
+    case category // 카테고리
+    case event // 행사
+    case unknown
     
-    enum IconDirection {
-        case left, right
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let type = try? container.decode(String.self)
+        switch type {
+        case "sort": self = .sort
+        case "recommend": self = .recommend
+        case "category": self = .category
+        case "event": self = .event
+        default: self = .unknown
+        }
     }
-}
-
-
-enum FilterType {
-    case sort(item: FilterItem)
-    case recommend(item: FilterItem)
-    case category(item: FilterItem)
-    case event(item: FilterItem)
     
-    var bottomSheetType: BottomSheetType {
+    var iconImage: ImageAssetKind.Filter? {
+        switch self {
+        case .sort:
+            return .sortFilter
+        case .recommend, .category, .event:
+            return .filter
+        case .unknown:
+            return nil
+        }
+    }
+    
+    var iconDirection: FilterItemIconDirection? {
+        switch self {
+        case .sort:
+            return .left
+        case .recommend, .category, .event:
+            return .right
+        case .unknown:
+            return nil
+        }
+    }
+    
+    var bottomSheetType: FilterBottomSheetType {
         switch self {
         case .sort:
             return .check
         case .recommend:
             return .radio
-        case .category:
+        case .category, .event:
             return .checkWithImage
-        case .event:
-            return .checkWithImage
+        case .unknown:
+            return .check
         }
+    }
+    
+    enum FilterItemIconDirection {
+        case left, right
+    }
+    
+    enum FilterBottomSheetType {
+        case radio
+        case check
+        case checkWithImage
     }
 }
