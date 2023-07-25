@@ -57,6 +57,7 @@
 		B28A59232A6FB2B200431F39 /* ProductFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A591F2A6FB2B200431F39 /* ProductFilterViewController.swift */; };
 		B28A59242A6FB2B200431F39 /* ProductFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59202A6FB2B200431F39 /* ProductFilterBuilder.swift */; };
 		B28A59252A6FB2B200431F39 /* ProductFilterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59212A6FB2B200431F39 /* ProductFilterInteractor.swift */; };
+		B28A59272A6FCE9700431F39 /* ProductFilterSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59262A6FCE9700431F39 /* ProductFilterSectionLayout.swift */; };
 		B28A59132A6E98DB00431F39 /* CurationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59122A6E98DB00431F39 /* CurationHeaderView.swift */; };
 		B28A59152A6E991100431F39 /* CurationFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59142A6E991100431F39 /* CurationFooterView.swift */; };
 		B28A59172A6E995500431F39 /* CurationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59162A6E995500431F39 /* CurationEntity.swift */; };
@@ -264,6 +265,7 @@
 		B28A591F2A6FB2B200431F39 /* ProductFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFilterViewController.swift; sourceTree = "<group>"; };
 		B28A59202A6FB2B200431F39 /* ProductFilterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFilterBuilder.swift; sourceTree = "<group>"; };
 		B28A59212A6FB2B200431F39 /* ProductFilterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFilterInteractor.swift; sourceTree = "<group>"; };
+		B28A59262A6FCE9700431F39 /* ProductFilterSectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFilterSectionLayout.swift; sourceTree = "<group>"; };
 		B28A59122A6E98DB00431F39 /* CurationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationHeaderView.swift; sourceTree = "<group>"; };
 		B28A59142A6E991100431F39 /* CurationFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationFooterView.swift; sourceTree = "<group>"; };
 		B28A59162A6E995500431F39 /* CurationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationEntity.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 				B28A591F2A6FB2B200431F39 /* ProductFilterViewController.swift */,
 				B28A59202A6FB2B200431F39 /* ProductFilterBuilder.swift */,
 				B28A59212A6FB2B200431F39 /* ProductFilterInteractor.swift */,
+				B28A59262A6FCE9700431F39 /* ProductFilterSectionLayout.swift */,
 			);
 			path = ProductFilter;
 		B28A59112A6E98C000431F39 /* ReusableView */ = {
@@ -1310,6 +1313,7 @@
 				B24F1D4B2A4BB82D00AA03DC /* TitleNavigationView.swift in Sources */,
 				F00022462A5280FC00FFB4A4 /* NetworkRequestBuilder.swift in Sources */,
 				F00352242A62BD9F00A66FF9 /* UserLoginStatusEntity.swift in Sources */,
+				B28A59272A6FCE9700431F39 /* ProductFilterSectionLayout.swift in Sources */,
 				B242590E2A5947E7006C5223 /* PageableEntity.swift in Sources */,
 				F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,

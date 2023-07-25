@@ -17,16 +17,34 @@ protocol ProductFilterPresentableListener: AnyObject {
 
 final class ProductFilterViewController: UIViewController, ProductFilterPresentable, ProductFilterViewControllable {
     
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
+    
     enum Text {
         static let sortTitle = "정렬 선택"
         static let eventTitle = "행사"
         static let categoryTitle = "카테고리"
         static let recommendationTitle = "상품추천"
     }
+    
+    enum Section: Hashable {
+        case sort
+        case event
+        case category
+        case recommendation
+    }
+    
+    enum Item: Hashable {
+        case sort
+        case event
+        case category
+        case recommendation
+    }
 
     weak var listener: ProductFilterPresentableListener?
     
     private let viewHolder = ViewHolder()
+    private var dataSource: DataSource?
+    private let filterType: Section = .sort
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,11 +59,12 @@ final class ProductFilterViewController: UIViewController, ProductFilterPresenta
     }
     
     private func configureCollectionView() {
-        
+        viewHolder.collectionView.setCollectionViewLayout(createLayout(), animated: true)
     }
     
-    private func createLayout() {
-        
+    private func createLayout() -> UICollectionViewLayout {
+        let section = ProductFilterSectionLayout().section(at: filterType)
+        return  UICollectionViewCompositionalLayout(section: section)
     }
 }
 
