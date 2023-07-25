@@ -14,11 +14,11 @@ protocol ProductHomePageViewControllerDelegate: AnyObject {
 
 final class ProductHomePageViewController: UIPageViewController {
     
-    //MARK: - Property
+    // MARK: - Property
     weak var pagingDelegate: ProductHomePageViewControllerDelegate?
     var productListViewControllers: [UIViewController] = []
     
-    //MARK: - Life Cycle
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,7 +26,7 @@ final class ProductHomePageViewController: UIPageViewController {
         configureViewController()
     }
     
-    //MARK: - Private Method
+    // MARK: - Private Method
     private func generateChildViewControllers() {
         let curationViewController = ProductCurationViewController()
         productListViewControllers.append(curationViewController)
@@ -66,7 +66,7 @@ final class ProductHomePageViewController: UIPageViewController {
     }
 }
 
-//MARK: - UIPageViewControllerDataSource
+// MARK: - UIPageViewControllerDataSource
 extension ProductHomePageViewController: UIPageViewControllerDataSource {
     func pageViewController(
         _ pageViewController: UIPageViewController,
@@ -97,7 +97,7 @@ extension ProductHomePageViewController: UIPageViewControllerDataSource {
     }
 }
 
-//MARK: - UIPageViewControllerDelegate
+// MARK: - UIPageViewControllerDelegate
 extension ProductHomePageViewController: UIPageViewControllerDelegate {
     func pageViewController(
         _ pageViewController: UIPageViewController,

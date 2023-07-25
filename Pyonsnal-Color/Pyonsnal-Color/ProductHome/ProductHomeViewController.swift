@@ -21,10 +21,10 @@ final class ProductHomeViewController:
     ProductHomePresentable,
     ProductHomeViewControllable {
 
-    //MARK: - Interface
+    // MARK: - Interface
     weak var listener: ProductHomePresentableListener?
     
-    //MARK: - Private Property
+    // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
     private let convenienceStores: [String] = CommonConstants.productHomeStore
     private let initialIndex: Int = 0
@@ -32,7 +32,7 @@ final class ProductHomeViewController:
     private var isPaging: Bool = false
     private var currentPage: Int = 0
     
-    //MARK: - Initializer
+    // MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -43,7 +43,7 @@ final class ProductHomeViewController:
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Life Cycle
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,7 +54,7 @@ final class ProductHomeViewController:
         configureNotificationButton()
     }
     
-    //MARK: - Private Method
+    // MARK: - Private Method
     private func setupViews() {
         let customFont: UIFont = .label2
         
@@ -141,7 +141,7 @@ final class ProductHomeViewController:
     }
 }
 
-//MARK: - TitleNavigationViewDelegate {
+// MARK: - TitleNavigationViewDelegate {
 extension ProductHomeViewController: TitleNavigationViewDelegate {
     func didTabSearchButton() {
         listener?.didTapSearchButton()
@@ -152,7 +152,7 @@ extension ProductHomeViewController: TitleNavigationViewDelegate {
     }
 }
 
-//MARK: - UICollectionViewDataSource
+// MARK: - UICollectionViewDataSource
 extension ProductHomeViewController: UICollectionViewDataSource {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -245,7 +245,7 @@ extension ProductHomeViewController: UIScrollViewDelegate {
     }
 }
 
-//MARK: - UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDelegateFlowLayout
 extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -283,7 +283,7 @@ extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-//MARK: - UICollectionViewDelegate
+// MARK: - UICollectionViewDelegate
 extension ProductHomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == viewHolder.convenienceStoreCollectionView {
@@ -298,7 +298,7 @@ extension ProductHomeViewController: UICollectionViewDelegate {
     }
 }
 
-//MARK: - ProductHomePageViewControllerDelegate
+// MARK: - ProductHomePageViewControllerDelegate
 extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     func didFinishPageTransition(index: Int) {
         currentPage = index
