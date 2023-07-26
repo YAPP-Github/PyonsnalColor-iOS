@@ -161,7 +161,7 @@ final class EventHomeViewController: UIViewController,
                 return nil
             }
             
-            let layout = TopCommonLayout()
+            let layout = TopCommonSectionLayout()
             return layout.section(at: sectionIdentifier)
         }
     }
@@ -303,7 +303,7 @@ extension EventHomeViewController {
                 $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
                 $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
-                let height = TopCommonLayout.ConvenienceStore.height + TopCommonLayout.CategoryFilter.height
+                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.CategoryFilter.height
                 $0.height.equalTo(height)
             }
             

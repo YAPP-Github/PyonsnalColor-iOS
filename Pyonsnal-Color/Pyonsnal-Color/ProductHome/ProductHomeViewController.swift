@@ -165,7 +165,7 @@ final class ProductHomeViewController:
                 return nil
             }
             
-            let layout = TopCommonLayout()
+            let layout = TopCommonSectionLayout()
             return layout.section(at: sectionIdentifier)
         }
     }

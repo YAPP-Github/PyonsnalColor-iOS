@@ -1,5 +1,5 @@
 //
-//  TopCommonLayout.swift
+//  TopCommonSectionLayout.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/07/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TopCommonLayout {
+final class TopCommonSectionLayout {
     
     enum ConvenienceStore {
         static let estimatedWidth: CGFloat = 56
@@ -78,7 +78,7 @@ final class TopCommonLayout {
     }
 }
 
-extension TopCommonLayout {
+extension TopCommonSectionLayout {
     func section(at type: TopCollectionViewDatasource.SectionType) -> NSCollectionLayoutSection {
         switch type {
         case .convenienceStore(let store):

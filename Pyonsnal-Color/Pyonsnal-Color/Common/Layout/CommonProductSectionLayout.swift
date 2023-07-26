@@ -1,5 +1,5 @@
 //
-//  EventHomeSectionLayout.swift
+//  CommonProductSectionLayout.swift
 //  CollectionView-Structure-Test
 //
 //  Created by 조소정 on 2023/06/17.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EventHomeSectionLayout {
+final class CommonProductSectionLayout {
     
     enum Size {
         enum Event {
@@ -84,7 +84,7 @@ final class EventHomeSectionLayout {
         return section
     }
     
-    private func itemLayout(from tab: EventHomeSectionLayout.Tab) -> NSCollectionLayoutSection {
+    private func itemLayout(from tab: CommonProductSectionLayout.Tab) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Item.width),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -140,7 +140,7 @@ final class EventHomeSectionLayout {
     }
 }
 
-extension EventHomeSectionLayout {
+extension CommonProductSectionLayout {
     enum Tab {
         case home
         case event

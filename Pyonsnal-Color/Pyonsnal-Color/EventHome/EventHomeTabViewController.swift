@@ -86,7 +86,7 @@ final class EventHomeTabViewController: UIViewController {
                 return nil
             }
             
-            let layout = EventHomeSectionLayout()
+            let layout = CommonProductSectionLayout()
             return layout.section(at: sectionIdentifier)
         }
     }
