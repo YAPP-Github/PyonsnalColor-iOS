@@ -1,5 +1,5 @@
 //
-//  RefreshCell.swift
+//  RefreshFilterCell.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/07/24.
@@ -8,18 +8,18 @@
 import UIKit
 import SnapKit
 
-protocol RefreshCellDelegate: AnyObject {
+protocol RefreshFilterCellDelegate: AnyObject {
     func didTapRefreshButton()
 }
 
-final class RefreshCell: UICollectionViewCell {
+final class RefreshFilterCell: UICollectionViewCell {
     
     // MARK: - Interfaces
     enum Size {
         static let borderWidth: CGFloat = 1
     }
     
-    weak var delegate: RefreshCellDelegate?
+    weak var delegate: RefreshFilterCellDelegate?
     
     // MARK: - Private property
     private let viewHolder: ViewHolder = .init()

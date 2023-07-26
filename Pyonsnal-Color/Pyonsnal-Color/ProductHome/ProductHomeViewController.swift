@@ -77,7 +77,7 @@ final class ProductHomeViewController:
             case .filter(let filterItem):
                 switch filterItem.filterUseType {
                 case .refresh:
-                    let cell: RefreshCell = collectionView.dequeueReusableCell(for: indexPath)
+                    let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
                     return cell
                 case .category:
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
@@ -154,7 +154,7 @@ final class ProductHomeViewController:
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
         viewHolder.collectionView.register(CategoryFilterCell.self)
-        viewHolder.collectionView.register(RefreshCell.self)
+        viewHolder.collectionView.register(RefreshFilterCell.self)
         viewHolder.collectionView.collectionViewLayout = createLayout()
     }
     
