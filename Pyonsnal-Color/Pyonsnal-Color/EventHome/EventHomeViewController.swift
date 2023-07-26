@@ -213,7 +213,11 @@ final class EventHomeViewController: UIViewController,
         }
     }
     
-    func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore) {
+    func update(
+        with products: [EventProductEntity],
+        banners: [EventBannerEntity],
+        at store: ConvenienceStore
+    ) {
         if let storeIndex = convenienceStores.firstIndex(of: store.convenienceStoreCellName) {
             let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
             tabViewController.applyEventBannerProducts(with: banners, products: products)

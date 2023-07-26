@@ -50,7 +50,6 @@ final class EventHomeTabViewController: UIViewController {
     // MARK: - Private property
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     private var dataSource: DataSource?
-    private let headerTitle: [EventHeaderSection] = CommonConstants.eventTabHeaderTitle
     private var eventUrls: [EventBannerEntity] = []
     private let refreshControl = UIRefreshControl()
     private var lastContentOffSetY: CGFloat = 0
@@ -163,7 +162,11 @@ final class EventHomeTabViewController: UIViewController {
         dataSource?.supplementaryViewProvider = makeSupplementaryView
     }
     
-    private func makeSupplementaryView(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? {
+    private func makeSupplementaryView(
+        collectionView: UICollectionView,
+        kind: String,
+        indexPath: IndexPath
+    ) -> UICollectionReusableView? {
         switch kind {
         case ItemHeaderTitleView.className:
             let itemHeaderTitleView = collectionView.dequeueReusableSupplementaryView(
@@ -171,19 +174,14 @@ final class EventHomeTabViewController: UIViewController {
                 withReuseIdentifier: kind,
                 for: indexPath
             ) as? ItemHeaderTitleView
-            if dataSource?.snapshot().sectionIdentifiers[indexPath.section] == .keywordFilter { return nil }
-            let sectionCount = dataSource?.snapshot().sectionIdentifiers.count
-            let titleText = headerTitle[indexPath.section].text
-            
-            if sectionCount == 2 {
-                if indexPath.section == 0 {
-                    itemHeaderTitleView?.update(isEventLayout: true, title: titleText)
-                } else {
-                    itemHeaderTitleView?.update(isEventLayout: false, title: titleText)
-                }
-            } else {
-                itemHeaderTitleView?.update(isEventLayout: false,
-                                            title: headerTitle[1].text)
+            guard let section = dataSource?.snapshot().sectionIdentifiers[indexPath.section] else {
+                return nil
+            }
+            if section == .event {
+                itemHeaderTitleView?.update(title: CommonConstants.eventSectionHeaderTitle)
+            } else if section == .item {
+                let itemTitle = "\(convenienceStore.convenienceStoreCellName) \(CommonConstants.itemSectionHeaderTitle)"
+                itemHeaderTitleView?.update(title: itemTitle)
             }
             return itemHeaderTitleView
         default:
