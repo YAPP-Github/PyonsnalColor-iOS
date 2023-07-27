@@ -50,6 +50,7 @@ extension UIFont {
     
     static let label1 = customFont(weight: .semiBold, size: 12)
     static let label2 = customFont(weight: .semiBold, size: 10)
+    static let label3 = customFont(weight: .medium, size: 10)
     
     var customLineHeight: CGFloat {
         switch self {
@@ -57,21 +58,34 @@ extension UIFont {
             return 38
         case .title1:
             return 28
-        case .title2, .body1m, .body1r:
+        case .title2:
             return 26
-        case .title3, .body2m, .body2r:
+        case .title3:
             return 24
-        case .body3m, .body3r:
+        case .body1m:
+            return 26
+        case .body2m:
+            return 24
+        case .body3m:
             return 20
-        case .body4m, .body4r:
+        case .body4m:
+            return 16
+        case .body1r:
+            return 26
+        case .body2r:
+            return 24
+        case .body3r:
+            return 20
+        case .body4r:
             return 16
         case .label1:
             return 14
         case .label2:
+            return 14
+        case .label3:
             return 10
         default:
-            break
+            return self.lineHeight
         }
-        return self.lineHeight
     }
 }
