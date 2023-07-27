@@ -9,9 +9,6 @@ import UIKit
 import SnapKit
 
 final class CurationImageCell: UICollectionViewCell {
-    enum Size {
-        static let imageSize: CGSize = .init(width: 390, height: 240)
-    }
     
     private let introductionImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
