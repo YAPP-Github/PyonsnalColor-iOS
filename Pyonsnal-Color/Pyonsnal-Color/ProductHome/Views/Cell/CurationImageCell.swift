@@ -44,8 +44,6 @@ final class CurationImageCell: UICollectionViewCell {
         
         introductionImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.width.equalTo(Size.imageSize.width)
-            make.height.equalTo(Size.imageSize.height)
         }
         
         label.snp.makeConstraints { make in
