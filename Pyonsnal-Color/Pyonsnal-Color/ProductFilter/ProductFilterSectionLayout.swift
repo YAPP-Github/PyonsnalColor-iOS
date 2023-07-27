@@ -27,9 +27,9 @@ final class ProductFilterSectionLayout {
             heightDimension: .estimated(Size.sortCellHeight)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(Spacing.spacing12.value)
         
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = Spacing.spacing12.value
         return section
     }
     

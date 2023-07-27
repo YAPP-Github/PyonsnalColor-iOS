@@ -10,9 +10,6 @@ import ModernRIBs
 import SnapKit
 
 protocol ProductFilterPresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
 }
 
 final class ProductFilterViewController: UIViewController, ProductFilterPresentable, ProductFilterViewControllable {
@@ -34,7 +31,7 @@ final class ProductFilterViewController: UIViewController, ProductFilterPresenta
     }
     
     enum Item: Hashable {
-        case sort
+        case sort(index: Int)
         case event
         case category
         case recommendation
@@ -52,19 +49,81 @@ final class ProductFilterViewController: UIViewController, ProductFilterPresenta
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureView()
+        configureCollectionView()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        resizeCollectionViewHeight()
     }
     
     private func configureView() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
+        let title: String
+        
+        switch filterType {
+        case .sort:
+            title = Text.sortTitle
+        default:
+            title = ""
+        }
+        
+        viewHolder.titleLabel.text = title
+        hideApplyButton()
+    }
+    
+    private func hideApplyButton() {
+        viewHolder.applyButton.isHidden = filterType == .sort ? true : false
     }
     
     private func configureCollectionView() {
         viewHolder.collectionView.setCollectionViewLayout(createLayout(), animated: true)
+        registerCells()
+        configureDataSource()
+        applySnapshot()
     }
     
     private func createLayout() -> UICollectionViewLayout {
         let section = ProductFilterSectionLayout().section(at: filterType)
         return  UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    private func registerCells() {
+        viewHolder.collectionView.register(SortFilterCell.self)
+    }
+    
+    private func configureDataSource() {
+        dataSource = DataSource(
+            collectionView: viewHolder.collectionView
+        ) { collectionView, index, item in
+            switch item {
+            case .sort:
+                let cell: SortFilterCell = collectionView.dequeueReusableCell(for: index)
+                cell.configureCell(at: index.item)
+                return cell
+            default:
+                return UICollectionViewCell()
+            }
+        }
+    }
+    
+    private func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        snapshot.appendSections([.sort])
+        snapshot.appendItems([.sort(index: 1), .sort(index: 2), .sort(index: 3)])
+        
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func resizeCollectionViewHeight() {
+        let height = viewHolder.collectionView.contentSize.height
+        
+        if height > 0 {
+            viewHolder.collectionView.snp.makeConstraints {
+                $0.height.equalTo(height)
+            }
+        }
     }
 }
 
@@ -80,20 +139,23 @@ extension ProductFilterViewController {
             static let grabViewTop: CGFloat = 5
             static let titleLeading: CGFloat = 20
             static let titleTop: CGFloat = 40
+            static let applyButtonHeight: CGFloat = 52
         }
         
         private let containerView: UIView = {
             let view = UIView()
             view.backgroundColor = .white
-            view.makeRoundCorners(cornerRadius: 16, maskedCorners: .layerMinXMinYCorner)
-            view.makeRoundCorners(cornerRadius: 16, maskedCorners: .layerMaxXMinYCorner)
+            view.makeRoundCorners(
+                cornerRadius: 16,
+                maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+            )
             return view
         }()
         
         private let grabView: UIView = {
             let view = UIView()
             view.makeRounded(with: 2.5)
-            view.backgroundColor = .gray200
+            view.backgroundColor = .gray400
             return view
         }()
         
@@ -110,7 +172,21 @@ extension ProductFilterViewController {
             return label
         }()
         
-        let collectionView: UICollectionView = .init(frame: .zero)
+        let stackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .vertical
+            stackView.spacing = Spacing.spacing40.value
+            return stackView
+        }()
+        
+        let collectionView: UICollectionView = {
+            let collectionView = UICollectionView(
+                frame: .zero,
+                collectionViewLayout: UICollectionViewLayout()
+            )
+            collectionView.isScrollEnabled = false
+            return collectionView
+        }()
         
         let applyButton: PrimaryButton = {
             let button = PrimaryButton(state: .disabled)
@@ -124,8 +200,10 @@ extension ProductFilterViewController {
             containerView.addSubview(grabView)
             containerView.addSubview(closeButton)
             containerView.addSubview(titleLabel)
-            containerView.addSubview(collectionView)
-            containerView.addSubview(applyButton)
+            containerView.addSubview(stackView)
+            
+            stackView.addArrangedSubview(collectionView)
+            stackView.addArrangedSubview(applyButton)
         }
         
         func configureConstraints(for view: UIView) {
@@ -135,7 +213,7 @@ extension ProductFilterViewController {
             
             grabView.snp.makeConstraints {
                 $0.centerX.equalToSuperview()
-                $0.top.equalTo(containerView.snp.bottom).offset(Size.grabViewTop)
+                $0.top.equalTo(containerView).offset(Size.grabViewTop)
                 $0.size.equalTo(Size.grabViewSize)
             }
             
@@ -149,17 +227,23 @@ extension ProductFilterViewController {
                 $0.top.equalToSuperview().offset(Size.titleTop)
             }
             
+            stackView.snp.makeConstraints {
+                $0.leading.equalToSuperview().offset(Size.titleLeading)
+                $0.trailing.equalToSuperview().inset(Size.titleLeading)
+                $0.top.equalTo(titleLabel.snp.bottom).offset(Spacing.spacing24.value)
+            }
+            
             collectionView.snp.makeConstraints {
-                $0.leading.trailing.equalTo(applyButton)
-                $0.top.equalTo(titleLabel).offset(Spacing.spacing24.value)
-                $0.bottom.equalTo(applyButton).inset(Spacing.spacing40.value)
+                $0.height.greaterThanOrEqualTo(90)
+                $0.bottom.lessThanOrEqualTo(
+                    view.safeAreaLayoutGuide
+                ).inset(Spacing.spacing40.value).priority(.low)
             }
             
             applyButton.snp.makeConstraints {
-                $0.leading.equalTo(titleLabel)
-                $0.trailing.equalToSuperview().inset(Size.titleLeading)
-                $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom)
-                $0.bottom.equalToSuperview().inset(.spacing16).priority(.low)
+                $0.height.equalTo(Size.applyButtonHeight)
+                $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).priority(.high)
+                $0.bottom.equalTo(containerView).inset(.spacing16).priority(.medium)
             }
         }
     }
