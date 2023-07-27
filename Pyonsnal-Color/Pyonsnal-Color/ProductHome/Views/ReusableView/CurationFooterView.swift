@@ -9,6 +9,11 @@ import UIKit
 import SnapKit
 
 final class CurationFooterView: UICollectionReusableView {
+    
+    enum Size {
+        static let footerHeight: CGFloat = 12
+    }
+    
     private let dividerView: UIView = {
         let view = UIView()
         view.backgroundColor = .gray100
@@ -30,7 +35,7 @@ final class CurationFooterView: UICollectionReusableView {
         
         dividerView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(12)
+            make.height.equalTo(Size.footerHeight)
         }
     }
     

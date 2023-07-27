@@ -57,6 +57,7 @@
 		B28A59152A6E991100431F39 /* CurationFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59142A6E991100431F39 /* CurationFooterView.swift */; };
 		B28A59172A6E995500431F39 /* CurationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A59162A6E995500431F39 /* CurationEntity.swift */; };
 		B28A591B2A6E9F3D00431F39 /* CurationImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A591A2A6E9F3D00431F39 /* CurationImageCell.swift */; };
+		B28A592E2A726C6500431F39 /* CurationSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A592D2A726C6500431F39 /* CurationSectionLayout.swift */; };
 		B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529452A57F2220010656A /* LogoutPopupRouter.swift */; };
 		B2A5294A2A57F2220010656A /* LogoutPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529462A57F2220010656A /* LogoutPopupViewController.swift */; };
 		B2A5294B2A57F2220010656A /* LogoutPopupBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */; };
@@ -246,6 +247,7 @@
 		B28A59142A6E991100431F39 /* CurationFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationFooterView.swift; sourceTree = "<group>"; };
 		B28A59162A6E995500431F39 /* CurationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationEntity.swift; sourceTree = "<group>"; };
 		B28A591A2A6E9F3D00431F39 /* CurationImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationImageCell.swift; sourceTree = "<group>"; };
+		B28A592D2A726C6500431F39 /* CurationSectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationSectionLayout.swift; sourceTree = "<group>"; };
 		B2A529452A57F2220010656A /* LogoutPopupRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupRouter.swift; sourceTree = "<group>"; };
 		B2A529462A57F2220010656A /* LogoutPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupViewController.swift; sourceTree = "<group>"; };
 		B2A529472A57F2220010656A /* LogoutPopupBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupBuilder.swift; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 				B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */,
 				B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */,
 				B2B281C62A6BB5C4006C9C6B /* ProductCurationViewController.swift */,
+				B28A592D2A726C6500431F39 /* CurationSectionLayout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1213,6 +1216,7 @@
 				BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */,
 				BA0BFB722A5463BD0019AED7 /* EventTag.swift in Sources */,
 				BA437F212A2360E100C5DFA8 /* AppComponent.swift in Sources */,
+				B28A592E2A726C6500431F39 /* CurationSectionLayout.swift in Sources */,
 				B24CAAE52A55AC33005BE499 /* NotificationListViewController.swift in Sources */,
 				BAE442C82A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift in Sources */,
 				B24F1D4B2A4BB82D00AA03DC /* TitleNavigationView.swift in Sources */,

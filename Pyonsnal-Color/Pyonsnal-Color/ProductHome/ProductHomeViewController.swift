@@ -81,10 +81,10 @@ final class ProductHomeViewController:
             .forEach { $0.delegate = self }
         viewHolder.productHomePageViewController.productListViewControllers
             .compactMap({ $0 as? ProductListViewController })
-            .forEach { $0.productCollectionView.delegate = self }
-        viewHolder.productHomePageViewController.productListViewControllers
-            .compactMap({ $0 as? ProductListViewController })
-            .forEach { $0.delegate = self }
+            .forEach {
+                $0.delegate = self
+                $0.productCollectionView.delegate = self
+            }
     }
     
     private func setSelectedConvenienceStoreCell(with page: Int) {
