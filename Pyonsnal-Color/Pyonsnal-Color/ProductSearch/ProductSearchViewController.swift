@@ -134,9 +134,7 @@ final class ProductSearchViewController: UIViewController,
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductCellType>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
-        OperationQueue.main.addOperation {
-            self.dataSource?.apply(snapshot)
-        }
+        dataSource?.apply(snapshot)
     }
     
     @objc private func backButtonAction(_ sender: UIButton) {
