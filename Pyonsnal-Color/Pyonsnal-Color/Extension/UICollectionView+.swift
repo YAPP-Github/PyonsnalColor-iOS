@@ -20,6 +20,14 @@ extension UICollectionView {
         )
     }
     
+    func registerFooterView(_ viewClass: AnyClass) {
+        register(
+            viewClass,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: String(describing: viewClass.self)
+        )
+    }
+    
     func dequeueReusableCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
         guard let cell = self.dequeueReusableCell(withReuseIdentifier: T.identifier, for: indexPath) as? T else {
             fatalError("Unexpected identifier : \(T.identifier)")

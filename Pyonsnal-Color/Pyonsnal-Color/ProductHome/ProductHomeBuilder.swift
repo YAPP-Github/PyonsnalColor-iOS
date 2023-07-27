@@ -14,7 +14,13 @@ protocol ProductHomeDependency: Dependency {
 final class ProductHomeComponent: Component<ProductHomeDependency>,
                                     ProductSearchDependency,
                                     NotificationListDependency,
-                                    ProductDetailDependency {
+                                  ProductDetailDependency {
+    let productAPIService: ProductAPIService
+    
+    override init(dependency: ProductHomeDependency) {
+        self.productAPIService = dependency.productAPIService
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder

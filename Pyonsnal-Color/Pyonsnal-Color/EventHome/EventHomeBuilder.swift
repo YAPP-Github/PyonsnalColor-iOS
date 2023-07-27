@@ -15,6 +15,12 @@ final class EventHomeComponent: Component<EventHomeDependency>,
                                 ProductSearchDependency,
                                 EventDetailDependency,
                                 ProductDetailDependency {
+    let productAPIService: ProductAPIService
+    
+    override init(dependency: EventHomeDependency) {
+        self.productAPIService = dependency.productAPIService
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder

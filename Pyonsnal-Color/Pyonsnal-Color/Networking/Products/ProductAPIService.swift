@@ -46,4 +46,15 @@ final class ProductAPIService {
             model: [EventBannerEntity].self
         )
     }
+    
+    func requestSearch(
+        pageNumber: Int,
+        pageSize: Int,
+        name: String
+    ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
+        return client.request(
+            ProductAPI.search(pageNumber: pageNumber, pageSize: pageSize, name: name),
+            model: ProductPageEntity.self
+        )
+    }
 }
