@@ -117,8 +117,8 @@ extension LogoutPopupViewController {
             enum Size {
                 static let topBottomMargin: CGFloat = 40
                 static let leftRightMargin: CGFloat = 20
-                static let titleStackViewSpacing: CGFloat = Spacing.spacing8.value
-                static let buttonStackViewSpacing: CGFloat = Spacing.spacing16.value
+                static let titleStackViewSpacing: CGFloat = .spacing8
+                static let buttonStackViewSpacing: CGFloat = .spacing16
                 static let popupWidth: CGFloat = 358
                 static let popupHeight: CGFloat = 228
                 static let buttonWidth: CGFloat = 151
@@ -130,7 +130,7 @@ extension LogoutPopupViewController {
         
         private let mainPopupView: UIView = {
             let view = UIView()
-            view.makeRounded(with: Spacing.spacing16.value)
+            view.makeRounded(with: .spacing16)
             view.backgroundColor = .white
             return view
         }()
@@ -168,7 +168,7 @@ extension LogoutPopupViewController {
         let dismissButton: UIButton = {
             let button = UIButton()
             button.makeBorder(width: 1, color: UIColor.black.cgColor)
-            button.makeRounded(with: Spacing.spacing16.value)
+            button.makeRounded(with: .spacing16)
 
             return button
         }()
@@ -176,7 +176,7 @@ extension LogoutPopupViewController {
         let confirmButton: UIButton = {
             let button = UIButton()
             button.makeBorder(width: 1, color: UIColor.black.cgColor)
-            button.makeRounded(with: Spacing.spacing16.value)
+            button.makeRounded(with: .spacing16)
             button.backgroundColor = .black
             return button
         }()

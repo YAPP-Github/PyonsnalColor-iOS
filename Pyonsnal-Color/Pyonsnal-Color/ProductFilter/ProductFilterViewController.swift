@@ -78,7 +78,7 @@ final class ProductFilterViewController:
     }
     
     private func configureView() {
-        view.backgroundColor = .black.withAlphaComponent(0.5)
+        view.backgroundColor = .black.withAlphaComponent(0.7)
         setFilterTitle()
         setMultiSelect()
         hideApplyButton()
@@ -183,6 +183,8 @@ extension ProductFilterViewController {
         }
         
         enum Size {
+            static let containerViewRadius: CGFloat = 16
+            static let grabViewRadius: CGFloat = 2.5
             static let grabViewSize: CGSize = .init(width: 36, height: 5)
             static let grabViewTop: CGFloat = 5
             static let titleLeading: CGFloat = 20
@@ -194,7 +196,7 @@ extension ProductFilterViewController {
             let view = UIView()
             view.backgroundColor = .white
             view.makeRoundCorners(
-                cornerRadius: 16,
+                cornerRadius: Size.containerViewRadius,
                 maskedCorners: [.layerMaxXMinYCorner, .layerMinXMinYCorner]
             )
             return view
@@ -202,7 +204,7 @@ extension ProductFilterViewController {
         
         private let grabView: UIView = {
             let view = UIView()
-            view.makeRounded(with: 2.5)
+            view.makeRounded(with: Size.grabViewRadius)
             view.backgroundColor = .gray400
             return view
         }()
@@ -223,7 +225,7 @@ extension ProductFilterViewController {
         let stackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.spacing = Spacing.spacing40.value
+            stackView.spacing = .spacing40
             return stackView
         }()
         
@@ -266,8 +268,8 @@ extension ProductFilterViewController {
             }
             
             closeButton.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(Spacing.spacing12.value)
-                $0.trailing.equalToSuperview().inset(Spacing.spacing12.value)
+                $0.top.equalToSuperview().offset(.spacing12)
+                $0.trailing.equalToSuperview().inset(.spacing12)
             }
             
             titleLabel.snp.makeConstraints {
@@ -278,14 +280,14 @@ extension ProductFilterViewController {
             stackView.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(Size.titleLeading)
                 $0.trailing.equalToSuperview().inset(Size.titleLeading)
-                $0.top.equalTo(titleLabel.snp.bottom).offset(Spacing.spacing24.value)
+                $0.top.equalTo(titleLabel.snp.bottom).offset(.spacing24)
             }
             
             collectionView.snp.makeConstraints {
                 $0.height.greaterThanOrEqualTo(90)
                 $0.bottom.lessThanOrEqualTo(
                     view.safeAreaLayoutGuide
-                ).inset(Spacing.spacing40.value).priority(.low)
+                ).inset(.spacing40).priority(.low)
             }
             
             applyButton.snp.makeConstraints {

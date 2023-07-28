@@ -29,7 +29,7 @@ final class ProductFilterSectionLayout {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = Spacing.spacing12.value
+        section.interGroupSpacing = .spacing12
         return section
     }
     
@@ -49,7 +49,7 @@ final class ProductFilterSectionLayout {
             subitem: item,
             count: 2
         )
-        group.interItemSpacing = .fixed(Spacing.spacing12.value)
+        group.interItemSpacing = .fixed(.spacing12)
         
         let section = NSCollectionLayoutSection(group: group)
         return section
@@ -94,7 +94,7 @@ final class ProductFilterSectionLayout {
             subitem: item,
             count: 3
         )
-        group.interItemSpacing = .fixed(Spacing.spacing24.value)
+        group.interItemSpacing = .fixed(.spacing24)
         
         let section = NSCollectionLayoutSection(group: group)
         return section
