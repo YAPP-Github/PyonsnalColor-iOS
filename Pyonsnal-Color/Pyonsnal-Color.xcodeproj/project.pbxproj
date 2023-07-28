@@ -169,6 +169,8 @@
 		F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */; };
 		F0C582C32A55E83400DAD387 /* TermsOfUseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */; };
 		F0C582C42A55E83400DAD387 /* TermsOfUseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */; };
+		F0C6985F2A6ABDDD0019C677 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6985E2A6ABDDD0019C677 /* Log.swift */; };
+		F0C698632A6ABE5B0019C677 /* OSLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C698612A6ABE2D0019C677 /* OSLog.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */; };
 		F0C87AF02A51D74900EA4C76 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */; };
 		F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */; };
@@ -346,6 +348,8 @@
 		F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
 		F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseBuilder.swift; sourceTree = "<group>"; };
 		F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseInteractor.swift; sourceTree = "<group>"; };
+		F0C6985E2A6ABDDD0019C677 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		F0C698612A6ABE2D0019C677 /* OSLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSLog.framework; path = System/Library/Frameworks/OSLog.framework; sourceTree = SDKROOT; };
 		F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyonsnalColorClient.swift; sourceTree = "<group>"; };
 		F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
@@ -373,6 +377,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0C698632A6ABE5B0019C677 /* OSLog.framework in Frameworks */,
 				BA3EB2FE2A6074090091C8DB /* FirebaseAnalyticsSwift in Frameworks */,
 				BA3EB3002A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */,
@@ -728,6 +733,7 @@
 				BA9E234F2A234B4D00A539D5 /* .swiftlint.yml */,
 				BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */,
 				BA9E23382A21EF3000A539D5 /* Products */,
+				F0C698602A6ABE2C0019C677 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -782,6 +788,7 @@
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F0C6985D2A6ABDCB0019C677 /* Log */,
 				BAE442C02A6D2C6200BD6582 /* ReusableView */,
 				BA50FD072A680D1200721782 /* SearchBar */,
 				F097EF232A5605CD00A7FB9C /* Button */,
@@ -937,6 +944,22 @@
 				F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */,
 			);
 			path = TermsOfUse;
+			sourceTree = "<group>";
+		};
+		F0C6985D2A6ABDCB0019C677 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				F0C6985E2A6ABDDD0019C677 /* Log.swift */,
+			);
+			path = Log;
+			sourceTree = "<group>";
+		};
+		F0C698602A6ABE2C0019C677 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F0C698612A6ABE2D0019C677 /* OSLog.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F0D6FFA72A39F57600C55E27 /* Cell */ = {
@@ -1129,6 +1152,7 @@
 				F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */,
 				F097EF372A571DD300A7FB9C /* CommonWebInteractor.swift in Sources */,
 				F0EE10B02A4B4DF600B8DF4F /* ItemIdentifier.swift in Sources */,
+				F0C6985F2A6ABDDD0019C677 /* Log.swift in Sources */,
 				BA87E3CC2A45C5A1000A9DEC /* ProductDetailRouter.swift in Sources */,
 				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
