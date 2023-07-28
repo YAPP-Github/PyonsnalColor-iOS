@@ -12,6 +12,12 @@ final class SortFilterCell: UICollectionViewCell {
     
     private let viewHolder = ViewHolder()
     
+    override var isSelected: Bool {
+        didSet {
+            isSelected ? setSelectedState() : setUnselectedState()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -29,12 +35,17 @@ final class SortFilterCell: UICollectionViewCell {
     
     func configureCell(title: String, isSelected: Bool) {
         viewHolder.titleLabel.text = title
-        
-        if isSelected {
-            viewHolder.titleLabel.textColor = .red500
-        } else {
-            viewHolder.checkButton.isHidden = true
-        }
+        isSelected ? setSelectedState() : setUnselectedState()
+    }
+    
+    private func setSelectedState() {
+        viewHolder.titleLabel.textColor = .red500
+        viewHolder.checkButton.isHidden = false
+    }
+    
+    private func setUnselectedState() {
+        viewHolder.titleLabel.textColor = .black
+        viewHolder.checkButton.isHidden = true
     }
 }
 

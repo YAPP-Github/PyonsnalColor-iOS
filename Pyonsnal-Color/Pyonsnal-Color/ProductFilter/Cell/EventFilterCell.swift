@@ -20,6 +20,12 @@ final class EventFilterCell: UICollectionViewCell {
     
     private let viewHolder = ViewHolder()
     
+    override var isSelected: Bool {
+        didSet {
+            isSelected ? setSelectedState() : setUnselectedState()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -37,25 +43,28 @@ final class EventFilterCell: UICollectionViewCell {
     
     func configureCell(title: String, isSelected: Bool) {
         viewHolder.titleLabel.text = title
+        isSelected ? setSelectedState() : setUnselectedState()
+    }
+    
+    private func setSelectedState() {
+        let configuration: UIImage.SymbolConfiguration = .init(weight: .bold)
+        let checkImage = UIImage(systemName: Image.checkMark, withConfiguration: configuration)
         
-        if isSelected {
-            let configuration: UIImage.SymbolConfiguration = .init(weight: .bold)
-            let checkImage = UIImage(systemName: Image.checkMark, withConfiguration: configuration)
-            
-            viewHolder.titleLabel.textColor = .red500
-            viewHolder.checkButton.backgroundColor = .red500
-            viewHolder.checkButton.setImage(checkImage, for: .normal)
-            viewHolder.checkButton.imageView?.sizeToFit()
-            viewHolder.checkButton.removeBorder()
-        } else {
-            viewHolder.titleLabel.textColor = .black
-            viewHolder.checkButton.backgroundColor = .white
-            viewHolder.checkButton.imageView?.image = nil
-            viewHolder.checkButton.makeBorder(
-                width: Size.checkButtonBorderWidth,
-                color: UIColor.gray300.cgColor
-            )
-        }
+        viewHolder.titleLabel.textColor = .red500
+        viewHolder.checkButton.backgroundColor = .red500
+        viewHolder.checkButton.setImage(checkImage, for: .normal)
+        viewHolder.checkButton.imageView?.sizeToFit()
+        viewHolder.checkButton.removeBorder()
+    }
+    
+    private func setUnselectedState() {
+        viewHolder.titleLabel.textColor = .black
+        viewHolder.checkButton.backgroundColor = .white
+        viewHolder.checkButton.imageView?.image = nil
+        viewHolder.checkButton.makeBorder(
+            width: Size.checkButtonBorderWidth,
+            color: UIColor.gray300.cgColor
+        )
     }
 }
 

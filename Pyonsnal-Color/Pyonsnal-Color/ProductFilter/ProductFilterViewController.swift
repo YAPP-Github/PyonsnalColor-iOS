@@ -24,22 +24,42 @@ final class ProductFilterViewController:
         static let eventTitle = "행사"
         static let categoryTitle = "카테고리"
         static let recommendationTitle = "상품추천"
+    }
+    
+    enum DummyData {
         
-        static let recent = "최신순"
-        static let lowestPrice = "낮은 가격 순"
-        static let highestPrice = "높은 가격 순"
+        enum Sort: String, CaseIterable {
+            case recent = "최신순"
+            case lowestPrice = "낮은 가격 순"
+            case highestPrice = "높은 가격 순"
+        }
         
-        static let onePlusOne = "1+1"
-        static let twoPlusOne = "2+1"
-        static let discount = "할인"
-        static let giftItem = "증정"
+        enum Event: String, CaseIterable {
+            case onePlusOne = "1+1"
+            case twoPlusOne = "2+1"
+            case discount = "할인"
+            case giftItem = "증정"
+        }
         
-        static let food = "식품"
-        static let bakery = "베이커리"
-        static let snack = "과자류"
-        static let beverage = "음료"
-        static let iceCream = "아이스크림"
-        static let dailyGoods = "생활용품"
+        enum Category: String, CaseIterable {
+            case food = "식품"
+            case bakery = "베이커리"
+            case snack = "과자류"
+            case beverage = "음료"
+            case iceCream = "아이스크림"
+            case dailyGoods = "생활용품"
+        }
+        
+        enum Recommend: String, CaseIterable {
+            case food = "식품"
+            case bakery = "베이커리"
+            case snack = "과자류"
+            case beverage = "음료"
+            case iceCream = "아이스크림"
+            case dailyGoods = "생활용품"
+            case beer = "맥주"
+            case cigarette = "담배"
+        }
     }
     
     enum Section: Hashable {
@@ -60,7 +80,7 @@ final class ProductFilterViewController:
     
     private let viewHolder = ViewHolder()
     private var dataSource: DataSource?
-    private let filterType: Section = .category
+    private let filterType: Section = .sort
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,14 +172,10 @@ final class ProductFilterViewController:
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([filterType])
-        snapshot.appendItems([
-            .category(title: Text.food, selected: true),
-            .category(title: Text.bakery, selected: true),
-            .category(title: Text.snack, selected: false),
-            .category(title: Text.beverage, selected: false),
-            .category(title: Text.iceCream, selected: false),
-            .category(title: Text.dailyGoods, selected: false)
-        ])
+        snapshot.appendItems(DummyData.Sort.allCases.map { .sort(
+            title: $0.rawValue,
+            selected: false
+        ) })
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }

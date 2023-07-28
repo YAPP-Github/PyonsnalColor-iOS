@@ -109,7 +109,7 @@ final class TitleNavigationView: UIView {
         }
         
         searchButton.snp.makeConstraints { make in
-            make.width.height.equalTo(.spacing24)
+            make.width.height.equalTo(Spacing.spacing24.value)
         }
     }
     
