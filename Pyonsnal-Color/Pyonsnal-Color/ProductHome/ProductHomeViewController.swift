@@ -35,7 +35,7 @@ final class ProductHomeViewController:
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
     private var currentPage: Int = 0
-    var isNeedToShowRefreshButton: Bool {
+    var isNeedToShowRefreshCell: Bool {
         // keyword가 있다면
         return true
     }
@@ -84,7 +84,7 @@ final class ProductHomeViewController:
                     guard let title = filterItem.filter?.defaultText else { return nil }
                     
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                    cell.configure(with: title, filterItem: [])
+                    cell.configure(filter: filterItem.filter)
                     return cell
                 }
             }
@@ -109,15 +109,14 @@ final class ProductHomeViewController:
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            
-            if isNeedToShowRefreshButton {
-                let refreshItem = FilterCellItem(filterUseType: .refresh)
+            if isNeedToShowRefreshCell {
+                let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
                 let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
             }
-            
+            let filters = setSortFilterState(with: filters)
             let filterItems = filters.data.map { filter in
-                let filterItem = FilterCellItem(defaultText: filter.filterType.filterDefaultText)
+                let filterItem = FilterCellItem(filter: filter)
                 return ItemType.filter(filterItem: filterItem)
             }
             snapshot.appendItems(filterItems, toSection: .filter)

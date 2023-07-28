@@ -32,7 +32,7 @@ extension FilterEntity: Hashable {
     static func == (lhs: FilterEntity, rhs: FilterEntity) -> Bool {
         return lhs.filterItem == rhs.filterItem
     }
-
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(filterItem)
     }
@@ -46,10 +46,9 @@ struct FilterItemEntity: Decodable, Hashable {
     enum CodingKeys: String, CodingKey {
         case name, code
     }
-
-	func hash(into hasher: inout Hasher) {
+    
+    func hash(into hasher: inout Hasher) {
         hasher.combine(name)
         hasher.combine(code)
     }
-}
 }

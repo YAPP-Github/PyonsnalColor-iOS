@@ -54,7 +54,7 @@ final class EventHomeViewController: UIViewController,
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
     private var isPaging: Bool = false
-    var isNeedToShowRefreshButton: Bool {
+    var isNeedToShowRefreshCell: Bool {
         return true
     }
     
@@ -71,7 +71,6 @@ final class EventHomeViewController: UIViewController,
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureNavigationView()
@@ -81,14 +80,19 @@ final class EventHomeViewController: UIViewController,
         setPageViewController()
         setScrollView()
         configureUI()
-        if let store = ConvenienceStore.allCases.first(where: { $0.convenienceStoreCellName == convenienceStores.first }) {
-            listener?.didLoadEventHome(with: store)
-        }
+        loadFirstEventProducts()
     }
     
     // MARK: - Private method
     private func configureNavigationView() {
         viewHolder.titleNavigationView.delegate = self
+    }
+    
+    private func loadFirstEventProducts() {
+        if let store = ConvenienceStore.allCases
+            .first(where: { $0.convenienceStoreCellName == convenienceStores.first }) {
+            listener?.didLoadEventHome(with: store)
+        }
     }
     
     private func configureDatasource() {
@@ -110,7 +114,7 @@ final class EventHomeViewController: UIViewController,
                     guard let title = filterItem.filter?.defaultText else { return nil }
                     
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                    cell.configure(with: title, filterItem: [])
+                    cell.configure(filter: filterItem.filter)
                     return cell
                 }
             }
@@ -134,15 +138,14 @@ final class EventHomeViewController: UIViewController,
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            
-            if isNeedToShowRefreshButton {
-                let refreshItem = FilterCellItem(filterUseType: .refresh)
+            if isNeedToShowRefreshCell {
+                let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
                 let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
             }
             let filters = setSortFilterState(with: filters)
             let filterItems = filters.data.map { filter in
-                let filterItem = FilterCellItem(defaultText: filter.filterType.filterDefaultText)
+                let filterItem = FilterCellItem(filter: filter)
                 return ItemType.filter(filterItem: filterItem)
             }
             snapshot.appendItems(filterItems, toSection: .filter)
