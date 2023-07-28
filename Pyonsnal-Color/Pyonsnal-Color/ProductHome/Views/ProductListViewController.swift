@@ -26,13 +26,13 @@ final class ProductListViewController: UIViewController {
         case product
     }
     
-    //MARK: - Private Property
+    // MARK: - Private Property
     private(set) var dataSource: DataSource?
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
     let convenienceStore: ConvenienceStore
     
-    //MARK: - View Component
+    // MARK: - View Component
     lazy var productCollectionView: UICollectionView = {
         let layout = configureCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -49,7 +49,7 @@ final class ProductListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Life Cycle
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,7 +58,7 @@ final class ProductListViewController: UIViewController {
         delegate?.didLoadPageList(store: convenienceStore)
     }
     
-    //MARK: - Private Method
+    // MARK: - Private Method
     private func configureLayout() {
         view.addSubview(productCollectionView)
         
@@ -192,7 +192,7 @@ final class ProductListViewController: UIViewController {
         )
     }
     
-    //MARK: - Objective Method
+    // MARK: - Objective Method
     @objc
     private func refreshByPull() {
         productCollectionView.refreshControl?.beginRefreshing()
