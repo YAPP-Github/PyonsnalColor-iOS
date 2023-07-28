@@ -55,7 +55,6 @@ final class ProductHomeInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        
         requestInitialProducts()
     }
 

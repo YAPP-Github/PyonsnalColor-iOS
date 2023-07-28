@@ -8,6 +8,6 @@
 import Foundation
 
 struct KeywordFilter: Hashable {
-    var uuid = UUID()
-    var name: String
+    let uuid = UUID()
+    let name: String
 }

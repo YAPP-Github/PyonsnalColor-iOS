@@ -57,8 +57,8 @@ final class ProductHomeViewController:
         viewHolder.configureConstraints(for: view)
         configureDatasource()
         makeSnapshot()
-        setupCollectionView()
-        setupProductCollectionView()
+        configureCollectionView()
+        configureProductCollectionView()
         configureNotificationButton()
     }
     
@@ -150,7 +150,7 @@ final class ProductHomeViewController:
         viewHolder.containerScrollView.delegate = self
     }
     
-    private func setupCollectionView() {
+    private func configureCollectionView() {
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
         viewHolder.collectionView.register(CategoryFilterCell.self)
@@ -170,7 +170,7 @@ final class ProductHomeViewController:
         }
     }
     
-    private func setupProductCollectionView() {
+    private func configureProductCollectionView() {
         viewHolder.productHomePageViewController.pagingDelegate = self
         viewHolder.productHomePageViewController.productListViewControllers
             .compactMap({ $0 as? ProductCurationViewController })

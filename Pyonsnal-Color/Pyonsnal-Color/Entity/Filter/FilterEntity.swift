@@ -8,14 +8,14 @@
 import UIKit
 
 struct FilterDataEntity: Decodable {
-    var data: [FilterEntity]
+    let data: [FilterEntity]
 }
 
 class FilterEntity: Decodable {
-    var filterType: FilterType
+    let filterType: FilterType
     var defaultText: String? // 카테고리에 보여질 이름
     var isSelected: Bool = false
-    var filterItem: [FilterItemEntity]
+    let filterItem: [FilterItemEntity]
     
     init(filterType: FilterType, defaultText: String?, filterItem: [FilterItemEntity]) {
         self.filterType = filterType
@@ -25,8 +25,8 @@ class FilterEntity: Decodable {
 }
 
 struct FilterItemEntity: Decodable {
-    var name: String
-    var code: Int
+    let name: String
+    let code: Int
     var isSelected = false
 }
 

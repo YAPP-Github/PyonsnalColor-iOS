@@ -16,37 +16,35 @@ final class FilterButton: UIButton {
     // MARK: - Initializer
     init() {
         super.init(frame: .zero)
-        initializeUI()
-        updateUIUnSelected()
+        configureUI()
+        setUIUnSelected()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Methods
+    // MARK: - Method
     func setSelectedState(isSelected: Bool) {
         self.isSelected = isSelected
     }
     
-    func updateUISelected() {
+    func setUISelected() {
         self.isSelected = true
         self.backgroundColor = .gray700
         self.setImageTintColor(with: .white)
-        self.makeBorder(width: 0,
-                        color: UIColor.clear.cgColor)
+        self.makeBorder(width: 0, color: UIColor.clear.cgColor)
     }
     
-    func updateUIUnSelected() {
+    func setUIUnSelected() {
         self.isSelected = false
         self.backgroundColor = .white
         self.setImageTintColor(with: .gray500)
-        self.makeBorder(width: Size.borderWidth,
-                        color: UIColor.gray200.cgColor)
+        self.makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
     }
     
-    // MARK: - Private methods
-    private func initializeUI() {
+    // MARK: - Private method
+    private func configureUI() {
         self.titleLabel?.font = .body3m
         self.makeRounded(with: .spacing4)
         self.makeBorder(width: Size.borderWidth,
@@ -55,10 +53,7 @@ final class FilterButton: UIButton {
         self.setTitleColor(.gray500, for: .normal)
         self.setTitleColor(.white, for: .selected)
         self.semanticContentAttribute = .forceRightToLeft
-        self.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                              left: .spacing10,
-                                              bottom: 0,
-                                              right: .spacing4)
+        self.contentEdgeInsets = UIEdgeInsets(top: 0, left: .spacing10, bottom: 0, right: .spacing4)
         
     }
 }
