@@ -28,4 +28,8 @@ extension UIView {
         self.layer.borderWidth = width
         self.layer.borderColor = color
     }
+    
+    func removeBorder() {
+        self.layer.borderWidth = 0
+    }
 }

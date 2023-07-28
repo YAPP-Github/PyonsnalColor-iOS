@@ -28,6 +28,11 @@ final class ProductFilterViewController:
         static let recent = "최신순"
         static let lowestPrice = "낮은 가격 순"
         static let highestPrice = "높은 가격 순"
+        
+        static let onePlusOne = "1+1"
+        static let twoPlusOne = "2+1"
+        static let discount = "할인"
+        static let giftItem = "증정"
     }
     
     enum Section: Hashable {
@@ -39,7 +44,7 @@ final class ProductFilterViewController:
     
     enum Item: Hashable {
         case sort(title: String, selected: Bool)
-        case event
+        case event(title: String, selected: Bool)
         case category
         case recommendation
     }
@@ -48,7 +53,7 @@ final class ProductFilterViewController:
     
     private let viewHolder = ViewHolder()
     private var dataSource: DataSource?
-    private let filterType: Section = .sort
+    private let filterType: Section = .event
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,17 +72,28 @@ final class ProductFilterViewController:
     
     private func configureView() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
+        setFilterTitle()
+        setMultiSelect()
+        hideApplyButton()
+    }
+    
+    private func setFilterTitle() {
         let title: String
         
         switch filterType {
         case .sort:
             title = Text.sortTitle
+        case .event:
+            title = Text.eventTitle
         default:
             title = ""
         }
         
         viewHolder.titleLabel.text = title
-        hideApplyButton()
+    }
+    
+    private func setMultiSelect() {
+        viewHolder.collectionView.allowsMultipleSelection = filterType == .sort ? false : true
     }
     
     private func hideApplyButton() {
@@ -98,6 +114,7 @@ final class ProductFilterViewController:
     
     private func registerCells() {
         viewHolder.collectionView.register(SortFilterCell.self)
+        viewHolder.collectionView.register(EventFilterCell.self)
     }
     
     private func configureDataSource() {
@@ -109,6 +126,10 @@ final class ProductFilterViewController:
                 let cell: SortFilterCell = collectionView.dequeueReusableCell(for: index)
                 cell.configureCell(title: title, isSelected: isSelected)
                 return cell
+            case let .event(title, isSelected):
+                let cell: EventFilterCell = collectionView.dequeueReusableCell(for: index)
+                cell.configureCell(title: title, isSelected: isSelected)
+                return cell
             default:
                 return UICollectionViewCell()
             }
@@ -118,11 +139,12 @@ final class ProductFilterViewController:
     // TODO: 외부 데이터 받아오도록 수정
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        snapshot.appendSections([.sort])
+        snapshot.appendSections([filterType])
         snapshot.appendItems([
-            .sort(title: Text.recent, selected: true),
-            .sort(title: Text.lowestPrice, selected: false),
-            .sort(title: Text.highestPrice, selected: false)
+            .event(title: Text.onePlusOne, selected: true),
+            .event(title: Text.twoPlusOne, selected: true),
+            .event(title: Text.discount, selected: false),
+            .event(title: Text.giftItem, selected: false)
         ])
         
         dataSource?.apply(snapshot, animatingDifferences: true)
