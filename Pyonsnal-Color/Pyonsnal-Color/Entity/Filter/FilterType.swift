@@ -14,7 +14,7 @@ enum FilterType: Decodable {
     case event // 행사
     case unknown
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let type = try? container.decode(String.self)
         switch type {

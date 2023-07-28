@@ -17,7 +17,7 @@ class FilterEntity: Decodable {
     var isSelected: Bool = false
     var filterItem: [FilterItemEntity]
     
-    init(filterType: FilterType, defaultText: String? = nil, filterItem: [FilterItemEntity]) {
+    init(filterType: FilterType, defaultText: String?, filterItem: [FilterItemEntity]) {
         self.filterType = filterType
         self.defaultText = defaultText
         self.filterItem = filterItem
@@ -25,8 +25,8 @@ class FilterEntity: Decodable {
 }
 
 struct FilterItemEntity: Decodable {
-    var name: String?
-    var code: Int?
+    var name: String
+    var code: Int
     var isSelected = false
 }
 

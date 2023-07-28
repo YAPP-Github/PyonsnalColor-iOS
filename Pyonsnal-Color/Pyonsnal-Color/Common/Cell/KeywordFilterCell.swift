@@ -41,7 +41,7 @@ final class KeywordFilterCell: UICollectionViewCell {
     private func configureUI() {
         self.backgroundColor = .white
         self.makeRounded(with: Size.cornerRadius)
-        self.makeBorder(width: Size.borderWidth, color: UIColor.red500.cgColor)
+        self.makeBorder(width: Size.borderWidth, color: UIColor.red200.cgColor)
     }
     
     func configure(with text: String?) {
