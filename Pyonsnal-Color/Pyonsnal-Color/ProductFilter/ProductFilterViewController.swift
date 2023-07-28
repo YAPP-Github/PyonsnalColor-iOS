@@ -174,7 +174,7 @@ final class ProductFilterViewController:
     private func registerCells() {
         viewHolder.collectionView.register(SortFilterCell.self)
         viewHolder.collectionView.register(EventFilterCell.self)
-        viewHolder.collectionView.register(CategoryFilterCell.self)
+        viewHolder.collectionView.register(RecommendFilterCell.self)
     }
     
     private func configureDataSource() {
@@ -191,7 +191,7 @@ final class ProductFilterViewController:
                 cell.configureCell(title: title, isSelected: isSelected)
                 return cell
             case let .category(title, isSelected), let .recommendation(title, isSelected):
-                let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: index)
+                let cell: RecommendFilterCell = collectionView.dequeueReusableCell(for: index)
                 cell.configureCell(title: title, isSelected: isSelected)
                 return cell
             }

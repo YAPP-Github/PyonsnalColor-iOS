@@ -1,5 +1,5 @@
 //
-//  CategoryFilterCell.swift
+//  RecommendFilterCell.swift
 //  Pyonsnal-Color
 //
 //  Created by 김인호 on 2023/07/28.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class CategoryFilterCell: UICollectionViewCell {
+final class RecommendFilterCell: UICollectionViewCell {
     
     enum Image {
         static let checkMark = "checkmark"
@@ -60,7 +60,7 @@ final class CategoryFilterCell: UICollectionViewCell {
     }
 }
 
-extension CategoryFilterCell {
+extension RecommendFilterCell {
     final class ViewHolder: ViewHolderable {
         
         enum Size {
