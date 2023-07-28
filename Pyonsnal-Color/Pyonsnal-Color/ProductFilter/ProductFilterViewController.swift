@@ -33,6 +33,13 @@ final class ProductFilterViewController:
         static let twoPlusOne = "2+1"
         static let discount = "할인"
         static let giftItem = "증정"
+        
+        static let food = "식품"
+        static let bakery = "베이커리"
+        static let snack = "과자류"
+        static let beverage = "음료"
+        static let iceCream = "아이스크림"
+        static let dailyGoods = "생활용품"
     }
     
     enum Section: Hashable {
@@ -45,15 +52,15 @@ final class ProductFilterViewController:
     enum Item: Hashable {
         case sort(title: String, selected: Bool)
         case event(title: String, selected: Bool)
-        case category
-        case recommendation
+        case category(title: String, selected: Bool)
+        case recommendation(title: String, selected: Bool)
     }
 
     weak var listener: ProductFilterPresentableListener?
     
     private let viewHolder = ViewHolder()
     private var dataSource: DataSource?
-    private let filterType: Section = .event
+    private let filterType: Section = .category
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,8 +92,10 @@ final class ProductFilterViewController:
             title = Text.sortTitle
         case .event:
             title = Text.eventTitle
-        default:
-            title = ""
+        case .category:
+            title = Text.categoryTitle
+        case .recommendation:
+            title = Text.recommendationTitle
         }
         
         viewHolder.titleLabel.text = title
@@ -115,6 +124,7 @@ final class ProductFilterViewController:
     private func registerCells() {
         viewHolder.collectionView.register(SortFilterCell.self)
         viewHolder.collectionView.register(EventFilterCell.self)
+        viewHolder.collectionView.register(CategoryFilterCell.self)
     }
     
     private func configureDataSource() {
@@ -130,8 +140,10 @@ final class ProductFilterViewController:
                 let cell: EventFilterCell = collectionView.dequeueReusableCell(for: index)
                 cell.configureCell(title: title, isSelected: isSelected)
                 return cell
-            default:
-                return UICollectionViewCell()
+            case let .category(title, isSelected), let .recommendation(title, isSelected):
+                let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: index)
+                cell.configureCell(title: title, isSelected: isSelected)
+                return cell
             }
         }
     }
@@ -141,10 +153,12 @@ final class ProductFilterViewController:
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([filterType])
         snapshot.appendItems([
-            .event(title: Text.onePlusOne, selected: true),
-            .event(title: Text.twoPlusOne, selected: true),
-            .event(title: Text.discount, selected: false),
-            .event(title: Text.giftItem, selected: false)
+            .category(title: Text.food, selected: true),
+            .category(title: Text.bakery, selected: true),
+            .category(title: Text.snack, selected: false),
+            .category(title: Text.beverage, selected: false),
+            .category(title: Text.iceCream, selected: false),
+            .category(title: Text.dailyGoods, selected: false)
         ])
         
         dataSource?.apply(snapshot, animatingDifferences: true)

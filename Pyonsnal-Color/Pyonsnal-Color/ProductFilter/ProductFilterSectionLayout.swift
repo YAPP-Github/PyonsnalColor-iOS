@@ -71,9 +71,10 @@ final class ProductFilterSectionLayout {
             subitem: item,
             count: 3
         )
-        group.interItemSpacing = .fixed(Spacing.spacing24.value)
+        group.interItemSpacing = .fixed(.spacing24)
         
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = .spacing20
         return section
     }
     
