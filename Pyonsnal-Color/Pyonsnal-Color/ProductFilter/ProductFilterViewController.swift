@@ -12,7 +12,10 @@ import SnapKit
 protocol ProductFilterPresentableListener: AnyObject {
 }
 
-final class ProductFilterViewController: UIViewController, ProductFilterPresentable, ProductFilterViewControllable {
+final class ProductFilterViewController:
+    UIViewController,
+    ProductFilterPresentable,
+    ProductFilterViewControllable {
     
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     
@@ -21,6 +24,10 @@ final class ProductFilterViewController: UIViewController, ProductFilterPresenta
         static let eventTitle = "행사"
         static let categoryTitle = "카테고리"
         static let recommendationTitle = "상품추천"
+        
+        static let recent = "최신순"
+        static let lowestPrice = "낮은 가격 순"
+        static let highestPrice = "높은 가격 순"
     }
     
     enum Section: Hashable {
@@ -31,7 +38,7 @@ final class ProductFilterViewController: UIViewController, ProductFilterPresenta
     }
     
     enum Item: Hashable {
-        case sort(index: Int)
+        case sort(title: String, selected: Bool)
         case event
         case category
         case recommendation
@@ -98,9 +105,9 @@ final class ProductFilterViewController: UIViewController, ProductFilterPresenta
             collectionView: viewHolder.collectionView
         ) { collectionView, index, item in
             switch item {
-            case .sort:
+            case let .sort(title, isSelected):
                 let cell: SortFilterCell = collectionView.dequeueReusableCell(for: index)
-                cell.configureCell(at: index.item)
+                cell.configureCell(title: title, isSelected: isSelected)
                 return cell
             default:
                 return UICollectionViewCell()
@@ -108,10 +115,15 @@ final class ProductFilterViewController: UIViewController, ProductFilterPresenta
         }
     }
     
+    // TODO: 외부 데이터 받아오도록 수정
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.sort])
-        snapshot.appendItems([.sort(index: 1), .sort(index: 2), .sort(index: 3)])
+        snapshot.appendItems([
+            .sort(title: Text.recent, selected: true),
+            .sort(title: Text.lowestPrice, selected: false),
+            .sort(title: Text.highestPrice, selected: false)
+        ])
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }

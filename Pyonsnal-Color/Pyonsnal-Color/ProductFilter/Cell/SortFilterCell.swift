@@ -10,12 +10,6 @@ import SnapKit
 
 final class SortFilterCell: UICollectionViewCell {
     
-    enum Sort: String, CaseIterable {
-        case recent = "최신순"
-        case lowestPrice = "낮은 가격 순"
-        case highestPrice = "높은 가격 순"
-    }
-    
     private let viewHolder = ViewHolder()
     
     override init(frame: CGRect) {
@@ -29,14 +23,18 @@ final class SortFilterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func hideCheckMakr() {
+    func hideCheckMark() {
         viewHolder.checkButton.isHidden = isSelected ? false : true
     }
     
-    func configureCell(at index: Int) {
-        let title = Sort.allCases[index].rawValue
-        
+    func configureCell(title: String, isSelected: Bool) {
         viewHolder.titleLabel.text = title
+        
+        if isSelected {
+            viewHolder.titleLabel.textColor = .red500
+        } else {
+            viewHolder.checkButton.isHidden = true
+        }
     }
 }
 
