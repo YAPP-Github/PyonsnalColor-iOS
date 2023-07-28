@@ -13,7 +13,6 @@ final class ConvenienceStoreCell: UICollectionViewCell {
             static let padding: UIEdgeInsets = .init(top: 11, left: 11, bottom: 11, right: 11)
             static let selectedViewHeight: CGFloat = 3
             static let font: UIFont = .body3m
-            static let height: CGFloat = 44
         }
     }
     

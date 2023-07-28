@@ -39,13 +39,10 @@ extension ProductHomeViewController {
         
         let titleNavigationView = TitleNavigationView()
         
-        let convenienceStoreCollectionView: UICollectionView = {
+        let collectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .vertical
-            
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.backgroundColor = .clear
-            collectionView.register(ConvenienceStoreCell.self)
             collectionView.isScrollEnabled = false
             collectionView.layoutMargins = UIEdgeInsets(
                 top: 0,
@@ -73,7 +70,7 @@ extension ProductHomeViewController {
             
             contentView.addSubview(titleNavigationView)
             contentView.addSubview(storeCollectionViewSeparator)
-            contentView.addSubview(convenienceStoreCollectionView)
+            contentView.addSubview(collectionView)
             contentView.addSubview(productHomePageViewController.view)
         }
         
@@ -93,15 +90,16 @@ extension ProductHomeViewController {
                 make.leading.trailing.top.equalToSuperview()
             }
             
-            convenienceStoreCollectionView.snp.makeConstraints { make in
+            collectionView.snp.makeConstraints { make in
                 make.top.equalTo(titleNavigationView.snp.bottom)
-                make.leading.trailing.equalToSuperview().inset(16)
-                make.height.equalTo(ConvenienceStoreCell.Constant.Size.height)
+                make.leading.trailing.equalToSuperview().inset(.spacing16)
+                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.CategoryFilter.height
+                make.height.equalTo(height)
             }
             
             storeCollectionViewSeparator.snp.makeConstraints { make in
                 make.height.equalTo(Constant.Size.storeCollectionViewSeparatorHeight)
-                make.top.equalTo(convenienceStoreCollectionView.snp.bottom).inset(1)
+                make.top.equalTo(collectionView.snp.bottom).inset(1)
                 make.leading.trailing.equalToSuperview()
             }
             

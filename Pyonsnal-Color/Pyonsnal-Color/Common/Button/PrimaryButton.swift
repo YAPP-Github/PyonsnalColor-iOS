@@ -81,7 +81,7 @@ final class PrimaryButton: UIButton {
         self.setTitleColor(attribute.textColor, for: .normal)
         self.backgroundColor = attribute.backgroundColor
         self.contentHorizontalAlignment = .center
-        self.makeRounded(with: 16)
+        self.makeRounded(with: .spacing16)
         self.makeBorder(width: attribute.borderWidth, color: attribute.borderColor.cgColor)
     }
 }

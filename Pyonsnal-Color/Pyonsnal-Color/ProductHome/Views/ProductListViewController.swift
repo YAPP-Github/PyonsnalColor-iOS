@@ -10,7 +10,7 @@ import SnapKit
 
 final class ProductListViewController: UIViewController {
 
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, BrandProductEntity>
+    typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     
     enum Constant {
         enum Size {
@@ -22,11 +22,17 @@ final class ProductListViewController: UIViewController {
         }
     }
     
-    enum Section {
+    enum SectionType: Hashable {
+        case keywordFilter
         case product
     }
     
-    // MARK: - Private Property
+    enum ItemType: Hashable {
+        case keywordFilter(KeywordFilter)
+        case product(BrandProductEntity)
+    }
+    
+    //MARK: - Private Property
     private(set) var dataSource: DataSource?
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
@@ -34,7 +40,7 @@ final class ProductListViewController: UIViewController {
     
     // MARK: - View Component
     lazy var productCollectionView: UICollectionView = {
-        let layout = configureCollectionViewLayout()
+        let layout = createLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .gray100
         return collectionView
@@ -74,51 +80,19 @@ final class ProductListViewController: UIViewController {
         )
     }
     
-    private func configureCollectionViewLayout() -> UICollectionViewLayout {
-        let totalSpacing = Constant.Size.spacingCount * Constant.Size.spacing
-        let width = (UIScreen.main.bounds.width - totalSpacing) / Constant.Size.columnCount
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(width),
-            heightDimension: .fractionalHeight(1.0)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(Constant.Size.productCellHeight)
-        )
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitem: item,
-            count: Int(Constant.Size.columnCount)
-        )
-        group.interItemSpacing = .fixed(Constant.Size.spacing)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = Constant.Size.spacing
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: Constant.Size.spacing,
-            bottom: 0,
-            trailing: Constant.Size.spacing
-        )
-        section.boundarySupplementaryItems = setupSupplementaryView()
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+    // MARK: - Private Method
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout {
+            [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
+            guard let sectionIdentifier = self?.dataSource?.snapshot().sectionIdentifiers[sectionIndex] else {
+                return nil
+            }
+            
+            let layout = CommonProductSectionLayout()
+            return layout.section(at: sectionIdentifier)
+        }
     }
-    
-    private func setupSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(Constant.Size.headerViewHeight)
-            ),
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        return [sectionHeader]
-    }
-    
+
     private func configureCollectionView() {
         productCollectionView.backgroundColor = .gray100
         
@@ -129,6 +103,7 @@ final class ProductListViewController: UIViewController {
     }
     
     private func registerCells() {
+        productCollectionView.register(KeywordFilterCell.self)
         productCollectionView.register(ProductCell.self)
         productCollectionView.registerHeaderView(ProductListHeaderView.self)
     }
@@ -136,17 +111,18 @@ final class ProductListViewController: UIViewController {
     private func configureDataSource() {
         dataSource = DataSource(
             collectionView: productCollectionView
-        ) { collectionView, indexPath, product in
-            guard let cell: ProductCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: ProductCell.self),
-                for: indexPath
-            ) as? ProductCell else {
-                return UICollectionViewCell()
+        ) { collectionView, indexPath, item in
+            switch item {
+            case .keywordFilter(let keywordFilter):
+                let cell: KeywordFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.configure(with: keywordFilter.name)
+                return cell
+            case .product(let brandProduct):
+                let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.updateCell(with: brandProduct)
+                return cell
+            
             }
-            
-            cell.updateCell(with: product)
-            
-            return cell
         }
     }
     
@@ -171,17 +147,31 @@ final class ProductListViewController: UIViewController {
     private func configureRefreshControl() {
         refreshControl.addTarget(
             self,
-            action: #selector(refreshByPull)
-            , for: .valueChanged
+            action: #selector(refreshByPull),
+            for: .valueChanged
         )
         productCollectionView.refreshControl = refreshControl
     }
     
     func applySnapshot(with products: [BrandProductEntity]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, BrandProductEntity>()
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        // append keywordFilter
+        let keywordItems = [KeywordFilter(name: "공부하기 좋은"), KeywordFilter(name: "야식용")].map { keywordFilter in
+            ItemType.keywordFilter(keywordFilter)
+        }
+        if !keywordItems.isEmpty {
+            snapshot.appendSections([.keywordFilter])
+            snapshot.appendItems(keywordItems, toSection: .keywordFilter)
+        }
         
-        snapshot.appendSections([.product])
-        snapshot.appendItems(products)
+        // append product
+        let productItems = products.map { product in
+            return ItemType.product(product)
+        }
+        if !productItems.isEmpty {
+            snapshot.appendSections([.product])
+            snapshot.appendItems(productItems, toSection: .product)
+        }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     

@@ -22,8 +22,9 @@ struct Spacing {
 extension Spacing {
     static let spacing2: Spacing = .init(value: 2)
     static let spacing4: Spacing = .init(value: 4)
-    static let spacing10: Spacing = .init(value: 10)
+    static let spacing6: Spacing = .init(value: 6)
     static let spacing8: Spacing = .init(value: 8)
+    static let spacing10: Spacing = .init(value: 10)
     static let spacing12: Spacing = .init(value: 12)
     static let spacing16: Spacing = .init(value: 16)
     static let spacing20: Spacing = .init(value: 20)

@@ -23,19 +23,25 @@ final class ProductHomeViewController:
 
     // MARK: - Interface
     weak var listener: ProductHomePresentableListener?
+    typealias SectionType = TopCollectionViewDatasource.SectionType
+    typealias ItemType = TopCollectionViewDatasource.ItemType
     
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
+    private var dataSource: TopCollectionViewDatasource.DataSource?
     private let convenienceStores: [String] = CommonConstants.productHomeStore
     private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
     private var currentPage: Int = 0
+    var isNeedToShowRefreshButton: Bool {
+        // keyword가 있다면
+        return true
+    }
     
     // MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
-        
         setupViews()
     }
     
@@ -49,12 +55,87 @@ final class ProductHomeViewController:
         
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
-        setupStoreCollectionView()
-        setupProductCollectionView()
+        configureDatasource()
+        makeSnapshot()
+        configureCollectionView()
+        configureProductCollectionView()
         configureNotificationButton()
     }
     
     // MARK: - Private Method
+    private func configureDatasource() {
+        dataSource = TopCollectionViewDatasource.DataSource(collectionView: viewHolder.collectionView)
+        { collectionView, indexPath, item -> UICollectionViewCell? in
+            switch item {
+            case .convenienceStore(let storeName):
+                let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.configureCell(title: storeName)
+                if indexPath.row == self.initialIndex { // 초기 상태 selected
+                    self.setSelectedConvenienceStoreCell(with: indexPath)
+                }
+                return cell
+            case .filter(let filterItem):
+                switch filterItem.filterUseType {
+                case .refresh:
+                    let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    return cell
+                case .category:
+                    let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.configure(with: filterItem.defaultText, filterItem: [])
+                    return cell
+                }
+            }
+            
+        }
+    }
+    
+    private func makeSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        // append store
+        snapshot.appendSections([.convenienceStore(store: convenienceStores)])
+        let items = convenienceStores.map { storeName in
+            return ItemType.convenienceStore(storeName: storeName)
+        }
+        snapshot.appendItems(items, toSection: .convenienceStore(store: convenienceStores))
+        
+        // append filter
+        let filters = makeFilterCellItem()
+        if !filters.isEmpty {
+            snapshot.appendSections([.filter])
+            
+            if isNeedToShowRefreshButton {
+                let refreshItem = FilterCellItem(filterUseType: .refresh)
+                let refreshItems = [ItemType.filter(filterItem: refreshItem)]
+                snapshot.appendItems(refreshItems, toSection: .filter)
+            }
+            
+            let filterItems = filters.map { filter in
+                return ItemType.filter(filterItem: filter)
+            }
+            snapshot.appendItems(filterItems, toSection: .filter)
+        }
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func setSortFilterDefaultText() {
+        FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
+    }
+    
+    func makeFilterCellItem() -> [FilterCellItem] {
+        setSortFilterDefaultText()
+        return FilterDummy.data.data.map { $0.defaultText }.map { defaultText in
+            FilterCellItem(defaultText: defaultText)
+        }
+    }
+    
+    private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
+        viewHolder.collectionView.selectItem(
+            at: indexPath,
+            animated: true,
+            scrollPosition: .init()
+        )
+    }
+    
     private func setupViews() {
         let customFont: UIFont = .label2
         
@@ -69,12 +150,27 @@ final class ProductHomeViewController:
         viewHolder.containerScrollView.delegate = self
     }
     
-    private func setupStoreCollectionView() {
-        viewHolder.convenienceStoreCollectionView.dataSource = self
-        viewHolder.convenienceStoreCollectionView.delegate = self
+    private func configureCollectionView() {
+        viewHolder.collectionView.delegate = self
+        viewHolder.collectionView.register(ConvenienceStoreCell.self)
+        viewHolder.collectionView.register(CategoryFilterCell.self)
+        viewHolder.collectionView.register(RefreshFilterCell.self)
+        viewHolder.collectionView.collectionViewLayout = createLayout()
     }
     
-    private func setupProductCollectionView() {
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout {
+            [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
+            guard let sectionIdentifier = self?.dataSource?.snapshot().sectionIdentifiers[sectionIndex] else {
+                return nil
+            }
+            
+            let layout = TopCommonSectionLayout()
+            return layout.section(at: sectionIdentifier)
+        }
+    }
+    
+    private func configureProductCollectionView() {
         viewHolder.productHomePageViewController.pagingDelegate = self
         viewHolder.productHomePageViewController.productListViewControllers
             .compactMap({ $0 as? ProductCurationViewController })
@@ -88,7 +184,7 @@ final class ProductHomeViewController:
     }
     
     private func setSelectedConvenienceStoreCell(with page: Int) {
-        viewHolder.convenienceStoreCollectionView.selectItem(
+        viewHolder.collectionView.selectItem(
             at: IndexPath(item: page, section: 0),
             animated: true,
             scrollPosition: .centeredHorizontally
@@ -152,37 +248,7 @@ extension ProductHomeViewController: TitleNavigationViewDelegate {
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension ProductHomeViewController: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return convenienceStores.count
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: String(describing: ConvenienceStoreCell.self),
-            for: indexPath
-        ) as? ConvenienceStoreCell else {
-            return UICollectionViewCell()
-        }
-        
-        cell.configureCell(title: convenienceStores[indexPath.item])
-        
-        if indexPath.item == initialIndex {
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init())
-        }
-        
-        return cell
-    }
-}
-
-//MARK: - UIScrollViewDelegate
+// MARK: - UIScrollViewDelegate
 extension ProductHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageViewController = viewHolder.productHomePageViewController
@@ -245,54 +311,21 @@ extension ProductHomeViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
-extension ProductHomeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        let cellSize = ConvenienceStoreCell.Constant.Size.self
-        let label = UILabel(frame: .zero)
-        label.text = convenienceStores[indexPath.item]
-        label.font = cellSize.font
-        label.sizeToFit()
-
-        return CGSize(
-            width: label.frame.width + cellSize.padding.top + cellSize.padding.bottom,
-            height: ConvenienceStoreCell.Constant.Size.height
-        )
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        let cellConstant = ConvenienceStoreCell.Constant.Size.self
-        let cellSizes = convenienceStores.reduce(CGFloat(0), { partialResult, title in
-            let label = UILabel(frame: .zero)
-            label.text = title
-            label.font = cellConstant.font
-            label.sizeToFit()
-            return partialResult + label.bounds.width + cellConstant.padding.left * 2
-        })
-        let result = (collectionView.bounds.width - cellSizes) / CGFloat(convenienceStores.count - 1)
-
-        return floor(result * 10000) / 10000
-    }
-}
-
 // MARK: - UICollectionViewDelegate
 extension ProductHomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == viewHolder.convenienceStoreCollectionView {
+        if collectionView == viewHolder.collectionView {
             currentPage = indexPath.item
             viewHolder.productHomePageViewController.updatePage(to: currentPage)
         } else {
-            if let productListViewController =  viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
-               let item = productListViewController.dataSource?.itemIdentifier(for: indexPath) {
-                listener?.didSelect(with: item)
+            
+            guard let productListViewController =  viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
+            let selectedItem = productListViewController.dataSource?.itemIdentifier(for: indexPath) else { return }
+            switch selectedItem {
+            case .keywordFilter(let keywordFilter):
+                print("TO DO")
+            case .product(let brandProduct):
+                listener?.didSelect(with: brandProduct)
             }
         }
     }
@@ -306,6 +339,7 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     }
 }
 
+// MARK: - ProductListDelegate
 extension ProductHomeViewController: ProductListDelegate {
     func didLoadPageList(store: ConvenienceStore) {
         requestProducts(store: store)
@@ -321,6 +355,7 @@ extension ProductHomeViewController: ProductListDelegate {
     }
 }
 
+// MARK: - ProductPresentable
 extension ProductHomeViewController: ProductPresentable {
     func didTabRootTabBar() {
         let viewController = viewHolder.productHomePageViewController.viewControllers?.first

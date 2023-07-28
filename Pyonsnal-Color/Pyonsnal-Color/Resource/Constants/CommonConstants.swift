@@ -7,16 +7,9 @@
 
 import Foundation
 
-struct EventHeaderSection {
-    var type: EventHomeTabViewController.SectionType
-    var text: String
-}
-
 struct CommonConstants {
     static let convenienceStore: [String] = ["CU", "GS25", "Emart24", "7-Eleven"]
-    static let eventTabHeaderTitle: [EventHeaderSection] = [
-        EventHeaderSection(type: .event, text: "이달의 이벤트 💌"),
-        EventHeaderSection(type: .item, text: "행사 상품 모아보기 👀")
-    ]
+    static let eventSectionHeaderTitle = "이달의 이벤트 💌"
+    static let itemSectionHeaderTitle = "행사 상품 🎁"
     static let productHomeStore: [String] = ["PICK!"] + Self.convenienceStore
 }
