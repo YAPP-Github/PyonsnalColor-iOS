@@ -144,7 +144,6 @@ final class EventHomeInteractor:
     
     func didChangeStore(to store: ConvenienceStore) {
         requestProductWithBanners(store: store)
-        requestFilter()
     }
     
     func didScrollToNextPage(store: ConvenienceStore) {

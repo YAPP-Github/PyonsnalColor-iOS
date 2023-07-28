@@ -146,7 +146,6 @@ final class ProductHomeInteractor:
     
     func didChangeStore(to store: ConvenienceStore) {
         requestInitialProducts(store: store)
-        requestFilter()
     }
     
     func didSelectFilter(ofType filterEntity: FilterEntity?) {
