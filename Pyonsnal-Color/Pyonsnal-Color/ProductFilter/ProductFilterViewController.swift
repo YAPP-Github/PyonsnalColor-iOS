@@ -10,6 +10,9 @@ import ModernRIBs
 import SnapKit
 
 protocol ProductFilterPresentableListener: AnyObject {
+    // TODO: 엔티티 변경
+    func didTapApplyButton(with selectedItems: [String])
+    func didTapCloseButton()
 }
 
 final class ProductFilterViewController:
@@ -80,7 +83,16 @@ final class ProductFilterViewController:
     
     private let viewHolder = ViewHolder()
     private var dataSource: DataSource?
-    private let filterType: Section = .event
+    private let filterType: Section
+    
+    init(filterType: Section) {
+        self.filterType = filterType
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +141,19 @@ final class ProductFilterViewController:
         viewHolder.applyButton.isHidden = filterType == .sort ? true : false
     }
     
+    private func configureButtonsAction() {
+        viewHolder.applyButton.addTarget(
+            self,
+            action: #selector(didTapApplyButton),
+            for: .touchUpInside
+        )
+        viewHolder.closeButton.addTarget(
+            self,
+            action: #selector(didTapCloseButton),
+            for: .touchUpInside
+        )
+    }
+    
     private func configureCollectionView() {
         viewHolder.collectionView.setCollectionViewLayout(createLayout(), animated: true)
         viewHolder.collectionView.delegate = self
@@ -171,12 +196,22 @@ final class ProductFilterViewController:
     
     // TODO: 외부 데이터 받아오도록 수정
     private func applySnapshot() {
+        let dummyData: [Item] = {
+            switch filterType {
+            case .sort:
+                return DummyData.Sort.allCases.map { .sort(title: $0.rawValue, selected: false) }
+            case .event:
+                return DummyData.Event.allCases.map { .event(title: $0.rawValue, selected: false) }
+            case .category:
+                return DummyData.Category.allCases.map { .category(title: $0.rawValue, selected: false) }
+            case .recommendation:
+                return DummyData.Recommend.allCases.map { .recommendation(title: $0.rawValue, selected: false) }
+            }
+        }()
+        
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([filterType])
-        snapshot.appendItems(DummyData.Event.allCases.map { .event(
-            title: $0.rawValue,
-            selected: false
-        ) })
+        snapshot.appendItems(dummyData)
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -199,6 +234,14 @@ final class ProductFilterViewController:
         } else {
             viewHolder.applyButton.setState(with: .enabled)
         }
+    }
+    
+    @objc private func didTapApplyButton() {
+        listener?.didTapApplyButton(with: [])
+    }
+    
+    @objc private func didTapCloseButton() {
+        listener?.didTapCloseButton()
     }
 }
 

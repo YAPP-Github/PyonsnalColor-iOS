@@ -20,7 +20,10 @@ final class ProductFilterComponent: Component<ProductFilterDependency> {
 // MARK: - Builder
 
 protocol ProductFilterBuildable: Buildable {
-    func build(withListener listener: ProductFilterListener) -> ProductFilterRouting
+    func build(
+        withListener listener: ProductFilterListener,
+        filterType: ProductFilterViewController.Section
+    ) -> ProductFilterRouting
 }
 
 final class ProductFilterBuilder: Builder<ProductFilterDependency>, ProductFilterBuildable {
@@ -28,10 +31,13 @@ final class ProductFilterBuilder: Builder<ProductFilterDependency>, ProductFilte
     override init(dependency: ProductFilterDependency) {
         super.init(dependency: dependency)
     }
-
-    func build(withListener listener: ProductFilterListener) -> ProductFilterRouting {
+    
+    func build(
+        withListener listener: ProductFilterListener,
+        filterType: ProductFilterViewController.Section
+    ) -> ProductFilterRouting {
         let component = ProductFilterComponent(dependency: dependency)
-        let viewController = ProductFilterViewController()
+        let viewController = ProductFilterViewController(filterType: filterType)
         let interactor = ProductFilterInteractor(presenter: viewController)
         interactor.listener = listener
         return ProductFilterRouter(interactor: interactor, viewController: viewController)

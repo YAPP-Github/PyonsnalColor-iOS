@@ -37,10 +37,6 @@ final class EventFilterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func hideCheckMark() {
-        viewHolder.checkButton.isHidden = isSelected ? false : true
-    }
-    
     func configureCell(title: String, isSelected: Bool) {
         viewHolder.titleLabel.text = title
         isSelected ? setSelectedState() : setUnselectedState()
@@ -49,19 +45,19 @@ final class EventFilterCell: UICollectionViewCell {
     private func setSelectedState() {
         let configuration: UIImage.SymbolConfiguration = .init(weight: .bold)
         let checkImage = UIImage(systemName: Image.checkMark, withConfiguration: configuration)
+        checkImage?.withTintColor(.white)
         
         viewHolder.titleLabel.textColor = .red500
-        viewHolder.checkButton.backgroundColor = .red500
-        viewHolder.checkButton.setImage(checkImage, for: .normal)
-        viewHolder.checkButton.imageView?.sizeToFit()
-        viewHolder.checkButton.removeBorder()
+        viewHolder.checkImageView.backgroundColor = .red500
+        viewHolder.checkImageView.image = checkImage
+        viewHolder.checkImageView.removeBorder()
     }
     
     private func setUnselectedState() {
         viewHolder.titleLabel.textColor = .black
-        viewHolder.checkButton.backgroundColor = .white
-        viewHolder.checkButton.imageView?.image = nil
-        viewHolder.checkButton.makeBorder(
+        viewHolder.checkImageView.backgroundColor = .white
+        viewHolder.checkImageView.image = nil
+        viewHolder.checkImageView.makeBorder(
             width: Size.checkButtonBorderWidth,
             color: UIColor.gray300.cgColor
         )
@@ -73,10 +69,10 @@ extension EventFilterCell {
         
         enum Size {
             static let spacing: CGFloat = 10
-            static let checkButtonBorderWidth: CGFloat = 1.6
-            static let checkButtonRadius: CGFloat = 10
-            static let checkButtonSize: CGFloat = 20
-            static let checkButtonInset: UIEdgeInsets = .init(top: 5, left: 5, bottom: 5, right: 5)
+            static let checkImageBorderWidth: CGFloat = 1.6
+            static let checkImageRadius: CGFloat = 10
+            static let checkImageSize: CGFloat = 20
+            static let checkImageInset: UIEdgeInsets = .init(top: 5, left: 5, bottom: 5, right: 5)
         }
         
         private let containerStackView: UIStackView = {
@@ -87,16 +83,14 @@ extension EventFilterCell {
             return stackView
         }()
         
-        let checkButton: UIButton = {
-            let button = UIButton()
-            button.makeBorder(width: Size.checkButtonBorderWidth, color: UIColor.gray300.cgColor)
-            button.makeRounded(with: Size.checkButtonRadius)
-            button.imageEdgeInsets = Size.checkButtonInset
-            button.imageView?.contentMode = .center
-            button.imageView?.clipsToBounds = false
-            button.backgroundColor = .white
-            button.tintColor = .white
-            return button
+        let checkImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.makeBorder(width: Size.checkImageBorderWidth, color: UIColor.gray300.cgColor)
+            imageView.makeRounded(with: Size.checkImageRadius)
+            imageView.layoutMargins = Size.checkImageInset
+            imageView.backgroundColor = .white
+            imageView.tintColor = .white
+            return imageView
         }()
         
         let titleLabel: UILabel = {
@@ -109,7 +103,7 @@ extension EventFilterCell {
         func place(in view: UIView) {
             view.addSubview(containerStackView)
             
-            containerStackView.addArrangedSubview(checkButton)
+            containerStackView.addArrangedSubview(checkImageView)
             containerStackView.addArrangedSubview(titleLabel)
         }
         
@@ -119,8 +113,8 @@ extension EventFilterCell {
                 $0.centerY.equalTo(view)
             }
             
-            checkButton.snp.makeConstraints {
-                $0.width.height.equalTo(Size.checkButtonSize)
+            checkImageView.snp.makeConstraints {
+                $0.width.height.equalTo(Size.checkImageSize)
             }
         }
     }
