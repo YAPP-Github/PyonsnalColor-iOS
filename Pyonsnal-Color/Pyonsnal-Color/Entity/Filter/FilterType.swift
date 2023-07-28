@@ -12,6 +12,7 @@ enum FilterType: Decodable {
     case recommend // 상품 추천
     case category // 카테고리
     case event // 행사
+    case curation // 큐레이션
     case unknown
     
     init(from decoder: Decoder) throws {
@@ -22,7 +23,25 @@ enum FilterType: Decodable {
         case "recommend": self = .recommend
         case "category": self = .category
         case "event": self = .event
+        case "curation" : self = .curation
         default: self = .unknown
+        }
+    }
+    
+    var filterDefaultText: String {
+        switch self {
+        case .sort:
+            return "최신순"
+        case .recommend:
+            return "상품 추천"
+        case .category:
+            return "카테고리"
+        case .event:
+            return "행사"
+        case .curation:
+            return "큐레이션"
+        case .unknown:
+            return ""
         }
     }
     
@@ -30,7 +49,7 @@ enum FilterType: Decodable {
         switch self {
         case .sort:
             return .sortFilter
-        case .recommend, .category, .event:
+        case .recommend, .category, .event, .curation:
             return .filter
         case .unknown:
             return nil
@@ -41,7 +60,7 @@ enum FilterType: Decodable {
         switch self {
         case .sort:
             return .left
-        case .recommend, .category, .event:
+        case .recommend, .category, .event, .curation:
             return .right
         case .unknown:
             return nil
@@ -54,7 +73,7 @@ enum FilterType: Decodable {
             return .check
         case .recommend:
             return .radio
-        case .category, .event:
+        case .category, .event, .curation:
             return .checkWithImage
         case .unknown:
             return .check

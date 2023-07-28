@@ -24,6 +24,7 @@ protocol EventHomePresentable: Presentable {
     
     func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore)
     func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore)
+    func updateFilter(with filters: FilterDataEntity)
     func didFinishPaging()
     func updateFilterItems(with items: [FilterItemEntity])
     func updateSortFilter(type: FilterItemEntity)
@@ -99,6 +100,15 @@ final class EventHomeInteractor:
         }.store(in: &cancellable)
     }
     
+    private func requestFilter() {
+        dependency?.productAPIService.requestFilter()
+            .sink { [weak self] response in
+                if let filter = response.value {
+                    self?.presenter.updateFilter(with: filter)
+                }
+            }.store(in: &cancellable)
+    }
+    
     func didTapSearchButton() {
         router?.attachProductSearch()
     }
@@ -121,6 +131,7 @@ final class EventHomeInteractor:
     
     func didLoadEventHome(with store: ConvenienceStore) {
         requestProductWithBanners(store: store)
+        requestFilter()
     }
     
     func didSelect(with brandProduct: ProductConvertable) {
@@ -133,6 +144,7 @@ final class EventHomeInteractor:
     
     func didChangeStore(to store: ConvenienceStore) {
         requestProductWithBanners(store: store)
+        requestFilter()
     }
     
     func didScrollToNextPage(store: ConvenienceStore) {

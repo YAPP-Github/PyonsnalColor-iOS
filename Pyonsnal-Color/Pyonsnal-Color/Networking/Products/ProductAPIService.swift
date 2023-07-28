@@ -57,4 +57,8 @@ final class ProductAPIService {
             model: ProductPageEntity.self
         )
     }
+    
+    func requestFilter() -> AnyPublisher<DataResponse<FilterDataEntity, NetworkError>, Never> {
+        return client.request(ProductAPI.filter, model: FilterDataEntity.self)
+    }
 }

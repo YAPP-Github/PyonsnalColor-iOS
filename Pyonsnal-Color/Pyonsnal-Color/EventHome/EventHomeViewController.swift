@@ -76,7 +76,7 @@ final class EventHomeViewController: UIViewController,
         viewHolder.configureConstraints(for: view)
         configureNavigationView()
         configureDatasource()
-        makeSnapshot()
+        initialSnapshot()
         configureCollectionView()
         setPageViewController()
         setScrollView()
@@ -117,7 +117,7 @@ final class EventHomeViewController: UIViewController,
         }
     }
     
-    private func makeSnapshot() {
+    private func initialSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<TopCollectionViewDatasource.SectionType, TopCollectionViewDatasource.ItemType>()
         // append store
         snapshot.appendSections([.convenienceStore(store: convenienceStores)])
@@ -126,9 +126,13 @@ final class EventHomeViewController: UIViewController,
         }
         snapshot.appendItems(items, toSection: .convenienceStore(store: convenienceStores))
         
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func makeFilterSnapshot(with filters: FilterDataEntity) {
+        guard var snapshot = dataSource?.snapshot() else { return }
         // append filter
-        let filters = makeFilterCellItem()
-        if !filters.isEmpty {
+        if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
             
             if isNeedToShowRefreshButton {
@@ -136,18 +140,25 @@ final class EventHomeViewController: UIViewController,
                 let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
             }
-            
-            let filterItems = filters.map { filter in
-                return ItemType.filter(filterItem: filter)
+            let filters = setSortFilterState(with: filters)
+            let filterItems = filters.data.map { filter in
+                let filterItem = FilterCellItem(defaultText: filter.filterType.filterDefaultText)
+                return ItemType.filter(filterItem: filterItem)
             }
             snapshot.appendItems(filterItems, toSection: .filter)
         }
-        
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    func makeFilterCellItem() -> [FilterCellItem] {
-        return FilterDummy.data.data.map { FilterCellItem(filter: $0) }
+    private func setSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity {
+        let sortFilter = filters.data
+            .first(where: { $0.filterType == .sort })
+        let selectedsortFilter = sortFilter?.filterItem.first { $0.isSelected }
+        let defaultSortFilterText = sortFilter?.filterType.filterDefaultText ?? ""
+        let selectedFilterName: String = selectedsortFilter?.name ?? defaultSortFilterText
+        sortFilter?.defaultText = selectedFilterName
+        sortFilter?.isSelected = true
+        return filters
     }
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
@@ -218,6 +229,10 @@ final class EventHomeViewController: UIViewController,
             let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
             tabViewController.applyEventBannerProducts(with: banners, products: products)
         }
+    }
+    
+    func updateFilter(with filters: FilterDataEntity) {
+        makeFilterSnapshot(with: filters)
     }
     
     func didFinishPaging() {

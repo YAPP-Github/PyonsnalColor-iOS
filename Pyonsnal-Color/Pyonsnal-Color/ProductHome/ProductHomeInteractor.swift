@@ -24,6 +24,7 @@ protocol ProductHomePresentable: Presentable {
     
     func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]])
     func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore)
+    func updateFilter(with filters: FilterDataEntity)
     func didFinishPaging()
     func updateFilterItems(with items: [FilterItemEntity])
     func updateSortFilter(type: FilterItemEntity)
@@ -61,6 +62,7 @@ final class ProductHomeInteractor:
     override func didBecomeActive() {
         super.didBecomeActive()
         requestInitialProducts()
+        requestFilter()
     }
 
     override func willResignActive() {
@@ -103,6 +105,15 @@ final class ProductHomeInteractor:
         }.store(in: &cancellable)
     }
     
+    private func requestFilter() {
+        dependency?.productAPIService.requestFilter()
+            .sink { [weak self] response in
+            if let filter = response.value {
+                self?.presenter.updateFilter(with: filter)
+            }
+        }.store(in: &cancellable)
+    }
+    
     func didTapSearchButton() {
         router?.attachProductSearch()
     }
@@ -135,6 +146,7 @@ final class ProductHomeInteractor:
     
     func didChangeStore(to store: ConvenienceStore) {
         requestInitialProducts(store: store)
+        requestFilter()
     }
     
     func didSelectFilter(ofType filterEntity: FilterEntity?) {
