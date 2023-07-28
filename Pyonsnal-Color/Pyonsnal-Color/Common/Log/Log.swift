@@ -133,8 +133,7 @@ class Log {
         let logger  = Logger(subsystem: Log.subsystem, category: logType.category)
         
         let fileURL = URL(fileURLWithPath: fileName, isDirectory: false)
-        let pathExtension = fileURL.pathExtension
-        let fileName = "\(fileURL.lastPathComponent).\(pathExtension)"
+        let fileName = fileURL.lastPathComponent
         
         let message = """
         [\(logType.category) - \(fileName)]
