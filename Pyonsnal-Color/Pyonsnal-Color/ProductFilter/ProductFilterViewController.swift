@@ -80,7 +80,7 @@ final class ProductFilterViewController:
     
     private let viewHolder = ViewHolder()
     private var dataSource: DataSource?
-    private let filterType: Section = .sort
+    private let filterType: Section = .event
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,6 +131,7 @@ final class ProductFilterViewController:
     
     private func configureCollectionView() {
         viewHolder.collectionView.setCollectionViewLayout(createLayout(), animated: true)
+        viewHolder.collectionView.delegate = self
         registerCells()
         configureDataSource()
         applySnapshot()
@@ -172,7 +173,7 @@ final class ProductFilterViewController:
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([filterType])
-        snapshot.appendItems(DummyData.Sort.allCases.map { .sort(
+        snapshot.appendItems(DummyData.Event.allCases.map { .event(
             title: $0.rawValue,
             selected: false
         ) })
@@ -188,6 +189,32 @@ final class ProductFilterViewController:
                 $0.height.equalTo(height)
             }
         }
+    }
+    
+    private func setApplyButtonState() {
+        guard filterType != .sort else { return }
+        
+        if viewHolder.collectionView.indexPathsForSelectedItems?.count == 0 {
+            viewHolder.applyButton.setState(with: .disabled)
+        } else {
+            viewHolder.applyButton.setState(with: .enabled)
+        }
+    }
+}
+
+extension ProductFilterViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        setApplyButtonState()
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didDeselectItemAt indexPath: IndexPath
+    ) {
+        setApplyButtonState()
     }
 }
 
