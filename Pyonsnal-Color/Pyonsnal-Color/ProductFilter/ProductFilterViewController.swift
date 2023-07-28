@@ -79,12 +79,14 @@ final class ProductFilterViewController:
         case recommendation(title: String, selected: Bool)
     }
 
+    // MARK: - Property
     weak var listener: ProductFilterPresentableListener?
     
     private let viewHolder = ViewHolder()
     private var dataSource: DataSource?
     private let filterType: Section
     
+    // MARK: - Initializer
     init(filterType: Section) {
         self.filterType = filterType
         super.init(nibName: nil, bundle: nil)
@@ -94,6 +96,7 @@ final class ProductFilterViewController:
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -109,6 +112,7 @@ final class ProductFilterViewController:
         resizeCollectionViewHeight()
     }
     
+    // MARK: - Private Method
     private func configureView() {
         view.backgroundColor = .black.withAlphaComponent(0.7)
         setFilterTitle()
@@ -236,6 +240,7 @@ final class ProductFilterViewController:
         }
     }
     
+    // MARK: - Objective Method
     @objc private func didTapApplyButton() {
         listener?.didTapApplyButton(with: [])
     }
@@ -245,6 +250,7 @@ final class ProductFilterViewController:
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension ProductFilterViewController: UICollectionViewDelegate {
     func collectionView(
         _ collectionView: UICollectionView,
