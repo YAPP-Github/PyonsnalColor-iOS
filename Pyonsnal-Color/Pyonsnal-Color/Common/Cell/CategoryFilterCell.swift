@@ -10,6 +10,7 @@ import SnapKit
 
 final class CategoryFilterCell: UICollectionViewCell {
     
+    // MARK: - UI Component
     private lazy var filterButton: FilterButton = {
         let button = FilterButton()
         return button
@@ -22,6 +23,7 @@ final class CategoryFilterCell: UICollectionViewCell {
     
     private var currentButton = UIButton()
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
     }
@@ -30,6 +32,7 @@ final class CategoryFilterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Method
     func configure(filter: FilterEntity?) {
         guard let filter else { return }
         self.setButton(with: filter.filterType)

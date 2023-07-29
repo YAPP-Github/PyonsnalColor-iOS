@@ -136,7 +136,8 @@ final class ProductHomeInteractor:
         }
     }
     
-    func didSelect(with brandProduct: ProductConvertable) {
+    func didSelect(with brandProduct: ProductConvertable?) {
+        guard let brandProduct else { return }
         router?.attachProductDetail(with: brandProduct)
     }
     

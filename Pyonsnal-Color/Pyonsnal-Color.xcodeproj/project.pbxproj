@@ -165,6 +165,7 @@
 		F0168D522A500AC900978ED9 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0168D4E2A500AC900978ED9 /* EventDetailViewController.swift */; };
 		F0168D532A500AC900978ED9 /* EventDetailBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0168D4F2A500AC900978ED9 /* EventDetailBuilder.swift */; };
 		F0168D542A500AC900978ED9 /* EventDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0168D502A500AC900978ED9 /* EventDetailInteractor.swift */; };
+		F02116FD2A750AFA007A053A /* EmptyProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02116FC2A750AFA007A053A /* EmptyProductCell.swift */; };
 		F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C8DA62A2E149700593A2D /* AppleLoginService.swift */; };
 		F040E9D32A6D8E8800DF0C4A /* RefreshFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040E9D22A6D8E8800DF0C4A /* RefreshFilterCell.swift */; };
 		F040E9D52A6D967300DF0C4A /* KeywordFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040E9D42A6D967300DF0C4A /* KeywordFilterCell.swift */; };
@@ -367,6 +368,7 @@
 		F0168D4E2A500AC900978ED9 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		F0168D4F2A500AC900978ED9 /* EventDetailBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailBuilder.swift; sourceTree = "<group>"; };
 		F0168D502A500AC900978ED9 /* EventDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailInteractor.swift; sourceTree = "<group>"; };
+		F02116FC2A750AFA007A053A /* EmptyProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyProductCell.swift; sourceTree = "<group>"; };
 		F02C8DA62A2E149700593A2D /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		F038B4F82A55EB67008D5BF0 /* TermsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsButton.swift; sourceTree = "<group>"; };
 		F040E9D22A6D8E8800DF0C4A /* RefreshFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFilterCell.swift; sourceTree = "<group>"; };
@@ -1106,6 +1108,7 @@
 				F0C698642A6BA9B00019C677 /* CategoryFilterCell.swift */,
 				F040E9D22A6D8E8800DF0C4A /* RefreshFilterCell.swift */,
 				F040E9D42A6D967300DF0C4A /* KeywordFilterCell.swift */,
+				F02116FC2A750AFA007A053A /* EmptyProductCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1355,6 +1358,7 @@
 				B24CAAE32A55AC2D005BE499 /* NotificationListBuilder.swift in Sources */,
 				F01535492A45A8BD00A2A8F2 /* EventBannerItemCell.swift in Sources */,
 				B250884E2A5411890040BA50 /* TitleNavigationViewDelegate.swift in Sources */,
+				F02116FD2A750AFA007A053A /* EmptyProductCell.swift in Sources */,
 				B2B281C72A6BB5C5006C9C6B /* ProductCurationViewController.swift in Sources */,
 				F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */,
 				BA50FD062A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift in Sources */,

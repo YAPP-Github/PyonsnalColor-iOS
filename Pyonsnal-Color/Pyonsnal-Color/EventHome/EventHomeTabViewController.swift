@@ -20,17 +20,19 @@ protocol EventHomeTabViewControllerDelegate: AnyObject {
 }
 
 final class EventHomeTabViewController: UIViewController {
-    
+    enum ItemSectionType {
+        case empty, item
+    }
     enum SectionType: Hashable {
         case keywordFilter
         case event
-        case item
+        case item(type: ItemSectionType)
     }
     
     enum ItemType: Hashable {
         case keywordFilter(KeywordFilter)
         case event(data: [EventBannerEntity])
-        case item(data: EventProductEntity)
+        case item(data: EventProductEntity?)
     }
     
     enum Size {
@@ -97,8 +99,7 @@ final class EventHomeTabViewController: UIViewController {
     private func configureLayout() {
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -120,6 +121,7 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.register(KeywordFilterCell.self)
         collectionView.register(EventBannerCell.self)
         collectionView.register(ProductCell.self)
+        collectionView.register(EmptyProductCell.self)
     }
     
     private func setRefreshControl() {
@@ -146,9 +148,14 @@ final class EventHomeTabViewController: UIViewController {
                 cell.configure(with: keywordFilter.name)
                 return cell
             case .item(let item):
-                let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.updateCell(with: item)
-                return cell
+                if item == nil {
+                    let cell: EmptyProductCell = collectionView.dequeueReusableCell(for: indexPath)
+                    return cell
+                } else {
+                    let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.updateCell(with: item)
+                    return cell
+                }
             case .event(let item):
                 let cell: EventBannerCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.update(item)
@@ -177,11 +184,14 @@ final class EventHomeTabViewController: UIViewController {
             guard let section = dataSource?.snapshot().sectionIdentifiers[indexPath.section] else {
                 return nil
             }
+             
             if section == .event {
                 itemHeaderTitleView?.update(title: CommonConstants.eventSectionHeaderTitle)
-            } else if section == .item {
+            } else if section == .item(type: .item) {
                 let itemTitle = "\(convenienceStore.convenienceStoreCellName) \(CommonConstants.itemSectionHeaderTitle)"
                 itemHeaderTitleView?.update(title: itemTitle)
+            } else {
+                return nil
             }
             return itemHeaderTitleView
         default:
@@ -191,32 +201,53 @@ final class EventHomeTabViewController: UIViewController {
     
     func applyEventProductsSnapshot(with products: [EventProductEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
+        let itemSectionType = SectionType.item(type: .item)
         
         let eventProducts = products.map { ItemType.item(data: $0) }
         
-        if !snapshot.sectionIdentifiers.contains(.item) {
-            snapshot.appendSections([.item])
+        if !snapshot.sectionIdentifiers.contains(itemSectionType) {
+            snapshot.appendSections([itemSectionType])
         }
         
-        snapshot.appendItems(eventProducts, toSection: .item)
+        snapshot.appendItems(eventProducts, toSection: itemSectionType)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    func applyEventBannerProducts(with eventBanners: [EventBannerEntity]?, products: [EventProductEntity]) {
+    func applyEventBannerProducts(
+        with eventBanners: [EventBannerEntity]?,
+        products: [EventProductEntity]?
+    ) {
+        collectionView.isScrollEnabled = true
+        let itemSectionType = SectionType.item(type: .item)
+        let emtpySectionType = SectionType.item(type: .empty)
+        
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        
+        guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
+            collectionView.isScrollEnabled = false
+            snapshot.appendSections([emtpySectionType])
+            snapshot.appendItems([ItemType.item(data: nil)], toSection: emtpySectionType)
+            dataSource?.apply(snapshot, animatingDifferences: true)
+            return
+        }
+        
+        // append eventBanners
         let eventBanners = eventBanners ?? []
         if !eventBanners.isEmpty {
             snapshot.appendSections([.event])
             snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
         }
         
-        let eventProducts = products.map { ItemType.item(data: $0) }
-        
-        if !snapshot.sectionIdentifiers.contains(.item) {
-            snapshot.appendSections([.item])
+        // append eventProducts
+        let eventProducts = products.map { product in
+            return ItemType.item(data: product)
         }
         
-        snapshot.appendItems(eventProducts, toSection: .item)
+        if !snapshot.sectionIdentifiers.contains(itemSectionType) {
+            snapshot.appendSections([itemSectionType])
+        }
+        
+        snapshot.appendItems(eventProducts, toSection: itemSectionType)
         dataSource?.apply(snapshot, animatingDifferences: true)
         // 임시로 여기서 apply
         applyKeywordFilterSnapshot()

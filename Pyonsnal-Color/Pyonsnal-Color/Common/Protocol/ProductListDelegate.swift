@@ -10,5 +10,5 @@ import Foundation
 protocol ProductListDelegate: AnyObject {
     func didLoadPageList(store: ConvenienceStore)
     func refreshByPull()
-    func didSelect(with product: ProductConvertable)
+    func didSelect(with product: ProductConvertable?)
 }
