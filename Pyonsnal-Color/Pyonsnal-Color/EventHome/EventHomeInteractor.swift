@@ -126,10 +126,6 @@ final class EventHomeInteractor:
         router?.detachEventDetail()
     }
     
-    func didTapProductCell() {
-        // TO DO : 아이템 카드 클릭시
-    }
-    
     func didLoadEventHome(with store: ConvenienceStore) {
         requestProductWithBanners(store: store)
         requestFilter()

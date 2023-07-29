@@ -16,7 +16,6 @@ protocol ScrollDelegate: AnyObject {
 
 protocol EventHomeTabViewControllerDelegate: AnyObject {
     func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
-    func didTapProductCell()
     func didTapFilterDeleteButton(with filter: FilterItemEntity)
 }
 

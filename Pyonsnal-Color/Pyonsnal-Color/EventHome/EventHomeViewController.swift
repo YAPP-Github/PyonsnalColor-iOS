@@ -13,7 +13,6 @@ protocol EventHomePresentableListener: AnyObject {
     func didLoadEventHome(with store: ConvenienceStore)
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapSearchButton()
-    func didTapProductCell()
     func didChangeStore(to store: ConvenienceStore)
     func didScrollToNextPage(store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
@@ -370,7 +369,7 @@ extension EventHomeViewController {
 
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
-    
+
     func didSelect(with brandProduct: ProductConvertable) {
         listener?.didSelect(with: brandProduct)
     }
@@ -382,10 +381,6 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
         listener?.didTapEventBannerCell(with: imageURL, store: store)
-    }
-    
-    func didTapProductItemCell() {
-        listener?.didTapProductCell()
     }
     
     func didChangeStore(to store: ConvenienceStore) {
