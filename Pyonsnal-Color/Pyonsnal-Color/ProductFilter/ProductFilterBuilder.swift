@@ -22,7 +22,7 @@ final class ProductFilterComponent: Component<ProductFilterDependency> {
 protocol ProductFilterBuildable: Buildable {
     func build(
         withListener listener: ProductFilterListener,
-        filterType: ProductFilterViewController.Section
+        filterEntity: FilterEntity
     ) -> ProductFilterRouting
 }
 
@@ -34,10 +34,10 @@ final class ProductFilterBuilder: Builder<ProductFilterDependency>, ProductFilte
     
     func build(
         withListener listener: ProductFilterListener,
-        filterType: ProductFilterViewController.Section
+        filterEntity: FilterEntity
     ) -> ProductFilterRouting {
         let component = ProductFilterComponent(dependency: dependency)
-        let viewController = ProductFilterViewController(filterType: filterType)
+        let viewController = ProductFilterViewController(filterEntity: filterEntity)
         let interactor = ProductFilterInteractor(presenter: viewController)
         interactor.listener = listener
         return ProductFilterRouter(interactor: interactor, viewController: viewController)

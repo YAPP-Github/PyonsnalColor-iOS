@@ -20,75 +20,18 @@ final class ProductFilterViewController:
     ProductFilterPresentable,
     ProductFilterViewControllable {
     
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-    
-    enum Text {
-        static let sortTitle = "정렬 선택"
-        static let eventTitle = "행사"
-        static let categoryTitle = "카테고리"
-        static let recommendationTitle = "상품추천"
-    }
-    
-    enum DummyData {
-        
-        enum Sort: String, CaseIterable {
-            case recent = "최신순"
-            case lowestPrice = "낮은 가격 순"
-            case highestPrice = "높은 가격 순"
-        }
-        
-        enum Event: String, CaseIterable {
-            case onePlusOne = "1+1"
-            case twoPlusOne = "2+1"
-            case discount = "할인"
-            case giftItem = "증정"
-        }
-        
-        enum Category: String, CaseIterable {
-            case food = "식품"
-            case bakery = "베이커리"
-            case snack = "과자류"
-            case beverage = "음료"
-            case iceCream = "아이스크림"
-            case dailyGoods = "생활용품"
-        }
-        
-        enum Recommend: String, CaseIterable {
-            case food = "식품"
-            case bakery = "베이커리"
-            case snack = "과자류"
-            case beverage = "음료"
-            case iceCream = "아이스크림"
-            case dailyGoods = "생활용품"
-            case beer = "맥주"
-            case cigarette = "담배"
-        }
-    }
-    
-    enum Section: Hashable {
-        case sort
-        case event
-        case category
-        case recommendation
-    }
-    
-    enum Item: Hashable {
-        case sort(title: String, selected: Bool)
-        case event(title: String, selected: Bool)
-        case category(title: String, selected: Bool)
-        case recommendation(title: String, selected: Bool)
-    }
+    typealias DataSource = UICollectionViewDiffableDataSource<FilterType, FilterItemEntity>
 
     // MARK: - Property
     weak var listener: ProductFilterPresentableListener?
     
     private let viewHolder = ViewHolder()
     private var dataSource: DataSource?
-    private let filterType: Section
+    private let filterEntity: FilterEntity
     
     // MARK: - Initializer
-    init(filterType: Section) {
-        self.filterType = filterType
+    init(filterEntity: FilterEntity) {
+        self.filterEntity = filterEntity
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -121,27 +64,16 @@ final class ProductFilterViewController:
     }
     
     private func setFilterTitle() {
-        let title: String
-        
-        switch filterType {
-        case .sort:
-            title = Text.sortTitle
-        case .event:
-            title = Text.eventTitle
-        case .category:
-            title = Text.categoryTitle
-        case .recommendation:
-            title = Text.recommendationTitle
-        }
-        
-        viewHolder.titleLabel.text = title
+        viewHolder.titleLabel.text = filterEntity.defaultText
     }
     
     private func setMultiSelect() {
+        let filterType = filterEntity.filterType
         viewHolder.collectionView.allowsMultipleSelection = filterType == .sort ? false : true
     }
     
     private func hideApplyButton() {
+        let filterType = filterEntity.filterType
         viewHolder.applyButton.isHidden = filterType == .sort ? true : false
     }
     
@@ -167,8 +99,10 @@ final class ProductFilterViewController:
     }
     
     private func createLayout() -> UICollectionViewLayout {
-        let section = ProductFilterSectionLayout().section(at: filterType)
-        return  UICollectionViewCompositionalLayout(section: section)
+        if let section = ProductFilterSectionLayout().section(at: filterEntity.filterType) {
+            return UICollectionViewCompositionalLayout(section: section)
+        }
+        return UICollectionViewLayout()
     }
     
     private func registerCells() {
@@ -181,41 +115,45 @@ final class ProductFilterViewController:
         dataSource = DataSource(
             collectionView: viewHolder.collectionView
         ) { collectionView, index, item in
-            switch item {
-            case let .sort(title, isSelected):
+            switch self.filterEntity.filterType {
+            case .sort:
                 let cell: SortFilterCell = collectionView.dequeueReusableCell(for: index)
-                cell.configureCell(title: title, isSelected: isSelected)
+                
+                cell.configureCell(filterItem: item)
+                if item.isSelected {
+                    self.setSelectedItemToCollectionView(at: index)
+                }
                 return cell
-            case let .event(title, isSelected):
+            case .event:
                 let cell: EventFilterCell = collectionView.dequeueReusableCell(for: index)
-                cell.configureCell(title: title, isSelected: isSelected)
+                
+                cell.configureCell(filterItem: item)
+                if item.isSelected {
+                    self.setSelectedItemToCollectionView(at: index)
+                }
                 return cell
-            case let .category(title, isSelected), let .recommendation(title, isSelected):
+            case .category, .recommend:
                 let cell: RecommendFilterCell = collectionView.dequeueReusableCell(for: index)
-                cell.configureCell(title: title, isSelected: isSelected)
+                
+                cell.configureCell(filterItem: item)
+                if item.isSelected {
+                    self.setSelectedItemToCollectionView(at: index)
+                }
                 return cell
+            default:
+                return UICollectionViewCell()
             }
         }
     }
     
     // TODO: 외부 데이터 받아오도록 수정
     private func applySnapshot() {
-        let dummyData: [Item] = {
-            switch filterType {
-            case .sort:
-                return DummyData.Sort.allCases.map { .sort(title: $0.rawValue, selected: false) }
-            case .event:
-                return DummyData.Event.allCases.map { .event(title: $0.rawValue, selected: false) }
-            case .category:
-                return DummyData.Category.allCases.map { .category(title: $0.rawValue, selected: false) }
-            case .recommendation:
-                return DummyData.Recommend.allCases.map { .recommendation(title: $0.rawValue, selected: false) }
-            }
-        }()
+        let filterType = filterEntity.filterType
+        let items = FilterDummy.data.data.filter { $0.filterType == filterType }.first?.filterItem
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        var snapshot = NSDiffableDataSourceSnapshot<FilterType, FilterItemEntity>()
         snapshot.appendSections([filterType])
-        snapshot.appendItems(dummyData)
+        snapshot.appendItems(items ?? [])
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -231,13 +169,22 @@ final class ProductFilterViewController:
     }
     
     private func setApplyButtonState() {
-        guard filterType != .sort else { return }
+        guard filterEntity.filterType != .sort else { return }
         
         if viewHolder.collectionView.indexPathsForSelectedItems?.count == 0 {
             viewHolder.applyButton.setState(with: .disabled)
         } else {
             viewHolder.applyButton.setState(with: .enabled)
         }
+    }
+    
+    private func setSelectedItemToCollectionView(at index: IndexPath) {
+        viewHolder.collectionView.selectItem(
+            at: index,
+            animated: false,
+            scrollPosition: .init()
+        )
+        setApplyButtonState()
     }
     
     // MARK: - Objective Method

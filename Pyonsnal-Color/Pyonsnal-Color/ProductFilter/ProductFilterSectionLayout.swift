@@ -103,14 +103,16 @@ final class ProductFilterSectionLayout {
 }
 
 extension ProductFilterSectionLayout {
-    func section(at section: ProductFilterViewController.Section) -> NSCollectionLayoutSection {
+    func section(at section: FilterType) -> NSCollectionLayoutSection? {
         switch section {
         case .sort:
             return createSortSection()
         case .event:
             return createEventSection()
-        case .category, .recommendation:
+        case .category, .recommend:
             return createCategorySection()
+        case .unknown:
+            return nil
         }
     }
 }

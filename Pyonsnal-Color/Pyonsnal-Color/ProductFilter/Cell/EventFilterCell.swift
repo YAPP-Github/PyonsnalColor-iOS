@@ -37,9 +37,9 @@ final class EventFilterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(title: String, isSelected: Bool) {
-        viewHolder.titleLabel.text = title
-        isSelected ? setSelectedState() : setUnselectedState()
+    func configureCell(filterItem: FilterItemEntity) {
+        viewHolder.titleLabel.text = filterItem.name
+        isSelected = filterItem.isSelected
     }
     
     private func setSelectedState() {
