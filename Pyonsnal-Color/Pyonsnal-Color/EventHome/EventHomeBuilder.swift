@@ -14,7 +14,8 @@ protocol EventHomeDependency: Dependency {
 final class EventHomeComponent: Component<EventHomeDependency>,
                                 ProductSearchDependency,
                                 EventDetailDependency,
-                                ProductDetailDependency {
+                                ProductDetailDependency,
+                                ProductFilterDependency {
     let productAPIService: ProductAPIService
     
     override init(dependency: EventHomeDependency) {
@@ -40,6 +41,7 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
         let viewController = EventHomeViewController()
         let eventDetailBuilder = EventDetailBuilder(dependency: component)
         let productDetail: ProductDetailBuilder = .init(dependency: component)
+        let productFilter: ProductFilterBuilder = .init(dependency: component)
         let interactor = EventHomeInteractor(
             presenter: viewController,
             dependency: dependency
@@ -50,6 +52,7 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
                                viewController: viewController,
                                productSearch: productSearch,
                                eventDetailBuilder: eventDetailBuilder,
-                               productDetail: productDetail)
+                               productDetail: productDetail,
+                               productFilter: productFilter)
     }
 }

@@ -43,7 +43,6 @@ extension ProductHomeViewController {
             let layout = UICollectionViewFlowLayout()
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.backgroundColor = .clear
-            collectionView.isScrollEnabled = false
             collectionView.layoutMargins = UIEdgeInsets(
                 top: 0,
                 left: Constant.Size.leftRightMargin,

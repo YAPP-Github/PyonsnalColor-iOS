@@ -15,6 +15,7 @@ protocol ProductFilterPresentable: Presentable {
 }
 
 protocol ProductFilterListener: AnyObject {
+    func applyFilterItems(_ items: [FilterItemEntity])
     func productFilterDidTapCloseButton()
 }
 
@@ -36,8 +37,8 @@ final class ProductFilterInteractor: PresentableInteractor<ProductFilterPresenta
         super.willResignActive()
     }
     
-    func didTapApplyButton(with selectedItems: [String]) {
-        // TODO: 상위 리블렛에 전달 & 화면 dismiss
+    func didTapApplyButton(with selectedItems: [FilterItemEntity]) {
+        listener?.applyFilterItems(selectedItems)
     }
     
     func didTapCloseButton() {

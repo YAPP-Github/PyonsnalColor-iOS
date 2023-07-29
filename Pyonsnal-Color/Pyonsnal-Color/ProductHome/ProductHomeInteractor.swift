@@ -25,6 +25,7 @@ protocol ProductHomePresentable: Presentable {
     func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]])
     func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore)
     func didFinishPaging()
+    func updateFilterItems(with items: [FilterItemEntity])
 }
 
 protocol ProductHomeListener: AnyObject {
@@ -143,5 +144,10 @@ final class ProductHomeInteractor:
     
     func productFilterDidTapCloseButton() {
         router?.detachProductFilter()
+    }
+    
+    func applyFilterItems(_ items: [FilterItemEntity]) {
+        router?.detachProductFilter()
+        presenter.updateFilterItems(with: items)
     }
 }

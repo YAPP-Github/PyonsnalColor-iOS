@@ -234,6 +234,11 @@ final class ProductHomeViewController:
     func didFinishPaging() {
         isPaging = false
     }
+    
+    func updateFilterItems(with items: [FilterItemEntity]) {
+        // TODO: 추가된 필터들 적용
+        print(items)
+    }
 }
 
 // MARK: - TitleNavigationViewDelegate {

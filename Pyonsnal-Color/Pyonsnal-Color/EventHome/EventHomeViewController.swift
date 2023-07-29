@@ -17,6 +17,7 @@ protocol EventHomePresentableListener: AnyObject {
     func didChangeStore(to store: ConvenienceStore)
     func didScrollToNextPage(store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
+    func didSelectFilter(of filter: FilterEntity?)
 }
 
 final class EventHomeViewController: UIViewController,
@@ -226,6 +227,11 @@ final class EventHomeViewController: UIViewController,
         isPaging = false
     }
     
+    func updateFilterItems(with items: [FilterItemEntity]) {
+        // TODO: 추가된 필터들 적용
+        print(items)
+    }
+    
 }
 
 // MARK: - UI Component
@@ -366,8 +372,16 @@ extension EventHomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == viewHolder.collectionView {
-            setSelectedConvenienceStoreCell(with: indexPath)
-            viewHolder.pageViewController.updatePage(indexPath.row)
+            guard let selectedItem = dataSource?.itemIdentifier(for: indexPath) else { return }
+            
+            switch selectedItem {
+            case .convenienceStore:
+                setSelectedConvenienceStoreCell(with: indexPath)
+                viewHolder.pageViewController.updatePage(indexPath.row)
+            case .filter(let filterItem):
+                listener?.didSelectFilter(of: filterItem.filter)
+            }
+
         }
     }
 }

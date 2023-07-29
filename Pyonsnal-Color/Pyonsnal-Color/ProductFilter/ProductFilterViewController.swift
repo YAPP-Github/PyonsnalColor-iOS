@@ -11,7 +11,7 @@ import SnapKit
 
 protocol ProductFilterPresentableListener: AnyObject {
     // TODO: 엔티티 변경
-    func didTapApplyButton(with selectedItems: [String])
+    func didTapApplyButton(with selectedItems: [FilterItemEntity])
     func didTapCloseButton()
 }
 
@@ -62,6 +62,7 @@ final class ProductFilterViewController:
         setMultiSelect()
         hideApplyButton()
         configureButtonsAction()
+        addGestureToBackgroundView()
     }
     
     private func setFilterTitle() {
@@ -76,6 +77,16 @@ final class ProductFilterViewController:
     private func hideApplyButton() {
         let filterType = filterEntity.filterType
         viewHolder.applyButton.isHidden = filterType == .sort ? true : false
+    }
+    
+    private func addGestureToBackgroundView() {
+        let gestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(didTapBackgroundView)
+        )
+//        gestureRecognizer.cancelsTouchesInView = false
+        gestureRecognizer.delegate = self
+        view.addGestureRecognizer(gestureRecognizer)
     }
     
     private func configureButtonsAction() {
@@ -190,10 +201,15 @@ final class ProductFilterViewController:
     
     // MARK: - Objective Method
     @objc private func didTapApplyButton() {
-        listener?.didTapApplyButton(with: [])
+        let selectedItems = filterEntity.filterItem.filter { $0.isSelected == true }
+        listener?.didTapApplyButton(with: selectedItems)
     }
     
     @objc private func didTapCloseButton() {
+        listener?.didTapCloseButton()
+    }
+    
+    @objc private func didTapBackgroundView() {
         listener?.didTapCloseButton()
     }
 }
@@ -204,14 +220,32 @@ extension ProductFilterViewController: UICollectionViewDelegate {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
+        filterEntity.filterItem[indexPath.item].isSelected = true
         setApplyButtonState()
+        
+        if filterEntity.filterType == .sort {
+            listener?.didTapCloseButton()
+        }
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
+        filterEntity.filterItem[indexPath.item].isSelected = false
         setApplyButtonState()
+    }
+}
+
+extension ProductFilterViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldReceive touch: UITouch
+    ) -> Bool {
+        guard touch.view?.isDescendant(of: viewHolder.containerView) == false else {
+            return false
+        }
+        return true
     }
 }
 
@@ -232,7 +266,7 @@ extension ProductFilterViewController {
             static let applyButtonHeight: CGFloat = 52
         }
         
-        private let containerView: UIView = {
+        let containerView: UIView = {
             let view = UIView()
             view.backgroundColor = .white
             view.makeRoundCorners(
