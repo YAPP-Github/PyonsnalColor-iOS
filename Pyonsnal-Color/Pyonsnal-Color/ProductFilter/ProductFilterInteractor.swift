@@ -15,6 +15,7 @@ protocol ProductFilterPresentable: Presentable {
 }
 
 protocol ProductFilterListener: AnyObject {
+    func productFilterDidTapCloseButton()
 }
 
 final class ProductFilterInteractor: PresentableInteractor<ProductFilterPresentable>, ProductFilterInteractable, ProductFilterPresentableListener {
@@ -40,6 +41,6 @@ final class ProductFilterInteractor: PresentableInteractor<ProductFilterPresenta
     }
     
     func didTapCloseButton() {
-        // TODO: 화면 dismiss
+        listener?.productFilterDidTapCloseButton()
     }
 }

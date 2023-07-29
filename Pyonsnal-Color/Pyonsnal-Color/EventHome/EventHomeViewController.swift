@@ -107,7 +107,7 @@ final class EventHomeViewController: UIViewController,
                     return cell
                 case .category:
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                    cell.configure(with: filterItem.defaultText, filterItem: [])
+                    cell.configure(with: filterItem.filter?.defaultText ?? "", filterItem: [])
                     return cell
                 }
             }
@@ -149,9 +149,7 @@ final class EventHomeViewController: UIViewController,
     
     func makeFilterCellItem() -> [FilterCellItem] {
         setSortFilterDefaultText()
-        return FilterDummy.data.data.map { $0.defaultText }.map { defaultText in
-            FilterCellItem(defaultText: defaultText)
-        }
+        return FilterDummy.data.data.map { FilterCellItem(filter: $0) }
     }
     
     private func createLayout() -> UICollectionViewCompositionalLayout {

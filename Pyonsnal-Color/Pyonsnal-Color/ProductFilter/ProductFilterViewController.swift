@@ -61,6 +61,7 @@ final class ProductFilterViewController:
         setFilterTitle()
         setMultiSelect()
         hideApplyButton()
+        configureButtonsAction()
     }
     
     private func setFilterTitle() {
@@ -114,14 +115,14 @@ final class ProductFilterViewController:
     private func configureDataSource() {
         dataSource = DataSource(
             collectionView: viewHolder.collectionView
-        ) { collectionView, index, item in
-            switch self.filterEntity.filterType {
+        ) { [weak self] collectionView, index, item in
+            switch self?.filterEntity.filterType {
             case .sort:
                 let cell: SortFilterCell = collectionView.dequeueReusableCell(for: index)
                 
                 cell.configureCell(filterItem: item)
                 if item.isSelected {
-                    self.setSelectedItemToCollectionView(at: index)
+                    self?.setSelectedItemToCollectionView(at: index)
                 }
                 return cell
             case .event:
@@ -129,7 +130,7 @@ final class ProductFilterViewController:
                 
                 cell.configureCell(filterItem: item)
                 if item.isSelected {
-                    self.setSelectedItemToCollectionView(at: index)
+                    self?.setSelectedItemToCollectionView(at: index)
                 }
                 return cell
             case .category, .recommend:
@@ -137,7 +138,7 @@ final class ProductFilterViewController:
                 
                 cell.configureCell(filterItem: item)
                 if item.isSelected {
-                    self.setSelectedItemToCollectionView(at: index)
+                    self?.setSelectedItemToCollectionView(at: index)
                 }
                 return cell
             default:

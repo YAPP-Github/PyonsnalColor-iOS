@@ -15,6 +15,8 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachNotificationList()
     func attachProductDetail(with brandProduct: ProductConvertable)
     func detachProductDetail()
+    func attachProductFilter(of filter: FilterEntity)
+    func detachProductFilter()
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -43,6 +45,7 @@ final class ProductHomeInteractor:
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
     private var brandProducts: [ConvenienceStore: [BrandProductEntity]] = [:]
+    private var filterEntity: [FilterEntity] = []
 
     init(
         presenter: ProductHomePresentable,
@@ -130,5 +133,15 @@ final class ProductHomeInteractor:
     
     func didChangeStore(to store: ConvenienceStore) {
         requestInitialProducts(store: store)
+    }
+    
+    func didSelectFilter(ofType filterEntity: FilterEntity?) {
+        guard let filterEntity else { return }
+        
+        router?.attachProductFilter(of: filterEntity)
+    }
+    
+    func productFilterDidTapCloseButton() {
+        router?.detachProductFilter()
     }
 }
