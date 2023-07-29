@@ -35,9 +35,8 @@ final class ProductHomeViewController:
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
     private var currentPage: Int = 0
-    var isNeedToShowRefreshCell: Bool {
-        // keyword가 있다면
-        return true
+    private var isNeedToShowRefreshCell: Bool {
+        return listener?.needToShowRefreshCell() ?? false
     }
     
     // MARK: - Initializer
@@ -104,8 +103,12 @@ final class ProductHomeViewController:
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func makeFilterSnapshot(with filters: FilterDataEntity) {
+    private func applyFilterSnapshot(with filters: FilterDataEntity?) {
+        guard let filters else { return }
         guard var snapshot = dataSource?.snapshot() else { return }
+        // TO DO : filter section delete 하지 않고 적용하는 방법 
+        snapshot.deleteSections([.filter])
+        
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
@@ -240,7 +243,7 @@ final class ProductHomeViewController:
     }
     
     func updateFilter(with filters: FilterDataEntity) {
-        makeFilterSnapshot(with: filters)
+        applyFilterSnapshot(with: filters)
     }
     
     func didFinishPaging() {
@@ -360,10 +363,10 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             let selectedItem = productListViewController.dataSource?.itemIdentifier(for: indexPath) else { return }
             
             switch selectedItem {
-            case .keywordFilter(let keywordFilter):
-                print("TO DO")
             case .product(let brandProduct):
                 listener?.didSelect(with: brandProduct)
+            default:
+                break
             }
         }
     }
@@ -379,6 +382,11 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
 
 // MARK: - ProductListDelegate
 extension ProductHomeViewController: ProductListDelegate {
+    func updateFilterState(with filter: FilterItemEntity) {
+        let filterDataEntity = listener?.updateFilterSelectedState(with: filter)
+        applyFilterSnapshot(with: filterDataEntity)
+    }
+    
     func didLoadPageList(store: ConvenienceStore) {
         requestProducts(store: store)
     }

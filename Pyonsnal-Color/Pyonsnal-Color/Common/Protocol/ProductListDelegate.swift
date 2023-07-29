@@ -11,4 +11,6 @@ protocol ProductListDelegate: AnyObject {
     func didLoadPageList(store: ConvenienceStore)
     func refreshByPull()
     func didSelect(with product: ProductConvertable?)
+    
+    func updateFilterState(with filter: FilterItemEntity)
 }

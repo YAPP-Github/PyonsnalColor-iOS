@@ -32,7 +32,7 @@ final class ProductListViewController: UIViewController {
     }
     
     enum ItemType: Hashable {
-        case keywordFilter(data: KeywordFilter)
+        case keywordFilter(data: FilterItemEntity)
         case product(data: BrandProductEntity?)
     }
     
@@ -122,7 +122,8 @@ final class ProductListViewController: UIViewController {
             switch item {
             case .keywordFilter(let keywordFilter):
                 let cell: KeywordFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.configure(with: keywordFilter.name)
+                cell.delegate = self
+                cell.configure(with: keywordFilter)
                 return cell
             case .product(let brandProduct):
                 if brandProduct == nil {
@@ -184,7 +185,8 @@ final class ProductListViewController: UIViewController {
         
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         // append keywordFilter
-        let keywordItems = [KeywordFilter(name: "공부하기 좋은"), KeywordFilter(name: "야식용")].map { keywordFilter in
+        let keywordItems = [FilterItemEntity(name: "밤샘", code: 101, isSelected: true),
+                            FilterItemEntity(name: "달달", code: 106, isSelected: true)].map { keywordFilter in
             ItemType.keywordFilter(data: keywordFilter)
         }
         if !keywordItems.isEmpty {
@@ -227,5 +229,23 @@ final class ProductListViewController: UIViewController {
             self.delegate?.refreshByPull()
             self.productCollectionView.refreshControl?.endRefreshing()
         }
+    }
+}
+
+// MARK: - KeywordFilterCellDelegate
+extension ProductListViewController: KeywordFilterCellDelegate {
+    func didTapDeleteButton(filter: FilterItemEntity) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        let itemIdentifiers = snapshot.itemIdentifiers(inSection: .keywordFilter)
+        let deleteItem = ItemType.keywordFilter(data: filter)
+        let hasKeywords = itemIdentifiers.contains(deleteItem)
+        // filter에서 삭제
+        if hasKeywords {
+            snapshot.deleteItems([deleteItem])
+            dataSource?.apply(snapshot, animatingDifferences: true)
+        }
+        
+        // 현재 선택된 filter에서 삭제
+        delegate?.updateFilterState(with: filter)
     }
 }

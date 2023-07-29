@@ -54,8 +54,8 @@ final class EventHomeViewController: UIViewController,
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
     private var isPaging: Bool = false
-    var isNeedToShowRefreshCell: Bool {
-        return true
+    private var isNeedToShowRefreshCell: Bool {
+        return listener?.needToShowRefreshCell() ?? false
     }
     
     // MARK: - Initializer
@@ -133,8 +133,12 @@ final class EventHomeViewController: UIViewController,
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func makeFilterSnapshot(with filters: FilterDataEntity) {
+    private func applyFilterSnapshot(with filters: FilterDataEntity?) {
+        guard let filters else { return }
         guard var snapshot = dataSource?.snapshot() else { return }
+        // TO DO : filter section delete 하지 않고 적용하는 방법
+        snapshot.deleteSections([.filter])
+        
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
@@ -235,7 +239,7 @@ final class EventHomeViewController: UIViewController,
     }
     
     func updateFilter(with filters: FilterDataEntity) {
-        makeFilterSnapshot(with: filters)
+        applyFilterSnapshot(with: filters)
     }
     
     func didFinishPaging() {
@@ -366,6 +370,7 @@ extension EventHomeViewController {
 
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
+    
     func didSelect(with brandProduct: ProductConvertable) {
         listener?.didSelect(with: brandProduct)
     }
@@ -385,6 +390,11 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     
     func didChangeStore(to store: ConvenienceStore) {
         listener?.didChangeStore(to: store)
+    }
+    
+    func updateFilterState(with filter: FilterItemEntity) {
+        let filterDataEntity = listener?.updateFilterSelectedState(with: filter)
+        applyFilterSnapshot(with: filterDataEntity)
     }
 }
 

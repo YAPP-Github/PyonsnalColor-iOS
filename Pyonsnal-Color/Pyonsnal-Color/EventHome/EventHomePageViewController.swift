@@ -13,6 +13,8 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
     func didTapProductItemCell()
     func didChangeStore(to store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
+    
+    func updateFilterState(with filter: FilterItemEntity)
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -135,6 +137,10 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
     func didTapProductCell() {
         pageDelegate?.didTapProductItemCell()
     }
+    
+    func didTapFilterDeleteButton(with filter: FilterItemEntity) {
+        pageDelegate?.updateFilterState(with: filter)
+    }
 }
 
 extension EventHomePageViewController: ProductListDelegate {
@@ -149,5 +155,9 @@ extension EventHomePageViewController: ProductListDelegate {
     func didSelect(with brandProduct: ProductConvertable?) {
         guard let brandProduct else { return }
         pageDelegate?.didSelect(with: brandProduct)
+    }
+    
+    func updateFilterState(with filter: FilterItemEntity) {
+        pageDelegate?.updateFilterState(with: filter)
     }
 }

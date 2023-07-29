@@ -114,6 +114,32 @@ final class ProductHomeInteractor:
         }.store(in: &cancellable)
     }
     
+    func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity? {
+        filterDataEntity?.data.forEach { filters in
+            filters.filterItem.forEach {
+                var filterItem = $0
+                if filterItem.code == filter.code {
+                    filterItem = filter
+                }
+            }
+        }
+        return filterDataEntity
+    }
+    
+    func needToShowRefreshCell() -> Bool {
+        // sort를 제외한 나머지 filter에서 isSelected = true인 값이 있다면 return true
+        let filterItemEntities = filterDataEntity?.data.filter { $0.filterType != .sort }
+        guard let filterItemEntities else { return false }
+        var needToShowRefreshCell: Bool = false
+        filterItemEntities.forEach { filterItems in
+            let notAllSelected = filterItems.filterItem.allSatisfy({ $0.isSelected == false })
+            if !notAllSelected { // 선택 되어 있는게 한개라도 있다면
+                needToShowRefreshCell = true
+            }
+        }
+        return needToShowRefreshCell
+    }
+    
     func didTapSearchButton() {
         router?.attachProductSearch()
     }

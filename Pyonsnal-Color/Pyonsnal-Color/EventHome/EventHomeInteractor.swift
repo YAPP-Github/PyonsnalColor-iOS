@@ -47,7 +47,8 @@ final class EventHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
-
+    private var filterDataEntity: FilterDataEntity?
+    
     init(
         presenter: EventHomePresentable,
         dependency: EventHomeDependency
@@ -172,5 +173,6 @@ final class EventHomeInteractor:
         // TODO: 적용된 필터로 상품 목록 조회하기
         router?.detachProductFilter()
         presenter.updateSortFilter(type: type)
+	}
     }
 }

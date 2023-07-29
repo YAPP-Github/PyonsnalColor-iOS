@@ -16,7 +16,7 @@ struct FilterEntity: Decodable {
     var defaultText: String? // 카테고리에 보여질 이름
     var isSelected: Bool = false
     var filterItem: [FilterItemEntity]
-    
+
     enum CodingKeys: String, CodingKey {
         case filterType, filterItem
     }

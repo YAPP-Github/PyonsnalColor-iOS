@@ -17,6 +17,7 @@ protocol ScrollDelegate: AnyObject {
 protocol EventHomeTabViewControllerDelegate: AnyObject {
     func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
     func didTapProductCell()
+    func didTapFilterDeleteButton(with filter: FilterItemEntity)
 }
 
 final class EventHomeTabViewController: UIViewController {
@@ -30,7 +31,7 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     enum ItemType: Hashable {
-        case keywordFilter(KeywordFilter)
+        case keywordFilter(FilterItemEntity)
         case event(data: [EventBannerEntity])
         case item(data: EventProductEntity?)
     }
@@ -145,7 +146,8 @@ final class EventHomeTabViewController: UIViewController {
             switch item {
             case .keywordFilter(let keywordFilter):
                 let cell: KeywordFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.configure(with: keywordFilter.name)
+                cell.delegate = self
+                cell.configure(with: keywordFilter)
                 return cell
             case .item(let item):
                 if item == nil {
@@ -256,7 +258,8 @@ final class EventHomeTabViewController: UIViewController {
     func applyKeywordFilterSnapshot() {
         guard var snapshot = dataSource?.snapshot() else { return }
         // append keywordFilter
-        let keywordItems = [KeywordFilter(name: "공부하기 좋은"), KeywordFilter(name: "야식용")].map { keywordFilter in
+        let keywordItems = [FilterItemEntity(name: "밤샘", code: 101, isSelected: true),
+                            FilterItemEntity(name: "달달", code: 106, isSelected: true)].map { keywordFilter in
             ItemType.keywordFilter(keywordFilter)
         }
         if !keywordItems.isEmpty {
@@ -301,5 +304,23 @@ extension EventHomeTabViewController: UICollectionViewDelegate {
 extension EventHomeTabViewController: EventBannerCellDelegate {
     func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore) {
         delegate?.didTapEventBannerCell(with: imageUrl, store: store)
+    }
+}
+
+// MARK: - KeywordFilterCellDelegate
+extension EventHomeTabViewController: KeywordFilterCellDelegate {
+    func didTapDeleteButton(filter: FilterItemEntity) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        let itemIdentifiers = snapshot.itemIdentifiers(inSection: .keywordFilter)
+        let deleteItem = ItemType.keywordFilter(filter)
+        let hasKeywords = itemIdentifiers.contains(deleteItem)
+        // filter에서 삭제
+        if hasKeywords {
+            snapshot.deleteItems([deleteItem])
+            dataSource?.apply(snapshot, animatingDifferences: true)
+        }
+        
+        // 현재 선택된 filter에서 삭제
+        delegate?.didTapFilterDeleteButton(with: filter)
     }
 }
