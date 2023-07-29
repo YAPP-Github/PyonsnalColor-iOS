@@ -11,6 +11,7 @@ enum EventTag: String, Decodable {
     case onePlusOne = "ONE_TO_ONE"
     case twoPlusOne = "TWO_TO_ONE"
     case threePlusOne = "THREE_TO_ONE"
+    case none = "NONE"
 }
 
 extension EventTag {
@@ -26,6 +27,8 @@ extension EventTag {
             return "2+1"
         case .threePlusOne:
             return "3+1"
+        case .none:
+            return ""
         }
     }
 }
