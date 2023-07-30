@@ -198,15 +198,6 @@ final class ProductListViewController: UIViewController {
         let emtpySectionType = SectionType.product(type: .empty)
         
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        // append keywordFilter
-        let keywordItems = [FilterItemEntity(name: "밤샘", code: 101, isSelected: true),
-                            FilterItemEntity(name: "달달", code: 106, isSelected: true)].map { keywordFilter in
-            ItemType.keywordFilter(data: keywordFilter)
-        }
-        if !keywordItems.isEmpty {
-            snapshot.appendSections([.keywordFilter])
-            snapshot.appendItems(keywordItems, toSection: .keywordFilter)
-        }
 
         guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             productCollectionView.isScrollEnabled = false
@@ -223,6 +214,21 @@ final class ProductListViewController: UIViewController {
         if !productItems.isEmpty {
             snapshot.appendSections([itemSectionType])
             snapshot.appendItems(productItems, toSection: itemSectionType)
+        }
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        snapshot.deleteSections([.keywordFilter])
+        // append keywordFilter
+        if !keywordItems.isEmpty {
+            snapshot.insertSections([.keywordFilter], beforeSection: .product(type: .item))
+            let items = keywordItems.map {
+                return ItemType.keywordFilter(data: $0)
+            }
+            snapshot.appendItems(items, toSection: .keywordFilter)
+            snapshot.reloadSections([.keywordFilter])
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }

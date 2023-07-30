@@ -255,6 +255,8 @@ final class ProductHomeViewController:
 
     func updateFilterItems(with items: [FilterItemEntity]) {
         // TODO: 추가된 필터들 적용
+        guard let listViewController = currentListViewController() else { return }
+        listViewController.applyKeywordFilterSnapshot(with: items)
         print(items)
     }
     

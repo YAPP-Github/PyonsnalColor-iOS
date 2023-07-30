@@ -255,6 +255,9 @@ final class EventHomeViewController: UIViewController,
     }
     func updateFilterItems(with items: [FilterItemEntity]) {
         // TODO: 추가된 필터들 적용
+        guard let tabViewController = currentTabViewController() else { return }
+        tabViewController.applyKeywordFilterSnapshot(with: items)
+
         print(items)
     }
     

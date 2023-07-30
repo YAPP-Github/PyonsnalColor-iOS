@@ -264,20 +264,18 @@ final class EventHomeTabViewController: UIViewController {
         
         snapshot.appendItems(eventProducts, toSection: itemSectionType)
         dataSource?.apply(snapshot, animatingDifferences: true)
-        // 임시로 여기서 apply
-        applyKeywordFilterSnapshot()
     }
     
-    func applyKeywordFilterSnapshot() {
+    func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
+        snapshot.deleteSections([.keywordFilter])
         // append keywordFilter
-        let keywordItems = [FilterItemEntity(name: "밤샘", code: 101, isSelected: true),
-                            FilterItemEntity(name: "달달", code: 106, isSelected: true)].map { keywordFilter in
-            ItemType.keywordFilter(keywordFilter)
-        }
         if !keywordItems.isEmpty {
             snapshot.insertSections([.keywordFilter], beforeSection: .event)
-            snapshot.appendItems(keywordItems, toSection: .keywordFilter)
+            let items = keywordItems.map {
+                return ItemType.keywordFilter($0)
+            }
+            snapshot.appendItems(items, toSection: .keywordFilter)
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
