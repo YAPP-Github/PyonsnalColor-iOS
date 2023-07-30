@@ -196,12 +196,13 @@ final class ProductListViewController: UIViewController {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
         let emtpySectionType = SectionType.product(type: .empty)
-        
-        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        guard var snapshot = dataSource?.snapshot() else { return }
 
         guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             productCollectionView.isScrollEnabled = false
-            snapshot.appendSections([emtpySectionType])
+            if !snapshot.sectionIdentifiers.contains(emtpySectionType) {
+                snapshot.appendSections([emtpySectionType])
+            }
             snapshot.appendItems([ItemType.product(data: nil)], toSection: emtpySectionType)
             dataSource?.apply(snapshot, animatingDifferences: true)
             return
@@ -212,7 +213,9 @@ final class ProductListViewController: UIViewController {
             return ItemType.product(data: product)
         }
         if !productItems.isEmpty {
-            snapshot.appendSections([itemSectionType])
+            if !snapshot.sectionIdentifiers.contains(itemSectionType) {
+                snapshot.appendSections([itemSectionType])
+            }
             snapshot.appendItems(productItems, toSection: itemSectionType)
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
@@ -220,10 +223,11 @@ final class ProductListViewController: UIViewController {
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
-        snapshot.deleteSections([.keywordFilter])
+        if !snapshot.sectionIdentifiers.contains(.keywordFilter) {
+            snapshot.insertSections([.keywordFilter], beforeSection: .product(type: .item))
+        }
         // append keywordFilter
         if !keywordItems.isEmpty {
-            snapshot.insertSections([.keywordFilter], beforeSection: .product(type: .item))
             let items = keywordItems.map {
                 return ItemType.keywordFilter(data: $0)
             }

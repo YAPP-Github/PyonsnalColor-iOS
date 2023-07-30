@@ -236,11 +236,12 @@ final class EventHomeTabViewController: UIViewController {
         let itemSectionType = SectionType.item(type: .item)
         let emtpySectionType = SectionType.item(type: .empty)
         
-        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        
+        guard var snapshot = dataSource?.snapshot() else { return }
         guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             collectionView.isScrollEnabled = false
-            snapshot.appendSections([emtpySectionType])
+            if !snapshot.sectionIdentifiers.contains(emtpySectionType) {
+                snapshot.appendSections([emtpySectionType])
+            }
             snapshot.appendItems([ItemType.item(data: nil)], toSection: emtpySectionType)
             dataSource?.apply(snapshot, animatingDifferences: true)
             return
@@ -249,7 +250,9 @@ final class EventHomeTabViewController: UIViewController {
         // append eventBanners
         let eventBanners = eventBanners ?? []
         if !eventBanners.isEmpty {
-            snapshot.appendSections([.event])
+            if !snapshot.sectionIdentifiers.contains(.event) {
+                snapshot.appendSections([.event])
+            }
             snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
         }
         
@@ -268,10 +271,11 @@ final class EventHomeTabViewController: UIViewController {
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
-        snapshot.deleteSections([.keywordFilter])
+        if !snapshot.sectionIdentifiers.contains(.keywordFilter) {
+            snapshot.insertSections([.keywordFilter], beforeSection: .event)
+        }
         // append keywordFilter
         if !keywordItems.isEmpty {
-            snapshot.insertSections([.keywordFilter], beforeSection: .event)
             let items = keywordItems.map {
                 return ItemType.keywordFilter($0)
             }
