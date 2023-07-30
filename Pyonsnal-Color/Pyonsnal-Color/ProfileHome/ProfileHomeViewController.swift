@@ -79,8 +79,8 @@ final class ProfileHomeViewController: UIViewController,
         tabBarItem.setTitleTextAttributes([.font: UIFont.label2], for: .normal)
         tabBarItem = UITabBarItem(
             title: "마이페이지",
-            image: UIImage(named: "profile"),
-            selectedImage: UIImage(named: "profile.selected")
+            image: ImageAssetKind.TabBar.myUnselected.image,
+            selectedImage: ImageAssetKind.TabBar.mySelected.image
         )
     }
 }
@@ -166,7 +166,7 @@ extension ProfileHomeViewController {
         private let profileImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
-            imageView.setImage(.defaultPyonsnalColor)
+            imageView.setImage(.tagStore)
             return imageView
         }()
         

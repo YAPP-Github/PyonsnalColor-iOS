@@ -9,10 +9,10 @@ import UIKit
 
 extension ImageAssetKind {
     enum StoreIcon: String {
-        case icon7Eleven = "icon_7Eleven"
-        case iconCU = "icon_CU"
-        case iconEmart24 = "icon_Emart24"
-        case iconGS = "icon_GS"
+        case sevenEleven = "store_logo_7-eleven"
+        case cu = "store_logo_CU"
+        case emart24 = "store_logo_emart24"
+        case gs25 = "store_logo_GS"
         
         var image: UIImage? {
             return .init(named: self.rawValue)
