@@ -423,14 +423,18 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
         // filter isSelected 값 변경
         guard let tabViewController = currentTabViewController() else { return }
+        
         tabViewController.updateFilterState(with: filter, isSelected: isSelected)
+        let filterCode = String(filter.code)
+        tabViewController.deleteFilterCode(at: filterCode)
+        
         guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
         
-        // TO DO : filterList 전달
+        let filterList = tabViewController.getFilterList()
         listener?.requestwithUpdatedKeywordFilter(
             with: tabViewController.convenienceStore,
-            filterList: []
+            filterList: filterList
         )
     }
 }
@@ -568,6 +572,7 @@ extension EventHomeViewController: RefreshFilterCellDelegate {
         
         // filter isSelected state update
         tabViewController.resetFilterItemState()
+        tabViewController.deleteAllFilterCode()
         
         // apply filterData
         let filterDataEntity = tabViewController.getFilterDataEntity()

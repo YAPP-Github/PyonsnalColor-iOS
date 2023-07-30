@@ -384,4 +384,8 @@ extension EventHomeTabViewController {
     func deleteFilterCode(at filterCode: String) {
         filterStateManager?.deleteFilterList(filterCode: filterCode)
     }
+    
+    func deleteAllFilterCode() {
+        filterStateManager?.deleteAllFilterList()
+    }
 }

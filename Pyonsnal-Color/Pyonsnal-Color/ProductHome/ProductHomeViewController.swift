@@ -422,11 +422,17 @@ extension ProductHomeViewController: ProductListDelegate {
             return
         }
         listViewController.updateFilterState(with: filter, isSelected: isSelected)
+        let filterCode = String(filter.code)
+        listViewController.deleteFilterCode(at: filterCode)
+        
         let filterDataEntity = listViewController.getFilterDataEntity()
         applyFilterSnapshot(with: filterDataEntity)
         
-        // TO DO : filterList 전달
-        listener?.requestwithUpdatedKeywordFilter(with: listViewController.convenienceStore, filterList: [])
+        let filterList = listViewController.getFilterList()
+        listener?.requestwithUpdatedKeywordFilter(
+            with: listViewController.convenienceStore,
+            filterList: filterList
+        )
     }
     
     func didLoadPageList(store: ConvenienceStore) {
@@ -470,6 +476,7 @@ extension ProductHomeViewController: RefreshFilterCellDelegate {
         listener?.didTapRefreshFilterCell(with: listViewController.convenienceStore)
         
         listViewController.resetFilterItemState()
+        listViewController.deleteAllFilterCode()
         
         // apply filterData
         let filterDataEntity = listViewController.getFilterDataEntity()

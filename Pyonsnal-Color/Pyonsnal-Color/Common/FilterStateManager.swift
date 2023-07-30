@@ -134,6 +134,10 @@ final class FilterStateManager {
         filterList.remove(filterCode)
     }
     
+    func deleteAllFilterList() {
+        filterList.removeAll()
+    }
+    
     func getFilterList() -> [String] {
         return Array(filterList)
     }
