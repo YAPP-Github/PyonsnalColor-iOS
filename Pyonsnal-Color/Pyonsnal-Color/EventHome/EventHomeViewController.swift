@@ -56,9 +56,6 @@ final class EventHomeViewController: UIViewController,
     private var initIndex: Int = 0
     private var isPaging: Bool = false
     private var currentConvenienceStore: ConvenienceStore?
-    private var isNeedToShowRefreshCell: Bool {
-        return listener?.needToShowRefreshCell() ?? false
-    }
     
     // MARK: - Initializer
     init() {
@@ -146,7 +143,7 @@ final class EventHomeViewController: UIViewController,
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            if isNeedToShowRefreshCell {
+            if needToShowRefreshCell() {
                 let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
                 let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
@@ -251,6 +248,18 @@ final class EventHomeViewController: UIViewController,
         isPaging = false
     }
     
+    func currentTabViewController() -> EventHomeTabViewController? {
+        guard let currentViewController = viewHolder.pageViewController.viewControllers?.first,
+              let currentTabViewController = currentViewController as? EventHomeTabViewController else {
+                  return nil
+              }
+        return currentTabViewController
+    }
+    
+    func needToShowRefreshCell() -> Bool {
+        guard let tabViewController = currentTabViewController() else { return false }
+        return tabViewController.needToShowRefreshCell()
+    }
     func updateFilterItems(with items: [FilterItemEntity]) {
         // TODO: 추가된 필터들 적용
         print(items)
@@ -436,11 +445,7 @@ extension EventHomeViewController: UICollectionViewDelegate {
 // MARK: - UIScrollViewDelegate
 extension EventHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let currentViewController = viewHolder.pageViewController.viewControllers?.first,
-              let tabViewController = currentViewController as? EventHomeTabViewController
-        else {
-            return
-        }
+        guard let tabViewController = currentTabViewController() else { return }
 
         let collectionView = tabViewController.collectionView
         let outerScroll = scrollView == viewHolder.containerScrollView
@@ -528,8 +533,10 @@ extension EventHomeViewController: ProductPresentable {
 // MARK: - RefreshFilterCellDelegate
 extension EventHomeViewController: RefreshFilterCellDelegate {
     func didTapRefreshButton() {
-        if let currentConvenienceStore {
-            listener?.didTapRefreshFilterCell(with: currentConvenienceStore)
+        guard let tabViewController = currentTabViewController() else {
+            return
         }
+        listener?.didTapRefreshFilterCell(with: tabViewController.convenienceStore)
+        tabViewController.resetFilterItemState()
     }
 }

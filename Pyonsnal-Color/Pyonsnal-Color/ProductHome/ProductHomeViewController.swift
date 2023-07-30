@@ -24,7 +24,7 @@ final class ProductHomeViewController:
     UIViewController,
     ProductHomePresentable,
     ProductHomeViewControllable {
-
+    
     // MARK: - Interface
     weak var listener: ProductHomePresentableListener?
     typealias SectionType = TopCollectionViewDatasource.SectionType
@@ -39,10 +39,6 @@ final class ProductHomeViewController:
     private var isPaging: Bool = false
     private var currentPage: Int = 0
     private var currentConvenienceStore: ConvenienceStore?
-    private var isNeedToShowRefreshCell: Bool {
-        return true
-//        return listener?.needToShowRefreshCell() ?? false
-    }
     
     // MARK: - Initializer
     init() {
@@ -105,7 +101,7 @@ final class ProductHomeViewController:
             return ItemType.convenienceStore(storeName: storeName)
         }
         snapshot.appendItems(items, toSection: .convenienceStore(store: convenienceStores))
-
+        
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -118,7 +114,7 @@ final class ProductHomeViewController:
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            if isNeedToShowRefreshCell {
+            if needToShowRefreshCell() {
                 let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
                 let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
@@ -250,6 +246,20 @@ final class ProductHomeViewController:
         isPaging = false
     }
     
+    func currentListViewController() -> ProductListViewController? {
+        let pageViewController = viewHolder.productHomePageViewController.viewControllers?.first
+        if let productListViewController = pageViewController as? ProductListViewController {
+            return productListViewController
+        }
+        return nil
+    }
+    
+    func needToShowRefreshCell() -> Bool {
+        guard let tabViewController = currentListViewController() else { return false }
+        return tabViewController.needToShowRefreshCell()
+	}
+
+
     func updateFilterItems(with items: [FilterItemEntity]) {
         // TODO: 추가된 필터들 적용
         print(items)
@@ -285,13 +295,7 @@ extension ProductHomeViewController: TitleNavigationViewDelegate {
 // MARK: - UIScrollViewDelegate
 extension ProductHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageViewController = viewHolder.productHomePageViewController
-        guard let currentViewController = pageViewController.viewControllers?.first,
-              let productListViewController = currentViewController as? ProductListViewController
-        else {
-            return
-        }
-        
+        guard let productListViewController = currentListViewController() else { return }
         let collectionView = productListViewController.productCollectionView
         let outerScroll = scrollView == viewHolder.containerScrollView
         let innerScroll = !outerScroll
@@ -427,10 +431,14 @@ extension ProductHomeViewController: ProductPresentable {
     }
 }
 
+// MARK: - listViewController
 extension ProductHomeViewController: RefreshFilterCellDelegate {
     func didTapRefreshButton() {
-        if let currentConvenienceStore {
-            listener?.didTapRefreshFilterCell(with: currentConvenienceStore)
+        guard let listViewController = currentListViewController() else {
+            return
         }
+        listener?.didTapRefreshFilterCell(with: listViewController.convenienceStore)
+        Log.d(message: "\(listViewController.convenienceStore)")
+        listViewController.resetFilterItemState()
     }
 }

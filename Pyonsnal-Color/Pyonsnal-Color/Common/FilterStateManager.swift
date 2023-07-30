@@ -15,15 +15,15 @@ final class FilterStateManager {
     }
     
     /// 모든 filterItemEntity isSelected 값을 변경합니다.
-    func setFilterItemState(with filterItem: [FilterItemEntity], to isSelected: Bool) {
+    func updateAllFilterItemState(to isSelected: Bool) {
         filterDataEntity.data.forEach { filters in
             filters.filterItem.forEach {
                 var filter = $0
                 filter.isSelected = false
             }
+            Log.d(message: "filter state \(filterDataEntity.data.map { _ in Log.d(message: "\(filters.filterItem)")})")
         }
         updateFilterDataState()
-        Log.d(message: "filter state \(filterItem)")
     }
     
     /// 한 filterItemEntity의 state 값을 변경합니다.
@@ -51,8 +51,9 @@ final class FilterStateManager {
             let filterItem = filters.filterItem
             let isAllFilterItemSelected = filterItem.allSatisfy { $0.isSelected == true }
             filters.isSelected = isAllFilterItemSelected
+            Log.d(message: "filterDataEntity \(filters.isSelected)")
         }
-        Log.d(message: "filterDataEntity \(filterDataEntity)")
+        
     }
     
     /// sort defaultText를 선택된 filter name으로 업데이트 합니다.
@@ -84,7 +85,8 @@ final class FilterStateManager {
     /// filterData가 모두 isSelected = false인지 확인합니다
     /// refreshFilterCell show / hide 용도
     func isFilterDataResetState() -> Bool {
-        return filterDataEntity.data.allSatisfy { $0.isSelected == false }
+        let isAllNotSelected = filterDataEntity.data.allSatisfy { $0.isSelected == false }
+        return !isAllNotSelected
     }
     
 }

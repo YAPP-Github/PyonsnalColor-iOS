@@ -344,3 +344,14 @@ extension EventHomeTabViewController: EmptyProductCellDelegate {
         listDelegate?.refreshFilterButton()
     }
 }
+
+// MARK: - FilterStateManager
+extension EventHomeTabViewController {
+    func resetFilterItemState() {
+        filterStateManager?.updateAllFilterItemState(to: false)
+    }
+    
+    func needToShowRefreshCell() -> Bool {
+        return filterStateManager?.isFilterDataResetState() ?? false
+    }
+}

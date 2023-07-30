@@ -270,3 +270,13 @@ extension ProductListViewController: EmptyProductCellDelegate {
         delegate?.refreshFilterButton()
     }
 }
+
+extension ProductListViewController {
+    func resetFilterItemState() {
+        filterStateManager?.updateAllFilterItemState(to: false)
+    }
+    
+    func needToShowRefreshCell() -> Bool {
+        return filterStateManager?.isFilterDataResetState() ?? false
+    }
+}

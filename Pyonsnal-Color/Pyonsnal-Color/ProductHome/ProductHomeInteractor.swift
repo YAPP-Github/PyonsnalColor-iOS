@@ -131,10 +131,6 @@ final class ProductHomeInteractor:
         return filterDataEntity[store]
     }
     
-    func needToShowRefreshCell() -> Bool {
-        return false
-    }
-    
     func didTapSearchButton() {
         router?.attachProductSearch()
     }
