@@ -270,7 +270,7 @@ extension ProductListViewController: KeywordFilterCellDelegate {
         }
         
         // 현재 선택된 filter에서 삭제
-        delegate?.updateFilterState(with: filter)
+        delegate?.updateFilterState(with: filter, isSelected: false)
     }
 }
 
@@ -300,7 +300,19 @@ extension ProductListViewController {
         return filterStateManager?.getFilterDataEntity()
     }
     
-    func updateFilterState(with filter: FilterItemEntity) {
-        filterStateManager?.updateFilterItemState(target: filter, to: true)
+    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
+        filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
+    }
+    
+    func appendFilterList(with filter: [String]) {
+        filterStateManager?.appendFilterList(filters: filter)
+    }
+    
+    func getFilterList() -> [String] {
+        return filterStateManager?.getFilterList() ?? []
+    }
+    
+    func deleteFilterCode(at filterCode: String) {
+        filterStateManager?.deleteFilterList(filterCode: filterCode)
     }
 }

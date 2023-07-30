@@ -176,7 +176,7 @@ final class ProductHomeInteractor:
         presenter.updateSortFilter(type: type)
     }
     
-    func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
         requestInitialProducts(store: store, filterList: filterList)
     }
     

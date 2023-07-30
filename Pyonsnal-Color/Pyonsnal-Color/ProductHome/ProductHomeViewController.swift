@@ -16,7 +16,7 @@ protocol ProductHomePresentableListener: AnyObject {
     func didSelect(with brandProduct: ProductConvertable?)
     func didSelectFilter(ofType filterEntity: FilterEntity?)
     func didTapRefreshFilterCell(with store: ConvenienceStore)
-    func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String])
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String])
 }
 
 final class ProductHomeViewController:
@@ -105,12 +105,12 @@ final class ProductHomeViewController:
     private func applyFilterSnapshot(with filters: FilterDataEntity?) {
         guard let filters else { return }
         guard var snapshot = dataSource?.snapshot() else { return }
-        // TO DO : filter section delete 하지 않고 적용하는 방법 
-        snapshot.deleteSections([.filter])
         
         // append filter
         if !filters.data.isEmpty {
-            snapshot.appendSections([.filter])
+            if !snapshot.sectionIdentifiers.contains(.filter) {
+                snapshot.appendSections([.filter])
+            }
             guard let filters = initializeFilterState(with: filters) else { return }
             
             if needToShowRefreshCell() {
@@ -255,8 +255,26 @@ final class ProductHomeViewController:
 
     func updateFilterItems(with items: [FilterItemEntity]) {
         // TODO: 추가된 필터들 적용
+        // KeywordFilterCell 추가
         guard let listViewController = currentListViewController() else { return }
         listViewController.applyKeywordFilterSnapshot(with: items)
+        let store = listViewController.convenienceStore
+        
+        // filterList에 대해 request
+        let filterList = items.map { String($0.code) }
+        listViewController.appendFilterList(with: filterList)
+        
+        let updatedFilterList = listViewController.getFilterList()
+        listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
+        
+        // 해당 filterItems isSelected 값 변경
+        items.map { item in
+            listViewController.updateFilterState(with: item, isSelected: item.isSelected)
+        }
+        
+        guard let filterDataEntity = listViewController.getFilterDataEntity() else { return }
+        applyFilterSnapshot(with: filterDataEntity)
+        
         print(items)
     }
     
@@ -391,17 +409,17 @@ extension ProductHomeViewController: ProductListDelegate {
         requestProducts(store: store)
     }
     
-    func updateFilterState(with filter: FilterItemEntity) {
+    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
         // filter isSelected 값 변경
         guard let listViewController = currentListViewController() else {
             return
         }
-        listViewController.updateFilterState(with: filter)
+        listViewController.updateFilterState(with: filter, isSelected: isSelected)
         let filterDataEntity = listViewController.getFilterDataEntity()
         applyFilterSnapshot(with: filterDataEntity)
         
         // TO DO : filterList 전달
-        listener?.deleteKeywordFilter(with: listViewController.convenienceStore, filterList: [])
+        listener?.requestwithUpdatedKeywordFilter(with: listViewController.convenienceStore, filterList: [])
     }
     
     func didLoadPageList(store: ConvenienceStore) {

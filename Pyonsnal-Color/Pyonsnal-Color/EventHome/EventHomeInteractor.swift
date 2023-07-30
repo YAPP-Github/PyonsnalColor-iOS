@@ -176,7 +176,7 @@ final class EventHomeInteractor:
         requestProductWithBanners(store: store, filterList: [])
     }
     
-    func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
         requestProductWithBanners(store: store, filterList: filterList)
     }
 }

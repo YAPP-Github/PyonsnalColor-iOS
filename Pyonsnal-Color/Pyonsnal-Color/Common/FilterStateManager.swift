@@ -10,6 +10,8 @@ import Foundation
 final class FilterStateManager {
     private var filterDataEntity: FilterDataEntity
     private let latestSortFilterName = "최신순"
+    var filterList = Set<String>()
+    
     init(filterDataEntity: FilterDataEntity) {
         self.filterDataEntity = filterDataEntity
     }
@@ -124,4 +126,17 @@ final class FilterStateManager {
         Log.d(message: "filterDataEntity \(filterDataEntity)")
     }
     
+    func appendFilterList(filters: [String]) {
+        filters.forEach { filter in
+            filterList.insert(filter)
+        }
+    }
+    
+    func deleteFilterList(filterCode: String) {
+        filterList.remove(filterCode)
+    }
+    
+    func getFilterList() -> [String] {
+        return Array(filterList)
+    }
 }

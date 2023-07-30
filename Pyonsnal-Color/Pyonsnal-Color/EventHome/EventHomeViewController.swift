@@ -18,7 +18,7 @@ protocol EventHomePresentableListener: AnyObject {
     func didSelect(with brandProduct: ProductConvertable)
     func didSelectFilter(of filter: FilterEntity?)
     func didTapRefreshFilterCell(with store: ConvenienceStore)
-    func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String])
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String])
 }
 
 final class EventHomeViewController: UIViewController,
@@ -133,12 +133,12 @@ final class EventHomeViewController: UIViewController,
     private func applyFilterSnapshot(with filters: FilterDataEntity?) {
         guard let filters else { return }
         guard var snapshot = dataSource?.snapshot() else { return }
-        // TO DO : filter section delete 하지 않고 적용하는 방법
-        snapshot.deleteSections([.filter])
         
         // append filter
         if !filters.data.isEmpty {
-            snapshot.appendSections([.filter])
+            if !snapshot.sectionIdentifiers.contains(.filter) {
+                snapshot.appendSections([.filter])
+            }
             guard let filters = initializeFilterState(with: filters) else { return }
             
             if needToShowRefreshCell() {
@@ -253,10 +253,26 @@ final class EventHomeViewController: UIViewController,
         guard let tabViewController = currentTabViewController() else { return false }
         return tabViewController.needToShowRefreshCell()
     }
+    
     func updateFilterItems(with items: [FilterItemEntity]) {
-        // TODO: 추가된 필터들 적용
+        // KeywordFilterCell 추가
         guard let tabViewController = currentTabViewController() else { return }
+        let store = tabViewController.convenienceStore
         tabViewController.applyKeywordFilterSnapshot(with: items)
+        
+        // filterList에 대해 request
+        let filterList = items.map { String($0.code) }
+        tabViewController.appendFilterList(with: filterList)
+        
+        let updatedFilterList = tabViewController.getFilterList()
+        listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
+        
+        // 해당 filterItems isSelected 값 변경
+        items.map { item in
+            tabViewController.updateFilterState(with: item, isSelected: item.isSelected)
+        }
+        guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
+        applyFilterSnapshot(with: filterDataEntity)
 
         print(items)
     }
@@ -402,15 +418,18 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         listener?.didChangeStore(to: store)
     }
     
-    func updateFilterState(with filter: FilterItemEntity) {
+    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
         // filter isSelected 값 변경
         guard let tabViewController = currentTabViewController() else { return }
-        tabViewController.updateFilterState(with: filter)
+        tabViewController.updateFilterState(with: filter, isSelected: isSelected)
         guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
         
         // TO DO : filterList 전달
-        listener?.deleteKeywordFilter(with: tabViewController.convenienceStore, filterList: [])
+        listener?.requestwithUpdatedKeywordFilter(
+            with: tabViewController.convenienceStore,
+            filterList: []
+        )
     }
 }
 
