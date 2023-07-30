@@ -42,6 +42,8 @@ final class ProductListViewController: UIViewController {
     private let refreshControl: UIRefreshControl = .init()
     let convenienceStore: ConvenienceStore
     
+    private var filterStateManager: FilterStateManager?
+    
     // MARK: - View Component
     lazy var productCollectionView: UICollectionView = {
         let layout = createLayout()
@@ -60,6 +62,13 @@ final class ProductListViewController: UIViewController {
     }
     
     // MARK: - Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let filterDataEntity = filterStateManager?.getFilterDataEntity() {
+            delegate?.updateFilterUI(with: filterDataEntity)
+        }       
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,6 +91,10 @@ final class ProductListViewController: UIViewController {
             bottom: 0,
             right: 0
         )
+    }
+    
+    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
+        filterStateManager = FilterStateManager(filterDataEntity: filterDataEntity)
     }
     
     // MARK: - Private Method

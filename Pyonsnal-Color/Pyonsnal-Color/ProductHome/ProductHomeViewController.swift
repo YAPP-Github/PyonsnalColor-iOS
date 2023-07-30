@@ -17,6 +17,7 @@ protocol ProductHomePresentableListener: AnyObject {
     func didSelectFilter(ofType filterEntity: FilterEntity?)
     func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity?
     func didTapRefreshFilterCell(with store: ConvenienceStore)
+    func getFilterDataEntity(with store: ConvenienceStore) -> FilterDataEntity?
 }
 
 final class ProductHomeViewController:
@@ -198,14 +199,6 @@ final class ProductHomeViewController:
             }
     }
     
-    private func setSelectedConvenienceStoreCell(with page: Int) {
-        viewHolder.collectionView.selectItem(
-            at: IndexPath(item: page, section: 0),
-            animated: true,
-            scrollPosition: .centeredHorizontally
-        )
-    }
-    
     private func requestProducts(store: ConvenienceStore) {
         listener?.didChangeStore(to: store)
     }
@@ -250,6 +243,7 @@ final class ProductHomeViewController:
     
     func updateFilter(with filters: FilterDataEntity) {
         applyFilterSnapshot(with: filters)
+        viewHolder.productHomePageViewController.setFilterStateManager(with: filters)
     }
     
     func didFinishPaging() {
@@ -382,12 +376,18 @@ extension ProductHomeViewController: UICollectionViewDelegate {
 extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     func didFinishPageTransition(index: Int) {
         currentPage = index
-        setSelectedConvenienceStoreCell(with: currentPage)
+        let indexPath = IndexPath(item: index, section: 0)
+        setSelectedConvenienceStoreCell(with: indexPath)
     }
 }
 
 // MARK: - ProductListDelegate
 extension ProductHomeViewController: ProductListDelegate {
+    func updateFilterUI(with filterDataEntity: FilterDataEntity) {
+        applyFilterSnapshot(with: filterDataEntity)
+        Log.d(message: "updateFilterUI \(filterDataEntity.data)")
+    }
+    
     func refreshFilterButton() {
         let store = ConvenienceStore.allCases[currentPage]
         requestProducts(store: store)
@@ -399,6 +399,8 @@ extension ProductHomeViewController: ProductListDelegate {
     }
     
     func didLoadPageList(store: ConvenienceStore) {
+        let filterEntity = listener?.getFilterDataEntity(with: store)
+        applyFilterSnapshot(with: filterEntity)
         requestProducts(store: store)
     }
     

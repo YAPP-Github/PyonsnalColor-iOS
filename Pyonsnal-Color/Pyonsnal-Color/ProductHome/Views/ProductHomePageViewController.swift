@@ -37,6 +37,14 @@ final class ProductHomePageViewController: UIPageViewController {
         }
     }
     
+    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
+        productListViewControllers.forEach { listViewController in
+            if let viewController = listViewController as? ProductListViewController {
+                viewController.setFilterStateManager(with: filterDataEntity)
+            }
+        }
+    }
+    
     private func configureViewController() {
         view.backgroundColor = .gray100
         view.translatesAutoresizingMaskIntoConstraints = false

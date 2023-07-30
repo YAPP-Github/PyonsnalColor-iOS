@@ -127,6 +127,10 @@ final class ProductHomeInteractor:
         }
     }
     
+    func getFilterDataEntity(with store: ConvenienceStore) -> FilterDataEntity? {
+        return filterDataEntity[store]
+    }
+    
     func needToShowRefreshCell() -> Bool {
         return false
     }

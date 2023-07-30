@@ -58,6 +58,7 @@ final class EventHomeTabViewController: UIViewController {
     private var lastContentOffSetY: CGFloat = 0
     
     let convenienceStore: ConvenienceStore
+    private var filterStateManager: FilterStateManager?
     
     // MARK: - Initializer
     init(convenienceStore: ConvenienceStore) {
@@ -70,6 +71,13 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     // MARK: - View life cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let filterDataEntity = filterStateManager?.getFilterDataEntity() {
+            listDelegate?.updateFilterUI(with: filterDataEntity)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -102,6 +110,10 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
+        filterStateManager = FilterStateManager(filterDataEntity: filterDataEntity)
     }
     
     private func configureCollectionView() {

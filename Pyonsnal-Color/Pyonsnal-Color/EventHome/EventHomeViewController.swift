@@ -244,6 +244,7 @@ final class EventHomeViewController: UIViewController,
     
     func updateFilter(with filters: FilterDataEntity) {
         applyFilterSnapshot(with: filters)
+        viewHolder.pageViewController.setFilterStateManager(with: filters)
     }
     
     func didFinishPaging() {
@@ -349,7 +350,8 @@ extension EventHomeViewController {
                 $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
                 $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
-                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.Filter.height
+                let height = TopCommonSectionLayout.ConvenienceStore.height
+                + TopCommonSectionLayout.Filter.height
                 $0.height.equalTo(height)
             }
             
@@ -374,7 +376,11 @@ extension EventHomeViewController {
 
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
-
+    func updateFilterUI(with filterDataEntity: FilterDataEntity) {
+        applyFilterSnapshot(with: filterDataEntity)
+        Log.d(message: "\(filterDataEntity)")
+    }
+    
     func didSelect(with brandProduct: ProductConvertable) {
         listener?.didSelect(with: brandProduct)
     }

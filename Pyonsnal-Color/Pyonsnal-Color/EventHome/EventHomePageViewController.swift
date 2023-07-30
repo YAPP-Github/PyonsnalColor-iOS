@@ -14,6 +14,7 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
     func didSelect(with brandProduct: ProductConvertable)
     
     func updateFilterState(with filter: FilterItemEntity)
+    func updateFilterUI(with filterDataEntity: FilterDataEntity)
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -49,6 +50,12 @@ final class EventHomePageViewController: UIPageViewController {
             setViewControllers([firstViewController],
                                direction: .forward,
                                animated: true)
+        }
+    }
+    
+    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
+        pageViewControllers.forEach { tabViewController in
+            tabViewController.setFilterStateManager(with: filterDataEntity)
         }
     }
     
@@ -140,6 +147,10 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
 }
 
 extension EventHomePageViewController: ProductListDelegate {
+    func updateFilterUI(with filterDataEntity: FilterDataEntity) {
+        pageDelegate?.updateFilterUI(with: filterDataEntity)
+    }
+    
     func didLoadPageList(store: ConvenienceStore) {
         pageDelegate?.didChangeStore(to: store)
     }
