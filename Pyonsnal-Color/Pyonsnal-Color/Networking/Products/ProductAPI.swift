@@ -26,7 +26,8 @@ enum ProductAPI: NetworkRequestBuilder {
     case search(
         pageNumber: Int,
         pageSize: Int,
-        name: String
+        name: String,
+        sortedCode: Int?
     )
     case curationProduct
     case filter
@@ -87,10 +88,13 @@ extension ProductAPI {
             queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType.rawValue)"))
         case let .eventBanner(storeType):
             queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType.rawValue)"))
-        case let .search(pageNumber, pageSize, name):
+        case let .search(pageNumber, pageSize, name, sortedCode):
             queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
             queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
             queryItems.append(URLQueryItem(name: "name", value: "\(name)"))
+            if let sortedCode {
+                queryItems.append(URLQueryItem(name: "sortedCode", value: "\(sortedCode)"))
+            }
         case .curationProduct:
             break
         case .filter:
