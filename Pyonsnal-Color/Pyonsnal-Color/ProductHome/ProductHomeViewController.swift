@@ -14,6 +14,7 @@ protocol ProductHomePresentableListener: AnyObject {
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
+    func didSelectFilter(ofType filterEntity: FilterEntity?)
 }
 
 final class ProductHomeViewController:
@@ -80,8 +81,10 @@ final class ProductHomeViewController:
                     let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
                     return cell
                 case .category:
+                    guard let title = filterItem.filter?.defaultText else { return nil }
+                    
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                    cell.configure(with: filterItem.defaultText, filterItem: [])
+                    cell.configure(with: title, filterItem: [])
                     return cell
                 }
             }
@@ -117,15 +120,8 @@ final class ProductHomeViewController:
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func setSortFilterDefaultText() {
-        FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
-    }
-    
     func makeFilterCellItem() -> [FilterCellItem] {
-        setSortFilterDefaultText()
-        return FilterDummy.data.data.map { $0.defaultText }.map { defaultText in
-            FilterCellItem(defaultText: defaultText)
-        }
+        return FilterDummy.data.data.map { FilterCellItem(filter: $0) }
     }
     
     private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
@@ -235,6 +231,26 @@ final class ProductHomeViewController:
     func didFinishPaging() {
         isPaging = false
     }
+    
+    func updateFilterItems(with items: [FilterItemEntity]) {
+        // TODO: 추가된 필터들 적용
+        print(items)
+    }
+    
+    func updateSortFilter(type: FilterItemEntity) {
+        guard var snapshot = dataSource?.snapshot(for: .filter) else { return }
+        let sortFilterIndex = 1, resetButtonIndex = 0
+        let currentItem = snapshot.items[sortFilterIndex]
+        let beforeItem = snapshot.items[resetButtonIndex]
+        
+        if case var .filter(item) = currentItem {
+            item.filter?.defaultText = type.name
+            snapshot.delete([currentItem])
+            snapshot.insert([.filter(filterItem: item)], after: beforeItem)
+            
+            dataSource?.apply(snapshot, to: .filter)
+        }
+    }
 }
 
 // MARK: - TitleNavigationViewDelegate {
@@ -315,12 +331,19 @@ extension ProductHomeViewController: UIScrollViewDelegate {
 extension ProductHomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == viewHolder.collectionView {
-            currentPage = indexPath.item
-            viewHolder.productHomePageViewController.updatePage(to: currentPage)
-        } else {
+            guard let selectedItem = dataSource?.itemIdentifier(for: indexPath) else { return }
             
+            switch selectedItem {
+            case .convenienceStore:
+                currentPage = indexPath.item
+                viewHolder.productHomePageViewController.updatePage(to: currentPage)
+            case .filter(let filterItem):
+                listener?.didSelectFilter(ofType: filterItem.filter)
+            }
+        } else {
             guard let productListViewController =  viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
             let selectedItem = productListViewController.dataSource?.itemIdentifier(for: indexPath) else { return }
+            
             switch selectedItem {
             case .keywordFilter(let keywordFilter):
                 print("TO DO")

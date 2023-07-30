@@ -15,6 +15,8 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachNotificationList()
     func attachProductDetail(with brandProduct: ProductConvertable)
     func detachProductDetail()
+    func attachProductFilter(of filter: FilterEntity)
+    func detachProductFilter()
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -23,6 +25,8 @@ protocol ProductHomePresentable: Presentable {
     func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]])
     func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore)
     func didFinishPaging()
+    func updateFilterItems(with items: [FilterItemEntity])
+    func updateSortFilter(type: FilterItemEntity)
 }
 
 protocol ProductHomeListener: AnyObject {
@@ -43,6 +47,7 @@ final class ProductHomeInteractor:
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
     private var brandProducts: [ConvenienceStore: [BrandProductEntity]] = [:]
+    private var filterEntity: [FilterEntity] = []
 
     init(
         presenter: ProductHomePresentable,
@@ -130,5 +135,27 @@ final class ProductHomeInteractor:
     
     func didChangeStore(to store: ConvenienceStore) {
         requestInitialProducts(store: store)
+    }
+    
+    func didSelectFilter(ofType filterEntity: FilterEntity?) {
+        guard let filterEntity else { return }
+        
+        router?.attachProductFilter(of: filterEntity)
+    }
+    
+    func productFilterDidTapCloseButton() {
+        router?.detachProductFilter()
+    }
+    
+    func applyFilterItems(_ items: [FilterItemEntity]) {
+        // TODO: 적용된 필터로 상품 목록 조회하기
+        router?.detachProductFilter()
+        presenter.updateFilterItems(with: items)
+    }
+    
+    func applySortFilter(type: FilterItemEntity) {
+        // TODO: 적용된 필터로 상품 목록 조회하기
+        router?.detachProductFilter()
+        presenter.updateSortFilter(type: type)
     }
 }

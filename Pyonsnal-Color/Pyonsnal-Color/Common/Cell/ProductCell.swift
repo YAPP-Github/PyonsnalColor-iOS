@@ -108,7 +108,7 @@ final class ProductCell: UICollectionViewCell {
         
         let eventTagLabel: UILabel = {
             let label = UILabel()
-            label.makeRounded(with: Spacing.spacing20.value)
+            label.makeRounded(with: .spacing20)
             label.backgroundColor = .green500
             label.font = .body4m
             label.textColor = .white

@@ -15,6 +15,8 @@ protocol EventHomeRouting: ViewableRouting {
     func detachEventDetail()
     func attachProductDetail(with brandProduct: ProductConvertable)
     func detachProductDetail()
+    func attachProductFilter(of filter: FilterEntity)
+    func detachProductFilter()
 }
 
 protocol EventHomePresentable: Presentable {
@@ -23,6 +25,8 @@ protocol EventHomePresentable: Presentable {
     func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore)
     func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore)
     func didFinishPaging()
+    func updateFilterItems(with items: [FilterItemEntity])
+    func updateSortFilter(type: FilterItemEntity)
 }
 
 protocol EventHomeListener: AnyObject {
@@ -135,5 +139,27 @@ final class EventHomeInteractor:
         if let lastPage = storeLastPages[store] {
             requestProducts(pageNumber: lastPage + 1, store: store)
         }
+    }
+    
+    func didSelectFilter(of filter: FilterEntity?) {
+        guard let filter else { return }
+        
+        router?.attachProductFilter(of: filter)
+    }
+    
+    func productFilterDidTapCloseButton() {
+        router?.detachProductFilter()
+    }
+    
+    func applyFilterItems(_ items: [FilterItemEntity]) {
+        // TODO: 적용된 필터로 상품 목록 조회하기
+        router?.detachProductFilter()
+        presenter.updateFilterItems(with: items)
+    }
+    
+    func applySortFilter(type: FilterItemEntity) {
+        // TODO: 적용된 필터로 상품 목록 조회하기
+        router?.detachProductFilter()
+        presenter.updateSortFilter(type: type)
     }
 }

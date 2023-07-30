@@ -10,7 +10,8 @@ import ModernRIBs
 protocol EventHomeInteractable: Interactable,
                                 ProductSearchListener,
                                 EventDetailListener,
-                                ProductDetailListener {
+                                ProductDetailListener,
+                                ProductFilterListener {
     var router: EventHomeRouting? { get set }
     var listener: EventHomeListener? { get set }
 }
@@ -25,21 +26,25 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
     private let productSearch: ProductSearchBuildable
     private let eventDetailBuilder: EventDetailBuilder
     private let productDetail: ProductDetailBuildable
+    private let productFilter: ProductFilterBuildable
     
     private var productSearchRouting: ProductSearchRouting?
     private var eventDetailRouting: ViewableRouting?
     private var productDetailRouting: ProductDetailRouting?
+    private var productFilterRouting: ProductFilterRouting?
 
     init(
         interactor: EventHomeInteractable,
         viewController: EventHomeViewControllable,
         productSearch: ProductSearchBuildable,
         eventDetailBuilder: EventDetailBuilder,
-        productDetail: ProductDetailBuildable
+        productDetail: ProductDetailBuildable,
+        productFilter: ProductFilterBuildable
     ) {
         self.productSearch = productSearch
         self.eventDetailBuilder = eventDetailBuilder
         self.productDetail = productDetail
+        self.productFilter = productFilter
         super.init(interactor: interactor,
                    viewController: viewController)
         interactor.router = self
@@ -106,5 +111,29 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         viewController.popViewController(animated: true)
         self.productDetailRouting = nil
         detachChild(productDetailRouting)
+    }
+    
+    func attachProductFilter(of filter: FilterEntity) {
+        guard productFilterRouting == nil else { return }
+        
+        let productFilterRouter = productFilter.build(
+            withListener: interactor,
+            filterEntity: filter
+        )
+        let productFilterViewController = productFilterRouter.viewControllable.uiviewController
+        productFilterViewController.modalPresentationStyle = .overFullScreen
+        productFilterRouting = productFilterRouter
+        attachChild(productFilterRouter)
+        viewControllable.uiviewController.present(
+            productFilterViewController,
+            animated: true
+        )
+    }
+    
+    func detachProductFilter() {
+        guard let productFilterRouting else { return }
+        viewController.uiviewController.dismiss(animated: true)
+        self.productFilterRouting = nil
+        detachChild(productFilterRouting)
     }
 }

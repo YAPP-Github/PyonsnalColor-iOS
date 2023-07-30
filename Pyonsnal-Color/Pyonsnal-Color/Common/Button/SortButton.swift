@@ -25,6 +25,7 @@ final class SortButton: UIButton {
     
     // MARK: - Private method
     private func configureUI() {
+        self.isEnabled = false
         self.titleLabel?.font = .body3m
         self.makeRounded(with: .spacing4)
         self.makeBorder(width: Size.borderWidth,

@@ -12,9 +12,10 @@ protocol ProductHomeDependency: Dependency {
 }
 
 final class ProductHomeComponent: Component<ProductHomeDependency>,
-                                    ProductSearchDependency,
-                                    NotificationListDependency,
-                                  ProductDetailDependency {
+                                  ProductSearchDependency,
+                                  NotificationListDependency,
+                                  ProductDetailDependency,
+                                  ProductFilterDependency {
     let productAPIService: ProductAPIService
     
     override init(dependency: ProductHomeDependency) {
@@ -46,6 +47,7 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         let productSearch: ProductSearchBuilder = .init(dependency: component)
         let notificationList: NotificationListBuilder = .init(dependency: component)
         let productDetail: ProductDetailBuilder = .init(dependency: component)
+        let productFilter: ProductFilterBuilder = .init(dependency: component)
         
         interactor.listener = listener
         return ProductHomeRouter(
@@ -53,7 +55,8 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
             viewController: viewController,
             productSearch: productSearch,
             notificationList: notificationList,
-            productDetail: productDetail
+            productDetail: productDetail,
+            productFilter: productFilter
         )
     }
 }

@@ -11,11 +11,11 @@ struct FilterDataEntity: Decodable {
     let data: [FilterEntity]
 }
 
-class FilterEntity: Decodable {
+struct FilterEntity: Decodable {
     let filterType: FilterType
     var defaultText: String? // 카테고리에 보여질 이름
     var isSelected: Bool = false
-    let filterItem: [FilterItemEntity]
+    var filterItem: [FilterItemEntity]
     
     init(filterType: FilterType, defaultText: String?, filterItem: [FilterItemEntity]) {
         self.filterType = filterType
@@ -24,10 +24,29 @@ class FilterEntity: Decodable {
     }
 }
 
-struct FilterItemEntity: Decodable {
+extension FilterEntity: Hashable {
+    static func == (lhs: FilterEntity, rhs: FilterEntity) -> Bool {
+        return lhs.filterItem == rhs.filterItem
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(filterItem)
+    }
+}
+
+struct FilterItemEntity: Decodable, Hashable {
     let name: String
     let code: Int
     var isSelected = false
+
+    enum CodingKeys: String, CodingKey {
+        case name, code
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(code)
+    }
 }
 
 struct FilterDummy {
@@ -45,13 +64,13 @@ struct FilterDummy {
                 filterType: .event,
                 defaultText: "행사",
                 filterItem: [
-                    FilterItemEntity(name: "1+1", code: 4),
-                    FilterItemEntity(name: "2+1", code: 5),
+                    FilterItemEntity(name: "1+1", code: 4, isSelected: true),
+                    FilterItemEntity(name: "2+1", code: 5, isSelected: true),
                     FilterItemEntity(name: "할인", code: 6),
                     FilterItemEntity(name: "증정", code: 7)
                 ]),
             FilterEntity(
-                filterType: .event,
+                filterType: .category,
                 defaultText: "카테고리",
                 filterItem: [
                     FilterItemEntity(name: "음료", code: 4),
@@ -62,7 +81,7 @@ struct FilterDummy {
                     FilterItemEntity(name: "베이커리", code: 7)
                 ]),
             FilterEntity(
-                filterType: .event,
+                filterType: .recommend,
                 defaultText: "상품 추천",
                 filterItem: [
                     FilterItemEntity(name: "다이어트", code: 8),
