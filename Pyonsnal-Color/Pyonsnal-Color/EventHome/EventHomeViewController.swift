@@ -139,7 +139,7 @@ final class EventHomeViewController: UIViewController,
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            guard let filters = initializeSortFilterState(with: filters) else { return }
+            guard let filters = initializeFilterState(with: filters) else { return }
             
             if needToShowRefreshCell() {
                 let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
@@ -156,9 +156,9 @@ final class EventHomeViewController: UIViewController,
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func initializeSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
+    private func initializeFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
         guard let currentTabViewController = currentTabViewController() else { return nil }
-        currentTabViewController.initializeSortFilterState()
+        currentTabViewController.initializeFilterState()
         return currentTabViewController.getFilterDataEntity()
     }
     

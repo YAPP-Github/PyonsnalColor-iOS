@@ -73,17 +73,6 @@ final class FilterStateManager {
         }
     }
     
-    /// sortFilter의 defaultText 값을 설정합니다.
-    func setSortFilterDefaultText() {
-        filterDataEntity.data.forEach {
-            var filters = $0
-            if filters.filterType == .sort {
-                filters.defaultText = filters.filterType.filterDefaultText
-            }
-        }
-        
-    }
-    
     /// sort defaultText를 선택된 filter name으로 업데이트 합니다.
     func updateSortDefaultText() {
         let sortFilters = filterDataEntity.data.first { $0.filterType == .sort }
@@ -120,12 +109,19 @@ final class FilterStateManager {
             .first(where: { $0.name == latestSortFilterName })
         let isLatestSortFilterSelected = isLatestSortFilter?.isSelected == true
         
-        Log.d(message: "최신순 \(isLatestSortFilterSelected)")
-        
         let filterItems = filterDataEntity.data.filter { $0.filterType != .sort }
         let isLastItemNotSelected = filterItems.allSatisfy { $0.isSelected == false }
         
         return isLatestSortFilterSelected && isLastItemNotSelected
+    }
+    
+    /// filter의 defaultText를 업데이트 합니다.
+    func setFilterDefatultText() {
+        for index in 0..<filterDataEntity.data.count {
+            let defaultText = filterDataEntity.data[index].filterType.filterDefaultText
+            filterDataEntity.data[index].defaultText = defaultText
+        }
+        Log.d(message: "filterDataEntity \(filterDataEntity)")
     }
     
 }

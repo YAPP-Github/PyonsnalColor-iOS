@@ -111,7 +111,7 @@ final class ProductHomeViewController:
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            guard let filters = initializeSortFilterState(with: filters) else { return }
+            guard let filters = initializeFilterState(with: filters) else { return }
             
             if needToShowRefreshCell() {
                 let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
@@ -127,9 +127,9 @@ final class ProductHomeViewController:
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func initializeSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
+    private func initializeFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
         guard let currentListViewController = currentListViewController() else { return nil }
-        currentListViewController.initializeSortFilterState()
+        currentListViewController.initializeFilterState()
         return currentListViewController.getFilterDataEntity()
     }
     

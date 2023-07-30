@@ -281,9 +281,9 @@ extension ProductListViewController {
         return !isFilterDataResetState
     }
     
-    func initializeSortFilterState() {
-        filterStateManager?.setSortFilterDefaultText()
+    func initializeFilterState() {
         filterStateManager?.setLastSortFilterSelected()
+        filterStateManager?.setFilterDefatultText()
     }
     
     func getFilterDataEntity() -> FilterDataEntity? {
