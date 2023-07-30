@@ -181,10 +181,10 @@
 		F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */; };
 		F0C582C32A55E83400DAD387 /* TermsOfUseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */; };
 		F0C582C42A55E83400DAD387 /* TermsOfUseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */; };
-		F0C698652A6BA9B00019C677 /* CategoryFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C698642A6BA9B00019C677 /* CategoryFilterCell.swift */; };
-		F0C6986A2A6BB1000019C677 /* ImageAsset+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C698692A6BB1000019C677 /* ImageAsset+Filter.swift */; };
 		F0C6985F2A6ABDDD0019C677 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6985E2A6ABDDD0019C677 /* Log.swift */; };
 		F0C698632A6ABE5B0019C677 /* OSLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C698612A6ABE2D0019C677 /* OSLog.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		F0C698652A6BA9B00019C677 /* CategoryFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C698642A6BA9B00019C677 /* CategoryFilterCell.swift */; };
+		F0C6986A2A6BB1000019C677 /* ImageAsset+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C698692A6BB1000019C677 /* ImageAsset+Filter.swift */; };
 		F0C6986C2A6BB5690019C677 /* SortButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6986B2A6BB5690019C677 /* SortButton.swift */; };
 		F0C6986E2A6BB57B0019C677 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6986D2A6BB57B0019C677 /* FilterButton.swift */; };
 		F0C698702A6C24630019C677 /* FilterEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C6986F2A6C24630019C677 /* FilterEntity.swift */; };
@@ -379,10 +379,10 @@
 		F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
 		F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseBuilder.swift; sourceTree = "<group>"; };
 		F0C582C02A55E83400DAD387 /* TermsOfUseInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseInteractor.swift; sourceTree = "<group>"; };
-		F0C698642A6BA9B00019C677 /* CategoryFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFilterCell.swift; sourceTree = "<group>"; };
-		F0C698692A6BB1000019C677 /* ImageAsset+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAsset+Filter.swift"; sourceTree = "<group>"; };
 		F0C6985E2A6ABDDD0019C677 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F0C698612A6ABE2D0019C677 /* OSLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSLog.framework; path = System/Library/Frameworks/OSLog.framework; sourceTree = SDKROOT; };
+		F0C698642A6BA9B00019C677 /* CategoryFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFilterCell.swift; sourceTree = "<group>"; };
+		F0C698692A6BB1000019C677 /* ImageAsset+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAsset+Filter.swift"; sourceTree = "<group>"; };
 		F0C6986B2A6BB5690019C677 /* SortButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortButton.swift; sourceTree = "<group>"; };
 		F0C6986D2A6BB57B0019C677 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		F0C6986F2A6C24630019C677 /* FilterEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterEntity.swift; sourceTree = "<group>"; };
@@ -1007,7 +1007,6 @@
 			path = TermsOfUse;
 			sourceTree = "<group>";
 		};
-
 		F0C6985D2A6ABDCB0019C677 /* Log */ = {
 			isa = PBXGroup;
 			children = (
@@ -1022,7 +1021,8 @@
 				F0C698612A6ABE2D0019C677 /* OSLog.framework */,
 			);
 			name = Frameworks;
-        };
+			sourceTree = "<unknown>";
+		};
 		F0C698662A6BB02A0019C677 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1259,7 +1259,7 @@
 				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				B28A59152A6E991100431F39 /* CurationFooterView.swift in Sources */,
-				F01535432A45A69800A2A8F2 /* EventHomeSectionLayout.swift in Sources */,
+				F01535432A45A69800A2A8F2 /* CommonProductSectionLayout.swift in Sources */,
 				F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */,
 				BA7532E22A595B140002659A /* UserAuthService.swift in Sources */,
 				BA8924562A582EE700D1B097 /* NewTagBigView.swift in Sources */,
@@ -1539,7 +1539,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Pyonsnal-Color/Pyonsnal-Color.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
@@ -1554,7 +1554,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.yapp.22th.pyonsnalcolor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1573,7 +1573,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Pyonsnal-Color/Pyonsnal-Color.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P7PUGAUP8K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Pyonsnal-Color/Resource/Info.plist";
@@ -1588,7 +1588,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.yapp.22th.pyonsnalcolor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
