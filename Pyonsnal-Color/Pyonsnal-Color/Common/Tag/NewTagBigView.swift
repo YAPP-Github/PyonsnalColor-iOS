@@ -10,11 +10,9 @@ import SnapKit
 
 final class NewTagView: UIView {
     // MARK: - Declaration
-    enum Constant {
-        enum Size {
-            static let titleLabelWidth: CGFloat = 46
-            static let titleLabelHeight: CGFloat = 24
-        }
+    enum Size {
+        static let titleLabelWidth: CGFloat = 46
+        static let titleLabelHeight: CGFloat = 28
     }
     
     enum ViewMode {
@@ -62,8 +60,9 @@ final class NewTagView: UIView {
         
         if mode == .big {
             titleLabel.snp.makeConstraints { make in
-                make.leading.trailing.equalToSuperview().inset(.spacing8)
-                make.top.bottom.equalToSuperview().inset(.spacing2)
+                make.width.equalTo(Size.titleLabelWidth)
+                make.height.equalTo(Size.titleLabelHeight)
+                make.edges.equalToSuperview()
             }
         } else if mode == .small {
             titleLabel.snp.makeConstraints { make in
