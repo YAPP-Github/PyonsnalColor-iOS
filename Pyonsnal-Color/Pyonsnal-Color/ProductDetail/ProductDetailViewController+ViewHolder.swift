@@ -10,11 +10,6 @@ import SnapKit
 
 extension ProductDetailViewController {
     final class ViewHolder: ViewHolderable {
-        // MARK: - Declaration
-        enum Size {
-            static let productNameLabelHeight: CGFloat = 28
-            static let productPriceLabelHeight: CGFloat = 38
-        }
         // MARK: - UI Component
         private let contentView: UIView = {
             let view: UIView = .init(frame: .zero)
@@ -190,12 +185,12 @@ extension ProductDetailViewController {
             }
             
             productNameLabel.snp.makeConstraints { make in
-                make.height.equalTo(Size.productNameLabelHeight)
+                make.height.equalTo(productNameLabel.font.customLineHeight)
                 make.top.leading.trailing.equalToSuperview()
             }
             
             productPriceLabel.snp.makeConstraints { make in
-                make.height.equalTo(Size.productPriceLabelHeight)
+                make.height.equalTo(productPriceLabel.font.customLineHeight)
                 make.top.equalTo(productNameLabel.snp.bottom).offset(.spacing4)
                 make.leading.trailing.equalToSuperview()
             }
