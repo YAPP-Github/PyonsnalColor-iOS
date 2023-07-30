@@ -193,8 +193,8 @@ final class EventHomeViewController: UIViewController,
         tabBarItem.setTitleTextAttributes([.font: UIFont.label2], for: .normal)
         tabBarItem = UITabBarItem(
             title: TabBarItem.title,
-            image: ImageAssetKind.TabBar.saleUnselected.image,
-            selectedImage: ImageAssetKind.TabBar.saleSelected.image
+            image: ImageAssetKind.TabBar.eventUnselected.image,
+            selectedImage: ImageAssetKind.TabBar.eventSelected.image
         )
     }
     

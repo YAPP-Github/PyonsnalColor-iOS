@@ -17,13 +17,13 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
     var storeIconImage: ImageAssetKind.StoreIcon? {
         switch self {
         case .cu:
-            return ImageAssetKind.StoreIcon.iconCU
+            return ImageAssetKind.StoreIcon.cu
         case .gs25:
-            return ImageAssetKind.StoreIcon.iconGS
+            return ImageAssetKind.StoreIcon.gs25
         case .sevenEleven:
-            return ImageAssetKind.StoreIcon.icon7Eleven
+            return ImageAssetKind.StoreIcon.sevenEleven
         case .emart24:
-            return ImageAssetKind.StoreIcon.iconEmart24
+            return ImageAssetKind.StoreIcon.emart24
         case .all:
             return nil
         }
@@ -32,13 +32,13 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
     var storeTagImage: ImageAssetKind.StoreTag? {
         switch self {
         case .cu:
-            return ImageAssetKind.StoreTag.storeTagCU
+            return ImageAssetKind.StoreTag.cu
         case .gs25:
-            return ImageAssetKind.StoreTag.storeTagGS25
+            return ImageAssetKind.StoreTag.gs25
         case .sevenEleven:
-            return ImageAssetKind.StoreTag.storeTagSevenEleven
+            return ImageAssetKind.StoreTag.sevenEleven
         case .emart24:
-            return ImageAssetKind.StoreTag.storeTagEmart24
+            return ImageAssetKind.StoreTag.emart24
         case .all:
             return nil
         }
@@ -66,13 +66,13 @@ extension ConvenienceStore {
         case .all:
             return nil
         case .cu:
-            return .iconCU
+            return .cu
         case .gs25:
-            return .iconGS
+            return .gs25
         case .emart24:
-            return .iconEmart24
+            return .emart24
         case .sevenEleven:
-            return .icon7Eleven
+            return .sevenEleven
         }
     }
 }

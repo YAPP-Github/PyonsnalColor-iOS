@@ -13,8 +13,8 @@ extension ImageAssetKind {
         case homeUnselected = "icon_tab_home_unselected"
         case mySelected = "icon_tab_my_selected"
         case myUnselected = "icon_tab_my_unselected"
-        case saleSelected = "icon_tab_sale_selected"
-        case saleUnselected = "icon_tab_sale_unselected"
+        case eventSelected = "icon_tab_sale_selected"
+        case eventUnselected = "icon_tab_sale_unselected"
         
         var image: UIImage? {
             return .init(named: self.rawValue)
