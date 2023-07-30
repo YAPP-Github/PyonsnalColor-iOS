@@ -17,6 +17,11 @@ final class ProductDetailViewController:
     ProductDetailPresentable,
     ProductDetailViewControllable
 {
+    // MARK: - Declaration
+    enum Text {
+        static let updateLabelTextPrefix: String = "업데이트"
+    }
+    
     // MARK: - Interface
     weak var listener: ProductDetailPresentableListener?
     var product: ProductConvertable? {
@@ -48,10 +53,10 @@ final class ProductDetailViewController:
         )
         viewHolder.productImageView.setImage(with: product.imageURL)
         viewHolder.productTagListView.payload = .init(
-            isNew: product.isNew,
+            isNew: product.isNew ?? false,
             eventTags: product.eventType
         )
-        viewHolder.updateDateLabel.text = product.updatedTime
+        viewHolder.updateDateLabel.text = "\(Text.updateLabelTextPrefix) \(product.updatedTime)"
         viewHolder.productNameLabel.text = product.name
         viewHolder.productPriceLabel.text = product.price
         let description = product.description?

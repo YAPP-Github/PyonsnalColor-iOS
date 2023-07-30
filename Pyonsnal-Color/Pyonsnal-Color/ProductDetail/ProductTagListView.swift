@@ -63,6 +63,8 @@ final class ProductTagListView: UIView {
             let eventTagBig = EventTagBigView(payload: .init(eventTag: eventTag))
             labelStackView.addArrangedSubview(eventTagBig)
         }
+        
+        isHidden = labelStackView.subviews.isEmpty
 //        payload.eventTags.forEach {
 //            let eventTagBig = EventTagBigView(payload: .init(eventTag: $0))
 //            labelStackView.addArrangedSubview(eventTagBig)

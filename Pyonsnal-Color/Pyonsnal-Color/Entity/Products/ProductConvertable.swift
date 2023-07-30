@@ -15,6 +15,6 @@ protocol ProductConvertable: Decodable {
     var price: String { get }
     var description: String? { get }
     var eventType: EventTag? { get }
-    var isNew: Bool { get }
+    var isNew: Bool? { get }
 }
  

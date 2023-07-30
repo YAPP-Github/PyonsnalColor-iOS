@@ -231,7 +231,7 @@ final class ProductCell: UICollectionViewCell {
         }
         viewHolder.itemImageView.setImage(with: product.imageURL)
         viewHolder.originalPriceLabel.text = product.price.addWon()
-        viewHolder.newTagView.isHidden = !product.isNew
+        viewHolder.newTagView.isHidden = !(product.isNew ?? false)
         hasEventType(product.eventType)
     }
     

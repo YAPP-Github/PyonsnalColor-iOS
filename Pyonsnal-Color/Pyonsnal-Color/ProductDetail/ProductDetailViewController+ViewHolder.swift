@@ -185,10 +185,12 @@ extension ProductDetailViewController {
             }
             
             productNameLabel.snp.makeConstraints { make in
+                make.height.equalTo(productNameLabel.font.customLineHeight)
                 make.top.leading.trailing.equalToSuperview()
             }
             
             productPriceLabel.snp.makeConstraints { make in
+                make.height.equalTo(productPriceLabel.font.customLineHeight)
                 make.top.equalTo(productNameLabel.snp.bottom).offset(.spacing4)
                 make.leading.trailing.equalToSuperview()
             }

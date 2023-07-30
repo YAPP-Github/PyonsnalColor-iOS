@@ -18,7 +18,7 @@ struct EventProductEntity: Decodable, ProductConvertable, Hashable {
     let eventType: EventTag?
     let description: String?
     let giftItem: String?
-    let isNew: Bool
+    let isNew: Bool?
     
     private enum CodingKeys: String, CodingKey {
         case identifier = "id"
