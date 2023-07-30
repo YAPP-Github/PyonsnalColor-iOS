@@ -111,35 +111,24 @@ final class ProductHomeInteractor:
         dependency?.productAPIService.requestFilter()
             .sink { [weak self] response in
             if let filter = response.value {
+                self?.initializeFilterDataEntity(with: filter)
                 self?.presenter.updateFilter(with: filter)
             }
         }.store(in: &cancellable)
     }
     
-    func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity? {
-        filterDataEntity?.data.forEach { filters in
-            filters.filterItem.forEach {
-                var filterItem = $0
-                if filterItem.code == filter.code {
-                    filterItem = filter
-                }
-            }
+    func updateFilterSelectedState(with store: ConvenienceStore, filter: FilterItemEntity) -> FilterDataEntity? {
+        return filterDataEntity[store]
+    }
+    
+    func initializeFilterDataEntity(with filter: FilterDataEntity) {
+        ConvenienceStore.allCases.forEach { store in
+            filterDataEntity[store] = filter
         }
-        return filterDataEntity
     }
     
     func needToShowRefreshCell() -> Bool {
-        // sort를 제외한 나머지 filter에서 isSelected = true인 값이 있다면 return true
-        let filterItemEntities = filterDataEntity?.data.filter { $0.filterType != .sort }
-        guard let filterItemEntities else { return false }
-        var needToShowRefreshCell: Bool = false
-        filterItemEntities.forEach { filterItems in
-            let notAllSelected = filterItems.filterItem.allSatisfy({ $0.isSelected == false })
-            if !notAllSelected { // 선택 되어 있는게 한개라도 있다면
-                needToShowRefreshCell = true
-            }
-        }
-        return needToShowRefreshCell
+        return false
     }
     
     func didTapSearchButton() {

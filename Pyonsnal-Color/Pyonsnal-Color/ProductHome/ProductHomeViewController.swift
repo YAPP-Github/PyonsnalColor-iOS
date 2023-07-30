@@ -394,8 +394,8 @@ extension ProductHomeViewController: ProductListDelegate {
     }
     
     func updateFilterState(with filter: FilterItemEntity) {
-        let filterDataEntity = listener?.updateFilterSelectedState(with: filter)
-        applyFilterSnapshot(with: filterDataEntity)
+        // TO DO : filter 하나의 entity 상태 업데이트
+        // applyFilterSnapshot(with: filterDataEntity)
     }
     
     func didLoadPageList(store: ConvenienceStore) {
