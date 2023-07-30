@@ -17,7 +17,6 @@ protocol ProductHomePresentableListener: AnyObject {
     func didSelectFilter(ofType filterEntity: FilterEntity?)
     func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity?
     func didTapRefreshFilterCell(with store: ConvenienceStore)
-    func getFilterDataEntity(with store: ConvenienceStore) -> FilterDataEntity?
 }
 
 final class ProductHomeViewController:
@@ -394,13 +393,15 @@ extension ProductHomeViewController: ProductListDelegate {
     }
     
     func updateFilterState(with filter: FilterItemEntity) {
-        // TO DO : filter 하나의 entity 상태 업데이트
-        // applyFilterSnapshot(with: filterDataEntity)
+        guard let listViewController = currentListViewController() else {
+            return
+        }
+        listViewController.updateFilterState(with: filter)
+        let filterDataEntity = listViewController.getFilterDataEntity()
+        applyFilterSnapshot(with: filterDataEntity)
     }
     
     func didLoadPageList(store: ConvenienceStore) {
-        let filterEntity = listener?.getFilterDataEntity(with: store)
-        applyFilterSnapshot(with: filterEntity)
         requestProducts(store: store)
     }
     

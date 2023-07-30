@@ -55,7 +55,6 @@ final class EventHomeViewController: UIViewController,
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
     private var isPaging: Bool = false
-    private var currentConvenienceStore: ConvenienceStore?
     
     // MARK: - Initializer
     init() {
@@ -90,7 +89,6 @@ final class EventHomeViewController: UIViewController,
     private func loadFirstEventProducts() {
         if let firstConvenienceStore = ConvenienceStore.allCases
             .first(where: { $0.convenienceStoreCellName == convenienceStores.first }) {
-            self.currentConvenienceStore = firstConvenienceStore
             listener?.didLoadEventHome(with: firstConvenienceStore)
         }
     }
@@ -400,13 +398,14 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        self.currentConvenienceStore = store
         listener?.didChangeStore(to: store)
     }
     
     func updateFilterState(with filter: FilterItemEntity) {
-        // TO DO : filter 하나의 entity 상태 업데이트
-        // applyFilterSnapshot(with: filterDataEntity)
+        guard let tabViewController = currentTabViewController() else { return }
+        tabViewController.updateFilterState(with: filter)
+        guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
+        applyFilterSnapshot(with: filterDataEntity)
     }
 }
 
@@ -516,14 +515,13 @@ extension EventHomeViewController: ScrollDelegate {
 // MARK: - ProductPresentable
 extension EventHomeViewController: ProductPresentable {
     func didTabRootTabBar() {
-        guard let viewController = viewHolder.pageViewController.viewControllers?.first,
-              let productListViewController = viewController as? EventHomeTabViewController
-        else {
+        guard let tabViewController = currentTabViewController() else {
             return
         }
         
-        productListViewController.scrollCollectionViewToTop()
+        tabViewController.scrollCollectionViewToTop()
     }
+
 }
 
 // MARK: - RefreshFilterCellDelegate

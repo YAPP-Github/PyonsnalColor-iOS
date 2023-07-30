@@ -47,7 +47,6 @@ final class EventHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
-    private var filterDataEntity: [ConvenienceStore: FilterDataEntity] = [:]
     
     init(
         presenter: EventHomePresentable,
@@ -107,7 +106,6 @@ final class EventHomeInteractor:
         dependency?.productAPIService.requestFilter()
             .sink { [weak self] response in
                 if let filter = response.value {
-                    self?.initializeFilterDataEntity(with: filter)
                     self?.presenter.updateFilter(with: filter)
                 }
             }.store(in: &cancellable)

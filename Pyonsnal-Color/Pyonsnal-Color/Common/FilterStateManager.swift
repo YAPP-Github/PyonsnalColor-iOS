@@ -33,14 +33,15 @@ final class FilterStateManager {
         var targetFilterItem = filterItem
         targetFilterItem.isSelected = isSelected
         
-        filterDataEntity.data.forEach {
-            $0.filterItem.forEach {
-                var filterItem = $0
-                if filterItem.code == targetFilterItem.code {
-                    filterItem = targetFilterItem
+        for index in 0..<filterDataEntity.data.count {
+            for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
+                if filterDataEntity.data[index].filterItem[secondIndex].code == targetFilterItem.code {
+                    filterDataEntity.data[index].filterItem[secondIndex].isSelected = targetFilterItem.isSelected
+                    break
                 }
             }
         }
+        
         updateFilterDataState()
         Log.d(message: "filterDataEntity \(filterDataEntity)")
     }
@@ -65,6 +66,7 @@ final class FilterStateManager {
                 for (index, _) in filterDataEntity.data[firstIndex].filterItem.enumerated() {
                     if filterDataEntity.data[firstIndex].filterItem[index].name == latestSortFilterName {
                         filterDataEntity.data[firstIndex].filterItem[index].isSelected = true
+                        break
                     }
                 }
             }

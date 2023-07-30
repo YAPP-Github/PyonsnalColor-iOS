@@ -111,24 +111,9 @@ final class ProductHomeInteractor:
         dependency?.productAPIService.requestFilter()
             .sink { [weak self] response in
             if let filter = response.value {
-                self?.initializeFilterDataEntity(with: filter)
                 self?.presenter.updateFilter(with: filter)
             }
         }.store(in: &cancellable)
-    }
-    
-    func updateFilterSelectedState(with store: ConvenienceStore, filter: FilterItemEntity) -> FilterDataEntity? {
-        return filterDataEntity[store]
-    }
-    
-    func initializeFilterDataEntity(with filter: FilterDataEntity) {
-        ConvenienceStore.allCases.forEach { store in
-            filterDataEntity[store] = filter
-        }
-    }
-    
-    func getFilterDataEntity(with store: ConvenienceStore) -> FilterDataEntity? {
-        return filterDataEntity[store]
     }
     
     func didTapSearchButton() {

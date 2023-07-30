@@ -363,4 +363,8 @@ extension EventHomeTabViewController {
     func getFilterDataEntity() -> FilterDataEntity? {
         return filterStateManager?.getFilterDataEntity()
     }
+    
+    func updateFilterState(with filter: FilterItemEntity) {
+        filterStateManager?.updateFilterItemState(target: filter, to: false)
+    }
 }
