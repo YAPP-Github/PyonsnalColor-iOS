@@ -17,7 +17,6 @@ protocol EventHomePresentableListener: AnyObject {
     func didScrollToNextPage(store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
     func didSelectFilter(of filter: FilterEntity?)
-    func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity?
     func didTapRefreshFilterCell(with store: ConvenienceStore)
     func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String])
 }
@@ -111,8 +110,6 @@ final class EventHomeViewController: UIViewController,
                     cell.delegate = self
                     return cell
                 case .category:
-                    guard let title = filterItem.filter?.defaultText else { return nil }
-                    
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
                     cell.configure(filter: filterItem.filter)
                     return cell

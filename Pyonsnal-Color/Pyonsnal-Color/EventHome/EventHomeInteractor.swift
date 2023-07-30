@@ -170,7 +170,6 @@ final class EventHomeInteractor:
         // TODO: 적용된 필터로 상품 목록 조회하기
         router?.detachProductFilter()
         presenter.updateSortFilter(type: type)
-	}
     }
     
     func didTapRefreshFilterCell(with store: ConvenienceStore) {
