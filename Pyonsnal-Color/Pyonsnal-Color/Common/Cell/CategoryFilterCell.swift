@@ -11,12 +11,12 @@ import SnapKit
 final class CategoryFilterCell: UICollectionViewCell {
     
     // MARK: - UI Component
-    private lazy var filterButton: FilterButton = {
+    private let filterButton: FilterButton = {
         let button = FilterButton()
         return button
     }()
     
-    private lazy var sortButton: SortButton = {
+    private let sortButton: SortButton = {
         let button = SortButton()
         return button
     }()

@@ -55,7 +55,7 @@ final class KeywordFilterCell: UICollectionViewCell {
     }
     
     @objc private func didTapDeleteButton() {
-        guard var filterItem else { return }
+        guard let filterItem else { return }
         delegate?.didTapDeleteButton(filter: filterItem)
     }
     
