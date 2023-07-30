@@ -47,7 +47,6 @@ final class ProductHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
-    private var brandProducts: [ConvenienceStore: [BrandProductEntity]] = [:]
     private var filterEntity: [FilterEntity] = []
 
     init(
@@ -79,10 +78,7 @@ final class ProductHomeInteractor:
             filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
-                self?.brandProducts[store] = productPage.content
-                if let products = self?.brandProducts[store] {
-                    self?.presenter.updateProducts(with: products, at: store)
-                }
+                self?.presenter.updateProducts(with: productPage.content, at: store)
             } else if response.error != nil {
                 // TODO: Error Handling
             }
@@ -98,11 +94,8 @@ final class ProductHomeInteractor:
             filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
-                self?.brandProducts[store]? += productPage.content
-                if let products = self?.brandProducts[store] {
-                    self?.presenter.updateProducts(with: products, at: store)
-                    self?.presenter.didFinishPaging()
-                }
+                self?.presenter.updateProducts(with: productPage.content, at: store)
+                self?.presenter.didFinishPaging()
             }
         }.store(in: &cancellable)
     }
