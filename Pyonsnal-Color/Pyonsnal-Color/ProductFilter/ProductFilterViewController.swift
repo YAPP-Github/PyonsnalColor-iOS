@@ -12,6 +12,7 @@ import SnapKit
 protocol ProductFilterPresentableListener: AnyObject {
     // TODO: 엔티티 변경
     func didTapApplyButton(with selectedItems: [FilterItemEntity])
+    func didSelectSortFilter(type: FilterItemEntity)
     func didTapCloseButton()
 }
 
@@ -27,7 +28,7 @@ final class ProductFilterViewController:
     
     private let viewHolder = ViewHolder()
     private var dataSource: DataSource?
-    private let filterEntity: FilterEntity
+    private var filterEntity: FilterEntity
     
     // MARK: - Initializer
     init(filterEntity: FilterEntity) {
@@ -84,7 +85,6 @@ final class ProductFilterViewController:
             target: self,
             action: #selector(didTapBackgroundView)
         )
-//        gestureRecognizer.cancelsTouchesInView = false
         gestureRecognizer.delegate = self
         view.addGestureRecognizer(gestureRecognizer)
     }
@@ -224,7 +224,7 @@ extension ProductFilterViewController: UICollectionViewDelegate {
         setApplyButtonState()
         
         if filterEntity.filterType == .sort {
-            listener?.didTapCloseButton()
+            listener?.didSelectSortFilter(type: filterEntity.filterItem[indexPath.item])
         }
     }
     

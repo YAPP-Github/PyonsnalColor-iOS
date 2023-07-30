@@ -16,6 +16,7 @@ protocol ProductFilterPresentable: Presentable {
 
 protocol ProductFilterListener: AnyObject {
     func applyFilterItems(_ items: [FilterItemEntity])
+    func applySortFilter(type: FilterItemEntity)
     func productFilterDidTapCloseButton()
 }
 
@@ -39,6 +40,10 @@ final class ProductFilterInteractor: PresentableInteractor<ProductFilterPresenta
     
     func didTapApplyButton(with selectedItems: [FilterItemEntity]) {
         listener?.applyFilterItems(selectedItems)
+    }
+    
+    func didSelectSortFilter(type: FilterItemEntity) {
+        listener?.applySortFilter(type: type)
     }
     
     func didTapCloseButton() {

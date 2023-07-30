@@ -92,7 +92,7 @@ extension ProductHomeViewController {
             collectionView.snp.makeConstraints { make in
                 make.top.equalTo(titleNavigationView.snp.bottom)
                 make.leading.trailing.equalToSuperview().inset(.spacing16)
-                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.CategoryFilter.height
+                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.Filter.height
                 make.height.equalTo(height)
             }
             

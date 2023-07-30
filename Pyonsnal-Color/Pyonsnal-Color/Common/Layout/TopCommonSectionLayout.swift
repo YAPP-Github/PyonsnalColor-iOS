@@ -14,10 +14,11 @@ final class TopCommonSectionLayout {
         static let height: CGFloat = 44
     }
     
-    enum CategoryFilter {
+    enum Filter {
         static let estimatedWidth: CGFloat = 64
         static let cellHeight: CGFloat = 32
         static let height: CGFloat = 56
+        static let interSpacing: CGFloat = 8
     }
     
     private func convenienceStoreLayout(convenienceStore: [String]) -> NSCollectionLayoutSection {
@@ -58,22 +59,24 @@ final class TopCommonSectionLayout {
     
     private func filterLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(ConvenienceStore.estimatedWidth),
+            widthDimension: .estimated(Filter.estimatedWidth),
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(CategoryFilter.cellHeight)
+            widthDimension: .estimated(Filter.estimatedWidth),
+            heightDimension: .absolute(Filter.cellHeight)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item]
         )
-        group.interItemSpacing = .fixed(.spacing8)
+        
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = Filter.interSpacing
         section.contentInsets = .init(top: .spacing12, leading: 0, bottom: 0, trailing: 0)
+        section.orthogonalScrollingBehavior = .continuous
         return section
     }
 }

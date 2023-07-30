@@ -145,7 +145,7 @@ final class EventHomeViewController: UIViewController,
     }
     
     private func setSortFilterDefaultText() {
-        FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
+//        FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
     }
     
     func makeFilterCellItem() -> [FilterCellItem] {
@@ -232,6 +232,21 @@ final class EventHomeViewController: UIViewController,
         print(items)
     }
     
+    func updateSortFilter(type: FilterItemEntity) {
+        guard var snapshot = dataSource?.snapshot(for: .filter) else { return }
+        let sortFilterIndex = 1, resetButtonIndex = 0
+        let currentItem = snapshot.items[sortFilterIndex]
+        let beforeItem = snapshot.items[resetButtonIndex]
+        
+        if case var .filter(item) = currentItem {
+            item.filter?.defaultText = type.name
+            snapshot.delete([currentItem])
+            snapshot.insert([.filter(filterItem: item)], after: beforeItem)
+            
+            dataSource?.apply(snapshot, to: .filter)
+        }
+    }
+    
 }
 
 // MARK: - UI Component
@@ -311,7 +326,7 @@ extension EventHomeViewController {
                 $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
                 $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
-                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.CategoryFilter.height
+                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.Filter.height
                 $0.height.equalTo(height)
             }
             

@@ -119,7 +119,7 @@ final class ProductHomeViewController:
     }
     
     private func setSortFilterDefaultText() {
-        FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
+//        FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
     }
     
     func makeFilterCellItem() -> [FilterCellItem] {
@@ -238,6 +238,21 @@ final class ProductHomeViewController:
     func updateFilterItems(with items: [FilterItemEntity]) {
         // TODO: 추가된 필터들 적용
         print(items)
+    }
+    
+    func updateSortFilter(type: FilterItemEntity) {
+        guard var snapshot = dataSource?.snapshot(for: .filter) else { return }
+        let sortFilterIndex = 1, resetButtonIndex = 0
+        let currentItem = snapshot.items[sortFilterIndex]
+        let beforeItem = snapshot.items[resetButtonIndex]
+        
+        if case var .filter(item) = currentItem {
+            item.filter?.defaultText = type.name
+            snapshot.delete([currentItem])
+            snapshot.insert([.filter(filterItem: item)], after: beforeItem)
+            
+            dataSource?.apply(snapshot, to: .filter)
+        }
     }
 }
 

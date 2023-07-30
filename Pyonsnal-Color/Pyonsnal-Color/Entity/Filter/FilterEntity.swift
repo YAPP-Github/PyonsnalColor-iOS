@@ -11,7 +11,7 @@ struct FilterDataEntity: Decodable {
     let data: [FilterEntity]
 }
 
-class FilterEntity: Decodable {
+struct FilterEntity: Decodable {
     let filterType: FilterType
     var defaultText: String? // 카테고리에 보여질 이름
     var isSelected: Bool = false
