@@ -224,11 +224,6 @@ final class ProductHomeViewController:
             let pageViewController = viewHolder.productHomePageViewController
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.applySnapshot(with: products)
-            } else if let curationVC = pageViewController.productListViewControllers[storeIndex] as? ProductCurationViewController {
-                // TODO: Curation 전달 로직 수정
-                curationVC.dummyData[0].products = Array(products[0...6])
-                curationVC.dummyData[1].products = Array(products[7...12])
-                curationVC.dummyData[2].products = Array(products[13...18])
             }
         }
     }
@@ -242,6 +237,11 @@ final class ProductHomeViewController:
         isPaging = false
     }
     
+    func updateCuration(with products: [CurationEntity]) {
+        let pageViewController = viewHolder.productHomePageViewController
+        if let viewController = pageViewController.productListViewControllers.first as?
+            ProductCurationViewController {
+            viewController.applySnapshot(with: products)
     func currentListViewController() -> ProductListViewController? {
         let pageViewController = viewHolder.productHomePageViewController.viewControllers?.first
         if let productListViewController = pageViewController as? ProductListViewController {

@@ -28,6 +28,7 @@ enum ProductAPI: NetworkRequestBuilder {
         pageSize: Int,
         name: String
     )
+    case curationProduct
     case filter
 }
 
@@ -37,7 +38,7 @@ extension ProductAPI {
     
     var method: HTTPMethod {
         switch self {
-        case .eventBanner, .search, .filter:
+        case .eventBanner, .search, .filter, .curationProduct:
             return .get
         case .brandProduct, .eventProduct:
             return .post
@@ -56,6 +57,8 @@ extension ProductAPI {
             return "products/search"
         case .filter:
             return "/products/meta-data"
+        case .curationProduct:
+            return "products/curation"
         }
     }
     
@@ -88,6 +91,8 @@ extension ProductAPI {
             queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
             queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
             queryItems.append(URLQueryItem(name: "name", value: "\(name)"))
+        case .curationProduct:
+            break
         case .filter:
             return nil
         }
