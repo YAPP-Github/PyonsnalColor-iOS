@@ -15,6 +15,8 @@ protocol ProductHomePresentableListener: AnyObject {
     func didScrollToNextPage(store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable?)
     func didSelectFilter(ofType filterEntity: FilterEntity?)
+    func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity?
+    func didTapRefreshFilterCell(with store: ConvenienceStore)
 }
 
 final class ProductHomeViewController:
@@ -35,8 +37,10 @@ final class ProductHomeViewController:
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
     private var currentPage: Int = 0
+    private var currentConvenienceStore: ConvenienceStore?
     private var isNeedToShowRefreshCell: Bool {
-        return listener?.needToShowRefreshCell() ?? false
+        return true
+//        return listener?.needToShowRefreshCell() ?? false
     }
     
     // MARK: - Initializer
@@ -78,6 +82,7 @@ final class ProductHomeViewController:
                 switch filterItem.filterUseType {
                 case .refresh:
                     let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.delegate = self
                     return cell
                 case .category:
                     guard let title = filterItem.filter?.defaultText else { return nil }
@@ -230,6 +235,7 @@ final class ProductHomeViewController:
     
     func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore) {
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
+            self.currentConvenienceStore = store
             let pageViewController = viewHolder.productHomePageViewController
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.applySnapshot(with: products)
@@ -382,6 +388,11 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
 
 // MARK: - ProductListDelegate
 extension ProductHomeViewController: ProductListDelegate {
+    func refreshFilterButton() {
+        let store = ConvenienceStore.allCases[currentPage]
+        requestProducts(store: store)
+    }
+    
     func updateFilterState(with filter: FilterItemEntity) {
         let filterDataEntity = listener?.updateFilterSelectedState(with: filter)
         applyFilterSnapshot(with: filterDataEntity)
@@ -412,5 +423,12 @@ extension ProductHomeViewController: ProductPresentable {
             curationViewController.scrollCollectionViewToTop()
         }
     }
-    
+}
+
+extension ProductHomeViewController: RefreshFilterCellDelegate {
+    func didTapRefreshButton() {
+        if let currentConvenienceStore {
+            listener?.didTapRefreshFilterCell(with: currentConvenienceStore)
+        }
+    }
 }

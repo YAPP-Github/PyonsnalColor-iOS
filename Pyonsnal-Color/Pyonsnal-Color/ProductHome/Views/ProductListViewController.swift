@@ -128,6 +128,7 @@ final class ProductListViewController: UIViewController {
             case .product(let brandProduct):
                 if brandProduct == nil {
                     let cell: EmptyProductCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.delegate = self
                     return cell
                 } else {
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
@@ -247,5 +248,12 @@ extension ProductListViewController: KeywordFilterCellDelegate {
         
         // 현재 선택된 filter에서 삭제
         delegate?.updateFilterState(with: filter)
+    }
+}
+
+// MARK: - EmptyProductCellDelegate
+extension ProductListViewController: EmptyProductCellDelegate {
+    func didTapRefreshFilterButton() {
+        delegate?.refreshFilterButton()
     }
 }

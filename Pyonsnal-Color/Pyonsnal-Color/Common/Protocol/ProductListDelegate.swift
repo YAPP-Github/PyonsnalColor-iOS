@@ -13,4 +13,5 @@ protocol ProductListDelegate: AnyObject {
     func didSelect(with product: ProductConvertable?)
     
     func updateFilterState(with filter: FilterItemEntity)
+    func refreshFilterButton()
 }

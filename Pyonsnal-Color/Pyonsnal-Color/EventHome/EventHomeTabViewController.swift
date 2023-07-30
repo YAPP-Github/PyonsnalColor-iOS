@@ -17,6 +17,7 @@ protocol ScrollDelegate: AnyObject {
 protocol EventHomeTabViewControllerDelegate: AnyObject {
     func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
     func didTapFilterDeleteButton(with filter: FilterItemEntity)
+    func refreshFilterButton()
 }
 
 final class EventHomeTabViewController: UIViewController {
@@ -151,6 +152,7 @@ final class EventHomeTabViewController: UIViewController {
             case .item(let item):
                 if item == nil {
                     let cell: EmptyProductCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.delegate = self
                     return cell
                 } else {
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
@@ -321,5 +323,12 @@ extension EventHomeTabViewController: KeywordFilterCellDelegate {
         
         // 현재 선택된 filter에서 삭제
         delegate?.didTapFilterDeleteButton(with: filter)
+    }
+}
+
+// MARK: - EmptyProductCellDelegate
+extension EventHomeTabViewController: EmptyProductCellDelegate {
+    func didTapRefreshFilterButton() {
+        listDelegate?.refreshFilterButton()
     }
 }

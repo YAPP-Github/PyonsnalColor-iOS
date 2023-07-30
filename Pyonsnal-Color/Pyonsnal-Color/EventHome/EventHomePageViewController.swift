@@ -156,4 +156,8 @@ extension EventHomePageViewController: ProductListDelegate {
     func updateFilterState(with filter: FilterItemEntity) {
         pageDelegate?.updateFilterState(with: filter)
     }
+    
+    func refreshFilterButton() {
+        pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
+    }
 }

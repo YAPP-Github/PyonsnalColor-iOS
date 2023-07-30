@@ -177,6 +177,9 @@ final class ProductHomeInteractor:
         requestInitialProducts(store: store, filterList: [])
     }
     
+    func didTapRefreshFilterCell(with store: ConvenienceStore) {
+        requestInitialProducts(store: store, filterList: [])
+	}
     func didSelectFilter(ofType filterEntity: FilterEntity?) {
         guard let filterEntity else { return }
         

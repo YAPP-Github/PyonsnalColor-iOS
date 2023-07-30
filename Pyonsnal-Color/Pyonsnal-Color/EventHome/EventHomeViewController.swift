@@ -17,6 +17,8 @@ protocol EventHomePresentableListener: AnyObject {
     func didScrollToNextPage(store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
     func didSelectFilter(of filter: FilterEntity?)
+    func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity?
+    func didTapRefreshFilterCell(with store: ConvenienceStore)
 }
 
 final class EventHomeViewController: UIViewController,
@@ -53,6 +55,7 @@ final class EventHomeViewController: UIViewController,
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
     private var isPaging: Bool = false
+    private var currentConvenienceStore: ConvenienceStore?
     private var isNeedToShowRefreshCell: Bool {
         return listener?.needToShowRefreshCell() ?? false
     }
@@ -88,9 +91,10 @@ final class EventHomeViewController: UIViewController,
     }
     
     private func loadFirstEventProducts() {
-        if let store = ConvenienceStore.allCases
+        if let firstConvenienceStore = ConvenienceStore.allCases
             .first(where: { $0.convenienceStoreCellName == convenienceStores.first }) {
-            listener?.didLoadEventHome(with: store)
+            self.currentConvenienceStore = firstConvenienceStore
+            listener?.didLoadEventHome(with: firstConvenienceStore)
         }
     }
     
@@ -108,6 +112,7 @@ final class EventHomeViewController: UIViewController,
                 switch filterItem.filterUseType {
                 case .refresh:
                     let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.delegate = self
                     return cell
                 case .category:
                     guard let title = filterItem.filter?.defaultText else { return nil }
@@ -384,6 +389,7 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     }
     
     func didChangeStore(to store: ConvenienceStore) {
+        self.currentConvenienceStore = store
         listener?.didChangeStore(to: store)
     }
     
@@ -511,5 +517,13 @@ extension EventHomeViewController: ProductPresentable {
         
         productListViewController.scrollCollectionViewToTop()
     }
-    
+}
+
+// MARK: - RefreshFilterCellDelegate
+extension EventHomeViewController: RefreshFilterCellDelegate {
+    func didTapRefreshButton() {
+        if let currentConvenienceStore {
+            listener?.didTapRefreshFilterCell(with: currentConvenienceStore)
+        }
+    }
 }
