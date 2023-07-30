@@ -15,32 +15,31 @@ enum ProductCellType: Hashable {
 }
 
 protocol ProductSearchPresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
     func popViewController()
     func search(with keyword: String?)
     func loadMoreItems()
+    func setSort(sort: FilterItemEntity)
+    func didTapSortButton(filterItem: FilterItemEntity)
 }
 
 final class ProductSearchViewController: UIViewController,
                                          ProductSearchPresentable,
                                          ProductSearchViewControllable {
-    
     // MARK: - Declaration
-    enum Constant {
-        enum Size {
-            static let collectionViewLineSpacing: CGFloat = 12
-            static let collectionViewItemSpacing: CGFloat = 12
-            static let collectionViewEdgeInset: UIEdgeInsets = .init(
-                top: 16, left: 16, bottom: 40, right: 16
-            )
-            static let collectionViewLoadingFooterHeight: CGFloat = 50
-        }
+    enum Size {
+        static let collectionViewLineSpacing: CGFloat = 12
+        static let collectionViewItemSpacing: CGFloat = 12
+        static let collectionViewEdgeInset: UIEdgeInsets = .init(
+            top: 16, left: 16, bottom: 40, right: 16
+        )
+        static let collectionViewHeaderHeight: CGFloat = 50
+        static let collectionViewLoadingFooterHeight: CGFloat = 50
     }
     
-    enum Section: CaseIterable {
-        case main
+    struct Section: Hashable {
+        let id = UUID()
+        let totalCount: Int
+        let filterItem: FilterItemEntity
     }
     
     weak var listener: ProductSearchPresentableListener?
@@ -94,6 +93,7 @@ final class ProductSearchViewController: UIViewController,
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ProductCell.self)
         viewHolder.collectionView.register(EmptyCell.self)
+        viewHolder.collectionView.registerHeaderView(SearchFilterHeader.self)
         viewHolder.collectionView.registerFooterView(LoadingReusableView.self)
         
         dataSource = .init(
@@ -111,10 +111,23 @@ final class ProductSearchViewController: UIViewController,
             }
         )
         
-        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+        dataSource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             switch kind {
             case UICollectionView.elementKindSectionHeader:
-                return UICollectionReusableView()
+                guard let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: .init(describing: SearchFilterHeader.self),
+                    for: indexPath
+                ) as? SearchFilterHeader else {
+                    return UICollectionReusableView()
+                }
+                if let section = self?.dataSource?.snapshot().sectionIdentifiers[indexPath.section] {
+                    header.updateUI(
+                        payload: .init(totalCount: section.totalCount, filterItem: section.filterItem)
+                    )
+                    header.delegate = self
+                }
+                return header
             case UICollectionView.elementKindSectionFooter:
                 let loading = collectionView.dequeueReusableSupplementaryView(
                     ofKind: kind,
@@ -128,11 +141,16 @@ final class ProductSearchViewController: UIViewController,
         }
     }
     
-    func presentProducts(with items: [ProductCellType], isCanLoading: Bool) {
+    func presentProducts(
+        with items: [ProductCellType],
+        isCanLoading: Bool,
+        totalCount: Int,
+        filterItem: FilterItemEntity
+    ) {
         self.isEmpty = items.first == .empty
         self.isCanLoading = isCanLoading
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductCellType>()
-        snapshot.appendSections([.main])
+        snapshot.appendSections([.init(totalCount: totalCount, filterItem: filterItem)])
         snapshot.appendItems(items)
         dataSource?.apply(snapshot)
     }
@@ -145,6 +163,12 @@ final class ProductSearchViewController: UIViewController,
 extension ProductSearchViewController: SearchBarViewDelegate {
     func updateText(_ text: String?) {
         textSubject.send(text)
+    }
+}
+
+extension ProductSearchViewController: SearchFilterHeaderDelegate {
+    func didTapSortButton(filterItem: FilterItemEntity) {
+        listener?.didTapSortButton(filterItem: filterItem)
     }
 }
 
@@ -165,12 +189,27 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
+        if !isEmpty {
+            return .init(
+                width: collectionView.bounds.width,
+                height: Size.collectionViewHeaderHeight
+            )
+        } else {
+            return .zero
+        }
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForFooterInSection section: Int
     ) -> CGSize {
         if isCanLoading {
             return .init(
                 width: collectionView.bounds.width,
-                height: Constant.Size.collectionViewLoadingFooterHeight
+                height: Size.collectionViewLoadingFooterHeight
             )
         } else {
             return .zero
@@ -185,9 +224,9 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
         if isEmpty {
             return collectionView.bounds.size
         } else {
-            let itemSpacing = Constant.Size.collectionViewItemSpacing
-            let edgeInsetLeft = Constant.Size.collectionViewEdgeInset.left
-            let edgeInsetRight = Constant.Size.collectionViewEdgeInset.right
+            let itemSpacing = Size.collectionViewItemSpacing
+            let edgeInsetLeft = Size.collectionViewEdgeInset.left
+            let edgeInsetRight = Size.collectionViewEdgeInset.right
             let spacing = itemSpacing + edgeInsetLeft + edgeInsetRight
             let collectionViewWidth = collectionView.bounds.width
             let cellHeightRatio: CGFloat = 1.294797
@@ -207,7 +246,7 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
         if isEmpty {
             return .zero
         } else {
-            return Constant.Size.collectionViewItemSpacing
+            return Size.collectionViewItemSpacing
         }
     }
     
@@ -219,7 +258,7 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
         if isEmpty {
             return .zero
         } else {
-            return Constant.Size.collectionViewLineSpacing
+            return Size.collectionViewLineSpacing
         }
     }
     
@@ -231,7 +270,7 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
         if isEmpty {
             return .zero
         } else {
-            return Constant.Size.collectionViewEdgeInset
+            return Size.collectionViewEdgeInset
         }
     }
 }

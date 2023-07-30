@@ -11,12 +11,11 @@ import SnapKit
 extension ProductSearchViewController {
     final class ViewHolder: ViewHolderable {
         // MARK: - Declaration
-        enum Constant {
-            enum Size {
-                static let navigationBarBackgroundViewHeight: CGFloat = 48
-                static let backButtonSize: CGFloat = 24
-            }
+        enum Size {
+            static let navigationBarBackgroundViewHeight: CGFloat = 48
+            static let backButtonSize: CGFloat = 24
         }
+        
         // MARK: - UI Component
         private let contentView: UIView = {
             let view: UIView = .init(frame: .zero)
@@ -44,7 +43,7 @@ extension ProductSearchViewController {
             layout.scrollDirection = .vertical
             
             let collectionView: UICollectionView = .init(frame: .zero, collectionViewLayout: layout)
-            collectionView.backgroundColor = .gray200
+            collectionView.backgroundColor = .gray100
             return collectionView
         }()
         
@@ -66,7 +65,7 @@ extension ProductSearchViewController {
             }
             
             navigationBarBackgroundView.snp.makeConstraints { make in
-                make.height.equalTo(Constant.Size.navigationBarBackgroundViewHeight)
+                make.height.equalTo(Size.navigationBarBackgroundViewHeight)
                 make.top.leading.trailing.equalToSuperview()
             }
             
@@ -76,7 +75,7 @@ extension ProductSearchViewController {
             }
             
             backButton.snp.makeConstraints { make in
-                make.size.equalTo(Constant.Size.backButtonSize)
+                make.size.equalTo(Size.backButtonSize)
                 make.top.bottom.equalToSuperview().inset(.spacing12)
                 make.leading.equalToSuperview().offset(.spacing16)
             }
