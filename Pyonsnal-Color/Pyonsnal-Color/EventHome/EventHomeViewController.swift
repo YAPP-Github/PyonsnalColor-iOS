@@ -143,12 +143,14 @@ final class EventHomeViewController: UIViewController,
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
+            guard let filters = initializeSortFilterState(with: filters) else { return }
+            
             if needToShowRefreshCell() {
                 let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
                 let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
             }
-            let filters = setSortFilterState(with: filters)
+        
             let filterItems = filters.data.map { filter in
                 let filterItem = FilterCellItem(filter: filter)
                 return ItemType.filter(filterItem: filterItem)
@@ -158,15 +160,10 @@ final class EventHomeViewController: UIViewController,
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func setSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity {
-        let sortFilter = filters.data
-            .first(where: { $0.filterType == .sort })
-        let selectedsortFilter = sortFilter?.filterItem.first { $0.isSelected }
-        let defaultSortFilterText = sortFilter?.filterType.filterDefaultText ?? ""
-        let selectedFilterName: String = selectedsortFilter?.name ?? defaultSortFilterText
-        sortFilter?.defaultText = selectedFilterName
-        sortFilter?.isSelected = true
-        return filters
+    private func initializeSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
+        guard let currentTabViewController = currentTabViewController() else { return nil }
+        currentTabViewController.initializeSortFilterState()
+        return currentTabViewController.getFilterDataEntity()
     }
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
@@ -240,8 +237,8 @@ final class EventHomeViewController: UIViewController,
     }
     
     func updateFilter(with filters: FilterDataEntity) {
-        applyFilterSnapshot(with: filters)
         viewHolder.pageViewController.setFilterStateManager(with: filters)
+        applyFilterSnapshot(with: filters)
     }
     
     func didFinishPaging() {
@@ -387,7 +384,6 @@ extension EventHomeViewController {
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
     func updateFilterUI(with filterDataEntity: FilterDataEntity) {
         applyFilterSnapshot(with: filterDataEntity)
-        Log.d(message: "\(filterDataEntity)")
     }
     
     func didSelect(with brandProduct: ProductConvertable) {

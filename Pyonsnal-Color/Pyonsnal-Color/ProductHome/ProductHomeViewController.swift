@@ -114,12 +114,13 @@ final class ProductHomeViewController:
         // append filter
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
+            guard let filters = initializeSortFilterState(with: filters) else { return }
+            
             if needToShowRefreshCell() {
                 let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
                 let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
             }
-            let filters = setSortFilterState(with: filters)
             let filterItems = filters.data.map { filter in
                 let filterItem = FilterCellItem(filter: filter)
                 return ItemType.filter(filterItem: filterItem)
@@ -129,15 +130,10 @@ final class ProductHomeViewController:
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func setSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity {
-        let sortFilter = filters.data
-            .first(where: { $0.filterType == .sort })
-        let selectedsortFilter = sortFilter?.filterItem.first { $0.isSelected }
-        let defaultSortFilterText = sortFilter?.filterType.filterDefaultText ?? ""
-        let selectedFilterName: String = selectedsortFilter?.name ?? defaultSortFilterText
-        sortFilter?.defaultText = selectedFilterName
-        sortFilter?.isSelected = true
-        return filters
+    private func initializeSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
+        guard let currentListViewController = currentListViewController() else { return nil }
+        currentListViewController.initializeSortFilterState()
+        return currentListViewController.getFilterDataEntity()
     }
     
     private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
@@ -238,8 +234,8 @@ final class ProductHomeViewController:
     }
     
     func updateFilter(with filters: FilterDataEntity) {
-        applyFilterSnapshot(with: filters)
         viewHolder.productHomePageViewController.setFilterStateManager(with: filters)
+        applyFilterSnapshot(with: filters)
     }
     
     func didFinishPaging() {
