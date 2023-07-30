@@ -66,12 +66,13 @@ final class EventHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestProducts(pageNumber: Int, store: ConvenienceStore) {
+    private func requestProducts(pageNumber: Int, store: ConvenienceStore, filterList: [String]) {
         storeLastPages[store] = pageNumber
         dependency?.productAPIService.requestEventProduct(
             pageNumber: pageNumber,
             pageSize: productPerPage,
-            storeType: store
+            storeType: store,
+            filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
                 self?.presenter.updateProducts(with: productPage.content, at: store)
@@ -80,13 +81,14 @@ final class EventHomeInteractor:
         }.store(in: &cancellable)
     }
     
-    private func requestProductWithBanners(store: ConvenienceStore) {
+    private func requestProductWithBanners(store: ConvenienceStore, filterList: [String]) {
         storeLastPages[store] = initialPage
         let eventPublisher = dependency?.productAPIService.requestEventBanner(storeType: store)
         let productPublisher = dependency?.productAPIService.requestEventProduct(
             pageNumber: initialPage,
             pageSize: initialCount,
-            storeType: store
+            storeType: store,
+            filterList: filterList
         )
         guard let eventPublisher,
               let productPublisher else { return }
@@ -127,7 +129,7 @@ final class EventHomeInteractor:
     }
     
     func didLoadEventHome(with store: ConvenienceStore) {
-        requestProductWithBanners(store: store)
+        requestProductWithBanners(store: store, filterList: [])
         requestFilter()
     }
     
@@ -140,12 +142,12 @@ final class EventHomeInteractor:
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        requestProductWithBanners(store: store)
+        requestProductWithBanners(store: store, filterList: [])
     }
     
     func didScrollToNextPage(store: ConvenienceStore) {
         if let lastPage = storeLastPages[store] {
-            requestProducts(pageNumber: lastPage + 1, store: store)
+            requestProducts(pageNumber: lastPage + 1, store: store, filterList: [])
         }
     }
     
@@ -170,5 +172,9 @@ final class EventHomeInteractor:
         router?.detachProductFilter()
         presenter.updateSortFilter(type: type)
 	}
+    }
+    
+    func didTapRefreshFilterCell(with store: ConvenienceStore) {
+        requestProductWithBanners(store: store, filterList: [])
     }
 }

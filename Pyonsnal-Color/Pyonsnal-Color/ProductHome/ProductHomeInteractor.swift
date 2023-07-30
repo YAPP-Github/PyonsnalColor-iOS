@@ -61,7 +61,7 @@ final class ProductHomeInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        requestInitialProducts()
+        requestInitialProducts(filterList: [])
         requestFilter()
     }
 
@@ -69,13 +69,14 @@ final class ProductHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestInitialProducts(store: ConvenienceStore = .all) {
+    private func requestInitialProducts(store: ConvenienceStore = .all, filterList: [String]) {
         storeLastPages[store] = initialPage
         
         dependency?.productAPIService.requestBrandProduct(
             pageNumber: initialPage,
             pageSize: initialCount,
-            storeType: store
+            storeType: store,
+            filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
                 self?.brandProducts[store] = productPage.content
@@ -88,12 +89,13 @@ final class ProductHomeInteractor:
         }.store(in: &cancellable)
     }
     
-    private func requestProducts(pageNumber: Int, store: ConvenienceStore) {
+    private func requestProducts(pageNumber: Int, store: ConvenienceStore, filterList: [String]) {
         storeLastPages[store] = pageNumber
         dependency?.productAPIService.requestBrandProduct(
             pageNumber: pageNumber,
             pageSize: productPerPage,
-            storeType: store
+            storeType: store,
+            filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
                 self?.brandProducts[store]? += productPage.content
@@ -158,7 +160,7 @@ final class ProductHomeInteractor:
     
     func didScrollToNextPage(store: ConvenienceStore) {
         if let lastPage = storeLastPages[store] {
-            requestProducts(pageNumber: lastPage + 1, store: store)
+            requestProducts(pageNumber: lastPage + 1, store: store, filterList: [])
         }
     }
     
@@ -172,7 +174,7 @@ final class ProductHomeInteractor:
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        requestInitialProducts(store: store)
+        requestInitialProducts(store: store, filterList: [])
     }
     
     func didSelectFilter(ofType filterEntity: FilterEntity?) {

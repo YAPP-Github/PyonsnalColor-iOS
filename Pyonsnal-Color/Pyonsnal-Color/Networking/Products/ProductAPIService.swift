@@ -19,10 +19,11 @@ final class ProductAPIService {
     func requestBrandProduct(
         pageNumber: Int,
         pageSize: Int,
-        storeType: ConvenienceStore
+        storeType: ConvenienceStore,
+        filterList: [String]
     ) -> AnyPublisher<DataResponse<ProductPageEntity<BrandProductEntity>, NetworkError>, Never> {
         return client.request(
-            ProductAPI.brandProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType),
+            ProductAPI.brandProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),
             model: ProductPageEntity.self
         )
     }
@@ -30,10 +31,11 @@ final class ProductAPIService {
     func requestEventProduct(
         pageNumber: Int,
         pageSize: Int,
-        storeType: ConvenienceStore = .all
+        storeType: ConvenienceStore = .all,
+        filterList: [String]
     ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
         return client.request(
-            ProductAPI.eventProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType),
+            ProductAPI.eventProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),
             model: ProductPageEntity.self
         )
     }

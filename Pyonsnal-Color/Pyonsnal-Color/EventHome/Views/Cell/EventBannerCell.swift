@@ -192,7 +192,7 @@ extension EventBannerCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = eventBannerUrls[indexPath.row]
-        delegate?.didTapEventBannerCell(with: model.imageURL, store: model.storeType)
+        delegate?.didTapEventBannerCell(with: model.imageURL ?? "", store: model.storeType)
     }
 }
 
