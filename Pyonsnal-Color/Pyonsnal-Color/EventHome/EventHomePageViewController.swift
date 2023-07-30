@@ -54,8 +54,11 @@ final class EventHomePageViewController: UIPageViewController {
     }
     
     func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
+        // 이벤트 탭에서는 상품 추천 filterType 제외
+        let eventFilterEntity = filterDataEntity.data.filter { $0.filterType != .recommend }
+        let eventFilterDataEntity = FilterDataEntity(data: eventFilterEntity)
         pageViewControllers.forEach { tabViewController in
-            tabViewController.setFilterStateManager(with: filterDataEntity)
+            tabViewController.setFilterStateManager(with: eventFilterDataEntity)
         }
     }
     
