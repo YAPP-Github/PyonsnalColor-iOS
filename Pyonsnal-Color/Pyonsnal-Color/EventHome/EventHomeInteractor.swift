@@ -144,9 +144,9 @@ final class EventHomeInteractor:
         requestProductWithBanners(store: store, filterList: [])
     }
     
-    func didScrollToNextPage(store: ConvenienceStore) {
+    func didScrollToNextPage(store: ConvenienceStore, filterList: [String]) {
         if let lastPage = storeLastPages[store] {
-            requestProducts(pageNumber: lastPage + 1, store: store, filterList: [])
+            requestProducts(pageNumber: lastPage + 1, store: store, filterList: filterList)
         }
     }
     

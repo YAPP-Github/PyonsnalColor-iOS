@@ -14,7 +14,7 @@ protocol EventHomePresentableListener: AnyObject {
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapSearchButton()
     func didChangeStore(to store: ConvenienceStore)
-    func didScrollToNextPage(store: ConvenienceStore)
+    func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
     func didSelect(with brandProduct: ProductConvertable)
     func didSelectFilter(of filter: FilterEntity?)
     func didTapRefreshFilterCell(with store: ConvenienceStore)
@@ -491,7 +491,11 @@ extension EventHomeViewController: UIScrollViewDelegate {
 
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
             isPaging = true
-            listener?.didScrollToNextPage(store: tabViewController.convenienceStore)
+            let filterList = tabViewController.getFilterList()
+            listener?.didScrollToNextPage(
+                store: tabViewController.convenienceStore,
+                filterList: filterList
+            )
         }
         
         if innerScroll && downScroll {

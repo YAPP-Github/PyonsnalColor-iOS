@@ -12,7 +12,7 @@ protocol ProductHomePresentableListener: AnyObject {
     func didChangeStore(to store: ConvenienceStore)
     func didTapSearchButton()
     func didTapNotificationButton()
-    func didScrollToNextPage(store: ConvenienceStore)
+    func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
     func didSelect(with brandProduct: ProductConvertable?)
     func didSelectFilter(ofType filterEntity: FilterEntity?)
     func didTapRefreshFilterCell(with store: ConvenienceStore)
@@ -334,7 +334,11 @@ extension ProductHomeViewController: UIScrollViewDelegate {
 
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
             isPaging = true
-            listener?.didScrollToNextPage(store: ConvenienceStore.allCases[currentPage])
+            let filterList = productListViewController.getFilterList()
+            listener?.didScrollToNextPage(
+                store: ConvenienceStore.allCases[currentPage],
+                filterList: filterList
+            )
         }
         
         if innerScroll && downScroll {
