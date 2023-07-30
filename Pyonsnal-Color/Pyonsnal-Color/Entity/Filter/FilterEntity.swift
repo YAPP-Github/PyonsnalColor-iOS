@@ -8,7 +8,7 @@
 import UIKit
 
 struct FilterDataEntity: Decodable {
-    let data: [FilterEntity]
+    var data: [FilterEntity]
 }
 
 struct FilterEntity: Decodable {
