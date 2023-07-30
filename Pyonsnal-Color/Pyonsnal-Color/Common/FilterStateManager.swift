@@ -18,12 +18,10 @@ final class FilterStateManager {
     
     /// 모든 filterItemEntity isSelected 값을 변경합니다.
     func updateAllFilterItemState(to isSelected: Bool) {
-        filterDataEntity.data.forEach { filters in
-            filters.filterItem.forEach {
-                var filter = $0
-                filter.isSelected = false
+        for index in 0..<filterDataEntity.data.count {
+            for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
+                filterDataEntity.data[index].filterItem[secondIndex].isSelected = isSelected
             }
-            Log.d(message: "filter state \(filterDataEntity.data.map { _ in Log.d(message: "\(filters.filterItem)")})")
         }
         updateFilterDataState()
         setLastSortFilterSelected()

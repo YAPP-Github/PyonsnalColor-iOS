@@ -233,6 +233,8 @@ final class ProductListViewController: UIViewController {
             }
             snapshot.appendItems(items, toSection: .keywordFilter)
             snapshot.reloadSections([.keywordFilter])
+        } else {
+            snapshot.deleteAllItems()
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }

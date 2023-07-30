@@ -280,6 +280,8 @@ final class EventHomeTabViewController: UIViewController {
                 return ItemType.keywordFilter($0)
             }
             snapshot.appendItems(items, toSection: .keywordFilter)
+        } else {
+            snapshot.deleteAllItems()
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }

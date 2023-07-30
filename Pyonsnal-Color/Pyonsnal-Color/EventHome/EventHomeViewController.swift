@@ -141,10 +141,12 @@ final class EventHomeViewController: UIViewController,
             }
             guard let filters = initializeFilterState(with: filters) else { return }
             
+            let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
+            let refreshItems = [ItemType.filter(filterItem: refreshItem)]
             if needToShowRefreshCell() {
-                let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
-                let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
+            } else {
+                snapshot.deleteItems(refreshItems)
             }
         
             let filterItems = filters.data.map { filter in
@@ -554,7 +556,17 @@ extension EventHomeViewController: RefreshFilterCellDelegate {
         guard let tabViewController = currentTabViewController() else {
             return
         }
+        // delete keywordFilterCell
+        tabViewController.applyKeywordFilterSnapshot(with: [])
+        
+        // request product
         listener?.didTapRefreshFilterCell(with: tabViewController.convenienceStore)
+        
+        // filter isSelected state update
         tabViewController.resetFilterItemState()
+        
+        // apply filterData
+        let filterDataEntity = tabViewController.getFilterDataEntity()
+        applyFilterSnapshot(with: filterDataEntity)
     }
 }

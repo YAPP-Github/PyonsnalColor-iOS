@@ -113,11 +113,14 @@ final class ProductHomeViewController:
             }
             guard let filters = initializeFilterState(with: filters) else { return }
             
+            let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
+            let refreshItems = [ItemType.filter(filterItem: refreshItem)]
             if needToShowRefreshCell() {
-                let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
-                let refreshItems = [ItemType.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems, toSection: .filter)
+            } else {
+                snapshot.deleteItems(refreshItems)
             }
+            
             let filterItems = filters.data.map { filter in
                 let filterItem = FilterCellItem(filter: filter)
                 return ItemType.filter(filterItem: filterItem)
@@ -455,8 +458,17 @@ extension ProductHomeViewController: RefreshFilterCellDelegate {
         guard let listViewController = currentListViewController() else {
             return
         }
+        
+        // delete keywordFilterCell
+        listViewController.applyKeywordFilterSnapshot(with: [])
+        
+        // request product
         listener?.didTapRefreshFilterCell(with: listViewController.convenienceStore)
-        Log.d(message: "\(listViewController.convenienceStore)")
+        
         listViewController.resetFilterItemState()
+        
+        // apply filterData
+        let filterDataEntity = listViewController.getFilterDataEntity()
+        applyFilterSnapshot(with: filterDataEntity)
     }
 }

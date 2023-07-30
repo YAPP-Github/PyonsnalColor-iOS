@@ -60,7 +60,6 @@ final class RefreshFilterCell: UICollectionViewCell {
         let refreshButton: UIButton = {
             let button = UIButton()
             button.setImage(.refreshFilter, for: .normal)
-            button.isEnabled = false
             return button
         }()
         
