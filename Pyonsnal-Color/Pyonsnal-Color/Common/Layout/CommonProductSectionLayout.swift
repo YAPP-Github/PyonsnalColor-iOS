@@ -30,6 +30,7 @@ final class CommonProductSectionLayout {
         enum KeywordFilter {
             static let estimatedWidth: CGFloat = 96
             static let height: CGFloat = 32
+            static let interSpacing: CGFloat = 4
         }
         
         static let topMargin: CGFloat = 8
@@ -44,21 +45,23 @@ final class CommonProductSectionLayout {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .estimated(Size.KeywordFilter.estimatedWidth),
             heightDimension: .absolute(Size.KeywordFilter.height)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item]
         )
-        group.interItemSpacing = .fixed(.spacing4)
+
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = Size.KeywordFilter.interSpacing
         section.contentInsets = .init(
             top: 0,
             leading: .spacing16,
             bottom: .spacing24,
             trailing: 0
         )
+        section.orthogonalScrollingBehavior = .continuous
         return section
     }
     
