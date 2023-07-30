@@ -72,8 +72,8 @@ extension SortFilterCell {
         
         let checkButton: UIButton = {
             let button = UIButton()
-            button.setImage(.init(systemName: Image.checkMark), for: .normal)
-            button.tintColor = .red500
+            button.setImage(.iconCheck, for: .normal)
+            button.setImageTintColor(with: .red500)
             return button
         }()
         

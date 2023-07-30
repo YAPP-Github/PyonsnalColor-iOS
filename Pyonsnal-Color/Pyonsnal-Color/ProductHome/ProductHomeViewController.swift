@@ -81,8 +81,10 @@ final class ProductHomeViewController:
                     let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
                     return cell
                 case .category:
+                    guard let title = filterItem.filter?.defaultText else { return nil }
+                    
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                    cell.configure(with: filterItem.filter?.defaultText ?? "", filterItem: [])
+                    cell.configure(with: title, filterItem: [])
                     return cell
                 }
             }
@@ -118,12 +120,7 @@ final class ProductHomeViewController:
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    private func setSortFilterDefaultText() {
-//        FilterDummy.data.data.first(where: { $0.filterType == .sort })?.defaultText = "정렬"
-    }
-    
     func makeFilterCellItem() -> [FilterCellItem] {
-        setSortFilterDefaultText()
         return FilterDummy.data.data.map { FilterCellItem(filter: $0) }
     }
     
