@@ -30,7 +30,6 @@ enum ImageAssetKind: String {
     case checkSelected = "check.selected"
     case checkSelectedRed = "check.selected.red"
     case iconArrow = "icon_arrow"
-    case iconCheck = "icon_check"
 }
 
 extension ImageAssetKind {
