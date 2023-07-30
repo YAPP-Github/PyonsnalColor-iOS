@@ -175,4 +175,9 @@ final class ProductHomeInteractor:
         router?.detachProductFilter()
         presenter.updateSortFilter(type: type)
     }
+    
+    func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+        requestInitialProducts(store: store, filterList: filterList)
+    }
+    
 }

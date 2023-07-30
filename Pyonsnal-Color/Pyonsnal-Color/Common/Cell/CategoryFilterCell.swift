@@ -23,6 +23,10 @@ final class CategoryFilterCell: UICollectionViewCell {
     
     private var currentButton = UIButton()
     
+    override func prepareForReuse() {
+        currentButton.removeFromSuperview()
+    }
+    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -35,12 +39,15 @@ final class CategoryFilterCell: UICollectionViewCell {
     // MARK: - Method
     func configure(filter: FilterEntity?) {
         guard let filter else { return }
-        self.setButton(with: filter.filterType)
-        currentButton.setText(with: filter.filterType.filterDefaultText)
+        self.setButton(with: filter)
     }
     
-    func setButton(with type: FilterType) {
-        self.currentButton = type == .sort ? sortButton : filterButton
+    func setButton(with filter: FilterEntity) {
+        currentButton = filter.filterType == .sort ? sortButton : filterButton
+        if currentButton == filterButton {
+            filter.isSelected == true ? filterButton.setUISelected() : filterButton.setUIUnSelected()
+        }
+        currentButton.setText(with: filter.filterType.filterDefaultText)
         self.place(in: contentView, button: currentButton)
         self.configureConstraints(for: contentView, button: currentButton)
     }

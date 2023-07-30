@@ -17,6 +17,7 @@ protocol ProductHomePresentableListener: AnyObject {
     func didSelectFilter(ofType filterEntity: FilterEntity?)
     func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity?
     func didTapRefreshFilterCell(with store: ConvenienceStore)
+    func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String])
 }
 
 final class ProductHomeViewController:
@@ -384,7 +385,6 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
 extension ProductHomeViewController: ProductListDelegate {
     func updateFilterUI(with filterDataEntity: FilterDataEntity) {
         applyFilterSnapshot(with: filterDataEntity)
-        Log.d(message: "updateFilterUI \(filterDataEntity.data)")
     }
     
     func refreshFilterButton() {
@@ -393,12 +393,16 @@ extension ProductHomeViewController: ProductListDelegate {
     }
     
     func updateFilterState(with filter: FilterItemEntity) {
+        // filter isSelected 값 변경
         guard let listViewController = currentListViewController() else {
             return
         }
         listViewController.updateFilterState(with: filter)
         let filterDataEntity = listViewController.getFilterDataEntity()
         applyFilterSnapshot(with: filterDataEntity)
+        
+        // TO DO : filterList 전달
+        listener?.deleteKeywordFilter(with: listViewController.convenienceStore, filterList: [])
     }
     
     func didLoadPageList(store: ConvenienceStore) {

@@ -176,4 +176,8 @@ final class EventHomeInteractor:
     func didTapRefreshFilterCell(with store: ConvenienceStore) {
         requestProductWithBanners(store: store, filterList: [])
     }
+    
+    func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+        requestProductWithBanners(store: store, filterList: filterList)
+    }
 }

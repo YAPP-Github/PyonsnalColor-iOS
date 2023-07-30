@@ -277,7 +277,8 @@ extension ProductListViewController {
     }
     
     func needToShowRefreshCell() -> Bool {
-        return filterStateManager?.isFilterDataResetState() ?? false
+        let isFilterDataResetState = filterStateManager?.isFilterDataResetState() ?? false
+        return !isFilterDataResetState
     }
     
     func initializeSortFilterState() {
@@ -290,6 +291,6 @@ extension ProductListViewController {
     }
     
     func updateFilterState(with filter: FilterItemEntity) {
-        filterStateManager?.updateFilterItemState(target: filter, to: false)
+        filterStateManager?.updateFilterItemState(target: filter, to: true)
     }
 }

@@ -19,6 +19,7 @@ protocol EventHomePresentableListener: AnyObject {
     func didSelectFilter(of filter: FilterEntity?)
     func updateFilterSelectedState(with filter: FilterItemEntity) -> FilterDataEntity?
     func didTapRefreshFilterCell(with store: ConvenienceStore)
+    func deleteKeywordFilter(with store: ConvenienceStore, filterList: [String])
 }
 
 final class EventHomeViewController: UIViewController,
@@ -402,10 +403,14 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     }
     
     func updateFilterState(with filter: FilterItemEntity) {
+        // filter isSelected 값 변경
         guard let tabViewController = currentTabViewController() else { return }
         tabViewController.updateFilterState(with: filter)
         guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
+        
+        // TO DO : filterList 전달
+        listener?.deleteKeywordFilter(with: tabViewController.convenienceStore, filterList: [])
     }
 }
 

@@ -25,10 +25,6 @@ final class FilterButton: UIButton {
     }
     
     // MARK: - Method
-    func setSelectedState(isSelected: Bool) {
-        self.isSelected = isSelected
-    }
-    
     func setUISelected() {
         self.isSelected = true
         self.backgroundColor = .gray700

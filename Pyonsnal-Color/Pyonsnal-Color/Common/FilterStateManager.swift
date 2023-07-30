@@ -48,12 +48,12 @@ final class FilterStateManager {
     
     /// filterItemEntity 값 변경에 따라 FilterDataEntity isSelected 값을 업데이트 합니다.
     func updateFilterDataState() {
-        filterDataEntity.data.forEach {
-            var filters = $0
-            let filterItem = filters.filterItem
-            let isAllFilterItemSelected = filterItem.allSatisfy { $0.isSelected == true }
-            filters.isSelected = isAllFilterItemSelected
-            Log.d(message: "filterDataEntity \(filters.isSelected)")
+        for index in 0..<filterDataEntity.data.count {
+            let filterItem = filterDataEntity.data[index].filterItem
+            let hasSelectedFilterEntity = filterItem.contains(where: { $0.isSelected == true })
+            filterDataEntity.data[index].isSelected = hasSelectedFilterEntity
+            Log.d(message: "filterDataEntity \(filterDataEntity.data[index].isSelected)")
+            
         }
         
     }
@@ -114,7 +114,7 @@ final class FilterStateManager {
     /// refreshFilterCell show / hide 용도
     func isFilterDataResetState() -> Bool {
         // 예외 - 최신순의 경우 isSelected = true가 default 상태
-        // 최신순 && 나머지 filter isSelected = false
+        // 최신순 = true && 나머지 filter isSelected = false
         let isLatestSortFilter = filterDataEntity.data
             .first(where: { $0.filterType == .sort })?.filterItem
             .first(where: { $0.name == latestSortFilterName })
@@ -125,7 +125,7 @@ final class FilterStateManager {
         let filterItems = filterDataEntity.data.filter { $0.filterType != .sort }
         let isLastItemNotSelected = filterItems.allSatisfy { $0.isSelected == false }
         
-        return !isLatestSortFilterSelected && isLastItemNotSelected
+        return isLatestSortFilterSelected && isLastItemNotSelected
     }
     
 }

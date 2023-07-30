@@ -352,7 +352,8 @@ extension EventHomeTabViewController {
     }
     
     func needToShowRefreshCell() -> Bool {
-        return filterStateManager?.isFilterDataResetState() ?? false
+        let isFilterDataResetState = filterStateManager?.isFilterDataResetState() ?? false
+        return !isFilterDataResetState
     }
     
     func initializeSortFilterState() {
@@ -365,6 +366,6 @@ extension EventHomeTabViewController {
     }
     
     func updateFilterState(with filter: FilterItemEntity) {
-        filterStateManager?.updateFilterItemState(target: filter, to: false)
+        filterStateManager?.updateFilterItemState(target: filter, to: true)
     }
 }
