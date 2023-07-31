@@ -242,6 +242,9 @@ final class ProductHomeViewController:
         if let viewController = pageViewController.productListViewControllers.first as?
             ProductCurationViewController {
             viewController.applySnapshot(with: products)
+        }
+    }
+    
     func currentListViewController() -> ProductListViewController? {
         let pageViewController = viewHolder.productHomePageViewController.viewControllers?.first
         if let productListViewController = pageViewController as? ProductListViewController {
@@ -297,7 +300,7 @@ final class ProductHomeViewController:
     }
 }
 
-// MARK: - TitleNavigationViewDelegate {
+// MARK: - TitleNavigationViewDelegate
 extension ProductHomeViewController: TitleNavigationViewDelegate {
     func didTabSearchButton() {
         listener?.didTapSearchButton()

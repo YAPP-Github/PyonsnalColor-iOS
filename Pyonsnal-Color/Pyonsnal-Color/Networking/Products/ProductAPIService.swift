@@ -60,7 +60,10 @@ final class ProductAPIService {
         )
     }
     
-    func requestCuration() -> AnyPublisher<DataResponse<CurationProductsEntity, NetworkError>, Never> {        return client.request(ProductAPI.curationProduct, model: CurationProductsEntity.self)
+    func requestCuration() -> AnyPublisher<DataResponse<CurationProductsEntity, NetworkError>, Never> {
+        return client.request(ProductAPI.curationProduct, model: CurationProductsEntity.self)
+    }
+    
     func requestFilter() -> AnyPublisher<DataResponse<FilterDataEntity, NetworkError>, Never> {
         return client.request(ProductAPI.filter, model: FilterDataEntity.self)
     }
