@@ -172,6 +172,15 @@ final class FilterStateManager {
         updateFilterDataState()
     }
     
+    func getCurrentSelectedFitlers() -> [FilterItemEntity] {
+        let selectedKeyword = filterDataEntity.data.filter({ $0.filterType != .sort })
+            .compactMap { item -> [FilterItemEntity]? in
+                return item.filterItem.filter { $0.isSelected }
+            }.flatMap { $0 }
+        print(selectedKeyword)
+        return selectedKeyword
+    }
+    
     func appendFilterList(filters: [String], type: FilterType) {
         deleteFilters(filters: filters, with: type)
         filters.forEach { filter in
