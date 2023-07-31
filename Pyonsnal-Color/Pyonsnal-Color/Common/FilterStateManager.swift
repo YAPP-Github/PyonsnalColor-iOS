@@ -43,7 +43,30 @@ final class FilterStateManager {
         }
         
         updateFilterDataState()
-        Log.d(message: "filterDataEntity \(filterDataEntity)")
+    }
+    
+    // 여러 아이템의 isSelected 값을 업데이트 합니다.
+    func updateFiltersItemState(filters: [FilterItemEntity], type: FilterType) {
+        // type과 매칭되는 filterItem의 isSelected 값을 false로 만듬
+        for index in 0..<filterDataEntity.data.count {
+            if filterDataEntity.data[index].filterType != type { continue }
+            for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
+                filterDataEntity.data[index].filterItem[secondIndex].isSelected = false
+            }
+        }
+        
+        // 선택된 filter의 selected 값을 업데이트
+        for index in 0..<filterDataEntity.data.count {
+            if filterDataEntity.data[index].filterType != type { continue }
+            for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
+                for filter in filters {
+                    if filterDataEntity.data[index].filterItem[secondIndex].code == filter.code {
+                        filterDataEntity.data[index].filterItem[secondIndex].isSelected = filter.isSelected
+                    }
+                }
+            }
+        }
+        
     }
     
     /// 정렬 필터 isSelected 값을 업데이트 합니다.

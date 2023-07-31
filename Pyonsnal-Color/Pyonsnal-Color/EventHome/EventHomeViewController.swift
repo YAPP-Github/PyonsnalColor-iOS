@@ -279,21 +279,18 @@ final class EventHomeViewController: UIViewController,
         let store = tabViewController.convenienceStore
         tabViewController.applyKeywordFilterSnapshot(with: items)
         
-        // filterList에 대해 request
+        // filterList update
         let filterList = items.map { String($0.code) }
         tabViewController.appendFilterList(with: filterList, type: filterType)
         
         let updatedFilterList = tabViewController.getFilterList()
         listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
         
-        // 해당 filterItems isSelected 값 변경
-        items.map { item in
-            tabViewController.updateFilterState(with: item, isSelected: item.isSelected)
-        }
+        // 해당 filterItems isSelected 값 변경, deselected된 아이템들은 !isSelected 값을 가져야 함
+        tabViewController.updateFiltersState(with: items, type: filterType)
+
         guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
-
-        print(items)
     }
     
     func updateSortFilter(item: FilterItemEntity) {
