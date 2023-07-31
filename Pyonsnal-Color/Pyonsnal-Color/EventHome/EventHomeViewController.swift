@@ -277,7 +277,6 @@ final class EventHomeViewController: UIViewController,
         // KeywordFilterCell 추가
         guard let tabViewController = currentTabViewController() else { return }
         let store = tabViewController.convenienceStore
-        tabViewController.applyKeywordFilterSnapshot(with: items)
         
         // filterList update
         let filterList = items.map { String($0.code) }
@@ -289,6 +288,8 @@ final class EventHomeViewController: UIViewController,
         // 해당 filterItems isSelected 값 변경, deselected된 아이템들은 !isSelected 값을 가져야 함
         tabViewController.updateFiltersState(with: items, type: filterType)
 
+        let keywordItems = tabViewController.getKeywordList()
+        tabViewController.applyKeywordFilterSnapshot(with: keywordItems)
         guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
     }

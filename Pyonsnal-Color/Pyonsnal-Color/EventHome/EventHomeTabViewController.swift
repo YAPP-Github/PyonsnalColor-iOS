@@ -398,4 +398,8 @@ extension EventHomeTabViewController {
     func deleteAllFilterCode() {
         filterStateManager?.deleteAllFilterList()
     }
+    
+    func getKeywordList() -> [FilterItemEntity] {
+        filterStateManager?.getCurrentSelectedFitlers() ?? []
+    }
 }

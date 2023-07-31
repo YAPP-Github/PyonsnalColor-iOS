@@ -27,6 +27,7 @@ final class FilterButton: UIButton {
     // MARK: - Method
     func setUISelected() {
         self.isSelected = true
+        self.setTitleColor(.white, for: .normal)
         self.backgroundColor = .gray700
         self.setImageTintColor(with: .white)
         self.makeBorder(width: 0, color: UIColor.clear.cgColor)
@@ -34,6 +35,7 @@ final class FilterButton: UIButton {
     
     func setUIUnSelected() {
         self.isSelected = false
+        self.setTitleColor(.gray500, for: .normal)
         self.backgroundColor = .white
         self.setImageTintColor(with: .gray500)
         self.makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)

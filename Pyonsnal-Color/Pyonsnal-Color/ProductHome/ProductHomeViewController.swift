@@ -279,7 +279,7 @@ final class ProductHomeViewController:
     func updateFilterItems(with items: [FilterItemEntity], type: FilterType) {
         // KeywordFilterCell 추가
         guard let listViewController = currentListViewController() else { return }
-        listViewController.applyKeywordFilterSnapshot(with: items)
+        
         let store = listViewController.convenienceStore
         
         // filterList update
@@ -291,6 +291,9 @@ final class ProductHomeViewController:
         
         // 해당 filterItems isSelected 값 변경, deselected된 아이템들은 !isSelected 값을 가져야 함
         listViewController.updateFiltersState(with: items, type: type)
+        
+        let keywordItems = listViewController.getKeywordList()
+        listViewController.applyKeywordFilterSnapshot(with: keywordItems)
         
         guard let filterDataEntity = listViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)

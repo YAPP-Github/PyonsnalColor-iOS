@@ -331,4 +331,8 @@ extension ProductListViewController {
     func deleteAllFilterCode() {
         filterStateManager?.deleteAllFilterList()
     }
+    
+    func getKeywordList() -> [FilterItemEntity] {
+        filterStateManager?.getCurrentSelectedFitlers() ?? []
+    }
 }
