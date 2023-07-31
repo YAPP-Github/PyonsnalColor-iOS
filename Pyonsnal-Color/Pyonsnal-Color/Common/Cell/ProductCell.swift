@@ -224,7 +224,8 @@ final class ProductCell: UICollectionViewCell {
         makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
     }
     
-    func updateCell(with product: ProductConvertable) {
+    func updateCell(with product: ProductConvertable?) {
+        guard let product else { return }
         viewHolder.titleLabel.text = product.name
         if let storeTypeImage = product.storeType.storeTagImage {
             viewHolder.convenienceStoreTagImageView.setImage(storeTypeImage)

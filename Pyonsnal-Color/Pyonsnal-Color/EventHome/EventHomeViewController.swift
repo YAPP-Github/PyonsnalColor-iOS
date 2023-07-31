@@ -13,11 +13,12 @@ protocol EventHomePresentableListener: AnyObject {
     func didLoadEventHome(with store: ConvenienceStore)
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapSearchButton()
-    func didTapProductCell()
     func didChangeStore(to store: ConvenienceStore)
-    func didScrollToNextPage(store: ConvenienceStore)
+    func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
     func didSelect(with brandProduct: ProductConvertable)
     func didSelectFilter(of filter: FilterEntity?)
+    func didTapRefreshFilterCell(with store: ConvenienceStore)
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String])
 }
 
 final class EventHomeViewController: UIViewController,
@@ -54,9 +55,6 @@ final class EventHomeViewController: UIViewController,
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
     private var isPaging: Bool = false
-    var isNeedToShowRefreshButton: Bool {
-        return true
-    }
     
     // MARK: - Initializer
     init() {
@@ -71,24 +69,28 @@ final class EventHomeViewController: UIViewController,
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureNavigationView()
         configureDatasource()
-        makeSnapshot()
+        initialSnapshot()
         configureCollectionView()
         setPageViewController()
         setScrollView()
         configureUI()
-        if let store = ConvenienceStore.allCases.first(where: { $0.convenienceStoreCellName == convenienceStores.first }) {
-            listener?.didLoadEventHome(with: store)
-        }
+        loadFirstEventProducts()
     }
     
     // MARK: - Private method
     private func configureNavigationView() {
         viewHolder.titleNavigationView.delegate = self
+    }
+    
+    private func loadFirstEventProducts() {
+        if let firstConvenienceStore = ConvenienceStore.allCases
+            .first(where: { $0.convenienceStoreCellName == convenienceStores.first }) {
+            listener?.didLoadEventHome(with: firstConvenienceStore)
+        }
     }
     
     private func configureDatasource() {
@@ -105,19 +107,18 @@ final class EventHomeViewController: UIViewController,
                 switch filterItem.filterUseType {
                 case .refresh:
                     let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.delegate = self
                     return cell
                 case .category:
-                    guard let title = filterItem.filter?.defaultText else { return nil }
-                    
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                    cell.configure(with: title, filterItem: [])
+                    cell.configure(filter: filterItem.filter)
                     return cell
                 }
             }
         }
     }
     
-    private func makeSnapshot() {
+    private func initialSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<TopCollectionViewDatasource.SectionType, TopCollectionViewDatasource.ItemType>()
         // append store
         snapshot.appendSections([.convenienceStore(store: convenienceStores)])
@@ -126,28 +127,41 @@ final class EventHomeViewController: UIViewController,
         }
         snapshot.appendItems(items, toSection: .convenienceStore(store: convenienceStores))
         
-        // append filter
-        let filters = makeFilterCellItem()
-        if !filters.isEmpty {
-            snapshot.appendSections([.filter])
-            
-            if isNeedToShowRefreshButton {
-                let refreshItem = FilterCellItem(filterUseType: .refresh)
-                let refreshItems = [ItemType.filter(filterItem: refreshItem)]
-                snapshot.appendItems(refreshItems, toSection: .filter)
-            }
-            
-            let filterItems = filters.map { filter in
-                return ItemType.filter(filterItem: filter)
-            }
-            snapshot.appendItems(filterItems, toSection: .filter)
-        }
-        
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    func makeFilterCellItem() -> [FilterCellItem] {
-        return FilterDummy.data.data.map { FilterCellItem(filter: $0) }
+    private func applyFilterSnapshot(with filters: FilterDataEntity?) {
+        guard let filters else { return }
+        guard var snapshot = dataSource?.snapshot() else { return }
+        
+        // append filter
+        if !filters.data.isEmpty {
+            if !snapshot.sectionIdentifiers.contains(.filter) {
+                snapshot.appendSections([.filter])
+            }
+            guard let filters = initializeFilterState(with: filters) else { return }
+            
+            let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
+            let refreshItems = [ItemType.filter(filterItem: refreshItem)]
+            if needToShowRefreshCell() {
+                snapshot.appendItems(refreshItems, toSection: .filter)
+            } else {
+                snapshot.deleteItems(refreshItems)
+            }
+        
+            let filterItems = filters.data.map { filter in
+                let filterItem = FilterCellItem(filter: filter)
+                return ItemType.filter(filterItem: filterItem)
+            }
+            snapshot.appendItems(filterItems, toSection: .filter)
+        }
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func initializeFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
+        guard let currentTabViewController = currentTabViewController() else { return nil }
+        currentTabViewController.initializeFilterState()
+        return currentTabViewController.getFilterDataEntity()
     }
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
@@ -220,12 +234,48 @@ final class EventHomeViewController: UIViewController,
         }
     }
     
+    func updateFilter(with filters: FilterDataEntity) {
+        viewHolder.pageViewController.setFilterStateManager(with: filters)
+        applyFilterSnapshot(with: filters)
+    }
+    
     func didFinishPaging() {
         isPaging = false
     }
     
+    func currentTabViewController() -> EventHomeTabViewController? {
+        guard let currentViewController = viewHolder.pageViewController.viewControllers?.first,
+              let currentTabViewController = currentViewController as? EventHomeTabViewController else {
+                  return nil
+              }
+        return currentTabViewController
+    }
+    
+    func needToShowRefreshCell() -> Bool {
+        guard let tabViewController = currentTabViewController() else { return false }
+        return tabViewController.needToShowRefreshCell()
+    }
+    
     func updateFilterItems(with items: [FilterItemEntity]) {
-        // TODO: 추가된 필터들 적용
+        // KeywordFilterCell 추가
+        guard let tabViewController = currentTabViewController() else { return }
+        let store = tabViewController.convenienceStore
+        tabViewController.applyKeywordFilterSnapshot(with: items)
+        
+        // filterList에 대해 request
+        let filterList = items.map { String($0.code) }
+        tabViewController.appendFilterList(with: filterList)
+        
+        let updatedFilterList = tabViewController.getFilterList()
+        listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
+        
+        // 해당 filterItems isSelected 값 변경
+        items.map { item in
+            tabViewController.updateFilterState(with: item, isSelected: item.isSelected)
+        }
+        guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
+        applyFilterSnapshot(with: filterDataEntity)
+
         print(items)
     }
     
@@ -323,7 +373,8 @@ extension EventHomeViewController {
                 $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
                 $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
-                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.Filter.height
+                let height = TopCommonSectionLayout.ConvenienceStore.height
+                + TopCommonSectionLayout.Filter.height
                 $0.height.equalTo(height)
             }
             
@@ -348,6 +399,10 @@ extension EventHomeViewController {
 
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
+    func updateFilterUI(with filterDataEntity: FilterDataEntity) {
+        applyFilterSnapshot(with: filterDataEntity)
+    }
+    
     func didSelect(with brandProduct: ProductConvertable) {
         listener?.didSelect(with: brandProduct)
     }
@@ -361,12 +416,26 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         listener?.didTapEventBannerCell(with: imageURL, store: store)
     }
     
-    func didTapProductItemCell() {
-        listener?.didTapProductCell()
-    }
-    
     func didChangeStore(to store: ConvenienceStore) {
         listener?.didChangeStore(to: store)
+    }
+    
+    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
+        // filter isSelected 값 변경
+        guard let tabViewController = currentTabViewController() else { return }
+        
+        tabViewController.updateFilterState(with: filter, isSelected: isSelected)
+        let filterCode = String(filter.code)
+        tabViewController.deleteFilterCode(at: filterCode)
+        
+        guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
+        applyFilterSnapshot(with: filterDataEntity)
+        
+        let filterList = tabViewController.getFilterList()
+        listener?.requestwithUpdatedKeywordFilter(
+            with: tabViewController.convenienceStore,
+            filterList: filterList
+        )
     }
 }
 
@@ -401,11 +470,7 @@ extension EventHomeViewController: UICollectionViewDelegate {
 // MARK: - UIScrollViewDelegate
 extension EventHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let currentViewController = viewHolder.pageViewController.viewControllers?.first,
-              let tabViewController = currentViewController as? EventHomeTabViewController
-        else {
-            return
-        }
+        guard let tabViewController = currentTabViewController() else { return }
 
         let collectionView = tabViewController.collectionView
         let outerScroll = scrollView == viewHolder.containerScrollView
@@ -430,7 +495,11 @@ extension EventHomeViewController: UIScrollViewDelegate {
 
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
             isPaging = true
-            listener?.didScrollToNextPage(store: tabViewController.convenienceStore)
+            let filterList = tabViewController.getFilterList()
+            listener?.didScrollToNextPage(
+                store: tabViewController.convenienceStore,
+                filterList: filterList
+            )
         }
         
         if innerScroll && downScroll {
@@ -480,13 +549,33 @@ extension EventHomeViewController: ScrollDelegate {
 // MARK: - ProductPresentable
 extension EventHomeViewController: ProductPresentable {
     func didTabRootTabBar() {
-        guard let viewController = viewHolder.pageViewController.viewControllers?.first,
-              let productListViewController = viewController as? EventHomeTabViewController
-        else {
+        guard let tabViewController = currentTabViewController() else {
             return
         }
         
-        productListViewController.scrollCollectionViewToTop()
+        tabViewController.scrollCollectionViewToTop()
     }
-    
+
+}
+
+// MARK: - RefreshFilterCellDelegate
+extension EventHomeViewController: RefreshFilterCellDelegate {
+    func didTapRefreshButton() {
+        guard let tabViewController = currentTabViewController() else {
+            return
+        }
+        // delete keywordFilterCell
+        tabViewController.applyKeywordFilterSnapshot(with: [])
+        
+        // request product
+        listener?.didTapRefreshFilterCell(with: tabViewController.convenienceStore)
+        
+        // filter isSelected state update
+        tabViewController.resetFilterItemState()
+        tabViewController.deleteAllFilterCode()
+        
+        // apply filterData
+        let filterDataEntity = tabViewController.getFilterDataEntity()
+        applyFilterSnapshot(with: filterDataEntity)
+    }
 }

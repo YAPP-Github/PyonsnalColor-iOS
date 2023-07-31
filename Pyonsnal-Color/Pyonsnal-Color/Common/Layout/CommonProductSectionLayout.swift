@@ -30,6 +30,7 @@ final class CommonProductSectionLayout {
         enum KeywordFilter {
             static let estimatedWidth: CGFloat = 96
             static let height: CGFloat = 32
+            static let interSpacing: CGFloat = 4
         }
         
         static let topMargin: CGFloat = 8
@@ -44,21 +45,23 @@ final class CommonProductSectionLayout {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .estimated(Size.KeywordFilter.estimatedWidth),
             heightDimension: .absolute(Size.KeywordFilter.height)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item]
         )
-        group.interItemSpacing = .fixed(.spacing4)
+
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = Size.KeywordFilter.interSpacing
         section.contentInsets = .init(
             top: 0,
             leading: .spacing16,
             bottom: .spacing24,
             trailing: 0
         )
+        section.orthogonalScrollingBehavior = .continuous
         return section
     }
     
@@ -80,11 +83,11 @@ final class CommonProductSectionLayout {
                                                         leading: 0,
                                                         bottom: Size.bottomMargin,
                                                         trailing: 0)
-        section.boundarySupplementaryItems = createEventSupplementaryView()
+        section.boundarySupplementaryItems = createSupplementaryView()
         return section
     }
     
-    private func itemLayout(from tab: CommonProductSectionLayout.Tab) -> NSCollectionLayoutSection {
+    private func itemLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Item.width),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -108,16 +111,24 @@ final class CommonProductSectionLayout {
                                                         bottom: Size.Item.bottomMargin,
                     
                                                         trailing: 0)
-        if tab == .home {
-            section.boundarySupplementaryItems = createHomeSupplementaryView()
-        } else if tab == .event {
-            section.boundarySupplementaryItems = createEventSupplementaryView()
-        }
-        
+        section.boundarySupplementaryItems = createSupplementaryView()
         return section
     }
     
-    private func createEventSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
+    private func emptyLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        return section
+    }
+    
+    private func createSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .absolute(Size.Header.height)),
@@ -126,42 +137,33 @@ final class CommonProductSectionLayout {
         )
         return [sectionHeader]
     }
-    
-    private func createHomeSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(Size.Header.height)
-            ),
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        return [sectionHeader]
-    }
 }
 
 extension CommonProductSectionLayout {
-    enum Tab {
-        case home
-        case event
-    }
+
+    // For Event
     func section(at type: EventHomeTabViewController.SectionType) -> NSCollectionLayoutSection {
         switch type {
         case .keywordFilter:
             return keywordFilterLayout()
         case .event:
             return eventLayout()
-        case .item:
-            return itemLayout(from: .event)
+        case .item(type: .empty):
+            return emptyLayout()
+        case .item(type: .item):
+            return itemLayout()
         }
     }
     
+    // For Home
     func section(at type: ProductListViewController.SectionType) -> NSCollectionLayoutSection {
         switch type {
         case .keywordFilter:
             return keywordFilterLayout()
-        case .product:
-            return itemLayout(from: .home)
+        case .product(type: .empty):
+            return emptyLayout()
+        case .product(type: .item):
+            return itemLayout()
         }
     }
 }

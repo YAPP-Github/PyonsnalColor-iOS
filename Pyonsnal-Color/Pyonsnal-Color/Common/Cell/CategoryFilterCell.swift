@@ -10,38 +10,55 @@ import SnapKit
 
 final class CategoryFilterCell: UICollectionViewCell {
     
-    private let viewHolder: ViewHolder = .init()
+    // MARK: - UI Component
+    private let filterButton: FilterButton = {
+        let button = FilterButton()
+        return button
+    }()
     
+    private let sortButton: SortButton = {
+        let button = SortButton()
+        return button
+    }()
+    
+    private var currentButton = UIButton()
+    
+    override func prepareForReuse() {
+        currentButton.removeFromSuperview()
+    }
+    
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        viewHolder.place(in: contentView)
-        viewHolder.configureConstraints(for: contentView)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with filterText: String?, filterItem: [String]) {
-        viewHolder.button.setText(with: filterText)
+    // MARK: - Method
+    func configure(filter: FilterEntity?) {
+        guard let filter else { return }
+        self.setButton(with: filter)
     }
     
-    class ViewHolder: ViewHolderable {
-
-        let button: FilterButton = {
-            let button = FilterButton()
-            return button
-        }()
-        
-        func place(in view: UIView) {
-            view.addSubview(button)
-            
+    func setButton(with filter: FilterEntity) {
+        currentButton = filter.filterType == .sort ? sortButton : filterButton
+        if currentButton == filterButton {
+            filter.isSelected == true ? filterButton.setUISelected() : filterButton.setUIUnSelected()
         }
-        
-        func configureConstraints(for view: UIView) {
-            button.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
-        }
+        currentButton.setText(with: filter.filterType.filterDefaultText)
+        self.place(in: contentView, button: currentButton)
+        self.configureConstraints(for: contentView, button: currentButton)
     }
+    
+    func place(in view: UIView, button: UIButton) {
+        view.addSubview(button)
+    }
+    
+    func configureConstraints(for view: UIView, button: UIButton) {
+        button.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    } 
 }

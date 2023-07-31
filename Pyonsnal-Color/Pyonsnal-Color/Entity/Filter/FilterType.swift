@@ -26,6 +26,21 @@ enum FilterType: Decodable {
         }
     }
     
+    var filterDefaultText: String {
+        switch self {
+        case .sort:
+            return "최신순"
+        case .recommend:
+            return "상품 추천"
+        case .category:
+            return "카테고리"
+        case .event:
+            return "행사"
+        case .unknown:
+            return ""
+        }
+    }
+    
     var iconImage: ImageAssetKind.Filter? {
         switch self {
         case .sort:

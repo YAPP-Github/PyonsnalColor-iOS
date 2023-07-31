@@ -13,12 +13,14 @@ enum ProductAPI: NetworkRequestBuilder {
     case brandProduct(
         pageNumber: Int,
         pageSize: Int,
-        storeType: ConvenienceStore
+        storeType: ConvenienceStore,
+        filterList: [String]
     )
     case eventProduct(
         pageNumber: Int,
         pageSize: Int,
-        storeType: ConvenienceStore
+        storeType: ConvenienceStore,
+        filterList: [String]
     )
     case eventBanner(storeType: ConvenienceStore)
     case search(
@@ -26,6 +28,7 @@ enum ProductAPI: NetworkRequestBuilder {
         pageSize: Int,
         name: String
     )
+    case filter
 }
 
 extension ProductAPI {
@@ -34,8 +37,10 @@ extension ProductAPI {
     
     var method: HTTPMethod {
         switch self {
-        case .brandProduct, .eventProduct, .eventBanner, .search:
+        case .eventBanner, .search, .filter:
             return .get
+        case .brandProduct, .eventProduct:
+            return .post
         }
     }
     
@@ -49,20 +54,31 @@ extension ProductAPI {
             return "/promotions"
         case .search:
             return "products/search"
+        case .filter:
+            return "/products/meta-data"
         }
     }
     
-    var body: [String: Any]? { nil }
+    var body: [String: Any]? {
+        switch self {
+        case .brandProduct(_, _, _, let filterList):
+            return ["filterList" : filterList]
+        case .eventProduct(_, _, _, let filterList):
+            return ["filterList" : filterList]
+        default:
+            return nil
+        }
+    }
     
     var queryItems: [URLQueryItem]? {
         var queryItems: [URLQueryItem] = []
         
         switch self {
-        case let .brandProduct(pageNumber, pageSize, storeType):
+        case let .brandProduct(pageNumber, pageSize, storeType, _):
             queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
             queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
             queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType.rawValue)"))
-        case let .eventProduct(pageNumber, pageSize, storeType):
+        case let .eventProduct(pageNumber, pageSize, storeType, _):
             queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
             queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
             queryItems.append(URLQueryItem(name: "storeType", value: "\(storeType.rawValue)"))
@@ -72,6 +88,8 @@ extension ProductAPI {
             queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
             queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
             queryItems.append(URLQueryItem(name: "name", value: "\(name)"))
+        case .filter:
+            return nil
         }
         
         return queryItems

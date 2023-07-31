@@ -24,6 +24,7 @@ protocol EventHomePresentable: Presentable {
     
     func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore)
     func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore)
+    func updateFilter(with filters: FilterDataEntity)
     func didFinishPaging()
     func updateFilterItems(with items: [FilterItemEntity])
     func updateSortFilter(type: FilterItemEntity)
@@ -46,7 +47,7 @@ final class EventHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
-
+    
     init(
         presenter: EventHomePresentable,
         dependency: EventHomeDependency
@@ -64,12 +65,13 @@ final class EventHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestProducts(pageNumber: Int, store: ConvenienceStore) {
+    private func requestProducts(pageNumber: Int, store: ConvenienceStore, filterList: [String]) {
         storeLastPages[store] = pageNumber
         dependency?.productAPIService.requestEventProduct(
             pageNumber: pageNumber,
             pageSize: productPerPage,
-            storeType: store
+            storeType: store,
+            filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
                 self?.presenter.updateProducts(with: productPage.content, at: store)
@@ -78,13 +80,14 @@ final class EventHomeInteractor:
         }.store(in: &cancellable)
     }
     
-    private func requestProductWithBanners(store: ConvenienceStore) {
+    private func requestProductWithBanners(store: ConvenienceStore, filterList: [String]) {
         storeLastPages[store] = initialPage
         let eventPublisher = dependency?.productAPIService.requestEventBanner(storeType: store)
         let productPublisher = dependency?.productAPIService.requestEventProduct(
             pageNumber: initialPage,
             pageSize: initialCount,
-            storeType: store
+            storeType: store,
+            filterList: filterList
         )
         guard let eventPublisher,
               let productPublisher else { return }
@@ -97,6 +100,15 @@ final class EventHomeInteractor:
                 self?.presenter.update(with: product, banners: event, at: store)
             }
         }.store(in: &cancellable)
+    }
+    
+    private func requestFilter() {
+        dependency?.productAPIService.requestFilter()
+            .sink { [weak self] response in
+                if let filter = response.value {
+                    self?.presenter.updateFilter(with: filter)
+                }
+            }.store(in: &cancellable)
     }
     
     func didTapSearchButton() {
@@ -115,12 +127,9 @@ final class EventHomeInteractor:
         router?.detachEventDetail()
     }
     
-    func didTapProductCell() {
-        // TO DO : 아이템 카드 클릭시
-    }
-    
     func didLoadEventHome(with store: ConvenienceStore) {
-        requestProductWithBanners(store: store)
+        requestProductWithBanners(store: store, filterList: [])
+        requestFilter()
     }
     
     func didSelect(with brandProduct: ProductConvertable) {
@@ -132,12 +141,12 @@ final class EventHomeInteractor:
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        requestProductWithBanners(store: store)
+        requestProductWithBanners(store: store, filterList: [])
     }
     
-    func didScrollToNextPage(store: ConvenienceStore) {
+    func didScrollToNextPage(store: ConvenienceStore, filterList: [String]) {
         if let lastPage = storeLastPages[store] {
-            requestProducts(pageNumber: lastPage + 1, store: store)
+            requestProducts(pageNumber: lastPage + 1, store: store, filterList: filterList)
         }
     }
     
@@ -161,5 +170,13 @@ final class EventHomeInteractor:
         // TODO: 적용된 필터로 상품 목록 조회하기
         router?.detachProductFilter()
         presenter.updateSortFilter(type: type)
+    }
+    
+    func didTapRefreshFilterCell(with store: ConvenienceStore) {
+        requestProductWithBanners(store: store, filterList: [])
+    }
+    
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+        requestProductWithBanners(store: store, filterList: filterList)
     }
 }

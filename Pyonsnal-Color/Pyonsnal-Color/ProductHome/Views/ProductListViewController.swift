@@ -22,14 +22,18 @@ final class ProductListViewController: UIViewController {
         }
     }
     
+    enum ProductSectionType {
+        case empty, item
+    }
+    
     enum SectionType: Hashable {
         case keywordFilter
-        case product
+        case product(type: ProductSectionType)
     }
     
     enum ItemType: Hashable {
-        case keywordFilter(KeywordFilter)
-        case product(BrandProductEntity)
+        case keywordFilter(data: FilterItemEntity)
+        case product(data: BrandProductEntity?)
     }
     
     //MARK: - Private Property
@@ -37,6 +41,8 @@ final class ProductListViewController: UIViewController {
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
     let convenienceStore: ConvenienceStore
+    
+    private var filterStateManager: FilterStateManager?
     
     // MARK: - View Component
     lazy var productCollectionView: UICollectionView = {
@@ -56,6 +62,13 @@ final class ProductListViewController: UIViewController {
     }
     
     // MARK: - Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let filterDataEntity = filterStateManager?.getFilterDataEntity() {
+            delegate?.updateFilterUI(with: filterDataEntity)
+        }       
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,6 +91,10 @@ final class ProductListViewController: UIViewController {
             bottom: 0,
             right: 0
         )
+    }
+    
+    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
+        filterStateManager = FilterStateManager(filterDataEntity: filterDataEntity)
     }
     
     // MARK: - Private Method
@@ -105,7 +122,10 @@ final class ProductListViewController: UIViewController {
     private func registerCells() {
         productCollectionView.register(KeywordFilterCell.self)
         productCollectionView.register(ProductCell.self)
-        productCollectionView.registerHeaderView(ProductListHeaderView.self)
+        productCollectionView.register(EmptyProductCell.self)
+        productCollectionView.register(ItemHeaderTitleView.self,
+                                forSupplementaryViewOfKind: ItemHeaderTitleView.className,
+                                withReuseIdentifier: ItemHeaderTitleView.className)
     }
     
     private func configureDataSource() {
@@ -115,32 +135,51 @@ final class ProductListViewController: UIViewController {
             switch item {
             case .keywordFilter(let keywordFilter):
                 let cell: KeywordFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.configure(with: keywordFilter.name)
+                cell.delegate = self
+                cell.configure(with: keywordFilter)
                 return cell
             case .product(let brandProduct):
-                let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.updateCell(with: brandProduct)
-                return cell
-            
+                if brandProduct == nil {
+                    let cell: EmptyProductCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.delegate = self
+                    return cell
+                } else {
+                    let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.updateCell(with: brandProduct)
+                    return cell
+                }
             }
         }
     }
     
     private func configureHeaderView() {
-        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
-            if kind == UICollectionView.elementKindSectionHeader {
-                guard let headerView = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: String(describing: ProductListHeaderView.self),
-                    for: indexPath
-                ) as? ProductListHeaderView else {
-                    return nil
-                }
-
-                return headerView
+        dataSource?.supplementaryViewProvider = makeSupplementaryView
+    }
+    
+    private func makeSupplementaryView(
+        collectionView: UICollectionView,
+        kind: String,
+        indexPath: IndexPath
+    ) -> UICollectionReusableView? {
+        switch kind {
+        case ItemHeaderTitleView.className:
+            let itemHeaderTitleView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: kind,
+                for: indexPath
+            ) as? ItemHeaderTitleView
+            guard let section = dataSource?.snapshot().sectionIdentifiers[indexPath.section] else {
+                return nil
+            }
+            if section == .product(type: .item) {
+                let itemTitle = "\(convenienceStore.convenienceStoreCellName) \(CommonConstants.productSectionHeaderTitle)"
+                itemHeaderTitleView?.update(title: itemTitle)
             } else {
                 return nil
             }
+            return itemHeaderTitleView
+        default:
+            return nil
         }
     }
         
@@ -153,24 +192,49 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl = refreshControl
     }
     
-    func applySnapshot(with products: [BrandProductEntity]) {
-        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        // append keywordFilter
-        let keywordItems = [KeywordFilter(name: "공부하기 좋은"), KeywordFilter(name: "야식용")].map { keywordFilter in
-            ItemType.keywordFilter(keywordFilter)
-        }
-        if !keywordItems.isEmpty {
-            snapshot.appendSections([.keywordFilter])
-            snapshot.appendItems(keywordItems, toSection: .keywordFilter)
+    func applySnapshot(with products: [BrandProductEntity]?) {
+        productCollectionView.isScrollEnabled = true
+        let itemSectionType = SectionType.product(type: .item)
+        let emtpySectionType = SectionType.product(type: .empty)
+        guard var snapshot = dataSource?.snapshot() else { return }
+
+        guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
+            productCollectionView.isScrollEnabled = false
+            if !snapshot.sectionIdentifiers.contains(emtpySectionType) {
+                snapshot.appendSections([emtpySectionType])
+            }
+            snapshot.appendItems([ItemType.product(data: nil)], toSection: emtpySectionType)
+            dataSource?.apply(snapshot, animatingDifferences: true)
+            return
         }
         
         // append product
         let productItems = products.map { product in
-            return ItemType.product(product)
+            return ItemType.product(data: product)
         }
         if !productItems.isEmpty {
-            snapshot.appendSections([.product])
-            snapshot.appendItems(productItems, toSection: .product)
+            if !snapshot.sectionIdentifiers.contains(itemSectionType) {
+                snapshot.appendSections([itemSectionType])
+            }
+            snapshot.appendItems(productItems, toSection: itemSectionType)
+        }
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        if !snapshot.sectionIdentifiers.contains(.keywordFilter) {
+            snapshot.insertSections([.keywordFilter], beforeSection: .product(type: .item))
+        }
+        // append keywordFilter
+        if !keywordItems.isEmpty {
+            let items = keywordItems.map {
+                return ItemType.keywordFilter(data: $0)
+            }
+            snapshot.appendItems(items, toSection: .keywordFilter)
+            snapshot.reloadSections([.keywordFilter])
+        } else {
+            snapshot.deleteAllItems()
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -191,5 +255,70 @@ final class ProductListViewController: UIViewController {
             self.delegate?.refreshByPull()
             self.productCollectionView.refreshControl?.endRefreshing()
         }
+    }
+}
+
+// MARK: - KeywordFilterCellDelegate
+extension ProductListViewController: KeywordFilterCellDelegate {
+    func didTapDeleteButton(filter: FilterItemEntity) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        let itemIdentifiers = snapshot.itemIdentifiers(inSection: .keywordFilter)
+        let deleteItem = ItemType.keywordFilter(data: filter)
+        let hasKeywords = itemIdentifiers.contains(deleteItem)
+        // filter에서 삭제
+        if hasKeywords {
+            snapshot.deleteItems([deleteItem])
+            dataSource?.apply(snapshot, animatingDifferences: true)
+        }
+        
+        // 현재 선택된 filter에서 삭제
+        delegate?.updateFilterState(with: filter, isSelected: false)
+    }
+}
+
+// MARK: - EmptyProductCellDelegate
+extension ProductListViewController: EmptyProductCellDelegate {
+    func didTapRefreshFilterButton() {
+        delegate?.refreshFilterButton()
+    }
+}
+
+extension ProductListViewController {
+    func resetFilterItemState() {
+        filterStateManager?.updateAllFilterItemState(to: false)
+    }
+    
+    func needToShowRefreshCell() -> Bool {
+        let isFilterDataResetState = filterStateManager?.isFilterDataResetState() ?? false
+        return !isFilterDataResetState
+    }
+    
+    func initializeFilterState() {
+        filterStateManager?.setLastSortFilterSelected()
+        filterStateManager?.setFilterDefatultText()
+    }
+    
+    func getFilterDataEntity() -> FilterDataEntity? {
+        return filterStateManager?.getFilterDataEntity()
+    }
+    
+    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
+        filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
+    }
+    
+    func appendFilterList(with filter: [String]) {
+        filterStateManager?.appendFilterList(filters: filter)
+    }
+    
+    func getFilterList() -> [String] {
+        return filterStateManager?.getFilterList() ?? []
+    }
+    
+    func deleteFilterCode(at filterCode: String) {
+        filterStateManager?.deleteFilterList(filterCode: filterCode)
+    }
+    
+    func deleteAllFilterCode() {
+        filterStateManager?.deleteAllFilterList()
     }
 }

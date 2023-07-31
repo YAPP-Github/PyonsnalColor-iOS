@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol KeywordFilterCellDelegate: AnyObject {
-    func didTapDeleteButton()
+    func didTapDeleteButton(filter: FilterItemEntity)
 }
 
 final class KeywordFilterCell: UICollectionViewCell {
@@ -24,6 +24,7 @@ final class KeywordFilterCell: UICollectionViewCell {
     
     // MARK: - Private property
     private let viewHolder: ViewHolder = .init()
+    private var filterItem: FilterItemEntity?
     
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -31,6 +32,7 @@ final class KeywordFilterCell: UICollectionViewCell {
         viewHolder.place(in: contentView)
         viewHolder.configureConstraints(for: contentView)
         configureUI()
+        configureAction()
     }
     
     required init?(coder: NSCoder) {
@@ -44,8 +46,23 @@ final class KeywordFilterCell: UICollectionViewCell {
         self.makeBorder(width: Size.borderWidth, color: UIColor.red200.cgColor)
     }
     
-    func configure(with text: String?) {
-        viewHolder.titleLabel.text = text
+    private func configureAction() {
+        viewHolder.deleteButton.addTarget(
+            self,
+            action: #selector(didTapDeleteButton),
+            for: .touchUpInside
+        )
+    }
+    
+    @objc private func didTapDeleteButton() {
+        guard let filterItem else { return }
+        delegate?.didTapDeleteButton(filter: filterItem)
+    }
+    
+    func configure(with filterItem: FilterItemEntity) {
+        self.filterItem = filterItem
+        self.filterItem?.isSelected = true
+        viewHolder.titleLabel.text = filterItem.name
     }
     
     class ViewHolder: ViewHolderable {

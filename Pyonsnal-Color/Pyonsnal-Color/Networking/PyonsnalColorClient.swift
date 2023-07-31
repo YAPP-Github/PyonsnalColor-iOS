@@ -28,23 +28,24 @@ final class PyonsnalColorClient: NetworkRequestable {
             .map { response in
                 response.mapError { _ in
                     if let curlString = response.request?.curlString {
-                        print("Request curl: \(curlString)")
+                        Log.n(message: "Request curl: \(curlString)")
                     } else {
-                        print("Request curl: nil")
+                        Log.n(message: "Request curl: nil")
                     }
                     guard let responseData = response.data else {
+                        Log.n(message: "\(response.error)")
                         return NetworkError.emptyResponse
                     }
                     let responseError = try? self.decoder.decode(ErrorResponse.self, from: responseData)
                     if let responseError {
-                        dump(responseError)
+                        Log.n(message: "\(responseError)")
                         return NetworkError.response(responseError)
                     } else if let responseDataString = String(data: responseData, encoding: .utf8) {
-                        print("Response Body: \(responseDataString)")
+                        Log.n(message: "Response Body: \(responseDataString)")
                         return NetworkError.response(.init(code: nil, message: nil, bodyString: responseDataString))
-                    } else {
-                        return NetworkError.unknown
                     }
+                    return NetworkError.unknown
+                
                 }
             }.eraseToAnyPublisher()
     }

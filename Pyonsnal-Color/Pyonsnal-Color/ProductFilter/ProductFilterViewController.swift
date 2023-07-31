@@ -158,14 +158,13 @@ final class ProductFilterViewController:
         }
     }
     
-    // TODO: 외부 데이터 받아오도록 수정
     private func applySnapshot() {
         let filterType = filterEntity.filterType
-        let items = FilterDummy.data.data.filter { $0.filterType == filterType }.first?.filterItem
         
+        let items = filterEntity.filterItem
         var snapshot = NSDiffableDataSourceSnapshot<FilterType, FilterItemEntity>()
         snapshot.appendSections([filterType])
-        snapshot.appendItems(items ?? [])
+        snapshot.appendItems(items)
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }

@@ -10,9 +10,11 @@ import UIKit
 protocol EventHomePageViewControllerDelegate: AnyObject {
     func updateSelectedStoreCell(index: Int)
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
-    func didTapProductItemCell()
     func didChangeStore(to store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
+    
+    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool)
+    func updateFilterUI(with filterDataEntity: FilterDataEntity)
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -48,6 +50,15 @@ final class EventHomePageViewController: UIPageViewController {
             setViewControllers([firstViewController],
                                direction: .forward,
                                animated: true)
+        }
+    }
+    
+    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
+        // 이벤트 탭에서는 상품 추천 filterType 제외
+        let eventFilterEntity = filterDataEntity.data.filter { $0.filterType != .recommend }
+        let eventFilterDataEntity = FilterDataEntity(data: eventFilterEntity)
+        pageViewControllers.forEach { tabViewController in
+            tabViewController.setFilterStateManager(with: eventFilterDataEntity)
         }
     }
     
@@ -128,16 +139,21 @@ extension EventHomePageViewController: ScrollDelegate {
 
 // MARK: - EventHomeTabViewControllerDelegate
 extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
+    
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
         pageDelegate?.didTapEventBannerCell(with: imageURL, store: store)
     }
     
-    func didTapProductCell() {
-        pageDelegate?.didTapProductItemCell()
+    func didTapFilterDeleteButton(with filter: FilterItemEntity) {
+        pageDelegate?.updateFilterState(with: filter, isSelected: false)
     }
 }
 
 extension EventHomePageViewController: ProductListDelegate {
+    func updateFilterUI(with filterDataEntity: FilterDataEntity) {
+        pageDelegate?.updateFilterUI(with: filterDataEntity)
+    }
+    
     func didLoadPageList(store: ConvenienceStore) {
         pageDelegate?.didChangeStore(to: store)
     }
@@ -146,7 +162,16 @@ extension EventHomePageViewController: ProductListDelegate {
         pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
     }
     
-    func didSelect(with brandProduct: ProductConvertable) {
+    func didSelect(with brandProduct: ProductConvertable?) {
+        guard let brandProduct else { return }
         pageDelegate?.didSelect(with: brandProduct)
+    }
+    
+    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
+        pageDelegate?.updateFilterState(with: filter, isSelected: isSelected)
+    }
+    
+    func refreshFilterButton() {
+        pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
     }
 }

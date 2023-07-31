@@ -24,6 +24,7 @@ protocol ProductHomePresentable: Presentable {
     
     func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]])
     func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore)
+    func updateFilter(with filters: FilterDataEntity)
     func didFinishPaging()
     func updateFilterItems(with items: [FilterItemEntity])
     func updateSortFilter(type: FilterItemEntity)
@@ -46,7 +47,6 @@ final class ProductHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
-    private var brandProducts: [ConvenienceStore: [BrandProductEntity]] = [:]
     private var filterEntity: [FilterEntity] = []
 
     init(
@@ -60,45 +60,51 @@ final class ProductHomeInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        requestInitialProducts()
+        requestInitialProducts(filterList: [])
+        requestFilter()
     }
 
     override func willResignActive() {
         super.willResignActive()
     }
     
-    private func requestInitialProducts(store: ConvenienceStore = .all) {
+    private func requestInitialProducts(store: ConvenienceStore = .all, filterList: [String]) {
         storeLastPages[store] = initialPage
         
         dependency?.productAPIService.requestBrandProduct(
             pageNumber: initialPage,
             pageSize: initialCount,
-            storeType: store
+            storeType: store,
+            filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
-                self?.brandProducts[store] = productPage.content
-                if let products = self?.brandProducts[store] {
-                    self?.presenter.updateProducts(with: products, at: store)
-                }
+                self?.presenter.updateProducts(with: productPage.content, at: store)
             } else if response.error != nil {
                 // TODO: Error Handling
             }
         }.store(in: &cancellable)
     }
     
-    private func requestProducts(pageNumber: Int, store: ConvenienceStore) {
+    private func requestProducts(pageNumber: Int, store: ConvenienceStore, filterList: [String]) {
         storeLastPages[store] = pageNumber
         dependency?.productAPIService.requestBrandProduct(
             pageNumber: pageNumber,
             pageSize: productPerPage,
-            storeType: store
+            storeType: store,
+            filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
-                self?.brandProducts[store]? += productPage.content
-                if let products = self?.brandProducts[store] {
-                    self?.presenter.updateProducts(with: products, at: store)
-                    self?.presenter.didFinishPaging()
-                }
+                self?.presenter.updateProducts(with: productPage.content, at: store)
+                self?.presenter.didFinishPaging()
+            }
+        }.store(in: &cancellable)
+    }
+    
+    private func requestFilter() {
+        dependency?.productAPIService.requestFilter()
+            .sink { [weak self] response in
+            if let filter = response.value {
+                self?.presenter.updateFilter(with: filter)
             }
         }.store(in: &cancellable)
     }
@@ -119,13 +125,14 @@ final class ProductHomeInteractor:
         router?.detachNotificationList()
     }
     
-    func didScrollToNextPage(store: ConvenienceStore) {
+    func didScrollToNextPage(store: ConvenienceStore, filterList: [String]) {
         if let lastPage = storeLastPages[store] {
-            requestProducts(pageNumber: lastPage + 1, store: store)
+            requestProducts(pageNumber: lastPage + 1, store: store, filterList: filterList)
         }
     }
     
-    func didSelect(with brandProduct: ProductConvertable) {
+    func didSelect(with brandProduct: ProductConvertable?) {
+        guard let brandProduct else { return }
         router?.attachProductDetail(with: brandProduct)
     }
     
@@ -134,9 +141,12 @@ final class ProductHomeInteractor:
     }
     
     func didChangeStore(to store: ConvenienceStore) {
-        requestInitialProducts(store: store)
+        requestInitialProducts(store: store, filterList: [])
     }
     
+    func didTapRefreshFilterCell(with store: ConvenienceStore) {
+        requestInitialProducts(store: store, filterList: [])
+	}
     func didSelectFilter(ofType filterEntity: FilterEntity?) {
         guard let filterEntity else { return }
         
@@ -158,4 +168,9 @@ final class ProductHomeInteractor:
         router?.detachProductFilter()
         presenter.updateSortFilter(type: type)
     }
+    
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+        requestInitialProducts(store: store, filterList: filterList)
+    }
+    
 }
