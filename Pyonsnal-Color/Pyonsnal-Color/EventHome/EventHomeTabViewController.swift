@@ -373,6 +373,10 @@ extension EventHomeTabViewController {
         filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
     }
     
+    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
+        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
+    }
+    
     func updateSortFilterState(with filter: FilterItemEntity) {
         filterStateManager?.updateSortFilterState(target: filter)
     }
@@ -381,8 +385,7 @@ extension EventHomeTabViewController {
         filterStateManager?.setSortFilterDefaultText()
     }
     
-    // to do : 하드코딩 제거
-    func appendFilterList(with filter: [String], type: FilterType = .category) {
+    func appendFilterList(with filter: [String], type: FilterType) {
         filterStateManager?.appendFilterList(filters: filter, type: type)
     }
     

@@ -276,30 +276,24 @@ final class ProductHomeViewController:
         return tabViewController.needToShowRefreshCell()
 	}
 
-
     func updateFilterItems(with items: [FilterItemEntity], type: FilterType) {
-        // TODO: 추가된 필터들 적용
         // KeywordFilterCell 추가
         guard let listViewController = currentListViewController() else { return }
         listViewController.applyKeywordFilterSnapshot(with: items)
         let store = listViewController.convenienceStore
         
-        // filterList에 대해 request
+        // filterList update
         let filterList = items.map { String($0.code) }
         listViewController.appendFilterList(with: filterList, type: type)
         
         let updatedFilterList = listViewController.getFilterList()
         listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
         
-        // 해당 filterItems isSelected 값 변경
-        items.map { item in
-            listViewController.updateFilterState(with: item, isSelected: item.isSelected)
-        }
+        // 해당 filterItems isSelected 값 변경, deselected된 아이템들은 !isSelected 값을 가져야 함
+        listViewController.updateFiltersState(with: items, type: type)
         
         guard let filterDataEntity = listViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
-        
-        print(items)
     }
     
     func updateSortFilter(item: FilterItemEntity) {
@@ -438,6 +432,7 @@ extension ProductHomeViewController: ProductListDelegate {
         requestProducts(store: store)
     }
     
+    // keyword delete시 호출
     func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
         // filter isSelected 값 변경
         guard let listViewController = currentListViewController() else {

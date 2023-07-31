@@ -310,6 +310,10 @@ extension ProductListViewController {
         filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
     }
     
+    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
+        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
+    }
+    
     func updateSortFilterState(with filter: FilterItemEntity) {
         filterStateManager?.updateSortFilterState(target: filter)
     }
