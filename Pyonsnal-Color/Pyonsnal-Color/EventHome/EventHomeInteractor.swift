@@ -27,7 +27,7 @@ protocol EventHomePresentable: Presentable {
     func updateFilter(with filters: FilterDataEntity)
     func didFinishPaging()
     func updateFilterItems(with items: [FilterItemEntity])
-    func updateSortFilter(type: FilterItemEntity)
+    func updateSortFilter(item: FilterItemEntity)
 }
 
 protocol EventHomeListener: AnyObject {
@@ -161,15 +161,13 @@ final class EventHomeInteractor:
     }
     
     func applyFilterItems(_ items: [FilterItemEntity]) {
-        // TODO: 적용된 필터로 상품 목록 조회하기
         router?.detachProductFilter()
         presenter.updateFilterItems(with: items)
     }
     
     func applySortFilter(type: FilterItemEntity) {
-        // TODO: 적용된 필터로 상품 목록 조회하기
         router?.detachProductFilter()
-        presenter.updateSortFilter(type: type)
+        presenter.updateSortFilter(item: type)
     }
     
     func didTapRefreshFilterCell(with store: ConvenienceStore) {

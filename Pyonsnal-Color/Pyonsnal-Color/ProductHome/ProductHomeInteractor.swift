@@ -28,7 +28,7 @@ protocol ProductHomePresentable: Presentable {
     func didFinishPaging()
     func updateCuration(with products: [CurationEntity])
     func updateFilterItems(with items: [FilterItemEntity])
-    func updateSortFilter(type: FilterItemEntity)
+    func updateSortFilter(item: FilterItemEntity)
 }
 
 protocol ProductHomeListener: AnyObject {
@@ -176,9 +176,8 @@ final class ProductHomeInteractor:
     }
     
     func applySortFilter(type: FilterItemEntity) {
-        // TODO: 적용된 필터로 상품 목록 조회하기
         router?.detachProductFilter()
-        presenter.updateSortFilter(type: type)
+        presenter.updateSortFilter(item: type)
     }
     
     func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String]) {

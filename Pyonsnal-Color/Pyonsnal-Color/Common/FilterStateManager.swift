@@ -46,6 +46,21 @@ final class FilterStateManager {
         Log.d(message: "filterDataEntity \(filterDataEntity)")
     }
     
+    /// 정렬 필터 isSelected 값을 업데이트 합니다.
+    func updateSortFilterState(target sortFilterItem: FilterItemEntity) {
+        for index in 0..<filterDataEntity.data.count {
+            if filterDataEntity.data[index].filterType != .sort { continue }
+            for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
+                if filterDataEntity.data[index].filterItem[secondIndex].code == sortFilterItem.code {
+                    filterDataEntity.data[index].filterItem[secondIndex].isSelected = true
+                } else {
+                    filterDataEntity.data[index].filterItem[secondIndex].isSelected = false
+                }
+            }
+        }
+        
+    }
+    
     /// filterItemEntity 값 변경에 따라 FilterDataEntity isSelected 값을 업데이트 합니다.
     func updateFilterDataState() {
         for index in 0..<filterDataEntity.data.count {
@@ -124,7 +139,27 @@ final class FilterStateManager {
         Log.d(message: "filterDataEntity \(filterDataEntity)")
     }
     
-    func appendFilterList(filters: [String]) {
+    /// sortFilter의 text를 업데이트 합니다.
+    func setSortFilterDefaultText() {
+        for index in 0..<filterDataEntity.data.count {
+            if filterDataEntity.data[index].filterType != .sort { continue }
+            let updatedText = filterDataEntity.data[index].filterItem.first(where: {$0.isSelected })?.name
+            filterDataEntity.data[index].defaultText = updatedText
+        }
+        updateFilterDataState()
+    }
+    
+    func appendFilterList(filters: [String], type: FilterType) {
+        if type == .sort {
+            // 기존 저장되어있던 sortFilter를 찾아 delete (단일 선택만 가능하므로)
+            if let sortFilterCodeList = filterDataEntity.data
+                .first(where: { $0.filterType == .sort })?
+                .filterItem.map({ String($0.code) }) {
+                sortFilterCodeList.map { filterCode in
+                    self.deleteFilterList(filterCode: filterCode)
+                }
+            }
+        }
         filters.forEach { filter in
             filterList.insert(filter)
         }

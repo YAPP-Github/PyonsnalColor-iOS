@@ -298,6 +298,10 @@ extension ProductListViewController {
         filterStateManager?.setFilterDefatultText()
     }
     
+    func updateSortFilterDefaultText() {
+        filterStateManager?.setSortFilterDefaultText()
+    }
+    
     func getFilterDataEntity() -> FilterDataEntity? {
         return filterStateManager?.getFilterDataEntity()
     }
@@ -306,8 +310,13 @@ extension ProductListViewController {
         filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
     }
     
-    func appendFilterList(with filter: [String]) {
-        filterStateManager?.appendFilterList(filters: filter)
+    func updateSortFilterState(with filter: FilterItemEntity) {
+        filterStateManager?.updateSortFilterState(target: filter)
+    }
+    
+    // to do : type 하드코딩 제거
+    func appendFilterList(with filter: [String], type: FilterType = .category) {
+        filterStateManager?.appendFilterList(filters: filter, type: type)
     }
     
     func getFilterList() -> [String] {
