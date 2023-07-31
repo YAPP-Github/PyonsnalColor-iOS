@@ -35,7 +35,7 @@ final class CurationHeaderView: UICollectionReusableView {
     
     func configureHeaderView(with curation: CurationEntity) {
         titleLabel.text = curation.title
-        descriptionLabel.text = curation.description
+        descriptionLabel.text = curation.subTitle
     }
     
     private func configureLayout() {

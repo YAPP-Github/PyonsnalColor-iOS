@@ -26,27 +26,6 @@ final class ProductCurationViewController: UIViewController {
     weak var delegate: ProductListDelegate?
     
     private var dataSource: DataSource?
-    var dummyData: [CurationEntity] = [
-        CurationEntity(
-            title: "HOT🔥 상품",
-            description: "지금 사랑받고 있는 편의점별 단독 상품",
-            products: []
-        ),
-        CurationEntity(
-            title: "SNS✨ 추천 상품",
-            description: "인플루언서들 사이에서 난리난 편의점별 단독 상품",
-            products: []
-        ),
-        CurationEntity(
-            title: "시험기간✍️ 추천 상품 ",
-            description: "에너지, 카페인 충천을 위한 편의점별 단독 상품",
-            products: []
-        )
-    ] {
-        didSet {
-            applySnapshot()
-        }
-    }
     
     lazy var curationCollectionView: UICollectionView = {
         let layout = createLayout()
@@ -153,15 +132,14 @@ final class ProductCurationViewController: UIViewController {
         }
     }
     
-    // TODO: 외부에서 CurationEntity 받아오는 로직으로 수정
-    private func applySnapshot() {
+    func applySnapshot(with products: [CurationEntity]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         
         // TODO: 이미지 변경
         snapshot.appendSections([.image])
         snapshot.appendItems([.image(data: UIImage(systemName: ""))])
         
-        dummyData.forEach { curation in
+        products.forEach { curation in
             snapshot.appendSections([.curation(data: curation)])
             curation.products.forEach { product in
                 snapshot.appendItems([.curation(data: product)])

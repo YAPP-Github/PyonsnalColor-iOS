@@ -7,9 +7,12 @@
 
 import Foundation
 
+struct CurationProductsEntity: Decodable {
+    let curationProducts: [CurationEntity]
+}
+
 struct CurationEntity: Decodable, Hashable {
     let title: String
-    let description: String
-    // TODO: 상수프로퍼티로 변경
-    var products: [BrandProductEntity]
+    let subTitle: String
+    let products: [BrandProductEntity]
 }

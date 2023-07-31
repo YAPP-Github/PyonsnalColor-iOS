@@ -15,7 +15,7 @@ enum EventTag: String, Decodable {
 }
 
 extension EventTag {
-    var name: String {
+    var name: String? {
         switch self {
         case .discount:
             return "할인"
