@@ -26,7 +26,7 @@ protocol EventHomePresentable: Presentable {
     func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore)
     func updateFilter(with filters: FilterDataEntity)
     func didFinishPaging()
-    func updateFilterItems(with items: [FilterItemEntity])
+    func updateFilterItems(with items: [FilterItemEntity], filterType: FilterType)
     func updateSortFilter(item: FilterItemEntity)
 }
 
@@ -160,9 +160,9 @@ final class EventHomeInteractor:
         router?.detachProductFilter()
     }
     
-    func applyFilterItems(_ items: [FilterItemEntity]) {
+    func applyFilterItems(_ items: [FilterItemEntity], type: FilterType) {
         router?.detachProductFilter()
-        presenter.updateFilterItems(with: items)
+        presenter.updateFilterItems(with: items, filterType: type)
     }
     
     func applySortFilter(type: FilterItemEntity) {

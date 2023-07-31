@@ -150,16 +150,7 @@ final class FilterStateManager {
     }
     
     func appendFilterList(filters: [String], type: FilterType) {
-        if type == .sort {
-            // 기존 저장되어있던 sortFilter를 찾아 delete (단일 선택만 가능하므로)
-            if let sortFilterCodeList = filterDataEntity.data
-                .first(where: { $0.filterType == .sort })?
-                .filterItem.map({ String($0.code) }) {
-                sortFilterCodeList.map { filterCode in
-                    self.deleteFilterList(filterCode: filterCode)
-                }
-            }
-        }
+        deleteFilters(filters: filters, with: type)
         filters.forEach { filter in
             filterList.insert(filter)
         }
@@ -167,6 +158,16 @@ final class FilterStateManager {
     
     func deleteFilterList(filterCode: String) {
         filterList.remove(filterCode)
+    }
+    
+    private func deleteFilters(filters: [String], with type: FilterType) {
+        if let filterCodeList = filterDataEntity.data
+            .first(where: { $0.filterType == type })?
+            .filterItem.map({ String($0.code) }) {
+            filterCodeList.map { filterCode in
+                self.deleteFilterList(filterCode: filterCode)
+            }
+        }
     }
     
     func deleteAllFilterList() {
