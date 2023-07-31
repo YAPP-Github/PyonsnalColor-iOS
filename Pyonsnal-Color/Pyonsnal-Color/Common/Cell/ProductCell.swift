@@ -241,6 +241,23 @@ final class ProductCell: UICollectionViewCell {
         viewHolder.itemImageView.setImage(with: product.imageURL)
         viewHolder.originalPriceLabel.text = product.price.addWon()
         viewHolder.newTagView.isHidden = !(product.isNew ?? false)
+        if product.isNew ?? false {
+            viewHolder.newTagView.snp.updateConstraints { make in
+                make.width.equalTo(Size.newImageViewWidth)
+            }
+            
+            viewHolder.titleLabel.snp.updateConstraints { make in
+                make.leading.equalTo(viewHolder.newTagView.snp.trailing).offset(Size.titleLabelLeading)
+            }
+        } else {
+            viewHolder.newTagView.snp.updateConstraints { make in
+                make.width.equalTo(0)
+            }
+            viewHolder.titleLabel.snp.updateConstraints { make in
+                make.leading.equalTo(viewHolder.newTagView.snp.trailing)
+            }
+        }
+        
         hasEventType(product.eventType)
     }
     

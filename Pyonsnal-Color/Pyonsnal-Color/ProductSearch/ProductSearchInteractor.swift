@@ -87,7 +87,7 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     func search(with keyword: String?) {
         self.keyword = keyword
         self.pageNumber = 0
-        self.filterItem = .init(name: "최신순", code: 0, isSelected: true)
+        self.filterItem = .init(name: "최신순", code: 2, isSelected: true)
         
         if let keyword,
            !keyword.isEmpty {
@@ -186,9 +186,9 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     
     func didTapSortButton(filterItem: FilterItemEntity) {
         var filterItems: [FilterItemEntity] = [
-            .init(name: "최신순", code: 1),
-            .init(name: "낮은 가격 순", code: 2),
-            .init(name: "높은 가격 순", code: 3)
+            .init(name: "최신순", code: 2),
+            .init(name: "낮은 가격 순", code: 3),
+            .init(name: "높은 가격 순", code: 1)
         ]
         if let index = filterItems.firstIndex(where: { item in
             return item.code == filterItem.code

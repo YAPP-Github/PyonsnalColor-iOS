@@ -229,7 +229,7 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
             let edgeInsetRight = Size.collectionViewEdgeInset.right
             let spacing = itemSpacing + edgeInsetLeft + edgeInsetRight
             let collectionViewWidth = collectionView.bounds.width
-            let cellHeightRatio: CGFloat = 1.294797
+            let cellHeightRatio: CGFloat = 1.35
             
             let cellWidth = (collectionViewWidth - spacing) / 2
             let cellHeight = cellWidth * cellHeightRatio

@@ -176,6 +176,10 @@ final class ProductHomeViewController:
         currentListViewController.updateSortFilterDefaultText()
         return currentListViewController.getFilterDataEntity()
     }
+
+    func makeFilterCellItem() -> [FilterCellItem] {
+        return []//FilterDummy.data.data.map { FilterCellItem(filter: $0) }
+    }
     
     private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
         viewHolder.collectionView.selectItem(

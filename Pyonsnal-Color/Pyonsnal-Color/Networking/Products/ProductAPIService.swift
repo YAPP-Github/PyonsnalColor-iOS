@@ -34,6 +34,7 @@ final class ProductAPIService {
         storeType: ConvenienceStore = .all,
         filterList: [String]
     ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
+        print(ProductAPI.eventProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType).urlRequest?.curlString ?? "nil")
         return client.request(
             ProductAPI.eventProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),
             model: ProductPageEntity.self
