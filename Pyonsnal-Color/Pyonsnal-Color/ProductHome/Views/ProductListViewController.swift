@@ -223,18 +223,16 @@ final class ProductListViewController: UIViewController {
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
-        if !snapshot.sectionIdentifiers.contains(.keywordFilter) {
-            snapshot.insertSections([.keywordFilter], beforeSection: .product(type: .item))
-        }
+        // TO DO : section delete 하지 않고 추가하는 방법
+        snapshot.deleteSections([.keywordFilter])
         // append keywordFilter
         if !keywordItems.isEmpty {
+            snapshot.insertSections([.keywordFilter], beforeSection: .product(type: .item))
             let items = keywordItems.map {
                 return ItemType.keywordFilter(data: $0)
             }
             snapshot.appendItems(items, toSection: .keywordFilter)
             snapshot.reloadSections([.keywordFilter])
-        } else {
-            snapshot.deleteAllItems()
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
