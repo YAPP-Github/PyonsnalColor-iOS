@@ -47,7 +47,7 @@ final class CategoryFilterCell: UICollectionViewCell {
         if currentButton == filterButton {
             filter.isSelected == true ? filterButton.setUISelected() : filterButton.setUIUnSelected()
         }
-        currentButton.setText(with: filter.filterType.filterDefaultText)
+        currentButton.setText(with: filter.defaultText)
         self.place(in: contentView, button: currentButton)
         self.configureConstraints(for: contentView, button: currentButton)
     }

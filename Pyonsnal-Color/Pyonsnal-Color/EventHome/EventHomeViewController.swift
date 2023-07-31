@@ -139,28 +139,45 @@ final class EventHomeViewController: UIViewController,
             if !snapshot.sectionIdentifiers.contains(.filter) {
                 snapshot.appendSections([.filter])
             }
-            guard let filters = initializeFilterState(with: filters) else { return }
-            
-            let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
-            let refreshItems = [ItemType.filter(filterItem: refreshItem)]
-            if needToShowRefreshCell() {
-                snapshot.appendItems(refreshItems, toSection: .filter)
-            } else {
-                snapshot.deleteItems(refreshItems)
+            guard let filters = updatedSortFilterState(with: filters) else { return }
+            // TO DO : section delete 하지 않고 item만 reload 할수 있게끔 변경 필요
+            if !snapshot.itemIdentifiers(inSection: .filter).isEmpty {
+                snapshot.deleteSections([.filter])
+                snapshot.appendSections([.filter])
             }
-        
+            if needToShowRefreshCell() {
+                let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
+                let refreshItems = [ItemType.filter(filterItem: refreshItem)]
+                snapshot.appendItems(refreshItems, toSection: .filter)
+            }
             let filterItems = filters.data.map { filter in
                 let filterItem = FilterCellItem(filter: filter)
                 return ItemType.filter(filterItem: filterItem)
             }
             snapshot.appendItems(filterItems, toSection: .filter)
+    
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    // TO DO : 로직 리팩토링
+    private func updatedSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
+        // 첫 정렬인지 체크
+        if filters.data.first(where: { $0.filterType == .sort })?.defaultText == nil {
+            return initializeFilterState(with: filters)
+        }
+        return updateSortFilterDefaultText(with: filters)
     }
     
     private func initializeFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
         guard let currentTabViewController = currentTabViewController() else { return nil }
         currentTabViewController.initializeFilterState()
+        return currentTabViewController.getFilterDataEntity()
+    }
+    
+    private func updateSortFilterDefaultText(with filters: FilterDataEntity) -> FilterDataEntity? {
+        guard let currentTabViewController = currentTabViewController() else { return nil }
+        currentTabViewController.updateSortFilterDefaultText()
         return currentTabViewController.getFilterDataEntity()
     }
     
@@ -279,19 +296,20 @@ final class EventHomeViewController: UIViewController,
         print(items)
     }
     
-    func updateSortFilter(type: FilterItemEntity) {
-        guard var snapshot = dataSource?.snapshot(for: .filter) else { return }
-        let sortFilterIndex = 1, resetButtonIndex = 0
-        let currentItem = snapshot.items[sortFilterIndex]
-        let beforeItem = snapshot.items[resetButtonIndex]
+    func updateSortFilter(item: FilterItemEntity) {
+        guard let tabViewController = currentTabViewController() else { return }
+        let store = tabViewController.convenienceStore
+        let sortFilterCode = [String(item.code)]
+        tabViewController.appendFilterList(with: sortFilterCode, type: .sort)
         
-        if case var .filter(item) = currentItem {
-            item.filter?.defaultText = type.name
-            snapshot.delete([currentItem])
-            snapshot.insert([.filter(filterItem: item)], after: beforeItem)
-            
-            dataSource?.apply(snapshot, to: .filter)
-        }
+        let updatedFilterList = tabViewController.getFilterList()
+        listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
+        
+        // 해당 filterItems isSelected 값 변경
+        tabViewController.updateSortFilterState(with: item)
+        
+        guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
+        applyFilterSnapshot(with: filterDataEntity)
     }
     
 }
