@@ -11,7 +11,7 @@ import SnapKit
 
 protocol ProductFilterPresentableListener: AnyObject {
     // TODO: 엔티티 변경
-    func didTapApplyButton(with selectedItems: [FilterItemEntity])
+    func didTapApplyButton(with selectedItems: [FilterItemEntity], type: FilterType)
     func didSelectSortFilter(type: FilterItemEntity)
     func didTapCloseButton()
 }
@@ -201,7 +201,7 @@ final class ProductFilterViewController:
     // MARK: - Objective Method
     @objc private func didTapApplyButton() {
         let selectedItems = filterEntity.filterItem.filter { $0.isSelected == true }
-        listener?.didTapApplyButton(with: selectedItems)
+        listener?.didTapApplyButton(with: selectedItems, type: filterEntity.filterType)
     }
     
     @objc private func didTapCloseButton() {

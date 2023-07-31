@@ -314,8 +314,7 @@ extension ProductListViewController {
         filterStateManager?.updateSortFilterState(target: filter)
     }
     
-    // to do : type 하드코딩 제거
-    func appendFilterList(with filter: [String], type: FilterType = .category) {
+    func appendFilterList(with filter: [String], type: FilterType) {
         filterStateManager?.appendFilterList(filters: filter, type: type)
     }
     

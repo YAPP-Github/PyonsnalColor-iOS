@@ -273,7 +273,7 @@ final class EventHomeViewController: UIViewController,
         return tabViewController.needToShowRefreshCell()
     }
     
-    func updateFilterItems(with items: [FilterItemEntity]) {
+    func updateFilterItems(with items: [FilterItemEntity], filterType: FilterType) {
         // KeywordFilterCell 추가
         guard let tabViewController = currentTabViewController() else { return }
         let store = tabViewController.convenienceStore
@@ -281,7 +281,7 @@ final class EventHomeViewController: UIViewController,
         
         // filterList에 대해 request
         let filterList = items.map { String($0.code) }
-        tabViewController.appendFilterList(with: filterList)
+        tabViewController.appendFilterList(with: filterList, type: filterType)
         
         let updatedFilterList = tabViewController.getFilterList()
         listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)

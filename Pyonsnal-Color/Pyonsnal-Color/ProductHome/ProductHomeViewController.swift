@@ -277,7 +277,7 @@ final class ProductHomeViewController:
 	}
 
 
-    func updateFilterItems(with items: [FilterItemEntity]) {
+    func updateFilterItems(with items: [FilterItemEntity], type: FilterType) {
         // TODO: 추가된 필터들 적용
         // KeywordFilterCell 추가
         guard let listViewController = currentListViewController() else { return }
@@ -286,7 +286,7 @@ final class ProductHomeViewController:
         
         // filterList에 대해 request
         let filterList = items.map { String($0.code) }
-        listViewController.appendFilterList(with: filterList)
+        listViewController.appendFilterList(with: filterList, type: type)
         
         let updatedFilterList = listViewController.getFilterList()
         listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
