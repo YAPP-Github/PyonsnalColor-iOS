@@ -40,49 +40,4 @@ enum FilterType: Decodable {
             return ""
         }
     }
-    
-    var iconImage: ImageAssetKind.Filter? {
-        switch self {
-        case .sort:
-            return .sortFilter
-        case .recommend, .category, .event:
-            return .filter
-        case .unknown:
-            return nil
-        }
-    }
-    
-    var iconDirection: FilterItemIconDirection? {
-        switch self {
-        case .sort:
-            return .left
-        case .recommend, .category, .event:
-            return .right
-        case .unknown:
-            return nil
-        }
-    }
-    
-    var bottomSheetType: FilterBottomSheetType {
-        switch self {
-        case .sort:
-            return .check
-        case .recommend:
-            return .radio
-        case .category, .event:
-            return .checkWithImage
-        case .unknown:
-            return .check
-        }
-    }
-    
-    enum FilterItemIconDirection {
-        case left, right
-    }
-    
-    enum FilterBottomSheetType {
-        case radio
-        case check
-        case checkWithImage
-    }
 }
