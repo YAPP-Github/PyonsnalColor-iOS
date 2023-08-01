@@ -251,16 +251,6 @@ final class ProductListViewController: UIViewController {
 // MARK: - KeywordFilterCellDelegate
 extension ProductListViewController: KeywordFilterCellDelegate {
     func didTapDeleteButton(filter: FilterItemEntity) {
-        guard var snapshot = dataSource?.snapshot() else { return }
-        let itemIdentifiers = snapshot.itemIdentifiers(inSection: .keywordFilter)
-        let deleteItem = ItemType.keywordFilter(data: filter)
-        let hasKeywords = itemIdentifiers.contains(deleteItem)
-        // filter에서 삭제
-        if hasKeywords {
-            snapshot.deleteItems([deleteItem])
-            dataSource?.apply(snapshot, animatingDifferences: true)
-        }
-        
         // 현재 선택된 filter에서 삭제
         delegate?.updateFilterState(with: filter, isSelected: false)
     }
