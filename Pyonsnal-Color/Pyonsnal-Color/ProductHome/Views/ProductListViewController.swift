@@ -188,13 +188,11 @@ final class ProductListViewController: UIViewController {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
         let emtpySectionType = SectionType.product(type: .empty)
-        guard var snapshot = dataSource?.snapshot() else { return }
-
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        
         guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             productCollectionView.isScrollEnabled = false
-            if !snapshot.sectionIdentifiers.contains(emtpySectionType) {
-                snapshot.appendSections([emtpySectionType])
-            }
+            snapshot.appendSections([emtpySectionType])
             snapshot.appendItems([ItemType.product(data: nil)], toSection: emtpySectionType)
             dataSource?.apply(snapshot, animatingDifferences: true)
             return
@@ -204,11 +202,11 @@ final class ProductListViewController: UIViewController {
         let productItems = products.map { product in
             return ItemType.product(data: product)
         }
+        snapshot.appendSections([itemSectionType])
+        
         if !productItems.isEmpty {
-            if !snapshot.sectionIdentifiers.contains(itemSectionType) {
-                snapshot.appendSections([itemSectionType])
-            }
             snapshot.appendItems(productItems, toSection: itemSectionType)
+            Log.d(message: "first \(productItems.first)")
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }

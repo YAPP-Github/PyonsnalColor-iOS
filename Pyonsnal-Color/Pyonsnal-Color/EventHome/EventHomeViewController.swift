@@ -249,6 +249,8 @@ final class EventHomeViewController: UIViewController,
         if let storeIndex = convenienceStores.firstIndex(of: store.convenienceStoreCellName) {
             let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
             tabViewController.applyEventBannerProducts(with: banners, products: products)
+            let keywordItems = tabViewController.getKeywordList()
+            tabViewController.applyKeywordFilterSnapshot(with: keywordItems)
         }
     }
     
@@ -289,8 +291,6 @@ final class EventHomeViewController: UIViewController,
         // 해당 filterItems isSelected 값 변경, deselected된 아이템들은 !isSelected 값을 가져야 함
         tabViewController.updateFiltersState(with: items, type: filterType)
 
-        let keywordItems = tabViewController.getKeywordList()
-        tabViewController.applyKeywordFilterSnapshot(with: keywordItems)
         guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
     }

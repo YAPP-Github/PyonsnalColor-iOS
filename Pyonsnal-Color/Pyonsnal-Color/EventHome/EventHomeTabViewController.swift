@@ -206,16 +206,13 @@ final class EventHomeTabViewController: UIViewController {
         }
     }
     
+    // pagination시 apply
     func applyEventProductsSnapshot(with products: [EventProductEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
         let itemSectionType = SectionType.item(type: .item)
         
         let eventProducts = products.map { ItemType.item(data: $0) }
-        
-        if !snapshot.sectionIdentifiers.contains(itemSectionType) {
-            snapshot.appendSections([itemSectionType])
-        }
-        
+
         snapshot.appendItems(eventProducts, toSection: itemSectionType)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -227,13 +224,11 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.isScrollEnabled = true
         let itemSectionType = SectionType.item(type: .item)
         let emtpySectionType = SectionType.item(type: .empty)
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         
-        guard var snapshot = dataSource?.snapshot() else { return }
         guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             collectionView.isScrollEnabled = false
-            if !snapshot.sectionIdentifiers.contains(emtpySectionType) {
-                snapshot.appendSections([emtpySectionType])
-            }
+            snapshot.appendSections([emtpySectionType])
             snapshot.appendItems([ItemType.item(data: nil)], toSection: emtpySectionType)
             dataSource?.apply(snapshot, animatingDifferences: true)
             return
@@ -241,10 +236,8 @@ final class EventHomeTabViewController: UIViewController {
         
         // append eventBanners
         let eventBanners = eventBanners ?? []
+        snapshot.appendSections([.event])
         if !eventBanners.isEmpty {
-            if !snapshot.sectionIdentifiers.contains(.event) {
-                snapshot.appendSections([.event])
-            }
             snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
         }
         
@@ -252,12 +245,9 @@ final class EventHomeTabViewController: UIViewController {
         let eventProducts = products.map { product in
             return ItemType.item(data: product)
         }
-        
-        if !snapshot.sectionIdentifiers.contains(itemSectionType) {
-            snapshot.appendSections([itemSectionType])
-        }
-        
+        snapshot.appendSections([itemSectionType])
         snapshot.appendItems(eventProducts, toSection: itemSectionType)
+        Log.d(message: "first item check \(eventProducts.first)")
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
