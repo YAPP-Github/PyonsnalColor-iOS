@@ -62,7 +62,11 @@ final class KeywordFilterCell: UICollectionViewCell {
     func configure(with filterItem: FilterItemEntity) {
         self.filterItem = filterItem
         self.filterItem?.isSelected = true
-        viewHolder.titleLabel.text = filterItem.name
+        if let eventTagName = EventTag(rawValue: filterItem.name)?.name {
+            viewHolder.titleLabel.text = eventTagName
+        } else {
+            viewHolder.titleLabel.text = filterItem.name
+        }
     }
     
     class ViewHolder: ViewHolderable {
