@@ -416,6 +416,9 @@ extension EventHomeViewController {
 
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
+    func refreshFilterButton() {
+        didTapRefreshButton()
+    }
     
     func didSelect(with brandProduct: ProductConvertable) {
         listener?.didSelect(with: brandProduct)
@@ -584,8 +587,6 @@ extension EventHomeViewController: RefreshFilterCellDelegate {
         guard let tabViewController = currentTabViewController() else {
             return
         }
-        // delete keywordFilterCell
-        tabViewController.applyKeywordFilterSnapshot(with: [])
         
         // request product
         listener?.didTapRefreshFilterCell(with: tabViewController.convenienceStore)

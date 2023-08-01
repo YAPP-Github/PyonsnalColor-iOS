@@ -14,6 +14,7 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
     func didSelect(with brandProduct: ProductConvertable)
     
     func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
+    func refreshFilterButton()
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -168,6 +169,6 @@ extension EventHomePageViewController: ProductListDelegate {
     }
     
     func refreshFilterButton() {
-        pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
+        pageDelegate?.refreshFilterButton()
     }
 }
