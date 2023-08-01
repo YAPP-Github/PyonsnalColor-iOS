@@ -190,7 +190,7 @@ final class ProductListViewController: UIViewController {
         let emtpySectionType = SectionType.product(type: .empty)
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         
-        guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
+        guard let products, !products.isEmpty else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             productCollectionView.isScrollEnabled = false
             snapshot.appendSections([emtpySectionType])
             snapshot.appendItems([ItemType.product(data: nil)], toSection: emtpySectionType)
@@ -218,7 +218,10 @@ final class ProductListViewController: UIViewController {
         snapshot.deleteSections([.keywordFilter])
         // append keywordFilter
         if !keywordItems.isEmpty {
-            snapshot.insertSections([.keywordFilter], beforeSection: .product(type: .item))
+            let productSection: SectionType = .product(type: .item)
+            let emtptySection: SectionType = .product(type: .empty)
+            let beforeSection: SectionType = snapshot.sectionIdentifiers.contains(productSection) ? productSection : emtptySection
+            snapshot.insertSections([.keywordFilter], beforeSection: beforeSection)
             let items = keywordItems.map {
                 return ItemType.keywordFilter(data: $0)
             }

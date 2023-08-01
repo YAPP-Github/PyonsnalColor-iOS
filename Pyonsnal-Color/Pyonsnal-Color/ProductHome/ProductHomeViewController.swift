@@ -431,8 +431,7 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
 extension ProductHomeViewController: ProductListDelegate {
     
     func refreshFilterButton() {
-        let store = ConvenienceStore.allCases[currentPage]
-        requestProducts(store: store)
+        didTapRefreshButton()
     }
     
     // keyword delete시 호출
@@ -492,9 +491,6 @@ extension ProductHomeViewController: RefreshFilterCellDelegate {
         guard let listViewController = currentListViewController() else {
             return
         }
-        
-        // delete keywordFilterCell
-        listViewController.applyKeywordFilterSnapshot(with: [])
         
         // request product
         listener?.didTapRefreshFilterCell(with: listViewController.convenienceStore)
