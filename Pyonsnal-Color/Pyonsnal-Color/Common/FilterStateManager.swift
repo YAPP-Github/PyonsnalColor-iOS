@@ -90,7 +90,6 @@ final class FilterStateManager {
             let filterItem = filterDataEntity.data[index].filterItem
             let hasSelectedFilterEntity = filterItem.contains(where: { $0.isSelected == true })
             filterDataEntity.data[index].isSelected = hasSelectedFilterEntity
-            Log.d(message: "filterDataEntity \(filterDataEntity.data[index].isSelected)")
             
         }
         
@@ -104,7 +103,6 @@ final class FilterStateManager {
                 for (index, _) in filterDataEntity.data[firstIndex].filterItem.enumerated() {
                     if filterDataEntity.data[firstIndex].filterItem[index].name == latestSortFilterName {
                         filterDataEntity.data[firstIndex].filterItem[index].isSelected = true
-                        break
                     }
                 }
             }
@@ -159,7 +157,7 @@ final class FilterStateManager {
             let defaultText = filterDataEntity.data[index].filterType.filterDefaultText
             filterDataEntity.data[index].defaultText = defaultText
         }
-        Log.d(message: "filterDataEntity \(filterDataEntity)")
+        Log.d(message: "setFilterDefatultText \(filterDataEntity)")
     }
     
     /// sortFilter의 text를 업데이트 합니다.

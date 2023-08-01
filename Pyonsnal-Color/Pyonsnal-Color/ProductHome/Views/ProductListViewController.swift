@@ -61,14 +61,6 @@ final class ProductListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Life Cycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let filterDataEntity = filterStateManager?.getFilterDataEntity() {
-            delegate?.updateFilterUI(with: filterDataEntity)
-        }       
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -223,6 +215,7 @@ final class ProductListViewController: UIViewController {
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
+        
         // TO DO : section delete 하지 않고 추가하는 방법
         snapshot.deleteSections([.keywordFilter])
         // append keywordFilter
@@ -232,7 +225,6 @@ final class ProductListViewController: UIViewController {
                 return ItemType.keywordFilter(data: $0)
             }
             snapshot.appendItems(items, toSection: .keywordFilter)
-            snapshot.reloadSections([.keywordFilter])
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
