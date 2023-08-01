@@ -243,6 +243,8 @@ final class ProductHomeViewController:
             let pageViewController = viewHolder.productHomePageViewController
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.applySnapshot(with: products)
+                let keywordItems = viewController.getKeywordList()
+                viewController.applyKeywordFilterSnapshot(with: keywordItems)
             }
         }
     }
@@ -293,9 +295,6 @@ final class ProductHomeViewController:
         
         // 해당 filterItems isSelected 값 변경, deselected된 아이템들은 !isSelected 값을 가져야 함
         listViewController.updateFiltersState(with: items, type: type)
-        
-        let keywordItems = listViewController.getKeywordList()
-        listViewController.applyKeywordFilterSnapshot(with: keywordItems)
         
         guard let filterDataEntity = listViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
