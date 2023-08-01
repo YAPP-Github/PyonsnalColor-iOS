@@ -14,5 +14,4 @@ protocol ProductListDelegate: AnyObject {
     
     func updateFilterState(with filter: FilterItemEntity, isSelected: Bool)
     func refreshFilterButton()
-    func updateFilterUI(with filterDataEntity: FilterDataEntity)
 }

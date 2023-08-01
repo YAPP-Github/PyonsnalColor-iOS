@@ -55,6 +55,7 @@ final class EventHomeViewController: UIViewController,
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
     private var isPaging: Bool = false
+    private var currentConvenienceStore: ConvenienceStore?
     
     // MARK: - Initializer
     init() {
@@ -415,9 +416,6 @@ extension EventHomeViewController {
 
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
-    func updateFilterUI(with filterDataEntity: FilterDataEntity) {
-        applyFilterSnapshot(with: filterDataEntity)
-    }
     
     func didSelect(with brandProduct: ProductConvertable) {
         listener?.didSelect(with: brandProduct)
@@ -426,6 +424,7 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     func updateSelectedStoreCell(index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         setSelectedConvenienceStoreCell(with: indexPath)
+        applyFilterSnapshot(with: currentTabViewController()?.getFilterDataEntity())
     }
     
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
@@ -475,6 +474,7 @@ extension EventHomeViewController: UICollectionViewDelegate {
             case .convenienceStore:
                 setSelectedConvenienceStoreCell(with: indexPath)
                 viewHolder.pageViewController.updatePage(indexPath.row)
+                applyFilterSnapshot(with: currentTabViewController()?.getFilterDataEntity())
             case .filter(let filterItem):
                 listener?.didSelectFilter(of: filterItem.filter)
             }

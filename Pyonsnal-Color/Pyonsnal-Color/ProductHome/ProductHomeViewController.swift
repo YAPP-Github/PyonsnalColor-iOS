@@ -55,9 +55,9 @@ final class ProductHomeViewController:
         
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
+        configureCollectionView()
         configureDatasource()
         initialSnapshot()
-        configureCollectionView()
         configureProductCollectionView()
         configureNotificationButton()
     }
@@ -144,12 +144,14 @@ final class ProductHomeViewController:
     private func initializeFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
         guard let currentListViewController = currentListViewController() else { return nil }
         currentListViewController.initializeFilterState()
+        Log.d(message: "초기 편의점 \(currentListViewController.convenienceStore) \(currentListViewController.getFilterDataEntity())")
         return currentListViewController.getFilterDataEntity()
     }
     
     private func updateSortFilterDefaultText(with filters: FilterDataEntity) -> FilterDataEntity? {
         guard let currentListViewController = currentListViewController() else { return nil }
         currentListViewController.updateSortFilterDefaultText()
+        Log.d(message: "편의점 \(currentListViewController.convenienceStore) \(currentListViewController.getFilterDataEntity())")
         return currentListViewController.getFilterDataEntity()
     }
     
@@ -398,6 +400,7 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             case .convenienceStore:
                 currentPage = indexPath.item
                 viewHolder.productHomePageViewController.updatePage(to: currentPage)
+                applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
             case .filter(let filterItem):
                 listener?.didSelectFilter(ofType: filterItem.filter)
             }
@@ -421,14 +424,12 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
         currentPage = index
         let indexPath = IndexPath(item: index, section: 0)
         setSelectedConvenienceStoreCell(with: indexPath)
+        applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
     }
 }
 
 // MARK: - ProductListDelegate
 extension ProductHomeViewController: ProductListDelegate {
-    func updateFilterUI(with filterDataEntity: FilterDataEntity) {
-        applyFilterSnapshot(with: filterDataEntity)
-    }
     
     func refreshFilterButton() {
         let store = ConvenienceStore.allCases[currentPage]

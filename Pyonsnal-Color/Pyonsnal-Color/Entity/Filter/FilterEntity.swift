@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct FilterDataEntity: Decodable {
+struct FilterDataEntity: Decodable, Hashable {
     var data: [FilterEntity]
 }
 

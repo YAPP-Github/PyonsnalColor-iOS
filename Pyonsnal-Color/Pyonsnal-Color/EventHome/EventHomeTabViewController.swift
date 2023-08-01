@@ -70,14 +70,6 @@ final class EventHomeTabViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - View life cycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let filterDataEntity = filterStateManager?.getFilterDataEntity() {
-            listDelegate?.updateFilterUI(with: filterDataEntity)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
