@@ -13,7 +13,7 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
     func didChangeStore(to store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
     
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool)
+    func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -144,7 +144,7 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
     }
     
     func didTapFilterDeleteButton(with filter: FilterItemEntity) {
-        pageDelegate?.updateFilterState(with: filter, isSelected: false)
+        pageDelegate?.deleteFilterItem(with: filter, isSelected: false)
     }
 }
 
@@ -164,7 +164,7 @@ extension EventHomePageViewController: ProductListDelegate {
     }
     
     func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
-        pageDelegate?.updateFilterState(with: filter, isSelected: isSelected)
+        pageDelegate?.deleteFilterItem(with: filter, isSelected: isSelected)
     }
     
     func refreshFilterButton() {

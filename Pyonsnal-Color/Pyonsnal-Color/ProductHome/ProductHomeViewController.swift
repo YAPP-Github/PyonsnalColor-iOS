@@ -454,6 +454,10 @@ extension ProductHomeViewController: ProductListDelegate {
             with: listViewController.convenienceStore,
             filterList: filterList
         )
+        
+        // keywordFilterList 가져와서 apply
+        let keywordItems = listViewController.getKeywordList()
+        listViewController.applyKeywordFilterSnapshot(with: keywordItems)
     }
     
     func didLoadPageList(store: ConvenienceStore) {
