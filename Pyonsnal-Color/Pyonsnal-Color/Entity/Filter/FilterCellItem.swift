@@ -12,7 +12,7 @@ struct FilterCellItem: Hashable {
     var filter: FilterEntity?
     
     static func == (lhs: FilterCellItem, rhs: FilterCellItem) -> Bool {
-        return lhs.filter?.defaultText == rhs.filter?.defaultText && lhs.filter?.filterType == rhs.filter?.filterType
+        return lhs.filter?.defaultText == rhs.filter?.defaultText && lhs.filter?.filterType == rhs.filter?.filterType && lhs.filter?.isSelected == rhs.filter?.isSelected
     }
     
     enum FilterUseType {
