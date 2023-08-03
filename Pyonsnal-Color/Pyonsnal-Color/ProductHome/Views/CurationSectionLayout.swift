@@ -16,9 +16,9 @@ final class CurationSectionLayout {
         static let footerHeight: CGFloat = 12
         static let spacing: CGFloat = Spacing.spacing12.value
         static let inset: NSDirectionalEdgeInsets = .init(
-            top: Spacing.spacing16.value,
+            top: Spacing.spacing40.value,
             leading: Spacing.spacing16.value,
-            bottom: Spacing.spacing24.value,
+            bottom: Spacing.spacing40.value,
             trailing: Spacing.spacing16.value
         )
     }
