@@ -9,7 +9,7 @@ import ModernRIBs
 import UIKit
 
 protocol ProductHomePresentableListener: AnyObject {
-    func didChangeStore(to store: ConvenienceStore)
+    func didChangeStore(to store: ConvenienceStore, filterList: [String])
     func didTapSearchButton()
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
@@ -258,8 +258,8 @@ final class ProductHomeViewController:
             }
     }
     
-    private func requestProducts(store: ConvenienceStore) {
-        listener?.didChangeStore(to: store)
+    private func requestProducts(store: ConvenienceStore, filterList: [String]) {
+        listener?.didChangeStore(to: store, filterList: filterList)
     }
     
     private func configureNotificationButton() {
@@ -537,12 +537,12 @@ extension ProductHomeViewController: ProductListDelegate {
     }
     
     func didLoadPageList(store: ConvenienceStore) {
-        requestProducts(store: store)
+        requestProducts(store: store, filterList: [])
     }
     
-    func refreshByPull() {
+    func refreshByPull(with filterList: [String]) {
         let store = ConvenienceStore.allCases[currentPage]
-        requestProducts(store: store)
+        requestProducts(store: store, filterList: filterList)
     }
     
     func didSelect(with brandProduct: ProductConvertable?) {

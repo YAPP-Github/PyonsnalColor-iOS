@@ -162,8 +162,8 @@ final class ProductHomeInteractor:
         router?.detachProductDetail()
     }
     
-    func didChangeStore(to store: ConvenienceStore) {
-        requestInitialProducts(store: store, filterList: [])
+    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
+        requestInitialProducts(store: store, filterList: filterList)
     }
     
     func didTapRefreshFilterCell(with store: ConvenienceStore) {

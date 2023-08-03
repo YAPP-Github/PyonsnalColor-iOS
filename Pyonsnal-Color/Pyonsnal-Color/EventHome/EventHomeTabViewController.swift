@@ -140,7 +140,8 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.listDelegate?.refreshByPull()
+            let filters = self.getFilterList()
+            self.listDelegate?.refreshByPull(with: filters)
             self.collectionView.refreshControl?.endRefreshing()
         }
     }

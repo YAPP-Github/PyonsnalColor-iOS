@@ -271,7 +271,8 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.delegate?.refreshByPull()
+            let filterList = self.getFilterList()
+            self.delegate?.refreshByPull(with: filterList)
             self.productCollectionView.refreshControl?.endRefreshing()
         }
     }

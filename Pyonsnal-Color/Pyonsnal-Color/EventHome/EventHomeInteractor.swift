@@ -146,8 +146,8 @@ final class EventHomeInteractor:
         router?.detachProductDetail()
     }
     
-    func didChangeStore(to store: ConvenienceStore) {
-        requestProductWithBanners(store: store, filterList: [])
+    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
+        requestProductWithBanners(store: store, filterList: filterList)
     }
     
     func didScrollToNextPage(store: ConvenienceStore, filterList: [String]) {

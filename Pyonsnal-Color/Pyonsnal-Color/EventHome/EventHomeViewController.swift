@@ -13,7 +13,7 @@ protocol EventHomePresentableListener: AnyObject {
     func didLoadEventHome(with store: ConvenienceStore)
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapSearchButton()
-    func didChangeStore(to store: ConvenienceStore)
+    func didChangeStore(to store: ConvenienceStore, filterList: [String])
     func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
     func didSelect(with brandProduct: ProductConvertable)
     func didSelectFilter(of filter: FilterEntity?)
@@ -134,6 +134,7 @@ final class EventHomeViewController: UIViewController,
                 switch filterItem.filterUseType {
                 case .refresh:
                     let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: index)
+                    cell.delegate = self
                     return cell
                 case .category:
                     let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: index)
@@ -493,8 +494,8 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         listener?.didTapEventBannerCell(with: imageURL, store: store)
     }
     
-    func didChangeStore(to store: ConvenienceStore) {
-        listener?.didChangeStore(to: store)
+    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
+        listener?.didChangeStore(to: store, filterList: filterList)
     }
     
     func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool) {

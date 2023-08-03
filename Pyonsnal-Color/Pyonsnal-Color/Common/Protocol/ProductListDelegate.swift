@@ -9,7 +9,7 @@ import Foundation
 
 protocol ProductListDelegate: AnyObject {
     func didLoadPageList(store: ConvenienceStore)
-    func refreshByPull()
+    func refreshByPull(with filterList: [String])
     func didSelect(with product: ProductConvertable?)
     
     func updateFilterState(with filter: FilterItemEntity, isSelected: Bool)
