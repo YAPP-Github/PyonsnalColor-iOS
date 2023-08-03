@@ -144,7 +144,6 @@ final class EventHomeViewController: UIViewController,
         }
     }
     
-    
     private func initialSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<StoreSection, StoreItem>()
         snapshot.appendSections([.convenienceStore(store: convenienceStores)])

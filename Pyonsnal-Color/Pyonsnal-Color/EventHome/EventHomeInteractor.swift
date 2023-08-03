@@ -103,6 +103,7 @@ final class EventHomeInteractor:
                 if let event = event.value,
                    let product = product.value?.content {
                     self?.presenter.update(with: product, banners: event, at: store)
+                    self?.presenter.didFinishPaging()
             }
         }.store(in: &cancellable)
     }

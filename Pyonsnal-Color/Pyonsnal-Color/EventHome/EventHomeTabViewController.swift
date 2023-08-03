@@ -249,7 +249,9 @@ final class EventHomeTabViewController: UIViewController {
         snapshot.appendSections([itemSectionType])
         snapshot.appendItems(eventProducts, toSection: itemSectionType)
         Log.d(message: "first item check \(eventProducts.first)")
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
+            self?.listDelegate?.didFinishUpdateSnapshot()
+        }
     }
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
