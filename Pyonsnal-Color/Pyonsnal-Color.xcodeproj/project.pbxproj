@@ -215,6 +215,7 @@
 		F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AED2A51D54B00EA4C76 /* PyonsnalColorClient.swift */; };
 		F0C87AF02A51D74900EA4C76 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AEF2A51D74900EA4C76 /* NetworkError.swift */; };
 		F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C87AF22A51DFC300EA4C76 /* ErrorResponse.swift */; };
+		F0C9E0C82A7BF63600A53166 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F0C9E0C72A7BF63600A53166 /* Lottie */; };
 		F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFA82A39F86E00C55E27 /* NSMutableAttributedString+.swift */; };
 		F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAA2A39F89D00C55E27 /* UIView+.swift */; };
 		F0D6FFAD2A39F97900C55E27 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D6FFAC2A39F97900C55E27 /* String+.swift */; };
@@ -459,6 +460,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0C9E0C82A7BF63600A53166 /* Lottie in Frameworks */,
 				F0C698632A6ABE5B0019C677 /* OSLog.framework in Frameworks */,
 				BA3EB2FE2A6074090091C8DB /* FirebaseAnalyticsSwift in Frameworks */,
 				BA3EB3002A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
@@ -1233,6 +1235,7 @@
 				BA3EB2FD2A6074090091C8DB /* FirebaseAnalyticsSwift */,
 				BA3EB2FF2A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport */,
 				BA3EB3012A6074090091C8DB /* FirebaseCrashlytics */,
+				F0C9E0C72A7BF63600A53166 /* Lottie */,
 			);
 			productName = "Pyonsnal-Color";
 			productReference = BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */;
@@ -1269,6 +1272,7 @@
 				B2B289D92A3459E700F7F1C4 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				B2B289DC2A3459FD00F7F1C4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				BA3EB2FA2A6074080091C8DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				F0C9E0C62A7BF63600A53166 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = BA9E23382A21EF3000A539D5 /* Products */;
 			projectDirPath = "";
@@ -1800,6 +1804,14 @@
 				minimumVersion = 1.0.2;
 			};
 		};
+		F0C9E0C62A7BF63600A53166 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1857,6 +1869,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */;
 			productName = ModernRIBs;
+		};
+		F0C9E0C72A7BF63600A53166 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0C9E0C62A7BF63600A53166 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
