@@ -17,7 +17,7 @@ extension ProductSearchViewController {
         }
         
         // MARK: - UI Component
-        private let contentView: UIView = {
+        let contentView: UIView = {
             let view: UIView = .init(frame: .zero)
             return view
         }()

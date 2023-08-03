@@ -51,6 +51,8 @@ final class ProductSearchViewController: UIViewController,
     private var cancellable = Set<AnyCancellable>()
     private var isCanLoading: Bool = false
     private var isEmpty: Bool = true
+    private var isKeyboardVisible: Bool = false
+    private var currentKeyboarHeight: CGFloat = 0
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -87,6 +89,8 @@ final class ProductSearchViewController: UIViewController,
             for: .touchUpInside
         )
         viewHolder.searchBarView.delegate = self
+        
+        viewHolder.contentView.addTapGesture(target: self, action: #selector(touchEventAction(_:)))
     }
     
     private func configureCollectionView() {
@@ -272,5 +276,11 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
         } else {
             return Size.collectionViewEdgeInset
         }
+    }
+}
+
+extension ProductSearchViewController {
+    @objc private func touchEventAction(_ tapGesture: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 }
