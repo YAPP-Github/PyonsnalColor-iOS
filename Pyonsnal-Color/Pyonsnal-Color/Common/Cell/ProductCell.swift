@@ -108,7 +108,6 @@ final class ProductCell: UICollectionViewCell {
         
         let eventTagLabel: UILabel = {
             let label = UILabel()
-            label.makeRounded(with: .spacing20)
             label.backgroundColor = .green500
             label.font = .body4m
             label.textColor = .white
@@ -162,7 +161,7 @@ final class ProductCell: UICollectionViewCell {
             }
             
             eventTagLabel.snp.makeConstraints {
-                $0.trailing.bottom.equalToSuperview().inset(Size.tagImageViewMargin)
+                $0.trailing.bottom.equalToSuperview()
                 $0.width.equalTo(Size.eventTagImageViewWidth)
                 $0.height.equalTo(Size.eventTagImageViewHeight)
             }
@@ -219,7 +218,6 @@ final class ProductCell: UICollectionViewCell {
         let attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .gray500)
         viewHolder.discountPriceLabel.attributedText = attributedText
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
-        viewHolder.eventTagLabel.makeRounded(with: Size.eventTagImageviewRadius)
         makeRounded(with: Size.cornerRadius)
         makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
     }
@@ -237,8 +235,8 @@ final class ProductCell: UICollectionViewCell {
     }
     
     private func hasEventType(_ event: EventTag?) {
-        if let event {
-            viewHolder.eventTagLabel.text = event.name
+        if let eventName = event?.name, !eventName.isEmpty {
+            viewHolder.eventTagLabel.text = eventName
         } else {
             viewHolder.eventTagLabel.isHidden = true
         }
