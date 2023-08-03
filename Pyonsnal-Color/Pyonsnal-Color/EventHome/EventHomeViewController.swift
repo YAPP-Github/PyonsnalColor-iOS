@@ -162,14 +162,12 @@ final class EventHomeViewController: UIViewController,
         
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            guard let filters = initializeFilterState(with: filters) else { return }
+            guard let filters = updatedSortFilterState(with: filters) else { return }
             
-            let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
-            let refreshItems = [FilterItem.filter(filterItem: refreshItem)]
             if needToShowRefreshCell() {
+                let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
+                let refreshItems = [FilterItem.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems)
-            } else {
-                snapshot.deleteItems(refreshItems)
             }
             
             let filterItems = filters.data.map { filter in
