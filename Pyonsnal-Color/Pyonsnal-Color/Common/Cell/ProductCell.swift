@@ -73,6 +73,13 @@ final class ProductCell: UICollectionViewCell {
             return view
         }()
         
+        let itemInfoTopStackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .horizontal
+            stackView.spacing = .spacing4
+            return stackView
+        }()
+        
         let newTagView = NewTagView(mode: .small)
         
         let titleLabel: UILabel = {
@@ -108,7 +115,6 @@ final class ProductCell: UICollectionViewCell {
         
         let eventTagLabel: UILabel = {
             let label = UILabel()
-            label.makeRounded(with: .spacing20)
             label.backgroundColor = .green500
             label.font = .body4m
             label.textColor = .white
@@ -128,9 +134,11 @@ final class ProductCell: UICollectionViewCell {
             productImageContainerView.addSubview(convenienceStoreTagImageView)
             productImageContainerView.addSubview(eventTagLabel)
             
-            itemInfoContainerView.addSubview(newTagView)
-            itemInfoContainerView.addSubview(titleLabel)
+            itemInfoContainerView.addSubview(itemInfoTopStackView)
             itemInfoContainerView.addSubview(priceContainerView)
+            
+            itemInfoTopStackView.addArrangedSubview(newTagView)
+            itemInfoTopStackView.addArrangedSubview(titleLabel)
             
             priceContainerView.addSubview(originalPriceLabel)
             priceContainerView.addSubview(discountPriceLabel)
@@ -162,7 +170,7 @@ final class ProductCell: UICollectionViewCell {
             }
             
             eventTagLabel.snp.makeConstraints {
-                $0.trailing.bottom.equalToSuperview().inset(Size.tagImageViewMargin)
+                $0.trailing.bottom.equalToSuperview()
                 $0.width.equalTo(Size.eventTagImageViewWidth)
                 $0.height.equalTo(Size.eventTagImageViewHeight)
             }
@@ -171,21 +179,22 @@ final class ProductCell: UICollectionViewCell {
                 $0.leading.equalTo(stackView)
             }
             
+            itemInfoTopStackView.snp.makeConstraints {
+                $0.top.leading.equalToSuperview().offset(.spacing12)
+                $0.trailing.lessThanOrEqualToSuperview().inset(.spacing12)
+            }
+            
             newTagView.snp.makeConstraints {
-                $0.leading.top.equalToSuperview().offset(Size.newImageViewMargin)
                 $0.width.equalTo(Size.newImageViewWidth)
                 $0.centerY.equalTo(titleLabel)
             }
             
             titleLabel.snp.makeConstraints {
-                $0.top.equalToSuperview().inset(Size.titleLabelMargin)
-                $0.leading.equalTo(newTagView.snp.trailing).offset(Size.titleLabelLeading)
-                $0.trailing.lessThanOrEqualTo(-Size.titleLabelMargin)
                 $0.height.equalTo(titleLabel.font.customLineHeight)
             }
             
             priceContainerView.snp.makeConstraints {
-                $0.top.equalTo(titleLabel.snp.bottom).offset(Size.priceContainerViewTop)
+                $0.top.equalTo(itemInfoTopStackView.snp.bottom).offset(Size.priceContainerViewTop)
                 $0.leading.trailing.bottom.equalToSuperview().inset(Size.priceContainerViewMargin)
             }
             
@@ -219,7 +228,6 @@ final class ProductCell: UICollectionViewCell {
         let attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .gray500)
         viewHolder.discountPriceLabel.attributedText = attributedText
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
-        viewHolder.eventTagLabel.makeRounded(with: Size.eventTagImageviewRadius)
         makeRounded(with: Size.cornerRadius)
         makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
     }
@@ -237,8 +245,8 @@ final class ProductCell: UICollectionViewCell {
     }
     
     private func hasEventType(_ event: EventTag?) {
-        if let event {
-            viewHolder.eventTagLabel.text = event.name
+        if let eventName = event?.name, !eventName.isEmpty {
+            viewHolder.eventTagLabel.text = eventName
         } else {
             viewHolder.eventTagLabel.isHidden = true
         }
