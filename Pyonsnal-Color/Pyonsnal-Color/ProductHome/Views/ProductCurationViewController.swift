@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+protocol CurationDelegate: AnyObject {
+    func curationWillAppear()
+}
+
 final class ProductCurationViewController: UIViewController {
     
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
@@ -24,6 +28,7 @@ final class ProductCurationViewController: UIViewController {
     
     // MARK: Property
     weak var delegate: ProductListDelegate?
+    weak var curationDelegate: CurationDelegate?
     
     private var dataSource: DataSource?
     

@@ -69,6 +69,12 @@ final class ProductListViewController: UIViewController {
         delegate?.didLoadPageList(store: convenienceStore)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        delegate?.didAppearProductList()
+    }
+    
     // MARK: - Private Method
     private func configureLayout() {
         view.addSubview(productCollectionView)

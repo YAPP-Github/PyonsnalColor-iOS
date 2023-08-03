@@ -171,4 +171,7 @@ extension EventHomePageViewController: ProductListDelegate {
     func refreshFilterButton() {
         pageDelegate?.refreshFilterButton()
     }
+    
+    func didAppearProductList() {
+    }
 }

@@ -32,7 +32,10 @@ final class EventHomeViewController: UIViewController,
         static let headerViewHeight: CGFloat = 48
         static let collectionViewTop: CGFloat = 20
         static let collectionViewLeaing: CGFloat = 16
+        static let storeHeight: CGFloat = 44
         static let storeCollectionViewSeparatorHeight: CGFloat = 1
+        static let filterMargin: UIEdgeInsets = .init(top: 12, left: 15, bottom: 12, right: 15)
+        static let filterHeight: CGFloat = 56
     }
     
     enum Header {
@@ -45,12 +48,18 @@ final class EventHomeViewController: UIViewController,
     
     // MARK: - Interfaces
     weak var listener: EventHomePresentableListener?
-    typealias SectionType = TopCollectionViewDatasource.SectionType
-    typealias ItemType = TopCollectionViewDatasource.ItemType
+    typealias StoreDataSource = TopCollectionViewDatasource.StoreDataSource
+    typealias StoreSection = TopCollectionViewDatasource.SectionType
+    typealias StoreItem = TopCollectionViewDatasource.ItemType
+    
+    typealias FilterDataSource = TopCollectionViewDatasource.FilterDataSource
+    typealias FilterSection = TopCollectionViewDatasource.FilterSection
+    typealias FilterItem = TopCollectionViewDatasource.FilterItem
     
     // MARK: - Private property
     private let viewHolder: ViewHolder = .init()
-    private var dataSource: TopCollectionViewDatasource.DataSource?
+    private var storeDataSource: StoreDataSource?
+    private var filterDataSource: FilterDataSource?
     private var innerScrollLastOffsetY: CGFloat = 0
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
@@ -74,7 +83,8 @@ final class EventHomeViewController: UIViewController,
         viewHolder.configureConstraints(for: view)
         configureNavigationView()
         configureCollectionView()
-        configureDatasource()
+        configureFilterCollectionView()
+        configureDataSource()
         initialSnapshot()
         setPageViewController()
         setScrollView()
@@ -94,24 +104,38 @@ final class EventHomeViewController: UIViewController,
         }
     }
     
-    private func configureDatasource() {
-        dataSource = TopCollectionViewDatasource.DataSource(collectionView: viewHolder.collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
+    private func configureDataSource() {
+        configureStoreDatasource()
+        configureFilterDataSource()
+    }
+    
+    private func configureStoreDatasource() {
+        storeDataSource = StoreDataSource(collectionView: viewHolder.collectionView)
+        { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
-            case .convenienceStore(let storeName):
+            case let .convenienceStore(storeName):
                 let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.configureCell(title: storeName)
                 if indexPath.row == self.initIndex { // 초기 상태 selected
                     self.setSelectedConvenienceStoreCell(with: indexPath)
                 }
                 return cell
-            case .filter(let filterItem):
+            }
+        }
+    }
+    
+    private func configureFilterDataSource() {
+        filterDataSource = FilterDataSource(
+            collectionView: viewHolder.filterCollectionView
+        ) { collectionView, index, item -> UICollectionViewCell? in
+            switch item {
+            case let .filter(filterItem):
                 switch filterItem.filterUseType {
                 case .refresh:
-                    let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
-                    cell.delegate = self
+                    let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: index)
                     return cell
                 case .category:
-                    let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: index)
                     cell.configure(filter: filterItem.filter)
                     return cell
                 }
@@ -119,46 +143,42 @@ final class EventHomeViewController: UIViewController,
         }
     }
     
+    
     private func initialSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<TopCollectionViewDatasource.SectionType, TopCollectionViewDatasource.ItemType>()
-        // append store
+        var snapshot = NSDiffableDataSourceSnapshot<StoreSection, StoreItem>()
         snapshot.appendSections([.convenienceStore(store: convenienceStores)])
         let items = convenienceStores.map { storeName in
-            return ItemType.convenienceStore(storeName: storeName)
+            return StoreItem.convenienceStore(storeName: storeName)
         }
-        snapshot.appendItems(items, toSection: .convenienceStore(store: convenienceStores))
+        snapshot.appendItems(items)
         
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        storeDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     private func applyFilterSnapshot(with filters: FilterDataEntity?) {
         guard let filters else { return }
-        guard var snapshot = dataSource?.snapshot() else { return }
+        var snapshot = NSDiffableDataSourceSnapshot<FilterSection, FilterItem>()
         
-        // append filter
         if !filters.data.isEmpty {
-            if !snapshot.sectionIdentifiers.contains(.filter) {
-                snapshot.appendSections([.filter])
-            }
-            guard let filters = updatedSortFilterState(with: filters) else { return }
-            // TO DO : section delete 하지 않고 item만 reload 할수 있게끔 변경 필요
-            if !snapshot.itemIdentifiers(inSection: .filter).isEmpty {
-                snapshot.deleteSections([.filter])
-                snapshot.appendSections([.filter])
-            }
+            snapshot.appendSections([.filter])
+            guard let filters = initializeFilterState(with: filters) else { return }
+            
+            let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
+            let refreshItems = [FilterItem.filter(filterItem: refreshItem)]
             if needToShowRefreshCell() {
-                let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
-                let refreshItems = [ItemType.filter(filterItem: refreshItem)]
-                snapshot.appendItems(refreshItems, toSection: .filter)
+                snapshot.appendItems(refreshItems)
+            } else {
+                snapshot.deleteItems(refreshItems)
             }
+            
             let filterItems = filters.data.map { filter in
                 let filterItem = FilterCellItem(filter: filter)
-                return ItemType.filter(filterItem: filterItem)
+                return FilterItem.filter(filterItem: filterItem)
             }
-            snapshot.appendItems(filterItems, toSection: .filter)
-    
+            snapshot.appendItems(filterItems)
         }
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        
+        filterDataSource?.apply(snapshot, animatingDifferences: false)
     }
     
     // TO DO : 로직 리팩토링
@@ -182,24 +202,42 @@ final class EventHomeViewController: UIViewController,
         return currentTabViewController.getFilterDataEntity()
     }
     
-    private func createLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout {
-            [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-            guard let sectionIdentifier = self?.dataSource?.snapshot().sectionIdentifiers[sectionIndex] else {
+    private func createStoreLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { [weak self] (index, _) -> NSCollectionLayoutSection? in
+            guard let sectionIdentifiers = self?.storeDataSource?.snapshot().sectionIdentifiers[index] else {
+                return nil
+            }
+            
+            if case let .convenienceStore(stores) = sectionIdentifiers {
+                let layout = TopCommonSectionLayout()
+                return layout.convenienceStoreLayout(convenienceStore: stores)
+            }
+            return nil
+        }
+    }
+    
+    private func createFilterLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
+            guard let sectionIdentifiers = self?.storeDataSource?.snapshot().sectionIdentifiers[sectionIndex] else {
                 return nil
             }
             
             let layout = TopCommonSectionLayout()
-            return layout.section(at: sectionIdentifier)
+            return layout.filterLayout()
         }
     }
     
     private func configureCollectionView() {
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
-        viewHolder.collectionView.register(RefreshFilterCell.self)
-        viewHolder.collectionView.register(CategoryFilterCell.self)
-        viewHolder.collectionView.collectionViewLayout = createLayout()
+        viewHolder.collectionView.collectionViewLayout = createStoreLayout()
+    }
+    
+    private func configureFilterCollectionView() {
+        viewHolder.filterCollectionView.delegate = self
+        viewHolder.filterCollectionView.register(CategoryFilterCell.self)
+        viewHolder.filterCollectionView.register(RefreshFilterCell.self)
+        viewHolder.filterCollectionView.collectionViewLayout = createFilterLayout()
     }
     
     private func setPageViewController() {
@@ -266,8 +304,8 @@ final class EventHomeViewController: UIViewController,
     func currentTabViewController() -> EventHomeTabViewController? {
         guard let currentViewController = viewHolder.pageViewController.viewControllers?.first,
               let currentTabViewController = currentViewController as? EventHomeTabViewController else {
-                  return nil
-              }
+            return nil
+        }
         return currentTabViewController
     }
     
@@ -290,7 +328,7 @@ final class EventHomeViewController: UIViewController,
         
         // 해당 filterItems isSelected 값 변경, deselected된 아이템들은 !isSelected 값을 가져야 함
         tabViewController.updateFiltersState(with: items, type: filterType)
-
+        
         guard let filterDataEntity = tabViewController.getFilterDataEntity() else { return }
         applyFilterSnapshot(with: filterDataEntity)
     }
@@ -344,6 +382,14 @@ extension EventHomeViewController {
             return view
         }()
         
+        let filterCollectionView: UICollectionView = {
+            let layout = UICollectionViewFlowLayout()
+            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.backgroundColor = .clear
+            collectionView.layoutMargins = Size.filterMargin
+            return collectionView
+        }()
+        
         private let contentView: UIView = {
             let view = UIView()
             view.backgroundColor = .white
@@ -365,6 +411,7 @@ extension EventHomeViewController {
             contentView.addSubview(titleNavigationView)
             contentView.addSubview(storeCollectionViewSeparator)
             contentView.addSubview(collectionView)
+            contentView.addSubview(filterCollectionView)
             contentView.addSubview(contentPageView)
             contentPageView.addSubview(pageViewController.view)
         }
@@ -390,9 +437,7 @@ extension EventHomeViewController {
                 $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
                 $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
-                let height = TopCommonSectionLayout.ConvenienceStore.height
-                + TopCommonSectionLayout.Filter.height
-                $0.height.equalTo(height)
+                $0.height.equalTo(Size.storeHeight)
             }
             
             storeCollectionViewSeparator.snp.makeConstraints { make in
@@ -401,8 +446,14 @@ extension EventHomeViewController {
                 make.leading.trailing.equalToSuperview()
             }
             
-            contentPageView.snp.makeConstraints {
+            filterCollectionView.snp.makeConstraints {
+                $0.height.equalTo(Size.filterHeight)
                 $0.top.equalTo(storeCollectionViewSeparator.snp.bottom)
+                $0.leading.trailing.equalToSuperview()
+            }
+            
+            contentPageView.snp.makeConstraints {
+                $0.top.equalTo(filterCollectionView.snp.bottom)
                 $0.leading.trailing.bottom.equalToSuperview()
             }
 
@@ -475,17 +526,18 @@ extension EventHomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == viewHolder.collectionView {
-            guard let selectedItem = dataSource?.itemIdentifier(for: indexPath) else { return }
+            guard let selectedItem = storeDataSource?.itemIdentifier(for: indexPath) else { return }
             
-            switch selectedItem {
-            case .convenienceStore:
+            if case .convenienceStore(_) = selectedItem {
                 setSelectedConvenienceStoreCell(with: indexPath)
                 viewHolder.pageViewController.updatePage(indexPath.row)
-                applyFilterSnapshot(with: currentTabViewController()?.getFilterDataEntity())
-            case .filter(let filterItem):
+            }
+        } else if collectionView == viewHolder.filterCollectionView {
+            guard let selectedItem = filterDataSource?.itemIdentifier(for: indexPath) else { return }
+            
+            if case let .filter(filterItem) = selectedItem {
                 listener?.didSelectFilter(of: filterItem.filter)
             }
-
         }
     }
 }
@@ -494,7 +546,7 @@ extension EventHomeViewController: UICollectionViewDelegate {
 extension EventHomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let tabViewController = currentTabViewController() else { return }
-
+        
         let collectionView = tabViewController.collectionView
         let outerScroll = scrollView == viewHolder.containerScrollView
         let innerScroll = !outerScroll
@@ -515,7 +567,7 @@ extension EventHomeViewController: UIScrollViewDelegate {
         }
         
         let paginationHeight = abs(collectionView.contentSize.height - collectionView.bounds.height) * 0.9
-
+        
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
             isPaging = true
             let filterList = tabViewController.getFilterList()
@@ -528,7 +580,7 @@ extension EventHomeViewController: UIScrollViewDelegate {
         if innerScroll && downScroll {
             //안쪽을 아래로 스크롤할때 바깥쪽 먼저 아래로 스크롤
             guard viewHolder.containerScrollView.contentOffset.y < outerScrollMaxOffset else { return }
-  
+            
             let scrolledHeight = scrollView.contentOffset.y - innerScrollLastOffsetY
             let minOffsetY = min(
                 viewHolder.containerScrollView.contentOffset.y + scrolledHeight,
@@ -578,7 +630,7 @@ extension EventHomeViewController: ProductPresentable {
         
         tabViewController.scrollCollectionViewToTop()
     }
-
+    
 }
 
 // MARK: - RefreshFilterCellDelegate

@@ -26,12 +26,18 @@ final class ProductHomeViewController:
     
     // MARK: - Interface
     weak var listener: ProductHomePresentableListener?
-    typealias SectionType = TopCollectionViewDatasource.SectionType
-    typealias ItemType = TopCollectionViewDatasource.ItemType
+    typealias StoreDataSource = TopCollectionViewDatasource.StoreDataSource
+    typealias StoreSection = TopCollectionViewDatasource.SectionType
+    typealias StoreItem = TopCollectionViewDatasource.ItemType
+    
+    typealias FilterDataSource = TopCollectionViewDatasource.FilterDataSource
+    typealias FilterSection = TopCollectionViewDatasource.FilterSection
+    typealias FilterItem = TopCollectionViewDatasource.FilterItem
     
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
-    private var dataSource: TopCollectionViewDatasource.DataSource?
+    private var storeDataSource: StoreDataSource?
+    private var filterDataSource: FilterDataSource?
     private let convenienceStores: [String] = CommonConstants.productHomeStore
     private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
@@ -56,80 +62,99 @@ final class ProductHomeViewController:
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureCollectionView()
-        configureDatasource()
-        initialSnapshot()
+        configureFilterCollectionView()
+        configureDataSource()
+        initialStoreSnapshot()
         configureProductCollectionView()
+        configureNotificationButton()
         configureNotificationButton()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        hideFilterCollectionView()
+    }
+    
     // MARK: - Private Method
-    private func configureDatasource() {
-        dataSource = TopCollectionViewDatasource.DataSource(collectionView: viewHolder.collectionView)
-        { collectionView, indexPath, item -> UICollectionViewCell? in
+    private func configureDataSource() {
+        configureStoreDatasource()
+        configureFilterDataSource()
+    }
+    
+    private func configureStoreDatasource() {
+        storeDataSource = StoreDataSource(
+            collectionView: viewHolder.collectionView
+        ) { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
-            case .convenienceStore(let storeName):
+            case let .convenienceStore(storeName):
                 let cell: ConvenienceStoreCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.configureCell(title: storeName)
                 if indexPath.row == self.initialIndex { // 초기 상태 selected
                     self.setSelectedConvenienceStoreCell(with: indexPath)
                 }
                 return cell
-            case .filter(let filterItem):
+            }
+        }
+    }
+    
+    private func configureFilterDataSource() {
+        filterDataSource = FilterDataSource(
+            collectionView: viewHolder.filterCollectionView
+        ) { collectionView, index, item -> UICollectionViewCell? in
+            switch item {
+            case let .filter(filterItem):
                 switch filterItem.filterUseType {
                 case .refresh:
-                    let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    let cell: RefreshFilterCell = collectionView.dequeueReusableCell(for: index)
                     cell.delegate = self
                     return cell
                 case .category:
-                    let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: indexPath)
+                    let cell: CategoryFilterCell = collectionView.dequeueReusableCell(for: index)
                     cell.configure(filter: filterItem.filter)
                     return cell
                 }
             }
-            
         }
     }
     
-    private func initialSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        // append store
+    private func initialStoreSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<StoreSection, StoreItem>()
         snapshot.appendSections([.convenienceStore(store: convenienceStores)])
         let items = convenienceStores.map { storeName in
-            return ItemType.convenienceStore(storeName: storeName)
+            return StoreItem.convenienceStore(storeName: storeName)
         }
         snapshot.appendItems(items, toSection: .convenienceStore(store: convenienceStores))
         
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        storeDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     private func applyFilterSnapshot(with filters: FilterDataEntity?) {
         guard let filters else { return }
-        guard var snapshot = dataSource?.snapshot() else { return }
+        var snapshot = NSDiffableDataSourceSnapshot<FilterSection, FilterItem>()
         
-        // append filter
         if !filters.data.isEmpty {
-            if !snapshot.sectionIdentifiers.contains(.filter) {
-                snapshot.appendSections([.filter])
+            snapshot.appendSections([.filter])
+            guard let filters = initializeFilterState(with: filters) else {
+                return
             }
-            guard let filters = updatedSortFilterState(with: filters) else { return }
-            // TO DO : section delete 하지 않고 item만 reload 할수 있게끔 변경 필요
-            if !snapshot.itemIdentifiers(inSection: .filter).isEmpty {
-                snapshot.deleteSections([.filter])
-                snapshot.appendSections([.filter])
-            }
+            
+            let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
+            let refreshItems = [FilterItem.filter(filterItem: refreshItem)]
             if needToShowRefreshCell() {
-                let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
-                let refreshItems = [ItemType.filter(filterItem: refreshItem)]
-                snapshot.appendItems(refreshItems, toSection: .filter)
+                snapshot.appendItems(refreshItems)
+            } else {
+                snapshot.deleteItems(refreshItems)
             }
+            
             let filterItems = filters.data.map { filter in
                 let filterItem = FilterCellItem(filter: filter)
-                return ItemType.filter(filterItem: filterItem)
+                return FilterItem.filter(filterItem: filterItem)
             }
-            snapshot.appendItems(filterItems, toSection: .filter)
-    
+            snapshot.appendItems(filterItems)
         }
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        
+        filterDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     // TO DO : 로직 리팩토링
@@ -180,20 +205,39 @@ final class ProductHomeViewController:
     private func configureCollectionView() {
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
-        viewHolder.collectionView.register(CategoryFilterCell.self)
-        viewHolder.collectionView.register(RefreshFilterCell.self)
-        viewHolder.collectionView.collectionViewLayout = createLayout()
+        viewHolder.collectionView.collectionViewLayout = createStoreLayout()
     }
     
-    private func createLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout {
-            [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-            guard let sectionIdentifier = self?.dataSource?.snapshot().sectionIdentifiers[sectionIndex] else {
+    
+    private func configureFilterCollectionView() {
+        viewHolder.filterCollectionView.delegate = self
+        viewHolder.filterCollectionView.register(CategoryFilterCell.self)
+        viewHolder.filterCollectionView.register(RefreshFilterCell.self)
+        viewHolder.filterCollectionView.collectionViewLayout = createFilterLayout()
+    }
+    
+    private func createStoreLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { [weak self] (index, _) -> NSCollectionLayoutSection? in
+            guard let sectionIdentifiers = self?.storeDataSource?.snapshot().sectionIdentifiers[index] else {
+                return nil
+            }
+            
+            if case let .convenienceStore(stores) = sectionIdentifiers {
+                let layout = TopCommonSectionLayout()
+                return layout.convenienceStoreLayout(convenienceStore: stores)
+            }
+            return nil
+        }
+    }
+    
+    private func createFilterLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
+            guard let sectionIdentifiers = self?.storeDataSource?.snapshot().sectionIdentifiers[sectionIndex] else {
                 return nil
             }
             
             let layout = TopCommonSectionLayout()
-            return layout.section(at: sectionIdentifier)
+            return layout.filterLayout()
         }
     }
     
@@ -201,7 +245,10 @@ final class ProductHomeViewController:
         viewHolder.productHomePageViewController.pagingDelegate = self
         viewHolder.productHomePageViewController.productListViewControllers
             .compactMap({ $0 as? ProductCurationViewController })
-            .forEach { $0.delegate = self }
+            .forEach {
+                $0.delegate = self
+                $0.curationDelegate = self
+            }
         viewHolder.productHomePageViewController.productListViewControllers
             .compactMap({ $0 as? ProductListViewController })
             .forEach {
@@ -216,6 +263,14 @@ final class ProductHomeViewController:
     
     private func configureNotificationButton() {
         viewHolder.titleNavigationView.delegate = self
+    }
+    
+    private func hideFilterCollectionView() {
+        viewHolder.filterCollectionView.isHidden = true
+    }
+    
+    private func showFilterCollectionView() {
+        viewHolder.filterCollectionView.isHidden = false
     }
     
     func showNotificationList(_ viewController: ModernRIBs.ViewControllable) {
@@ -393,19 +448,22 @@ extension ProductHomeViewController: UIScrollViewDelegate {
 extension ProductHomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == viewHolder.collectionView {
-            guard let selectedItem = dataSource?.itemIdentifier(for: indexPath) else { return }
+            guard let selectedItem = storeDataSource?.itemIdentifier(for: indexPath) else { return }
             
             switch selectedItem {
             case .convenienceStore:
                 currentPage = indexPath.item
                 viewHolder.productHomePageViewController.updatePage(to: currentPage)
-                applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
-            case .filter(let filterItem):
-                listener?.didSelectFilter(ofType: filterItem.filter)
+            }
+        } else if collectionView == viewHolder.filterCollectionView {
+            guard let selectedItem = filterDataSource?.itemIdentifier(for: indexPath) else { return }
+            
+            if case let .filter(filterEntity) = selectedItem {
+                listener?.didSelectFilter(ofType: filterEntity.filter)
             }
         } else {
             guard let productListViewController =  viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
-            let selectedItem = productListViewController.dataSource?.itemIdentifier(for: indexPath) else { return }
+                  let selectedItem = productListViewController.dataSource?.itemIdentifier(for: indexPath) else { return }
             
             switch selectedItem {
             case .product(let brandProduct):
@@ -471,6 +529,10 @@ extension ProductHomeViewController: ProductListDelegate {
         guard let brandProduct else { return }
         listener?.didSelect(with: brandProduct)
     }
+    
+    func didAppearProductList() {
+        showFilterCollectionView()
+    }
 }
 
 // MARK: - ProductPresentable
@@ -501,5 +563,12 @@ extension ProductHomeViewController: RefreshFilterCellDelegate {
         // apply filterData
         let filterDataEntity = listViewController.getFilterDataEntity()
         applyFilterSnapshot(with: filterDataEntity)
+    }
+}
+
+// MARK: - CurationDelegate
+extension ProductHomeViewController: CurationDelegate {
+    func curationWillAppear() {
+        hideFilterCollectionView()
     }
 }

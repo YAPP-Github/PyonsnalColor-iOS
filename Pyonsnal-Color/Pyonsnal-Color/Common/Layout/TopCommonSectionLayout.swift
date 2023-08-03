@@ -21,7 +21,7 @@ final class TopCommonSectionLayout {
         static let interSpacing: CGFloat = 8
     }
     
-    private func convenienceStoreLayout(convenienceStore: [String]) -> NSCollectionLayoutSection {
+    func convenienceStoreLayout(convenienceStore: [String]) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(ConvenienceStore.estimatedWidth),
             heightDimension: .fractionalHeight(1.0)
@@ -57,7 +57,7 @@ final class TopCommonSectionLayout {
         return section
     }
     
-    private func filterLayout() -> NSCollectionLayoutSection {
+    func filterLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(Filter.estimatedWidth),
             heightDimension: .fractionalHeight(1.0)
@@ -75,19 +75,13 @@ final class TopCommonSectionLayout {
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = Filter.interSpacing
-        section.contentInsets = .init(top: .spacing12, leading: 0, bottom: 0, trailing: 0)
+        section.contentInsets = .init(
+            top: .spacing12,
+            leading: .spacing16,
+            bottom: .spacing12,
+            trailing: .spacing16
+        )
         section.orthogonalScrollingBehavior = .continuous
         return section
-    }
-}
-
-extension TopCommonSectionLayout {
-    func section(at type: TopCollectionViewDatasource.SectionType) -> NSCollectionLayoutSection {
-        switch type {
-        case .convenienceStore(let store):
-            return convenienceStoreLayout(convenienceStore: store)
-        case .filter:
-            return filterLayout()
-        }
     }
 }
