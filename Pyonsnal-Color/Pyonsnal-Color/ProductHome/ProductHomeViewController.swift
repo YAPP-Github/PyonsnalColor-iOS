@@ -472,6 +472,8 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             case .convenienceStore:
                 currentPage = indexPath.item
                 viewHolder.productHomePageViewController.updatePage(to: currentPage)
+                applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
+                currentPage == 0 ? hideFilterCollectionView() : showFilterCollectionView()
             }
         } else if collectionView == viewHolder.filterCollectionView {
             guard let selectedItem = filterDataSource?.itemIdentifier(for: indexPath) else { return }

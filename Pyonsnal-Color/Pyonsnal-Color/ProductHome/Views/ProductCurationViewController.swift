@@ -45,6 +45,12 @@ final class ProductCurationViewController: UIViewController {
         configureCollectionView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        curationDelegate?.curationWillAppear()
+    }
+    
     // MARK: - Private Method
     private func configureCollectionView() {
         curationCollectionView.delegate = self
