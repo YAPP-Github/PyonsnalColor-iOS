@@ -168,14 +168,12 @@ final class ProductHomeViewController:
     private func initializeFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
         guard let currentListViewController = currentListViewController() else { return nil }
         currentListViewController.initializeFilterState()
-        Log.d(message: "초기 편의점 \(currentListViewController.convenienceStore) \(currentListViewController.getFilterDataEntity())")
         return currentListViewController.getFilterDataEntity()
     }
     
     private func updateSortFilterDefaultText(with filters: FilterDataEntity) -> FilterDataEntity? {
         guard let currentListViewController = currentListViewController() else { return nil }
         currentListViewController.updateSortFilterDefaultText()
-        Log.d(message: "편의점 \(currentListViewController.convenienceStore) \(currentListViewController.getFilterDataEntity())")
         return currentListViewController.getFilterDataEntity()
     }
     

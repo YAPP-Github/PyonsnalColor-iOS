@@ -177,7 +177,7 @@ final class EventHomeViewController: UIViewController,
             snapshot.appendItems(filterItems)
         }
         
-        filterDataSource?.apply(snapshot, animatingDifferences: false)
+        filterDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     // TO DO : 로직 리팩토링
@@ -542,6 +542,7 @@ extension EventHomeViewController: UICollectionViewDelegate {
             if case .convenienceStore(_) = selectedItem {
                 setSelectedConvenienceStoreCell(with: indexPath)
                 viewHolder.pageViewController.updatePage(indexPath.row)
+                applyFilterSnapshot(with: currentTabViewController()?.getFilterDataEntity())
             }
         } else if collectionView == viewHolder.filterCollectionView {
             guard let selectedItem = filterDataSource?.itemIdentifier(for: indexPath) else { return }
