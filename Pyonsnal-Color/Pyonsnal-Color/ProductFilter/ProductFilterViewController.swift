@@ -160,10 +160,10 @@ final class ProductFilterViewController:
     
     private func applySnapshot() {
         let filterType = filterEntity.filterType
-        
         let items = filterEntity.filterItem
         var snapshot = NSDiffableDataSourceSnapshot<FilterType, FilterItemEntity>()
         snapshot.appendSections([filterType])
+        
         snapshot.appendItems(items)
         
         dataSource?.apply(snapshot, animatingDifferences: true)

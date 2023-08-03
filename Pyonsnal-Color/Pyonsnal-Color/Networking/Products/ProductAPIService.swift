@@ -52,10 +52,11 @@ final class ProductAPIService {
     func requestSearch(
         pageNumber: Int,
         pageSize: Int,
-        name: String
+        name: String,
+        sortedCode: Int?
     ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
         return client.request(
-            ProductAPI.search(pageNumber: pageNumber, pageSize: pageSize, name: name),
+            ProductAPI.search(pageNumber: pageNumber, pageSize: pageSize, name: name, sortedCode: sortedCode),
             model: ProductPageEntity.self
         )
     }

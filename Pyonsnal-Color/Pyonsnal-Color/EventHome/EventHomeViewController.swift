@@ -188,6 +188,11 @@ final class EventHomeViewController: UIViewController,
         }
         return updateSortFilterDefaultText(with: filters)
     }
+
+    // TOOD
+    func makeFilterCellItem() -> [FilterCellItem] {
+        return []//FilterDummy.data.data.map { FilterCellItem(filter: $0) }
+    }
     
     private func initializeFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
         guard let currentTabViewController = currentTabViewController() else { return nil }

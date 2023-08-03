@@ -27,9 +27,12 @@ final class SortButton: UIButton {
     private func configureUI() {
         self.isEnabled = false
         self.titleLabel?.font = .body3m
+        self.backgroundColor = .white
         self.makeRounded(with: .spacing4)
-        self.makeBorder(width: Size.borderWidth,
-                        color: UIColor.gray200.cgColor)
+        self.makeBorder(
+            width: Size.borderWidth,
+            color: UIColor.gray200.cgColor
+        )
         self.setImage(.sortFilter, for: .normal)
         self.setTitleColor(.gray500, for: .normal)
         self.contentEdgeInsets = UIEdgeInsets(
