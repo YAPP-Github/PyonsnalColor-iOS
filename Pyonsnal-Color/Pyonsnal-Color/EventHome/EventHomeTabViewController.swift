@@ -249,7 +249,6 @@ final class EventHomeTabViewController: UIViewController {
         }
         snapshot.appendSections([itemSectionType])
         snapshot.appendItems(eventProducts, toSection: itemSectionType)
-        Log.d(message: "first item check \(eventProducts.first)")
         dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.listDelegate?.didFinishUpdateSnapshot()
         }
@@ -269,6 +268,7 @@ final class EventHomeTabViewController: UIViewController {
             }
             snapshot.appendItems(items, toSection: .keywordFilter)
         }
+        scrollCollectionViewToTop()
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     

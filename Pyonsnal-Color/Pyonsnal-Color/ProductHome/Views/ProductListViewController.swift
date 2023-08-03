@@ -255,6 +255,7 @@ final class ProductListViewController: UIViewController {
             }
             snapshot.appendItems(items, toSection: .keywordFilter)
         }
+        scrollCollectionViewToTop()
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     

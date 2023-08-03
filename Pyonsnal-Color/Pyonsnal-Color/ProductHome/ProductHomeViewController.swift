@@ -204,6 +204,8 @@ final class ProductHomeViewController:
     }
     
     private func configureCollectionView() {
+        viewHolder.collectionView.bounces = false
+        viewHolder.filterCollectionView.bounces = false
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
         viewHolder.collectionView.collectionViewLayout = createStoreLayout()

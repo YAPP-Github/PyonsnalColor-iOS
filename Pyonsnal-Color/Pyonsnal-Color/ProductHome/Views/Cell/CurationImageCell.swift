@@ -7,22 +7,22 @@
 
 import UIKit
 import SnapKit
+import Lottie
 
 final class CurationImageCell: UICollectionViewCell {
     
-    private let introductionImageView: UIImageView = {
-        let imageView = UIImageView(frame: .zero)
-        imageView.backgroundColor = .black
-        return imageView
+    let containerView: UIView = {
+        let view = UIView()
+        return view
     }()
     
-    // TODO: 임시 레이블 삭제
-    private let label: UILabel = {
-        let label = UILabel()
-        label.text = "편스널컬러 소개 이미지"
-        label.font = .body3r
-        label.textColor = .white
-        return label
+    private let introductionImageView: LottieAnimationView = {
+        let animation = LottieAnimation.named("main")
+        let animationView = LottieAnimationView(animation: animation)
+        animationView.contentMode = .scaleAspectFill
+        animationView.loopMode = .loop
+        animationView.play()
+        return animationView
     }()
     
     override init(frame: CGRect) {
@@ -36,19 +36,12 @@ final class CurationImageCell: UICollectionViewCell {
     }
     
     private func configureLayout() {
-        addSubview(introductionImageView)
-        introductionImageView.addSubview(label)
-        
-        introductionImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        addSubview(containerView)
+        containerView.addSubview(introductionImageView)
+
+        containerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
-        
-        label.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
-    }
-    
-    func configureCell(with image: UIImage) {
-        introductionImageView.image = image
+        introductionImageView.frame = self.bounds
     }
 }

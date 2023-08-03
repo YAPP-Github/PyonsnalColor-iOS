@@ -16,28 +16,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pyonsnalColor" translatesAutoresizingMaskIntoConstraints="NO" id="oIk-LN-EtN">
-                                <rect key="frame" x="75.666666666666686" y="139" width="242" height="46"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="R1c-jp-7Zk">
+                                <rect key="frame" x="136.66666666666666" y="366" width="119.99999999999997" height="120"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="242" id="6lw-9r-Jkr"/>
-                                    <constraint firstAttribute="height" constant="46" id="yRr-yF-4jv"/>
-                                </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_splash" translatesAutoresizingMaskIntoConstraints="NO" id="mzW-Zb-2yR">
-                                <rect key="frame" x="0.0" y="343.33333333333326" width="393" height="474.66666666666674"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="mzW-Zb-2yR" secondAttribute="height" multiplier="390:471" id="lrh-kI-19z"/>
+                                    <constraint firstAttribute="height" constant="120" id="W5h-3d-qIk"/>
+                                    <constraint firstAttribute="width" constant="120" id="eFr-Wp-ZMk"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="oIk-LN-EtN" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="S5y-CS-VvI"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mzW-Zb-2yR" secondAttribute="trailing" id="SR1-rZ-JMU"/>
-                            <constraint firstItem="oIk-LN-EtN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="80" id="g2B-cD-NKK"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="mzW-Zb-2yR" secondAttribute="bottom" id="iMk-b0-aBF"/>
-                            <constraint firstItem="mzW-Zb-2yR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mdQ-Aa-a7e"/>
+                            <constraint firstItem="R1c-jp-7Zk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="HE3-ls-Qkn"/>
+                            <constraint firstItem="R1c-jp-7Zk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="b2B-Pb-LNK"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -47,7 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_pyonsnalColor" width="242" height="46"/>
-        <image name="image_splash" width="390" height="479"/>
+        <image name="logo" width="120" height="123.66666412353516"/>
     </resources>
 </document>

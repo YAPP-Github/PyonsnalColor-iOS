@@ -48,18 +48,10 @@ final class RecommendFilterCell: UICollectionViewCell {
     }
     
     private func setSelectedState() {
-        viewHolder.iconImageView.makeBorder(
-            width: Size.selectedBorderWidth,
-            color: UIColor.red500.cgColor
-        )
         viewHolder.titleLabel.textColor = .red500
     }
     
     private func setUnselectedState() {
-        viewHolder.iconImageView.makeBorder(
-            width: Size.unselectedBorderWidth,
-            color: UIColor.gray200.cgColor
-        )
         viewHolder.titleLabel.textColor = .black
     }
 }
@@ -84,7 +76,6 @@ extension RecommendFilterCell {
         let iconImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
-            imageView.makeBorder(width: Size.iconBorderWidth, color: UIColor.gray200.cgColor)
             imageView.makeRounded(with: Size.iconSize / 2)
             imageView.backgroundColor = .white
             return imageView

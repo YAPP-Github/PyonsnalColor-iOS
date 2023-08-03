@@ -9,6 +9,7 @@ import UIKit
 
 extension ImageAssetKind {
     enum Icon: String {
+        case iconHeader = "icon_header"
         case iconPyonsnalColor = "icon_pyonsnalColor"
         case iconSearch = "icon_search"
         case iconDelete = "icon_delete"
