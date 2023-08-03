@@ -24,8 +24,11 @@ protocol ProductHomePresentable: Presentable {
     
     func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]])
     func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore)
+    func replaceProducts(with products: [BrandProductEntity], at store: ConvenienceStore)
     func updateFilter(with filters: FilterDataEntity)
+    func didStartPaging()
     func didFinishPaging()
+    func requestInitialProduct()
     func updateCuration(with products: [CurationEntity])
     func updateFilterItems(with items: [FilterItemEntity], type: FilterType)
     func updateSortFilter(item: FilterItemEntity)
@@ -48,6 +51,7 @@ final class ProductHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
+    private var storeTotalPages: [ConvenienceStore: Int] = [:]
     private var filterEntity: [FilterEntity] = []
 
     init(
@@ -80,7 +84,8 @@ final class ProductHomeInteractor:
             filterList: filterList
         ).sink { [weak self] response in
             if let productPage = response.value {
-                self?.presenter.updateProducts(with: productPage.content, at: store)
+                self?.storeTotalPages[store] = productPage.totalPages
+                self?.presenter.replaceProducts(with: productPage.content, at: store)
             } else if response.error != nil {
                 // TODO: Error Handling
             }
@@ -138,8 +143,13 @@ final class ProductHomeInteractor:
     }
     
     func didScrollToNextPage(store: ConvenienceStore, filterList: [String]) {
-        if let lastPage = storeLastPages[store] {
-            requestProducts(pageNumber: lastPage + 1, store: store, filterList: filterList)
+        if let lastPage = storeLastPages[store], let totalPage = storeTotalPages[store] {
+            let nextPage = lastPage + 1
+            
+            if nextPage < totalPage {
+                presenter.didStartPaging()
+                requestProducts(pageNumber: nextPage, store: store, filterList: filterList)
+            }
         }
     }
     
@@ -159,6 +169,7 @@ final class ProductHomeInteractor:
     func didTapRefreshFilterCell(with store: ConvenienceStore) {
         requestInitialProducts(store: store, filterList: [])
 	}
+    
     func didSelectFilter(ofType filterEntity: FilterEntity?) {
         guard let filterEntity else { return }
         
@@ -180,6 +191,7 @@ final class ProductHomeInteractor:
     }
     
     func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+        presenter.requestInitialProduct()
         requestInitialProducts(store: store, filterList: filterList)
     }
     

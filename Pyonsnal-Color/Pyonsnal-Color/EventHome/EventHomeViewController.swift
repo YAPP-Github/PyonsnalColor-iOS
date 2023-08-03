@@ -64,6 +64,7 @@ final class EventHomeViewController: UIViewController,
     private let convenienceStores: [String] = CommonConstants.convenienceStore
     private var initIndex: Int = 0
     private var isPaging: Bool = false
+    private var isRequestingInitialProducts: Bool = false
     private var currentConvenienceStore: ConvenienceStore?
     
     // MARK: - Initializer
@@ -297,8 +298,16 @@ final class EventHomeViewController: UIViewController,
         applyFilterSnapshot(with: filters)
     }
     
+    func didStartPaging() {
+        isPaging = true
+    }
+    
     func didFinishPaging() {
         isPaging = false
+    }
+    
+    func requestInitialProduct() {
+        isRequestingInitialProducts = true
     }
     
     func currentTabViewController() -> EventHomeTabViewController? {
@@ -510,6 +519,10 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         let keywordItems = tabViewController.getKeywordList()
         tabViewController.applyKeywordFilterSnapshot(with: keywordItems)
     }
+    
+    func didFinishUpdateSnapshot() {
+        isRequestingInitialProducts = false
+    }
 }
 
 extension EventHomeViewController: TitleNavigationViewDelegate {
@@ -568,8 +581,7 @@ extension EventHomeViewController: UIScrollViewDelegate {
         
         let paginationHeight = abs(collectionView.contentSize.height - collectionView.bounds.height) * 0.9
         
-        if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
-            isPaging = true
+        if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y && !isRequestingInitialProducts {
             let filterList = tabViewController.getFilterList()
             listener?.didScrollToNextPage(
                 store: tabViewController.convenienceStore,

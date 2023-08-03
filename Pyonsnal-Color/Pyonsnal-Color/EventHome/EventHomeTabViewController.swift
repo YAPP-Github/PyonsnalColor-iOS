@@ -225,6 +225,7 @@ final class EventHomeTabViewController: UIViewController {
         let itemSectionType = SectionType.item(type: .item)
         let emtpySectionType = SectionType.item(type: .empty)
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        scrollCollectionViewToTop()
         
         guard let products, !products.isEmpty else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             collectionView.isScrollEnabled = false

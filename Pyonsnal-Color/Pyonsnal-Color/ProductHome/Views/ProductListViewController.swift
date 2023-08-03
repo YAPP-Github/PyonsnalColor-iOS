@@ -193,6 +193,25 @@ final class ProductListViewController: UIViewController {
     func applySnapshot(with products: [BrandProductEntity]?) {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
+        guard var snapshot = dataSource?.snapshot(),
+              let products
+        else {
+            return
+        }
+        
+        let productItems = products.map { product in
+            return ItemType.product(data: product)
+        }
+        
+        snapshot.appendItems(productItems, toSection: itemSectionType)
+        Log.d(message: "first \(productItems.first)")
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func updateSnapshot(with products: [BrandProductEntity]?) {
+        productCollectionView.isScrollEnabled = true
+        scrollCollectionViewToTop()
+        let itemSectionType = SectionType.product(type: .item)
         let emtpySectionType = SectionType.product(type: .empty)
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         
@@ -214,7 +233,10 @@ final class ProductListViewController: UIViewController {
             snapshot.appendItems(productItems, toSection: itemSectionType)
             Log.d(message: "first \(productItems.first)")
         }
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        
+        dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
+            self?.delegate?.didFinishUpdateSnapshot()
+        }
     }
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {

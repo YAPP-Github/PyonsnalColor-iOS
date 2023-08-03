@@ -15,6 +15,7 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
     
     func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
     func refreshFilterButton()
+    func didFinishUpdateSnapshot()
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -173,5 +174,9 @@ extension EventHomePageViewController: ProductListDelegate {
     }
     
     func didAppearProductList() {
+    }
+    
+    func didFinishUpdateSnapshot() {
+        pageDelegate?.didFinishUpdateSnapshot()
     }
 }

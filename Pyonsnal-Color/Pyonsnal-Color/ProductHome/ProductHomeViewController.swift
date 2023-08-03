@@ -42,6 +42,7 @@ final class ProductHomeViewController:
     private let initialIndex: Int = 0
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
+    private var isRequestingInitialProducts: Bool = false
     private var currentPage: Int = 0
     private var currentConvenienceStore: ConvenienceStore?
     
@@ -304,14 +305,34 @@ final class ProductHomeViewController:
         }
     }
     
+    func replaceProducts(with products: [BrandProductEntity], at store: ConvenienceStore) {
+        if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
+            self.currentConvenienceStore = store
+            let pageViewController = viewHolder.productHomePageViewController
+            if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
+                viewController.updateSnapshot(with: products)
+                let keywordItems = viewController.getKeywordList()
+                viewController.applyKeywordFilterSnapshot(with: keywordItems)
+            }
+        }
+    }
+    
     func updateFilter(with filters: FilterDataEntity) {
         viewHolder.productHomePageViewController.setFilterStateManager(with: filters)
         let initializedFilter = initializeFilterState(with: filters)
         applyFilterSnapshot(with: initializedFilter)
     }
     
+    func didStartPaging() {
+        isPaging = true
+    }
+    
     func didFinishPaging() {
         isPaging = false
+    }
+    
+    func requestInitialProduct() {
+        isRequestingInitialProducts = true
     }
     
     func updateCuration(with products: [CurationEntity]) {
@@ -407,8 +428,7 @@ extension ProductHomeViewController: UIScrollViewDelegate {
         
         let paginationHeight = abs(collectionView.contentSize.height - collectionView.bounds.height) * 0.9
 
-        if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y {
-            isPaging = true
+        if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y && !isRequestingInitialProducts {
             let filterList = productListViewController.getFilterList()
             listener?.didScrollToNextPage(
                 store: ConvenienceStore.allCases[currentPage],
@@ -532,6 +552,10 @@ extension ProductHomeViewController: ProductListDelegate {
     
     func didAppearProductList() {
         showFilterCollectionView()
+    }
+    
+    func didFinishUpdateSnapshot() {
+        isRequestingInitialProducts = false
     }
 }
 
