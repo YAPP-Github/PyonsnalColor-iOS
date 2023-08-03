@@ -10,11 +10,12 @@ import UIKit
 protocol EventHomePageViewControllerDelegate: AnyObject {
     func updateSelectedStoreCell(index: Int)
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
-    func didChangeStore(to store: ConvenienceStore)
+    func didChangeStore(to store: ConvenienceStore, filterList: [String])
     func didSelect(with brandProduct: ProductConvertable)
     
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool)
-    func updateFilterUI(with filterDataEntity: FilterDataEntity)
+    func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
+    func refreshFilterButton()
+    func didFinishUpdateSnapshot()
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -145,21 +146,21 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
     }
     
     func didTapFilterDeleteButton(with filter: FilterItemEntity) {
-        pageDelegate?.updateFilterState(with: filter, isSelected: false)
+        pageDelegate?.deleteFilterItem(with: filter, isSelected: false)
     }
 }
 
 extension EventHomePageViewController: ProductListDelegate {
-    func updateFilterUI(with filterDataEntity: FilterDataEntity) {
-        pageDelegate?.updateFilterUI(with: filterDataEntity)
-    }
     
     func didLoadPageList(store: ConvenienceStore) {
-        pageDelegate?.didChangeStore(to: store)
+        pageDelegate?.didChangeStore(to: store, filterList: [])
     }
     
-    func refreshByPull() {
-        pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
+    func refreshByPull(with filterList: [String]) {
+        pageDelegate?.didChangeStore(
+            to: ConvenienceStore.allCases[currentIndex],
+            filterList: filterList
+        )
     }
     
     func didSelect(with brandProduct: ProductConvertable?) {
@@ -168,10 +169,17 @@ extension EventHomePageViewController: ProductListDelegate {
     }
     
     func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
-        pageDelegate?.updateFilterState(with: filter, isSelected: isSelected)
+        pageDelegate?.deleteFilterItem(with: filter, isSelected: isSelected)
     }
     
     func refreshFilterButton() {
-        pageDelegate?.didChangeStore(to: ConvenienceStore.allCases[currentIndex])
+        pageDelegate?.refreshFilterButton()
+    }
+    
+    func didAppearProductList() {
+    }
+    
+    func didFinishUpdateSnapshot() {
+        pageDelegate?.didFinishUpdateSnapshot()
     }
 }

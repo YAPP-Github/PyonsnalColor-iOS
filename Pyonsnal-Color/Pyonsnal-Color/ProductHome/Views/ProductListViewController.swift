@@ -61,20 +61,18 @@ final class ProductListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Life Cycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let filterDataEntity = filterStateManager?.getFilterDataEntity() {
-            delegate?.updateFilterUI(with: filterDataEntity)
-        }       
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureLayout()
         configureCollectionView()
         delegate?.didLoadPageList(store: convenienceStore)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        delegate?.didAppearProductList()
     }
     
     // MARK: - Private Method
@@ -195,14 +193,31 @@ final class ProductListViewController: UIViewController {
     func applySnapshot(with products: [BrandProductEntity]?) {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
+        guard var snapshot = dataSource?.snapshot(),
+              let products
+        else {
+            return
+        }
+        
+        let productItems = products.map { product in
+            return ItemType.product(data: product)
+        }
+        
+        snapshot.appendItems(productItems, toSection: itemSectionType)
+        Log.d(message: "first \(productItems.first)")
+        dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func updateSnapshot(with products: [BrandProductEntity]?) {
+        productCollectionView.isScrollEnabled = true
+        scrollCollectionViewToTop()
+        let itemSectionType = SectionType.product(type: .item)
         let emtpySectionType = SectionType.product(type: .empty)
-        guard var snapshot = dataSource?.snapshot() else { return }
-
-        guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        
+        guard let products, !products.isEmpty else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             productCollectionView.isScrollEnabled = false
-            if !snapshot.sectionIdentifiers.contains(emtpySectionType) {
-                snapshot.appendSections([emtpySectionType])
-            }
+            snapshot.appendSections([emtpySectionType])
             snapshot.appendItems([ItemType.product(data: nil)], toSection: emtpySectionType)
             dataSource?.apply(snapshot, animatingDifferences: true)
             return
@@ -212,29 +227,33 @@ final class ProductListViewController: UIViewController {
         let productItems = products.map { product in
             return ItemType.product(data: product)
         }
+        snapshot.appendSections([itemSectionType])
+        
         if !productItems.isEmpty {
-            if !snapshot.sectionIdentifiers.contains(itemSectionType) {
-                snapshot.appendSections([itemSectionType])
-            }
             snapshot.appendItems(productItems, toSection: itemSectionType)
+            Log.d(message: "first \(productItems.first)")
         }
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        
+        dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
+            self?.delegate?.didFinishUpdateSnapshot()
+        }
     }
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
-        if !snapshot.sectionIdentifiers.contains(.keywordFilter) {
-            snapshot.insertSections([.keywordFilter], beforeSection: .product(type: .item))
-        }
+        
+        // TO DO : section delete 하지 않고 추가하는 방법
+        snapshot.deleteSections([.keywordFilter])
         // append keywordFilter
         if !keywordItems.isEmpty {
+            let productSection: SectionType = .product(type: .item)
+            let emtptySection: SectionType = .product(type: .empty)
+            let beforeSection: SectionType = snapshot.sectionIdentifiers.contains(productSection) ? productSection : emtptySection
+            snapshot.insertSections([.keywordFilter], beforeSection: beforeSection)
             let items = keywordItems.map {
                 return ItemType.keywordFilter(data: $0)
             }
             snapshot.appendItems(items, toSection: .keywordFilter)
-            snapshot.reloadSections([.keywordFilter])
-        } else {
-            snapshot.deleteAllItems()
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -252,7 +271,8 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.delegate?.refreshByPull()
+            let filterList = self.getFilterList()
+            self.delegate?.refreshByPull(with: filterList)
             self.productCollectionView.refreshControl?.endRefreshing()
         }
     }
@@ -261,16 +281,6 @@ final class ProductListViewController: UIViewController {
 // MARK: - KeywordFilterCellDelegate
 extension ProductListViewController: KeywordFilterCellDelegate {
     func didTapDeleteButton(filter: FilterItemEntity) {
-        guard var snapshot = dataSource?.snapshot() else { return }
-        let itemIdentifiers = snapshot.itemIdentifiers(inSection: .keywordFilter)
-        let deleteItem = ItemType.keywordFilter(data: filter)
-        let hasKeywords = itemIdentifiers.contains(deleteItem)
-        // filter에서 삭제
-        if hasKeywords {
-            snapshot.deleteItems([deleteItem])
-            dataSource?.apply(snapshot, animatingDifferences: true)
-        }
-        
         // 현재 선택된 filter에서 삭제
         delegate?.updateFilterState(with: filter, isSelected: false)
     }
@@ -298,6 +308,10 @@ extension ProductListViewController {
         filterStateManager?.setFilterDefatultText()
     }
     
+    func updateSortFilterDefaultText() {
+        filterStateManager?.setSortFilterDefaultText()
+    }
+    
     func getFilterDataEntity() -> FilterDataEntity? {
         return filterStateManager?.getFilterDataEntity()
     }
@@ -306,8 +320,16 @@ extension ProductListViewController {
         filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
     }
     
-    func appendFilterList(with filter: [String]) {
-        filterStateManager?.appendFilterList(filters: filter)
+    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
+        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
+    }
+    
+    func updateSortFilterState(with filter: FilterItemEntity) {
+        filterStateManager?.updateSortFilterState(target: filter)
+    }
+    
+    func appendFilterList(with filter: [String], type: FilterType) {
+        filterStateManager?.appendFilterList(filters: filter, type: type)
     }
     
     func getFilterList() -> [String] {
@@ -320,5 +342,9 @@ extension ProductListViewController {
     
     func deleteAllFilterCode() {
         filterStateManager?.deleteAllFilterList()
+    }
+    
+    func getKeywordList() -> [FilterItemEntity] {
+        filterStateManager?.getCurrentSelectedFitlers() ?? []
     }
 }

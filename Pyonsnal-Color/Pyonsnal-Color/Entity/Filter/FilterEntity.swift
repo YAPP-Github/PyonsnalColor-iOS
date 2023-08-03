@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct FilterDataEntity: Decodable {
+struct FilterDataEntity: Decodable, Hashable {
     var data: [FilterEntity]
 }
 
@@ -41,10 +41,12 @@ extension FilterEntity: Hashable {
 struct FilterItemEntity: Decodable, Hashable {
     let name: String
     let code: Int
+    let image: String?
+    
     var isSelected = false
     
     enum CodingKeys: String, CodingKey {
-        case name, code
+        case name, code, image
     }
     
     func hash(into hasher: inout Hasher) {

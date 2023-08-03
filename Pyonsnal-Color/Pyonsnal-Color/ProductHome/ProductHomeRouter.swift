@@ -130,7 +130,7 @@ final class ProductHomeRouter:
     func detachProductFilter() {
         guard let productFilterRouting else { return }
         viewController.uiviewController.dismiss(animated: true)
-        self.productFilterRouting = nil
         detachChild(productFilterRouting)
+        self.productFilterRouting = nil
     }
 }

@@ -40,6 +40,10 @@ final class RecommendFilterCell: UICollectionViewCell {
     
     func configureCell(filterItem: FilterItemEntity) {
         viewHolder.titleLabel.text = filterItem.name
+        if let image = filterItem.image,
+            let imageUrl = URL(string: image) {
+        viewHolder.iconImageView.setImage(with: imageUrl)
+        }
         isSelected = filterItem.isSelected
     }
     
@@ -79,6 +83,7 @@ extension RecommendFilterCell {
         
         let iconImageView: UIImageView = {
             let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
             imageView.makeBorder(width: Size.iconBorderWidth, color: UIColor.gray200.cgColor)
             imageView.makeRounded(with: Size.iconSize / 2)
             imageView.backgroundColor = .white

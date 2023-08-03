@@ -14,6 +14,9 @@ extension ProductHomeViewController {
             static let backNavigationBarHeight: CGFloat = 48
             static let leftRightMargin: CGFloat = 16
             static let storeCollectionViewSeparatorHeight: CGFloat = 1
+            static let storeHeight: CGFloat = 44
+            static let filterMargin: UIEdgeInsets = .init(top: 12, left: 15, bottom: 12, right: 15)
+            static let filterHeight: CGFloat = 56
         }
         
         enum Text {
@@ -39,6 +42,12 @@ extension ProductHomeViewController {
         
         let titleNavigationView = TitleNavigationView()
         
+        let collectionStackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .vertical
+            return stackView
+        }()
+        
         let collectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -58,6 +67,14 @@ extension ProductHomeViewController {
             return view
         }()
         
+        let filterCollectionView: UICollectionView = {
+            let layout = UICollectionViewFlowLayout()
+            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.backgroundColor = .clear
+            collectionView.layoutMargins = Constant.Size.filterMargin
+            return collectionView
+        }()
+        
         let productHomePageViewController: ProductHomePageViewController = .init(
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
@@ -69,8 +86,11 @@ extension ProductHomeViewController {
             
             contentView.addSubview(titleNavigationView)
             contentView.addSubview(storeCollectionViewSeparator)
-            contentView.addSubview(collectionView)
+            contentView.addSubview(collectionStackView)
             contentView.addSubview(productHomePageViewController.view)
+            
+            collectionStackView.addArrangedSubview(collectionView)
+            collectionStackView.addArrangedSubview(filterCollectionView)
         }
         
         func configureConstraints(for view: UIView) {
@@ -89,21 +109,30 @@ extension ProductHomeViewController {
                 make.leading.trailing.top.equalToSuperview()
             }
             
+            collectionStackView.snp.makeConstraints {
+                $0.leading.trailing.equalToSuperview()
+                $0.top.equalTo(titleNavigationView.snp.bottom)
+            }
+            
             collectionView.snp.makeConstraints { make in
-                make.top.equalTo(titleNavigationView.snp.bottom)
                 make.leading.trailing.equalToSuperview().inset(.spacing16)
-                let height = TopCommonSectionLayout.ConvenienceStore.height + TopCommonSectionLayout.Filter.height
-                make.height.equalTo(height)
+                make.height.equalTo(Constant.Size.storeHeight)
             }
             
             storeCollectionViewSeparator.snp.makeConstraints { make in
                 make.height.equalTo(Constant.Size.storeCollectionViewSeparatorHeight)
-                make.top.equalTo(collectionView.snp.bottom).inset(1)
+                make.bottom.equalTo(collectionView.snp.bottom)
                 make.leading.trailing.equalToSuperview()
             }
             
+            filterCollectionView.snp.makeConstraints {
+                $0.height.equalTo(Constant.Size.filterHeight)
+                $0.top.equalTo(storeCollectionViewSeparator.snp.bottom)
+                $0.leading.trailing.equalToSuperview()
+            }
+            
             productHomePageViewController.view.snp.makeConstraints { make in
-                make.top.equalTo(storeCollectionViewSeparator.snp.bottom)
+                make.top.equalTo(collectionStackView.snp.bottom)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalTo(view.safeAreaLayoutGuide)
             }

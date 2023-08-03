@@ -30,7 +30,7 @@ final class EventFilterCell: UICollectionViewCell {
     }
     
     func configureCell(filterItem: FilterItemEntity) {
-        viewHolder.titleLabel.text = filterItem.name
+        viewHolder.titleLabel.text = EventTag(rawValue: filterItem.name)?.name ?? ""
         isSelected = filterItem.isSelected
     }
     

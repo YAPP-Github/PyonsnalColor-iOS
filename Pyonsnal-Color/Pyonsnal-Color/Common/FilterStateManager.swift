@@ -43,7 +43,45 @@ final class FilterStateManager {
         }
         
         updateFilterDataState()
-        Log.d(message: "filterDataEntity \(filterDataEntity)")
+    }
+    
+    // 여러 아이템의 isSelected 값을 업데이트 합니다.
+    func updateFiltersItemState(filters: [FilterItemEntity], type: FilterType) {
+        // type과 매칭되는 filterItem의 isSelected 값을 false로 만듬
+        for index in 0..<filterDataEntity.data.count {
+            if filterDataEntity.data[index].filterType != type { continue }
+            for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
+                filterDataEntity.data[index].filterItem[secondIndex].isSelected = false
+            }
+        }
+        
+        // 선택된 filter의 selected 값을 업데이트
+        for index in 0..<filterDataEntity.data.count {
+            if filterDataEntity.data[index].filterType != type { continue }
+            for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
+                for filter in filters {
+                    if filterDataEntity.data[index].filterItem[secondIndex].code == filter.code {
+                        filterDataEntity.data[index].filterItem[secondIndex].isSelected = filter.isSelected
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    /// 정렬 필터 isSelected 값을 업데이트 합니다.
+    func updateSortFilterState(target sortFilterItem: FilterItemEntity) {
+        for index in 0..<filterDataEntity.data.count {
+            if filterDataEntity.data[index].filterType != .sort { continue }
+            for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
+                if filterDataEntity.data[index].filterItem[secondIndex].code == sortFilterItem.code {
+                    filterDataEntity.data[index].filterItem[secondIndex].isSelected = true
+                } else {
+                    filterDataEntity.data[index].filterItem[secondIndex].isSelected = false
+                }
+            }
+        }
+        
     }
     
     /// filterItemEntity 값 변경에 따라 FilterDataEntity isSelected 값을 업데이트 합니다.
@@ -52,7 +90,6 @@ final class FilterStateManager {
             let filterItem = filterDataEntity.data[index].filterItem
             let hasSelectedFilterEntity = filterItem.contains(where: { $0.isSelected == true })
             filterDataEntity.data[index].isSelected = hasSelectedFilterEntity
-            Log.d(message: "filterDataEntity \(filterDataEntity.data[index].isSelected)")
             
         }
         
@@ -66,7 +103,6 @@ final class FilterStateManager {
                 for (index, _) in filterDataEntity.data[firstIndex].filterItem.enumerated() {
                     if filterDataEntity.data[firstIndex].filterItem[index].name == latestSortFilterName {
                         filterDataEntity.data[firstIndex].filterItem[index].isSelected = true
-                        break
                     }
                 }
             }
@@ -121,10 +157,30 @@ final class FilterStateManager {
             let defaultText = filterDataEntity.data[index].filterType.filterDefaultText
             filterDataEntity.data[index].defaultText = defaultText
         }
-        Log.d(message: "filterDataEntity \(filterDataEntity)")
+        Log.d(message: "setFilterDefatultText \(filterDataEntity)")
     }
     
-    func appendFilterList(filters: [String]) {
+    /// sortFilter의 text를 업데이트 합니다.
+    func setSortFilterDefaultText() {
+        for index in 0..<filterDataEntity.data.count {
+            if filterDataEntity.data[index].filterType != .sort { continue }
+            let updatedText = filterDataEntity.data[index].filterItem.first(where: {$0.isSelected })?.name
+            filterDataEntity.data[index].defaultText = updatedText
+        }
+        updateFilterDataState()
+    }
+    
+    func getCurrentSelectedFitlers() -> [FilterItemEntity] {
+        let selectedKeyword = filterDataEntity.data.filter({ $0.filterType != .sort })
+            .compactMap { item -> [FilterItemEntity]? in
+                return item.filterItem.filter { $0.isSelected }
+            }.flatMap { $0 }
+        print(selectedKeyword)
+        return selectedKeyword
+    }
+    
+    func appendFilterList(filters: [String], type: FilterType) {
+        deleteFilters(filters: filters, with: type)
         filters.forEach { filter in
             filterList.insert(filter)
         }
@@ -132,6 +188,16 @@ final class FilterStateManager {
     
     func deleteFilterList(filterCode: String) {
         filterList.remove(filterCode)
+    }
+    
+    private func deleteFilters(filters: [String], with type: FilterType) {
+        if let filterCodeList = filterDataEntity.data
+            .first(where: { $0.filterType == type })?
+            .filterItem.map({ String($0.code) }) {
+            filterCodeList.map { filterCode in
+                self.deleteFilterList(filterCode: filterCode)
+            }
+        }
     }
     
     func deleteAllFilterList() {

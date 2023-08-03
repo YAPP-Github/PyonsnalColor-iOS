@@ -70,14 +70,6 @@ final class EventHomeTabViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - View life cycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let filterDataEntity = filterStateManager?.getFilterDataEntity() {
-            listDelegate?.updateFilterUI(with: filterDataEntity)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -148,7 +140,8 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.listDelegate?.refreshByPull()
+            let filters = self.getFilterList()
+            self.listDelegate?.refreshByPull(with: filters)
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
@@ -214,16 +207,13 @@ final class EventHomeTabViewController: UIViewController {
         }
     }
     
+    // pagination시 apply
     func applyEventProductsSnapshot(with products: [EventProductEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
         let itemSectionType = SectionType.item(type: .item)
         
         let eventProducts = products.map { ItemType.item(data: $0) }
-        
-        if !snapshot.sectionIdentifiers.contains(itemSectionType) {
-            snapshot.appendSections([itemSectionType])
-        }
-        
+
         snapshot.appendItems(eventProducts, toSection: itemSectionType)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -235,13 +225,12 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.isScrollEnabled = true
         let itemSectionType = SectionType.item(type: .item)
         let emtpySectionType = SectionType.item(type: .empty)
+        var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+        scrollCollectionViewToTop()
         
-        guard var snapshot = dataSource?.snapshot() else { return }
-        guard let products else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
+        guard let products, !products.isEmpty else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             collectionView.isScrollEnabled = false
-            if !snapshot.sectionIdentifiers.contains(emtpySectionType) {
-                snapshot.appendSections([emtpySectionType])
-            }
+            snapshot.appendSections([emtpySectionType])
             snapshot.appendItems([ItemType.item(data: nil)], toSection: emtpySectionType)
             dataSource?.apply(snapshot, animatingDifferences: true)
             return
@@ -249,10 +238,8 @@ final class EventHomeTabViewController: UIViewController {
         
         // append eventBanners
         let eventBanners = eventBanners ?? []
+        snapshot.appendSections([.event])
         if !eventBanners.isEmpty {
-            if !snapshot.sectionIdentifiers.contains(.event) {
-                snapshot.appendSections([.event])
-            }
             snapshot.appendItems([ItemType.event(data: eventBanners)], toSection: .event)
         }
         
@@ -260,28 +247,27 @@ final class EventHomeTabViewController: UIViewController {
         let eventProducts = products.map { product in
             return ItemType.item(data: product)
         }
-        
-        if !snapshot.sectionIdentifiers.contains(itemSectionType) {
-            snapshot.appendSections([itemSectionType])
-        }
-        
+        snapshot.appendSections([itemSectionType])
         snapshot.appendItems(eventProducts, toSection: itemSectionType)
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        Log.d(message: "first item check \(eventProducts.first)")
+        dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
+            self?.listDelegate?.didFinishUpdateSnapshot()
+        }
     }
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
-        if !snapshot.sectionIdentifiers.contains(.keywordFilter) {
-            snapshot.insertSections([.keywordFilter], beforeSection: .event)
-        }
+        // TO DO : section delete하지 않고 추가하는 방법
+        snapshot.deleteSections([.keywordFilter])
         // append keywordFilter
         if !keywordItems.isEmpty {
+            let beforeSection: SectionType = snapshot.sectionIdentifiers.contains(.event) ? .event : .item(type: .empty)
+            snapshot.insertSections([.keywordFilter], beforeSection: beforeSection)
+            
             let items = keywordItems.map {
                 return ItemType.keywordFilter($0)
             }
             snapshot.appendItems(items, toSection: .keywordFilter)
-        } else {
-            snapshot.deleteAllItems()
         }
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -327,16 +313,6 @@ extension EventHomeTabViewController: EventBannerCellDelegate {
 // MARK: - KeywordFilterCellDelegate
 extension EventHomeTabViewController: KeywordFilterCellDelegate {
     func didTapDeleteButton(filter: FilterItemEntity) {
-        guard var snapshot = dataSource?.snapshot() else { return }
-        let itemIdentifiers = snapshot.itemIdentifiers(inSection: .keywordFilter)
-        let deleteItem = ItemType.keywordFilter(filter)
-        let hasKeywords = itemIdentifiers.contains(deleteItem)
-        // filter에서 삭제
-        if hasKeywords {
-            snapshot.deleteItems([deleteItem])
-            dataSource?.apply(snapshot, animatingDifferences: true)
-        }
-        
         // 현재 선택된 filter에서 삭제
         delegate?.didTapFilterDeleteButton(with: filter)
     }
@@ -373,8 +349,20 @@ extension EventHomeTabViewController {
         filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
     }
     
-    func appendFilterList(with filter: [String]) {
-        filterStateManager?.appendFilterList(filters: filter)
+    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
+        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
+    }
+    
+    func updateSortFilterState(with filter: FilterItemEntity) {
+        filterStateManager?.updateSortFilterState(target: filter)
+    }
+    
+    func updateSortFilterDefaultText() {
+        filterStateManager?.setSortFilterDefaultText()
+    }
+    
+    func appendFilterList(with filter: [String], type: FilterType) {
+        filterStateManager?.appendFilterList(filters: filter, type: type)
     }
     
     func getFilterList() -> [String] {
@@ -387,5 +375,9 @@ extension EventHomeTabViewController {
     
     func deleteAllFilterCode() {
         filterStateManager?.deleteAllFilterList()
+    }
+    
+    func getKeywordList() -> [FilterItemEntity] {
+        filterStateManager?.getCurrentSelectedFitlers() ?? []
     }
 }

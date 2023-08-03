@@ -25,9 +25,11 @@ protocol EventHomePresentable: Presentable {
     func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore)
     func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore)
     func updateFilter(with filters: FilterDataEntity)
+    func didStartPaging()
     func didFinishPaging()
-    func updateFilterItems(with items: [FilterItemEntity])
-    func updateSortFilter(type: FilterItemEntity)
+    func requestInitialProduct()
+    func updateFilterItems(with items: [FilterItemEntity], filterType: FilterType)
+    func updateSortFilter(item: FilterItemEntity)
 }
 
 protocol EventHomeListener: AnyObject {
@@ -47,6 +49,7 @@ final class EventHomeInteractor:
     private let initialCount: Int = 20
     private let productPerPage: Int = 20
     private var storeLastPages: [ConvenienceStore: Int] = [:]
+    private var storeTotalPages: [ConvenienceStore: Int] = [:]
     
     init(
         presenter: EventHomePresentable,
@@ -95,9 +98,12 @@ final class EventHomeInteractor:
         eventPublisher
             .combineLatest(productPublisher)
             .sink { [weak self] event, product in
-            if let event = event.value,
-               let product = product.value?.content {
-                self?.presenter.update(with: product, banners: event, at: store)
+                self?.storeTotalPages[store] = product.value?.totalPages
+                
+                if let event = event.value,
+                   let product = product.value?.content {
+                    self?.presenter.update(with: product, banners: event, at: store)
+                    self?.presenter.didFinishPaging()
             }
         }.store(in: &cancellable)
     }
@@ -140,13 +146,18 @@ final class EventHomeInteractor:
         router?.detachProductDetail()
     }
     
-    func didChangeStore(to store: ConvenienceStore) {
-        requestProductWithBanners(store: store, filterList: [])
+    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
+        requestProductWithBanners(store: store, filterList: filterList)
     }
     
     func didScrollToNextPage(store: ConvenienceStore, filterList: [String]) {
-        if let lastPage = storeLastPages[store] {
-            requestProducts(pageNumber: lastPage + 1, store: store, filterList: filterList)
+        if let lastPage = storeLastPages[store], let totalPage = storeTotalPages[store] {
+            let nextPage = lastPage + 1
+            
+            if nextPage < totalPage {
+                presenter.didStartPaging()
+                requestProducts(pageNumber: nextPage, store: store, filterList: filterList)
+            }
         }
     }
     
@@ -160,16 +171,14 @@ final class EventHomeInteractor:
         router?.detachProductFilter()
     }
     
-    func applyFilterItems(_ items: [FilterItemEntity]) {
-        // TODO: 적용된 필터로 상품 목록 조회하기
+    func applyFilterItems(_ items: [FilterItemEntity], type: FilterType) {
         router?.detachProductFilter()
-        presenter.updateFilterItems(with: items)
+        presenter.updateFilterItems(with: items, filterType: type)
     }
     
     func applySortFilter(type: FilterItemEntity) {
-        // TODO: 적용된 필터로 상품 목록 조회하기
         router?.detachProductFilter()
-        presenter.updateSortFilter(type: type)
+        presenter.updateSortFilter(item: type)
     }
     
     func didTapRefreshFilterCell(with store: ConvenienceStore) {
@@ -177,6 +186,7 @@ final class EventHomeInteractor:
     }
     
     func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+        presenter.requestInitialProduct()
         requestProductWithBanners(store: store, filterList: filterList)
     }
 }
