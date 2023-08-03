@@ -384,6 +384,7 @@ extension EventHomeViewController {
             let collectionView = UICollectionView(frame: .zero,
                                                   collectionViewLayout: flowLayout)
             collectionView.backgroundColor = .clear
+            collectionView.bounces = false
             collectionView.showsHorizontalScrollIndicator = false
             return collectionView
         }()
@@ -397,6 +398,7 @@ extension EventHomeViewController {
         let filterCollectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.bounces = false
             collectionView.backgroundColor = .clear
             collectionView.layoutMargins = Size.filterMargin
             return collectionView
