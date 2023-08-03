@@ -191,6 +191,7 @@ final class ProductCell: UICollectionViewCell {
             
             titleLabel.snp.makeConstraints {
                 $0.height.equalTo(titleLabel.font.customLineHeight)
+                $0.leading.equalTo(newTagView.snp.trailing).offset(Size.titleLabelLeading)
             }
             
             priceContainerView.snp.makeConstraints {
