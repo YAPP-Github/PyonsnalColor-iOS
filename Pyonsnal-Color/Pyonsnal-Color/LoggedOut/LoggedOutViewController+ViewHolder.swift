@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Lottie
 
 extension LoggedOutViewController {
     final class ViewHolder: ViewHolderable {
@@ -15,7 +16,9 @@ extension LoggedOutViewController {
             enum Size {
                 static let logoImageViewHeight: CGFloat = 46
                 static let logoImageViewTopOffset: CGFloat = 80
+                static let descriptionLabelBottom: CGFloat = 60
                 static let loginButtonSize: CGFloat = 72
+                static let loginSize: CGFloat = 250
                 static let loginStackViewBottomInset: CGFloat = 60
                 static let loginStackViewSpacing: CGFloat = 30
             }
@@ -24,6 +27,15 @@ extension LoggedOutViewController {
         private let contentView: UIView = {
             let view: UIView = .init(frame: .zero)
             return view
+        }()
+        
+        private let loginImageView: LottieAnimationView = {
+            let animation = LottieAnimation.named("login")
+            let animationView = LottieAnimationView(animation: animation)
+            animationView.contentMode = .scaleAspectFit
+            animationView.loopMode = .loop
+            animationView.play()
+            return animationView
         }()
 
         private let logoImageView: UIImageView = {
@@ -69,6 +81,7 @@ extension LoggedOutViewController {
 
             contentView.addSubview(logoImageView)
             contentView.addSubview(descriptionLabel)
+            contentView.addSubview(loginImageView)
             contentView.addSubview(loginButtonStackView)
 
             loginButtonStackView.addArrangedSubview(kakaoLoginButton)
@@ -88,6 +101,13 @@ extension LoggedOutViewController {
 
             descriptionLabel.snp.makeConstraints { make in
                 make.top.equalTo(logoImageView.snp.bottom).offset(.spacing24)
+                make.centerX.equalToSuperview()
+            }
+            
+            loginImageView.snp.makeConstraints { make in
+                make.top.equalTo(descriptionLabel.snp.bottom).offset(Constant.Size.descriptionLabelBottom)
+                make.width.equalTo(Constant.Size.loginSize)
+                make.height.equalTo(Constant.Size.loginSize)
                 make.centerX.equalToSuperview()
             }
 

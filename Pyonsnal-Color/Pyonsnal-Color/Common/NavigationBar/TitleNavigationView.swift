@@ -37,7 +37,7 @@ final class TitleNavigationView: UIView {
     
     private let titleImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
-        imageView.setImage(.iconPyonsnalColor)
+        imageView.setImage(.iconHeader)
         return imageView
     }()
     
