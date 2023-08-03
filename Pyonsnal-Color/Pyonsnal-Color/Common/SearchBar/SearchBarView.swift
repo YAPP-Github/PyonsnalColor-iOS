@@ -64,12 +64,14 @@ final class SearchBarView: UIView {
     private let cancelButton: UIButton = {
         let button: UIButton = .init(frame: .zero)
         button.setImage(.iconDelete, for: .normal)
+        button.isHidden = true
         return button
     }()
     
     // MARK: - Private Property
     private var text: String? = nil {
         didSet {
+            updateUI()
             delegate?.updateText(text)
         }
     }
@@ -89,6 +91,14 @@ final class SearchBarView: UIView {
     }
     
     // MARK: - Private Method
+    private func updateUI() {
+        if let text {
+            cancelButton.isHidden = text.isEmpty
+        } else {
+            cancelButton.isHidden = true
+        }
+    }
+    
     private func configureUI() {
     }
     
