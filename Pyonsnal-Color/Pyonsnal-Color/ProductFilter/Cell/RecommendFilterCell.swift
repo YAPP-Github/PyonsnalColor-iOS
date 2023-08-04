@@ -49,10 +49,12 @@ final class RecommendFilterCell: UICollectionViewCell {
     
     private func setSelectedState() {
         viewHolder.titleLabel.textColor = .red500
+        viewHolder.titleLabel.font = .label1
     }
     
     private func setUnselectedState() {
         viewHolder.titleLabel.textColor = .black
+        viewHolder.titleLabel.font = .body3m
     }
 }
 
@@ -76,7 +78,6 @@ extension RecommendFilterCell {
         let iconImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
-            imageView.makeRounded(with: Size.iconSize / 2)
             imageView.backgroundColor = .white
             return imageView
         }()
@@ -97,8 +98,7 @@ extension RecommendFilterCell {
         
         func configureConstraints(for view: UIView) {
             containerStackView.snp.makeConstraints {
-                $0.leading.equalTo(view)
-                $0.centerY.equalTo(view)
+                $0.centerX.centerY.equalTo(view)
             }
             
             iconImageView.snp.makeConstraints {

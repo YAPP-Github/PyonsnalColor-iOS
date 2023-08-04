@@ -11,12 +11,12 @@ final class CurationSectionLayout {
     
     enum Size {
         static let cellHeight: CGFloat = 233
-        static let imageHeight: CGFloat = 240
+        static let imageHeight: CGFloat = 270
         static let headerHeight: CGFloat = 78
         static let footerHeight: CGFloat = 12
         static let spacing: CGFloat = Spacing.spacing12.value
         static let inset: NSDirectionalEdgeInsets = .init(
-            top: Spacing.spacing40.value,
+            top: Spacing.spacing16.value,
             leading: Spacing.spacing16.value,
             bottom: Spacing.spacing40.value,
             trailing: Spacing.spacing16.value

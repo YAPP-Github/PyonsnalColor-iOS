@@ -13,9 +13,9 @@ final class TitleNavigationView: UIView {
     enum Constant {
         enum Size {
             static let stackViewMargin: UIEdgeInsets = .init(
-                top: 14,
+                top: 0,
                 left: 20,
-                bottom: 14,
+                bottom: 0,
                 right: 20
             )
             static let indicatorWidth: CGFloat = 5
@@ -31,6 +31,7 @@ final class TitleNavigationView: UIView {
         stackView.axis = .horizontal
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = Constant.Size.stackViewMargin
+        stackView.alignment = .center
         stackView.distribution = .equalSpacing
         return stackView
     }()

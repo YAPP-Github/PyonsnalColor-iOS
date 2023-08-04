@@ -81,7 +81,7 @@ final class KeywordFilterCell: UICollectionViewCell {
         
         let deleteButton: UIButton = {
             let button = UIButton()
-            button.setImage(.iconClose, for: .normal)
+            button.setImage(.iconCloseSmall, for: .normal)
             button.setImageTintColor(with: .red500)
             return button
         }()
