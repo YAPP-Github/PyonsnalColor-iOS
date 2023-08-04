@@ -48,8 +48,8 @@ extension UIFont {
     static let body3r = customFont(weight: .regular, size: 14)
     static let body4r = customFont(weight: .regular, size: 12)
     
-    static let label1 = customFont(weight: .semiBold, size: 12)
-    static let label2 = customFont(weight: .semiBold, size: 10)
+    static let label1 = customFont(weight: .semiBold, size: 14)
+    static let label2 = customFont(weight: .semiBold, size: 12)
     static let label3 = customFont(weight: .medium, size: 10)
     
     var customLineHeight: CGFloat {
