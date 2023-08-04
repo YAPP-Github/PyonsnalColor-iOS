@@ -301,8 +301,6 @@ final class ProductHomeViewController:
             let pageViewController = viewHolder.productHomePageViewController
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.applySnapshot(with: products)
-                let keywordItems = viewController.getKeywordList()
-                viewController.applyKeywordFilterSnapshot(with: keywordItems)
             }
         }
     }
