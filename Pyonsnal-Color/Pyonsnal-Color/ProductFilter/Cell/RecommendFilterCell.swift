@@ -78,7 +78,6 @@ extension RecommendFilterCell {
         let iconImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
-            imageView.makeRounded(with: Size.iconSize / 2)
             imageView.backgroundColor = .white
             return imageView
         }()

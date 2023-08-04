@@ -24,7 +24,7 @@ final class ProductCell: UICollectionViewCell {
         static let discountPriceLabelLeading: CGFloat = 4
         
         static let dividerHeight: CGFloat = 1
-        static let productImageContainerViewHeight: CGFloat = 171
+        static let productImageContainerViewHeight: CGFloat = 160
         static let convenientTagImageViewWidth: CGFloat = 36
         static let eventTagImageViewWidth: CGFloat = 38
         static let eventTagImageViewHeight: CGFloat = 20
@@ -155,7 +155,7 @@ final class ProductCell: UICollectionViewCell {
             }
             
             dividerView.snp.makeConstraints {
-                $0.leading.equalTo(Size.dividerMargin)
+                $0.leading.equalToSuperview()
                 $0.height.equalTo(Size.dividerHeight)
             }
             

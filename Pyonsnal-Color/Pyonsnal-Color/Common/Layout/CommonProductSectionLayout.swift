@@ -19,7 +19,7 @@ final class CommonProductSectionLayout {
         enum Item {
             static let width: CGFloat = 171
             static let height: CGFloat = 235
-            static let inset: CGFloat = 16
+            static let inset: CGFloat = 12
             static let bottomMargin: CGFloat = 42
         }
         
