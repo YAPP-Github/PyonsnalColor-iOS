@@ -28,7 +28,7 @@ final class ProductCell: UICollectionViewCell {
         static let convenientTagImageViewWidth: CGFloat = 36
         static let eventTagImageViewWidth: CGFloat = 38
         static let eventTagImageViewHeight: CGFloat = 20
-        static let newImageViewWidth: CGFloat = 28
+        static let newImageViewWidth: CGFloat = 32
         static let priceContainerViewHeight: CGFloat = 64
         static let eventTagImageviewRadius: CGFloat = 10
         static let cornerRadius: CGFloat = 16
@@ -77,6 +77,7 @@ final class ProductCell: UICollectionViewCell {
             let stackView = UIStackView()
             stackView.axis = .horizontal
             stackView.spacing = .spacing4
+            stackView.distribution = .equalSpacing
             return stackView
         }()
         

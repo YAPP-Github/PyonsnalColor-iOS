@@ -20,7 +20,7 @@ extension LoggedOutViewController {
                 static let loginButtonSize: CGFloat = 72
                 static let loginSize: CGFloat = 250
                 static let loginStackViewBottomInset: CGFloat = 60
-                static let loginStackViewSpacing: CGFloat = 30
+                static let loginStackViewSpacing: CGFloat = 24
             }
         }
         // MARK: - UI Component
