@@ -19,8 +19,9 @@ final class CommonProductSectionLayout {
         enum Item {
             static let width: CGFloat = 171
             static let height: CGFloat = 235
-            static let inset: CGFloat = 12
+            static let inset: CGFloat = 16
             static let bottomMargin: CGFloat = 42
+            static let spacing: CGFloat = 12
         }
         
         enum Header {
@@ -102,14 +103,13 @@ final class CommonProductSectionLayout {
                                                       leading: Size.Item.inset,
                                                       bottom: 0,
                                                       trailing: Size.Item.inset)
-        group.interItemSpacing = .fixed(Size.Item.inset)
+        group.interItemSpacing = .fixed(Size.Item.spacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = Size.Item.inset
+        section.interGroupSpacing = Size.Item.spacing
         section.contentInsets = NSDirectionalEdgeInsets(top: Size.topMargin,
                                                         leading: 0,
                                                         bottom: Size.Item.bottomMargin,
-                    
                                                         trailing: 0)
         section.boundarySupplementaryItems = createSupplementaryView()
         return section
