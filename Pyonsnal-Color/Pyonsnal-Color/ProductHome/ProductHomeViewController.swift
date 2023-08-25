@@ -298,6 +298,7 @@ final class ProductHomeViewController:
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
             self.currentConvenienceStore = store
             let pageViewController = viewHolder.productHomePageViewController
+            let storeIndex = storeIndex + 1
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.updateSnapshot(with: products)
                 let keywordItems = viewController.getKeywordList()

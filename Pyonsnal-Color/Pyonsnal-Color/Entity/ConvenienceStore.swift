@@ -8,7 +8,6 @@
 import UIKit
 
 enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
-    case all = "all"
     case cu = "CU"
     case gs25 = "GS25"
     case emart24 = "EMART24"
@@ -24,8 +23,6 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
             return ImageAssetKind.StoreIcon.sevenEleven
         case .emart24:
             return ImageAssetKind.StoreIcon.emart24
-        case .all:
-            return nil
         }
     }
     
@@ -39,8 +36,6 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
             return ImageAssetKind.StoreTag.sevenEleven
         case .emart24:
             return ImageAssetKind.StoreTag.emart24
-        case .all:
-            return nil
         }
     }
     
@@ -54,8 +49,6 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
             return "Emart24"
         case .sevenEleven:
             return "7-Eleven"
-        case .all:
-            return "PICK!"
         }
     }
 }
@@ -63,8 +56,6 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
 extension ConvenienceStore {
     var storeIcon: ImageAssetKind.StoreIcon? {
         switch self {
-        case .all:
-            return nil
         case .cu:
             return .cu
         case .gs25:

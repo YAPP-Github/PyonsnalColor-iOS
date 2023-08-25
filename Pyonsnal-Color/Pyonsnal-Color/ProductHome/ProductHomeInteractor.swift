@@ -65,7 +65,6 @@ final class ProductHomeInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        requestInitialProducts(filterList: [])
 		requestCurationProducts()
         requestFilter()
     }
@@ -74,7 +73,7 @@ final class ProductHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestInitialProducts(store: ConvenienceStore = .all, filterList: [String]) {
+    private func requestInitialProducts(store: ConvenienceStore, filterList: [String]) {
         storeLastPages[store] = initialPage
         
         dependency?.productAPIService.requestBrandProduct(

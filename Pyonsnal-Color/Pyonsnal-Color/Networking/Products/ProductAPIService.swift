@@ -31,7 +31,7 @@ final class ProductAPIService {
     func requestEventProduct(
         pageNumber: Int,
         pageSize: Int,
-        storeType: ConvenienceStore = .all,
+        storeType: ConvenienceStore,
         filterList: [String]
     ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
         return client.request(

@@ -43,7 +43,7 @@ final class ProductHomePageViewController: UIPageViewController {
         curationViewController.delegate = self
         productListViewControllers.append(curationViewController)
         
-        ConvenienceStore.allCases.filter({ $0 != .all }).forEach {
+        ConvenienceStore.allCases.forEach {
             let childViewController = ProductListViewController(convenienceStore: $0)
             childViewController.scrollDelegate = self
             childViewController.listDelegate = self

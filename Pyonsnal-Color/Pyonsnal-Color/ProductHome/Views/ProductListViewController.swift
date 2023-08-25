@@ -207,7 +207,6 @@ final class ProductListViewController: UIViewController {
         }
         
         snapshot.appendItems(productItems, toSection: itemSectionType)
-        Log.d(message: "first \(productItems.first)")
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -234,7 +233,6 @@ final class ProductListViewController: UIViewController {
         
         if !productItems.isEmpty {
             snapshot.appendItems(productItems, toSection: itemSectionType)
-            Log.d(message: "first \(productItems.first)")
         }
         
         dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
