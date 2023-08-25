@@ -36,16 +36,14 @@ final class ProductListViewController: UIViewController {
         case item(data: BrandProductEntity?)
     }
     
-    //MARK: - Private Property
+    // MARK: - Private Property
     private(set) var dataSource: DataSource?
     weak var scrollDelegate: ScrollDelegate?
     weak var listDelegate: ProductListDelegate?
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
     let convenienceStore: ConvenienceStore
-    
-    private var filterStateManager: FilterStateManager?
-    
+        
     // MARK: - View Component
     lazy var productCollectionView: UICollectionView = {
         let layout = createLayout()
@@ -91,10 +89,6 @@ final class ProductListViewController: UIViewController {
             bottom: 0,
             right: 0
         )
-    }
-    
-    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
-        filterStateManager = FilterStateManager(filterDataEntity: filterDataEntity)
     }
     
     // MARK: - Private Method
@@ -240,11 +234,12 @@ final class ProductListViewController: UIViewController {
         }
     }
     
-    func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
+    func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]?) {
         guard var snapshot = dataSource?.snapshot() else { return }
         
         // TO DO : section delete 하지 않고 추가하는 방법
         snapshot.deleteSections([.keywordFilter])
+        guard let keywordItems else { return }
         // append keywordFilter
         if !keywordItems.isEmpty {
             let productSection: SectionType = .product(type: .item)
@@ -273,8 +268,7 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let filterList = self.getFilterList()
-            self.delegate?.refreshByPull(with: filterList)
+            self.delegate?.refreshByPull()
             self.productCollectionView.refreshControl?.endRefreshing()
         }
     }
@@ -305,7 +299,7 @@ extension ProductListViewController: UICollectionViewDelegate {
 extension ProductListViewController: KeywordFilterCellDelegate {
     func didTapDeleteButton(filter: FilterItemEntity) {
         // 현재 선택된 filter에서 삭제
-        delegate?.updateFilterState(with: filter, isSelected: false)
+        delegate?.deleteKeywordFilter(filter, isSelected: false)
     }
 }
 
@@ -316,58 +310,58 @@ extension ProductListViewController: EmptyProductCellDelegate {
     }
 }
 
-extension ProductListViewController {
-    func resetFilterItemState() {
-        filterStateManager?.updateAllFilterItemState(to: false)
-    }
-    
-    func needToShowRefreshCell() -> Bool {
-        let isFilterDataResetState = filterStateManager?.isFilterDataResetState() ?? false
-        return !isFilterDataResetState
-    }
-    
-    func initializeFilterState() {
-        filterStateManager?.setLastSortFilterSelected()
-        filterStateManager?.setFilterDefatultText()
-    }
-    
-    func updateSortFilterDefaultText() {
-        filterStateManager?.setSortFilterDefaultText()
-    }
-    
-    func getFilterDataEntity() -> FilterDataEntity? {
-        return filterStateManager?.getFilterDataEntity()
-    }
-    
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
-        filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
-    }
-    
-    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
-        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
-    }
-    
-    func updateSortFilterState(with filter: FilterItemEntity) {
-        filterStateManager?.updateSortFilterState(target: filter)
-    }
-    
-    func appendFilterList(with filter: [String], type: FilterType) {
-        filterStateManager?.appendFilterList(filters: filter, type: type)
-    }
-    
-    func getFilterList() -> [String] {
-        return filterStateManager?.getFilterList() ?? []
-    }
-    
-    func deleteFilterCode(at filterCode: String) {
-        filterStateManager?.deleteFilterList(filterCode: filterCode)
-    }
-    
-    func deleteAllFilterCode() {
-        filterStateManager?.deleteAllFilterList()
-    }
-    
-    func getKeywordList() -> [FilterItemEntity] {
-        filterStateManager?.getCurrentSelectedFitlers() ?? []
-    }
-}
+//extension ProductListViewController {
+//    func resetFilterItemState() {
+//        filterStateManager?.updateAllFilterItemState(to: false)
+//    }
+//
+//    func needToShowRefreshCell() -> Bool {
+//        let isFilterDataResetState = filterStateManager?.isFilterDataResetState() ?? false
+//        return !isFilterDataResetState
+//    }
+//
+//    func initializeFilterState() {
+//        filterStateManager?.setLastSortFilterSelected()
+//        filterStateManager?.setFilterDefatultText()
+//    }
+//
+//    func updateSortFilterDefaultText() {
+//        filterStateManager?.setSortFilterDefaultText()
+//    }
+//
+//    func getFilterDataEntity() -> FilterDataEntity? {
+//        return filterStateManager?.getFilterDataEntity()
+//    }
+//
+//    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
+//        filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
+//    }
+//
+//    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
+//        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
+//    }
+//
+//    func updateSortFilterState(with filter: FilterItemEntity) {
+//        filterStateManager?.updateSortFilterState(target: filter)
+//    }
+//
+//    func appendFilterList(with filter: [String], type: FilterType) {
+//        filterStateManager?.appendFilterList(filters: filter, type: type)
+//    }
+//
+//    func getFilterList() -> [String] {
+//        return filterStateManager?.getFilterList() ?? []
+//    }
+//
+//    func deleteFilterCode(at filterCode: String) {
+//        filterStateManager?.deleteFilterList(filterCode: filterCode)
+//    }
+//
+//    func deleteAllFilterCode() {
+//        filterStateManager?.deleteAllFilterList()
+//    }
+//
+//    func getKeywordList() -> [FilterItemEntity] {
+//        filterStateManager?.getCurrentSelectedFitlers() ?? []
+//    }
+//}

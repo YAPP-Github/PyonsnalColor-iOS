@@ -146,7 +146,9 @@ final class EventHomeInteractor:
         router?.detachProductDetail()
     }
     
-    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
+    func didChangeStore(to store: ConvenienceStore) {
+        // TO DO : filterList 옮기기
+        let filterList: [String] = []
         requestProductWithBanners(store: store, filterList: filterList)
     }
     
@@ -176,9 +178,9 @@ final class EventHomeInteractor:
         presenter.updateFilterItems(with: items, filterType: type)
     }
     
-    func applySortFilter(type: FilterItemEntity) {
+    func applySortFilter(item: FilterItemEntity) {
         router?.detachProductFilter()
-        presenter.updateSortFilter(item: type)
+        presenter.updateSortFilter(item: item)
     }
     
     func didTapRefreshFilterCell(with store: ConvenienceStore) {

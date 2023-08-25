@@ -10,7 +10,7 @@ import Foundation
 final class FilterStateManager {
     private var filterDataEntity: FilterDataEntity
     private let latestSortFilterName = "최신순"
-    var filterList = Set<String>()
+    var filterCodeList = Set<String>()
     
     init(filterDataEntity: FilterDataEntity) {
         self.filterDataEntity = filterDataEntity
@@ -66,11 +66,11 @@ final class FilterStateManager {
                 }
             }
         }
-        
+        updateFilterDataState()
     }
     
     /// 정렬 필터 isSelected 값을 업데이트 합니다.
-    func updateSortFilterState(target sortFilterItem: FilterItemEntity) {
+    func updateSortFilterState(for sortFilterItem: FilterItemEntity) {
         for index in 0..<filterDataEntity.data.count {
             if filterDataEntity.data[index].filterType != .sort { continue }
             for secondIndex in 0..<filterDataEntity.data[index].filterItem.count {
@@ -151,13 +151,12 @@ final class FilterStateManager {
         return isLatestSortFilterSelected && isLastItemNotSelected
     }
     
-    /// filter의 defaultText를 업데이트 합니다.
+    /// filter의 defaultText를 설정 합니다.
     func setFilterDefatultText() {
         for index in 0..<filterDataEntity.data.count {
             let defaultText = filterDataEntity.data[index].filterType.filterDefaultText
             filterDataEntity.data[index].defaultText = defaultText
         }
-        Log.d(message: "setFilterDefatultText \(filterDataEntity)")
     }
     
     /// sortFilter의 text를 업데이트 합니다.
@@ -170,41 +169,40 @@ final class FilterStateManager {
         updateFilterDataState()
     }
     
-    func getCurrentSelectedFitlers() -> [FilterItemEntity] {
+    func getCurrentSelectedFitlers() -> [FilterItemEntity] { // getSelectedKeywordFilterList()
         let selectedKeyword = filterDataEntity.data.filter({ $0.filterType != .sort })
             .compactMap { item -> [FilterItemEntity]? in
                 return item.filterItem.filter { $0.isSelected }
             }.flatMap { $0 }
-        print(selectedKeyword)
         return selectedKeyword
     }
     
-    func appendFilterList(filters: [String], type: FilterType) {
-        deleteFilters(filters: filters, with: type)
-        filters.forEach { filter in
-            filterList.insert(filter)
+    func appendFilterCodeList(_ filterCodeList: [String], type: FilterType) {
+        deleteFilterCodeList(filterCodeList, type: type)
+        filterCodeList.forEach { filterCode in
+            self.filterCodeList.insert(filterCode)
         }
     }
     
-    func deleteFilterList(filterCode: String) {
-        filterList.remove(filterCode)
+    func deleteFilterCodeList(filterCode: String) {
+        filterCodeList.remove(filterCode)
     }
     
-    private func deleteFilters(filters: [String], with type: FilterType) {
+    private func deleteFilterCodeList(_ filterCodeList: [String], type: FilterType) {
         if let filterCodeList = filterDataEntity.data
             .first(where: { $0.filterType == type })?
             .filterItem.map({ String($0.code) }) {
             filterCodeList.map { filterCode in
-                self.deleteFilterList(filterCode: filterCode)
+                self.deleteFilterCodeList(filterCode: filterCode)
             }
         }
     }
     
     func deleteAllFilterList() {
-        filterList.removeAll()
+        filterCodeList.removeAll()
     }
     
     func getFilterList() -> [String] {
-        return Array(filterList)
+        return Array(filterCodeList)
     }
 }

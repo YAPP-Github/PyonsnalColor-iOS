@@ -13,7 +13,7 @@ protocol EventHomePresentableListener: AnyObject {
     func didLoadEventHome(with store: ConvenienceStore)
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapSearchButton()
-    func didChangeStore(to store: ConvenienceStore, filterList: [String])
+    func didChangeStore(to store: ConvenienceStore)
     func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
     func didSelect(with brandProduct: ProductConvertable)
     func didSelectFilter(of filter: FilterEntity?)
@@ -162,6 +162,7 @@ final class EventHomeViewController: UIViewController,
         
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
+            
             guard let filters = updatedSortFilterState(with: filters) else { return }
             
             if needToShowRefreshCell() {
@@ -499,8 +500,8 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         listener?.didTapEventBannerCell(with: imageURL, store: store)
     }
     
-    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
-        listener?.didChangeStore(to: store, filterList: filterList)
+    func didChangeStore(to store: ConvenienceStore) {
+        listener?.didChangeStore(to: store)
     }
     
     func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool) {

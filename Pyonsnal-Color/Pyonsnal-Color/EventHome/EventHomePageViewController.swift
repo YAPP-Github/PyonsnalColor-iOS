@@ -10,7 +10,7 @@ import UIKit
 protocol EventHomePageViewControllerDelegate: AnyObject {
     func updateSelectedStoreCell(index: Int)
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
-    func didChangeStore(to store: ConvenienceStore, filterList: [String])
+    func didChangeStore(to store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
     
     func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
@@ -152,13 +152,12 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
 extension EventHomePageViewController: ProductListDelegate {
     
     func didLoadPageList(store: ConvenienceStore) {
-        pageDelegate?.didChangeStore(to: store, filterList: [])
+        pageDelegate?.didChangeStore(to: store)
     }
     
-    func refreshByPull(with filterList: [String]) {
+    func refreshByPull() {
         pageDelegate?.didChangeStore(
-            to: ConvenienceStore.allCases[currentIndex],
-            filterList: filterList
+            to: ConvenienceStore.allCases[currentIndex]
         )
     }
     
@@ -167,7 +166,7 @@ extension EventHomePageViewController: ProductListDelegate {
         pageDelegate?.didSelect(with: brandProduct)
     }
     
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
+    func deleteKeywordFilter(_ filter: FilterItemEntity, isSelected: Bool) {
         pageDelegate?.deleteFilterItem(with: filter, isSelected: isSelected)
     }
     

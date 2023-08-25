@@ -140,8 +140,7 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let filters = self.getFilterList()
-            self.listDelegate?.refreshByPull(with: filters)
+            self.listDelegate?.refreshByPull()
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
@@ -354,7 +353,7 @@ extension EventHomeTabViewController {
     }
     
     func updateSortFilterState(with filter: FilterItemEntity) {
-        filterStateManager?.updateSortFilterState(target: filter)
+        filterStateManager?.updateSortFilterState(for: filter)
     }
     
     func updateSortFilterDefaultText() {
@@ -362,7 +361,7 @@ extension EventHomeTabViewController {
     }
     
     func appendFilterList(with filter: [String], type: FilterType) {
-        filterStateManager?.appendFilterList(filters: filter, type: type)
+        filterStateManager?.appendFilterCodeList(filter, type: type)
     }
     
     func getFilterList() -> [String] {
@@ -370,7 +369,7 @@ extension EventHomeTabViewController {
     }
     
     func deleteFilterCode(at filterCode: String) {
-        filterStateManager?.deleteFilterList(filterCode: filterCode)
+        filterStateManager?.deleteFilterCodeList(filterCode: filterCode)
     }
     
     func deleteAllFilterCode() {
