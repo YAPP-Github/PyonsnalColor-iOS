@@ -12,7 +12,7 @@ import SnapKit
 protocol ProductFilterPresentableListener: AnyObject {
     // TODO: 엔티티 변경
     func didTapApplyButton(with selectedItems: [FilterItemEntity], type: FilterType)
-    func didSelectSortFilter(type: FilterItemEntity)
+    func didSelectSortFilter(item: FilterItemEntity)
     func didTapCloseButton()
 }
 
@@ -223,7 +223,7 @@ extension ProductFilterViewController: UICollectionViewDelegate {
         setApplyButtonState()
         
         if filterEntity.filterType == .sort {
-            listener?.didSelectSortFilter(type: filterEntity.filterItem[indexPath.item])
+            listener?.didSelectSortFilter(item: filterEntity.filterItem[indexPath.item])
         }
     }
     

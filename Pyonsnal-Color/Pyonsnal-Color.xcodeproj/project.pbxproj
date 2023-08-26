@@ -26,7 +26,6 @@
 		B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */; };
 		B24F1D362A43E5B500AA03DC /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */; };
 		B24F1D382A44171800AA03DC /* ProductHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */; };
-		B24F1D3A2A44345700AA03DC /* ProductListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */; };
 		B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */; };
 		B24F1D4B2A4BB82D00AA03DC /* TitleNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D4A2A4BB82D00AA03DC /* TitleNavigationView.swift */; };
 		B24F1D4E2A4C5F2F00AA03DC /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D4D2A4C5F2F00AA03DC /* NotificationCell.swift */; };
@@ -252,7 +251,6 @@
 		B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStoreCell.swift; sourceTree = "<group>"; };
 		B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		B24F1D372A44171800AA03DC /* ProductHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHomePageViewController.swift; sourceTree = "<group>"; };
-		B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListHeaderView.swift; sourceTree = "<group>"; };
 		B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		B24F1D3F2A4AD7B600AA03DC /* NotificationListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListRouter.swift; sourceTree = "<group>"; };
 		B24F1D402A4AD7B600AA03DC /* NotificationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewController.swift; sourceTree = "<group>"; };
@@ -579,9 +577,7 @@
 			children = (
 				F0168D4C2A500AAB00978ED9 /* EventDetail */,
 				F01535532A46BF8A00A2A8F2 /* Views */,
-				F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */,
 				B28205062A34700300F9242F /* EventHomeRouter.swift */,
-				F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */,
 				B28205072A34700300F9242F /* EventHomeViewController.swift */,
 				B28205082A34700300F9242F /* EventHomeBuilder.swift */,
 				B28205092A34700300F9242F /* EventHomeInteractor.swift */,
@@ -605,7 +601,6 @@
 		B28A59112A6E98C000431F39 /* ReusableView */ = {
 			isa = PBXGroup;
 			children = (
-				B24F1D392A44345700AA03DC /* ProductListHeaderView.swift */,
 				B28A59122A6E98DB00431F39 /* CurationHeaderView.swift */,
 				B28A59142A6E991100431F39 /* CurationFooterView.swift */,
 			);
@@ -948,6 +943,7 @@
 		BAE442C02A6D2C6200BD6582 /* ReusableView */ = {
 			isa = PBXGroup;
 			children = (
+				F01535442A45A6F800A2A8F2 /* ItemHeaderTitleView.swift */,
 				BAE442C12A6D2C7A00BD6582 /* LoadingReusableView.swift */,
 				BAE442C32A6D2C9000BD6582 /* LoadingReusableView+ViewHolder.swift */,
 				BA18C08F2A7533A6007D00BD /* SearchFilterHeader.swift */,
@@ -1016,8 +1012,9 @@
 		F01535532A46BF8A00A2A8F2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F01535442A45A6F800A2A8F2 /* ItemHeaderTitleView.swift */,
 				F01535542A46BFA400A2A8F2 /* Cell */,
+				F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */,
+				F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1456,7 +1453,6 @@
 				F0168D512A500AC900978ED9 /* EventDetailRouter.swift in Sources */,
 				BA87E3DC2A4623E3000A9DEC /* GiftItemEntity.swift in Sources */,
 				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
-				B24F1D3A2A44345700AA03DC /* ProductListHeaderView.swift in Sources */,
 				BA4818CF2A59410B00BF9CAD /* UserAuthEntity.swift in Sources */,
 				B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */,
 				F0D8FEBE2A3EDB6B000B530A /* UIColor+.swift in Sources */,

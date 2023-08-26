@@ -377,6 +377,6 @@ extension EventHomeTabViewController {
     }
     
     func getKeywordList() -> [FilterItemEntity] {
-        filterStateManager?.getCurrentSelectedFitlers() ?? []
+        filterStateManager?.getSelectedKeywordFilterList() ?? []
     }
 }

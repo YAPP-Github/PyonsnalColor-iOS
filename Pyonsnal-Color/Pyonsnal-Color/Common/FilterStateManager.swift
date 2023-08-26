@@ -169,7 +169,7 @@ final class FilterStateManager {
         updateFilterDataState()
     }
     
-    func getCurrentSelectedFitlers() -> [FilterItemEntity] { // getSelectedKeywordFilterList()
+    func getSelectedKeywordFilterList() -> [FilterItemEntity] {
         let selectedKeyword = filterDataEntity.data.filter({ $0.filterType != .sort })
             .compactMap { item -> [FilterItemEntity]? in
                 return item.filterItem.filter { $0.isSelected }

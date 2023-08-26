@@ -42,8 +42,8 @@ final class ProductFilterInteractor: PresentableInteractor<ProductFilterPresenta
         listener?.applyFilterItems(selectedItems, type: type)
     }
     
-    func didSelectSortFilter(type: FilterItemEntity) {
-        listener?.applySortFilter(item: type)
+    func didSelectSortFilter(item: FilterItemEntity) {
+        listener?.applySortFilter(item: item)
     }
     
     func didTapCloseButton() {

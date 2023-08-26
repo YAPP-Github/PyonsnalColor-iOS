@@ -65,7 +65,7 @@ final class ProductHomeInteractor:
     }
     
     var selectedFilterKeywordList: [FilterItemEntity]? {
-        return filterStateManager?.getCurrentSelectedFitlers()
+        return filterStateManager?.getSelectedKeywordFilterList()
     }
     
     var isNeedToShowRefreshFilterCell: Bool {
@@ -167,7 +167,8 @@ final class ProductHomeInteractor:
         router?.detachNotificationList()
     }
     
-    func didScrollToNextPage(store: ConvenienceStore, filterList: [String]) {
+    func didScrollToNextPage(store: ConvenienceStore?, filterList: [String]) {
+        guard let store else { return }
         if let lastPage = storeLastPages[store], let totalPage = storeTotalPages[store] {
             let nextPage = lastPage + 1
             
@@ -192,14 +193,14 @@ final class ProductHomeInteractor:
         requestInitialProducts(store: store, filterList: filtercodeList)
     }
     
-    func didTapRefreshFilterCell(with store: ConvenienceStore) {
+    func didTapRefreshFilterCell(store: ConvenienceStore?) {
+        guard let store else { return }
         self.resetFilterState()
         requestInitialProducts(store: store, filterList: [])
 	}
     
     func didSelectFilter(ofType filterEntity: FilterEntity?) {
         guard let filterEntity else { return }
-        
         router?.attachProductFilter(of: filterEntity)
     }
     
@@ -223,7 +224,8 @@ final class ProductHomeInteractor:
         presenter.updateSortFilter(item: item)
     }
     
-    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore) {
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore?) {
+        guard let store else { return }
         presenter.requestInitialProduct()
         let filterCodeList = selectedFilterCodeList ?? []
         requestInitialProducts(store: store, filterList: filterCodeList)

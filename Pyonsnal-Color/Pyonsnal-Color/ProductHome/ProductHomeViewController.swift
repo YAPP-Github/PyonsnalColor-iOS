@@ -16,11 +16,11 @@ protocol ProductHomePresentableListener: AnyObject {
     func didChangeStore(to store: ConvenienceStore)
     func didTapSearchButton()
     func didTapNotificationButton()
-    func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
+    func didScrollToNextPage(store: ConvenienceStore?, filterList: [String])
     func didSelect(with brandProduct: ProductConvertable?)
     func didSelectFilter(ofType filterEntity: FilterEntity?)
-    func didTapRefreshFilterCell(with store: ConvenienceStore)
-    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore)
+    func didTapRefreshFilterCell(store: ConvenienceStore?)
+    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore?)
     func initializeFilterState()
     func updateFiltersState(with filters: [FilterItemEntity], type: FilterType)
     func deleteKeywordFilter(_ filter: FilterItemEntity)
@@ -266,6 +266,7 @@ final class ProductHomeViewController:
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
             self.currentConvenienceStore = store
             let pageViewController = viewHolder.productHomePageViewController
+            let storeIndex = storeIndex + 1
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.applySnapshot(with: products)
             }
@@ -284,7 +285,6 @@ final class ProductHomeViewController:
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.updateSnapshot(with: products)
                 applyFilterSnapshot(with: filterDataEntity)
-//                let keywordItems = viewController.getKeywordList()
                 let filterKeywordList = listener?.selectedFilterKeywordList
                 viewController.applyKeywordFilterSnapshot(with: filterKeywordList)
             }
@@ -326,15 +326,11 @@ final class ProductHomeViewController:
     }
 
     func updateFilterItems() {
-        if let currentConvenienceStore {
-            listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
-        }
+        listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
     }
     
     func updateSortFilter(item: FilterItemEntity) {
-        if let currentConvenienceStore {
-            listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
-        }
+        listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
     }
 }
 
@@ -376,7 +372,7 @@ extension ProductHomeViewController: UIScrollViewDelegate {
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y && !isRequestingInitialProducts {
             let filterList = listener?.selectedFilterCodeList ?? []
             listener?.didScrollToNextPage(
-                store: ConvenienceStore.allCases[currentPage],
+                store: currentConvenienceStore,
                 filterList: filterList
             )
         }
@@ -468,9 +464,7 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
 
     func deleteKeywordFilter(_ filter: FilterItemEntity, isSelected: Bool) {
         listener?.deleteKeywordFilter(filter)
-        if let currentConvenienceStore {
-            listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
-        }
+        listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
     }
     
     func refreshFilterButton() {
@@ -524,10 +518,6 @@ extension ProductHomeViewController: ProductPresentable {
 // MARK: - listViewController
 extension ProductHomeViewController: RefreshFilterCellDelegate {
     func didTapRefreshButton() {
-        
-        // request product
-        if let currentConvenienceStore {
-            listener?.didTapRefreshFilterCell(with: currentConvenienceStore)
-        }
+        listener?.didTapRefreshFilterCell(store: currentConvenienceStore)
     }
 }
