@@ -12,7 +12,7 @@ protocol ProductListDelegate: AnyObject {
     func refreshByPull()
     func didSelect(with product: ProductConvertable?)
     
-    func deleteKeywordFilter(_ filter: FilterItemEntity, isSelected: Bool)
+    func deleteKeywordFilter(_ filter: FilterItemEntity)
     func refreshFilterButton()
     func didAppearProductList()
     func didFinishUpdateSnapshot()

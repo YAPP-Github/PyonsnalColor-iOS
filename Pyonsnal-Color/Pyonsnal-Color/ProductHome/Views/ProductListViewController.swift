@@ -302,7 +302,7 @@ extension ProductListViewController: UICollectionViewDelegate {
 extension ProductListViewController: KeywordFilterCellDelegate {
     func didTapDeleteButton(filter: FilterItemEntity) {
         // 현재 선택된 filter에서 삭제
-        delegate?.deleteKeywordFilter(filter, isSelected: false)
+        delegate?.deleteKeywordFilter(filter)
     }
 }
 

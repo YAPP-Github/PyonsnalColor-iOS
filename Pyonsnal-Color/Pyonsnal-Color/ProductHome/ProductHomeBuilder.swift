@@ -16,9 +16,7 @@ final class ProductHomeComponent: Component<ProductHomeDependency>,
                                   NotificationListDependency,
                                   ProductDetailDependency,
                                   ProductFilterDependency {
-    var productAPIService: ProductAPIService
-    
-    fileprivate var filterStateManager: FilterStateManager?
+    let productAPIService: ProductAPIService
     
     override init(dependency: ProductHomeDependency) {
         self.productAPIService = dependency.productAPIService
@@ -43,8 +41,7 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         let viewController = ProductHomeViewController()
         let interactor = ProductHomeInteractor(
             presenter: viewController,
-            productAPIService: component.productAPIService,
-            filterStateManager: component.filterStateManager
+            productAPIService: component.productAPIService
         )
         
         let productSearch: ProductSearchBuilder = .init(dependency: component)

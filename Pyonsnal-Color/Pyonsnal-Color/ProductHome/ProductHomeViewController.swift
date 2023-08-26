@@ -8,23 +8,12 @@
 import ModernRIBs
 import UIKit
 
-protocol ProductHomePresentableListener: AnyObject {
-    var filterDataEntity: FilterDataEntity? { get }
-    var selectedFilterCodeList: [String]? { get }
-    var selectedFilterKeywordList: [FilterItemEntity]? { get }
-    var isNeedToShowRefreshFilterCell: Bool { get }
+protocol ProductHomePresentableListener: AnyObject, FilterRenderable {
     func didChangeStore(to store: ConvenienceStore)
     func didTapSearchButton()
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore?, filterList: [String])
     func didSelect(with brandProduct: ProductConvertable?)
-    func didSelectFilter(ofType filterEntity: FilterEntity?)
-    func didTapRefreshFilterCell(store: ConvenienceStore?)
-    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore?)
-    func initializeFilterState()
-    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType)
-    func deleteKeywordFilter(_ filter: FilterItemEntity)
-    func resetFilterState()
 }
 
 final class ProductHomeViewController:
@@ -143,7 +132,7 @@ final class ProductHomeViewController:
         
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            guard let filters = listener?.filterDataEntity else { return }
+//            guard let filters = listener?.filterDataEntity else { return }
             
             if listener?.isNeedToShowRefreshFilterCell ?? false {
                 let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
@@ -291,7 +280,7 @@ final class ProductHomeViewController:
         }
     }
     
-    func updateFilter(with filters: FilterDataEntity) {
+    func updateFilter() {
         listener?.initializeFilterState()
         let filter = listener?.filterDataEntity
         applyFilterSnapshot(with: filter)
@@ -329,7 +318,7 @@ final class ProductHomeViewController:
         listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
     }
     
-    func updateSortFilter(item: FilterItemEntity) {
+    func updateSortFilter() {
         listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
     }
 }
@@ -422,7 +411,7 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             guard let selectedItem = filterDataSource?.itemIdentifier(for: indexPath) else { return }
             
             if case let .filter(filterEntity) = selectedItem {
-                listener?.didSelectFilter(ofType: filterEntity.filter)
+                listener?.didSelectFilter(filterEntity.filter)
             }
         } else {
             guard let productListViewController = viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
@@ -462,7 +451,7 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
         applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
     }
 
-    func deleteKeywordFilter(_ filter: FilterItemEntity, isSelected: Bool) {
+    func deleteKeywordFilter(_ filter: FilterItemEntity) {
         listener?.deleteKeywordFilter(filter)
         listener?.requestwithUpdatedKeywordFilter(with: currentConvenienceStore)
     }

@@ -44,7 +44,7 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
         let productFilter: ProductFilterBuilder = .init(dependency: component)
         let interactor = EventHomeInteractor(
             presenter: viewController,
-            dependency: dependency
+            productAPIService: component.productAPIService
         )
         let productSearch: ProductSearchBuilder = .init(dependency: component)
         interactor.listener = listener

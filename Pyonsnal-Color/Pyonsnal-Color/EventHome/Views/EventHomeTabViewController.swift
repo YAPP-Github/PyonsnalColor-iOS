@@ -16,7 +16,7 @@ protocol ScrollDelegate: AnyObject {
 
 protocol EventHomeTabViewControllerDelegate: AnyObject {
     func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
-    func didTapFilterDeleteButton(with filter: FilterItemEntity)
+    func deleteKeywordFilter(_ filter: FilterItemEntity)
     func refreshFilterButton()
 }
 
@@ -24,6 +24,7 @@ final class EventHomeTabViewController: UIViewController {
     enum ItemSectionType {
         case empty, item
     }
+    
     enum SectionType: Hashable {
         case keywordFilter
         case event
@@ -58,7 +59,6 @@ final class EventHomeTabViewController: UIViewController {
     private var lastContentOffSetY: CGFloat = 0
     
     let convenienceStore: ConvenienceStore
-    private var filterStateManager: FilterStateManager?
     
     // MARK: - Initializer
     init(convenienceStore: ConvenienceStore) {
@@ -102,10 +102,6 @@ final class EventHomeTabViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
-        filterStateManager = FilterStateManager(filterDataEntity: filterDataEntity)
     }
     
     private func configureCollectionView() {
@@ -312,8 +308,7 @@ extension EventHomeTabViewController: EventBannerCellDelegate {
 // MARK: - KeywordFilterCellDelegate
 extension EventHomeTabViewController: KeywordFilterCellDelegate {
     func didTapDeleteButton(filter: FilterItemEntity) {
-        // 현재 선택된 filter에서 삭제
-        delegate?.didTapFilterDeleteButton(with: filter)
+        delegate?.deleteKeywordFilter(filter)
     }
 }
 
@@ -325,58 +320,58 @@ extension EventHomeTabViewController: EmptyProductCellDelegate {
 }
 
 // MARK: - FilterStateManager
-extension EventHomeTabViewController {
-    func resetFilterItemState() {
-        filterStateManager?.updateAllFilterItemState(to: false)
-    }
-    
-    func needToShowRefreshCell() -> Bool {
-        let isFilterDataResetState = filterStateManager?.isFilterDataResetState() ?? false
-        return !isFilterDataResetState
-    }
-    
-    func initializeFilterState() {
-        filterStateManager?.setLastSortFilterSelected()
-        filterStateManager?.setFilterDefatultText()
-    }
-    
-    func getFilterDataEntity() -> FilterDataEntity? {
-        return filterStateManager?.getFilterDataEntity()
-    }
-    
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
-        filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
-    }
-    
-    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
-        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
-    }
-    
-    func updateSortFilterState(with filter: FilterItemEntity) {
-        filterStateManager?.updateSortFilterState(for: filter)
-    }
-    
-    func updateSortFilterDefaultText() {
-        filterStateManager?.setSortFilterDefaultText()
-    }
-    
-    func appendFilterList(with filter: [String], type: FilterType) {
-        filterStateManager?.appendFilterCodeList(filter, type: type)
-    }
-    
-    func getFilterList() -> [String] {
-        return filterStateManager?.getFilterList() ?? []
-    }
-    
-    func deleteFilterCode(at filterCode: String) {
-        filterStateManager?.deleteFilterCodeList(filterCode: filterCode)
-    }
-    
-    func deleteAllFilterCode() {
-        filterStateManager?.deleteAllFilterList()
-    }
-    
-    func getKeywordList() -> [FilterItemEntity] {
-        filterStateManager?.getSelectedKeywordFilterList() ?? []
-    }
-}
+//extension EventHomeTabViewController {
+//    func resetFilterItemState() {
+//        filterStateManager?.updateAllFilterItemState(to: false)
+//    }
+//
+//    func needToShowRefreshCell() -> Bool {
+//        let isFilterDataResetState = filterStateManager?.isFilterDataResetState() ?? false
+//        return !isFilterDataResetState
+//    }
+//
+//    func initializeFilterState() {
+//        filterStateManager?.setLastSortFilterSelected()
+//        filterStateManager?.setFilterDefatultText()
+//    }
+//
+//    func getFilterDataEntity() -> FilterDataEntity? {
+//        return filterStateManager?.getFilterDataEntity()
+//    }
+//
+//    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
+//        filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
+//    }
+//
+//    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
+//        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
+//    }
+//
+//    func updateSortFilterState(with filter: FilterItemEntity) {
+//        filterStateManager?.updateSortFilterState(for: filter)
+//    }
+//
+//    func updateSortFilterDefaultText() {
+//        filterStateManager?.setSortFilterDefaultText()
+//    }
+//
+//    func appendFilterList(with filter: [String], type: FilterType) {
+//        filterStateManager?.appendFilterCodeList(filter, type: type)
+//    }
+//
+//    func getFilterList() -> [String] {
+//        return filterStateManager?.getFilterList() ?? []
+//    }
+//
+//    func deleteFilterCode(at filterCode: String) {
+//        filterStateManager?.deleteFilterCodeList(filterCode: filterCode)
+//    }
+//
+//    func deleteAllFilterCode() {
+//        filterStateManager?.deleteAllFilterList()
+//    }
+//
+//    func getKeywordList() -> [FilterItemEntity] {
+//        filterStateManager?.getSelectedKeywordFilterList() ?? []
+//    }
+//}
