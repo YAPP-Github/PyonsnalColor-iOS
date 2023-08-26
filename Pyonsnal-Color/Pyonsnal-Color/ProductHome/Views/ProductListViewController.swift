@@ -66,7 +66,6 @@ final class ProductListViewController: UIViewController {
         
         configureLayout()
         configureCollectionView()
-        delegate?.didLoadPageList(store: convenienceStore)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -244,8 +243,12 @@ final class ProductListViewController: UIViewController {
         if !keywordItems.isEmpty {
             let productSection: SectionType = .product(type: .item)
             let emtptySection: SectionType = .product(type: .empty)
-            let beforeSection: SectionType = snapshot.sectionIdentifiers.contains(productSection) ? productSection : emtptySection
-            snapshot.insertSections([.keywordFilter], beforeSection: beforeSection)
+            if !snapshot.sectionIdentifiers.isEmpty {
+                let beforeSection: SectionType = snapshot.sectionIdentifiers.contains(productSection) ? productSection : emtptySection
+                snapshot.insertSections([.keywordFilter], beforeSection: beforeSection)
+            } else {
+                snapshot.appendSections([.keywordFilter])
+            }
             let items = keywordItems.map {
                 return ItemType.keywordFilter(data: $0)
             }

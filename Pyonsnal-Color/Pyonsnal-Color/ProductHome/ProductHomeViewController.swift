@@ -189,7 +189,6 @@ final class ProductHomeViewController:
         viewHolder.collectionView.collectionViewLayout = createStoreLayout()
     }
     
-    
     private func configureFilterCollectionView() {
         viewHolder.filterCollectionView.delegate = self
         viewHolder.filterCollectionView.register(CategoryFilterCell.self)
@@ -227,7 +226,8 @@ final class ProductHomeViewController:
         viewHolder.productHomePageViewController.scrollDelegate = self
     }
     
-    private func requestProducts(store: ConvenienceStore) {
+    private func requestProducts(store: ConvenienceStore?) {
+        guard let store else { return }
         listener?.didChangeStore(to: store)
     }
     
@@ -419,8 +419,7 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             case .convenienceStore:
                 currentPage = indexPath.item
                 viewHolder.productHomePageViewController.updatePage(to: currentPage)
-                let filterDataEntity = listener?.filterDataEntity
-                applyFilterSnapshot(with: filterDataEntity)
+                requestProducts(store: currentListViewController()?.convenienceStore)
                 currentPage == 0 ? hideFilterCollectionView() : showFilterCollectionView()
             }
         } else if collectionView == viewHolder.filterCollectionView {
@@ -479,12 +478,11 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     }
     
     func didLoadPageList(store: ConvenienceStore) {
-        requestProducts(store: store)
+        // TODO: event 탭 작업 후 삭제
     }
     
     func refreshByPull() {
-        let store = ConvenienceStore.allCases[currentPage]
-        requestProducts(store: store)
+        requestProducts(store: currentConvenienceStore)
     }
     
     func didSelect(with brandProduct: ProductConvertable) {
