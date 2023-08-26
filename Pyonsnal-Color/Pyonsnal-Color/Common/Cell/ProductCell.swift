@@ -265,6 +265,7 @@ final class ProductCell: UICollectionViewCell {
     
     private func hasEventType(_ event: EventTag?) {
         if let eventName = event?.name, !eventName.isEmpty {
+            viewHolder.eventTagLabel.isHidden = false
             viewHolder.eventTagLabel.text = eventName
         } else {
             viewHolder.eventTagLabel.isHidden = true
