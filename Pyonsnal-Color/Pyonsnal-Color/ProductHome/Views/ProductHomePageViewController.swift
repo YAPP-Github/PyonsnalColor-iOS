@@ -17,6 +17,7 @@ protocol ProductHomePageViewControllerDelegate: AnyObject {
     func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
     func refreshFilterButton()
     func didFinishUpdateSnapshot()
+    func didAppearProductList()
 }
 
 final class ProductHomePageViewController: UIPageViewController {
@@ -180,6 +181,7 @@ extension ProductHomePageViewController: ProductListDelegate {
     }
     
     func didAppearProductList() {
+        pagingDelegate?.didAppearProductList()
     }
     
     func didFinishUpdateSnapshot() {

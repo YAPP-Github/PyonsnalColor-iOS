@@ -246,18 +246,7 @@ final class ProductHomeViewController:
     
     private func configureProductCollectionView() {
         viewHolder.productHomePageViewController.pagingDelegate = self
-        viewHolder.productHomePageViewController.productListViewControllers
-            .compactMap({ $0 as? ProductCurationViewController })
-            .forEach {
-                $0.delegate = self
-                $0.curationDelegate = self
-            }
-        viewHolder.productHomePageViewController.productListViewControllers
-            .compactMap({ $0 as? ProductListViewController })
-            .forEach {
-                $0.delegate = self
-                $0.productCollectionView.delegate = self
-            }
+        viewHolder.productHomePageViewController.scrollDelegate = self
     }
     
     private func requestProducts(store: ConvenienceStore, filterList: [String]) {
@@ -488,7 +477,7 @@ extension ProductHomeViewController: UICollectionViewDelegate {
                   let selectedItem = productListViewController.dataSource?.itemIdentifier(for: indexPath) else { return }
             
             switch selectedItem {
-            case .product(let brandProduct):
+            case .item(let brandProduct):
                 listener?.didSelect(with: brandProduct)
             default:
                 break
@@ -497,26 +486,35 @@ extension ProductHomeViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - ProductHomePageViewControllerDelegate
-extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
-    func didFinishPageTransition(index: Int) {
-        currentPage = index
-        let indexPath = IndexPath(item: index, section: 0)
-        setSelectedConvenienceStoreCell(with: indexPath)
-        applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
+//MARK: - ScrollDelegate
+extension ProductHomeViewController: ScrollDelegate {
+    func didScroll(scrollView: UIScrollView) {
+        scrollViewDidScroll(scrollView)
+    }
+    
+    func willBeginDragging(scrollView: UIScrollView) {
+        scrollViewWillBeginDragging(scrollView)
+    }
+    
+    func didEndDragging(scrollView: UIScrollView) {
+        scrollViewDidEndDragging(scrollView, willDecelerate: false)
     }
 }
 
-// MARK: - ProductListDelegate
-extension ProductHomeViewController: ProductListDelegate {
-    
-    func refreshFilterButton() {
-        didTapRefreshButton()
+
+// MARK: - ProductHomePageViewControllerDelegate
+extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
+    func updateSelectedStoreCell(index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        setSelectedConvenienceStoreCell(with: indexPath)
+        applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
     }
     
-    // keyword delete시 호출
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
-        // filter isSelected 값 변경
+    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
+        listener?.didChangeStore(to: store, filterList: filterList)
+    }
+    
+    func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool) {
         guard let listViewController = currentListViewController() else {
             return
         }
@@ -538,6 +536,10 @@ extension ProductHomeViewController: ProductListDelegate {
         listViewController.applyKeywordFilterSnapshot(with: keywordItems)
     }
     
+    func refreshFilterButton() {
+        didTapRefreshButton()
+    }
+    
     func didLoadPageList(store: ConvenienceStore) {
         requestProducts(store: store, filterList: [])
     }
@@ -547,8 +549,7 @@ extension ProductHomeViewController: ProductListDelegate {
         requestProducts(store: store, filterList: filterList)
     }
     
-    func didSelect(with brandProduct: ProductConvertable?) {
-        guard let brandProduct else { return }
+    func didSelect(with brandProduct: ProductConvertable) {
         listener?.didSelect(with: brandProduct)
     }
     
@@ -558,6 +559,13 @@ extension ProductHomeViewController: ProductListDelegate {
     
     func didFinishUpdateSnapshot() {
         isRequestingInitialProducts = false
+    }
+    
+    func didFinishPageTransition(index: Int) {
+        currentPage = index
+        let indexPath = IndexPath(item: index, section: 0)
+        setSelectedConvenienceStoreCell(with: indexPath)
+        applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
     }
 }
 
