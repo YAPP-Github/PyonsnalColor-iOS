@@ -18,6 +18,7 @@ protocol ProductHomePageViewControllerDelegate: AnyObject {
     func refreshFilterButton()
     func didFinishUpdateSnapshot()
     func didAppearProductList()
+    func curationWillAppear()
 }
 
 final class ProductHomePageViewController: UIPageViewController {
@@ -38,6 +39,7 @@ final class ProductHomePageViewController: UIPageViewController {
     // MARK: - Private Method
     private func generateChildViewControllers() {
         let curationViewController = ProductCurationViewController()
+        curationViewController.curationDelegate = self
         curationViewController.delegate = self
         productListViewControllers.append(curationViewController)
         
@@ -187,5 +189,12 @@ extension ProductHomePageViewController: ProductListDelegate {
     
     func didFinishUpdateSnapshot() {
         pagingDelegate?.didFinishUpdateSnapshot()
+    }
+}
+
+// MARK: - CurationDelegate
+extension ProductHomePageViewController: CurationDelegate {
+    func curationWillAppear() {
+        pagingDelegate?.curationWillAppear()
     }
 }

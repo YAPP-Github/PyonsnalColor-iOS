@@ -567,6 +567,10 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
         setSelectedConvenienceStoreCell(with: indexPath)
         applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
     }
+    
+    func curationWillAppear() {
+        hideFilterCollectionView()
+    }
 }
 
 // MARK: - ProductPresentable
@@ -597,12 +601,5 @@ extension ProductHomeViewController: RefreshFilterCellDelegate {
         // apply filterData
         let filterDataEntity = listViewController.getFilterDataEntity()
         applyFilterSnapshot(with: filterDataEntity)
-    }
-}
-
-// MARK: - CurationDelegate
-extension ProductHomeViewController: CurationDelegate {
-    func curationWillAppear() {
-        hideFilterCollectionView()
     }
 }
