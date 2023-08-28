@@ -10,11 +10,19 @@ import SnapKit
 
 protocol ProductHomePageViewControllerDelegate: AnyObject {
     func didFinishPageTransition(index: Int)
+    func updateSelectedStoreCell(index: Int)
+    func didChangeStore(to store: ConvenienceStore, filterList: [String])
+    func didSelect(with brandProduct: ProductConvertable)
+    
+    func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
+    func refreshFilterButton()
+    func didFinishUpdateSnapshot()
 }
 
 final class ProductHomePageViewController: UIPageViewController {
     
     // MARK: - Property
+    weak var scrollDelegate: ScrollDelegate?
     weak var pagingDelegate: ProductHomePageViewControllerDelegate?
     var productListViewControllers: [UIViewController] = []
     
@@ -33,6 +41,9 @@ final class ProductHomePageViewController: UIPageViewController {
         
         ConvenienceStore.allCases.filter({ $0 != .all }).forEach {
             let childViewController = ProductListViewController(convenienceStore: $0)
+            childViewController.scrollDelegate = self
+            childViewController.listDelegate = self
+            childViewController.delegate = self
             productListViewControllers.append(childViewController)
         }
     }
@@ -121,5 +132,57 @@ extension ProductHomePageViewController: UIPageViewControllerDelegate {
         }
         
         pagingDelegate?.didFinishPageTransition(index: index)
+    }
+}
+
+// MARK: - ScrollDelegate
+extension ProductHomePageViewController: ScrollDelegate {
+    func didScroll(scrollView: UIScrollView) {
+        scrollDelegate?.didScroll(scrollView: scrollView)
+    }
+    
+    func willBeginDragging(scrollView: UIScrollView) {
+        scrollDelegate?.willBeginDragging(scrollView: scrollView)
+    }
+    
+    func didEndDragging(scrollView: UIScrollView) {
+        scrollDelegate?.didEndDragging(scrollView: scrollView)
+    }
+}
+
+// MARK: - ProductListDelegate
+extension ProductHomePageViewController: ProductListDelegate {
+    func didLoadPageList(store: ConvenienceStore) {
+        pagingDelegate?.didChangeStore(to: store, filterList: [])
+    }
+    
+    func refreshByPull(with filterList: [String]) {
+        guard let viewController = viewControllers?.first,
+              let index = productListViewControllers.firstIndex(of: viewController)
+        else {
+            return
+        }
+        
+        pagingDelegate?.didChangeStore(to: ConvenienceStore.allCases[index], filterList: filterList)
+    }
+    
+    func didSelect(with product: ProductConvertable?) {
+        guard let product else { return }
+        pagingDelegate?.didSelect(with: product)
+    }
+    
+    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
+        pagingDelegate?.deleteFilterItem(with: filter, isSelected: isSelected)
+    }
+    
+    func refreshFilterButton() {
+        pagingDelegate?.refreshFilterButton()
+    }
+    
+    func didAppearProductList() {
+    }
+    
+    func didFinishUpdateSnapshot() {
+        pagingDelegate?.didFinishUpdateSnapshot()
     }
 }
