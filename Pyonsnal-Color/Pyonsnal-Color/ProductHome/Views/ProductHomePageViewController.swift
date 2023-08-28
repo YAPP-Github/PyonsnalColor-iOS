@@ -38,6 +38,7 @@ final class ProductHomePageViewController: UIPageViewController {
     // MARK: - Private Method
     private func generateChildViewControllers() {
         let curationViewController = ProductCurationViewController()
+        curationViewController.delegate = self
         productListViewControllers.append(curationViewController)
         
         ConvenienceStore.allCases.filter({ $0 != .all }).forEach {
