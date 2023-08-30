@@ -28,8 +28,6 @@ protocol EventHomePresentable: Presentable {
     func didStartPaging()
     func didFinishPaging()
     func requestInitialProduct()
-    func updateFilterItems()
-    func updateSortFilter()
 }
 
 protocol EventHomeListener: AnyObject {
@@ -159,8 +157,10 @@ final class EventHomeInteractor:
         router?.detachEventDetail()
     }
     
-    func didLoadEventHome(with store: ConvenienceStore) {
-        requestProductWithBanners(store: store, filterList: [])
+    func didLoadEventHome() {
+        if let store = ConvenienceStore.allCases.first {
+            requestProductWithBanners(store: store, filterList: [])
+        }
         requestFilter()
     }
     
@@ -183,10 +183,11 @@ final class EventHomeInteractor:
         router?.detachProductDetail()
     }
     
-    func didTapRefreshFilterCell(store: ConvenienceStore?) {
-        guard let store else { return }
+    func didTapRefreshFilterCell() {
         self.resetFilterState()
-        requestProductWithBanners(store: store, filterList: [])
+        ConvenienceStore.allCases.forEach { store in
+            requestProductWithBanners(store: store, filterList: selectedFilterCodeList)
+        }
     }
     
     func didChangeStore(to store: ConvenienceStore) {
@@ -205,8 +206,7 @@ final class EventHomeInteractor:
     func applyFilterItems(_ items: [FilterItemEntity], type: FilterType) {
         router?.detachProductFilter()
         self.updateFiltersState(with: items, type: type)
-        // TO DO : store 옮기고 삭제
-        presenter.updateFilterItems()
+        self.requestwithUpdatedKeywordFilter()
     }
     
     func applySortFilter(item: FilterItemEntity) {
@@ -215,13 +215,15 @@ final class EventHomeInteractor:
         filterStateManager?.appendFilterCodeList(filterCodeList, type: .sort)
         filterStateManager?.updateSortFilterState(for: item)
         filterStateManager?.setSortFilterDefaultText()
-        presenter.updateSortFilter()
+        self.requestwithUpdatedKeywordFilter()
     }
     
-    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore?) {
-        guard let store else { return }
+    func requestwithUpdatedKeywordFilter() {
         presenter.requestInitialProduct()
-        requestProductWithBanners(store: store, filterList: selectedFilterCodeList)
+        // 전체 편의점 데이터를 다 업데이트 한다.
+        ConvenienceStore.allCases.forEach { store in
+            requestProductWithBanners(store: store, filterList: selectedFilterCodeList)
+        }
     }
     
     func initializeFilterState() {
@@ -238,6 +240,7 @@ final class EventHomeInteractor:
     func deleteKeywordFilter(_ filter: FilterItemEntity) {
         filterStateManager?.updateFilterItemState(target: filter, to: false)
         filterStateManager?.deleteFilterCodeList(filterCode: String(filter.code))
+        self.requestwithUpdatedKeywordFilter()
     }
     
     func resetFilterState() {

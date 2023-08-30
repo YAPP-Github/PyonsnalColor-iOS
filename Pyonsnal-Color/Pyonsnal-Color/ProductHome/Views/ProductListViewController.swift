@@ -66,6 +66,7 @@ final class ProductListViewController: UIViewController {
         
         configureLayout()
         configureCollectionView()
+        delegate?.didLoadPageList(store: convenienceStore)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -205,7 +206,6 @@ final class ProductListViewController: UIViewController {
     
     func updateSnapshot(with products: [BrandProductEntity]?) {
         productCollectionView.isScrollEnabled = true
-        scrollCollectionViewToTop()
         let itemSectionType = SectionType.product(type: .item)
         let emtpySectionType = SectionType.product(type: .empty)
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
@@ -238,9 +238,9 @@ final class ProductListViewController: UIViewController {
         
         // TO DO : section delete 하지 않고 추가하는 방법
         snapshot.deleteSections([.keywordFilter])
-        guard let keywordItems else { return }
         // append keywordFilter
-        if !keywordItems.isEmpty {
+        if let keywordItems,
+           !keywordItems.isEmpty {
             let productSection: SectionType = .product(type: .item)
             let emtptySection: SectionType = .product(type: .empty)
             if !snapshot.sectionIdentifiers.isEmpty {
@@ -261,7 +261,7 @@ final class ProductListViewController: UIViewController {
     func scrollCollectionViewToTop() {
         productCollectionView.setContentOffset(
             .init(x: 0, y: Spacing.spacing16.negative.value),
-            animated: true
+            animated: false
         )
     }
     
@@ -301,7 +301,6 @@ extension ProductListViewController: UICollectionViewDelegate {
 // MARK: - KeywordFilterCellDelegate
 extension ProductListViewController: KeywordFilterCellDelegate {
     func didTapDeleteButton(filter: FilterItemEntity) {
-        // 현재 선택된 filter에서 삭제
         delegate?.deleteKeywordFilter(filter)
     }
 }

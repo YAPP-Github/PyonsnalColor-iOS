@@ -14,8 +14,8 @@ protocol FilterRenderable {
     var selectedFilterKeywordList: [FilterItemEntity]? { get }
     var isNeedToShowRefreshFilterCell: Bool { get }
     func didSelectFilter(_ filterEntity: FilterEntity?)
-    func didTapRefreshFilterCell(store: ConvenienceStore?)
-    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore?)
+    func didTapRefreshFilterCell()
+    func requestwithUpdatedKeywordFilter()
     func initializeFilterState()
     func updateFiltersState(with filters: [FilterItemEntity], type: FilterType)
     func deleteKeywordFilter(_ filter: FilterItemEntity)

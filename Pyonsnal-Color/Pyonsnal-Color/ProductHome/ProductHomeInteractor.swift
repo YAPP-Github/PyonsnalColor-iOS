@@ -30,8 +30,6 @@ protocol ProductHomePresentable: Presentable {
     func didFinishPaging()
     func requestInitialProduct()
     func updateCuration(with products: [CurationEntity])
-    func updateFilterItems()
-    func updateSortFilter()
 }
 
 protocol ProductHomeListener: AnyObject {
@@ -189,10 +187,11 @@ final class ProductHomeInteractor:
         requestInitialProducts(store: store, filterList: selectedFilterCodeList)
     }
     
-    func didTapRefreshFilterCell(store: ConvenienceStore?) {
-        guard let store else { return }
+    func didTapRefreshFilterCell() {
         self.resetFilterState()
-        requestInitialProducts(store: store, filterList: [])
+        ConvenienceStore.allCases.forEach { store in
+            requestInitialProducts(store: store, filterList: [])
+        }
 	}
     
     func didSelectFilter(_ filterEntity: FilterEntity?) {
@@ -207,8 +206,7 @@ final class ProductHomeInteractor:
     func applyFilterItems(_ items: [FilterItemEntity], type: FilterType) {
         router?.detachProductFilter()
         self.updateFiltersState(with: items, type: type)
-        // TO DO : store 옮기고 삭제
-        presenter.updateFilterItems()
+        self.requestwithUpdatedKeywordFilter()
     }
     
     func applySortFilter(item: FilterItemEntity) {
@@ -217,13 +215,14 @@ final class ProductHomeInteractor:
         filterStateManager?.appendFilterCodeList(filterCodeList, type: .sort)
         filterStateManager?.updateSortFilterState(for: item)
         filterStateManager?.setSortFilterDefaultText()
-        presenter.updateSortFilter()
+        self.requestwithUpdatedKeywordFilter()
     }
     
-    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore?) {
-        guard let store else { return }
+    func requestwithUpdatedKeywordFilter() {
         presenter.requestInitialProduct()
-        requestInitialProducts(store: store, filterList: selectedFilterCodeList)
+        ConvenienceStore.allCases.forEach { store in
+            requestInitialProducts(store: store, filterList: selectedFilterCodeList)
+        }
     }
     
     func initializeFilterState() {
@@ -240,6 +239,7 @@ final class ProductHomeInteractor:
     func deleteKeywordFilter(_ filter: FilterItemEntity) {
         filterStateManager?.updateFilterItemState(target: filter, to: false)
         filterStateManager?.deleteFilterCodeList(filterCode: String(filter.code))
+        self.requestwithUpdatedKeywordFilter()
     }
     
     func resetFilterState() {
