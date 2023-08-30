@@ -275,7 +275,7 @@ final class EventHomeTabViewController: UIViewController {
     
     func scrollCollectionViewToTop() {
         collectionView.setContentOffset(
-            .init(x: 0, y: Spacing.spacing16.negative.value),
+            .init(x: 0, y: Spacing.spacing20.negative.value),
             animated: false
         )
     }

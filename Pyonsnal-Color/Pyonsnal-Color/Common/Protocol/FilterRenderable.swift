@@ -10,7 +10,7 @@ import Foundation
 protocol FilterRenderable {
     var filterStateManager: FilterStateManager? { get set }
     var filterDataEntity: FilterDataEntity? { get }
-    var selectedFilterCodeList: [String] { get }
+    var selectedFilterCodeList: [Int] { get }
     var selectedFilterKeywordList: [FilterItemEntity]? { get }
     var isNeedToShowRefreshFilterCell: Bool { get }
     func didSelectFilter(_ filterEntity: FilterEntity?)

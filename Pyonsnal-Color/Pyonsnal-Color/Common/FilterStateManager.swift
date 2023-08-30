@@ -10,7 +10,7 @@ import Foundation
 final class FilterStateManager {
     private var filterDataEntity: FilterDataEntity
     private let latestSortFilterName = "최신순"
-    var filterCodeList = Set<String>()
+    var filterCodeList = Set<Int>()
     
     init(filterDataEntity: FilterDataEntity) {
         self.filterDataEntity = filterDataEntity
@@ -177,21 +177,21 @@ final class FilterStateManager {
         return selectedKeyword
     }
     
-    func appendFilterCodeList(_ filterCodeList: [String], type: FilterType) {
+    func appendFilterCodeList(_ filterCodeList: [Int], type: FilterType) {
         deleteFilterCodeList(filterCodeList, type: type)
         filterCodeList.forEach { filterCode in
             self.filterCodeList.insert(filterCode)
         }
     }
     
-    func deleteFilterCodeList(filterCode: String) {
+    func deleteFilterCodeList(filterCode: Int) {
         filterCodeList.remove(filterCode)
     }
     
-    private func deleteFilterCodeList(_ filterCodeList: [String], type: FilterType) {
+    private func deleteFilterCodeList(_ filterCodeList: [Int], type: FilterType) {
         if let filterCodeList = filterDataEntity.data
             .first(where: { $0.filterType == type })?
-            .filterItem.map({ String($0.code) }) {
+            .filterItem.map({ $0.code }) {
             filterCodeList.map { filterCode in
                 self.deleteFilterCodeList(filterCode: filterCode)
             }
@@ -202,7 +202,7 @@ final class FilterStateManager {
         filterCodeList.removeAll()
     }
     
-    func getFilterList() -> [String] {
+    func getFilterList() -> [Int] {
         return Array(filterCodeList)
     }
 }

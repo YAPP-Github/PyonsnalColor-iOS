@@ -12,7 +12,7 @@ protocol ProductHomePresentableListener: AnyObject, FilterRenderable {
     func didChangeStore(to store: ConvenienceStore)
     func didTapSearchButton()
     func didTapNotificationButton()
-    func didScrollToNextPage(store: ConvenienceStore?, filterList: [String])
+    func didScrollToNextPage(store: ConvenienceStore?, filterList: [Int])
     func didSelect(with brandProduct: ProductConvertable?)
 }
 

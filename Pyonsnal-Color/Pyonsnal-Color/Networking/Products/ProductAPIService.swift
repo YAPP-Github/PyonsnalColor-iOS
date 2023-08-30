@@ -20,7 +20,7 @@ final class ProductAPIService {
         pageNumber: Int,
         pageSize: Int,
         storeType: ConvenienceStore,
-        filterList: [String]
+        filterList: [Int]
     ) -> AnyPublisher<DataResponse<ProductPageEntity<BrandProductEntity>, NetworkError>, Never> {
         return client.request(
             ProductAPI.brandProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),
@@ -32,7 +32,7 @@ final class ProductAPIService {
         pageNumber: Int,
         pageSize: Int,
         storeType: ConvenienceStore,
-        filterList: [String]
+        filterList: [Int]
     ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
         return client.request(
             ProductAPI.eventProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),

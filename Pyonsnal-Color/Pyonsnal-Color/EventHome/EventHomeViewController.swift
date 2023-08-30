@@ -14,7 +14,7 @@ protocol EventHomePresentableListener: AnyObject, FilterRenderable {
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
     func didTapSearchButton()
     func didChangeStore(to store: ConvenienceStore)
-    func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
+    func didScrollToNextPage(store: ConvenienceStore, filterList: [Int])
     func didSelect(with brandProduct: ProductConvertable)
     func didSelectFilter(_ filterEntity: FilterEntity?)
     func didTapRefreshFilterCell()
