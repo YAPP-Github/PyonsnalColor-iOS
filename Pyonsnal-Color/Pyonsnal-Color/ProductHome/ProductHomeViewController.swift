@@ -351,7 +351,7 @@ extension ProductHomeViewController: UIScrollViewDelegate {
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y && !isRequestingInitialProducts {
             let filterList = listener?.selectedFilterCodeList ?? []
             listener?.didScrollToNextPage(
-                store: currentConvenienceStore,
+                store: productListViewController.convenienceStore,
                 filterList: filterList
             )
         }
