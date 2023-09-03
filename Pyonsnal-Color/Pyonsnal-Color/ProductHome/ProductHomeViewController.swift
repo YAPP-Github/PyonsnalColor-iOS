@@ -252,7 +252,7 @@ final class ProductHomeViewController:
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
             self.currentConvenienceStore = store
             let pageViewController = viewHolder.productHomePageViewController
-            let storeIndex = storeIndex + 1
+            let storeIndex = storeIndex + 1 // curation index
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.applySnapshot(with: products)
             }
@@ -392,8 +392,8 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             
             switch selectedItem {
             case .convenienceStore:
+                currentConvenienceStore = currentListViewController()?.convenienceStore
                 viewHolder.productHomePageViewController.updatePage(to: indexPath.item)
-//                requestProducts(store: currentListViewController()?.convenienceStore)
                 indexPath.item == 0 ? hideFilterCollectionView() : showFilterCollectionView()
             }
         } else if collectionView == viewHolder.filterCollectionView {

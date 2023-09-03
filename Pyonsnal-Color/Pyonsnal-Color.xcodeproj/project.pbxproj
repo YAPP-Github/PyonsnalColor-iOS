@@ -200,6 +200,8 @@
 		F097EF372A571DD300A7FB9C /* CommonWebInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097EF332A571DD300A7FB9C /* CommonWebInteractor.swift */; };
 		F0A8A3AE2A70051500601DAE /* FilterCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A8A3AD2A70051500601DAE /* FilterCellItem.swift */; };
 		F0A8A3B02A70053D00601DAE /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A8A3AF2A70053D00601DAE /* FilterType.swift */; };
+		F0C2B9F12AA4740000ACF3D7 /* EventHomeViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2B9F02AA4740000ACF3D7 /* EventHomeViewHolder.swift */; };
+		F0C2B9F42AA474EE00ACF3D7 /* CommonProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C2B9F32AA474EE00ACF3D7 /* CommonProduct.swift */; };
 		F0C582C12A55E83400DAD387 /* TermsOfUseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BD2A55E83400DAD387 /* TermsOfUseRouter.swift */; };
 		F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */; };
 		F0C582C32A55E83400DAD387 /* TermsOfUseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */; };
@@ -423,6 +425,8 @@
 		F097EF332A571DD300A7FB9C /* CommonWebInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebInteractor.swift; sourceTree = "<group>"; };
 		F0A8A3AD2A70051500601DAE /* FilterCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCellItem.swift; sourceTree = "<group>"; };
 		F0A8A3AF2A70053D00601DAE /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
+		F0C2B9F02AA4740000ACF3D7 /* EventHomeViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHomeViewHolder.swift; sourceTree = "<group>"; };
+		F0C2B9F32AA474EE00ACF3D7 /* CommonProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonProduct.swift; sourceTree = "<group>"; };
 		F0C582BD2A55E83400DAD387 /* TermsOfUseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseRouter.swift; sourceTree = "<group>"; };
 		F0C582BE2A55E83400DAD387 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
 		F0C582BF2A55E83400DAD387 /* TermsOfUseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseBuilder.swift; sourceTree = "<group>"; };
@@ -583,6 +587,7 @@
 				B28205072A34700300F9242F /* EventHomeViewController.swift */,
 				B28205082A34700300F9242F /* EventHomeBuilder.swift */,
 				B28205092A34700300F9242F /* EventHomeInteractor.swift */,
+				F0C2B9F02AA4740000ACF3D7 /* EventHomeViewHolder.swift */,
 			);
 			path = EventHome;
 			sourceTree = "<group>";
@@ -958,6 +963,7 @@
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F0C2B9F22AA474BF00ACF3D7 /* Interface */,
 				BA18C09E2A758F39007D00BD /* BottomSheet */,
 				F0C698742A6D4E980019C677 /* Protocol */,
 				F0C698712A6D4D8B0019C677 /* Layout */,
@@ -1104,6 +1110,14 @@
 				F038B4F82A55EB67008D5BF0 /* TermsButton.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		F0C2B9F22AA474BF00ACF3D7 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				F0C2B9F32AA474EE00ACF3D7 /* CommonProduct.swift */,
+			);
+			path = Interface;
 			sourceTree = "<group>";
 		};
 		F0C582BC2A55E81700DAD387 /* TermsOfUse */ = {
@@ -1443,6 +1457,7 @@
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				F0EE10AE2A4B389A00B8DF4F /* AccountSettingInteractor.swift in Sources */,
 				F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */,
+				F0C2B9F12AA4740000ACF3D7 /* EventHomeViewHolder.swift in Sources */,
 				B24259102A594862006C5223 /* SortEntity.swift in Sources */,
 				B24CAAE32A55AC2D005BE499 /* NotificationListBuilder.swift in Sources */,
 				BA18C09D2A758D04007D00BD /* SelectionButton.swift in Sources */,
@@ -1463,6 +1478,7 @@
 				F0168D522A500AC900978ED9 /* EventDetailViewController.swift in Sources */,
 				B28A59252A6FB2B200431F39 /* ProductFilterInteractor.swift in Sources */,
 				F0DFBC942A595171003F7660 /* MemberAPI.swift in Sources */,
+				F0C2B9F42AA474EE00ACF3D7 /* CommonProduct.swift in Sources */,
 				BA7B31842A72AA7900A117F3 /* ImageAssetKind+TabBar.swift in Sources */,
 				BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */,
 				BA18C0B32A759EAC007D00BD /* ProductSearchSortBottomSheetInteractor.swift in Sources */,

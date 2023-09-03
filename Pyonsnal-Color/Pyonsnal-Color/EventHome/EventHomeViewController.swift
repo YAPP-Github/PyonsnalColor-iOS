@@ -24,20 +24,6 @@ final class EventHomeViewController: UIViewController,
                                      EventHomePresentable,
                                      EventHomeViewControllable {
     
-    // MARK: - Interface
-    enum Size {
-        static let titleLabelLeading: CGFloat = 16
-        static let headerMargin: CGFloat = 11
-        static let notificationButtonTrailing: CGFloat = 17
-        static let headerViewHeight: CGFloat = 48
-        static let collectionViewTop: CGFloat = 20
-        static let collectionViewLeaing: CGFloat = 16
-        static let storeHeight: CGFloat = 44
-        static let storeCollectionViewSeparatorHeight: CGFloat = 1
-        static let filterMargin: UIEdgeInsets = .init(top: 12, left: 15, bottom: 12, right: 15)
-        static let filterHeight: CGFloat = 56
-    }
-    
     enum Header {
         static let title = "행사 상품 모아보기"
     }
@@ -300,122 +286,6 @@ final class EventHomeViewController: UIViewController,
     
 }
 
-// MARK: - UI Component
-extension EventHomeViewController {
-    
-    class ViewHolder: ViewHolderable {
-        
-        let titleNavigationView: TitleNavigationView = {
-            let titleNavigationView = TitleNavigationView()
-            return titleNavigationView
-        }()
-        
-        let containerScrollView: UIScrollView = {
-            let scrollView = UIScrollView()
-            scrollView.bounces = false
-            return scrollView
-        }()
-        
-        let collectionView: UICollectionView = {
-            let flowLayout = UICollectionViewFlowLayout()
-            let collectionView = UICollectionView(frame: .zero,
-                                                  collectionViewLayout: flowLayout)
-            collectionView.backgroundColor = .clear
-            collectionView.bounces = false
-            collectionView.showsHorizontalScrollIndicator = false
-            return collectionView
-        }()
-        
-        let storeCollectionViewSeparator: UIView = {
-            let view: UIView = .init(frame: .zero)
-            view.backgroundColor = .gray200
-            return view
-        }()
-        
-        let filterCollectionView: UICollectionView = {
-            let layout = UICollectionViewFlowLayout()
-            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.bounces = false
-            collectionView.backgroundColor = .clear
-            collectionView.layoutMargins = Size.filterMargin
-            return collectionView
-        }()
-        
-        private let contentView: UIView = {
-            let view = UIView()
-            view.backgroundColor = .white
-            return view
-        }()
-        
-        private let contentPageView: UIView = {
-            let view = UIView()
-            return view
-        }()
-        
-        lazy var pageViewController = EventHomePageViewController(
-            transitionStyle: .scroll,
-            navigationOrientation: .horizontal
-        )
-        func place(in view: UIView) {
-            view.addSubview(containerScrollView)
-            containerScrollView.addSubview(contentView)
-            contentView.addSubview(titleNavigationView)
-            contentView.addSubview(storeCollectionViewSeparator)
-            contentView.addSubview(collectionView)
-            contentView.addSubview(filterCollectionView)
-            contentView.addSubview(contentPageView)
-            contentPageView.addSubview(pageViewController.view)
-        }
-        
-        func configureConstraints(for view: UIView) {
-            containerScrollView.snp.makeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                $0.leading.trailing.bottom.equalToSuperview()
-            }
-            
-            contentView.snp.makeConstraints {
-                $0.width.equalToSuperview()
-                $0.height.equalTo(containerScrollView.frameLayoutGuide.snp.height).priority(.low)
-                $0.top.bottom.equalToSuperview()
-            }
-            
-            titleNavigationView.snp.makeConstraints {
-                $0.height.equalTo(Size.headerViewHeight)
-                $0.top.leading.trailing.equalToSuperview()
-            }
-            
-            collectionView.snp.makeConstraints {
-                $0.top.equalTo(titleNavigationView.snp.bottom)
-                $0.leading.equalToSuperview().offset(Size.collectionViewLeaing)
-                $0.trailing.equalToSuperview().inset(Size.collectionViewLeaing)
-                $0.height.equalTo(Size.storeHeight)
-            }
-            
-            storeCollectionViewSeparator.snp.makeConstraints { make in
-                make.height.equalTo(Size.storeCollectionViewSeparatorHeight)
-                make.top.equalTo(collectionView.snp.bottom).inset(1)
-                make.leading.trailing.equalToSuperview()
-            }
-            
-            filterCollectionView.snp.makeConstraints {
-                $0.height.equalTo(Size.filterHeight)
-                $0.top.equalTo(storeCollectionViewSeparator.snp.bottom)
-                $0.leading.trailing.equalToSuperview()
-            }
-            
-            contentPageView.snp.makeConstraints {
-                $0.top.equalTo(filterCollectionView.snp.bottom)
-                $0.leading.trailing.bottom.equalToSuperview()
-            }
-
-            pageViewController.view.snp.makeConstraints {
-                $0.top.leading.trailing.equalToSuperview()
-                $0.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
-        }
-    }
-}
-
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
     
@@ -467,6 +337,7 @@ extension EventHomeViewController: UICollectionViewDelegate {
             guard let selectedItem = storeDataSource?.itemIdentifier(for: indexPath) else { return }
             
             if case .convenienceStore(_) = selectedItem {
+                currentConvenienceStore = currentTabViewController()?.convenienceStore
                 viewHolder.pageViewController.updatePage(indexPath.item)
             }
         } else if collectionView == viewHolder.filterCollectionView {
@@ -490,7 +361,7 @@ extension EventHomeViewController: UIScrollViewDelegate {
         let swipeDirectionY = scrollView.panGestureRecognizer.translation(in: scrollView).y
         let downScroll = swipeDirectionY < 0
         let upScroll = swipeDirectionY > 0
-        let outerScrollMaxOffset: CGFloat = Size.headerViewHeight
+        let outerScrollMaxOffset: CGFloat = CommonProduct.Size.titleNavigationBarHeight
         
         if innerScroll && upScroll {
             // 안쪽을 위로 스크롤할때 바깥쪽 스크롤뷰의 contentOffset을 0으로 줄이기

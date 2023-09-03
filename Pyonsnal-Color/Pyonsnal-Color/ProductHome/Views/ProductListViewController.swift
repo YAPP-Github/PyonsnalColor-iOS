@@ -190,11 +190,7 @@ final class ProductListViewController: UIViewController {
     func applySnapshot(with products: [BrandProductEntity]?) {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
-        guard var snapshot = dataSource?.snapshot(),
-              let products
-        else {
-            return
-        }
+        guard var snapshot = dataSource?.snapshot(), let products else { return }
         
         let productItems = products.map { product in
             return ItemType.item(data: product)
