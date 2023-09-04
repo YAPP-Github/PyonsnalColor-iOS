@@ -33,11 +33,13 @@ final class ProductListViewController: UIViewController {
     
     enum ItemType: Hashable {
         case keywordFilter(data: FilterItemEntity)
-        case product(data: BrandProductEntity?)
+        case item(data: BrandProductEntity?)
     }
     
     //MARK: - Private Property
     private(set) var dataSource: DataSource?
+    weak var scrollDelegate: ScrollDelegate?
+    weak var listDelegate: ProductListDelegate?
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
     let convenienceStore: ConvenienceStore
@@ -109,6 +111,7 @@ final class ProductListViewController: UIViewController {
     }
 
     private func configureCollectionView() {
+        productCollectionView.delegate = self
         productCollectionView.backgroundColor = .gray100
         
         registerCells()
@@ -136,7 +139,7 @@ final class ProductListViewController: UIViewController {
                 cell.delegate = self
                 cell.configure(with: keywordFilter)
                 return cell
-            case .product(let brandProduct):
+            case .item(let brandProduct):
                 if brandProduct == nil {
                     let cell: EmptyProductCell = collectionView.dequeueReusableCell(for: indexPath)
                     cell.delegate = self
@@ -200,7 +203,7 @@ final class ProductListViewController: UIViewController {
         }
         
         let productItems = products.map { product in
-            return ItemType.product(data: product)
+            return ItemType.item(data: product)
         }
         
         snapshot.appendItems(productItems, toSection: itemSectionType)
@@ -218,14 +221,14 @@ final class ProductListViewController: UIViewController {
         guard let products, !products.isEmpty else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             productCollectionView.isScrollEnabled = false
             snapshot.appendSections([emtpySectionType])
-            snapshot.appendItems([ItemType.product(data: nil)], toSection: emtpySectionType)
+            snapshot.appendItems([ItemType.item(data: nil)], toSection: emtpySectionType)
             dataSource?.apply(snapshot, animatingDifferences: true)
             return
         }
         
         // append product
         let productItems = products.map { product in
-            return ItemType.product(data: product)
+            return ItemType.item(data: product)
         }
         snapshot.appendSections([itemSectionType])
         
@@ -276,6 +279,27 @@ final class ProductListViewController: UIViewController {
             self.delegate?.refreshByPull(with: filterList)
             self.productCollectionView.refreshControl?.endRefreshing()
         }
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension ProductListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let item = dataSource?.itemIdentifier(for: indexPath), case let .item(product) = item {
+            listDelegate?.didSelect(with: product)
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollDelegate?.didScroll(scrollView: scrollView)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollDelegate?.willBeginDragging(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollDelegate?.didEndDragging(scrollView: scrollView)
     }
 }
 
