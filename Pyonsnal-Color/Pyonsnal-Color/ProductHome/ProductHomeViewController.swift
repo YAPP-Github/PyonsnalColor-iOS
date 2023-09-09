@@ -431,21 +431,25 @@ extension ProductHomeViewController: ScrollDelegate {
     }
 }
 
-
 // MARK: - ProductHomePageViewControllerDelegate
 extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
+    
+    func didTapRefreshFilterButton() {
+        didTapRefreshButton()
+    }
+    
     func updateSelectedStoreCell(index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         setSelectedConvenienceStoreCell(with: indexPath)
-        applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
+        currentConvenienceStore = currentListViewController()?.convenienceStore
+    }
+    
+    func didChangeStore(to store: ConvenienceStore) {
+        listener?.didChangeStore(to: store)
     }
 
     func deleteKeywordFilter(_ filter: FilterItemEntity) {
         listener?.deleteKeywordFilter(filter)
-    }
-    
-    func refreshFilterButton() {
-        didTapRefreshButton()
     }
     
     func didLoadPageList(store: ConvenienceStore) {
@@ -467,13 +471,6 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     
     func didFinishUpdateSnapshot() {
         isRequestingInitialProducts = false
-    }
-    
-    func didFinishPageTransition(index: Int) {
-        currentPage = index
-        let indexPath = IndexPath(item: index, section: 0)
-        setSelectedConvenienceStoreCell(with: indexPath)
-        applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
     }
     
     func curationWillAppear() {

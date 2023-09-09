@@ -13,7 +13,7 @@ protocol EventHomePageViewControllerDelegate: AnyObject {
     func didChangeStore(to store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
     func deleteKeywordFilter(_ filter: FilterItemEntity)
-    func refreshFilterButton()
+    func didTapRefreshFilterButton()
     func didFinishUpdateSnapshot()
 }
 
@@ -156,12 +156,8 @@ extension EventHomePageViewController: ProductListDelegate {
         pageDelegate?.didSelect(with: brandProduct)
     }
     
-    func deleteKeywordFilter(_ filter: FilterItemEntity, isSelected: Bool) {
-        pageDelegate?.deleteKeywordFilter(filter)
-    }
-    
     func refreshFilterButton() {
-        pageDelegate?.refreshFilterButton()
+        pageDelegate?.didTapRefreshFilterButton()
     }
     
     func didAppearProductList() {

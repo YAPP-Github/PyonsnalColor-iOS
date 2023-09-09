@@ -9,13 +9,12 @@ import UIKit
 import SnapKit
 
 protocol ProductHomePageViewControllerDelegate: AnyObject {
-    func didFinishPageTransition(index: Int)
     func updateSelectedStoreCell(index: Int)
-    func didChangeStore(to store: ConvenienceStore, filterList: [String])
+    func didChangeStore(to store: ConvenienceStore)
     func didSelect(with brandProduct: ProductConvertable)
     
-    func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
-    func refreshFilterButton()
+    func deleteKeywordFilter(_ filter: FilterItemEntity)
+    func didTapRefreshFilterButton()
     func didFinishUpdateSnapshot()
     func didAppearProductList()
     func curationWillAppear()
@@ -127,7 +126,7 @@ extension ProductHomePageViewController: UIPageViewControllerDelegate {
             return
         }
         
-        pagingDelegate?.didFinishPageTransition(index: index)
+        pagingDelegate?.updateSelectedStoreCell(index: index)
     }
 }
 
@@ -148,18 +147,19 @@ extension ProductHomePageViewController: ScrollDelegate {
 
 // MARK: - ProductListDelegate
 extension ProductHomePageViewController: ProductListDelegate {
+    
     func didLoadPageList(store: ConvenienceStore) {
-        pagingDelegate?.didChangeStore(to: store, filterList: [])
+        pagingDelegate?.didChangeStore(to: store)
     }
     
-    func refreshByPull(with filterList: [String]) {
+    func refreshByPull() {
         guard let viewController = viewControllers?.first,
               let index = productListViewControllers.firstIndex(of: viewController)
         else {
             return
         }
         
-        pagingDelegate?.didChangeStore(to: ConvenienceStore.allCases[index], filterList: filterList)
+        pagingDelegate?.didChangeStore(to: ConvenienceStore.allCases[index])
     }
     
     func didSelect(with product: ProductConvertable?) {
@@ -167,12 +167,12 @@ extension ProductHomePageViewController: ProductListDelegate {
         pagingDelegate?.didSelect(with: product)
     }
     
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
-        pagingDelegate?.deleteFilterItem(with: filter, isSelected: isSelected)
+    func deleteKeywordFilter(_ filter: FilterItemEntity) {
+        pagingDelegate?.deleteKeywordFilter(filter)
     }
     
     func refreshFilterButton() {
-        pagingDelegate?.refreshFilterButton()
+        pagingDelegate?.didTapRefreshFilterButton()
     }
     
     func didAppearProductList() {

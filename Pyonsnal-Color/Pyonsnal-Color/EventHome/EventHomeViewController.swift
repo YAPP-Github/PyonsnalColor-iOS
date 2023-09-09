@@ -289,7 +289,7 @@ final class EventHomeViewController: UIViewController,
 // MARK: - EventHomePageViewControllerDelegate
 extension EventHomeViewController: EventHomePageViewControllerDelegate {
     
-    func refreshFilterButton() {
+    func didTapRefreshFilterButton() {
         didTapRefreshButton()
     }
     
