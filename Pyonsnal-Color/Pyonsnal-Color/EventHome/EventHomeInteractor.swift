@@ -58,7 +58,7 @@ final class EventHomeInteractor:
     weak var router: EventHomeRouting?
     weak var listener: EventHomeListener?
     
-    private let productAPIService: ProductAPIService
+    private let dependency: EventHomeDependency
     var filterStateManager: FilterStateManager?
     
     private var cancellable = Set<AnyCancellable>()
@@ -70,9 +70,9 @@ final class EventHomeInteractor:
     
     init(
         presenter: EventHomePresentable,
-        productAPIService: ProductAPIService
+        dependency: EventHomeDependency
     ) {
-        self.productAPIService = productAPIService
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -87,7 +87,7 @@ final class EventHomeInteractor:
     
     private func requestProducts(pageNumber: Int, store: ConvenienceStore, filterList: [Int]) {
         storeLastPages[store] = pageNumber
-        productAPIService.requestEventProduct(
+        dependency.productAPIService.requestEventProduct(
             pageNumber: pageNumber,
             pageSize: productPerPage,
             storeType: store,
@@ -102,8 +102,8 @@ final class EventHomeInteractor:
     
     private func requestProductWithBanners(store: ConvenienceStore, filterList: [Int]) {
         storeLastPages[store] = initialPage
-        let eventPublisher = productAPIService.requestEventBanner(storeType: store)
-        let productPublisher = productAPIService.requestEventProduct(
+        let eventPublisher = dependency.productAPIService.requestEventBanner(storeType: store)
+        let productPublisher = dependency.productAPIService.requestEventProduct(
             pageNumber: initialPage,
             pageSize: initialCount,
             storeType: store,
@@ -129,7 +129,7 @@ final class EventHomeInteractor:
     }
     
     private func requestFilter() {
-        productAPIService.requestFilter()
+        dependency.productAPIService.requestFilter()
             .sink { [weak self] response in
                 if let filter = response.value {
                     // 이벤트 탭에서는 상품 추천 filterType 제외

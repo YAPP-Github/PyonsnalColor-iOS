@@ -43,7 +43,7 @@ final class ProductHomeInteractor:
     weak var router: ProductHomeRouting?
     weak var listener: ProductHomeListener?
     
-    private let productAPIService: ProductAPIService
+    private let dependency: ProductHomeDependency
     var filterStateManager: FilterStateManager?
     
     private var cancellable = Set<AnyCancellable>()
@@ -72,9 +72,9 @@ final class ProductHomeInteractor:
     
     init(
         presenter: ProductHomePresentable,
-        productAPIService: ProductAPIService
+        dependency: ProductHomeDependency
     ) {
-        self.productAPIService = productAPIService
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -92,7 +92,7 @@ final class ProductHomeInteractor:
     private func requestInitialProducts(store: ConvenienceStore, filterList: [Int]) {
         storeLastPages[store] = initialPage
         
-        productAPIService.requestBrandProduct(
+        dependency.productAPIService.requestBrandProduct(
             pageNumber: initialPage,
             pageSize: initialCount,
             storeType: store,
@@ -113,7 +113,7 @@ final class ProductHomeInteractor:
     
     private func requestProducts(pageNumber: Int, store: ConvenienceStore, filterList: [Int]) {
         storeLastPages[store] = pageNumber
-        productAPIService.requestBrandProduct(
+        dependency.productAPIService.requestBrandProduct(
             pageNumber: pageNumber,
             pageSize: productPerPage,
             storeType: store,
@@ -127,7 +127,7 @@ final class ProductHomeInteractor:
     }
     
     private func requestFilter() {
-        productAPIService.requestFilter()
+        dependency.productAPIService.requestFilter()
             .sink { [weak self] response in
             if let filter = response.value {
                 self?.filterStateManager = FilterStateManager(filterDataEntity: filter)
@@ -137,7 +137,7 @@ final class ProductHomeInteractor:
     }
     
     private func requestCurationProducts() {
-        productAPIService.requestCuration()
+        dependency.productAPIService.requestCuration()
             .sink { [weak self] response in
             if let curationPage = response.value {
                 self?.presenter.updateCuration(with: curationPage.curationProducts)

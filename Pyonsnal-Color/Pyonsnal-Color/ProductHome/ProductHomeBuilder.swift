@@ -41,7 +41,7 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         let viewController = ProductHomeViewController()
         let interactor = ProductHomeInteractor(
             presenter: viewController,
-            productAPIService: component.productAPIService
+            dependency: dependency
         )
         
         let productSearch: ProductSearchBuilder = .init(dependency: component)
