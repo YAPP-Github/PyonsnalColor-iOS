@@ -8,14 +8,7 @@
 import UIKit
 import SnapKit
 
-protocol ProductHomePageViewControllerDelegate: AnyObject {
-    func updateSelectedStoreCell(index: Int)
-    func didChangeStore(to store: ConvenienceStore)
-    func didSelect(with brandProduct: ProductConvertable)
-    
-    func deleteKeywordFilter(_ filter: FilterItemEntity)
-    func didTapRefreshFilterButton()
-    func didFinishUpdateSnapshot()
+protocol ProductHomePageViewControllerDelegate: CommonProductPageViewControllerRenderable {
     func didAppearProductList()
     func curationWillAppear()
 }

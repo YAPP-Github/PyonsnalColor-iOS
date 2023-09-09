@@ -7,14 +7,8 @@
 
 import UIKit
 
-protocol EventHomePageViewControllerDelegate: AnyObject {
-    func updateSelectedStoreCell(index: Int)
+protocol EventHomePageViewControllerDelegate: CommonProductPageViewControllerRenderable {
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
-    func didChangeStore(to store: ConvenienceStore)
-    func didSelect(with brandProduct: ProductConvertable)
-    func deleteKeywordFilter(_ filter: FilterItemEntity)
-    func didTapRefreshFilterButton()
-    func didFinishUpdateSnapshot()
 }
 
 final class EventHomePageViewController: UIPageViewController {
