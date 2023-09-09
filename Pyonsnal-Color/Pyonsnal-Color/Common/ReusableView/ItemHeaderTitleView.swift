@@ -49,7 +49,8 @@ extension ItemHeaderTitleView {
         func configureConstraints(for view: UIView) {
             titleLabel.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(.spacing16)
-                $0.top.bottom.equalToSuperview()
+                $0.top.equalToSuperview().offset(.spacing24)
+                $0.bottom.equalToSuperview()
             }
         }
     }

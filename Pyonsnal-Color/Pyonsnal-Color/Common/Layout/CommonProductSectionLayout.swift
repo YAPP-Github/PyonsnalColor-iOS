@@ -25,7 +25,8 @@ final class CommonProductSectionLayout {
         }
         
         enum Header {
-            static let height: CGFloat = 32
+            private static let topMargin: CGFloat = 24
+            static let height: CGFloat = 32 + topMargin
         }
         
         enum KeywordFilter {
@@ -34,7 +35,7 @@ final class CommonProductSectionLayout {
             static let interSpacing: CGFloat = 4
         }
         
-        static let topMargin: CGFloat = 8
+        static let topMargin: CGFloat = 16
         static let bottomMargin: CGFloat = 20
     }
     
@@ -57,9 +58,9 @@ final class CommonProductSectionLayout {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = Size.KeywordFilter.interSpacing
         section.contentInsets = .init(
-            top: 0,
+            top: .spacing12,
             leading: .spacing16,
-            bottom: .spacing24,
+            bottom: 0,
             trailing: 0
         )
         section.orthogonalScrollingBehavior = .continuous
@@ -82,7 +83,7 @@ final class CommonProductSectionLayout {
         section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets = NSDirectionalEdgeInsets(top: Size.topMargin,
                                                         leading: 0,
-                                                        bottom: Size.bottomMargin,
+                                                        bottom: 0,
                                                         trailing: 0)
         section.boundarySupplementaryItems = createSupplementaryView()
         return section

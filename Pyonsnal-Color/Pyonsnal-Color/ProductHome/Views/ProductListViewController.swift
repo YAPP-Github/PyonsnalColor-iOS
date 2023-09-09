@@ -14,7 +14,6 @@ final class ProductListViewController: UIViewController {
     
     enum Constant {
         enum Size {
-            static let spacing: CGFloat = 16
             static let productCellHeight: CGFloat = 235
             static let headerViewHeight: CGFloat = 22
             static let spacingCount: CGFloat = 3
@@ -82,13 +81,6 @@ final class ProductListViewController: UIViewController {
         productCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        productCollectionView.contentInset = UIEdgeInsets(
-            top: Constant.Size.spacing,
-            left: 0,
-            bottom: 0,
-            right: 0
-        )
     }
     
     // MARK: - Private Method
@@ -256,7 +248,7 @@ final class ProductListViewController: UIViewController {
     
     func scrollCollectionViewToTop() {
         productCollectionView.setContentOffset(
-            .init(x: 0, y: Spacing.spacing16.negative.value),
+            .init(x: 0, y: 0),
             animated: false
         )
     }

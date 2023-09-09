@@ -107,10 +107,6 @@ final class EventHomeTabViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.backgroundColor = .gray100
         collectionView.delegate = self
-        collectionView.contentInset = UIEdgeInsets(top: Size.topMargin,
-                                                   left: 0,
-                                                   bottom: 0,
-                                                   right: 0)
         registerCollectionViewCells()
         setRefreshControl()
     }
@@ -275,7 +271,7 @@ final class EventHomeTabViewController: UIViewController {
     
     func scrollCollectionViewToTop() {
         collectionView.setContentOffset(
-            .init(x: 0, y: Spacing.spacing20.negative.value),
+            .init(x: 0, y: 0),
             animated: false
         )
     }
