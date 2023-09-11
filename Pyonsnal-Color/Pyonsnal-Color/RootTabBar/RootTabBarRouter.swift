@@ -11,6 +11,7 @@ protocol RootTabBarInteractable:
     Interactable,
     ProductHomeListener,
     EventHomeListener,
+    MyPickListener,
     ProfileHomeListener {
     var router: RootTabBarRouting? { get set }
     var listener: RootTabBarListener? { get set }
@@ -31,6 +32,9 @@ final class RootTabBarRouter:
     private let eventHomeBuilder: EventHomeBuildable
     private var eventHome: ViewableRouting?
     
+    private let myPickBuilder: MyPickBuildable
+    private var myPick: ViewableRouting?
+    
     private let profileHomeBuilder: ProfileHomeBuildable
     private var profilHome: ViewableRouting?
     
@@ -39,10 +43,12 @@ final class RootTabBarRouter:
         viewController: RootTabBarViewControllable,
         productHomeBuilder: ProductHomeBuildable,
         eventHomeBuilder: EventHomeBuildable,
+        myPickBuilder: MyPickBuilder,
         profileHomeBuilder: ProfileHomeBuildable
     ) {
         self.productHomeBuilder = productHomeBuilder
         self.eventHomeBuilder = eventHomeBuilder
+        self.myPickBuilder = myPickBuilder
         self.profileHomeBuilder = profileHomeBuilder
         super.init(interactor: interactor, viewController: viewController)
         
@@ -52,15 +58,18 @@ final class RootTabBarRouter:
     func attachTabs() {
         let productHome = productHomeBuilder.build(withListener: interactor)
         let eventHome = eventHomeBuilder.build(withListener: interactor)
+        let myPickHome = myPickBuilder.build(withListener: interactor)
         let profileHome = profileHomeBuilder.build(withListener: interactor)
         
         attachChild(productHome)
         attachChild(eventHome)
+        attachChild(myPickHome)
         attachChild(profileHome)
         
         let viewControllers: [ViewControllable] = [
             NavigationControllable(root: productHome.viewControllable),
             NavigationControllable(root: eventHome.viewControllable),
+            NavigationControllable(root: myPickHome.viewControllable),
             NavigationControllable(root: profileHome.viewControllable)
         ]
         

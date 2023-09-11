@@ -104,6 +104,10 @@ final class ProductSearchViewController: UIViewController,
                 switch itemIdentifier {
                 case .empty:
                     let cell: EmptyCell = collectionView.dequeueReusableCell(for: indexPath)
+                    cell.setText(
+                        titleText: EmptyCell.Text.Search.titleLabelText,
+                        subTitleText: EmptyCell.Text.Search.subtitleLabelText
+                    )
                     return cell
                 case let .item(product):
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)

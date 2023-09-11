@@ -33,6 +33,7 @@ final class ProductCell: UICollectionViewCell {
         static let eventTagImageviewRadius: CGFloat = 10
         static let cornerRadius: CGFloat = 16
         static let borderWidth: CGFloat = 1
+        static let myPickButtonSize: CGFloat = 20
     }
     
     private let viewHolder: ViewHolder = .init()
@@ -123,6 +124,13 @@ final class ProductCell: UICollectionViewCell {
             return label
         }()
         
+        let myPickButton: UIButton = {
+            let button = UIButton()
+            button.setImage(.myPick, for: .normal)
+            button.setImage(.myPickSelected, for: .selected)
+            return button
+        }()
+        
         // MARK: - Method
         func place(in view: UIView) {
             view.addSubview(stackView)
@@ -134,6 +142,7 @@ final class ProductCell: UICollectionViewCell {
             productImageContainerView.addSubview(itemImageView)
             productImageContainerView.addSubview(convenienceStoreTagImageView)
             productImageContainerView.addSubview(eventTagLabel)
+            productImageContainerView.addSubview(myPickButton)
             
             itemInfoContainerView.addSubview(itemInfoTopStackView)
             itemInfoContainerView.addSubview(priceContainerView)
@@ -176,6 +185,11 @@ final class ProductCell: UICollectionViewCell {
                 $0.height.equalTo(Size.eventTagImageViewHeight)
             }
             
+            myPickButton.snp.makeConstraints {
+                $0.size.equalTo(Size.myPickButtonSize)
+                $0.top.trailing.equalToSuperview().inset(.spacing12)
+            }
+            
             itemInfoContainerView.snp.makeConstraints {
                 $0.leading.equalTo(stackView)
             }
@@ -214,6 +228,7 @@ final class ProductCell: UICollectionViewCell {
         }
     }
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         configureUI()
@@ -224,14 +239,6 @@ final class ProductCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureUI() {
-        let attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .gray500)
-        viewHolder.discountPriceLabel.attributedText = attributedText
-        viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
-        makeRounded(with: Size.cornerRadius)
-        makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
     }
     
     func updateCell(with product: ProductConvertable?) {
@@ -263,6 +270,16 @@ final class ProductCell: UICollectionViewCell {
         hasEventType(product.eventType)
     }
     
+    // MARK: - Private Method
+    private func configureUI() {
+        let attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .gray500)
+        viewHolder.discountPriceLabel.attributedText = attributedText
+        viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
+        makeRounded(with: Size.cornerRadius)
+        makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
+        setMyPickButton(isVisible: false)
+    }
+    
     private func hasEventType(_ event: EventTag?) {
         if let eventName = event?.name, !eventName.isEmpty {
             viewHolder.eventTagLabel.isHidden = false
@@ -270,5 +287,9 @@ final class ProductCell: UICollectionViewCell {
         } else {
             viewHolder.eventTagLabel.isHidden = true
         }
+    }
+    
+    private func setMyPickButton(isVisible: Bool) {
+        viewHolder.myPickButton.isHidden = !isVisible
     }
 }
