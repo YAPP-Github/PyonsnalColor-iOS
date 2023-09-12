@@ -42,6 +42,13 @@ final class TitleNavigationView: UIView {
         return imageView
     }()
     
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .title1
+        label.textColor = .black
+        return label
+    }()
+    
     private let searchButton: UIButton = {
         let button = UIButton()
         button.setImage(.iconSearch, for: .normal)
@@ -128,5 +135,12 @@ final class TitleNavigationView: UIView {
     
     func showNotificationIndicator(hasNotification: Bool) {
         notificationIndicator.isHidden = hasNotification ? false : true
+    }
+    
+    func updateTitleLabel(with text: String) {
+        titleLabel.text = text
+        containerStackView.removeArrangedSubview(titleImageView)
+        titleImageView.removeFromSuperview()
+        containerStackView.insertArrangedSubview(titleLabel, at: 0)
     }
 }

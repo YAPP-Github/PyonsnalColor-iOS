@@ -229,6 +229,7 @@
 		F0DEAB9F2AAF410B00941A5F /* MyPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEAB9B2AAF410B00941A5F /* MyPickViewController.swift */; };
 		F0DEABA02AAF410B00941A5F /* MyPickBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEAB9C2AAF410B00941A5F /* MyPickBuilder.swift */; };
 		F0DEABA12AAF410B00941A5F /* MyPickInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEAB9D2AAF410B00941A5F /* MyPickInteractor.swift */; };
+		F0DEABB32AB0B47C00941A5F /* MyPickProductContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEABB22AB0B47C00941A5F /* MyPickProductContainerCell.swift */; };
 		F0DFBC942A595171003F7660 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFBC932A595171003F7660 /* MemberAPI.swift */; };
 		F0DFBC962A59622A003F7660 /* MemberAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFBC952A59622A003F7660 /* MemberAPIService.swift */; };
 		F0DFBC982A5966CD003F7660 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFBC972A5966CD003F7660 /* EmptyResponse.swift */; };
@@ -464,6 +465,7 @@
 		F0DEAB9B2AAF410B00941A5F /* MyPickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPickViewController.swift; sourceTree = "<group>"; };
 		F0DEAB9C2AAF410B00941A5F /* MyPickBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPickBuilder.swift; sourceTree = "<group>"; };
 		F0DEAB9D2AAF410B00941A5F /* MyPickInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPickInteractor.swift; sourceTree = "<group>"; };
+		F0DEABB22AB0B47C00941A5F /* MyPickProductContainerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPickProductContainerCell.swift; sourceTree = "<group>"; };
 		F0DFBC932A595171003F7660 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
 		F0DFBC952A59622A003F7660 /* MemberAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPIService.swift; sourceTree = "<group>"; };
 		F0DFBC972A5966CD003F7660 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
@@ -1240,6 +1242,7 @@
 				F0DEAB9B2AAF410B00941A5F /* MyPickViewController.swift */,
 				F0DEAB9C2AAF410B00941A5F /* MyPickBuilder.swift */,
 				F0DEAB9D2AAF410B00941A5F /* MyPickInteractor.swift */,
+				F0DEABB22AB0B47C00941A5F /* MyPickProductContainerCell.swift */,
 			);
 			path = MyPick;
 			sourceTree = "<group>";
@@ -1494,6 +1497,7 @@
 				F00352242A62BD9F00A66FF9 /* UserLoginStatusEntity.swift in Sources */,
 				B28A59272A6FCE9700431F39 /* ProductFilterSectionLayout.swift in Sources */,
 				B242590E2A5947E7006C5223 /* PageableEntity.swift in Sources */,
+				F0DEABB32AB0B47C00941A5F /* MyPickProductContainerCell.swift in Sources */,
 				F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */,
 				BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */,
 				BA18C0A02A758F87007D00BD /* BottomSheetPresentor.swift in Sources */,

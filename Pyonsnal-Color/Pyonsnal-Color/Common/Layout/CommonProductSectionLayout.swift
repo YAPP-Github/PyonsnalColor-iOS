@@ -167,4 +167,15 @@ extension CommonProductSectionLayout {
             return itemLayout()
         }
     }
+    
+    // For MyPick
+    func section(at type: MyPickProductContainerCell.SectionType) -> NSCollectionLayoutSection {
+        switch type {
+        case .product:
+            return itemLayout()
+        case .empty:
+            return emptyLayout()
+        }
+    }
+
 }
