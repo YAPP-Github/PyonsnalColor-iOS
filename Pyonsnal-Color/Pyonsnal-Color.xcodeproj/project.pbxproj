@@ -85,6 +85,11 @@
 		B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */; };
 		B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DD2A347995008199D8 /* RootTabBarComponent.swift */; };
 		B2F169E02A34D07F008199D8 /* CALayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169DF2A34D07F008199D8 /* CALayer+.swift */; };
+		B2F258162AAF03160022013E /* DetailReviewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F258122AAF03160022013E /* DetailReviewRouter.swift */; };
+		B2F258172AAF03160022013E /* DetailReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F258132AAF03160022013E /* DetailReviewViewController.swift */; };
+		B2F258182AAF03160022013E /* DetailReviewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F258142AAF03160022013E /* DetailReviewBuilder.swift */; };
+		B2F258192AAF03160022013E /* DetailReviewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F258152AAF03160022013E /* DetailReviewInteractor.swift */; };
+		B2F2581B2AAF03210022013E /* DetailReviewViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F2581A2AAF03210022013E /* DetailReviewViewHolder.swift */; };
 		BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B7352A46B83A00BB3795 /* CGFloat+.swift */; };
 		BA00B7392A46B8BF00BB3795 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B7382A46B8BF00BB3795 /* Spacing.swift */; };
 		BA00B73C2A46B98700BB3795 /* SnapKit+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B73B2A46B98700BB3795 /* SnapKit+.swift */; };
@@ -359,6 +364,11 @@
 		B2F169DB2A347303008199D8 /* RootTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarViewController.swift; sourceTree = "<group>"; };
 		B2F169DD2A347995008199D8 /* RootTabBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarComponent.swift; sourceTree = "<group>"; };
 		B2F169DF2A34D07F008199D8 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
+		B2F258122AAF03160022013E /* DetailReviewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewRouter.swift; sourceTree = "<group>"; };
+		B2F258132AAF03160022013E /* DetailReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewViewController.swift; sourceTree = "<group>"; };
+		B2F258142AAF03160022013E /* DetailReviewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewBuilder.swift; sourceTree = "<group>"; };
+		B2F258152AAF03160022013E /* DetailReviewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewInteractor.swift; sourceTree = "<group>"; };
+		B2F2581A2AAF03210022013E /* DetailReviewViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewViewHolder.swift; sourceTree = "<group>"; };
 		BA00B7352A46B83A00BB3795 /* CGFloat+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+.swift"; sourceTree = "<group>"; };
 		BA00B7382A46B8BF00BB3795 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		BA00B73B2A46B98700BB3795 /* SnapKit+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+.swift"; sourceTree = "<group>"; };
@@ -793,6 +803,18 @@
 			path = RootTabBar;
 			sourceTree = "<group>";
 		};
+		B2F258112AAF03000022013E /* DetailReview */ = {
+			isa = PBXGroup;
+			children = (
+				B2F258122AAF03160022013E /* DetailReviewRouter.swift */,
+				B2F258132AAF03160022013E /* DetailReviewViewController.swift */,
+				B2F258142AAF03160022013E /* DetailReviewBuilder.swift */,
+				B2F258152AAF03160022013E /* DetailReviewInteractor.swift */,
+				B2F2581A2AAF03210022013E /* DetailReviewViewHolder.swift */,
+			);
+			path = DetailReview;
+			sourceTree = "<group>";
+		};
 		BA00B7372A46B8A600BB3795 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
@@ -1070,6 +1092,7 @@
 		BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */ = {
 			isa = PBXGroup;
 			children = (
+				B2F258112AAF03000022013E /* DetailReview */,
 				F0DEAB992AAF40E300941A5F /* Favorite */,
 				B28A591D2A6FB29200431F39 /* ProductFilter */,
 				BA50FCFC2A680A8D00721782 /* ProductSearch */,
@@ -1676,6 +1699,7 @@
 				F0C6985F2A6ABDDD0019C677 /* Log.swift in Sources */,
 				BA87E3CC2A45C5A1000A9DEC /* ProductDetailRouter.swift in Sources */,
 				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
+				B2F2581B2AAF03210022013E /* DetailReviewViewHolder.swift in Sources */,
 				BAE984492AACFFFF00ED22CB /* ProductDetailReviewWriteCell.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				B28A59152A6E991100431F39 /* CurationFooterView.swift in Sources */,
@@ -1733,6 +1757,7 @@
 				F097EF362A571DD300A7FB9C /* CommonWebBuilder.swift in Sources */,
 				F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */,
 				B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */,
+				B2F258172AAF03160022013E /* DetailReviewViewController.swift in Sources */,
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
 				B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */,
 				B24F1D4E2A4C5F2F00AA03DC /* NotificationCell.swift in Sources */,
@@ -1793,6 +1818,7 @@
 				B2F169DC2A347303008199D8 /* RootTabBarViewController.swift in Sources */,
 				BAE2522C2AC6DC1900405DEC /* ReviewValueForMoneyEvaluation.swift in Sources */,
 				F0D6FFA92A39F86E00C55E27 /* NSMutableAttributedString+.swift in Sources */,
+				B2F258162AAF03160022013E /* DetailReviewRouter.swift in Sources */,
 				B282050D2A34700300F9242F /* EventHomeInteractor.swift in Sources */,
 				BAE2522A2AC6DC0600405DEC /* ReviewQualityEvaluation.swift in Sources */,
 				B28A591B2A6E9F3D00431F39 /* CurationImageCell.swift in Sources */,
@@ -1808,6 +1834,7 @@
 				B2EFFAB92ACBF63D007AF2EE /* StarView.swift in Sources */,
 				BA8924542A582ED200D1B097 /* EventTagBigView.swift in Sources */,
 				BA8924582A583AD400D1B097 /* ImageAssetKind+Icon.swift in Sources */,
+				B2F258192AAF03160022013E /* DetailReviewInteractor.swift in Sources */,
 				F0A8A3B02A70053D00601DAE /* FilterType.swift in Sources */,
 				BA87E3D72A45D40A000A9DEC /* GiftInformationView.swift in Sources */,
 				F0B90DCC2ADD2167005DE34A /* FavoritePageViewController.swift in Sources */,
@@ -1866,6 +1893,7 @@
 				F0B6E6C72AB8A2DB00AA7006 /* ProductCell+ViewHolder.swift in Sources */,
 				F040E9D32A6D8E8800DF0C4A /* RefreshFilterCell.swift in Sources */,
 				F097EF2A2A5717B900A7FB9C /* SubTerms.swift in Sources */,
+				B2F258182AAF03160022013E /* DetailReviewBuilder.swift in Sources */,
 				B27349E02A5AC7F900B97E59 /* EventBannerEntity.swift in Sources */,
 				F0DEAB9F2AAF410B00941A5F /* FavoriteViewController.swift in Sources */,
 				BA8322652AB7890000D2E1EB /* ProductDetailSectionModel.swift in Sources */,
