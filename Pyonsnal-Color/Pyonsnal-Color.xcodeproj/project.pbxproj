@@ -90,6 +90,7 @@
 		B2F258182AAF03160022013E /* DetailReviewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F258142AAF03160022013E /* DetailReviewBuilder.swift */; };
 		B2F258192AAF03160022013E /* DetailReviewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F258152AAF03160022013E /* DetailReviewInteractor.swift */; };
 		B2F2581B2AAF03210022013E /* DetailReviewViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F2581A2AAF03210022013E /* DetailReviewViewHolder.swift */; };
+		B2F2581E2AB1963F0022013E /* SingleLineReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F2581D2AB1963F0022013E /* SingleLineReview.swift */; };
 		BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B7352A46B83A00BB3795 /* CGFloat+.swift */; };
 		BA00B7392A46B8BF00BB3795 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B7382A46B8BF00BB3795 /* Spacing.swift */; };
 		BA00B73C2A46B98700BB3795 /* SnapKit+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B73B2A46B98700BB3795 /* SnapKit+.swift */; };
@@ -369,6 +370,7 @@
 		B2F258142AAF03160022013E /* DetailReviewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewBuilder.swift; sourceTree = "<group>"; };
 		B2F258152AAF03160022013E /* DetailReviewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewInteractor.swift; sourceTree = "<group>"; };
 		B2F2581A2AAF03210022013E /* DetailReviewViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewViewHolder.swift; sourceTree = "<group>"; };
+		B2F2581D2AB1963F0022013E /* SingleLineReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLineReview.swift; sourceTree = "<group>"; };
 		BA00B7352A46B83A00BB3795 /* CGFloat+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+.swift"; sourceTree = "<group>"; };
 		BA00B7382A46B8BF00BB3795 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		BA00B73B2A46B98700BB3795 /* SnapKit+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+.swift"; sourceTree = "<group>"; };
@@ -806,6 +808,7 @@
 		B2F258112AAF03000022013E /* DetailReview */ = {
 			isa = PBXGroup;
 			children = (
+				B2F2581C2AB196270022013E /* Views */,
 				B2F258122AAF03160022013E /* DetailReviewRouter.swift */,
 				B2F258132AAF03160022013E /* DetailReviewViewController.swift */,
 				B2F258142AAF03160022013E /* DetailReviewBuilder.swift */,
@@ -813,6 +816,14 @@
 				B2F2581A2AAF03210022013E /* DetailReviewViewHolder.swift */,
 			);
 			path = DetailReview;
+			sourceTree = "<group>";
+		};
+		B2F2581C2AB196270022013E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B2F2581D2AB1963F0022013E /* SingleLineReview.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		BA00B7372A46B8A600BB3795 /* DesignSystem */ = {
@@ -1759,6 +1770,7 @@
 				B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */,
 				B2F258172AAF03160022013E /* DetailReviewViewController.swift in Sources */,
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
+				B2F2581E2AB1963F0022013E /* SingleLineReview.swift in Sources */,
 				B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */,
 				B24F1D4E2A4C5F2F00AA03DC /* NotificationCell.swift in Sources */,
 				BAE9843F2AACFBFB00ED22CB /* ProductDetailImageCell.swift in Sources */,
