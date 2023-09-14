@@ -11,16 +11,11 @@ import SnapKit
 final class SingleLineReview: UIView {
     private let viewHolder = ViewHolder()
     
-    convenience init(title: String, first: String, second: String, third: String) {
+    convenience init() {
         self.init(frame: .zero)
         
         viewHolder.place(in: self)
         viewHolder.configureConstraints(for: self)
-        viewHolder.titleLabel.text = title
-        viewHolder.firstReviewButton.setTitle(first, for: .normal)
-        viewHolder.secondReviewButton.setTitle(second, for: .normal)
-        viewHolder.thirdReviewButton.setTitle(third, for: .normal)
-        
         configureButtonAction()
         configureButtonTag()
     }
@@ -55,6 +50,13 @@ final class SingleLineReview: UIView {
         button.setTitleColor(.gray400, for: .normal)
         button.backgroundColor = .white
         button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+    }
+    
+    func configureReviewTitle(title: String, first: String, second: String, third: String) {
+        viewHolder.titleLabel.text = title
+        viewHolder.firstReviewButton.setTitle(first, for: .normal)
+        viewHolder.secondReviewButton.setTitle(second, for: .normal)
+        viewHolder.thirdReviewButton.setTitle(third, for: .normal)
     }
     
     func didSelectReviewButton(_ sender: UIButton) {
