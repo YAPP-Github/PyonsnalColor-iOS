@@ -8,5 +8,6 @@
 import Foundation
 
 enum ProductType: String, Decodable {
-    case pb, event
+    case pb = "PB"
+    case event = "EVENT"
 }
