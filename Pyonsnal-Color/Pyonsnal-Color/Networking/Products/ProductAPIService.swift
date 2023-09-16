@@ -76,4 +76,26 @@ final class ProductAPIService {
     func requestFilter() -> AnyPublisher<DataResponse<FilterDataEntity, NetworkError>, Never> {
         return client.request(ProductAPI.filter, model: FilterDataEntity.self)
     }
+    
+    func requestBrandProductFavorite(
+        pageNumber: Int,
+        pageSize: Int
+    ) -> AnyPublisher<DataResponse<ProductPageEntity<BrandProductEntity>, NetworkError>, Never> {
+        return client.request(
+            ProductAPI.brandProductFavorite(pageNumber: pageNumber, pageSize: pageSize),
+            model: ProductPageEntity.self
+        )
+    }
+    
+    func requestEventProductFavorite(
+        pageNumber: Int,
+        pageSize: Int
+    ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
+        return client.request(
+            ProductAPI.eventProductFavorite(pageNumber: pageNumber, pageSize: pageSize),
+            model: ProductPageEntity.self
+        )
+    }
+
+    
 }

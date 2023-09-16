@@ -16,6 +16,7 @@ struct EventProductEntity: Decodable, ProductConvertable, Hashable {
     let price: String
     let originalPrice: String?
     let eventType: EventTag?
+    let productType: ProductType
     let description: String?
     let giftItem: String?
     let isNew: Bool?
@@ -29,6 +30,7 @@ struct EventProductEntity: Decodable, ProductConvertable, Hashable {
         case price
         case originalPrice = "originPrice"
         case eventType
+        case productType
         case description
         case giftItem = "giftImage"
         case isNew

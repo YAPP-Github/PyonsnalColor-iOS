@@ -31,6 +31,8 @@ enum ProductAPI: NetworkRequestBuilder {
     )
     case curationProduct
     case filter
+    case brandProductFavorite(pageNumber: Int, pageSize: Int)
+    case eventProductFavorite(pageNumber: Int, pageSize: Int)
 }
 
 extension ProductAPI {
@@ -39,7 +41,7 @@ extension ProductAPI {
     
     var method: HTTPMethod {
         switch self {
-        case .eventBanner, .search, .filter, .curationProduct:
+        case .eventBanner, .search, .filter, .curationProduct, .brandProductFavorite, .eventProductFavorite:
             return .get
         case .brandProduct, .eventProduct:
             return .post
@@ -60,6 +62,10 @@ extension ProductAPI {
             return "/products/meta-data"
         case .curationProduct:
             return "products/curation"
+        case .brandProductFavorite:
+            return "/products/pb-products"
+        case .eventProductFavorite:
+            return "/products/event-products"
         }
     }
     
@@ -99,6 +105,12 @@ extension ProductAPI {
             break
         case .filter:
             return nil
+        case let .brandProductFavorite(pageNumber, pageSize):
+            queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
+            queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
+        case let .eventProductFavorite(pageNumber, pageSize):
+            queryItems.append(URLQueryItem(name: "pageNumber", value: "\(pageNumber)"))
+            queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
         }
         
         return queryItems

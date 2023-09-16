@@ -16,6 +16,7 @@ struct BrandProductEntity: Decodable, ProductConvertable, Hashable {
     let price: String
     let description: String?
     let eventType: EventTag?
+    let productType: ProductType
     let isNew: Bool?
     
     private enum CodingKeys: String, CodingKey {
@@ -27,6 +28,7 @@ struct BrandProductEntity: Decodable, ProductConvertable, Hashable {
         case price
         case description
         case eventType
+        case productType
         case isNew
     }
 }
