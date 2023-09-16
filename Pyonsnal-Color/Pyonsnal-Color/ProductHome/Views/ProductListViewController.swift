@@ -14,7 +14,6 @@ final class ProductListViewController: UIViewController {
     
     enum Constant {
         enum Size {
-            static let spacing: CGFloat = 16
             static let productCellHeight: CGFloat = 235
             static let headerViewHeight: CGFloat = 22
             static let spacingCount: CGFloat = 3
@@ -36,16 +35,14 @@ final class ProductListViewController: UIViewController {
         case item(data: BrandProductEntity?)
     }
     
-    //MARK: - Private Property
+    // MARK: - Private Property
     private(set) var dataSource: DataSource?
     weak var scrollDelegate: ScrollDelegate?
     weak var listDelegate: ProductListDelegate?
     weak var delegate: ProductListDelegate?
     private let refreshControl: UIRefreshControl = .init()
     let convenienceStore: ConvenienceStore
-    
-    private var filterStateManager: FilterStateManager?
-    
+        
     // MARK: - View Component
     lazy var productCollectionView: UICollectionView = {
         let layout = createLayout()
@@ -84,17 +81,6 @@ final class ProductListViewController: UIViewController {
         productCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        productCollectionView.contentInset = UIEdgeInsets(
-            top: Constant.Size.spacing,
-            left: 0,
-            bottom: 0,
-            right: 0
-        )
-    }
-    
-    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
-        filterStateManager = FilterStateManager(filterDataEntity: filterDataEntity)
     }
     
     // MARK: - Private Method
@@ -196,24 +182,18 @@ final class ProductListViewController: UIViewController {
     func applySnapshot(with products: [BrandProductEntity]?) {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
-        guard var snapshot = dataSource?.snapshot(),
-              let products
-        else {
-            return
-        }
+        guard var snapshot = dataSource?.snapshot(), let products else { return }
         
         let productItems = products.map { product in
             return ItemType.item(data: product)
         }
         
         snapshot.appendItems(productItems, toSection: itemSectionType)
-        Log.d(message: "first \(productItems.first)")
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     func updateSnapshot(with products: [BrandProductEntity]?) {
         productCollectionView.isScrollEnabled = true
-        scrollCollectionViewToTop()
         let itemSectionType = SectionType.product(type: .item)
         let emtpySectionType = SectionType.product(type: .empty)
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
@@ -234,7 +214,6 @@ final class ProductListViewController: UIViewController {
         
         if !productItems.isEmpty {
             snapshot.appendItems(productItems, toSection: itemSectionType)
-            Log.d(message: "first \(productItems.first)")
         }
         
         dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
@@ -242,17 +221,22 @@ final class ProductListViewController: UIViewController {
         }
     }
     
-    func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]) {
+    func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]?) {
         guard var snapshot = dataSource?.snapshot() else { return }
         
         // TO DO : section delete 하지 않고 추가하는 방법
         snapshot.deleteSections([.keywordFilter])
         // append keywordFilter
-        if !keywordItems.isEmpty {
+        if let keywordItems,
+           !keywordItems.isEmpty {
             let productSection: SectionType = .product(type: .item)
             let emtptySection: SectionType = .product(type: .empty)
-            let beforeSection: SectionType = snapshot.sectionIdentifiers.contains(productSection) ? productSection : emtptySection
-            snapshot.insertSections([.keywordFilter], beforeSection: beforeSection)
+            if !snapshot.sectionIdentifiers.isEmpty {
+                let beforeSection: SectionType = snapshot.sectionIdentifiers.contains(productSection) ? productSection : emtptySection
+                snapshot.insertSections([.keywordFilter], beforeSection: beforeSection)
+            } else {
+                snapshot.appendSections([.keywordFilter])
+            }
             let items = keywordItems.map {
                 return ItemType.keywordFilter(data: $0)
             }
@@ -264,8 +248,8 @@ final class ProductListViewController: UIViewController {
     
     func scrollCollectionViewToTop() {
         productCollectionView.setContentOffset(
-            .init(x: 0, y: Spacing.spacing16.negative.value),
-            animated: true
+            .init(x: 0, y: 0),
+            animated: false
         )
     }
     
@@ -275,8 +259,7 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl?.beginRefreshing()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let filterList = self.getFilterList()
-            self.delegate?.refreshByPull(with: filterList)
+            self.delegate?.refreshByPull()
             self.productCollectionView.refreshControl?.endRefreshing()
         }
     }
@@ -306,8 +289,7 @@ extension ProductListViewController: UICollectionViewDelegate {
 // MARK: - KeywordFilterCellDelegate
 extension ProductListViewController: KeywordFilterCellDelegate {
     func didTapDeleteButton(filter: FilterItemEntity) {
-        // 현재 선택된 filter에서 삭제
-        delegate?.updateFilterState(with: filter, isSelected: false)
+        delegate?.deleteKeywordFilter(filter)
     }
 }
 
@@ -315,61 +297,5 @@ extension ProductListViewController: KeywordFilterCellDelegate {
 extension ProductListViewController: EmptyProductCellDelegate {
     func didTapRefreshFilterButton() {
         delegate?.refreshFilterButton()
-    }
-}
-
-extension ProductListViewController {
-    func resetFilterItemState() {
-        filterStateManager?.updateAllFilterItemState(to: false)
-    }
-    
-    func needToShowRefreshCell() -> Bool {
-        let isFilterDataResetState = filterStateManager?.isFilterDataResetState() ?? false
-        return !isFilterDataResetState
-    }
-    
-    func initializeFilterState() {
-        filterStateManager?.setLastSortFilterSelected()
-        filterStateManager?.setFilterDefatultText()
-    }
-    
-    func updateSortFilterDefaultText() {
-        filterStateManager?.setSortFilterDefaultText()
-    }
-    
-    func getFilterDataEntity() -> FilterDataEntity? {
-        return filterStateManager?.getFilterDataEntity()
-    }
-    
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
-        filterStateManager?.updateFilterItemState(target: filter, to: isSelected)
-    }
-    
-    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
-        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
-    }
-    
-    func updateSortFilterState(with filter: FilterItemEntity) {
-        filterStateManager?.updateSortFilterState(target: filter)
-    }
-    
-    func appendFilterList(with filter: [String], type: FilterType) {
-        filterStateManager?.appendFilterList(filters: filter, type: type)
-    }
-    
-    func getFilterList() -> [String] {
-        return filterStateManager?.getFilterList() ?? []
-    }
-    
-    func deleteFilterCode(at filterCode: String) {
-        filterStateManager?.deleteFilterList(filterCode: filterCode)
-    }
-    
-    func deleteAllFilterCode() {
-        filterStateManager?.deleteAllFilterList()
-    }
-    
-    func getKeywordList() -> [FilterItemEntity] {
-        filterStateManager?.getCurrentSelectedFitlers() ?? []
     }
 }

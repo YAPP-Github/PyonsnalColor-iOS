@@ -23,13 +23,11 @@ protocol EventHomePresentable: Presentable {
     var listener: EventHomePresentableListener? { get set }
     
     func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore)
-    func update(with products: [EventProductEntity], banners: [EventBannerEntity], at store: ConvenienceStore)
-    func updateFilter(with filters: FilterDataEntity)
+    func update(with products: [EventProductEntity], banners: [EventBannerEntity], filterDataEntity: FilterDataEntity?, at store: ConvenienceStore)
+    func updateFilter()
     func didStartPaging()
     func didFinishPaging()
     func requestInitialProduct()
-    func updateFilterItems(with items: [FilterItemEntity], filterType: FilterType)
-    func updateSortFilter(item: FilterItemEntity)
 }
 
 protocol EventHomeListener: AnyObject {
@@ -39,11 +37,30 @@ final class EventHomeInteractor:
     PresentableInteractor<EventHomePresentable>,
     EventHomeInteractable,
     EventHomePresentableListener {
+    
+    var filterDataEntity: FilterDataEntity? {
+        return filterStateManager?.getFilterDataEntity()
+    }
+    
+    var selectedFilterCodeList: [Int] {
+        return filterStateManager?.getFilterList() ?? []
+    }
+    
+    var selectedFilterKeywordList: [FilterItemEntity]? {
+        return filterStateManager?.getSelectedKeywordFilterList()
+    }
+    
+    var isNeedToShowRefreshFilterCell: Bool {
+        let isResetFilterState = filterStateManager?.isFilterDataResetState() ?? false
+        return !isResetFilterState
+    }
 
     weak var router: EventHomeRouting?
     weak var listener: EventHomeListener?
     
-    private var dependency: EventHomeDependency?
+    private let dependency: EventHomeDependency
+    var filterStateManager: FilterStateManager?
+    
     private var cancellable = Set<AnyCancellable>()
     private let initialPage: Int = 0
     private let initialCount: Int = 20
@@ -68,9 +85,9 @@ final class EventHomeInteractor:
         super.willResignActive()
     }
     
-    private func requestProducts(pageNumber: Int, store: ConvenienceStore, filterList: [String]) {
+    private func requestProducts(pageNumber: Int, store: ConvenienceStore, filterList: [Int]) {
         storeLastPages[store] = pageNumber
-        dependency?.productAPIService.requestEventProduct(
+        dependency.productAPIService.requestEventProduct(
             pageNumber: pageNumber,
             pageSize: productPerPage,
             storeType: store,
@@ -83,17 +100,15 @@ final class EventHomeInteractor:
         }.store(in: &cancellable)
     }
     
-    private func requestProductWithBanners(store: ConvenienceStore, filterList: [String]) {
+    private func requestProductWithBanners(store: ConvenienceStore, filterList: [Int]) {
         storeLastPages[store] = initialPage
-        let eventPublisher = dependency?.productAPIService.requestEventBanner(storeType: store)
-        let productPublisher = dependency?.productAPIService.requestEventProduct(
+        let eventPublisher = dependency.productAPIService.requestEventBanner(storeType: store)
+        let productPublisher = dependency.productAPIService.requestEventProduct(
             pageNumber: initialPage,
             pageSize: initialCount,
             storeType: store,
             filterList: filterList
         )
-        guard let eventPublisher,
-              let productPublisher else { return }
         
         eventPublisher
             .combineLatest(productPublisher)
@@ -102,17 +117,26 @@ final class EventHomeInteractor:
                 
                 if let event = event.value,
                    let product = product.value?.content {
-                    self?.presenter.update(with: product, banners: event, at: store)
+                    self?.presenter.update(
+                        with: product,
+                        banners: event,
+                        filterDataEntity: self?.filterDataEntity,
+                        at: store
+                    )
                     self?.presenter.didFinishPaging()
             }
         }.store(in: &cancellable)
     }
     
     private func requestFilter() {
-        dependency?.productAPIService.requestFilter()
+        dependency.productAPIService.requestFilter()
             .sink { [weak self] response in
                 if let filter = response.value {
-                    self?.presenter.updateFilter(with: filter)
+                    // 이벤트 탭에서는 상품 추천 filterType 제외
+                    let filters = filter.data.filter { $0.filterType != .recommend }
+                    let filterDataEntity = FilterDataEntity(data: filters)
+                    self?.filterStateManager = FilterStateManager(filterDataEntity: filterDataEntity)
+                    self?.presenter.updateFilter()
                 }
             }.store(in: &cancellable)
     }
@@ -133,24 +157,14 @@ final class EventHomeInteractor:
         router?.detachEventDetail()
     }
     
-    func didLoadEventHome(with store: ConvenienceStore) {
-        requestProductWithBanners(store: store, filterList: [])
+    func didLoadEventHome() {
+        if let store = ConvenienceStore.allCases.first {
+            requestProductWithBanners(store: store, filterList: [])
+        }
         requestFilter()
     }
     
-    func didSelect(with brandProduct: ProductConvertable) {
-        router?.attachProductDetail(with: brandProduct)
-    }
-    
-    func popProductDetail() {
-        router?.detachProductDetail()
-    }
-    
-    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
-        requestProductWithBanners(store: store, filterList: filterList)
-    }
-    
-    func didScrollToNextPage(store: ConvenienceStore, filterList: [String]) {
+    func didScrollToNextPage(store: ConvenienceStore, filterList: [Int]) {
         if let lastPage = storeLastPages[store], let totalPage = storeTotalPages[store] {
             let nextPage = lastPage + 1
             
@@ -161,10 +175,28 @@ final class EventHomeInteractor:
         }
     }
     
-    func didSelectFilter(of filter: FilterEntity?) {
-        guard let filter else { return }
-        
-        router?.attachProductFilter(of: filter)
+    func didSelect(with brandProduct: ProductConvertable) {
+        router?.attachProductDetail(with: brandProduct)
+    }
+    
+    func popProductDetail() {
+        router?.detachProductDetail()
+    }
+    
+    func didTapRefreshFilterCell() {
+        self.resetFilterState()
+        ConvenienceStore.allCases.forEach { store in
+            requestProductWithBanners(store: store, filterList: selectedFilterCodeList)
+        }
+    }
+    
+    func didChangeStore(to store: ConvenienceStore) {
+        requestProductWithBanners(store: store, filterList: selectedFilterCodeList)
+    }
+    
+    func didSelectFilter(_ filterEntity: FilterEntity?) {
+        guard let filterEntity else { return }
+        router?.attachProductFilter(of: filterEntity)
     }
     
     func productFilterDidTapCloseButton() {
@@ -173,20 +205,47 @@ final class EventHomeInteractor:
     
     func applyFilterItems(_ items: [FilterItemEntity], type: FilterType) {
         router?.detachProductFilter()
-        presenter.updateFilterItems(with: items, filterType: type)
+        self.updateFiltersState(with: items, type: type)
+        self.requestwithUpdatedKeywordFilter()
     }
     
-    func applySortFilter(type: FilterItemEntity) {
+    func applySortFilter(item: FilterItemEntity) {
         router?.detachProductFilter()
-        presenter.updateSortFilter(item: type)
+        let filterCodeList = [item.code]
+        filterStateManager?.appendFilterCodeList(filterCodeList, type: .sort)
+        filterStateManager?.updateSortFilterState(for: item)
+        filterStateManager?.setSortFilterDefaultText()
+        self.requestwithUpdatedKeywordFilter()
     }
     
-    func didTapRefreshFilterCell(with store: ConvenienceStore) {
-        requestProductWithBanners(store: store, filterList: [])
-    }
-    
-    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String]) {
+    func requestwithUpdatedKeywordFilter() {
         presenter.requestInitialProduct()
-        requestProductWithBanners(store: store, filterList: filterList)
+        // 전체 편의점 데이터를 다 업데이트 한다.
+        ConvenienceStore.allCases.forEach { store in
+            requestProductWithBanners(store: store, filterList: selectedFilterCodeList)
+        }
+    }
+    
+    func initializeFilterState() {
+        filterStateManager?.setLastSortFilterSelected()
+        filterStateManager?.setFilterDefatultText()
+    }
+    
+    func updateFiltersState(with filters: [FilterItemEntity], type: FilterType) {
+        let filterCodeList = filters.map { $0.code }
+        filterStateManager?.appendFilterCodeList(filterCodeList, type: type)
+        filterStateManager?.updateFiltersItemState(filters: filters, type: type)
+    }
+    
+    func deleteKeywordFilter(_ filter: FilterItemEntity) {
+        filterStateManager?.updateFilterItemState(target: filter, to: false)
+        filterStateManager?.deleteFilterCodeList(filterCode: filter.code)
+        self.requestwithUpdatedKeywordFilter()
+    }
+    
+    func resetFilterState() {
+        filterStateManager?.updateAllFilterItemState(to: false)
+        filterStateManager?.deleteAllFilterList()
+        filterStateManager?.setSortFilterDefaultText()
     }
 }

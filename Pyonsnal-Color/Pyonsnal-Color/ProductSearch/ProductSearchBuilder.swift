@@ -8,15 +8,13 @@
 import ModernRIBs
 
 protocol ProductSearchDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
     var productAPIService: ProductAPIService { get }
 }
 
 final class ProductSearchComponent: Component<ProductSearchDependency>,
                                     ProductSearchSortBottomSheetDependency,
                                     ProductFilterDependency {
-
+    
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 

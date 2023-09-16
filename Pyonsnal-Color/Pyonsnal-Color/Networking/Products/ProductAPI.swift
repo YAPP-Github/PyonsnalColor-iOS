@@ -14,13 +14,13 @@ enum ProductAPI: NetworkRequestBuilder {
         pageNumber: Int,
         pageSize: Int,
         storeType: ConvenienceStore,
-        filterList: [String]
+        filterList: [Int]
     )
     case eventProduct(
         pageNumber: Int,
         pageSize: Int,
         storeType: ConvenienceStore,
-        filterList: [String]
+        filterList: [Int]
     )
     case eventBanner(storeType: ConvenienceStore)
     case search(

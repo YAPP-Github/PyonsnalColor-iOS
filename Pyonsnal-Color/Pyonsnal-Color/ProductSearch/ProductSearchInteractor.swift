@@ -218,8 +218,8 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
         
     }
     
-    func applySortFilter(type: FilterItemEntity) {
-        requestSort(filterItem: type)
+    func applySortFilter(item: FilterItemEntity) {
+        requestSort(filterItem: item)
         router?.detachProductFilter()
     }
 }

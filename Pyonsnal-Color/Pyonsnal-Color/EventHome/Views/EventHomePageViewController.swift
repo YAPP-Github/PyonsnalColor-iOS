@@ -7,15 +7,8 @@
 
 import UIKit
 
-protocol EventHomePageViewControllerDelegate: AnyObject {
-    func updateSelectedStoreCell(index: Int)
+protocol EventHomePageViewControllerDelegate: CommonProductPageViewControllerRenderable {
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore)
-    func didChangeStore(to store: ConvenienceStore, filterList: [String])
-    func didSelect(with brandProduct: ProductConvertable)
-    
-    func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool)
-    func refreshFilterButton()
-    func didFinishUpdateSnapshot()
 }
 
 final class EventHomePageViewController: UIPageViewController {
@@ -37,7 +30,6 @@ final class EventHomePageViewController: UIPageViewController {
     private func setPageViewControllers() {
         view.backgroundColor = .gray100
         for store in ConvenienceStore.allCases {
-            if store == .all { continue }
             let viewController = EventHomeTabViewController(convenienceStore: store)
             viewController.scrollDelegate = self
             viewController.delegate = self
@@ -53,16 +45,7 @@ final class EventHomePageViewController: UIPageViewController {
                                animated: true)
         }
     }
-    
-    func setFilterStateManager(with filterDataEntity: FilterDataEntity) {
-        // 이벤트 탭에서는 상품 추천 filterType 제외
-        let eventFilterEntity = filterDataEntity.data.filter { $0.filterType != .recommend }
-        let eventFilterDataEntity = FilterDataEntity(data: eventFilterEntity)
-        pageViewControllers.forEach { tabViewController in
-            tabViewController.setFilterStateManager(with: eventFilterDataEntity)
-        }
-    }
-    
+
     func updatePage(_ index: Int) {
         let viewController = pageViewControllers[index]
         let direction: UIPageViewController.NavigationDirection = currentIndex <= index ? .forward : .reverse
@@ -145,21 +128,20 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
         pageDelegate?.didTapEventBannerCell(with: imageURL, store: store)
     }
     
-    func didTapFilterDeleteButton(with filter: FilterItemEntity) {
-        pageDelegate?.deleteFilterItem(with: filter, isSelected: false)
+    func deleteKeywordFilter(_ filter: FilterItemEntity) {
+        pageDelegate?.deleteKeywordFilter(filter)
     }
 }
 
 extension EventHomePageViewController: ProductListDelegate {
     
     func didLoadPageList(store: ConvenienceStore) {
-        pageDelegate?.didChangeStore(to: store, filterList: [])
+        pageDelegate?.didChangeStore(to: store)
     }
     
-    func refreshByPull(with filterList: [String]) {
+    func refreshByPull() {
         pageDelegate?.didChangeStore(
-            to: ConvenienceStore.allCases[currentIndex],
-            filterList: filterList
+            to: ConvenienceStore.allCases[currentIndex]
         )
     }
     
@@ -168,12 +150,8 @@ extension EventHomePageViewController: ProductListDelegate {
         pageDelegate?.didSelect(with: brandProduct)
     }
     
-    func updateFilterState(with filter: FilterItemEntity, isSelected: Bool) {
-        pageDelegate?.deleteFilterItem(with: filter, isSelected: isSelected)
-    }
-    
     func refreshFilterButton() {
-        pageDelegate?.refreshFilterButton()
+        pageDelegate?.didTapRefreshFilterButton()
     }
     
     func didAppearProductList() {

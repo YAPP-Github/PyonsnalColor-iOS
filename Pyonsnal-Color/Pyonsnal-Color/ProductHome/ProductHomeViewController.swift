@@ -8,15 +8,12 @@
 import ModernRIBs
 import UIKit
 
-protocol ProductHomePresentableListener: AnyObject {
-    func didChangeStore(to store: ConvenienceStore, filterList: [String])
+protocol ProductHomePresentableListener: AnyObject, FilterRenderable {
+    func didChangeStore(to store: ConvenienceStore)
     func didTapSearchButton()
     func didTapNotificationButton()
-    func didScrollToNextPage(store: ConvenienceStore, filterList: [String])
+    func didScrollToNextPage(store: ConvenienceStore?, filterList: [Int])
     func didSelect(with brandProduct: ProductConvertable?)
-    func didSelectFilter(ofType filterEntity: FilterEntity?)
-    func didTapRefreshFilterCell(with store: ConvenienceStore)
-    func requestwithUpdatedKeywordFilter(with store: ConvenienceStore, filterList: [String])
 }
 
 final class ProductHomeViewController:
@@ -43,7 +40,6 @@ final class ProductHomeViewController:
     private var innerScrollLastOffsetY: CGFloat = 0
     private var isPaging: Bool = false
     private var isRequestingInitialProducts: Bool = false
-    private var currentPage: Int = 0
     private var currentConvenienceStore: ConvenienceStore?
     
     // MARK: - Initializer
@@ -67,7 +63,6 @@ final class ProductHomeViewController:
         configureDataSource()
         initialStoreSnapshot()
         configureProductCollectionView()
-        configureNotificationButton()
         configureNotificationButton()
     }
     
@@ -136,11 +131,8 @@ final class ProductHomeViewController:
         
         if !filters.data.isEmpty {
             snapshot.appendSections([.filter])
-            guard let filters = updatedSortFilterState(with: filters) else {
-                return
-            }
             
-            if needToShowRefreshCell() {
+            if listener?.isNeedToShowRefreshFilterCell ?? false {
                 let refreshItem = FilterCellItem(filterUseType: .refresh, filter: nil)
                 let refreshItems = [FilterItem.filter(filterItem: refreshItem)]
                 snapshot.appendItems(refreshItems)
@@ -154,31 +146,6 @@ final class ProductHomeViewController:
         }
         
         filterDataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
-    // TO DO : 로직 리팩토링
-    private func updatedSortFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
-        // 첫 정렬인지 체크
-        if filters.data.first(where: { $0.filterType == .sort })?.defaultText == nil {
-            return initializeFilterState(with: filters)
-        }
-        return updateSortFilterDefaultText(with: filters)
-    }
-    
-    private func initializeFilterState(with filters: FilterDataEntity) -> FilterDataEntity? {
-        guard let currentListViewController = currentListViewController() else { return nil }
-        currentListViewController.initializeFilterState()
-        return currentListViewController.getFilterDataEntity()
-    }
-    
-    private func updateSortFilterDefaultText(with filters: FilterDataEntity) -> FilterDataEntity? {
-        guard let currentListViewController = currentListViewController() else { return nil }
-        currentListViewController.updateSortFilterDefaultText()
-        return currentListViewController.getFilterDataEntity()
-    }
-
-    func makeFilterCellItem() -> [FilterCellItem] {
-        return []//FilterDummy.data.data.map { FilterCellItem(filter: $0) }
     }
     
     private func setSelectedConvenienceStoreCell(with indexPath: IndexPath) {
@@ -204,13 +171,10 @@ final class ProductHomeViewController:
     }
     
     private func configureCollectionView() {
-        viewHolder.collectionView.bounces = false
-        viewHolder.filterCollectionView.bounces = false
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.register(ConvenienceStoreCell.self)
         viewHolder.collectionView.collectionViewLayout = createStoreLayout()
     }
-    
     
     private func configureFilterCollectionView() {
         viewHolder.filterCollectionView.delegate = self
@@ -249,8 +213,8 @@ final class ProductHomeViewController:
         viewHolder.productHomePageViewController.scrollDelegate = self
     }
     
-    private func requestProducts(store: ConvenienceStore, filterList: [String]) {
-        listener?.didChangeStore(to: store, filterList: filterList)
+    private func requestProducts(store: ConvenienceStore) {
+        listener?.didChangeStore(to: store)
     }
     
     private func configureNotificationButton() {
@@ -288,28 +252,35 @@ final class ProductHomeViewController:
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
             self.currentConvenienceStore = store
             let pageViewController = viewHolder.productHomePageViewController
+            let storeIndex = storeIndex + 1 // curation index
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.applySnapshot(with: products)
             }
         }
     }
     
-    func replaceProducts(with products: [BrandProductEntity], at store: ConvenienceStore) {
+    func replaceProducts(
+        with products: [BrandProductEntity],
+        filterDataEntity: FilterDataEntity?,
+        at store: ConvenienceStore
+    ) {
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
             self.currentConvenienceStore = store
             let pageViewController = viewHolder.productHomePageViewController
+            let storeIndex = storeIndex + 1
             if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
                 viewController.updateSnapshot(with: products)
-                let keywordItems = viewController.getKeywordList()
-                viewController.applyKeywordFilterSnapshot(with: keywordItems)
+                applyFilterSnapshot(with: filterDataEntity)
+                let filterKeywordList = listener?.selectedFilterKeywordList
+                viewController.applyKeywordFilterSnapshot(with: filterKeywordList)
             }
         }
     }
     
-    func updateFilter(with filters: FilterDataEntity) {
-        viewHolder.productHomePageViewController.setFilterStateManager(with: filters)
-        let initializedFilter = initializeFilterState(with: filters)
-        applyFilterSnapshot(with: initializedFilter)
+    func updateFilter() {
+        listener?.initializeFilterState()
+        let filter = listener?.filterDataEntity
+        applyFilterSnapshot(with: filter)
     }
     
     func didStartPaging() {
@@ -339,47 +310,7 @@ final class ProductHomeViewController:
         }
         return nil
     }
-    
-    func needToShowRefreshCell() -> Bool {
-        guard let tabViewController = currentListViewController() else { return false }
-        return tabViewController.needToShowRefreshCell()
-	}
 
-    func updateFilterItems(with items: [FilterItemEntity], type: FilterType) {
-        // KeywordFilterCell 추가
-        guard let listViewController = currentListViewController() else { return }
-        
-        let store = listViewController.convenienceStore
-        
-        // filterList update
-        let filterList = items.map { String($0.code) }
-        listViewController.appendFilterList(with: filterList, type: type)
-        
-        let updatedFilterList = listViewController.getFilterList()
-        listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
-        
-        // 해당 filterItems isSelected 값 변경, deselected된 아이템들은 !isSelected 값을 가져야 함
-        listViewController.updateFiltersState(with: items, type: type)
-        
-        guard let filterDataEntity = listViewController.getFilterDataEntity() else { return }
-        applyFilterSnapshot(with: filterDataEntity)
-    }
-    
-    func updateSortFilter(item: FilterItemEntity) {
-        guard let listViewController = currentListViewController() else { return }
-        let store = listViewController.convenienceStore
-        let sortFilterCode = [String(item.code)]
-        listViewController.appendFilterList(with: sortFilterCode, type: .sort)
-        
-        let updatedFilterList = listViewController.getFilterList()
-        listener?.requestwithUpdatedKeywordFilter(with: store, filterList: updatedFilterList)
-        
-        // 해당 filterItems isSelected 값 변경
-        listViewController.updateSortFilterState(with: item)
-        
-        guard let filterDataEntity = listViewController.getFilterDataEntity() else { return }
-        applyFilterSnapshot(with: filterDataEntity)
-    }
 }
 
 // MARK: - TitleNavigationViewDelegate
@@ -418,9 +349,9 @@ extension ProductHomeViewController: UIScrollViewDelegate {
         let paginationHeight = abs(collectionView.contentSize.height - collectionView.bounds.height) * 0.9
 
         if innerScroll && !isPaging && paginationHeight <= collectionView.contentOffset.y && !isRequestingInitialProducts {
-            let filterList = productListViewController.getFilterList()
+            let filterList = listener?.selectedFilterCodeList ?? []
             listener?.didScrollToNextPage(
-                store: ConvenienceStore.allCases[currentPage],
+                store: productListViewController.convenienceStore,
                 filterList: filterList
             )
         }
@@ -461,19 +392,18 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             
             switch selectedItem {
             case .convenienceStore:
-                currentPage = indexPath.item
-                viewHolder.productHomePageViewController.updatePage(to: currentPage)
-                applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
-                currentPage == 0 ? hideFilterCollectionView() : showFilterCollectionView()
+                currentConvenienceStore = currentListViewController()?.convenienceStore
+                viewHolder.productHomePageViewController.updatePage(to: indexPath.item)
+                indexPath.item == 0 ? hideFilterCollectionView() : showFilterCollectionView()
             }
         } else if collectionView == viewHolder.filterCollectionView {
             guard let selectedItem = filterDataSource?.itemIdentifier(for: indexPath) else { return }
             
             if case let .filter(filterEntity) = selectedItem {
-                listener?.didSelectFilter(ofType: filterEntity.filter)
+                listener?.didSelectFilter(filterEntity.filter)
             }
         } else {
-            guard let productListViewController =  viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
+            guard let productListViewController = viewHolder.productHomePageViewController.viewControllers?.first as? ProductListViewController,
                   let selectedItem = productListViewController.dataSource?.itemIdentifier(for: indexPath) else { return }
             
             switch selectedItem {
@@ -501,52 +431,34 @@ extension ProductHomeViewController: ScrollDelegate {
     }
 }
 
-
 // MARK: - ProductHomePageViewControllerDelegate
 extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
-    func updateSelectedStoreCell(index: Int) {
-        let indexPath = IndexPath(row: index, section: 0)
-        setSelectedConvenienceStoreCell(with: indexPath)
-        applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
-    }
     
-    func didChangeStore(to store: ConvenienceStore, filterList: [String]) {
-        listener?.didChangeStore(to: store, filterList: filterList)
-    }
-    
-    func deleteFilterItem(with filter: FilterItemEntity, isSelected: Bool) {
-        guard let listViewController = currentListViewController() else {
-            return
-        }
-        listViewController.updateFilterState(with: filter, isSelected: isSelected)
-        let filterCode = String(filter.code)
-        listViewController.deleteFilterCode(at: filterCode)
-        
-        let filterDataEntity = listViewController.getFilterDataEntity()
-        applyFilterSnapshot(with: filterDataEntity)
-        
-        let filterList = listViewController.getFilterList()
-        listener?.requestwithUpdatedKeywordFilter(
-            with: listViewController.convenienceStore,
-            filterList: filterList
-        )
-        
-        // keywordFilterList 가져와서 apply
-        let keywordItems = listViewController.getKeywordList()
-        listViewController.applyKeywordFilterSnapshot(with: keywordItems)
-    }
-    
-    func refreshFilterButton() {
+    func didTapRefreshFilterButton() {
         didTapRefreshButton()
     }
     
-    func didLoadPageList(store: ConvenienceStore) {
-        requestProducts(store: store, filterList: [])
+    func updateSelectedStoreCell(index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        setSelectedConvenienceStoreCell(with: indexPath)
+        currentConvenienceStore = currentListViewController()?.convenienceStore
     }
     
-    func refreshByPull(with filterList: [String]) {
-        let store = ConvenienceStore.allCases[currentPage]
-        requestProducts(store: store, filterList: filterList)
+    func didChangeStore(to store: ConvenienceStore) {
+        listener?.didChangeStore(to: store)
+    }
+
+    func deleteKeywordFilter(_ filter: FilterItemEntity) {
+        listener?.deleteKeywordFilter(filter)
+    }
+    
+    func didLoadPageList(store: ConvenienceStore) {
+        requestProducts(store: store)
+    }
+    
+    func refreshByPull() {
+        guard let currentConvenienceStore else { return }
+        requestProducts(store: currentConvenienceStore)
     }
     
     func didSelect(with brandProduct: ProductConvertable) {
@@ -559,13 +471,6 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     
     func didFinishUpdateSnapshot() {
         isRequestingInitialProducts = false
-    }
-    
-    func didFinishPageTransition(index: Int) {
-        currentPage = index
-        let indexPath = IndexPath(item: index, section: 0)
-        setSelectedConvenienceStoreCell(with: indexPath)
-        applyFilterSnapshot(with: currentListViewController()?.getFilterDataEntity())
     }
     
     func curationWillAppear() {
@@ -588,18 +493,6 @@ extension ProductHomeViewController: ProductPresentable {
 // MARK: - listViewController
 extension ProductHomeViewController: RefreshFilterCellDelegate {
     func didTapRefreshButton() {
-        guard let listViewController = currentListViewController() else {
-            return
-        }
-        
-        // request product
-        listener?.didTapRefreshFilterCell(with: listViewController.convenienceStore)
-        
-        listViewController.resetFilterItemState()
-        listViewController.deleteAllFilterCode()
-        
-        // apply filterData
-        let filterDataEntity = listViewController.getFilterDataEntity()
-        applyFilterSnapshot(with: filterDataEntity)
+        listener?.didTapRefreshFilterCell()
     }
 }
