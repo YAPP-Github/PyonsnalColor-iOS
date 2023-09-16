@@ -79,6 +79,7 @@ extension SingleLineReview {
         
         let reviewButtonStackView: UIStackView = {
             let stackView = UIStackView()
+            stackView.distribution = .fillEqually
             stackView.axis = .horizontal
             stackView.spacing = .spacing8
             return stackView
@@ -87,6 +88,7 @@ extension SingleLineReview {
         let firstReviewButton: UIButton = {
             let button = UIButton()
             button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+            button.makeRounded(with: .spacing8)
             button.setTitleColor(.gray400, for: .normal)
             button.titleLabel?.font = .body3m
             return button
@@ -95,6 +97,7 @@ extension SingleLineReview {
         let secondReviewButton: UIButton = {
             let button = UIButton()
             button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+            button.makeRounded(with: .spacing8)
             button.setTitleColor(.gray400, for: .normal)
             button.titleLabel?.font = .body3m
             return button
@@ -103,6 +106,7 @@ extension SingleLineReview {
         let thirdReviewButton: UIButton = {
             let button = UIButton()
             button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+            button.makeRounded(with: .spacing8)
             button.setTitleColor(.gray400, for: .normal)
             button.titleLabel?.font = .body3m
             return button
@@ -125,6 +129,7 @@ extension SingleLineReview {
             reviewButtonStackView.snp.makeConstraints {
                 $0.leading.bottom.trailing.equalTo(view)
                 $0.top.equalTo(titleLabel.snp.bottom).offset(.spacing20)
+                $0.height.equalTo(36)
             }
         }
     }

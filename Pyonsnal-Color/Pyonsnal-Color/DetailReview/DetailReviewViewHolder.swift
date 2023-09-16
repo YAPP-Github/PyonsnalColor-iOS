@@ -10,10 +10,6 @@ import SnapKit
 
 extension DetailReviewViewController {
     final class ViewHolder: ViewHolderable {
-        enum Constant {
-            static let navigationTitle: String = "상품 리뷰 작성하기"
-        }
-        
         private let backNavigationView: BackNavigationView = {
             let navigationView = BackNavigationView()
             navigationView.payload = .init(
@@ -119,6 +115,7 @@ extension DetailReviewViewController {
         let detailReviewTextView: UITextView = {
             let textView = UITextView()
             textView.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+            textView.makeRounded(with: .spacing16)
             textView.textContainerInset = .init(
                 top: .spacing12,
                 left: .spacing12,
@@ -144,7 +141,7 @@ extension DetailReviewViewController {
             return stackView
         }()
         
-        private let imageUploadLabel: UILabel = {
+        let imageUploadLabel: UILabel = {
             let label = UILabel()
             label.font = .title1
             return label
@@ -153,6 +150,7 @@ extension DetailReviewViewController {
         private let imageUploadButton: UIButton = {
             let button = UIButton()
             button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+            button.makeRounded(with: .spacing16)
             button.backgroundColor = .gray100
             button.setImage(.init(systemName: "plus"), for: .normal)
             button.tintColor = .gray200
@@ -202,6 +200,7 @@ extension DetailReviewViewController {
             
             contentStackView.snp.makeConstraints {
                 $0.width.equalToSuperview()
+                $0.height.greaterThanOrEqualToSuperview()
             }
             
             productTotalStackView.snp.makeConstraints {
