@@ -8,13 +8,20 @@
 import ModernRIBs
 
 protocol FavoriteDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+    var productAPIService: ProductAPIService { get }
+    var favoriteAPIService: FavoriteAPIService { get }
 }
 
-final class FavoriteComponent: Component<FavoriteDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+final class FavoriteComponent: Component<FavoriteDependency>,
+                               ProductSearchDependency {
+    var productAPIService: ProductAPIService
+    var favoriteAPIService: FavoriteAPIService
+    
+    override init(dependency: FavoriteDependency) {
+        self.productAPIService = dependency.productAPIService
+        self.favoriteAPIService = dependency.favoriteAPIService
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder
@@ -32,8 +39,16 @@ final class FavoriteBuilder: Builder<FavoriteDependency>, FavoriteBuildable {
     func build(withListener listener: FavoriteListener) -> FavoriteRouting {
         let component = FavoriteComponent(dependency: dependency)
         let viewController = FavoriteViewController()
-        let interactor = FavoriteInteractor(presenter: viewController)
+        let productSearch = ProductSearchBuilder(dependency: component)
+        let interactor = FavoriteInteractor(
+            presenter: viewController,
+            favoriteAPIService: component.favoriteAPIService
+        )
         interactor.listener = listener
-        return FavoriteRouter(interactor: interactor, viewController: viewController)
+        return FavoriteRouter(
+            interactor: interactor,
+            viewController: viewController,
+            productSearch: productSearch
+        )
     }
 }

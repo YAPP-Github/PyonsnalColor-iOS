@@ -7,7 +7,8 @@
 
 import ModernRIBs
 
-protocol FavoriteInteractable: Interactable {
+protocol FavoriteInteractable: Interactable,
+                               ProductSearchListener {
     var router: FavoriteRouting? { get set }
     var listener: FavoriteListener? { get set }
 }
@@ -18,9 +19,39 @@ protocol FavoriteViewControllable: ViewControllable {
 
 final class FavoriteRouter: ViewableRouter<FavoriteInteractable, FavoriteViewControllable>, FavoriteRouting {
 
-    // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: FavoriteInteractable, viewController: FavoriteViewControllable) {
+    private let productSearch: ProductSearchBuildable
+    private var productSearchRouting: ProductSearchRouting?
+    
+    init(
+        interactor: FavoriteInteractable,
+        viewController: FavoriteViewControllable,
+        productSearch: ProductSearchBuildable
+    ) {
+        self.productSearch = productSearch
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachProductSearch() {
+        guard productSearchRouting == nil else { return }
+        
+        let productSearchRouting = productSearch.build(withListener: interactor)
+        let viewController = productSearchRouting.viewControllable
+        
+        viewControllable.pushViewController(
+            viewController,
+            animated: true
+        )
+        
+        self.productSearchRouting = productSearchRouting
+        attachChild(productSearchRouting)
+    }
+    
+    func detachProductSearch() {
+        guard let productSearchRouting else { return }
+        
+        viewControllable.popViewController(animated: true)
+        self.productSearchRouting = nil
+        detachChild(productSearchRouting)
     }
 }

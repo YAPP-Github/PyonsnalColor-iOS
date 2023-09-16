@@ -11,9 +11,11 @@ import ModernRIBs
 import Combine
 
 protocol FavoritePresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
+    func requestFavoriteProducts()
+    func deleteAllProducts()
+    func appendProduct(productId: String)
+    func deleteProduct(productId: String)
+    func didTapSearchButton()
 }
 
 final class FavoriteViewController: UIViewController,
@@ -38,6 +40,7 @@ final class FavoriteViewController: UIViewController,
     
     weak var listener: FavoritePresentableListener?
     private let viewHolder: ViewHolder = .init()
+    private var products = [[BrandProductEntity]]()
     private var scrollIndex = PassthroughSubject<Int, Never>()
     private var cancellable = Set<AnyCancellable>()
     
@@ -50,6 +53,10 @@ final class FavoriteViewController: UIViewController,
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        listener?.requestFavoriteProducts()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewHolder.place(in: self.view)
@@ -58,7 +65,19 @@ final class FavoriteViewController: UIViewController,
         configureAction()
         configureCollectionView()
         configureNavigationView()
+        configureRefreshControl()
         bindActions()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        listener?.deleteAllProducts()
+    }
+    
+    func updateProducts(products: [[BrandProductEntity]]) {
+        self.products = products
+        viewHolder.collectionView.reloadData()
+        self.endRefreshing()
     }
     
     private func configureTabBarItem() {
@@ -148,12 +167,30 @@ final class FavoriteViewController: UIViewController,
         viewHolder.titleNavigationView.delegate = self
     }
     
+    private func configureRefreshControl() {
+        viewHolder.collectionView.refreshControl?.addTarget(
+            self,
+            action: #selector(pullToRefresh),
+            for: .valueChanged
+        )
+    }
+    
+    @objc func pullToRefresh() {
+        viewHolder.collectionView.refreshControl?.beginRefreshing()
+        listener?.requestFavoriteProducts()
+    }
+    
+    func endRefreshing() {
+        viewHolder.collectionView.refreshControl?.endRefreshing()
+    }
+    
     private func bindActions() {
         scrollIndex
             .sink { [weak self] index in
             let tab = Tab(rawValue: index) ?? .product
             self?.setTabSelectedState(to: tab)
         }.store(in: &cancellable)
+        
     }
     
     final class ViewHolder: ViewHolderable {
@@ -215,6 +252,7 @@ final class FavoriteViewController: UIViewController,
             layout.scrollDirection = .horizontal
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.isPagingEnabled = true
+            collectionView.refreshControl = UIRefreshControl()
             collectionView.showsHorizontalScrollIndicator = false
             return collectionView
         }()
@@ -276,7 +314,7 @@ final class FavoriteViewController: UIViewController,
 
 extension FavoriteViewController: TitleNavigationViewDelegate {
     func didTabSearchButton() {
-//        listener?.didTapSearchButton()
+        listener?.didTapSearchButton()
     }
     
     func didTabNotificationButton() {
@@ -287,6 +325,7 @@ extension FavoriteViewController: UICollectionViewDelegate {
     
 }
 
+// MARK: - UICollectionViewDataSource
 extension FavoriteViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
@@ -294,7 +333,10 @@ extension FavoriteViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: FavoriteProductContainerCell = collectionView.dequeueReusableCell(for: indexPath)
-        cell.update(with: nil)
+        if products.isEmpty { return cell }
+        let product = products[indexPath.item]
+        cell.delegate = self
+        cell.update(with: product)
         return cell
     }
     
@@ -305,6 +347,7 @@ extension FavoriteViewController: UICollectionViewDataSource {
 
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension FavoriteViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width
@@ -314,5 +357,17 @@ extension FavoriteViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return .zero
+    }
+}
+
+// MARK: - FavoriteProductContainerCellDelegate
+extension FavoriteViewController: FavoriteProductContainerCellDelegate {
+    func didTapFavoriteButton(productId: String, action: FavoriteButtonAction) {
+        switch action {
+        case .add:
+            listener?.appendProduct(productId: productId)
+        case .delete:
+            listener?.deleteProduct(productId: productId)
+        }
     }
 }

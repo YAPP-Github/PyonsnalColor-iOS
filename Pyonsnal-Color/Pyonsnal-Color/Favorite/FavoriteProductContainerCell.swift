@@ -7,6 +7,15 @@
 
 import UIKit
 
+enum FavoriteButtonAction {
+    case add
+    case delete
+}
+
+protocol FavoriteProductContainerCellDelegate: AnyObject {
+    func didTapFavoriteButton(productId: String, action: FavoriteButtonAction)
+}
+
 final class FavoriteProductContainerCell: UICollectionViewCell {
     
     // MARK: - Interfaces
@@ -21,6 +30,8 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         case product(product: BrandProductEntity)
         case empty
     }
+    
+    weak var delegate: FavoriteProductContainerCellDelegate?
     
     // MARK: - Private Property
     private let viewHolder = ViewHolder()
@@ -52,8 +63,10 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
     }
     
     private func configureCollectionView() {
-        viewHolder.collectionView.delegate = self
-        viewHolder.collectionView.setCollectionViewLayout(createLayout(), animated: true)
+        viewHolder.collectionView.setCollectionViewLayout(
+            self.createLayout(),
+            animated: true
+        )
     }
     
     private func configureDataSource() {
@@ -69,6 +82,9 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
             case .product(let product):
                 let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.updateCell(with: product)
+                cell.setFavoriteButton(isVisible: true)
+                cell.setFavoriteButtonSelected(isSelected: true)
+                cell.delegate = self
                 return cell
             }
         }
@@ -89,7 +105,7 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
     private func makeSnapshot(with data: [BrandProductEntity]?) {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         
-        if let data {
+        if let data, !data.isEmpty {
             let products = data.map { product in
                 return ItemType.product(product: product)
             }
@@ -126,6 +142,9 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
     }
 }
 
-extension FavoriteProductContainerCell: UICollectionViewDelegate {
+extension FavoriteProductContainerCell: ProductCellDelegate {
+    func didTapFavoriteButton(productId: String, action: FavoriteButtonAction) {
+        delegate?.didTapFavoriteButton(productId: productId, action: action)
+    }
     
 }

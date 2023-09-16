@@ -6,7 +6,12 @@
 //
 
 import UIKit
+import Combine
 import SnapKit
+
+protocol ProductCellDelegate: AnyObject {
+    func didTapFavoriteButton(productId: String, action: FavoriteButtonAction)
+}
 
 final class ProductCell: UICollectionViewCell {
     
@@ -36,7 +41,12 @@ final class ProductCell: UICollectionViewCell {
         static let favoriteButtonSize: CGFloat = 20
     }
     
+    // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
+    private var cancellable = Set<AnyCancellable>()
+    private var productId: String?
+    
+    weak var delegate: ProductCellDelegate?
     
     final class ViewHolder: ViewHolderable {
         
@@ -234,15 +244,30 @@ final class ProductCell: UICollectionViewCell {
         configureUI()
         viewHolder.place(in: contentView)
         viewHolder.configureConstraints(for: contentView)
-        
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func bindActions() {
+        viewHolder.favoriteButton
+            .tapPublisher
+            .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
+            .sink { [weak self] _ in
+                guard let self, let productId else { return }
+                let isSelected = !viewHolder.favoriteButton.isSelected
+                self.setFavoriteButtonSelected(isSelected: isSelected)
+                
+                let action: FavoriteButtonAction = getFavoriteButtonSelected() ? .add : .delete
+                self.delegate?.didTapFavoriteButton(productId: productId, action: action)
+            }.store(in: &cancellable)
+    }
+    
     func updateCell(with product: ProductConvertable?) {
         guard let product else { return }
+        self.productId = product.productId
         viewHolder.titleLabel.text = product.name
         if let storeTypeImage = product.storeType.storeTagImage {
             viewHolder.convenienceStoreTagImageView.setImage(storeTypeImage)
@@ -277,7 +302,7 @@ final class ProductCell: UICollectionViewCell {
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
         makeRounded(with: Size.cornerRadius)
         makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
-        setFavoriteButton(isVisible: false)
+        setFavoriteButton(isVisible: true)
     }
     
     private func hasEventType(_ event: EventTag?) {
@@ -289,7 +314,15 @@ final class ProductCell: UICollectionViewCell {
         }
     }
     
-    private func setFavoriteButton(isVisible: Bool) {
+    func setFavoriteButton(isVisible: Bool) {
         viewHolder.favoriteButton.isHidden = !isVisible
+    }
+    
+    func setFavoriteButtonSelected(isSelected: Bool) {
+        viewHolder.favoriteButton.isSelected = isSelected
+    }
+    
+    func getFavoriteButtonSelected() -> Bool {
+        return viewHolder.favoriteButton.isSelected
     }
 }
