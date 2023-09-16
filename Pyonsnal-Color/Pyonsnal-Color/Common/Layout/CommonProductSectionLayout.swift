@@ -168,8 +168,8 @@ extension CommonProductSectionLayout {
         }
     }
     
-    // For MyPick
-    func section(at type: MyPickProductContainerCell.SectionType) -> NSCollectionLayoutSection {
+    // For Favorite
+    func section(at type: FavoriteProductContainerCell.SectionType) -> NSCollectionLayoutSection {
         switch type {
         case .product:
             return itemLayout()

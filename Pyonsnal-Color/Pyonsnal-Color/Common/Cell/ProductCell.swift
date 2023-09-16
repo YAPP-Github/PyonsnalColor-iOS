@@ -33,7 +33,7 @@ final class ProductCell: UICollectionViewCell {
         static let eventTagImageviewRadius: CGFloat = 10
         static let cornerRadius: CGFloat = 16
         static let borderWidth: CGFloat = 1
-        static let myPickButtonSize: CGFloat = 20
+        static let favoriteButtonSize: CGFloat = 20
     }
     
     private let viewHolder: ViewHolder = .init()
@@ -124,10 +124,10 @@ final class ProductCell: UICollectionViewCell {
             return label
         }()
         
-        let myPickButton: UIButton = {
+        let favoriteButton: UIButton = {
             let button = UIButton()
-            button.setImage(.myPick, for: .normal)
-            button.setImage(.myPickSelected, for: .selected)
+            button.setImage(.favorite, for: .normal)
+            button.setImage(.favoriteSelected, for: .selected)
             return button
         }()
         
@@ -142,7 +142,7 @@ final class ProductCell: UICollectionViewCell {
             productImageContainerView.addSubview(itemImageView)
             productImageContainerView.addSubview(convenienceStoreTagImageView)
             productImageContainerView.addSubview(eventTagLabel)
-            productImageContainerView.addSubview(myPickButton)
+            productImageContainerView.addSubview(favoriteButton)
             
             itemInfoContainerView.addSubview(itemInfoTopStackView)
             itemInfoContainerView.addSubview(priceContainerView)
@@ -185,8 +185,8 @@ final class ProductCell: UICollectionViewCell {
                 $0.height.equalTo(Size.eventTagImageViewHeight)
             }
             
-            myPickButton.snp.makeConstraints {
-                $0.size.equalTo(Size.myPickButtonSize)
+            favoriteButton.snp.makeConstraints {
+                $0.size.equalTo(Size.favoriteButtonSize)
                 $0.top.trailing.equalToSuperview().inset(.spacing12)
             }
             
@@ -277,7 +277,7 @@ final class ProductCell: UICollectionViewCell {
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
         makeRounded(with: Size.cornerRadius)
         makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
-        setMyPickButton(isVisible: false)
+        setFavoriteButton(isVisible: false)
     }
     
     private func hasEventType(_ event: EventTag?) {
@@ -289,7 +289,7 @@ final class ProductCell: UICollectionViewCell {
         }
     }
     
-    private func setMyPickButton(isVisible: Bool) {
-        viewHolder.myPickButton.isHidden = !isVisible
+    private func setFavoriteButton(isVisible: Bool) {
+        viewHolder.favoriteButton.isHidden = !isVisible
     }
 }

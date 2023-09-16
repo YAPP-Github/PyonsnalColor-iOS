@@ -1,5 +1,5 @@
 //
-//  MyPickViewController.swift
+//  FavoriteViewController.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/09/11.
@@ -10,15 +10,15 @@ import SnapKit
 import ModernRIBs
 import Combine
 
-protocol MyPickPresentableListener: AnyObject {
+protocol FavoritePresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
 }
 
-final class MyPickViewController: UIViewController,
-                                  MyPickPresentable,
-                                  MyPickViewControllable {
+final class FavoriteViewController: UIViewController,
+                                    FavoritePresentable,
+                                    FavoriteViewControllable {
     enum Size {
         static let headerViewHeight: CGFloat = 48
         static let stackViewHeight: CGFloat = 40
@@ -36,7 +36,7 @@ final class MyPickViewController: UIViewController,
         case event
     }
     
-    weak var listener: MyPickPresentableListener?
+    weak var listener: FavoritePresentableListener?
     private let viewHolder: ViewHolder = .init()
     private var scrollIndex = PassthroughSubject<Int, Never>()
     private var cancellable = Set<AnyCancellable>()
@@ -65,8 +65,8 @@ final class MyPickViewController: UIViewController,
         tabBarItem.setTitleTextAttributes([.font: UIFont.label2], for: .normal)
         tabBarItem = UITabBarItem(
             title: Text.tabBarItem,
-            image: ImageAssetKind.TabBar.myPickUnSelected.image,
-            selectedImage: ImageAssetKind.TabBar.myPickSelected.image
+            image: ImageAssetKind.TabBar.favoriteUnSelected.image,
+            selectedImage: ImageAssetKind.TabBar.favoriteSelected.image
         )
     }
     
@@ -139,7 +139,7 @@ final class MyPickViewController: UIViewController,
     }
     
     private func configureCollectionView() {
-        viewHolder.collectionView.register(MyPickProductContainerCell.self)
+        viewHolder.collectionView.register(FavoriteProductContainerCell.self)
         viewHolder.collectionView.delegate = self
         viewHolder.collectionView.dataSource = self
     }
@@ -274,7 +274,7 @@ final class MyPickViewController: UIViewController,
 
 }
 
-extension MyPickViewController: TitleNavigationViewDelegate {
+extension FavoriteViewController: TitleNavigationViewDelegate {
     func didTabSearchButton() {
 //        listener?.didTapSearchButton()
     }
@@ -283,17 +283,17 @@ extension MyPickViewController: TitleNavigationViewDelegate {
     }
 }
 
-extension MyPickViewController: UICollectionViewDelegate {
+extension FavoriteViewController: UICollectionViewDelegate {
     
 }
 
-extension MyPickViewController: UICollectionViewDataSource {
+extension FavoriteViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: MyPickProductContainerCell = collectionView.dequeueReusableCell(for: indexPath)
+        let cell: FavoriteProductContainerCell = collectionView.dequeueReusableCell(for: indexPath)
         cell.update(with: nil)
         return cell
     }
@@ -305,7 +305,7 @@ extension MyPickViewController: UICollectionViewDataSource {
 
 }
 
-extension MyPickViewController: UICollectionViewDelegateFlowLayout {
+extension FavoriteViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width
         let height = collectionView.frame.height

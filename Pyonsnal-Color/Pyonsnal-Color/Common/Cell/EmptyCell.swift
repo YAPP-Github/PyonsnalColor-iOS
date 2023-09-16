@@ -17,7 +17,7 @@ final class EmptyCell: UICollectionViewCell {
             static let subtitleLabelText = "단어의 철자가 올바른지 한 번 더 확인해주세요."
         }
         
-        enum MyPick {
+        enum Favorite {
             static let titleLabelText = "찜한 상품이 없습니다."
             static let subTitleLableText = "마음에 드는 상품의 하트를 눌러 저장해 보세요."
         }

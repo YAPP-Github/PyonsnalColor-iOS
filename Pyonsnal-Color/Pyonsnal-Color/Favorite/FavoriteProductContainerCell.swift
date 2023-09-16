@@ -1,5 +1,5 @@
 //
-//  MyPickProductContainerCell.swift
+//  FavoriteProductContainerCell.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/09/13.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MyPickProductContainerCell: UICollectionViewCell {
+final class FavoriteProductContainerCell: UICollectionViewCell {
     
     // MARK: - Interfaces
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
@@ -62,8 +62,8 @@ final class MyPickProductContainerCell: UICollectionViewCell {
             case .empty:
                 let cell: EmptyCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.setText(
-                    titleText: EmptyCell.Text.MyPick.titleLabelText,
-                    subTitleText: EmptyCell.Text.MyPick.subTitleLableText
+                    titleText: EmptyCell.Text.Favorite.titleLabelText,
+                    subTitleText: EmptyCell.Text.Favorite.subTitleLableText
                 )
                 return cell
             case .product(let product):
@@ -126,6 +126,6 @@ final class MyPickProductContainerCell: UICollectionViewCell {
     }
 }
 
-extension MyPickProductContainerCell: UICollectionViewDelegate {
+extension FavoriteProductContainerCell: UICollectionViewDelegate {
     
 }

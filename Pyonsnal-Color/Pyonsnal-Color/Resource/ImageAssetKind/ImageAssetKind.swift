@@ -24,8 +24,8 @@ enum ImageAssetKind: String {
     case event = "event"
     case eventSelected = "event.selected"
     
-    case myPick = "icon_like_unselected"
-    case myPickSelected = "icon_like_selected"
+    case favorite = "icon_like_unselected"
+    case favoriteSelected = "icon_like_selected"
     
     /// TermsOfUse
     case iconClose = "icon_close"

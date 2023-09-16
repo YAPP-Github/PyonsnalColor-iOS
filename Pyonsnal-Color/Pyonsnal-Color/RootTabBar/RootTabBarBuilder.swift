@@ -29,7 +29,7 @@ final class RootTabBarBuilder: Builder<RootTabBarDependency>, RootTabBarBuildabl
         
         let productHomeBuilder: ProductHomeBuilder = .init(dependency: component)
         let eventHomeBuilder: EventHomeBuilder = .init(dependency: component)
-        let myPickBuilder: MyPickBuilder = .init(dependency: component)
+        let favoriteBuilder: FavoriteBuilder = .init(dependency: component)
         let profileHomeBuilder: ProfileHomeBuilder = .init(dependency: component)
         
         interactor.listener = listener
@@ -39,7 +39,7 @@ final class RootTabBarBuilder: Builder<RootTabBarDependency>, RootTabBarBuildabl
             viewController: tabBarController,
             productHomeBuilder: productHomeBuilder,
             eventHomeBuilder: eventHomeBuilder,
-            myPickBuilder: myPickBuilder,
+            favoriteBuilder: favoriteBuilder,
             profileHomeBuilder: profileHomeBuilder
         )
         

@@ -13,8 +13,8 @@ extension ImageAssetKind {
         case homeUnselected = "icon_tab_home_unselected"
         case mySelected = "icon_tab_my_selected"
         case myUnselected = "icon_tab_my_unselected"
-        case myPickSelected = "icon_tab_mypick_selected"
-        case myPickUnSelected = "icon_tab_mypick_unselected"
+        case favoriteSelected = "icon_tab_favorite_selected"
+        case favoriteUnSelected = "icon_tab_favorite_unselected"
         case eventSelected = "icon_tab_sale_selected"
         case eventUnselected = "icon_tab_sale_unselected"
         
