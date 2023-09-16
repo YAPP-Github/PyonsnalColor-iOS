@@ -8,7 +8,7 @@
 import Foundation
 
 struct BrandProductEntity: Decodable, ProductConvertable, Hashable {
-    let identifier: String
+    let productId: String
     let imageURL: URL
     let storeType: ConvenienceStore
     let updatedTime: String
@@ -20,7 +20,7 @@ struct BrandProductEntity: Decodable, ProductConvertable, Hashable {
     let isNew: Bool?
     
     private enum CodingKeys: String, CodingKey {
-        case identifier = "id"
+        case productId = "id"
         case imageURL = "image"
         case storeType
         case updatedTime

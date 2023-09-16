@@ -8,6 +8,7 @@
 import UIKit
 
 protocol ProductConvertable: Decodable {
+    var productId: String { get }
     var imageURL: URL { get }
     var storeType: ConvenienceStore { get }
     var updatedTime: String { get }
