@@ -49,21 +49,4 @@ final class MemberAPIService {
         )
     }
     
-    func addFavorite(
-        productId: String,
-        productType: ProductType
-    ) -> ResponsePublisher<EmptyResponse> {
-        return client.request(
-            MemberAPI.addFavorite(productId: productId, productType: productType),
-            model: EmptyResponse.self
-        )
-    }
-    
-    func deleteFavorite(productId: String) -> ResponsePublisher<EmptyResponse> {
-        return client.request(
-            MemberAPI.deleteFavorite(productId: productId),
-            model: EmptyResponse.self
-        )
-    }
-    
 }

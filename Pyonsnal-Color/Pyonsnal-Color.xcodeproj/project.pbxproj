@@ -250,6 +250,8 @@
 		F0EE10AE2A4B389A00B8DF4F /* AccountSettingInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10AA2A4B389A00B8DF4F /* AccountSettingInteractor.swift */; };
 		F0EE10B02A4B4DF600B8DF4F /* ItemIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */; };
 		F0F203082AB5971300D4CB6A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F203072AB5971300D4CB6A /* ProductType.swift */; };
+		F0F203122AB5C04300D4CB6A /* FavoriteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F203112AB5C04300D4CB6A /* FavoriteAPI.swift */; };
+		F0F203142AB5C36200D4CB6A /* FavoriteAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F203132AB5C36200D4CB6A /* FavoriteAPIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -487,6 +489,8 @@
 		F0EE10AA2A4B389A00B8DF4F /* AccountSettingInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingInteractor.swift; sourceTree = "<group>"; };
 		F0EE10AF2A4B4DF600B8DF4F /* ItemIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemIdentifier.swift; sourceTree = "<group>"; };
 		F0F203072AB5971300D4CB6A /* ProductType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
+		F0F203112AB5C04300D4CB6A /* FavoriteAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAPI.swift; sourceTree = "<group>"; };
+		F0F203132AB5C36200D4CB6A /* FavoriteAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAPIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -780,6 +784,7 @@
 				F0687BEB2A529666004B5EAE /* Config */,
 				BA18075E2A2F1D6500295398 /* Auth */,
 				B24259072A5940F0006C5223 /* Products */,
+				F0F203102AB5C01800D4CB6A /* Favorites */,
 				F0DFBC922A595158003F7660 /* Member */,
 			);
 			path = Networking;
@@ -1273,6 +1278,15 @@
 			path = AccountSetting;
 			sourceTree = "<group>";
 		};
+		F0F203102AB5C01800D4CB6A /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				F0F203112AB5C04300D4CB6A /* FavoriteAPI.swift */,
+				F0F203132AB5C36200D4CB6A /* FavoriteAPIService.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1537,6 +1551,7 @@
 				B2A5294C2A57F2220010656A /* LogoutPopupInteractor.swift in Sources */,
 				BA87E3CF2A45C5A1000A9DEC /* ProductDetailInteractor.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
+				F0F203122AB5C04300D4CB6A /* FavoriteAPI.swift in Sources */,
 				B24CAAE42A55AC2F005BE499 /* NotificationListInteractor.swift in Sources */,
 				F0F203082AB5971300D4CB6A /* ProductType.swift in Sources */,
 				BA87501E2A519B3900B80088 /* ImageAssetKind+HeaderView.swift in Sources */,
@@ -1616,6 +1631,7 @@
 				F0A8A3AE2A70051500601DAE /* FilterCellItem.swift in Sources */,
 				F0C582C42A55E83400DAD387 /* TermsOfUseInteractor.swift in Sources */,
 				BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */,
+				F0F203142AB5C36200D4CB6A /* FavoriteAPIService.swift in Sources */,
 				F0C698702A6C24630019C677 /* FilterEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

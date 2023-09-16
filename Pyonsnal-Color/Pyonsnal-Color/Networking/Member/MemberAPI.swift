@@ -14,8 +14,6 @@ enum MemberAPI: NetworkRequestBuilder {
     case info
     case withdraw
     case logout(accessToken: String, refreshToken: String)
-    case addFavorite(productId: String, productType: ProductType)
-    case deleteFavorite(productId: String)
 }
 
 extension MemberAPI {
@@ -31,10 +29,6 @@ extension MemberAPI {
             return "/member/withdraw"
         case .logout:
             return "/member/logout"
-        case .addFavorite:
-            return "/member/favorite"
-        case .deleteFavorite:
-            return "/member/favorite"
         }
     }
     
@@ -44,8 +38,6 @@ extension MemberAPI {
             return [URLQueryItem(name: "tokenDto", value: accessToken)]
         case .info, .withdraw:
             return nil
-        case .addFavorite, .deleteFavorite:
-            return nil
         }
     }
     
@@ -53,10 +45,8 @@ extension MemberAPI {
         switch self {
         case .info:
             return .get
-        case .withdraw, .logout, .deleteFavorite:
+        case .withdraw, .logout:
             return .delete
-        case .addFavorite:
-            return .post
         }
     }
     
@@ -73,10 +63,6 @@ extension MemberAPI {
             return ["accessToken": accessToken, "refreshToken": refreshToken]
         case .info, .withdraw:
             return nil
-        case .addFavorite(let productId, let productType):
-            return ["productId": productId, "productType": productType.rawValue]
-        case .deleteFavorite(let productId):
-            return ["productId": productId]
         }
     }
 }
