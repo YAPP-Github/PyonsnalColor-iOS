@@ -91,6 +91,7 @@
 		B2F258192AAF03160022013E /* DetailReviewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F258152AAF03160022013E /* DetailReviewInteractor.swift */; };
 		B2F2581B2AAF03210022013E /* DetailReviewViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F2581A2AAF03210022013E /* DetailReviewViewHolder.swift */; };
 		B2F2581E2AB1963F0022013E /* SingleLineReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F2581D2AB1963F0022013E /* SingleLineReview.swift */; };
+		B2F258202AB59BF00022013E /* ReviewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F2581F2AB59BF00022013E /* ReviewButton.swift */; };
 		BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B7352A46B83A00BB3795 /* CGFloat+.swift */; };
 		BA00B7392A46B8BF00BB3795 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B7382A46B8BF00BB3795 /* Spacing.swift */; };
 		BA00B73C2A46B98700BB3795 /* SnapKit+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B73B2A46B98700BB3795 /* SnapKit+.swift */; };
@@ -371,6 +372,7 @@
 		B2F258152AAF03160022013E /* DetailReviewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewInteractor.swift; sourceTree = "<group>"; };
 		B2F2581A2AAF03210022013E /* DetailReviewViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReviewViewHolder.swift; sourceTree = "<group>"; };
 		B2F2581D2AB1963F0022013E /* SingleLineReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLineReview.swift; sourceTree = "<group>"; };
+		B2F2581F2AB59BF00022013E /* ReviewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewButton.swift; sourceTree = "<group>"; };
 		BA00B7352A46B83A00BB3795 /* CGFloat+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+.swift"; sourceTree = "<group>"; };
 		BA00B7382A46B8BF00BB3795 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		BA00B73B2A46B98700BB3795 /* SnapKit+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+.swift"; sourceTree = "<group>"; };
@@ -822,6 +824,7 @@
 			isa = PBXGroup;
 			children = (
 				B2F2581D2AB1963F0022013E /* SingleLineReview.swift */,
+				B2F2581F2AB59BF00022013E /* ReviewButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1925,6 +1928,7 @@
 				BA437F192A235F5100C5DFA8 /* LoggedOutInteractor.swift in Sources */,
 				F0F203142AB5C36200D4CB6A /* FavoriteAPIService.swift in Sources */,
 				F0C698702A6C24630019C677 /* FilterEntity.swift in Sources */,
+				B2F258202AB59BF00022013E /* ReviewButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,9 +54,9 @@ final class SingleLineReview: UIView {
     
     func configureReviewTitle(title: String, first: String, second: String, third: String) {
         viewHolder.titleLabel.text = title
-        viewHolder.firstReviewButton.setTitle(first, for: .normal)
-        viewHolder.secondReviewButton.setTitle(second, for: .normal)
-        viewHolder.thirdReviewButton.setTitle(third, for: .normal)
+        viewHolder.firstReviewButton.configureButtonTitle(text: first)
+        viewHolder.secondReviewButton.configureButtonTitle(text: second)
+        viewHolder.thirdReviewButton.configureButtonTitle(text: third)
     }
     
     func didSelectReviewButton(_ sender: UIButton) {
@@ -85,32 +85,9 @@ extension SingleLineReview {
             return stackView
         }()
         
-        let firstReviewButton: UIButton = {
-            let button = UIButton()
-            button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
-            button.makeRounded(with: .spacing8)
-            button.setTitleColor(.gray400, for: .normal)
-            button.titleLabel?.font = .body3m
-            return button
-        }()
-        
-        let secondReviewButton: UIButton = {
-            let button = UIButton()
-            button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
-            button.makeRounded(with: .spacing8)
-            button.setTitleColor(.gray400, for: .normal)
-            button.titleLabel?.font = .body3m
-            return button
-        }()
-        
-        let thirdReviewButton: UIButton = {
-            let button = UIButton()
-            button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
-            button.makeRounded(with: .spacing8)
-            button.setTitleColor(.gray400, for: .normal)
-            button.titleLabel?.font = .body3m
-            return button
-        }()
+        let firstReviewButton = ReviewButton()
+        let secondReviewButton = ReviewButton()
+        let thirdReviewButton = ReviewButton()
         
         func place(in view: UIView) {
             view.addSubview(titleLabel)
