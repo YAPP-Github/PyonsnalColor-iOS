@@ -14,6 +14,7 @@ extension ImageAssetKind {
         case iconSearch = "icon_search"
         case iconDelete = "icon_delete"
         case iconCheck = "icon_check"
+        case iconReview = "icon_review"
     }
 }
 
