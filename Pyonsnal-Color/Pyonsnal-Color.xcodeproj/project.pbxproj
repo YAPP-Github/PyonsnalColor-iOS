@@ -159,6 +159,8 @@
 		BAE442C42A6D2C9000BD6582 /* LoadingReusableView+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE442C32A6D2C9000BD6582 /* LoadingReusableView+ViewHolder.swift */; };
 		BAE442C62A6D7B9E00BD6582 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE442C52A6D7B9E00BD6582 /* EmptyCell.swift */; };
 		BAE442C82A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE442C72A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift */; };
+		BAE9843F2AACFBFB00ED22CB /* ProductDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9843E2AACFBFB00ED22CB /* ProductDetailImageCell.swift */; };
+		BAE984412AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE984402AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift */; };
 		BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */; };
 		BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */; };
 		BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882B2A24C3E600DA6257 /* RootRouter.swift */; };
@@ -402,6 +404,8 @@
 		BAE442C32A6D2C9000BD6582 /* LoadingReusableView+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingReusableView+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAE442C52A6D7B9E00BD6582 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
 		BAE442C72A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmptyCell+ViewHolder.swift"; sourceTree = "<group>"; };
+		BAE9843E2AACFBFB00ED22CB /* ProductDetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailImageCell.swift; sourceTree = "<group>"; };
+		BAE984402AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailImageCell+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedOutViewController+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHolable.swift; sourceTree = "<group>"; };
 		BAED882B2A24C3E600DA6257 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
@@ -926,6 +930,7 @@
 		BA87E3C72A45C579000A9DEC /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
+				BAE984392AACFB2A00ED22CB /* Subview */,
 				BA87E3C82A45C5A1000A9DEC /* ProductDetailRouter.swift */,
 				BA87E3C92A45C5A1000A9DEC /* ProductDetailViewController.swift */,
 				BA87E3D02A45C600000A9DEC /* ProductDetailViewController+ViewHolder.swift */,
@@ -1016,6 +1021,15 @@
 				BA18C0912A753464007D00BD /* SearchFilterHeader+ViewHolder.swift */,
 			);
 			path = ReusableView;
+			sourceTree = "<group>";
+		};
+		BAE9843A2AACFB3400ED22CB /* ImageCell */ = {
+			isa = PBXGroup;
+			children = (
+				BAE9843E2AACFBFB00ED22CB /* ProductDetailImageCell.swift */,
+				BAE984402AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift */,
+			);
+			path = ImageCell;
 			sourceTree = "<group>";
 		};
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
@@ -1555,6 +1569,7 @@
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
 				B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */,
 				B24F1D4E2A4C5F2F00AA03DC /* NotificationCell.swift in Sources */,
+				BAE9843F2AACFBFB00ED22CB /* ProductDetailImageCell.swift in Sources */,
 				F0EE10AB2A4B389A00B8DF4F /* AccountSettingRouter.swift in Sources */,
 				F0C6986E2A6BB57B0019C677 /* FilterButton.swift in Sources */,
 				F0EE10AD2A4B389A00B8DF4F /* AccountSettingBuilder.swift in Sources */,
@@ -1563,6 +1578,7 @@
 				F0EE10AE2A4B389A00B8DF4F /* AccountSettingInteractor.swift in Sources */,
 				F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */,
 				F0C2B9F12AA4740000ACF3D7 /* EventHomeViewHolder.swift in Sources */,
+				BAE984412AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift in Sources */,
 				B24259102A594862006C5223 /* SortEntity.swift in Sources */,
 				B24CAAE32A55AC2D005BE499 /* NotificationListBuilder.swift in Sources */,
 				BA18C09D2A758D04007D00BD /* SelectionButton.swift in Sources */,
