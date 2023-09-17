@@ -91,6 +91,7 @@
 		BA00B7392A46B8BF00BB3795 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B7382A46B8BF00BB3795 /* Spacing.swift */; };
 		BA00B73C2A46B98700BB3795 /* SnapKit+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B73B2A46B98700BB3795 /* SnapKit+.swift */; };
 		BA0BFB722A5463BD0019AED7 /* EventTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0BFB712A5463BD0019AED7 /* EventTag.swift */; };
+		BA14F1F12AAD9AD700F62855 /* LineFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA14F1F02AAD9AD700F62855 /* LineFooter.swift */; };
 		BA1807552A2F151F00295398 /* ImageAssetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807542A2F151F00295398 /* ImageAssetKind.swift */; };
 		BA18075A2A2F170100295398 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1807592A2F170100295398 /* UIImageView+.swift */; };
 		BA18075C2A2F189A00295398 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18075B2A2F189A00295398 /* UIButton+.swift */; };
@@ -336,6 +337,7 @@
 		BA00B7382A46B8BF00BB3795 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		BA00B73B2A46B98700BB3795 /* SnapKit+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+.swift"; sourceTree = "<group>"; };
 		BA0BFB712A5463BD0019AED7 /* EventTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTag.swift; sourceTree = "<group>"; };
+		BA14F1F02AAD9AD700F62855 /* LineFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineFooter.swift; sourceTree = "<group>"; };
 		BA1807542A2F151F00295398 /* ImageAssetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAssetKind.swift; sourceTree = "<group>"; };
 		BA1807592A2F170100295398 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		BA18075B2A2F189A00295398 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
@@ -758,6 +760,14 @@
 			path = Tag;
 			sourceTree = "<group>";
 		};
+		BA14F1EF2AAD9AC300F62855 /* Footer */ = {
+			isa = PBXGroup;
+			children = (
+				BA14F1F02AAD9AD700F62855 /* LineFooter.swift */,
+			);
+			path = Footer;
+			sourceTree = "<group>";
+		};
 		BA1807532A2F13DA00295398 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -1014,6 +1024,7 @@
 				B224963E2ABAEB8E00BC6B09 /* Review */,
 				F0E915AD2AA87B86000919DA /* Combine */,
 				F0C2B9F22AA474BF00ACF3D7 /* Interface */,
+				BA14F1EF2AAD9AC300F62855 /* Footer */,
 				BA18C09E2A758F39007D00BD /* BottomSheet */,
 				F0C698742A6D4E980019C677 /* Protocol */,
 				F0C698712A6D4D8B0019C677 /* Layout */,
@@ -1613,6 +1624,7 @@
 				F0E915B12AA87BB4000919DA /* ControlSubscription.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
 				B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */,
+				BA14F1F12AAD9AD700F62855 /* LineFooter.swift in Sources */,
 				BA4818CD2A59405300BF9CAD /* AuthAPIService.swift in Sources */,
 				F0C87AEE2A51D54B00EA4C76 /* PyonsnalColorClient.swift in Sources */,
 				B28A59232A6FB2B200431F39 /* ProductFilterViewController.swift in Sources */,
