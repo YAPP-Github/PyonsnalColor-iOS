@@ -165,6 +165,8 @@
 		BAE984412AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE984402AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift */; };
 		BAE984432AACFE3200ED22CB /* ProductDetailInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE984422AACFE3200ED22CB /* ProductDetailInformationCell.swift */; };
 		BAE984452AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE984442AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift */; };
+		BAE984492AACFFFF00ED22CB /* ProductDetailReviewWriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE984482AACFFFF00ED22CB /* ProductDetailReviewWriteCell.swift */; };
+		BAE9844B2AAD002400ED22CB /* ProductDetailReviewWriteCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9844A2AAD002400ED22CB /* ProductDetailReviewWriteCell+ViewHolder.swift */; };
 		BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */; };
 		BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */; };
 		BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882B2A24C3E600DA6257 /* RootRouter.swift */; };
@@ -414,6 +416,8 @@
 		BAE984402AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailImageCell+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAE984422AACFE3200ED22CB /* ProductDetailInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailInformationCell.swift; sourceTree = "<group>"; };
 		BAE984442AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailInformationCell+ViewHolder.swift"; sourceTree = "<group>"; };
+		BAE984482AACFFFF00ED22CB /* ProductDetailReviewWriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailReviewWriteCell.swift; sourceTree = "<group>"; };
+		BAE9844A2AAD002400ED22CB /* ProductDetailReviewWriteCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailReviewWriteCell+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedOutViewController+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHolable.swift; sourceTree = "<group>"; };
 		BAED882B2A24C3E600DA6257 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
@@ -1052,6 +1056,7 @@
 			children = (
 				BA83224F2AB6F40000D2E1EB /* ReviewMetaView */,
 				BA83224C2AB6E5C800D2E1EB /* RatingPreviewView */,
+				BAE9843C2AACFB7000ED22CB /* ReviewWriteCell */,
 			);
 			path = Subview;
 			sourceTree = "<group>";
@@ -1072,6 +1077,15 @@
 				BAE984442AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift */,
 			);
 			path = InformationCell;
+			sourceTree = "<group>";
+		};
+		BAE9843C2AACFB7000ED22CB /* ReviewWriteCell */ = {
+			isa = PBXGroup;
+			children = (
+				BAE984482AACFFFF00ED22CB /* ProductDetailReviewWriteCell.swift */,
+				BAE9844A2AAD002400ED22CB /* ProductDetailReviewWriteCell+ViewHolder.swift */,
+			);
+			path = ReviewWriteCell;
 			sourceTree = "<group>";
 		};
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
@@ -1557,6 +1571,7 @@
 				F0C6985F2A6ABDDD0019C677 /* Log.swift in Sources */,
 				BA87E3CC2A45C5A1000A9DEC /* ProductDetailRouter.swift in Sources */,
 				B282050C2A34700300F9242F /* EventHomeBuilder.swift in Sources */,
+				BAE984492AACFFFF00ED22CB /* ProductDetailReviewWriteCell.swift in Sources */,
 				BA437F182A235F5100C5DFA8 /* LoggedOutBuilder.swift in Sources */,
 				B28A59152A6E991100431F39 /* CurationFooterView.swift in Sources */,
 				F01535432A45A69800A2A8F2 /* CommonProductSectionLayout.swift in Sources */,
@@ -1585,6 +1600,7 @@
 				B28205152A34702B00F9242F /* ProductHomeInteractor.swift in Sources */,
 				F0168D532A500AC900978ED9 /* EventDetailBuilder.swift in Sources */,
 				F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */,
+				BAE9844B2AAD002400ED22CB /* ProductDetailReviewWriteCell+ViewHolder.swift in Sources */,
 				F00609522A5EED4600A2A79D /* SettingInfo.swift in Sources */,
 				F0E915AA2AA8711B000919DA /* UIControl+.swift in Sources */,
 				F0C87AF32A51DFC300EA4C76 /* ErrorResponse.swift in Sources */,
