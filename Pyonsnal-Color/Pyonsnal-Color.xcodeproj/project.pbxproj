@@ -161,6 +161,8 @@
 		BAE442C82A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE442C72A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift */; };
 		BAE9843F2AACFBFB00ED22CB /* ProductDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9843E2AACFBFB00ED22CB /* ProductDetailImageCell.swift */; };
 		BAE984412AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE984402AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift */; };
+		BAE984432AACFE3200ED22CB /* ProductDetailInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE984422AACFE3200ED22CB /* ProductDetailInformationCell.swift */; };
+		BAE984452AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE984442AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift */; };
 		BAEA1BF82A344D480028A90A /* LoggedOutViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */; };
 		BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */; };
 		BAED882F2A24C3E600DA6257 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED882B2A24C3E600DA6257 /* RootRouter.swift */; };
@@ -406,6 +408,8 @@
 		BAE442C72A6D7C3900BD6582 /* EmptyCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmptyCell+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAE9843E2AACFBFB00ED22CB /* ProductDetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailImageCell.swift; sourceTree = "<group>"; };
 		BAE984402AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailImageCell+ViewHolder.swift"; sourceTree = "<group>"; };
+		BAE984422AACFE3200ED22CB /* ProductDetailInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailInformationCell.swift; sourceTree = "<group>"; };
+		BAE984442AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailInformationCell+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BF72A344D480028A90A /* LoggedOutViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedOutViewController+ViewHolder.swift"; sourceTree = "<group>"; };
 		BAEA1BFC2A3477B10028A90A /* ViewHolable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHolable.swift; sourceTree = "<group>"; };
 		BAED882B2A24C3E600DA6257 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
@@ -1032,6 +1036,15 @@
 			path = ImageCell;
 			sourceTree = "<group>";
 		};
+		BAE9843B2AACFB5F00ED22CB /* InformationCell */ = {
+			isa = PBXGroup;
+			children = (
+				BAE984422AACFE3200ED22CB /* ProductDetailInformationCell.swift */,
+				BAE984442AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift */,
+			);
+			path = InformationCell;
+			sourceTree = "<group>";
+		};
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -1498,6 +1511,7 @@
 				B242590B2A594368006C5223 /* ProductPageEntity.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				BAE442C42A6D2C9000BD6582 /* LoadingReusableView+ViewHolder.swift in Sources */,
+				BAE984452AACFF0C00ED22CB /* ProductDetailInformationCell+ViewHolder.swift in Sources */,
 				BAAB90372A5051D2003A7647 /* BackNavigationViewDelegate.swift in Sources */,
 				BAE442C62A6D7B9E00BD6582 /* EmptyCell.swift in Sources */,
 				F0C582C22A55E83400DAD387 /* TermsOfUseViewController.swift in Sources */,
@@ -1639,6 +1653,7 @@
 				B24259142A595B9B006C5223 /* ProductConvertable.swift in Sources */,
 				F0E915B12AA87BB4000919DA /* ControlSubscription.swift in Sources */,
 				B28205042A346FDD00F9242F /* ProfileHomeBuilder.swift in Sources */,
+				BAE984432AACFE3200ED22CB /* ProductDetailInformationCell.swift in Sources */,
 				B24F1D312A431E1700AA03DC /* ConvenienceStoreCell.swift in Sources */,
 				BA14F1F12AAD9AD700F62855 /* LineFooter.swift in Sources */,
 				BA4818CD2A59405300BF9CAD /* AuthAPIService.swift in Sources */,
