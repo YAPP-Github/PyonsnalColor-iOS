@@ -98,9 +98,9 @@ extension DetailReviewViewController {
             stackView.spacing = .spacing20
             stackView.isLayoutMarginsRelativeArrangement = true
             stackView.layoutMargins = .init(
-                top: 0,
+                top: 60,
                 left: .spacing16,
-                bottom: 0,
+                bottom: .spacing40,
                 right: .spacing16
             )
             return stackView
@@ -129,13 +129,14 @@ extension DetailReviewViewController {
         
         private let imageUploadStackView: UIStackView = {
             let stackView = UIStackView()
+            stackView.alignment = .leading
             stackView.spacing = .spacing20
             stackView.axis = .vertical
             stackView.isLayoutMarginsRelativeArrangement = true
             stackView.layoutMargins = .init(
                 top: 0,
                 left: .spacing16,
-                bottom: 0,
+                bottom: 152,
                 right: .spacing16
             )
             return stackView
@@ -199,6 +200,7 @@ extension DetailReviewViewController {
             }
             
             contentStackView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
                 $0.width.equalToSuperview()
                 $0.height.greaterThanOrEqualToSuperview()
             }
@@ -220,7 +222,6 @@ extension DetailReviewViewController {
             
             detailReviewStackView.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview()
-                $0.top.equalTo(reviewButtonStackView.snp.bottom).offset(60)
             }
             
             detailReviewTextView.snp.makeConstraints {
@@ -229,14 +230,11 @@ extension DetailReviewViewController {
             
             imageUploadStackView.snp.makeConstraints {
                 $0.leading.equalToSuperview()
-                $0.bottom.equalToSuperview().inset(152)
-                $0.top.equalTo(detailReviewStackView.snp.bottom).offset(40)
             }
             
             imageUploadButton.snp.makeConstraints {
                 $0.width.height.equalTo(120)
             }
         }
-        
     }
 }
