@@ -209,6 +209,12 @@ final class FavoriteViewController: UIViewController,
             return stackView
         }()
         
+        private let dividerView: UIView = {
+            let view: UIView = .init(frame: .zero)
+            view.backgroundColor = .gray200
+            return view
+        }()
+        
         private let productSubView: UIView = {
             let view = UIView()
             return view
@@ -254,6 +260,7 @@ final class FavoriteViewController: UIViewController,
             layout.scrollDirection = .horizontal
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.isPagingEnabled = true
+            collectionView.bounces = false
             collectionView.refreshControl = UIRefreshControl()
             collectionView.showsHorizontalScrollIndicator = false
             return collectionView
@@ -262,6 +269,7 @@ final class FavoriteViewController: UIViewController,
         func place(in view: UIView) {
             view.addSubview(titleNavigationView)
             view.addSubview(stackView)
+            view.addSubview(dividerView)
             stackView.addArrangedSubview(productSubView)
             stackView.addArrangedSubview(eventSubView)
             productSubView.addSubview(productTabButton)
@@ -283,6 +291,12 @@ final class FavoriteViewController: UIViewController,
                 $0.trailing.equalToSuperview().inset(.spacing16)
                 $0.top.equalTo(titleNavigationView.snp.bottom)
                 $0.height.equalTo(Size.stackViewHeight)
+            }
+            
+            dividerView.snp.makeConstraints { make in
+                make.height.equalTo(Size.dividerViewHeight)
+                make.bottom.equalTo(stackView.snp.bottom)
+                make.leading.trailing.equalToSuperview()
             }
             
             productTabButton.snp.makeConstraints {
