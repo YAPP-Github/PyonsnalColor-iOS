@@ -34,10 +34,10 @@ final class FavoriteAPIService {
         )
     }
     
-    func deleteFavorite(productId: String) -> ResponsePublisher<EmptyResponse> {
+    func deleteFavorite(productId: String, productType: ProductType) -> ResponsePublisher<EmptyResponse> {
         FavoriteAPI.accessToken = self.accessToken
         return client.request(
-            FavoriteAPI.deleteFavorites(favoriteId: productId),
+            FavoriteAPI.deleteFavorites(productId: productId, productType: productType),
             model: EmptyResponse.self
         )
     }

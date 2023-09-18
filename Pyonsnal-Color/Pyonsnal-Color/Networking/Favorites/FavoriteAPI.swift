@@ -13,7 +13,7 @@ enum FavoriteAPI: NetworkRequestBuilder {
     
     case favorites(pageNumber: Int, pageSize: Int, productType: ProductType)
     case addFavorites(productId: String, productType: ProductType)
-    case deleteFavorites(favoriteId: String)
+    case deleteFavorites(productId: String, productType: ProductType)
 }
 
 extension FavoriteAPI {
@@ -27,8 +27,8 @@ extension FavoriteAPI {
             return "/favorites"
         case .addFavorites:
             return "/favorites"
-        case .deleteFavorites(let favoriteId):
-            return "/favorites/\(favoriteId)"
+        case .deleteFavorites:
+            return "/favorites"
         }
     }
     
@@ -62,7 +62,9 @@ extension FavoriteAPI {
         switch self {
         case let .addFavorites(productId, productType):
             return ["productId": productId, "productType": productType.rawValue]
-        case .favorites, .deleteFavorites:
+        case let .deleteFavorites(productId, productType):
+            return ["productId": productId, "productType": productType.rawValue]
+        case .favorites:
             return nil
         }
     }
