@@ -8,7 +8,8 @@
 import ModernRIBs
 
 protocol FavoriteInteractable: Interactable,
-                               ProductSearchListener {
+                               ProductSearchListener,
+                               ProductDetailListener {
     var router: FavoriteRouting? { get set }
     var listener: FavoriteListener? { get set }
 }
@@ -22,12 +23,17 @@ final class FavoriteRouter: ViewableRouter<FavoriteInteractable, FavoriteViewCon
     private let productSearch: ProductSearchBuildable
     private var productSearchRouting: ProductSearchRouting?
     
+    private let productDetail: ProductDetailBuildable
+    private var productDetailRouting: ProductDetailRouting?
+    
     init(
         interactor: FavoriteInteractable,
         viewController: FavoriteViewControllable,
-        productSearch: ProductSearchBuildable
+        productSearch: ProductSearchBuildable,
+        productDetail: ProductDetailBuildable
     ) {
         self.productSearch = productSearch
+        self.productDetail = productDetail
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -54,4 +60,23 @@ final class FavoriteRouter: ViewableRouter<FavoriteInteractable, FavoriteViewCon
         self.productSearchRouting = nil
         detachChild(productSearchRouting)
     }
+    
+    func attachProductDetail(with product: any ProductConvertable) {
+        if productDetailRouting != nil { return }
+        
+        let productDetailRouter = productDetail.build(withListener: interactor)
+        productDetailRouting = productDetailRouter
+        attachChild(productDetailRouter)
+        let productDetailViewController = productDetailRouting?.viewControllable as? ProductDetailViewController
+        productDetailViewController?.product = product
+        viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
+    }
+    
+    func detachProductDetail() {
+        guard let productDetailRouting else { return }
+        viewController.popViewController(animated: true)
+        self.productDetailRouting = nil
+        detachChild(productDetailRouting)
+    }
+    
 }

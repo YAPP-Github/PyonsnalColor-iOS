@@ -13,7 +13,7 @@ protocol EventHomeRouting: ViewableRouting {
     func detachProductSearch()
     func attachEventDetail(with imageURL: String, store: ConvenienceStore)
     func detachEventDetail()
-    func attachProductDetail(with brandProduct: ProductConvertable)
+    func attachProductDetail(with brandProduct: any ProductConvertable)
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
@@ -175,7 +175,7 @@ final class EventHomeInteractor:
         }
     }
     
-    func didSelect(with brandProduct: ProductConvertable) {
+    func didSelect(with brandProduct: any ProductConvertable) {
         router?.attachProductDetail(with: brandProduct)
     }
     

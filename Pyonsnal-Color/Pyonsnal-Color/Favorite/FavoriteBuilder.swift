@@ -13,7 +13,8 @@ protocol FavoriteDependency: Dependency {
 }
 
 final class FavoriteComponent: Component<FavoriteDependency>,
-                               ProductSearchDependency {
+                               ProductSearchDependency,
+                               ProductDetailDependency {
     var productAPIService: ProductAPIService
     var favoriteAPIService: FavoriteAPIService
     
@@ -39,7 +40,10 @@ final class FavoriteBuilder: Builder<FavoriteDependency>, FavoriteBuildable {
     func build(withListener listener: FavoriteListener) -> FavoriteRouting {
         let component = FavoriteComponent(dependency: dependency)
         let viewController = FavoriteViewController()
+        
         let productSearch = ProductSearchBuilder(dependency: component)
+        let productDetail = ProductDetailBuilder(dependency: component)
+        
         let interactor = FavoriteInteractor(
             presenter: viewController,
             favoriteAPIService: component.favoriteAPIService
@@ -48,7 +52,8 @@ final class FavoriteBuilder: Builder<FavoriteDependency>, FavoriteBuildable {
         return FavoriteRouter(
             interactor: interactor,
             viewController: viewController,
-            productSearch: productSearch
+            productSearch: productSearch,
+            productDetail: productDetail
         )
     }
 }

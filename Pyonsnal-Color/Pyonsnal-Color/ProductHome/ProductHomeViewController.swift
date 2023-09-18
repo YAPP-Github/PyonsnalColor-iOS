@@ -13,7 +13,7 @@ protocol ProductHomePresentableListener: AnyObject, FilterRenderable {
     func didTapSearchButton()
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore?, filterList: [Int])
-    func didSelect(with brandProduct: ProductConvertable?)
+    func didSelect(with brandProduct: (any ProductConvertable)?)
 }
 
 final class ProductHomeViewController:
@@ -461,7 +461,7 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
         requestProducts(store: currentConvenienceStore)
     }
     
-    func didSelect(with brandProduct: ProductConvertable) {
+    func didSelect(with brandProduct: any ProductConvertable) {
         listener?.didSelect(with: brandProduct)
     }
     

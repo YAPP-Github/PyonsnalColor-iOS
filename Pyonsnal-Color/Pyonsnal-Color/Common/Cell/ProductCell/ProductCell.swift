@@ -10,7 +10,7 @@ import Combine
 import SnapKit
 
 protocol ProductCellDelegate: AnyObject {
-    func didTapFavoriteButton(productId: String, action: FavoriteButtonAction)
+    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction)
 }
 
 final class ProductCell: UICollectionViewCell {
@@ -18,7 +18,7 @@ final class ProductCell: UICollectionViewCell {
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
     private var cancellable = Set<AnyCancellable>()
-    private var productId: String?
+    private var product: (any ProductConvertable)?
     
     weak var delegate: ProductCellDelegate?
     
@@ -40,18 +40,18 @@ final class ProductCell: UICollectionViewCell {
             .tapPublisher
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] _ in
-                guard let self, let productId else { return }
+                guard let self, let product else { return }
                 let isSelected = !viewHolder.favoriteButton.isSelected
                 self.setFavoriteButtonSelected(isSelected: isSelected)
                 
                 let action: FavoriteButtonAction = getFavoriteButtonSelected() ? .add : .delete
-                self.delegate?.didTapFavoriteButton(productId: productId, action: action)
+                self.delegate?.didTapFavoriteButton(product: product, action: action)
             }.store(in: &cancellable)
     }
     
-    func updateCell(with product: ProductConvertable?) {
+    func updateCell(with product: (any ProductConvertable)?) {
         guard let product else { return }
-        self.productId = product.productId
+        self.product = product
         viewHolder.titleLabel.text = product.name
         if let storeTypeImage = product.storeType.storeTagImage {
             viewHolder.convenienceStoreTagImageView.setImage(storeTypeImage)

@@ -13,7 +13,8 @@ enum FavoriteButtonAction {
 }
 
 protocol FavoriteProductContainerCellDelegate: AnyObject {
-    func didTapFavoriteButton(productId: String, action: FavoriteButtonAction)
+    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction)
+    func didTapProduct(product: any ProductConvertable)
 }
 
 final class FavoriteProductContainerCell: UICollectionViewCell {
@@ -27,8 +28,31 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
     }
     
     enum ItemType: Hashable {
-        case product(product: BrandProductEntity)
+        case product(product: any ProductConvertable)
         case empty
+        
+        static func == (
+            lhs: FavoriteProductContainerCell.ItemType,
+            rhs: FavoriteProductContainerCell.ItemType
+        ) -> Bool {
+            switch (lhs, rhs) {
+            case (.product(let lProduct), .product(let rProduct)):
+                return lProduct.productId == rProduct.productId
+            case (.empty, .empty):
+                return true
+            default:
+                return false
+            }
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            switch self {
+            case .product(let product):
+                hasher.combine(product.productId)
+            case .empty:
+                hasher.combine(1)
+            }
+        }
     }
     
     weak var delegate: FavoriteProductContainerCellDelegate?
@@ -52,7 +76,7 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
     }
     
     // MARK: - Public Method
-    func update(with data: [BrandProductEntity]?) {
+    func update(with data: [any ProductConvertable]?) {
         makeSnapshot(with: data)
     }
     
@@ -63,6 +87,7 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
     }
     
     private func configureCollectionView() {
+        viewHolder.collectionView.delegate = self
         viewHolder.collectionView.setCollectionViewLayout(
             self.createLayout(),
             animated: true
@@ -84,6 +109,7 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
                 cell.updateCell(with: product)
                 cell.setFavoriteButton(isVisible: true)
                 cell.setFavoriteButtonSelected(isSelected: true)
+                cell.showEventCloseLayerView(isClosed: true)
                 cell.delegate = self
                 return cell
             }
@@ -102,7 +128,7 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         }
     }
     
-    private func makeSnapshot(with data: [BrandProductEntity]?) {
+    private func makeSnapshot(with data: [any ProductConvertable]?) {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         
         if let data, !data.isEmpty {
@@ -142,9 +168,20 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+extension FavoriteProductContainerCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let product = dataSource?.itemIdentifier(for: indexPath),
+           case let .product(product) = product {
+            delegate?.didTapProduct(product: product)
+        }
+    }
+}
+
+// MARK: - ProductCellDelegate
 extension FavoriteProductContainerCell: ProductCellDelegate {
-    func didTapFavoriteButton(productId: String, action: FavoriteButtonAction) {
-        delegate?.didTapFavoriteButton(productId: productId, action: action)
+    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction) {
+        delegate?.didTapFavoriteButton(product: product, action: action)
     }
     
 }

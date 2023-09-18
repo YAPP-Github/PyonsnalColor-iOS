@@ -12,11 +12,13 @@ import Foundation
 protocol FavoriteRouting: ViewableRouting {
     func attachProductSearch()
     func detachProductSearch()
+    func attachProductDetail(with product: any ProductConvertable)
+    func detachProductDetail()
 }
 
 protocol FavoritePresentable: Presentable {
     var listener: FavoritePresentableListener? { get set }
-    func updateProducts(products: [[BrandProductEntity]])
+    func updateProducts(products: [[any ProductConvertable]])
 }
 
 protocol FavoriteListener: AnyObject {
@@ -26,7 +28,6 @@ protocol FavoriteListener: AnyObject {
 final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
                                 FavoriteInteractable,
                                 FavoritePresentableListener {
-
     // MARK: - Interfaces
     weak var router: FavoriteRouting?
     weak var listener: FavoriteListener?
@@ -38,13 +39,13 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     private var pbPageNumber: Int = 0
     private var eventPageNumber: Int = 0
     private let pageSize: Int = 20
-    private var deletedProductIds = Set<String>()
+    private var deletedProducts = [any ProductConvertable]()
     
     private var isPbPagingEnabled: Bool = false
     private var isEventPagingEnabled: Bool = false
     
-    let pbProduct = PassthroughSubject<[BrandProductEntity], Never>()
-    let eventProduct = PassthroughSubject<[BrandProductEntity], Never>()
+    let pbProduct = PassthroughSubject<[any ProductConvertable], Never>()
+    let eventProduct = PassthroughSubject<[any ProductConvertable], Never>()
     
     // MARK: - Initializer
     init(
@@ -73,24 +74,28 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         }
     }
     
-    func appendProduct(productId: String) {
-        deletedProductIds.remove(productId)
+    func appendProduct(product: any ProductConvertable) {
+        if let index = deletedProducts.firstIndex(where: { $0.productId == product.productId }) {
+            deletedProducts.remove(at: index)
+        }
     }
     
-    func deleteProduct(productId: String) {
-        deletedProductIds.insert(productId)
+    func deleteProduct(product: any ProductConvertable) {
+        deletedProducts.append(product)
     }
     
     func deleteAllProducts() {
-        for id in deletedProductIds {
-            favoriteAPIService.deleteFavorite(productId: id)
-                .sink { response in
+        for product in deletedProducts {
+            favoriteAPIService.deleteFavorite(
+                productId: product.productId,
+                productType: .pb // product.productType
+            ).sink { response in
                     if response.error != nil {
                         Log.d(message: "success")
                     }
                 }.store(in: &cancellable)
         }
-        deletedProductIds = []
+        deletedProducts = []
     }
     
     func didTapSearchButton() {
@@ -99,6 +104,14 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     
     func popProductSearch() {
         router?.detachProductSearch()
+    }
+    
+    func didSelect(with product: any ProductConvertable) {
+        router?.attachProductDetail(with: product)
+    }
+    
+    func popProductDetail() {
+        router?.detachProductDetail()
     }
     
     private func requestPbProducts() {

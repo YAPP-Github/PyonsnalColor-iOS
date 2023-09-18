@@ -13,14 +13,16 @@ import Combine
 protocol FavoritePresentableListener: AnyObject {
     func requestFavoriteProducts()
     func deleteAllProducts()
-    func appendProduct(productId: String)
-    func deleteProduct(productId: String)
+    func appendProduct(product: any ProductConvertable)
+    func deleteProduct(product: any ProductConvertable)
     func didTapSearchButton()
+    func didSelect(with product: any ProductConvertable)
 }
 
 final class FavoriteViewController: UIViewController,
                                     FavoritePresentable,
                                     FavoriteViewControllable {
+
     enum Size {
         static let headerViewHeight: CGFloat = 48
         static let stackViewHeight: CGFloat = 40
@@ -40,7 +42,7 @@ final class FavoriteViewController: UIViewController,
     
     weak var listener: FavoritePresentableListener?
     private let viewHolder: ViewHolder = .init()
-    private var products = [[BrandProductEntity]]()
+    private var products = [[any ProductConvertable]]()
     private var scrollIndex = PassthroughSubject<Int, Never>()
     private var cancellable = Set<AnyCancellable>()
     
@@ -74,7 +76,7 @@ final class FavoriteViewController: UIViewController,
         listener?.deleteAllProducts()
     }
     
-    func updateProducts(products: [[BrandProductEntity]]) {
+    func updateProducts(products: [[any ProductConvertable]]) {
         self.products = products
         viewHolder.collectionView.reloadData()
         self.endRefreshing()
@@ -321,10 +323,6 @@ extension FavoriteViewController: TitleNavigationViewDelegate {
     }
 }
 
-extension FavoriteViewController: UICollectionViewDelegate {
-    
-}
-
 // MARK: - UICollectionViewDataSource
 extension FavoriteViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -362,12 +360,16 @@ extension FavoriteViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - FavoriteProductContainerCellDelegate
 extension FavoriteViewController: FavoriteProductContainerCellDelegate {
-    func didTapFavoriteButton(productId: String, action: FavoriteButtonAction) {
+    func didTapProduct(product: any ProductConvertable) {
+        listener?.didSelect(with: product)
+    }
+    
+    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction) {
         switch action {
         case .add:
-            listener?.appendProduct(productId: productId)
+            listener?.appendProduct(product: product)
         case .delete:
-            listener?.deleteProduct(productId: productId)
+            listener?.deleteProduct(product: product)
         }
     }
 }

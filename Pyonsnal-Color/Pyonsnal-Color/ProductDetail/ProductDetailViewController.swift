@@ -24,7 +24,7 @@ final class ProductDetailViewController:
     
     // MARK: - Interface
     weak var listener: ProductDetailPresentableListener?
-    var product: ProductConvertable? {
+    var product: (any ProductConvertable)? {
         didSet { updateUI() }
     }
     

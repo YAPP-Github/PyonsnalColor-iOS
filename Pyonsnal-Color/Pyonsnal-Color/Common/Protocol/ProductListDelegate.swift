@@ -10,7 +10,7 @@ import Foundation
 protocol ProductListDelegate: AnyObject {
     func didLoadPageList(store: ConvenienceStore)
     func refreshByPull()
-    func didSelect(with product: ProductConvertable?)
+    func didSelect(with product: (any ProductConvertable)?)
     
     func deleteKeywordFilter(_ filter: FilterItemEntity)
     func refreshFilterButton()
