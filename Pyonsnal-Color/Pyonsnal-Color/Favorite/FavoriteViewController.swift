@@ -17,6 +17,8 @@ protocol FavoritePresentableListener: AnyObject {
     func deleteProduct(product: any ProductConvertable)
     func didTapSearchButton()
     func didSelect(with product: any ProductConvertable)
+    func loadMoreItems(type: ProductType)
+    var isPagingEnabled: Bool { get }
 }
 
 final class FavoriteViewController: UIViewController,
@@ -39,12 +41,21 @@ final class FavoriteViewController: UIViewController,
     enum Tab: Int {
         case product = 0
         case event
+        
+        var productType: ProductType {
+            switch self {
+            case .product:
+                return .pb
+            case .event:
+                return .event
+            }
+        }
     }
     
     weak var listener: FavoritePresentableListener?
     private let viewHolder: ViewHolder = .init()
     private var products = [[any ProductConvertable]]()
-    private var scrollIndex = PassthroughSubject<Int, Never>()
+    private var scrollIndex = CurrentValueSubject<Int, Never>(0)
     private var cancellable = Set<AnyCancellable>()
     
     init() {
@@ -68,7 +79,6 @@ final class FavoriteViewController: UIViewController,
         configureAction()
         configureCollectionView()
         configureNavigationView()
-        configureRefreshControl()
         bindActions()
     }
     
@@ -80,7 +90,6 @@ final class FavoriteViewController: UIViewController,
     func updateProducts(products: [[any ProductConvertable]]) {
         self.products = products
         viewHolder.collectionView.reloadData()
-        self.endRefreshing()
     }
     
     private func configureTabBarItem() {
@@ -170,24 +179,6 @@ final class FavoriteViewController: UIViewController,
         viewHolder.titleNavigationView.delegate = self
     }
     
-    private func configureRefreshControl() {
-        viewHolder.collectionView.refreshControl?.addTarget(
-            self,
-            action: #selector(pullToRefresh),
-            for: .valueChanged
-        )
-    }
-    
-    @objc func pullToRefresh() {
-        viewHolder.collectionView.refreshControl?.beginRefreshing()
-        listener?.deleteAllProducts()
-        listener?.requestFavoriteProducts()
-    }
-    
-    func endRefreshing() {
-        viewHolder.collectionView.refreshControl?.endRefreshing()
-    }
-    
     private func bindActions() {
         scrollIndex
             .sink { [weak self] index in
@@ -263,7 +254,6 @@ final class FavoriteViewController: UIViewController,
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.isPagingEnabled = true
             collectionView.bounces = false
-            collectionView.refreshControl = UIRefreshControl()
             collectionView.showsHorizontalScrollIndicator = false
             return collectionView
         }()
@@ -351,6 +341,7 @@ extension FavoriteViewController: UICollectionViewDataSource {
         let product = products[indexPath.item]
         cell.delegate = self
         cell.update(with: product)
+        cell.endRefreshing()
         return cell
     }
     
@@ -388,4 +379,17 @@ extension FavoriteViewController: FavoriteProductContainerCellDelegate {
             listener?.deleteProduct(product: product)
         }
     }
+    
+    func pullToRefresh() {
+        listener?.deleteAllProducts()
+        listener?.requestFavoriteProducts()
+    }
+    
+    func loadMoreItems() {
+        if listener?.isPagingEnabled ?? false {
+            let tab = Tab(rawValue: scrollIndex.value) ?? .product
+            listener?.loadMoreItems(type: tab.productType)
+        }
+    }
+    
 }

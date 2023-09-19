@@ -41,11 +41,16 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     private let pageSize: Int = 20
     private var deletedProducts = [any ProductConvertable]()
     
-    private var isPbPagingEnabled: Bool = false
-    private var isEventPagingEnabled: Bool = false
+    var isPbPagingEnabled: Bool = true
+    var isEventPagingEnabled: Bool = true
+    var isPagingEnabled: Bool {
+        return isPbPagingEnabled && isEventPagingEnabled
+    }
+    private var isPbPagingNumberLoadMore: Bool = true
+    private var isEventPagingNumberLoadMore: Bool = true
     
-    let pbProduct = PassthroughSubject<[any ProductConvertable], Never>()
-    let eventProduct = PassthroughSubject<[any ProductConvertable], Never>()
+    let pbProduct = CurrentValueSubject<[any ProductConvertable], Never>([])
+    let eventProduct = CurrentValueSubject<[any ProductConvertable], Never>([])
     
     // MARK: - Initializer
     init(
@@ -69,8 +74,8 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     // pb, event 찜하기 상품 조회
     func requestFavoriteProducts() {
         Task {
-            requestPbProducts()
-            requestEventProducts()
+            self.requestPbProducts()
+            self.requestEventProducts()
         }
     }
     
@@ -115,14 +120,40 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     }
     
     private func requestPbProducts() {
+        self.isPbPagingEnabled = false
+        self.pbPageNumber = 0
         favoriteAPIService.favorites(
             pageNumber: pbPageNumber,
             pageSize: pageSize,
-            productType: .pb
+            productType: .pb,
+            model: BrandProductEntity.self
         ).sink { [weak self] response in
             if let product = response.value {
-                self?.isPbPagingEnabled = !product.isLast
-                self?.pbProduct.send(product.content)
+                self?.isPbPagingNumberLoadMore = !product.isLast
+                self?.pbProduct.value = product.content
+                self?.isPbPagingEnabled = true
+            } else {
+                // TODO: Error Handling
+            }
+        }.store(in: &cancellable)
+    }
+    
+    private func loadMorePbProducts() { // for pagination
+        self.isPbPagingEnabled = false
+        if !self.isPbPagingNumberLoadMore { return }
+        self.pbPageNumber += 1
+        
+        favoriteAPIService.favorites(
+            pageNumber: pbPageNumber,
+            pageSize: pageSize,
+            productType: .pb,
+            model: BrandProductEntity.self
+        ).sink { [weak self] response in
+            
+            if let product = response.value {
+                self?.isPbPagingNumberLoadMore = !product.isLast
+                self?.pbProduct.value += product.content
+                self?.isPbPagingEnabled = true
             } else {
                 // TODO: Error Handling
             }
@@ -130,18 +161,52 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     }
     
     private func requestEventProducts() {
+        self.isEventPagingEnabled = false
+        self.eventPageNumber = 0
         favoriteAPIService.favorites(
             pageNumber: eventPageNumber,
             pageSize: pageSize,
-            productType: .event
+            productType: .event,
+            model: EventProductEntity.self
         ).sink { [weak self] response in
             if let product = response.value {
-                self?.isEventPagingEnabled = !product.isLast
-                self?.eventProduct.send(product.content)
+                self?.isEventPagingNumberLoadMore = !product.isLast
+                self?.eventProduct.value = product.content
+                self?.isEventPagingEnabled = true
             } else {
                 // TODO: Error Handling
             }
         }.store(in: &cancellable)
+    }
+    
+    private func loadMoreEventProducts() { // for pagination
+        self.isEventPagingEnabled = false
+        if !self.isEventPagingNumberLoadMore { return }
+        self.eventPageNumber += 1
+        
+        favoriteAPIService.favorites(
+            pageNumber: eventPageNumber,
+            pageSize: pageSize,
+            productType: .event,
+            model: EventProductEntity.self
+        ).sink { [weak self] response in
+            if let product = response.value {
+                self?.isEventPagingNumberLoadMore = !product.isLast
+                self?.eventProduct.value += product.content
+                self?.isEventPagingEnabled = true
+            } else {
+                // TODO: Error Handling
+            }
+        }.store(in: &cancellable)
+    }
+    
+    func loadMoreItems(type: ProductType) {
+        switch type {
+        case .pb:
+            self.loadMorePbProducts()
+        case .event:
+            self.loadMoreEventProducts()
+        }
     }
     
     private func bindActions() {

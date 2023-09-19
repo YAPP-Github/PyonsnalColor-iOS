@@ -15,6 +15,8 @@ enum FavoriteButtonAction {
 protocol FavoriteProductContainerCellDelegate: AnyObject {
     func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction)
     func didTapProduct(product: any ProductConvertable)
+    func loadMoreItems()
+    func pullToRefresh()
 }
 
 final class FavoriteProductContainerCell: UICollectionViewCell {
@@ -69,6 +71,7 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         registerCell()
         configureCollectionView()
         configureDataSource()
+        configureRefreshControl()
     }
     
     required init?(coder: NSCoder) {
@@ -109,7 +112,6 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
                 cell.updateCell(with: product)
                 cell.setFavoriteButton(isVisible: true)
                 cell.setFavoriteButtonSelected(isSelected: true)
-                cell.showEventCloseLayerView(isClosed: true)
                 cell.delegate = self
                 return cell
             }
@@ -144,6 +146,25 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
+    private func configureRefreshControl() {
+        viewHolder.collectionView.refreshControl?.addTarget(
+            self,
+            action: #selector(pullToRefresh),
+            for: .valueChanged
+        )
+    }
+    
+    @objc func pullToRefresh() {
+        viewHolder.collectionView.refreshControl?.beginRefreshing()
+        delegate?.pullToRefresh()
+    }
+    
+    func endRefreshing() {
+        if viewHolder.collectionView.refreshControl?.isRefreshing ?? false {
+            viewHolder.collectionView.refreshControl?.endRefreshing()
+        }
+    }
+    
     final class ViewHolder: ViewHolderable {
         
         let collectionView: UICollectionView = {
@@ -152,6 +173,7 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
                 frame: .zero,
                 collectionViewLayout: layout
             )
+            collectionView.refreshControl = UIRefreshControl()
             return collectionView
         }()
         
@@ -172,8 +194,24 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
 extension FavoriteProductContainerCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let product = dataSource?.itemIdentifier(for: indexPath),
-           case let .product(product) = product {
-            delegate?.didTapProduct(product: product)
+           case let .product(item) = product {
+            if let item = item as? EventProductEntity {
+                if item.isEventExpired ?? false { return }
+            }
+            delegate?.didTapProduct(product: item)
+        }
+    }
+}
+
+// MARK: - Pagnation
+extension FavoriteProductContainerCell {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentSizeHeight = scrollView.contentSize.height
+        let contentOffsetY = scrollView.contentOffset.y
+        let pagnationHeight = (contentSizeHeight - scrollView.frame.size.height) * 0.9
+        let remaining = pagnationHeight < contentOffsetY
+        if remaining {
+            delegate?.loadMoreItems()
         }
     }
 }
