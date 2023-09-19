@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import Combine
 import SnapKit
 
 final class BackNavigationView: UIView {
     // MARK: - Declaration
+    enum Size {
+        static let favoriteButtonSize: CGFloat = 20
+    }
+    
     struct Payload {
         var mode: TitleMode = .image
         var title: String?
@@ -45,6 +50,13 @@ final class BackNavigationView: UIView {
         label.font = .title2
         label.textColor = .black
         return label
+    }()
+    
+    let favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.favorite, for: .normal)
+        button.setImage(.favoriteSelected, for: .selected)
+        return button
     }()
     
     // MARK: - Interface
@@ -92,11 +104,20 @@ final class BackNavigationView: UIView {
         backButton.addTarget(self, action: #selector(backButtonAction(_:)), for: .touchUpInside)
     }
     
+    func setFavoriteButtonSelected(isSelected: Bool) {
+        favoriteButton.isSelected = isSelected
+    }
+    
+    func getFavoriteButtonSelected() -> Bool {
+        return favoriteButton.isSelected
+    }
+    
     private func configureView(with mode: TitleMode) {
         addSubview(contentView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(iconImageView)
         contentView.addSubview(backButton)
+        contentView.addSubview(favoriteButton)
         setContentViewToHidden(with: mode)
         
     }
@@ -134,6 +155,11 @@ final class BackNavigationView: UIView {
         
         titleLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+        
+        favoriteButton.snp.makeConstraints {
+            $0.size.equalTo(Size.favoriteButtonSize)
+            $0.top.trailing.equalToSuperview().inset(.spacing12)
         }
     }
 }

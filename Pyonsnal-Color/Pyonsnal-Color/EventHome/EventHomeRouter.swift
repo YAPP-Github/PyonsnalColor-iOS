@@ -98,7 +98,7 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
     func attachProductDetail(with product: any ProductConvertable) {
         if productDetailRouting != nil { return }
         
-        let productDetailRouter = productDetail.build(withListener: interactor)
+        let productDetailRouter = productDetail.build(withListener: interactor, product: product)
         productDetailRouting = productDetailRouter
         attachChild(productDetailRouter)
         let productDetailViewController = productDetailRouting?.viewControllable as? ProductDetailViewController

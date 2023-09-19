@@ -148,7 +148,6 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         pbProduct
             .combineLatest(eventProduct)
             .sink { [weak self] pbProduct, eventProduct in
-                let totalProducts = [pbProduct, eventProduct]
                 self?.presenter.updateProducts(products: [pbProduct, eventProduct])
             }.store(in: &cancellable)
     }

@@ -96,7 +96,7 @@ final class ProductHomeRouter:
     func attachProductDetail(with product: any ProductConvertable) {
         if productDetailRouting != nil { return }
         
-        let productDetailRouter = productDetail.build(withListener: interactor)
+        let productDetailRouter = productDetail.build(withListener: interactor, product: product)
         productDetailRouting = productDetailRouter
         attachChild(productDetailRouter)
         (productDetailRouting?.viewControllable as? ProductDetailViewController)?.product = product

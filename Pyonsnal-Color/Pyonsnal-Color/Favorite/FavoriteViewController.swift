@@ -27,6 +27,7 @@ final class FavoriteViewController: UIViewController,
         static let headerViewHeight: CGFloat = 48
         static let stackViewHeight: CGFloat = 40
         static let underBarHeight: CGFloat = 3
+        static let dividerViewHeight: CGFloat = 1
     }
     
     enum Text {
@@ -179,6 +180,7 @@ final class FavoriteViewController: UIViewController,
     
     @objc func pullToRefresh() {
         viewHolder.collectionView.refreshControl?.beginRefreshing()
+        listener?.deleteAllProducts()
         listener?.requestFavoriteProducts()
     }
     
