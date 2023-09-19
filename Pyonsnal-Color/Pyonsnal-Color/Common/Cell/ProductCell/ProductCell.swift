@@ -75,7 +75,7 @@ final class ProductCell: UICollectionViewCell {
                 make.leading.equalTo(viewHolder.newTagView.snp.trailing)
             }
         }
-        
+        hasExpiredLayerView(product: product)
         hasEventType(product.eventType)
     }
     
@@ -95,6 +95,13 @@ final class ProductCell: UICollectionViewCell {
             viewHolder.eventTagLabel.text = eventName
         } else {
             viewHolder.eventTagLabel.isHidden = true
+        }
+    }
+    
+    private func hasExpiredLayerView(product: any ProductConvertable) {
+        if let product = product as? EventProductEntity,
+            let isExpired = product.isEventExpired {
+            self.showEventCloseLayerView(isClosed: isExpired)
         }
     }
     

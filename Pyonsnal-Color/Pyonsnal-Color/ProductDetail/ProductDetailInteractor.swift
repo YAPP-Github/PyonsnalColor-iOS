@@ -58,7 +58,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     func addFavorite() {
         favoriteAPIService.addFavorite(
             productId: product.productId,
-            productType: .pb // product.productType
+            productType: product.productType
             ).sink { [weak self] response in
                 if response.error != nil {
                     Log.d(message: "add Favorite success")
@@ -71,7 +71,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         func deleteFavorite() {
             favoriteAPIService.deleteFavorite(
                 productId: product.productId,
-                productType: .pb // product.productType
+                productType: product.productType
             ).sink { [weak self] response in
                 if response.error != nil {
                     Log.d(message: "delete Favorite success")
