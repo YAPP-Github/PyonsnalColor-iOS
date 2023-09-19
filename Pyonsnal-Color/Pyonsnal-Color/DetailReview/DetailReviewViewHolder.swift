@@ -10,6 +10,32 @@ import SnapKit
 
 extension DetailReviewViewController {
     final class ViewHolder: ViewHolderable {
+        enum Constant {
+            static let navigationTitle: String = "상품 리뷰 작성하기"
+            
+            static let tasteReviewTitle: String = "상품의 맛은 어떤가요?"
+            static let tasteGood: String = "맛있어요"
+            static let tasteOkay: String = "보통이예요"
+            static let tasteBad: String = "별로예요"
+            
+            static let qualityReviewTitle: String = "상품의 퀄리티는 어떤가요?"
+            static let qualityGood: String = "좋아요"
+            static let qualityOkay: String = "보통이예요"
+            static let qualityBad: String = "별로예요"
+            
+            static let priceReviewTitle: String = "상품의 가격은 어떤가요?"
+            static let priceGood: String = "합리적이예요"
+            static let priceOkay: String = "적당해요"
+            static let priceBad: String = "비싸요"
+            
+            static let detailReviewTitle: String = "좀 더 자세하게 알려주세요!"
+            static let detailReviewPlaceholder: String = "상품에 대한 솔직한 의견을 알려주세요."
+            
+            static let imageUploadTitle: String = "사진 업로드"
+            
+            static let applyReviewTitle: String = "작성 완료"
+        }
+        
         private let backNavigationView: BackNavigationView = {
             let navigationView = BackNavigationView()
             navigationView.payload = .init(
@@ -17,6 +43,7 @@ extension DetailReviewViewController {
                 title: Constant.navigationTitle,
                 iconImageKind: nil
             )
+            navigationView.setText(with: Constant.navigationTitle)
             return navigationView
         }()
         
@@ -88,9 +115,38 @@ extension DetailReviewViewController {
             return stackView
         }()
         
-        let tasteReview = SingleLineReview()
-        let qualityReview = SingleLineReview()
-        let priceReview = SingleLineReview()
+        let tasteReview: SingleLineReview = {
+            let review = SingleLineReview()
+            review.configureReviewTitle(
+                title: Constant.tasteReviewTitle,
+                first: Constant.tasteGood,
+                second: Constant.tasteOkay,
+                third: Constant.tasteBad
+            )
+            return review
+        }()
+        
+        let qualityReview: SingleLineReview = {
+            let review = SingleLineReview()
+            review.configureReviewTitle(
+                title: Constant.qualityReviewTitle,
+                first: Constant.qualityGood,
+                second: Constant.qualityOkay,
+                third: Constant.qualityBad
+            )
+            return review
+        }()
+        
+        let priceReview: SingleLineReview = {
+            let review = SingleLineReview()
+            review.configureReviewTitle(
+                title: Constant.priceReviewTitle,
+                first: Constant.priceGood,
+                second: Constant.priceOkay,
+                third: Constant.priceBad
+            )
+            return review
+        }()
         
         private let detailReviewStackView: UIStackView = {
             let stackView = UIStackView()
@@ -109,6 +165,7 @@ extension DetailReviewViewController {
         let detailReviewLabel: UILabel = {
             let label = UILabel()
             label.font = .title1
+            label.text = Constant.detailReviewTitle
             return label
         }()
         
@@ -145,16 +202,23 @@ extension DetailReviewViewController {
         let imageUploadLabel: UILabel = {
             let label = UILabel()
             label.font = .title1
+            label.text = Constant.imageUploadTitle
             return label
         }()
         
-        private let imageUploadButton: UIButton = {
+        let imageUploadButton: UIButton = {
             let button = UIButton()
             button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
             button.makeRounded(with: .spacing16)
             button.backgroundColor = .gray100
             button.setImage(.init(systemName: "plus"), for: .normal)
-            button.tintColor = .gray200
+            button.tintColor = .gray400
+            return button
+        }()
+        
+        let applyReviewButton: PrimaryButton = {
+            let button = PrimaryButton(state: .disabled)
+            button.setText(with: Constant.applyReviewTitle)
             return button
         }()
         
@@ -163,6 +227,7 @@ extension DetailReviewViewController {
             view.addSubview(totalScrollView)
             
             totalScrollView.addSubview(contentStackView)
+            totalScrollView.addSubview(applyReviewButton)
             
             contentStackView.addArrangedSubview(productTotalStackView)
             contentStackView.addArrangedSubview(separatorView)
@@ -195,7 +260,7 @@ extension DetailReviewViewController {
             }
             
             totalScrollView.snp.makeConstraints {
-                $0.leading.trailing.bottom.equalTo(view)
+                $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
                 $0.top.equalTo(backNavigationView.snp.bottom)
             }
             
@@ -203,6 +268,13 @@ extension DetailReviewViewController {
                 $0.edges.equalToSuperview()
                 $0.width.equalToSuperview()
                 $0.height.greaterThanOrEqualToSuperview()
+            }
+            
+            applyReviewButton.snp.makeConstraints {
+                $0.bottom.equalTo(totalScrollView.frameLayoutGuide)
+                $0.leading.equalToSuperview().offset(16)
+                $0.trailing.equalToSuperview().inset(16)
+                $0.height.equalTo(52)
             }
             
             productTotalStackView.snp.makeConstraints {
