@@ -83,6 +83,10 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         makeSnapshot(with: data)
     }
     
+    func scrollCollectionViewToTop() {
+        viewHolder.collectionView.setContentOffset(.zero, animated: true)
+    }
+    
     // MARK: - Private Method
     private func registerCell() {
         viewHolder.collectionView.register(ProductCell.self)

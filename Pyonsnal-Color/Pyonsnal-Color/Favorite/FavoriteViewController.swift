@@ -150,17 +150,18 @@ final class FavoriteViewController: UIViewController,
     @objc
     func didTapProductButton() {
         let selectedTab: Tab = .product
+        scrollIndex.send(selectedTab.rawValue)
         self.selectTabAndScrollToItem(tab: selectedTab)
     }
     
     @objc
     func didTapEventButton() {
         let selectedTab: Tab = .event
+        scrollIndex.send(selectedTab.rawValue)
         self.selectTabAndScrollToItem(tab: selectedTab)
     }
     
     private func selectTabAndScrollToItem(tab: Tab) {
-        self.setTabSelectedState(to: tab)
         let indexPath = IndexPath(item: tab.rawValue, section: 0)
         viewHolder.collectionView.scrollToItem(
             at: indexPath,
@@ -320,12 +321,23 @@ final class FavoriteViewController: UIViewController,
 
 }
 
+// MARK: - TitleNavigationViewDelegate
 extension FavoriteViewController: TitleNavigationViewDelegate {
     func didTabSearchButton() {
         listener?.didTapSearchButton()
     }
     
     func didTabNotificationButton() {
+    }
+}
+
+// MARK: - ProductPresentable
+extension FavoriteViewController: ProductPresentable {
+    func didTabRootTabBar() {
+        let cellIndexPath = IndexPath(item: scrollIndex.value, section: 0)
+        guard let cell = viewHolder.collectionView.cellForItem(at: cellIndexPath) as? FavoriteProductContainerCell else { return }
+        cell.scrollCollectionViewToTop()
+    
     }
 }
 

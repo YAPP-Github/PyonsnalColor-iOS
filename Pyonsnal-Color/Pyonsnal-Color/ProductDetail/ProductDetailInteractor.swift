@@ -22,7 +22,9 @@ protocol ProductDetailListener: AnyObject {
     func popProductDetail()
 }
 
-final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresentable>, ProductDetailInteractable, ProductDetailPresentableListener {
+final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresentable>,
+                                     ProductDetailInteractable,
+                                     ProductDetailPresentableListener {
 
     weak var router: ProductDetailRouting?
     weak var listener: ProductDetailListener?
