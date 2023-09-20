@@ -134,16 +134,19 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             if let product = response.value {
                 self?.isPbPagingNumberLoadMore = !product.isLast
                 self?.pbProduct.value = product.content
-                self?.isPbPagingEnabled = true
             } else {
                 // TODO: Error Handling
             }
+            self?.isPbPagingEnabled = true
         }.store(in: &cancellable)
     }
     
     private func loadMorePbProducts() { // for pagination
         self.isPbPagingEnabled = false
-        if !self.isPbPagingNumberLoadMore { return }
+        if !self.isPbPagingNumberLoadMore {
+            self.isPbPagingEnabled = true
+            return
+        }
         self.pbPageNumber += 1
         
         favoriteAPIService.favorites(
@@ -156,10 +159,10 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             if let product = response.value {
                 self?.isPbPagingNumberLoadMore = !product.isLast
                 self?.pbProduct.value += product.content
-                self?.isPbPagingEnabled = true
             } else {
                 // TODO: Error Handling
             }
+            self?.isPbPagingEnabled = true
         }.store(in: &cancellable)
     }
     
@@ -175,18 +178,21 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             if let product = response.value {
                 self?.isEventPagingNumberLoadMore = !product.isLast
                 self?.eventProduct.value = product.content
-                self?.isEventPagingEnabled = true
             } else {
                 // TODO: Error Handling
             }
+            self?.isEventPagingEnabled = true
         }.store(in: &cancellable)
     }
     
     private func loadMoreEventProducts() { // for pagination
         self.isEventPagingEnabled = false
-        if !self.isEventPagingNumberLoadMore { return }
+        if !self.isEventPagingNumberLoadMore { 
+            self.isEventPagingEnabled = true
+            return
+        }
         self.eventPageNumber += 1
-        
+        Log.d(message: "offset loadMoreItems")
         favoriteAPIService.favorites(
             pageNumber: eventPageNumber,
             pageSize: pageSize,
@@ -196,14 +202,15 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             if let product = response.value {
                 self?.isEventPagingNumberLoadMore = !product.isLast
                 self?.eventProduct.value += product.content
-                self?.isEventPagingEnabled = true
             } else {
                 // TODO: Error Handling
             }
+            self?.isEventPagingEnabled = true
         }.store(in: &cancellable)
     }
     
     func loadMoreItems(type: ProductType) {
+        if !isPagingEnabled { return }
         switch type {
         case .pb:
             self.loadMorePbProducts()
