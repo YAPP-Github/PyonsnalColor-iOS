@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 enum ProductAPI: NetworkRequestBuilder {
-    
+    static var accessToken: String?
     case brandProduct(
         pageNumber: Int,
         pageSize: Int,
@@ -104,5 +104,9 @@ extension ProductAPI {
         return queryItems
     }
 
-    var headers: [HTTPHeader]? { Config.shared.getDefaultHeader() }
+    var headers: [HTTPHeader]? { 
+        if let accessToken = ProductAPI.accessToken {
+        return Config.shared.getAuthorizationHeader(with: accessToken)
+    }
+    return Config.shared.getDefaultHeader() }
 }

@@ -11,9 +11,13 @@ import Combine
 final class ProductAPIService {
     
     private let client: PyonsnalColorClient
+    private let userAuthService: UserAuthService
+    private var accessToken: String?
     
-    init(client: PyonsnalColorClient) {
+    init(client: PyonsnalColorClient, userAuthService: UserAuthService) {
         self.client = client
+        self.userAuthService = userAuthService
+        self.accessToken = userAuthService.getAccessToken()
     }
     
     func requestBrandProduct(
@@ -22,6 +26,7 @@ final class ProductAPIService {
         storeType: ConvenienceStore,
         filterList: [Int]
     ) -> AnyPublisher<DataResponse<ProductPageEntity<BrandProductEntity>, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
         return client.request(
             ProductAPI.brandProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),
             model: ProductPageEntity.self
@@ -34,6 +39,7 @@ final class ProductAPIService {
         storeType: ConvenienceStore,
         filterList: [Int]
     ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
         return client.request(
             ProductAPI.eventProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),
             model: ProductPageEntity.self
@@ -43,6 +49,7 @@ final class ProductAPIService {
     func requestEventBanner(
         storeType: ConvenienceStore
     ) -> AnyPublisher<DataResponse<[EventBannerEntity], NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
         return client.request(
             ProductAPI.eventBanner(storeType: storeType),
             model: [EventBannerEntity].self
@@ -62,6 +69,7 @@ final class ProductAPIService {
     }
     
     func requestCuration() -> AnyPublisher<DataResponse<CurationProductsEntity, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
         return client.request(ProductAPI.curationProduct, model: CurationProductsEntity.self)
     }
     
