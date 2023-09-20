@@ -21,6 +21,20 @@ protocol FavoritePresentableListener: AnyObject {
     var isPagingEnabled: Bool { get }
 }
 
+enum FavoriteTab: Int {
+    case product = 0
+    case event
+    
+    var productType: ProductType {
+        switch self {
+        case .product:
+            return .pb
+        case .event:
+            return .event
+        }
+    }
+}
+
 final class FavoriteViewController: UIViewController,
                                     FavoritePresentable,
                                     FavoriteViewControllable {
@@ -38,23 +52,10 @@ final class FavoriteViewController: UIViewController,
         static let eventTab = "행사 상품"
     }
     
-    enum Tab: Int {
-        case product = 0
-        case event
-        
-        var productType: ProductType {
-            switch self {
-            case .product:
-                return .pb
-            case .event:
-                return .event
-            }
-        }
-    }
-    
     weak var listener: FavoritePresentableListener?
     private let viewHolder: ViewHolder = .init()
-    private var products = [[any ProductConvertable]]()
+
+    private var products = [FavoriteTab: [any ProductConvertable]]()
     private var scrollIndex = CurrentValueSubject<Int, Never>(0)
     private var cancellable = Set<AnyCancellable>()
     
@@ -76,7 +77,6 @@ final class FavoriteViewController: UIViewController,
         viewHolder.place(in: self.view)
         viewHolder.configureConstraints(for: self.view)
         setTabSelectedState(to: .product)
-        configureAction()
         configureCollectionView()
         configureNavigationView()
         bindActions()
@@ -87,8 +87,8 @@ final class FavoriteViewController: UIViewController,
         listener?.deleteAllProducts()
     }
     
-    func updateProducts(products: [[any ProductConvertable]]) {
-        self.products = products
+    func updateProducts(products: [any ProductConvertable], tab: FavoriteTab) {
+        self.products[tab] = products
         viewHolder.collectionView.reloadData()
     }
     
@@ -101,7 +101,7 @@ final class FavoriteViewController: UIViewController,
         )
     }
     
-    private func setTabSelectedState(to state: Tab) {
+    private func setTabSelectedState(to state: FavoriteTab) {
         switch state {
         case .product:
             setSelectedState(
@@ -134,34 +134,12 @@ final class FavoriteViewController: UIViewController,
         underBarView.isHidden = true
     }
     
-    private func configureAction() {
-        viewHolder.productTabButton.addTarget(
-            self,
-            action: #selector(didTapProductButton),
-            for: .touchUpInside
-        )
-        viewHolder.eventTabButton.addTarget(
-            self,
-            action: #selector(didTapEventButton),
-            for: .touchUpInside
-        )
-    }
-    
-    @objc
-    func didTapProductButton() {
-        let selectedTab: Tab = .product
+    private func didTapButton(selectedTab: FavoriteTab) {
         scrollIndex.send(selectedTab.rawValue)
         self.selectTabAndScrollToItem(tab: selectedTab)
     }
     
-    @objc
-    func didTapEventButton() {
-        let selectedTab: Tab = .event
-        scrollIndex.send(selectedTab.rawValue)
-        self.selectTabAndScrollToItem(tab: selectedTab)
-    }
-    
-    private func selectTabAndScrollToItem(tab: Tab) {
+    private func selectTabAndScrollToItem(tab: FavoriteTab) {
         let indexPath = IndexPath(item: tab.rawValue, section: 0)
         viewHolder.collectionView.scrollToItem(
             at: indexPath,
@@ -181,9 +159,21 @@ final class FavoriteViewController: UIViewController,
     }
     
     private func bindActions() {
+        viewHolder.productTabButton
+            .tapPublisher
+            .sink { [weak self] _ in
+                self?.didTapButton(selectedTab: .product)
+            }.store(in: &cancellable)
+
+        viewHolder.eventTabButton
+            .tapPublisher
+            .sink { [weak self] _ in
+                self?.didTapButton(selectedTab: .event)
+            }.store(in: &cancellable)
+        
         scrollIndex
             .sink { [weak self] index in
-            let tab = Tab(rawValue: index) ?? .product
+            let tab = FavoriteTab(rawValue: index) ?? .product
             self?.setTabSelectedState(to: tab)
         }.store(in: &cancellable)
         
@@ -350,7 +340,10 @@ extension FavoriteViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: FavoriteProductContainerCell = collectionView.dequeueReusableCell(for: indexPath)
         if products.isEmpty { return cell }
-        let product = products[indexPath.item]
+        guard let tab = FavoriteTab(rawValue: indexPath.item),
+              let product = products[tab] else {
+            return cell
+        }
         cell.delegate = self
         cell.update(with: product)
         cell.endRefreshing()
@@ -394,14 +387,12 @@ extension FavoriteViewController: FavoriteProductContainerCellDelegate {
     
     func pullToRefresh() {
         listener?.deleteAllProducts()
-        listener?.requestFavoriteProducts()
     }
     
     func loadMoreItems() {
         if listener?.isPagingEnabled ?? false {
-            let tab = Tab(rawValue: scrollIndex.value) ?? .product
+            let tab = FavoriteTab(rawValue: scrollIndex.value) ?? .product
             listener?.loadMoreItems(type: tab.productType)
         }
     }
-    
 }

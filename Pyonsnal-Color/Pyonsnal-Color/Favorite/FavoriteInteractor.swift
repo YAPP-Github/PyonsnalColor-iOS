@@ -18,7 +18,7 @@ protocol FavoriteRouting: ViewableRouting {
 
 protocol FavoritePresentable: Presentable {
     var listener: FavoritePresentableListener? { get set }
-    func updateProducts(products: [[any ProductConvertable]])
+    func updateProducts(products: [any ProductConvertable], tab: FavoriteTab)
 }
 
 protocol FavoriteListener: AnyObject {
@@ -73,10 +73,8 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     
     // pb, event 찜하기 상품 조회
     func requestFavoriteProducts() {
-        Task {
-            self.requestPbProducts()
-            self.requestEventProducts()
-        }
+        self.requestPbProducts()
+        self.requestEventProducts()
     }
     
     func appendProduct(product: any ProductConvertable) {
@@ -90,17 +88,22 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     }
     
     func deleteAllProducts() {
-        for product in deletedProducts {
-            favoriteAPIService.deleteFavorite(
-                productId: product.productId,
-                productType: .pb // product.productType
-            ).sink { response in
-                    if response.error != nil {
-                        Log.d(message: "success")
-                    }
-                }.store(in: &cancellable)
+        let group = DispatchGroup()
+        for product in self.deletedProducts {
+            group.enter()
+            DispatchQueue.global(qos: .background).async(group: group) {
+                self.favoriteAPIService.deleteFavorite(
+                    productId: product.productId,
+                    productType: .pb
+                ).sink { response in
+                    group.leave()
+                }.store(in: &self.cancellable)
+            }
         }
-        deletedProducts = []
+        
+        group.notify(queue: DispatchQueue.main) { [weak self] in
+            self?.requestFavoriteProducts()
+        }
     }
     
     func didTapSearchButton() {
@@ -211,9 +214,13 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     
     private func bindActions() {
         pbProduct
-            .combineLatest(eventProduct)
-            .sink { [weak self] pbProduct, eventProduct in
-                self?.presenter.updateProducts(products: [pbProduct, eventProduct])
+            .sink { [weak self] value in
+                self?.presenter.updateProducts(products: value, tab: .product)
+            }.store(in: &cancellable)
+        
+        eventProduct
+            .sink { [weak self] value in
+                self?.presenter.updateProducts(products: value, tab: .event)
             }.store(in: &cancellable)
     }
     
