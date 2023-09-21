@@ -16,6 +16,7 @@ extension StarRatingReviewViewController {
             
             static let titleSpacing: CGFloat = 100
             static let productSpacing: CGFloat = 40
+            static let starRatingSpacing: CGFloat = 60
         }
         
         private let backNavigationView: BackNavigationView = {
@@ -53,11 +54,17 @@ extension StarRatingReviewViewController {
         }()
         
         // TODO: 별점 리뷰 뷰 추가
+        let starRatingView: PrimaryButton = {
+            let button = PrimaryButton(state: .enabled)
+            button.setText(with: "상세 리뷰")
+            return button
+        }()
         
         func place(in view: UIView) {
             view.addSubview(backNavigationView)
             view.addSubview(titleLabel)
             view.addSubview(productStackView)
+            view.addSubview(starRatingView)
             
             productStackView.addArrangedSubview(storeImageView)
             productStackView.addArrangedSubview(productImageView)
@@ -77,6 +84,11 @@ extension StarRatingReviewViewController {
             
             productStackView.snp.makeConstraints {
                 $0.top.equalTo(titleLabel.snp.bottom).offset(Constant.productSpacing)
+                $0.centerX.equalToSuperview()
+            }
+            
+            starRatingView.snp.makeConstraints {
+                $0.top.equalTo(productStackView.snp.bottom).offset(Constant.starRatingSpacing)
                 $0.centerX.equalToSuperview()
             }
         }

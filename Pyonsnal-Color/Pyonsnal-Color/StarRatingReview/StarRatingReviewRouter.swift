@@ -7,20 +7,35 @@
 
 import ModernRIBs
 
-protocol StarRatingReviewInteractable: Interactable {
+protocol StarRatingReviewInteractable: Interactable, DetailReviewListener {
     var router: StarRatingReviewRouting? { get set }
     var listener: StarRatingReviewListener? { get set }
 }
 
 protocol StarRatingReviewViewControllable: ViewControllable {
-    // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
 final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable, StarRatingReviewViewControllable>, StarRatingReviewRouting {
+    
+    private let detailReviewBuilder: DetailReviewBuildable
+    private var detailReviewRouting: DetailReviewRouting?
 
-    // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: StarRatingReviewInteractable, viewController: StarRatingReviewViewControllable) {
+    init(
+        interactor: StarRatingReviewInteractable,
+        viewController: StarRatingReviewViewControllable,
+        detailReviewBuilder: DetailReviewBuildable
+    ) {
+        self.detailReviewBuilder = detailReviewBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachDetailReview() {
+        guard detailReviewRouting == nil else { return }
+        
+        let detailReviewRouter = detailReviewBuilder.build(withListener: interactor)
+        detailReviewRouting = detailReviewRouter
+        attachChild(detailReviewRouter)
+        viewController.pushViewController(detailReviewRouter.viewControllable, animated: true)
     }
 }
