@@ -133,6 +133,7 @@ final class ProductListViewController: UIViewController {
                 } else {
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                     cell.updateCell(with: brandProduct)
+                    cell.setFavoriteButton(isVisible: false)
                     return cell
                 }
             }

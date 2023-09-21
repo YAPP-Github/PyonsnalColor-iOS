@@ -20,6 +20,7 @@ struct EventProductEntity: Decodable, ProductConvertable, Hashable {
     let description: String?
     let isEventExpired: Bool?
     let giftItem: String?
+    let isFavorite: Bool?
     let isNew: Bool?
     
     private enum CodingKeys: String, CodingKey {
@@ -35,6 +36,7 @@ struct EventProductEntity: Decodable, ProductConvertable, Hashable {
         case description
         case isEventExpired
         case giftItem = "giftImage"
+        case isFavorite
         case isNew
     }
 }

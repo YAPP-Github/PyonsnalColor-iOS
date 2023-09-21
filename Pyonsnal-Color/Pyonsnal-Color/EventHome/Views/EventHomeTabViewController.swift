@@ -153,6 +153,7 @@ final class EventHomeTabViewController: UIViewController {
                 } else {
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                     cell.updateCell(with: item)
+                    cell.setFavoriteButton(isVisible: false)
                     return cell
                 }
             case .event(let item):

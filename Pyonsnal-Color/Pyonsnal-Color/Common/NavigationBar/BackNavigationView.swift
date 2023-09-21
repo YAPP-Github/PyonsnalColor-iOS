@@ -104,8 +104,8 @@ final class BackNavigationView: UIView {
         backButton.addTarget(self, action: #selector(backButtonAction(_:)), for: .touchUpInside)
     }
     
-    func setFavoriteButtonSelected(isSelected: Bool) {
-        favoriteButton.isSelected = isSelected
+    func setFavoriteButtonSelected(isSelected: Bool?) {
+        favoriteButton.isSelected = isSelected ?? false
     }
     
     func getFavoriteButtonSelected() -> Bool {

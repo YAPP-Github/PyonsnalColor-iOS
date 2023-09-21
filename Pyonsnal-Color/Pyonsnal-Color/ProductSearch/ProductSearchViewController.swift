@@ -112,6 +112,7 @@ final class ProductSearchViewController: UIViewController,
                 case let .item(product):
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                     cell.updateCell(with: product)
+                    cell.setFavoriteButton(isVisible: false)
                     return cell
                 }
             }

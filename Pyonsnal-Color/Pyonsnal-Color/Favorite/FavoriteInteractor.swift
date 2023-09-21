@@ -91,7 +91,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         let group = DispatchGroup()
         for product in self.deletedProducts {
             group.enter()
-            DispatchQueue.global(qos: .background).async(group: group) {
+            DispatchQueue.global(qos: .userInteractive).async(group: group) {
                 self.favoriteAPIService.deleteFavorite(
                     productId: product.productId,
                     productType: .pb
@@ -192,7 +192,6 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             return
         }
         self.eventPageNumber += 1
-        Log.d(message: "offset loadMoreItems")
         favoriteAPIService.favorites(
             pageNumber: eventPageNumber,
             pageSize: pageSize,

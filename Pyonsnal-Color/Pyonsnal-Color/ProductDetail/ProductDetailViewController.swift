@@ -64,6 +64,7 @@ final class ProductDetailViewController:
         viewHolder.updateDateLabel.text = "\(Text.updateLabelTextPrefix) \(product.updatedTime)"
         viewHolder.productNameLabel.text = product.name
         viewHolder.productPriceLabel.text = product.price
+        viewHolder.backNavigationView.setFavoriteButtonSelected(isSelected: product.isFavorite)
         let description = product.description?
             .components(separatedBy: .whitespacesAndNewlines)
             .joined(separator: " ")
