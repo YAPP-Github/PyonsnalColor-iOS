@@ -39,11 +39,16 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
         super.willResignActive()
     }
     
+    func didTapBackButton() {
+        router?.attachPopup(isApply: false)
+    }
+    
     func popupDidTapDismissButton() {
         router?.detachPopup()
     }
     
     func popupDidTapBackButton() {
+        router?.detachPopup()
         listener?.detachDetailReview()
     }
     

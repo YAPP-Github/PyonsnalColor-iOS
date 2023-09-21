@@ -36,7 +36,7 @@ extension DetailReviewViewController {
             static let applyReviewTitle: String = "작성 완료"
         }
         
-        private let backNavigationView: BackNavigationView = {
+        let backNavigationView: BackNavigationView = {
             let navigationView = BackNavigationView()
             navigationView.payload = .init(
                 mode: .text,

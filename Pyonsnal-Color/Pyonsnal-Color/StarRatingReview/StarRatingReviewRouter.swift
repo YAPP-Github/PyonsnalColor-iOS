@@ -40,6 +40,10 @@ final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable,
     }
     
     func detachDetailReview() {
+        guard let detailReviewRouting else { return }
         
+        viewController.popViewController(animated: true)
+        self.detailReviewRouting = nil
+        detachChild(detailReviewRouting)
     }
 }

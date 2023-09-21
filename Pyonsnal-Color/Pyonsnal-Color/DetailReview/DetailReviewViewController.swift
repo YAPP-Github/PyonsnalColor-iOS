@@ -9,6 +9,7 @@ import ModernRIBs
 import UIKit
 
 protocol DetailReviewPresentableListener: AnyObject {
+    func didTapBackButton()
 }
 
 final class DetailReviewViewController: UIViewController, DetailReviewPresentable, DetailReviewViewControllable {
@@ -22,5 +23,16 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         view.backgroundColor = .white
+        configureNavigationView()
+    }
+    
+    private func configureNavigationView() {
+        viewHolder.backNavigationView.delegate = self
+    }
+}
+
+extension DetailReviewViewController: BackNavigationViewDelegate {
+    func didTapBackButton() {
+        listener?.didTapBackButton()
     }
 }

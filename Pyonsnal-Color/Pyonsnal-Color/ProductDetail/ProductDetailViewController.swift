@@ -19,6 +19,7 @@ protocol ProductDetailPresentableListener: AnyObject {
     func sortButtonDidTap()
     func reviewLikeButtonDidTap(review: ReviewEntity)
     func reviewHateButtonDidTap(review: ReviewEntity)
+    func attachStarRatingReview()
 }
 
 final class ProductDetailViewController:

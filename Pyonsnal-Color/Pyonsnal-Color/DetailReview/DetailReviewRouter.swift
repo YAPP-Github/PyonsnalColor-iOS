@@ -45,7 +45,7 @@ final class DetailReviewRouter: ViewableRouter<DetailReviewInteractable, DetailR
         guard let reviewPopupRouting else { return }
         
         viewControllable.uiviewController.dismiss(animated: false)
-        detachChild(reviewPopupRouting)
         self.reviewPopupRouting = nil
+        detachChild(reviewPopupRouting)
     }
 }

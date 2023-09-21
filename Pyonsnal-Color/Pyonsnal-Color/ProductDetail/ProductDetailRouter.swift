@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol ProductDetailInteractable: Interactable {
+protocol ProductDetailInteractable: Interactable, StarRatingReviewListener {
     var router: ProductDetailRouting? { get set }
     var listener: ProductDetailListener? { get set }
 }
@@ -19,8 +19,33 @@ protocol ProductDetailViewControllable: ViewControllable {
 final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, ProductDetailViewControllable>, ProductDetailRouting {
 
     // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: ProductDetailInteractable, viewController: ProductDetailViewControllable) {
+    private let starRatingReviewBuilder: StarRatingReviewBuildable
+    private var starRatingReviewRouting: StarRatingReviewRouting?
+    
+    init(
+        interactor: ProductDetailInteractable,
+        viewController: ProductDetailViewControllable,
+        starRatingReviewBuilder: StarRatingReviewBuildable
+    ) {
+        self.starRatingReviewBuilder = starRatingReviewBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachStarRatingReview() {
+        guard starRatingReviewRouting == nil else { return }
+        
+        let starRatingReviewRouter = starRatingReviewBuilder.build(withListener: interactor)
+        starRatingReviewRouting = starRatingReviewRouter
+        attachChild(starRatingReviewRouter)
+        viewController.pushViewController(starRatingReviewRouter.viewControllable, animated: true)
+    }
+    
+    func detachStarRatingReview() {
+        guard let starRatingReviewRouting else { return }
+        
+        viewController.popViewController(animated: true)
+        self.starRatingReviewRouting = nil
+        detachChild(starRatingReviewRouting)
     }
 }

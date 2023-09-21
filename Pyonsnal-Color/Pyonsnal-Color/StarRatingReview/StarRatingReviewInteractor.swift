@@ -17,7 +17,7 @@ protocol StarRatingReviewPresentable: Presentable {
 }
 
 protocol StarRatingReviewListener: AnyObject {
-    func routeToProductDetail()
+    func detachStarRatingReview()
 }
 
 final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPresentable>, StarRatingReviewInteractable, StarRatingReviewPresentableListener {
@@ -47,6 +47,10 @@ final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPr
     }
     
     func routeToProductDetail() {
-        listener?.routeToProductDetail()
+        listener?.detachStarRatingReview()
+    }
+    
+    func didTapBackButton() {
+        listener?.detachStarRatingReview()
     }
 }

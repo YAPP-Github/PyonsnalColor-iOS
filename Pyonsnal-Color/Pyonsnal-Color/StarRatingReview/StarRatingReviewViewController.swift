@@ -11,6 +11,7 @@ import ModernRIBs
 
 protocol StarRatingReviewPresentableListener: AnyObject {
     func didFinishStarRating()
+    func didTapBackButton()
 }
 
 final class StarRatingReviewViewController: UIViewController, StarRatingReviewPresentable, StarRatingReviewViewControllable {
@@ -25,7 +26,13 @@ final class StarRatingReviewViewController: UIViewController, StarRatingReviewPr
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         view.backgroundColor = .white
+        configureNavigationView()
         configureStarRatingView()
+    }
+    
+    
+    private func configureNavigationView() {
+        viewHolder.backNavigationView.delegate = self
     }
     
     private func configureStarRatingView() {
@@ -38,5 +45,11 @@ final class StarRatingReviewViewController: UIViewController, StarRatingReviewPr
     
     private func didFinishStarRating() {
         listener?.didFinishStarRating()
+    }
+}
+
+extension StarRatingReviewViewController: BackNavigationViewDelegate {
+    func didTapBackButton() {
+        listener?.didTapBackButton()
     }
 }

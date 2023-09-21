@@ -19,7 +19,7 @@ extension StarRatingReviewViewController {
             static let starRatingSpacing: CGFloat = 60
         }
         
-        private let backNavigationView: BackNavigationView = {
+        let backNavigationView: BackNavigationView = {
             let navigationView = BackNavigationView()
             navigationView.payload = .init(
                 mode: .text,
