@@ -26,7 +26,7 @@ extension RootTabBarComponent: ProductHomeDependency,
     }
     
     var productAPIService: ProductAPIService {
-        return ProductAPIService(client: client)
+        return ProductAPIService(client: client, userAuthService: userAuthService)
     }
     
 }
