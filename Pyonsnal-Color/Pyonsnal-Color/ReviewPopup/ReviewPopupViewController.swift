@@ -98,7 +98,7 @@ final class ReviewPopupViewController: UIViewController, ReviewPopupPresentable,
             viewHolder.dismissButton
                 .tapPublisher
                 .sink { [weak self] in
-                    self?.didTapApplyButton()
+                    self?.didTapBackButton()
                 }.store(in: &cancellable)
             viewHolder.confirmButton
                 .tapPublisher

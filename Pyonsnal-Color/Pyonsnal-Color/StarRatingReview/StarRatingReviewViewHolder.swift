@@ -90,6 +90,8 @@ extension StarRatingReviewViewController {
             starRatingView.snp.makeConstraints {
                 $0.top.equalTo(productStackView.snp.bottom).offset(Constant.starRatingSpacing)
                 $0.centerX.equalToSuperview()
+                $0.width.equalTo(200)
+                $0.height.equalTo(40)
             }
         }
     }

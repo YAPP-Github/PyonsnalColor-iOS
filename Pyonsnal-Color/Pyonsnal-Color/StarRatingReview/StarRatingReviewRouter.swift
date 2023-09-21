@@ -38,4 +38,8 @@ final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable,
         attachChild(detailReviewRouter)
         viewController.pushViewController(detailReviewRouter.viewControllable, animated: true)
     }
+    
+    func detachDetailReview() {
+        
+    }
 }

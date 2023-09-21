@@ -25,13 +25,14 @@ final class StarRatingReviewViewController: UIViewController, StarRatingReviewPr
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         view.backgroundColor = .white
+        configureStarRatingView()
     }
     
     private func configureStarRatingView() {
         viewHolder.starRatingView
             .tapPublisher
             .sink { [weak self] in
-                //viewHolder
+                self?.listener?.didFinishStarRating()
             }.store(in: &cancellable)
     }
     

@@ -8,19 +8,16 @@
 import ModernRIBs
 
 protocol ReviewPopupDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
 }
 
 final class ReviewPopupComponent: Component<ReviewPopupDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
 // MARK: - Builder
 
 protocol ReviewPopupBuildable: Buildable {
     func build(withListener listener: ReviewPopupListener) -> ReviewPopupRouting
+    func build(withListener listener: ReviewPopupListener, isApply: Bool) -> ReviewPopupRouting
 }
 
 final class ReviewPopupBuilder: Builder<ReviewPopupDependency>, ReviewPopupBuildable {
@@ -32,6 +29,14 @@ final class ReviewPopupBuilder: Builder<ReviewPopupDependency>, ReviewPopupBuild
     func build(withListener listener: ReviewPopupListener) -> ReviewPopupRouting {
         let component = ReviewPopupComponent(dependency: dependency)
         let viewController = ReviewPopupViewController()
+        let interactor = ReviewPopupInteractor(presenter: viewController)
+        interactor.listener = listener
+        return ReviewPopupRouter(interactor: interactor, viewController: viewController)
+    }
+    
+    func build(withListener listener: ReviewPopupListener, isApply: Bool) -> ReviewPopupRouting {
+        let component = ReviewPopupComponent(dependency: dependency)
+        let viewController = ReviewPopupViewController(isApply: isApply)
         let interactor = ReviewPopupInteractor(presenter: viewController)
         interactor.listener = listener
         return ReviewPopupRouter(interactor: interactor, viewController: viewController)

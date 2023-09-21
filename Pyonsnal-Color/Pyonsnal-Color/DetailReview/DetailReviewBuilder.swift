@@ -8,13 +8,9 @@
 import ModernRIBs
 
 protocol DetailReviewDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
 }
 
-final class DetailReviewComponent: Component<DetailReviewDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+final class DetailReviewComponent: Component<DetailReviewDependency>, ReviewPopupDependency {
 }
 
 // MARK: - Builder
@@ -33,7 +29,12 @@ final class DetailReviewBuilder: Builder<DetailReviewDependency>, DetailReviewBu
         let component = DetailReviewComponent(dependency: dependency)
         let viewController = DetailReviewViewController()
         let interactor = DetailReviewInteractor(presenter: viewController)
+        let reviewPopupBuilder = ReviewPopupBuilder(dependency: component)
         interactor.listener = listener
-        return DetailReviewRouter(interactor: interactor, viewController: viewController)
+        return DetailReviewRouter(
+            interactor: interactor,
+            viewController: viewController,
+            reviewPopupBuildable: reviewPopupBuilder
+        )
     }
 }

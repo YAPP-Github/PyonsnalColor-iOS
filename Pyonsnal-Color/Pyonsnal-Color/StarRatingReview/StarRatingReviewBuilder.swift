@@ -12,7 +12,7 @@ protocol StarRatingReviewDependency: Dependency {
     // created by this RIB.
 }
 
-final class StarRatingReviewComponent: Component<StarRatingReviewDependency> {
+final class StarRatingReviewComponent: Component<StarRatingReviewDependency>, DetailReviewDependency {
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
@@ -33,7 +33,12 @@ final class StarRatingReviewBuilder: Builder<StarRatingReviewDependency>, StarRa
         let component = StarRatingReviewComponent(dependency: dependency)
         let viewController = StarRatingReviewViewController()
         let interactor = StarRatingReviewInteractor(presenter: viewController)
+        let detailReviewBuilder = DetailReviewBuilder(dependency: component)
         interactor.listener = listener
-        return StarRatingReviewRouter(interactor: interactor, viewController: viewController)
+        return StarRatingReviewRouter(
+            interactor: interactor,
+            viewController: viewController,
+            detailReviewBuilder: detailReviewBuilder
+        )
     }
 }

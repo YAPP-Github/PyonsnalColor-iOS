@@ -8,16 +8,17 @@
 import ModernRIBs
 
 protocol DetailReviewRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachPopup(isApply: Bool)
+    func detachPopup()
 }
 
 protocol DetailReviewPresentable: Presentable {
     var listener: DetailReviewPresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
 protocol DetailReviewListener: AnyObject {
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func detachDetailReview()
+    func routeToProductDetail()
 }
 
 final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentable>, DetailReviewInteractable, DetailReviewPresentableListener {
@@ -25,8 +26,6 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     weak var router: DetailReviewRouting?
     weak var listener: DetailReviewListener?
 
-    // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
     override init(presenter: DetailReviewPresentable) {
         super.init(presenter: presenter)
         presenter.listener = self
@@ -34,11 +33,21 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        // TODO: Implement business logic here.
     }
 
     override func willResignActive() {
         super.willResignActive()
-        // TODO: Pause any business logic.
+    }
+    
+    func popupDidTapDismissButton() {
+        router?.detachPopup()
+    }
+    
+    func popupDidTapBackButton() {
+        listener?.detachDetailReview()
+    }
+    
+    func routeToProductDetail() {
+        listener?.routeToProductDetail()
     }
 }
