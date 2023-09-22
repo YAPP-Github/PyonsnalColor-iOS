@@ -181,6 +181,7 @@ extension DetailReviewViewController {
             )
             textView.backgroundColor = .gray100
             textView.font = .body2r
+            textView.textColor = .gray400
             return textView
         }()
         

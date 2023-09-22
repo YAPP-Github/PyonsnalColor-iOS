@@ -18,7 +18,7 @@ final class SingleLineReview: UIView {
     private let viewHolder = ViewHolder()
     private let category: Review.Category
     private var cancellable = Set<AnyCancellable>()
-    var delegate: SingleLineReviewDelegate?
+    weak var delegate: SingleLineReviewDelegate?
     
     init(category: Review.Category) {
         self.category = category

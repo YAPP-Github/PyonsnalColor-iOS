@@ -14,6 +14,10 @@ protocol DetailReviewPresentableListener: AnyObject {
 
 final class DetailReviewViewController: UIViewController, DetailReviewPresentable, DetailReviewViewControllable {
     
+    enum Constant {
+        static let textViewPlaceholder: String = "상품에 대한 솔직한 의견을 알려주세요."
+    }
+    
     weak var listener: DetailReviewPresentableListener?
     private let viewHolder = ViewHolder()
     private var reviews: [Review.Category: Review.Score] = [:]
@@ -32,6 +36,8 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         viewHolder.tasteReview.delegate = self
         viewHolder.qualityReview.delegate = self
         viewHolder.priceReview.delegate = self
+        viewHolder.detailReviewTextView.delegate = self
+        viewHolder.detailReviewTextView.text = Constant.textViewPlaceholder
     }
     
     private func setApplyReviewButton(state isSatisfy: Bool) {
@@ -45,6 +51,22 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
             return true
         }
         return false
+    }
+}
+
+extension DetailReviewViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == Constant.textViewPlaceholder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = Constant.textViewPlaceholder
+            textView.textColor = .gray400
+        }
     }
 }
 
