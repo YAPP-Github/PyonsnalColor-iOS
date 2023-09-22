@@ -6,13 +6,23 @@
 //
 
 import UIKit
+import Combine
 import SnapKit
 
+protocol SingleLineReviewDelegate: AnyObject {
+    func didSelectReview(_ review: Review)
+}
+
 final class SingleLineReview: UIView {
+
     private let viewHolder = ViewHolder()
+    private let category: Review.Category
+    private var cancellable = Set<AnyCancellable>()
+    var delegate: SingleLineReviewDelegate?
     
-    convenience init() {
-        self.init(frame: .zero)
+    init(category: Review.Category) {
+        self.category = category
+        super.init(frame: .zero)
         
         viewHolder.place(in: self)
         viewHolder.configureConstraints(for: self)
@@ -20,9 +30,19 @@ final class SingleLineReview: UIView {
         configureButtonTag()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func configureButtonAction() {
-        viewHolder.reviewButtonStackView.subviews.forEach { _ in
-            // TODO: tap publisher 연결 예정
+        viewHolder.reviewButtonStackView.subviews
+            .compactMap { $0 as? UIButton }
+            .forEach { button in
+                button
+                    .tapPublisher
+                    .sink { [weak self] in
+                        self?.didSelectReviewButton(button)
+                    }.store(in: &cancellable)
         }
     }
     
@@ -37,7 +57,7 @@ final class SingleLineReview: UIView {
             return
         }
         
-        button.setTitleColor(.white, for: .normal)
+        button.isSelected = true
         button.backgroundColor = .black
         button.removeBorder()
     }
@@ -47,9 +67,20 @@ final class SingleLineReview: UIView {
             return
         }
         
-        button.setTitleColor(.gray400, for: .normal)
+        button.isSelected = false
         button.backgroundColor = .white
         button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+    }
+
+    private func didSelectReviewButton(_ sender: UIButton) {
+        let tag = sender.tag
+        let score = Review.Score.allCases[tag]
+        let review = Review(category: category, score: score)
+        
+        viewHolder.reviewButtonStackView.subviews.forEach {
+            $0.tag == tag ? setSelectedButtonState(at: tag) : setDeselectedButtonState(at: $0.tag)
+        }
+        delegate?.didSelectReview(review)
     }
     
     func configureReviewTitle(title: String, first: String, second: String, third: String) {
@@ -59,12 +90,13 @@ final class SingleLineReview: UIView {
         viewHolder.thirdReviewButton.configureButtonTitle(text: third)
     }
     
-    func didSelectReviewButton(_ sender: UIButton) {
-        let tag = sender.tag
+    func hasSelected() -> Bool {
+        let result = viewHolder.reviewButtonStackView.subviews
+            .compactMap { $0 as? UIButton }
+            .filter { $0.isSelected }
+            .count
         
-        viewHolder.reviewButtonStackView.subviews.forEach {
-            $0.tag == tag ? setSelectedButtonState(at: tag) : setDeselectedButtonState(at: tag)
-        }
+        return result == 1 ? true : false
     }
 }
 

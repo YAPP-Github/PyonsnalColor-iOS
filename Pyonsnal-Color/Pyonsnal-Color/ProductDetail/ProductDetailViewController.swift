@@ -63,6 +63,12 @@ final class ProductDetailViewController:
         viewHolder.collectionView.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        listener?.attachStarRatingReview()
+    }
+    
     // MARK: - Private Method
 //    private func updateUI() {
 //        guard var productDetail else { return }

@@ -28,6 +28,8 @@ final class ReviewButton: UIButton {
     private func configureUI() {
         makeRounded(with: Constant.cornerRadius)
         titleLabel?.font = .body3m
+        setTitleColor(.gray400, for: .normal)
+        setTitleColor(.white, for: .selected)
         setUnselectedState()
     }
     
@@ -37,11 +39,9 @@ final class ReviewButton: UIButton {
     
     func setSelectedState() {
         removeBorder()
-        setTitleColor(.white, for: .normal)
     }
     
     func setUnselectedState() {
         makeBorder(width: Constant.borderWidth, color: UIColor.gray200.cgColor)
-        setTitleColor(.gray400, for: .normal)
     }
 }

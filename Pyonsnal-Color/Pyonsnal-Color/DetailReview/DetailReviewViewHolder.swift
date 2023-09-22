@@ -116,7 +116,7 @@ extension DetailReviewViewController {
         }()
         
         let tasteReview: SingleLineReview = {
-            let review = SingleLineReview()
+            let review = SingleLineReview(category: .taste)
             review.configureReviewTitle(
                 title: Constant.tasteReviewTitle,
                 first: Constant.tasteGood,
@@ -127,7 +127,7 @@ extension DetailReviewViewController {
         }()
         
         let qualityReview: SingleLineReview = {
-            let review = SingleLineReview()
+            let review = SingleLineReview(category: .quality)
             review.configureReviewTitle(
                 title: Constant.qualityReviewTitle,
                 first: Constant.qualityGood,
@@ -138,7 +138,7 @@ extension DetailReviewViewController {
         }()
         
         let priceReview: SingleLineReview = {
-            let review = SingleLineReview()
+            let review = SingleLineReview(category: .price)
             review.configureReviewTitle(
                 title: Constant.priceReviewTitle,
                 first: Constant.priceGood,
