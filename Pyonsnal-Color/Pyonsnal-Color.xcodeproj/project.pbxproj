@@ -21,6 +21,7 @@
 		B22496552ABC1BE400BC6B09 /* ReviewPopupInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22496512ABC1BE400BC6B09 /* ReviewPopupInteractor.swift */; };
 		B22496572ABC1BF500BC6B09 /* ReviewPopupViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22496562ABC1BF500BC6B09 /* ReviewPopupViewHolder.swift */; };
 		B22496592ABD6F3600BC6B09 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22496582ABD6F3600BC6B09 /* Review.swift */; };
+		B224965B2ABD8A7700BC6B09 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B224965A2ABD8A7700BC6B09 /* UIImage+.swift */; };
 		B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259022A590ECA006C5223 /* ConvenienceStore.swift */; };
 		B24259092A594140006C5223 /* ProductAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259082A594140006C5223 /* ProductAPIService.swift */; };
 		B242590B2A594368006C5223 /* ProductPageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B242590A2A594368006C5223 /* ProductPageEntity.swift */; };
@@ -322,6 +323,7 @@
 		B22496512ABC1BE400BC6B09 /* ReviewPopupInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPopupInteractor.swift; sourceTree = "<group>"; };
 		B22496562ABC1BF500BC6B09 /* ReviewPopupViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPopupViewHolder.swift; sourceTree = "<group>"; };
 		B22496582ABD6F3600BC6B09 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		B224965A2ABD8A7700BC6B09 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		B24259022A590ECA006C5223 /* ConvenienceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStore.swift; sourceTree = "<group>"; };
 		B24259082A594140006C5223 /* ProductAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductAPIService.swift; sourceTree = "<group>"; };
 		B242590A2A594368006C5223 /* ProductPageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPageEntity.swift; sourceTree = "<group>"; };
@@ -928,6 +930,7 @@
 				BA00B7352A46B83A00BB3795 /* CGFloat+.swift */,
 				F0E915A92AA8711B000919DA /* UIControl+.swift */,
 				F0E915AB2AA87913000919DA /* CombineCocoa+.swift */,
+				B224965A2ABD8A7700BC6B09 /* UIImage+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1972,6 +1975,7 @@
 				F0DEAB9F2AAF410B00941A5F /* FavoriteViewController.swift in Sources */,
 				BA8322652AB7890000D2E1EB /* ProductDetailSectionModel.swift in Sources */,
 				F0D6FFAF2A39FFFA00C55E27 /* ProductCell.swift in Sources */,
+				B224965B2ABD8A7700BC6B09 /* UIImage+.swift in Sources */,
 				B28A59242A6FB2B200431F39 /* ProductFilterBuilder.swift in Sources */,
 				F0DFBC982A5966CD003F7660 /* EmptyResponse.swift in Sources */,
 				F0DEABA02AAF410B00941A5F /* FavoriteBuilder.swift in Sources */,

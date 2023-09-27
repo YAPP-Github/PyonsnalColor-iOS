@@ -5,8 +5,9 @@
 //  Created by 김인호 on 2023/09/11.
 //
 
-import ModernRIBs
 import UIKit
+import Combine
+import ModernRIBs
 
 protocol DetailReviewPresentableListener: AnyObject {
     func didTapBackButton()
@@ -21,6 +22,7 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
     weak var listener: DetailReviewPresentableListener?
     private let viewHolder = ViewHolder()
     private var reviews: [Review.Category: Review.Score] = [:]
+    private var cancellable = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,8 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         viewHolder.configureConstraints(for: view)
         view.backgroundColor = .white
         configureView()
+        configureImageUploadButton()
+        configureDeleteImageButton()
     }
     
     private func configureView() {
@@ -52,6 +56,44 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         }
         return false
     }
+    
+    private func configureImageUploadButton() {
+        viewHolder.imageUploadButton
+            .tapPublisher
+            .sink { [weak self] in
+                self?.showImageLibrary()
+            }.store(in: &cancellable)
+    }
+    
+    private func configureDeleteImageButton() {
+        viewHolder.deleteImageButton
+            .tapPublisher
+            .sink { [weak self] in
+                self?.deleteUploadedImage()
+            }.store(in: &cancellable)
+    }
+    
+    private func showImageLibrary() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        
+        present(imagePicker, animated: true)
+    }
+    
+    private func updateProductImage(_ image: UIImage) {
+        let resizedImage = image.resize(targetSize: .init(width: 1080, height: 1080))
+        viewHolder.imageUploadButton.setImage(resizedImage, for: .normal)
+        viewHolder.imageUploadButton.isUserInteractionEnabled = false
+        viewHolder.deleteImageButton.isHidden = false
+    }
+    
+    private func deleteUploadedImage() {
+        viewHolder.imageUploadButton.isUserInteractionEnabled = true
+        viewHolder.imageUploadButton.setImage(nil, for: .normal)
+        viewHolder.deleteImageButton.isHidden = true
+    }
 }
 
 extension DetailReviewViewController: UITextViewDelegate {
@@ -67,6 +109,19 @@ extension DetailReviewViewController: UITextViewDelegate {
             textView.text = Constant.textViewPlaceholder
             textView.textColor = .gray400
         }
+    }
+}
+
+extension DetailReviewViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            updateProductImage(editedImage)
+        }
+        
+        picker.dismiss(animated: true)
     }
 }
 

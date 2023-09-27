@@ -217,6 +217,13 @@ extension DetailReviewViewController {
             return button
         }()
         
+        let deleteImageButton: UIButton = {
+            let button = UIButton()
+            button.setImage(.iconDeleteMedium, for: .normal)
+            button.isHidden = true
+            return button
+        }()
+        
         let applyReviewButton: PrimaryButton = {
             let button = PrimaryButton(state: .disabled)
             button.setText(with: Constant.applyReviewTitle)
@@ -252,6 +259,8 @@ extension DetailReviewViewController {
             
             imageUploadStackView.addArrangedSubview(imageUploadLabel)
             imageUploadStackView.addArrangedSubview(imageUploadButton)
+            
+            imageUploadButton.addSubview(deleteImageButton)
         }
         
         func configureConstraints(for view: UIView) {
@@ -307,6 +316,11 @@ extension DetailReviewViewController {
             
             imageUploadButton.snp.makeConstraints {
                 $0.width.height.equalTo(120)
+            }
+            
+            deleteImageButton.snp.makeConstraints {
+                $0.top.equalToSuperview().offset(6)
+                $0.trailing.equalToSuperview().inset(6)
             }
         }
     }
