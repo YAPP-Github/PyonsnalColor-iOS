@@ -43,6 +43,10 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
         router?.attachPopup(isApply: false)
     }
     
+    func didTapApplyButton() {
+        router?.attachPopup(isApply: true)
+    }
+    
     func popupDidTapDismissButton() {
         router?.detachPopup()
     }

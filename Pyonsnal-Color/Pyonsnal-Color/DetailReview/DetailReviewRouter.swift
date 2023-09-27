@@ -33,7 +33,10 @@ final class DetailReviewRouter: ViewableRouter<DetailReviewInteractable, DetailR
     func attachPopup(isApply: Bool) {
         guard reviewPopupRouting == nil else { return }
         
-        let reviewPopupRouter = reviewPopupBuildable.build(withListener: interactor, isApply: isApply)
+        let reviewPopupRouter = reviewPopupBuildable.build(
+            withListener: interactor,
+            isApply: isApply
+        )
         reviewPopupRouting = reviewPopupRouter
         attachChild(reviewPopupRouter)
         let reviewPopup = reviewPopupRouter.viewControllable.uiviewController

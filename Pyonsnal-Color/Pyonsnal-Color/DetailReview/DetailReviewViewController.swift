@@ -11,6 +11,7 @@ import ModernRIBs
 
 protocol DetailReviewPresentableListener: AnyObject {
     func didTapBackButton()
+    func didTapApplyButton()
 }
 
 final class DetailReviewViewController: UIViewController, DetailReviewPresentable, DetailReviewViewControllable {
@@ -70,6 +71,14 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
             .tapPublisher
             .sink { [weak self] in
                 self?.deleteUploadedImage()
+            }.store(in: &cancellable)
+    }
+    
+    private func configureApplyReviewButton() {
+        viewHolder.applyReviewButton
+            .tapPublisher
+            .sink { [weak self] in
+                self?.listener?.didTapApplyButton()
             }.store(in: &cancellable)
     }
     
