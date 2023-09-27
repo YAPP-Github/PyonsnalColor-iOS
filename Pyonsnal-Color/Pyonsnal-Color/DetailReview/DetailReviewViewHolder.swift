@@ -34,6 +34,7 @@ extension DetailReviewViewController {
             static let imageUploadTitle: String = "사진 업로드"
             
             static let applyReviewTitle: String = "작성 완료"
+            static let optionalText: String = " (선택)"
         }
         
         let backNavigationView: BackNavigationView = {
@@ -166,6 +167,11 @@ extension DetailReviewViewController {
             let label = UILabel()
             label.font = .title1
             label.text = Constant.detailReviewTitle
+            label.addAttributedString(
+                newText: Constant.optionalText,
+                font: .title1,
+                color: .gray400
+            )
             return label
         }()
         
@@ -204,6 +210,11 @@ extension DetailReviewViewController {
             let label = UILabel()
             label.font = .title1
             label.text = Constant.imageUploadTitle
+            label.addAttributedString(
+                newText: Constant.optionalText,
+                font: .title1,
+                color: .gray400
+            )
             return label
         }()
         
