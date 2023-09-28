@@ -48,5 +48,4 @@ final class MemberAPIService {
             model: MemberInfoEntity.self
         )
     }
-    
 }
