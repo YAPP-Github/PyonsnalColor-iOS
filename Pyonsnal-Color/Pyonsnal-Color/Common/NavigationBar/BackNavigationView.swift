@@ -81,8 +81,17 @@ final class BackNavigationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public Method
     func setText(with text: String) {
         titleLabel.text = text
+    }
+    
+    func setFavoriteButtonSelected(isSelected: Bool?) {
+        favoriteButton.isSelected = isSelected ?? false
+    }
+    
+    func getFavoriteButtonSelected() -> Bool {
+        return favoriteButton.isSelected
     }
     
     // MARK: - Private Method
@@ -101,14 +110,6 @@ final class BackNavigationView: UIView {
     
     private func configureUI() {
         backButton.addTarget(self, action: #selector(backButtonAction(_:)), for: .touchUpInside)
-    }
-    
-    func setFavoriteButtonSelected(isSelected: Bool?) {
-        favoriteButton.isSelected = isSelected ?? false
-    }
-    
-    func getFavoriteButtonSelected() -> Bool {
-        return favoriteButton.isSelected
     }
     
     private func configureView(with mode: TitleMode) {

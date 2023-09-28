@@ -14,7 +14,7 @@ protocol ProductDetailRouting: ViewableRouting {
 
 protocol ProductDetailPresentable: Presentable {
     var listener: ProductDetailPresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
+    func setFavoriteState(isSelected: Bool)
 }
 
 protocol ProductDetailListener: AnyObject {
@@ -63,7 +63,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             productType: product.productType
             ).sink { [weak self] response in
                 if response.error != nil {
-                    Log.d(message: "add Favorite success")
+                    self?.presenter.setFavoriteState(isSelected: true)
                 } else {
                    // TODO: error handling
                 }
@@ -76,7 +76,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                 productType: product.productType
             ).sink { [weak self] response in
                 if response.error != nil {
-                    Log.d(message: "delete Favorite success")
+                    self?.presenter.setFavoriteState(isSelected: false)
                 } else {
                     // TODO: error handling
                 }

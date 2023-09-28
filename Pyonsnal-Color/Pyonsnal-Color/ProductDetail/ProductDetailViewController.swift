@@ -46,6 +46,11 @@ final class ProductDetailViewController:
         bindActions()
     }
     
+    // MARK: - Public Method
+    func setFavoriteState(isSelected: Bool) {
+        viewHolder.backNavigationView.setFavoriteButtonSelected(isSelected: isSelected)
+    }
+    
     // MARK: - Private Method
     private func updateUI() {
         view.backgroundColor = .white
@@ -81,10 +86,7 @@ final class ProductDetailViewController:
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] _ in
                 guard let self else { return }
-                let isSelected = !viewHolder.backNavigationView.favoriteButton.isSelected
-                viewHolder.backNavigationView.setFavoriteButtonSelected(isSelected: isSelected)
-                
-                let action: FavoriteButtonAction = viewHolder.backNavigationView.getFavoriteButtonSelected() ? .add : .delete
+                let action: FavoriteButtonAction = viewHolder.backNavigationView.getFavoriteButtonSelected() ? .delete : .add
                 if action == .add {
                     listener?.addFavorite()
                 } else if action == .delete {
