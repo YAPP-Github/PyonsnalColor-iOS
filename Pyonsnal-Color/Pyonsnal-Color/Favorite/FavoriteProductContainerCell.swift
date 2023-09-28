@@ -158,7 +158,8 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         )
     }
     
-    @objc func pullToRefresh() {
+    @objc 
+    func pullToRefresh() {
         viewHolder.collectionView.refreshControl?.beginRefreshing()
         delegate?.pullToRefresh()
     }
@@ -207,7 +208,7 @@ extension FavoriteProductContainerCell: UICollectionViewDelegate {
     }
 }
 
-// MARK: - Pagnation
+// MARK: - Pagination
 extension FavoriteProductContainerCell {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentSizeHeight = scrollView.contentSize.height

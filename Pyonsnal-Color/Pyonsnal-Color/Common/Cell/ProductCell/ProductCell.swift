@@ -25,9 +25,9 @@ final class ProductCell: UICollectionViewCell {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        configureUI()
         viewHolder.place(in: contentView)
         viewHolder.configureConstraints(for: contentView)
+        configureUI()
         bindActions()
     }
     

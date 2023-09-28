@@ -18,7 +18,9 @@ protocol FavoriteViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
-final class FavoriteRouter: ViewableRouter<FavoriteInteractable, FavoriteViewControllable>, FavoriteRouting {
+final class FavoriteRouter: ViewableRouter<FavoriteInteractable,
+                            FavoriteViewControllable>,
+                            FavoriteRouting {
 
     private let productSearch: ProductSearchBuildable
     private var productSearchRouting: ProductSearchRouting?
