@@ -91,17 +91,16 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         let group = DispatchGroup()
         for product in self.deletedProducts {
             group.enter()
-            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                self.favoriteAPIService.deleteFavorite(
-                    productId: product.productId,
-                    productType: .pb
-                ).sink { response in
-                    group.leave()
-                }.store(in: &self.cancellable)
-            }
+            self.favoriteAPIService.deleteFavorite(
+                productId: product.productId,
+                productType: product.productType
+            ).sink { response in
+                group.leave()
+            }.store(in: &self.cancellable)
         }
         
         group.notify(queue: DispatchQueue.main) { [weak self] in
+            self?.deletedProducts = []
             self?.requestFavoriteProducts()
         }
     }
