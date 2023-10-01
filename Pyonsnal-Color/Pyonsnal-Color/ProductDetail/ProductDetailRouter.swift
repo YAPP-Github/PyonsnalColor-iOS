@@ -44,8 +44,8 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
     func detachStarRatingReview() {
         guard let starRatingReviewRouting else { return }
         
+        detachChild(starRatingReviewRouting)
         viewController.popViewController(animated: true)
         self.starRatingReviewRouting = nil
-        detachChild(starRatingReviewRouting)
     }
 }

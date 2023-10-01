@@ -18,6 +18,9 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
     
     enum Constant {
         static let textViewPlaceholder: String = "상품에 대한 솔직한 의견을 알려주세요."
+        
+        static let imageUploadSize: CGSize = .init(width: 1080, height: 1080)
+        static let imageUploadIcon: UIImage? = .init(systemName: "plus")
     }
     
     weak var listener: DetailReviewPresentableListener?
@@ -34,6 +37,7 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         configureView()
         configureImageUploadButton()
         configureDeleteImageButton()
+        configureApplyReviewButton()
     }
     
     private func configureView() {
@@ -92,15 +96,13 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
     }
     
     private func updateProductImage(_ image: UIImage) {
-        let resizedImage = image.resize(targetSize: .init(width: 1080, height: 1080))
+        let resizedImage = image.resize(targetSize: Constant.imageUploadSize)
         viewHolder.imageUploadButton.setImage(resizedImage, for: .normal)
-        viewHolder.imageUploadButton.isUserInteractionEnabled = false
         viewHolder.deleteImageButton.isHidden = false
     }
     
     private func deleteUploadedImage() {
-        viewHolder.imageUploadButton.isUserInteractionEnabled = true
-        viewHolder.imageUploadButton.setImage(nil, for: .normal)
+        viewHolder.imageUploadButton.setImage(Constant.imageUploadIcon, for: .normal)
         viewHolder.deleteImageButton.isHidden = true
     }
 }

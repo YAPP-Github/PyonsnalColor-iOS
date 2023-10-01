@@ -57,6 +57,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     }
     
     func routeToProductDetail() {
+        router?.detachPopup()
         listener?.routeToProductDetail()
     }
 }

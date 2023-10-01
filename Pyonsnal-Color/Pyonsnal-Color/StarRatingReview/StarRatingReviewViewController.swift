@@ -30,7 +30,6 @@ final class StarRatingReviewViewController: UIViewController, StarRatingReviewPr
         configureStarRatingView()
     }
     
-    
     private func configureNavigationView() {
         viewHolder.backNavigationView.delegate = self
     }
@@ -41,10 +40,6 @@ final class StarRatingReviewViewController: UIViewController, StarRatingReviewPr
             .sink { [weak self] in
                 self?.listener?.didFinishStarRating()
             }.store(in: &cancellable)
-    }
-    
-    private func didFinishStarRating() {
-        listener?.didFinishStarRating()
     }
 }
 
