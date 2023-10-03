@@ -15,6 +15,10 @@ extension ImageAssetKind {
         case iconDelete = "icon_delete"
         case iconCheck = "icon_check"
         case iconReview = "icon_review"
+        case iconThumbsDownFilled = "icon_thumbsDown_filled"
+        case iconThumbsDownUnfilled = "icon_thumbsDown_unfilled"
+        case iconThumbsUpFilled = "icon_thumbsUp_filled"
+        case iconThumbsUpUnfilled = "icon_thumbsUp_unfilled"
     }
 }
 
