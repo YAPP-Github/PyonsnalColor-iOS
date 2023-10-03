@@ -80,6 +80,8 @@
 		B2B289DB2A3459E700F7F1C4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B2B289DA2A3459E700F7F1C4 /* Alamofire */; };
 		B2B289DE2A3459FD00F7F1C4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B2B289DD2A3459FD00F7F1C4 /* Kingfisher */; };
 		B2EFFAB92ACBF63D007AF2EE /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFAB82ACBF63D007AF2EE /* StarView.swift */; };
+		B2EFFABB2ACBF680007AF2EE /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */; };
+		B2EFFABD2ACBF69C007AF2EE /* StarRatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */; };
 		B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D52A347208008199D8 /* RootTabBarBuilder.swift */; };
 		B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */; };
 		B2F169DA2A3472EC008199D8 /* RootTabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */; };
@@ -313,6 +315,8 @@
 		B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginService.swift; sourceTree = "<group>"; };
 		B2B281C62A6BB5C4006C9C6B /* ProductCurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCurationViewController.swift; sourceTree = "<group>"; };
 		B2EFFAB82ACBF63D007AF2EE /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
+		B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
+		B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatedView.swift; sourceTree = "<group>"; };
 		B2F169D52A347208008199D8 /* RootTabBarBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarBuilder.swift; sourceTree = "<group>"; };
 		B2F169D72A3472D7008199D8 /* RootTabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarInteractor.swift; sourceTree = "<group>"; };
 		B2F169D92A3472EC008199D8 /* RootTabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarRouter.swift; sourceTree = "<group>"; };
@@ -510,6 +514,8 @@
 			children = (
 				B224963F2ABAEBA500BC6B09 /* RatingView.swift */,
 				B2EFFAB82ACBF63D007AF2EE /* StarView.swift */,
+				B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */,
+				B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -1521,6 +1527,7 @@
 				BA87E3DC2A4623E3000A9DEC /* GiftItemEntity.swift in Sources */,
 				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
 				BA4818CF2A59410B00BF9CAD /* UserAuthEntity.swift in Sources */,
+				B2EFFABB2ACBF680007AF2EE /* StarRatingView.swift in Sources */,
 				B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */,
 				F0D8FEBE2A3EDB6B000B530A /* UIColor+.swift in Sources */,
 				B28204F32A345EB100F9242F /* RootComponent.swift in Sources */,
@@ -1577,6 +1584,7 @@
 				BA50FD022A680AA900721782 /* ProductSearchViewController.swift in Sources */,
 				B2F169DE2A347995008199D8 /* RootTabBarComponent.swift in Sources */,
 				F0EE10AC2A4B389A00B8DF4F /* AccountSettingViewController.swift in Sources */,
+				B2EFFABD2ACBF69C007AF2EE /* StarRatedView.swift in Sources */,
 				F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */,
 				BA18C0902A7533A6007D00BD /* SearchFilterHeader.swift in Sources */,
 				BA87E3D12A45C600000A9DEC /* ProductDetailViewController+ViewHolder.swift in Sources */,
