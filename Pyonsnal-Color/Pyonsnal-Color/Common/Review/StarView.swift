@@ -14,16 +14,16 @@ final class StarView: UIButton {
     
     enum Image {
         static let star: String = "star"
-        static let starFilled: String = "star.filled"
+        static let starFilled: String = "star_filled"
     }
     
     private let mode: ViewMode
     private let maxScore: Double = 1.0
     private var starImage: UIImage? {
-        return UIImage(named: "\(Image.star).\(mode.rawValue)")
+        return UIImage(named: "\(Image.star)_\(mode.rawValue)")
     }
     private var starFilledImage: UIImage? {
-        return UIImage(named: "\(Image.starFilled).\(mode.rawValue)")
+        return UIImage(named: "\(Image.starFilled)_\(mode.rawValue)")
     }
     
     init(mode: ViewMode) {
