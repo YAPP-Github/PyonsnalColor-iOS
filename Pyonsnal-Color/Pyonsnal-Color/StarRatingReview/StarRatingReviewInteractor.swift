@@ -8,7 +8,7 @@
 import ModernRIBs
 
 protocol StarRatingReviewRouting: ViewableRouting {
-    func attachDetailReview()
+    func attachDetailReview(score: Int)
     func detachDetailReview()
 }
 
@@ -38,8 +38,8 @@ final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPr
         super.willResignActive()
     }
     
-    func didFinishStarRating() {
-        router?.attachDetailReview()
+    func didTapRatingButton(score: Int) {
+        router?.attachDetailReview(score: score)
     }
     
     func detachDetailReview() {

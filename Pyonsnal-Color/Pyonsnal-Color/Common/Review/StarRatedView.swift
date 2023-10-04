@@ -67,7 +67,7 @@ final class StarRatedView: UIView {
         }
     }
     
-    private func updateScore(to score: Double) {
+    func updateScore(to score: Double) {
         for (index, starView) in starViews.enumerated() {
             if index < Int(score) {
                 starView.setFilledStarImage()

@@ -637,6 +637,8 @@
 				B224964A2ABC114A00BC6B09 /* StarRatingReviewViewHolder.swift */,
 			);
 			path = StarRatingReview;
+            sourceTree = "<group>";
+        };
 		B224963E2ABAEB8E00BC6B09 /* Review */ = {
 			isa = PBXGroup;
 			children = (

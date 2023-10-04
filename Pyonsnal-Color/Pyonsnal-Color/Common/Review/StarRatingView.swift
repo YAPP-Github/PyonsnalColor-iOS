@@ -9,6 +9,10 @@ import UIKit
 import Combine
 import SnapKit
 
+protocol StarRatingViewDelegate: AnyObject {
+    func didTapRatingButton(score: Int)
+}
+
 final class StarRatingView: UIView {
     private let totalCount: Int = 5
     private var starViews: [StarView] = []
@@ -20,6 +24,8 @@ final class StarRatingView: UIView {
         stackView.spacing = 4
         return stackView
     }()
+    
+    weak var delegate: StarRatingViewDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -58,7 +64,10 @@ final class StarRatingView: UIView {
             button
                 .tapPublisher
                 .sink { [weak self] in
-                    self?.didTapRatingButton(button)
+                    let score = button.tag + 1
+                    
+                    self?.didTapRatingButton(score)
+                    self?.delegate?.didTapRatingButton(score: score)
                 }.store(in: &cancellable)
         }
     }

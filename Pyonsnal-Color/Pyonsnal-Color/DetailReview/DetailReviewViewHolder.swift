@@ -94,7 +94,7 @@ extension DetailReviewViewController {
             return label
         }()
         
-        // TODO: 별점 뷰 추가
+        let starRatedView = StarRatedView()
         
         private let separatorView: UIView = {
             let view = UIView()
@@ -259,7 +259,7 @@ extension DetailReviewViewController {
             
             productInformationStackView.addArrangedSubview(storeImageView)
             productInformationStackView.addArrangedSubview(productNameLabel)
-            // TODO: 별점 뷰 추가
+            productInformationStackView.addArrangedSubview(starRatedView)
             
             reviewButtonStackView.addArrangedSubview(tasteReview)
             reviewButtonStackView.addArrangedSubview(qualityReview)

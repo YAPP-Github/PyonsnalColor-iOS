@@ -10,8 +10,8 @@ import Combine
 import ModernRIBs
 
 protocol StarRatingReviewPresentableListener: AnyObject {
-    func didFinishStarRating()
     func didTapBackButton()
+    func didTapRatingButton(score: Int)
 }
 
 final class StarRatingReviewViewController: UIViewController, StarRatingReviewPresentable, StarRatingReviewViewControllable {
@@ -35,16 +35,18 @@ final class StarRatingReviewViewController: UIViewController, StarRatingReviewPr
     }
     
     private func configureStarRatingView() {
-        viewHolder.starRatingView
-            .tapPublisher
-            .sink { [weak self] in
-                self?.listener?.didFinishStarRating()
-            }.store(in: &cancellable)
+        viewHolder.starRatingView.delegate = self
     }
 }
 
 extension StarRatingReviewViewController: BackNavigationViewDelegate {
     func didTapBackButton() {
         listener?.didTapBackButton()
+    }
+}
+
+extension StarRatingReviewViewController: StarRatingViewDelegate {
+    func didTapRatingButton(score: Int) {
+        listener?.didTapRatingButton(score: score)
     }
 }

@@ -54,11 +54,7 @@ extension StarRatingReviewViewController {
         }()
         
         // TODO: 별점 리뷰 뷰 추가
-        let starRatingView: PrimaryButton = {
-            let button = PrimaryButton(state: .enabled)
-            button.setText(with: "상세 리뷰")
-            return button
-        }()
+        let starRatingView = StarRatingView()
         
         func place(in view: UIView) {
             view.addSubview(backNavigationView)
@@ -90,8 +86,6 @@ extension StarRatingReviewViewController {
             starRatingView.snp.makeConstraints {
                 $0.top.equalTo(productStackView.snp.bottom).offset(Constant.starRatingSpacing)
                 $0.centerX.equalToSuperview()
-                $0.width.equalTo(200)
-                $0.height.equalTo(40)
             }
         }
     }

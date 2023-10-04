@@ -27,6 +27,11 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
     private let viewHolder = ViewHolder()
     private var reviews: [Review.Category: Review.Score] = [:]
     private var cancellable = Set<AnyCancellable>()
+    var score: Int? {
+        didSet {
+            updateStarRatedView(score: score)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +109,12 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
     private func deleteUploadedImage() {
         viewHolder.imageUploadButton.setImage(Constant.imageUploadIcon, for: .normal)
         viewHolder.deleteImageButton.isHidden = true
+    }
+    
+    private func updateStarRatedView(score: Int?) {
+        if let score {
+            viewHolder.starRatedView.updateScore(to: Double(score))
+        }
     }
 }
 
