@@ -33,8 +33,7 @@ final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable,
     func attachDetailReview(score: Int) {
         guard detailReviewRouting == nil else { return }
         
-        let detailReviewRouter = detailReviewBuilder.build(withListener: interactor)
-        (detailReviewRouter.viewControllable as? DetailReviewViewController)?.score = score
+        let detailReviewRouter = detailReviewBuilder.build(withListener: interactor, score: score)
         detailReviewRouting = detailReviewRouter
         attachChild(detailReviewRouter)
         viewController.pushViewController(detailReviewRouter.viewControllable, animated: true)

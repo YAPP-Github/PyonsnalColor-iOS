@@ -25,12 +25,17 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
     
     weak var listener: DetailReviewPresentableListener?
     private let viewHolder = ViewHolder()
-    private var reviews: [Review.Category: Review.Score] = [:]
     private var cancellable = Set<AnyCancellable>()
-    var score: Int? {
-        didSet {
-            updateStarRatedView(score: score)
-        }
+    private(set) var reviews: [Review.Category: Review.Score] = [:]
+    private(set) var score: Int
+    
+    init(score: Int) {
+        self.score = score
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -43,6 +48,7 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         configureImageUploadButton()
         configureDeleteImageButton()
         configureApplyReviewButton()
+        updateStarRatedView(score: score)
     }
     
     private func configureView() {
@@ -111,10 +117,22 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         viewHolder.deleteImageButton.isHidden = true
     }
     
-    private func updateStarRatedView(score: Int?) {
-        if let score {
-            viewHolder.starRatedView.updateScore(to: Double(score))
+    private func updateStarRatedView(score: Int) {
+        viewHolder.starRatedView.updateScore(to: Double(score))
+    }
+    
+    func getReviewContents() -> String {
+        return viewHolder.detailReviewTextView.text
+    }
+    
+    func getReviewImage() -> UIImage? {
+        guard let image = viewHolder.imageUploadButton.imageView?.image,
+              image != UIImage(systemName: "plus")
+        else {
+            return nil
         }
+        
+        return image
     }
 }
 

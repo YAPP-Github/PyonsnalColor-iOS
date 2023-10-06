@@ -5,6 +5,7 @@
 //  Created by 김인호 on 2023/09/11.
 //
 
+import UIKit
 import ModernRIBs
 
 protocol DetailReviewRouting: ViewableRouting {
@@ -14,6 +15,10 @@ protocol DetailReviewRouting: ViewableRouting {
 
 protocol DetailReviewPresentable: Presentable {
     var listener: DetailReviewPresentableListener? { get set }
+    var reviews: [Review.Category: Review.Score] { get }
+    var score: Int { get }
+    func getReviewContents() -> String
+    func getReviewImage() -> UIImage?
 }
 
 protocol DetailReviewListener: AnyObject {
@@ -59,5 +64,11 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     func routeToProductDetail() {
         router?.detachPopup()
         listener?.routeToProductDetail()
+    }
+    
+    private func convertToReview() {
+        let reviews = presenter.reviews
+        let contents = presenter.getReviewContents().trimmingCharacters(in: .whitespacesAndNewlines)
+        let image = presenter.getReviewImage()
     }
 }
