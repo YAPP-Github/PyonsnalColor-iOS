@@ -41,16 +41,16 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     private let pageSize: Int = 20
     private var deletedProducts = [any ProductConvertable]()
     
-    var isPbPagingEnabled: Bool = true
-    var isEventPagingEnabled: Bool = true
+    private var isPbPagingEnabled: Bool = true
+    private var isEventPagingEnabled: Bool = true
     var isPagingEnabled: Bool {
         return isPbPagingEnabled && isEventPagingEnabled
     }
     private var isPbPagingNumberLoadMore: Bool = true
     private var isEventPagingNumberLoadMore: Bool = true
     
-    let pbProduct = CurrentValueSubject<[any ProductConvertable], Never>([])
-    let eventProduct = CurrentValueSubject<[any ProductConvertable], Never>([])
+    private let pbProducts = CurrentValueSubject<[any ProductConvertable], Never>([])
+    private let eventProducts = CurrentValueSubject<[any ProductConvertable], Never>([])
     
     // MARK: - Initializer
     init(
@@ -132,7 +132,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         ).sink { [weak self] response in
             if let product = response.value {
                 self?.isPbPagingNumberLoadMore = !product.isLast
-                self?.pbProduct.value = product.content
+                self?.pbProducts.value = product.content
             } else {
                 // TODO: Error Handling
             }
@@ -157,7 +157,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             
             if let product = response.value {
                 self?.isPbPagingNumberLoadMore = !product.isLast
-                self?.pbProduct.value += product.content
+                self?.pbProducts.value += product.content
             } else {
                 // TODO: Error Handling
             }
@@ -176,7 +176,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         ).sink { [weak self] response in
             if let product = response.value {
                 self?.isEventPagingNumberLoadMore = !product.isLast
-                self?.eventProduct.value = product.content
+                self?.eventProducts.value = product.content
             } else {
                 // TODO: Error Handling
             }
@@ -199,7 +199,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         ).sink { [weak self] response in
             if let product = response.value {
                 self?.isEventPagingNumberLoadMore = !product.isLast
-                self?.eventProduct.value += product.content
+                self?.eventProducts.value += product.content
             } else {
                 // TODO: Error Handling
             }
@@ -218,12 +218,12 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     }
     
     private func bindActions() {
-        pbProduct
+        pbProducts
             .sink { [weak self] value in
                 self?.presenter.updateProducts(products: value, tab: .product)
             }.store(in: &cancellable)
         
-        eventProduct
+        eventProducts
             .sink { [weak self] value in
                 self?.presenter.updateProducts(products: value, tab: .event)
             }.store(in: &cancellable)
