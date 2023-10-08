@@ -11,11 +11,12 @@ final class ProductDetailReviewCell: UICollectionViewCell {
     
     // MARK: - Declaration
     struct Payload {
+        let review: ReviewEntity
     }
     
     // MARK: - Interface
     var payload: Payload? {
-        didSet { configure() }
+        didSet { updateUI() }
     }
     
     // MARK: - Private Property
@@ -42,10 +43,21 @@ final class ProductDetailReviewCell: UICollectionViewCell {
         viewHolder.configureConstraints(for: contentView)
     }
     
-    private func configure() {
+    private func updateUI() {
         guard let payload else {
             return
         }
-//        viewHolder.imageView.setImage(with: payload.imageURL)
+        
+        let review = payload.review
+        viewHolder.reviewMetaView.payload = .init(review: review)
+        if let imageURL = review.image {
+            viewHolder.reviewImageView.setImage(with: imageURL)
+        }
+        viewHolder.reviewTagListView.payload = .init(
+            taste: review.taste,
+            quality: review.quality,
+            valueForMoney: review.valueForMoney
+        )
+        viewHolder.reviewLabel.text = review.contents
     }
 }
