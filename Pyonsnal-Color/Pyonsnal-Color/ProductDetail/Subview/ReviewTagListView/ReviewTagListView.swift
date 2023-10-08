@@ -73,41 +73,42 @@ final class ReviewTagListView: UIView {
     private func updateUI() {
         guard let payload else { return }
         
-        let estimatetSize = CGSize(width: 110, height: 28)
-        var currentWidth: CGFloat = 0
-        
         stackView.subviews.forEach { subview in
             subview.removeFromSuperview()
         }
         
-        let estimateSize = CGSize(width: 50, height: 30)
+        var currentWidth: CGFloat = 0
+        let targetEstimateSize = CGSize(width: 50, height: 30)
+        
         let line1StackView = UIStackView()
         line1StackView.axis = .horizontal
         line1StackView.spacing = 8
         
         let tasteLabel = ReviewEvaluationLabel()
         tasteLabel.payload = .init(kind: .taste, state: payload.taste)
-        tasteLabel.frame = .init(origin: .zero, size: estimateSize)
+        tasteLabel.frame = .init(origin: .zero, size: targetEstimateSize)
         tasteLabel.layoutIfNeeded()
-        tasteLabel.systemLayoutSizeFitting(estimateSize)
+        let tasteEstimateSize = tasteLabel.systemLayoutSizeFitting(targetEstimateSize)
         
-        currentWidth += tasteLabel.bounds.width
+        currentWidth += tasteEstimateSize.width
         currentWidth += 8
         line1StackView.addArrangedSubview(tasteLabel)
         
         let qualityLabel = ReviewEvaluationLabel()
         qualityLabel.payload = .init(kind: .quality, state: payload.quality)
         qualityLabel.layoutIfNeeded()
-        qualityLabel.systemLayoutSizeFitting(estimatetSize)
-        currentWidth += qualityLabel.bounds.width
+        let qualityEstimateSize = qualityLabel.systemLayoutSizeFitting(targetEstimateSize)
+        
+        currentWidth += qualityEstimateSize.width
         currentWidth += 8
         line1StackView.addArrangedSubview(qualityLabel)
         
         let valueForMoneyLabel = ReviewEvaluationLabel()
         valueForMoneyLabel.payload = .init(kind: .valueForMoney, state: payload.valueForMoney)
         valueForMoneyLabel.layoutIfNeeded()
-        valueForMoneyLabel.systemLayoutSizeFitting(estimatetSize)
-        if false {//currentWidth + valueForMoneyLabel.bounds.width > bounds.width {
+        let valueEstimateSize = valueForMoneyLabel.systemLayoutSizeFitting(targetEstimateSize)
+        layoutIfNeeded()
+        if currentWidth + valueEstimateSize.width > bounds.width {
             let line2StackView = UIStackView()
             line2StackView.axis = .horizontal
             line2StackView.spacing = 8
