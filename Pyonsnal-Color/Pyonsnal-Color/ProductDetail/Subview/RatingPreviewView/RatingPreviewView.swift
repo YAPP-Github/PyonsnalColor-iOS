@@ -75,7 +75,7 @@ final class RatingPreviewView: UIView {
         
         iconImageView.snp.makeConstraints { make in
             make.size.equalTo(16)
-            make.centerY.equalToSuperview()
+            make.leading.centerY.equalToSuperview()
         }
         
         countLabel.snp.makeConstraints { make in
