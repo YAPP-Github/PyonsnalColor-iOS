@@ -46,7 +46,6 @@ final class GiftItemView: UIView {
     
     private let giftImageView: UIImageView = {
         let imageView: UIImageView = .init(frame: .zero)
-        imageView.backgroundColor = .yellow
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -91,6 +90,7 @@ final class GiftItemView: UIView {
     private func updateUI() {
         guard let giftItem else { return }
         
+        giftImageView.setImage(with: giftItem.imageURL)
         giftNameLabel.text = giftItem.name
         giftPriceLabel.text = giftItem.price
     }
