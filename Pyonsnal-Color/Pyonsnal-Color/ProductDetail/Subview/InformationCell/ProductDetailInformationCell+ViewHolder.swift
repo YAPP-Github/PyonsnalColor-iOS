@@ -102,6 +102,7 @@ extension ProductDetailInformationCell {
             textInfoStackView.snp.makeConstraints { make in
                 make.top.equalTo(updateDateLabel.snp.bottom).offset(.spacing4)
                 make.leading.trailing.equalToSuperview().inset(.spacing16)
+                make.bottom.equalToSuperview().inset(.spacing40)
             }
             
             productNameLabel.snp.makeConstraints { make in
@@ -116,13 +117,13 @@ extension ProductDetailInformationCell {
             
             productDescriptionLabel.snp.makeConstraints { make in
                 make.top.equalTo(productPriceLabel.snp.bottom).offset(.spacing16)
-                make.leading.trailing.equalToSuperview().inset(.spacing16)
+                make.leading.trailing.equalToSuperview()
             }
             
             giftInformationView.snp.makeConstraints { make in
-                make.top.equalTo(productPriceLabel.snp.bottom).offset(.spacing40)
-                make.leading.trailing.equalToSuperview().inset(.spacing16)
-                make.bottom.equalToSuperview().inset(.spacing40)
+                make.top.equalTo(productDescriptionLabel.snp.bottom).offset(.spacing40)
+                make.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview()
             }
         }
     }
