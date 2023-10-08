@@ -11,7 +11,7 @@ final class ProductDetailInformationCell: UICollectionViewCell {
     
     // MARK: - Declaration
     struct Payload {
-        let imageURL: URL
+        let productDetail: ProductDetailEntity
     }
     
     // MARK: - Interface
@@ -47,6 +47,28 @@ final class ProductDetailInformationCell: UICollectionViewCell {
         guard let payload else {
             return
         }
-        viewHolder.imageView.setImage(with: payload.imageURL)
+        
+        if let name = payload.productDetail.giftTitle,
+           let price = payload.productDetail.giftPrice,
+           let imageURL = payload.productDetail.giftImageURL {
+            viewHolder.giftInformationView.giftItem = .init(
+                name: name,
+                price: price,
+                imageURL: imageURL
+            )
+        }
+        let productDetail = payload.productDetail
+        viewHolder.updateDateLabel.text = productDetail.updatedTime
+        if let isNew = productDetail.isNew {
+            viewHolder.productTagListView.isHidden = false
+            viewHolder.productTagListView.payload = .init(
+                isNew: isNew, eventTags: productDetail.eventType
+            )
+        } else {
+            viewHolder.productTagListView.isHidden = true
+        }
+        viewHolder.productNameLabel.text = productDetail.name
+        viewHolder.productPriceLabel.text = productDetail.price
+        viewHolder.productDescriptionLabel.text = productDetail.description
     }
 }
