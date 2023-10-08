@@ -15,7 +15,7 @@ protocol EventHomePresentableListener: AnyObject, FilterRenderable {
     func didTapSearchButton()
     func didChangeStore(to store: ConvenienceStore)
     func didScrollToNextPage(store: ConvenienceStore, filterList: [Int])
-    func didSelect(with brandProduct: any ProductConvertable)
+    func didSelect(with brandProduct: ProductDetailEntity)
     func didSelectFilter(_ filterEntity: FilterEntity?)
     func didTapRefreshFilterCell()
 }
@@ -235,7 +235,7 @@ final class EventHomeViewController: UIViewController,
         )
     }
     
-    func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore) {
+    func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore) {
         if let storeIndex = convenienceStores.firstIndex(of: store.convenienceStoreCellName) {
             let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
             tabViewController.applyEventProductsSnapshot(with: products)
@@ -243,7 +243,7 @@ final class EventHomeViewController: UIViewController,
     }
     
     func update(
-        with products: [EventProductEntity],
+        with products: [ProductDetailEntity],
         banners: [EventBannerEntity],
         filterDataEntity: FilterDataEntity?,
         at store: ConvenienceStore
@@ -293,7 +293,7 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         didTapRefreshButton()
     }
     
-    func didSelect(with brandProduct: any ProductConvertable) {
+    func didSelect(with brandProduct: ProductDetailEntity) {
         listener?.didSelect(with: brandProduct)
     }
     

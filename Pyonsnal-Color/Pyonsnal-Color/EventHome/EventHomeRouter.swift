@@ -95,7 +95,7 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         detachChild(router)
     }
     
-    func attachProductDetail(with product: any ProductConvertable) {
+    func attachProductDetail(with product: ProductDetailEntity) {
         if productDetailRouting != nil { return }
         
         let productDetailRouter = productDetail.build(withListener: interactor, product: product)
@@ -109,8 +109,8 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
     func detachProductDetail() {
         guard let productDetailRouting else { return }
         viewController.popViewController(animated: true)
-        self.productDetailRouting = nil
         detachChild(productDetailRouting)
+        self.productDetailRouting = nil
     }
     
     func attachProductFilter(of filter: FilterEntity) {

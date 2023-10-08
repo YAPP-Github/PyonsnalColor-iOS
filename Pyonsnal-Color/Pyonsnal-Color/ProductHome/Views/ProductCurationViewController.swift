@@ -23,7 +23,7 @@ final class ProductCurationViewController: UIViewController {
     
     enum Item: Hashable {
         case image(data: UIImage?)
-        case curation(data: BrandProductEntity)
+        case curation(data: ProductDetailEntity)
     }
     
     // MARK: Property

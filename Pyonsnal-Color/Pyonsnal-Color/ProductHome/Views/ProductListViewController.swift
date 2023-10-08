@@ -32,7 +32,7 @@ final class ProductListViewController: UIViewController {
     
     enum ItemType: Hashable {
         case keywordFilter(data: FilterItemEntity)
-        case item(data: BrandProductEntity?)
+        case item(data: ProductDetailEntity?)
     }
     
     // MARK: - Private Property
@@ -180,7 +180,7 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl = refreshControl
     }
     
-    func applySnapshot(with products: [BrandProductEntity]?) {
+    func applySnapshot(with products: [ProductDetailEntity]?) {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
         guard var snapshot = dataSource?.snapshot(), let products else { return }
@@ -193,7 +193,7 @@ final class ProductListViewController: UIViewController {
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
-    func updateSnapshot(with products: [BrandProductEntity]?) {
+    func updateSnapshot(with products: [ProductDetailEntity]?) {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
         let emtpySectionType = SectionType.product(type: .empty)

@@ -14,5 +14,5 @@ struct CurationProductsEntity: Decodable {
 struct CurationEntity: Decodable, Hashable {
     let title: String
     let subTitle: String
-    let products: [BrandProductEntity]
+    let products: [ProductDetailEntity]
 }

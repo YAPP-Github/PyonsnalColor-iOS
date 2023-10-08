@@ -10,7 +10,7 @@ import Foundation
 protocol CommonProductPageViewControllerRenderable: AnyObject {
     func updateSelectedStoreCell(index: Int)
     func didChangeStore(to store: ConvenienceStore)
-    func didSelect(with brandProduct: any ProductConvertable)
+    func didSelect(with brandProduct: ProductDetailEntity)
     func deleteKeywordFilter(_ filter: FilterItemEntity)
     func didTapRefreshFilterButton()
     func didFinishUpdateSnapshot()

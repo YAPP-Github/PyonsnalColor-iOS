@@ -140,6 +140,7 @@
 		BA83225C2AB7299F00D2E1EB /* ProductDetailSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA83225B2AB7299F00D2E1EB /* ProductDetailSectionItem.swift */; };
 		BA83225E2AB77E9E00D2E1EB /* ReviewEvaluationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA83225D2AB77E9E00D2E1EB /* ReviewEvaluationState.swift */; };
 		BA8322612AB77FCA00D2E1EB /* ReviewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8322602AB77FCA00D2E1EB /* ReviewEntity.swift */; };
+		BA8322632AB780CA00D2E1EB /* ReviewWriteForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8322622AB780CA00D2E1EB /* ReviewWriteForm.swift */; };
 		BA8322652AB7890000D2E1EB /* ProductDetailSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8322642AB7890000D2E1EB /* ProductDetailSectionModel.swift */; };
 		BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */; };
 		BA87501E2A519B3900B80088 /* ImageAssetKind+HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */; };
@@ -406,6 +407,7 @@
 		BA83225B2AB7299F00D2E1EB /* ProductDetailSectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailSectionItem.swift; sourceTree = "<group>"; };
 		BA83225D2AB77E9E00D2E1EB /* ReviewEvaluationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewEvaluationState.swift; sourceTree = "<group>"; };
 		BA8322602AB77FCA00D2E1EB /* ReviewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewEntity.swift; sourceTree = "<group>"; };
+		BA8322622AB780CA00D2E1EB /* ReviewWriteForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteForm.swift; sourceTree = "<group>"; };
 		BA8322642AB7890000D2E1EB /* ProductDetailSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailSectionModel.swift; sourceTree = "<group>"; };
 		BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreIcon.swift"; sourceTree = "<group>"; };
 		BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+HeaderView.swift"; sourceTree = "<group>"; };
@@ -1006,6 +1008,7 @@
 			children = (
 				BA83225D2AB77E9E00D2E1EB /* ReviewEvaluationState.swift */,
 				BA8322602AB77FCA00D2E1EB /* ReviewEntity.swift */,
+				BA8322622AB780CA00D2E1EB /* ReviewWriteForm.swift */,
 				BAE252252AC6DA0800405DEC /* ReviewEvaluationKind.swift */,
 				BAE2522D2AC8059B00405DEC /* ReviewEvaluationProtocol.swift */,
 				BAE252272AC6DBF500405DEC /* ReviewTasteEvaluation.swift */,
@@ -1826,6 +1829,7 @@
 				F00022482A52812E00FFB4A4 /* NetworkRequestable.swift in Sources */,
 				BA18C0902A7533A6007D00BD /* SearchFilterHeader.swift in Sources */,
 				BA87E3D12A45C600000A9DEC /* ProductDetailViewController+ViewHolder.swift in Sources */,
+				BA8322632AB780CA00D2E1EB /* ReviewWriteForm.swift in Sources */,
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				F0C698652A6BA9B00019C677 /* CategoryFilterCell.swift in Sources */,
 				B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */,

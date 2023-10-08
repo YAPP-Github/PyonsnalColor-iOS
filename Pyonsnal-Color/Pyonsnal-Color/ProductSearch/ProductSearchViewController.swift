@@ -11,7 +11,7 @@ import Combine
 
 enum ProductCellType: Hashable {
     case empty
-    case item(EventProductEntity)
+    case item(ProductDetailEntity)
 }
 
 protocol ProductSearchPresentableListener: AnyObject {

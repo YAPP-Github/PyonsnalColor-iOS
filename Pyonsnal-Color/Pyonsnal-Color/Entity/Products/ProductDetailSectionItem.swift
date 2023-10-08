@@ -9,7 +9,7 @@ import Foundation
 
 enum ProductDetailSectionItem {
     case image(imageURL: URL)
-    case information(product: ProductConvertable)
+    case information(product: ProductDetailEntity)
     case reviewWrite(score: Double, reviewsCount: Int)
     case review(productReview: ReviewEntity)
 }
