@@ -85,8 +85,9 @@ final class ReviewEvaluationLabel: UIView {
         }
         
         contentStackView.snp.makeConstraints { make in
+            make.height.equalTo(20)
             make.leading.trailing.equalToSuperview().inset(.spacing12)
-            make.top.bottom.equalToSuperview()//.inset(.spacing4)
+            make.top.bottom.equalToSuperview().inset(.spacing4)
         }
         
         categoryLabel.snp.makeConstraints { make in
