@@ -10,6 +10,7 @@ import UIKit
 final class ReviewMetaView: UIView {
     // MARK: - Declaration
     struct Payload {
+        let review: ReviewEntity
     }
     
     // MARK: - UI Component
@@ -20,6 +21,8 @@ final class ReviewMetaView: UIView {
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
+        imageView.makeRounded(with: 16)
+        imageView.makeBorder(width: 0.5, color: UIColor.gray300.cgColor)
         return imageView
     }()
     
@@ -42,7 +45,6 @@ final class ReviewMetaView: UIView {
         return label
     }()
     
-    
     // MARK: - Interface
     var payload: Payload? {
         didSet {
@@ -64,13 +66,15 @@ final class ReviewMetaView: UIView {
     
     // MARK: - Private Method
     private func updateUI() {
-        iconImageView.setImage(.iconReview)
-        
         guard let payload else {
             return
         }
         
-        countLabel.text = "\(payload.ratingCount)"
+        let review = payload.review
+        profileImageView.setImage(.tagStore)
+        nameLabel.text = review.writerName
+        ratingPreviewView.payload = .init(ratingCount: Int(review.score))
+//        dateLabel.text = review.
     }
     
     private func configureView() {
@@ -89,23 +93,24 @@ final class ReviewMetaView: UIView {
         
         profileImageView.snp.makeConstraints { make in
             make.size.equalTo(32)
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
+            make.top.leading.equalToSuperview()
         }
         
         nameLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.top.equalToSuperview()
-            make.leading.equalTo(profileImageView.snp.trailing)
+            make.leading.equalTo(profileImageView.snp.trailing).offset(.spacing8)
         }
         
         ratingPreviewView.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(.spacing2)
             make.leading.equalTo(profileImageView.snp.trailing).offset(.spacing8)
+            make.bottom.equalToSuperview()
         }
         
         dateLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
+            make.top.equalToSuperview()
             make.leading.greaterThanOrEqualTo(nameLabel.snp.trailing).offset(.spacing8)
             make.trailing.equalToSuperview()
         }
