@@ -5,6 +5,7 @@
 //  Created by 김인호 on 2023/07/08.
 //
 
+import UIKit
 import Alamofire
 import Combine
 
@@ -139,5 +140,25 @@ final class ProductAPIService {
     
     func requestFilter() -> AnyPublisher<DataResponse<FilterDataEntity, NetworkError>, Never> {
         return client.request(ProductAPI.filter, model: FilterDataEntity.self)
+    }
+    
+    func uploadReview(_ review: ReviewUploadEntity, image: UIImage, productId: String) {
+        let encoder = JSONEncoder()
+        guard let reviewData = try? encoder.encode(review) else { return }
+        
+        AF.upload(multipartFormData: { formData in
+            if let imageData = image.jpegData(compressionQuality: 1) {
+                formData.append(
+                    imageData,
+                    withName: "image",
+                    fileName: "\(imageData).jpeg",
+                    mimeType: "image/jpeg"
+                )
+            }
+            formData.append(reviewData, withName: "reviewDto")
+        },with: ProductAPI.pbReview(id: productId))
+        .response { _ in
+            
+        }
     }
 }

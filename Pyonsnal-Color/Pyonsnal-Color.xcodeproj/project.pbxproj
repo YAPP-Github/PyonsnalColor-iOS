@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B206F2572A629C2500959884 /* ProductPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B206F2562A629C2500959884 /* ProductPresentable.swift */; };
+		B2092B432AD3DEC900D28D5B /* ReviewUploadEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2092B422AD3DEC900D28D5B /* ReviewUploadEntity.swift */; };
 		B2134DC22A7D09E1009CB1EB /* main.json in Resources */ = {isa = PBXBuildFile; fileRef = B2134DC12A7D09E1009CB1EB /* main.json */; };
 		B21C1A8C2A513FBB007D98E9 /* RIBs+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */; };
 		B22496462ABC112B00BC6B09 /* StarRatingReviewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22496422ABC112B00BC6B09 /* StarRatingReviewRouter.swift */; };
@@ -311,6 +312,7 @@
 
 /* Begin PBXFileReference section */
 		B206F2562A629C2500959884 /* ProductPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPresentable.swift; sourceTree = "<group>"; };
+		B2092B422AD3DEC900D28D5B /* ReviewUploadEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewUploadEntity.swift; sourceTree = "<group>"; };
 		B2134DC12A7D09E1009CB1EB /* main.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = main.json; sourceTree = "<group>"; };
 		B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RIBs+.swift"; sourceTree = "<group>"; };
 		B22496422ABC112B00BC6B09 /* StarRatingReviewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingReviewRouter.swift; sourceTree = "<group>"; };
@@ -627,6 +629,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B2092B412AD3DEB300D28D5B /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				B2092B422AD3DEC900D28D5B /* ReviewUploadEntity.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
+		B224963E2ABAEB8E00BC6B09 /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				B2EFFAB82ACBF63D007AF2EE /* StarView.swift */,
+				B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */,
+				B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
 		B22496412ABC110F00BC6B09 /* StarRatingReview */ = {
 			isa = PBXGroup;
 			children = (
@@ -637,16 +657,6 @@
 				B224964A2ABC114A00BC6B09 /* StarRatingReviewViewHolder.swift */,
 			);
 			path = StarRatingReview;
-            sourceTree = "<group>";
-        };
-		B224963E2ABAEB8E00BC6B09 /* Review */ = {
-			isa = PBXGroup;
-			children = (
-				B2EFFAB82ACBF63D007AF2EE /* StarView.swift */,
-				B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */,
-				B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */,
-			);
-			path = Review;
 			sourceTree = "<group>";
 		};
 		B224964D2ABC1BCA00BC6B09 /* ReviewPopup */ = {
@@ -1779,6 +1789,7 @@
 				BA7532E22A595B140002659A /* UserAuthService.swift in Sources */,
 				F0E915D52AAC9E3F000919DA /* CommonProductPageViewControllerRenderable.swift in Sources */,
 				BA8924562A582EE700D1B097 /* NewTagBigView.swift in Sources */,
+				B2092B432AD3DEC900D28D5B /* ReviewUploadEntity.swift in Sources */,
 				BA6CAB802AE84C6600B9E1BF /* UserInfoService.swift in Sources */,
 				BAE442C22A6D2C7A00BD6582 /* LoadingReusableView.swift in Sources */,
 				F0687BED2A529679004B5EAE /* Config.swift in Sources */,

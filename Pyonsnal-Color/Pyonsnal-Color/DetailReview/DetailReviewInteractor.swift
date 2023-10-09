@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import ModernRIBs
 
 protocol DetailReviewRouting: ViewableRouting {
@@ -27,19 +28,22 @@ protocol DetailReviewListener: AnyObject {
 }
 
 final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentable>, DetailReviewInteractable, DetailReviewPresentableListener {
-
+    
     weak var router: DetailReviewRouting?
     weak var listener: DetailReviewListener?
-
-    override init(presenter: DetailReviewPresentable) {
+    private var cancellable = Set<AnyCancellable>()
+    private let component: DetailReviewComponent
+    
+    init(presenter: DetailReviewPresentable, component: DetailReviewComponent) {
+        self.component = component
         super.init(presenter: presenter)
         presenter.listener = self
     }
-
+    
     override func didBecomeActive() {
         super.didBecomeActive()
     }
-
+    
     override func willResignActive() {
         super.willResignActive()
     }

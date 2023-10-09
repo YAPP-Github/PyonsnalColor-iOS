@@ -13,8 +13,6 @@ protocol StarRatingReviewDependency: Dependency {
 }
 
 final class StarRatingReviewComponent: Component<StarRatingReviewDependency>, DetailReviewDependency {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
 // MARK: - Builder

@@ -37,6 +37,8 @@ enum ProductAPI: NetworkRequestBuilder {
     )
     case curationProduct
     case filter
+    case pbReview(id: String)
+    case eventReview(id: String)
 }
 
 extension ProductAPI {
@@ -47,7 +49,7 @@ extension ProductAPI {
         switch self {
         case .eventBanner, .search, .filter, .curationProduct, .brandDetail, .eventDetail:
             return .get
-        case .brandProduct, .eventProduct:
+        case .brandProduct, .eventProduct, .pbReview, .eventReview:
             return .post
         case .brandReviewLike, .brandReviewHate, .eventReviewLike, .eventReviewHate:
             return .put
@@ -80,6 +82,10 @@ extension ProductAPI {
             return "/products/meta-data"
         case .curationProduct:
             return "products/curation"
+        case let .pbReview(id):
+            return "/products/pb-products/\(id)/reviews"
+        case let .eventReview(id):
+            return "/products/event-products/\(id)/reviews"
         }
     }
     
@@ -117,16 +123,22 @@ extension ProductAPI {
             }
         case .curationProduct:
             break
-        case .filter, .brandDetail, .eventDetail, .brandReviewLike, .brandReviewHate, .eventReviewLike, .eventReviewHate:
+        case .filter, .brandDetail, .eventDetail, .brandReviewLike, .brandReviewHate, .eventReviewLike, .eventReviewHate, .pbReview, .eventReview:
             return nil
         }
         
         return queryItems
     }
-
-    var headers: [HTTPHeader]? { 
-        if let accessToken = ProductAPI.accessToken {
-        return Config.shared.getAuthorizationHeader(with: accessToken)
+    
+    var headers: [HTTPHeader]? {
+        switch self {
+        case let .pbReview(id), let .eventReview(id):
+            return Config.shared.getMultipartFormDataHeader(with: id)
+        default:
+            if let accessToken = ProductAPI.accessToken {
+                return Config.shared.getAuthorizationHeader(with: accessToken)
+            }
+            return Config.shared.getDefaultHeader()
+        }
     }
-    return Config.shared.getDefaultHeader() }
 }

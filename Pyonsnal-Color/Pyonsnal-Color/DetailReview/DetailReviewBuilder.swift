@@ -11,6 +11,15 @@ protocol DetailReviewDependency: Dependency {
 }
 
 final class DetailReviewComponent: Component<DetailReviewDependency>, ReviewPopupDependency {
+    let pyonsnalColorClient = PyonsnalColorClient()
+    let userAuthService = UserAuthService(keyChainService: .shared)
+    
+    var productAPIService: ProductAPIService {
+        return ProductAPIService(client: pyonsnalColorClient, userAuthService: userAuthService)
+    }
+    var memberAPIService: MemberAPIService {
+        return MemberAPIService(client: pyonsnalColorClient, userAuthService: userAuthService)
+    }
 }
 
 // MARK: - Builder
@@ -28,7 +37,7 @@ final class DetailReviewBuilder: Builder<DetailReviewDependency>, DetailReviewBu
     func build(withListener listener: DetailReviewListener, score: Int) -> DetailReviewRouting {
         let component = DetailReviewComponent(dependency: dependency)
         let viewController = DetailReviewViewController(score: score)
-        let interactor = DetailReviewInteractor(presenter: viewController)
+        let interactor = DetailReviewInteractor(presenter: viewController, component: component)
         let reviewPopupBuilder = ReviewPopupBuilder(dependency: component)
         interactor.listener = listener
         return DetailReviewRouter(
