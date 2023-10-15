@@ -18,7 +18,11 @@ struct ReviewEntity {
     let writerName: String
     let createdTime: String
     let updatedTime: String
+    let likeCount: Int
+    let hateCount: Int
 }
+
+extension ReviewEntity: Hashable {}
 
 extension ReviewEntity: Codable {
 }
