@@ -35,5 +35,3 @@ extension UICollectionView {
         return cell
     }
 }
-
-extension UICollectionViewCell: ItemIdentifier {}

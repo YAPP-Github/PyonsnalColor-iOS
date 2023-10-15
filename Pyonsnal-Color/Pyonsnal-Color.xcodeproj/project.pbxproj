@@ -153,6 +153,7 @@
 		BA8924542A582ED200D1B097 /* EventTagBigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8924532A582ED200D1B097 /* EventTagBigView.swift */; };
 		BA8924562A582EE700D1B097 /* NewTagBigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8924552A582EE700D1B097 /* NewTagBigView.swift */; };
 		BA8924582A583AD400D1B097 /* ImageAssetKind+Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8924572A583AD400D1B097 /* ImageAssetKind+Icon.swift */; };
+		BA8BF1EC2ADC10820091089D /* UICollectionReusableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8BF1EB2ADC10820091089D /* UICollectionReusableView+.swift */; };
 		BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9E233A2A21EF3000A539D5 /* AppDelegate.swift */; };
 		BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9E233C2A21EF3000A539D5 /* SceneDelegate.swift */; };
 		BA9E23442A21EF3100A539D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA9E23432A21EF3100A539D5 /* Assets.xcassets */; };
@@ -418,6 +419,7 @@
 		BA8924532A582ED200D1B097 /* EventTagBigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTagBigView.swift; sourceTree = "<group>"; };
 		BA8924552A582EE700D1B097 /* NewTagBigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTagBigView.swift; sourceTree = "<group>"; };
 		BA8924572A583AD400D1B097 /* ImageAssetKind+Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+Icon.swift"; sourceTree = "<group>"; };
+		BA8BF1EB2ADC10820091089D /* UICollectionReusableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+.swift"; sourceTree = "<group>"; };
 		BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pyonsnal-Color.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA9E233A2A21EF3000A539D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA9E233C2A21EF3000A539D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 				F0D8FEBD2A3EDB6B000B530A /* UIColor+.swift */,
 				F015354A2A45A8DD00A2A8F2 /* NSObject+.swift */,
 				B24F1D3B2A456C2400AA03DC /* UICollectionView+.swift */,
+				BA8BF1EB2ADC10820091089D /* UICollectionReusableView+.swift */,
 				B24F1D4F2A4EC72200AA03DC /* DateFormatter+.swift */,
 				F0EE10A02A4B122A00B8DF4F /* UITableView+.swift */,
 				BA00B7352A46B83A00BB3795 /* CGFloat+.swift */,
@@ -1861,6 +1864,7 @@
 				F0DEABA02AAF410B00941A5F /* FavoriteBuilder.swift in Sources */,
 				BA00B7392A46B8BF00BB3795 /* Spacing.swift in Sources */,
 				BA00B73C2A46B98700BB3795 /* SnapKit+.swift in Sources */,
+				BA8BF1EC2ADC10820091089D /* UICollectionReusableView+.swift in Sources */,
 				BA87E3CD2A45C5A1000A9DEC /* ProductDetailViewController.swift in Sources */,
 				B2F169DA2A3472EC008199D8 /* RootTabBarRouter.swift in Sources */,
 				F097EF252A5605E400A7FB9C /* PrimaryButton.swift in Sources */,
