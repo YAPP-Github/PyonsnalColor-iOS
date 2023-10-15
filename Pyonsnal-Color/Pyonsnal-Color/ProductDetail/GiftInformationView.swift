@@ -9,6 +9,11 @@ import UIKit
 
 final class GiftInformationView: UIView {
     // MARK: - Declaration
+    
+    struct Payload {
+        let giftEntity: ProductGiftEntity
+    }
+    
     enum Constant {
         enum Text {
             static let principleLabelText: String = "증정 행사상품의 구매조건(수량 등)이 상이할 수 있으므로, 자세한 내용은 매장에서 확인해주세요"
@@ -36,7 +41,7 @@ final class GiftInformationView: UIView {
     }()
     
     // MARK: - Interface
-    var giftItem: GiftItemEntity? {
+    var payload: Payload? {
         didSet { updateUI() }
     }
     
@@ -54,7 +59,8 @@ final class GiftInformationView: UIView {
     
     // MARK: - Private Method
     private func updateUI() {
-        giftItemView.giftItem = giftItem
+        guard let payload else { return }
+        giftItemView.payload = .init(giftEntity: payload.giftEntity)
     }
     
     private func configureView() {
