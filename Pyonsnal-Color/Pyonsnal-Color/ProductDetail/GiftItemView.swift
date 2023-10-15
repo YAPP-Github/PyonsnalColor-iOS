@@ -9,6 +9,11 @@ import UIKit
 
 final class GiftItemView: UIView {
     // MARK: - Declaration
+    
+    struct Payload {
+        var giftEntity: ProductGiftEntity
+    }
+    
     enum Constant {
         enum Size {
             static let contentViewRound: CGFloat = 16
@@ -70,7 +75,7 @@ final class GiftItemView: UIView {
     }()
     
     // MARK: - Interface
-    var giftItem: GiftItemEntity? {
+    var payload: Payload? {
         didSet { updateUI() }
     }
     
@@ -88,11 +93,11 @@ final class GiftItemView: UIView {
     
     // MARK: - Private Method
     private func updateUI() {
-        guard let giftItem else { return }
+        guard let gift = payload?.giftEntity else { return }
         
-        giftImageView.setImage(with: giftItem.imageURL)
-        giftNameLabel.text = giftItem.name
-        giftPriceLabel.text = giftItem.price
+        giftImageView.setImage(with: gift.imageURL)
+        giftNameLabel.text = gift.name
+        giftPriceLabel.text = gift.price
     }
     
     private func configureView() {
