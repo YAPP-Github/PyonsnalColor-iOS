@@ -27,7 +27,9 @@ protocol DetailReviewListener: AnyObject {
     func routeToProductDetail()
 }
 
-final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentable>, DetailReviewInteractable, DetailReviewPresentableListener {
+final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentable>,
+                                    DetailReviewInteractable,
+                                    DetailReviewPresentableListener {
     
     weak var router: DetailReviewRouting?
     weak var listener: DetailReviewListener?
@@ -70,9 +72,43 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
         listener?.routeToProductDetail()
     }
     
-    private func convertToReview() {
-        let reviews = presenter.reviews
-        let contents = presenter.getReviewContents().trimmingCharacters(in: .whitespacesAndNewlines)
+    private func uploadReview() {
         let image = presenter.getReviewImage()
+        
+        component.memberAPIService.info()
+            .sink { [weak self] response in
+                if let memberInfo = response.value {
+                    if let reviewUploadEntity = self?.configureReviewUploadEntity(
+                        memberInfo: memberInfo
+                    ) {
+                        self?.component.productAPIService.uploadReview(
+                            reviewUploadEntity,
+                            image: image,
+                            productId: "000936ab83ac4dc3b98dc84cc57100d1"
+                        )
+                    }
+                }
+            }.store(in: &cancellable)
+    }
+    
+    private func configureReviewUploadEntity(memberInfo: MemberInfoEntity) -> ReviewUploadEntity? {
+        guard let taste = presenter.reviews[.taste],
+              let quality = presenter.reviews[.quality],
+              let price = presenter.reviews[.price]
+        else {
+            return nil
+        }
+        
+        let reviewEntity = ReviewUploadEntity(
+            taste: taste.rawValue,
+            quality: quality.rawValue,
+            valueForMoney: price.rawValue,
+            score: Double(presenter.score),
+            contents: presenter.getReviewContents(),
+            writerId: memberInfo.memberId,
+            writerName: memberInfo.nickname
+        )
+        
+        return reviewEntity
     }
 }

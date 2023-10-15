@@ -142,12 +142,12 @@ final class ProductAPIService {
         return client.request(ProductAPI.filter, model: FilterDataEntity.self)
     }
     
-    func uploadReview(_ review: ReviewUploadEntity, image: UIImage, productId: String) {
+    func uploadReview(_ review: ReviewUploadEntity, image: UIImage?, productId: String) {
         let encoder = JSONEncoder()
         guard let reviewData = try? encoder.encode(review) else { return }
         
         AF.upload(multipartFormData: { formData in
-            if let imageData = image.jpegData(compressionQuality: 1) {
+            if let imageData = image?.jpegData(compressionQuality: 1) {
                 formData.append(
                     imageData,
                     withName: "image",
@@ -156,7 +156,7 @@ final class ProductAPIService {
                 )
             }
             formData.append(reviewData, withName: "reviewDto")
-        },with: ProductAPI.pbReview(id: productId))
+        }, with: ProductAPI.pbReview(id: productId))
         .response { _ in
             
         }
