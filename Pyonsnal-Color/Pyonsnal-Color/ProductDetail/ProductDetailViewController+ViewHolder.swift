@@ -21,94 +21,17 @@ extension ProductDetailViewController {
             return backNavigationView
         }()
         
-        private let contentScrollView: UIScrollView = {
-            let scrollView: UIScrollView = .init(frame: .zero)
-            scrollView.backgroundColor = .white
-            return scrollView
-        }()
-        
-        private let contentStackView: UIStackView = {
-            let stackView: UIStackView = .init(frame: .zero)
-            stackView.axis = .vertical
-            return stackView
-        }()
-        
-        // 상품 이미지 뷰
-        private let productImageContainerView: UIView = {
-            let view: UIView = .init(frame: .zero)
-            view.backgroundColor = .white
-            return view
-        }()
-        
-        let productImageView: UIImageView = {
-            let imageView: UIImageView = .init(frame: .zero)
-            imageView.contentMode = .scaleAspectFit
-            return imageView
-        }()
-        
-        // 중간 라인
-        private let lineView: UIView = {
-            let view: UIView = .init(frame: .zero)
-            view.backgroundColor = .gray100
-            return view
-        }()
-        
-        // 상품 정보 뷰
-        private let productInformationContainerView: UIView = {
-            let view: UIView = .init(frame: .zero)
-            view.backgroundColor = .white
-            return view
-        }()
-        
-        let updateDateLabel: UILabel = {
-            let label: UILabel = .init(frame: .zero)
-            label.textColor = .gray400
-            label.font = .body3r
-            return label
-        }()
-        
-        private let textInfoStackView: UIStackView = {
-            let stackView = UIStackView(frame: .zero)
-            stackView.axis = .vertical
-            stackView.spacing = 16
-            return stackView
-        }()
-        
-        let productTagListView: ProductTagListView = {
-            let productTagListView: ProductTagListView = .init()
-            return productTagListView
-        }()
-        
-        private let textContainerView: UIView = {
-            let view: UIView = .init(frame: .zero)
-            return view
-        }()
-        
-        let productNameLabel: UILabel = {
-            let label: UILabel = .init(frame: .zero)
-            label.textColor = .gray700
-            label.font = .title1
-            return label
-        }()
-        
-        let productPriceLabel: UILabel = {
-            let label: UILabel = .init(frame: .zero)
-            label.textColor = .black
-            label.font = .headLine
-            return label
-        }()
-        
-        let productDescriptionLabel: UILabel = {
-            let label: UILabel = .init(frame: .zero)
-            label.numberOfLines = 0
-            label.textColor = .gray600
-            label.font = .body2r
-            return label
-        }()
-        
-        let giftInformationView: GiftInformationView = {
-            let giftInformationView: GiftInformationView = .init()
-            return giftInformationView
+        let collectionView: UICollectionView = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.refreshControl = .init()
+            collectionView.register(ProductDetailImageCell.self)
+            collectionView.register(ProductDetailInformationCell.self)
+            collectionView.register(ProductDetailReviewWriteCell.self)
+            collectionView.register(ProductDetailReviewCell.self)
+            collectionView.registerFooterView(LineFooter.self)
+            return collectionView
         }()
         
         // MARK: - Method
@@ -116,26 +39,7 @@ extension ProductDetailViewController {
             view.addSubview(contentView)
             
             contentView.addSubview(backNavigationView)
-            contentView.addSubview(contentScrollView)
-            
-            contentScrollView.addSubview(contentStackView)
-            
-            contentStackView.addArrangedSubview(productImageContainerView)
-            contentStackView.addArrangedSubview(lineView)
-            contentStackView.addArrangedSubview(productInformationContainerView)
-            
-            productImageContainerView.addSubview(productImageView)
-            
-            productInformationContainerView.addSubview(updateDateLabel)
-            productInformationContainerView.addSubview(textInfoStackView)
-            
-            textInfoStackView.addArrangedSubview(productTagListView)
-            textInfoStackView.addArrangedSubview(textContainerView)
-            
-            textContainerView.addSubview(productNameLabel)
-            textContainerView.addSubview(productPriceLabel)
-            textContainerView.addSubview(productDescriptionLabel)
-//            textContainerView.addSubview(giftInformationView)
+            contentView.addSubview(collectionView)
         }
         
         func configureConstraints(for view: UIView) {
@@ -147,64 +51,10 @@ extension ProductDetailViewController {
                 make.leading.top.trailing.equalToSuperview()
             }
             
-            contentScrollView.snp.makeConstraints { make in
-                make.top.equalTo(backNavigationView.snp.bottom)
-                make.leading.bottom.trailing.equalToSuperview()
+            collectionView.snp.makeConstraints { make in
+                make.top.top.equalTo(backNavigationView.snp.bottom)
+                make.leading.bottom.right.equalTo(view.safeAreaLayoutGuide)
             }
-            
-            contentStackView.snp.makeConstraints { make in
-                make.width.equalToSuperview()
-                make.edges.equalToSuperview()
-            }
-            
-            productImageView.snp.makeConstraints { make in
-                make.size.equalTo(200)
-                make.top.bottom.equalToSuperview().inset(60)
-                make.centerX.equalToSuperview()
-            }
-            
-            lineView.snp.makeConstraints { make in
-                make.height.equalTo(12)
-            }
-            
-            updateDateLabel.snp.makeConstraints { make in
-                make.top.trailing.equalToSuperview().inset(.spacing16)
-            }
-            
-            textInfoStackView.snp.makeConstraints { make in
-                make.top.equalTo(updateDateLabel.snp.bottom).offset(.spacing12)
-                make.leading.bottom.trailing.equalToSuperview()
-            }
-            
-            productTagListView.snp.makeConstraints { make in
-                make.leading.trailing.equalToSuperview().inset(.spacing16)
-            }
-            
-            textContainerView.snp.makeConstraints { make in
-                make.leading.trailing.equalToSuperview().inset(.spacing16)
-            }
-            
-            productNameLabel.snp.makeConstraints { make in
-                make.height.equalTo(productNameLabel.font.customLineHeight)
-                make.top.leading.trailing.equalToSuperview()
-            }
-            
-            productPriceLabel.snp.makeConstraints { make in
-                make.height.equalTo(productPriceLabel.font.customLineHeight)
-                make.top.equalTo(productNameLabel.snp.bottom).offset(.spacing4)
-                make.leading.trailing.equalToSuperview()
-            }
-            
-            productDescriptionLabel.snp.makeConstraints { make in
-                make.top.equalTo(productPriceLabel.snp.bottom).offset(.spacing16)
-                make.leading.trailing.equalToSuperview()
-            }
-            
-//            giftInformationView.snp.makeConstraints { make in
-//                make.top.equalTo(productDescriptionLabel.snp.bottom).offset(.spacing40)
-//                make.leading.trailing.equalToSuperview()
-//                make.bottom.equalToSuperview().inset(.spacing40)
-//            }
         }
     }
 }
