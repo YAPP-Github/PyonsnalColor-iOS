@@ -79,8 +79,8 @@ final class FavoriteViewController: UIViewController,
         viewHolder.place(in: self.view)
         viewHolder.configureConstraints(for: self.view)
         setTabSelectedState(to: .product)
-        configureCollectionView()
         configureNavigationView()
+        setPageViewController()
         bindActions()
     }
     
@@ -90,9 +90,12 @@ final class FavoriteViewController: UIViewController,
     }
     
     // MARK: - Public Method
-    func updateProducts(products: [any ProductConvertable], tab: FavoriteTab) {
+    func updateProducts(products: [any ProductConvertable]?, tab: FavoriteTab) {
         self.products[tab] = products
-        viewHolder.collectionView.reloadData()
+        viewHolder.pageViewController.updateProducts(
+            to: tab.rawValue,
+            with: products
+        )
     }
     
     // MARK: - Private Method
@@ -140,22 +143,13 @@ final class FavoriteViewController: UIViewController,
     
     private func didTapButton(selectedTab: FavoriteTab) {
         scrollIndex.send(selectedTab.rawValue)
-        self.selectTabAndScrollToItem(tab: selectedTab)
+        viewHolder.pageViewController.updatePage(to: selectedTab.rawValue)
     }
     
-    private func selectTabAndScrollToItem(tab: FavoriteTab) {
-        let indexPath = IndexPath(item: tab.rawValue, section: 0)
-        viewHolder.collectionView.scrollToItem(
-            at: indexPath,
-            at: .centeredHorizontally,
-            animated: true
-        )
-    }
-    
-    private func configureCollectionView() {
-        viewHolder.collectionView.register(FavoriteProductContainerCell.self)
-        viewHolder.collectionView.delegate = self
-        viewHolder.collectionView.dataSource = self
+    private func setPageViewController() {
+        addChild(viewHolder.pageViewController)
+        viewHolder.pageViewController.didMove(toParent: self)
+        viewHolder.pageViewController.pageDelegate = self
     }
     
     private func configureNavigationView() {
@@ -198,54 +192,22 @@ extension FavoriteViewController: TitleNavigationViewDelegate {
 // MARK: - ProductPresentable
 extension FavoriteViewController: ProductPresentable {
     func didTabRootTabBar() {
-        let cellIndexPath = IndexPath(item: scrollIndex.value, section: 0)
-        guard let cell = viewHolder.collectionView.cellForItem(at: cellIndexPath) as? FavoriteProductContainerCell else { return }
-        cell.scrollCollectionViewToTop()
-    
+        guard let currentTabViewController = viewHolder.pageViewController.viewControllers?.first as? FavoritePageTabViewController else { return }
+        currentTabViewController.scrollCollectionViewToTop()
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension FavoriteViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return FavoriteTab.allCases.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: FavoriteProductContainerCell = collectionView.dequeueReusableCell(for: indexPath)
-        if products.isEmpty { return cell }
-        guard let tab = FavoriteTab(rawValue: indexPath.item),
-              let product = products[tab] else {
-            return cell
-        }
-        cell.delegate = self
-        cell.update(with: product)
-        cell.endRefreshing()
-        return cell
+// MARK: - FavoriteTabPageViewControllerDelegate
+extension FavoriteViewController: FavoriteTabPageViewControllerDelegate {
+    func loadProducts() {
+        listener?.requestFavoriteProducts()
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentIndex = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-        scrollIndex.send(currentIndex)
-    }
-
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension FavoriteViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width
-        let height = collectionView.frame.height
-        return CGSize(width: width, height: height)
+    func updateSelectedTab(index: Int) {
+        scrollIndex.send(index)
+        viewHolder.pageViewController.updatePage(to: index)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return .zero
-    }
-}
-
-// MARK: - FavoriteProductContainerCellDelegate
-extension FavoriteViewController: FavoriteProductContainerCellDelegate {
     func didTapProduct(product: any ProductConvertable) {
         listener?.didSelect(with: product)
     }

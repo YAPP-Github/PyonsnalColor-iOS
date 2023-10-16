@@ -1,25 +1,27 @@
 //
-//  FavoriteProductContainerCell.swift
+//  FavoritePageTabViewController.swift
 //  Pyonsnal-Color
 //
-//  Created by 조소정 on 2023/09/13.
+//  Created by 조소정 on 2023/10/16.
 //
 
 import UIKit
+import SnapKit
 
 enum FavoriteButtonAction {
     case add
     case delete
 }
 
-protocol FavoriteProductContainerCellDelegate: AnyObject {
+protocol FavoritePageTabViewControllerDelegate: AnyObject {
     func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction)
     func didTapProduct(product: any ProductConvertable)
     func loadMoreItems()
     func pullToRefresh()
+    func loadProducts()
 }
 
-final class FavoriteProductContainerCell: UICollectionViewCell {
+final class FavoritePageTabViewController: UIViewController {
     
     // MARK: - Interfaces
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
@@ -34,8 +36,8 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         case empty
         
         static func == (
-            lhs: FavoriteProductContainerCell.ItemType,
-            rhs: FavoriteProductContainerCell.ItemType
+            lhs: FavoritePageTabViewController.ItemType,
+            rhs: FavoritePageTabViewController.ItemType
         ) -> Bool {
             switch (lhs, rhs) {
             case (.product(let lProduct), .product(let rProduct)):
@@ -57,30 +59,27 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         }
     }
     
-    weak var delegate: FavoriteProductContainerCellDelegate?
+    weak var delegate: FavoritePageTabViewControllerDelegate?
     
     // MARK: - Private Property
     private let viewHolder = ViewHolder()
     private(set) var dataSource: DataSource?
 
-    // MARK: - Initializer
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        viewHolder.place(in: contentView)
-        viewHolder.configureConstraints(for: contentView)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewHolder.place(in: self.view)
+        viewHolder.configureConstraints(for: self.view)
         registerCell()
         configureCollectionView()
         configureDataSource()
         configureRefreshControl()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        delegate?.loadProducts()
     }
     
     // MARK: - Public Method
     func update(with data: [any ProductConvertable]?) {
-        makeSnapshot(with: data)
+        self.endRefreshing()
+        self.makeSnapshot(with: data)
     }
     
     func scrollCollectionViewToTop() {
@@ -158,7 +157,7 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
         )
     }
     
-    @objc 
+    @objc
     func pullToRefresh() {
         viewHolder.collectionView.refreshControl?.beginRefreshing()
         delegate?.pullToRefresh()
@@ -196,24 +195,11 @@ final class FavoriteProductContainerCell: UICollectionViewCell {
 }
 
 // MARK: - UICollectionViewDelegate
-extension FavoriteProductContainerCell: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let product = dataSource?.itemIdentifier(for: indexPath),
-           case let .product(item) = product {
-            if let item = item as? EventProductEntity {
-                if item.isEventExpired ?? false { return }
-            }
-            delegate?.didTapProduct(product: item)
-        }
-    }
-}
-
-// MARK: - Pagination
-extension FavoriteProductContainerCell {
+extension FavoritePageTabViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let contentSizeHeight = scrollView.contentSize.height
-        let contentOffsetY = scrollView.contentOffset.y
-        let pagnationHeight = (contentSizeHeight - scrollView.frame.size.height) * 0.9
+        let contentSizeHeight = self.viewHolder.collectionView.contentSize.height
+        let contentOffsetY = self.viewHolder.collectionView.contentOffset.y
+        let pagnationHeight = (contentSizeHeight - self.viewHolder.collectionView.bounds.height) * 0.9
         let remaining = pagnationHeight < contentOffsetY
         if remaining {
             delegate?.loadMoreItems()
@@ -222,9 +208,8 @@ extension FavoriteProductContainerCell {
 }
 
 // MARK: - ProductCellDelegate
-extension FavoriteProductContainerCell: ProductCellDelegate {
+extension FavoritePageTabViewController: ProductCellDelegate {
     func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction) {
         delegate?.didTapFavoriteButton(product: product, action: action)
     }
-    
 }
