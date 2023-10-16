@@ -70,15 +70,10 @@ extension FavoriteViewController {
             return view
         }()
         
-        let collectionView: UICollectionView = {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .horizontal
-            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.isPagingEnabled = true
-            collectionView.bounces = false
-            collectionView.showsHorizontalScrollIndicator = false
-            return collectionView
-        }()
+        let pageViewController = FavoritePageViewController(
+            transitionStyle: .scroll,
+            navigationOrientation: .horizontal
+        )
         
         func place(in view: UIView) {
             view.addSubview(titleNavigationView)
@@ -90,7 +85,7 @@ extension FavoriteViewController {
             productSubView.addSubview(productUnderBarView)
             eventSubView.addSubview(eventTabButton)
             eventSubView.addSubview(eventUnderBarView)
-            view.addSubview(collectionView)
+            view.addSubview(pageViewController.view)
         }
         
         func configureConstraints(for view: UIView) {
@@ -131,7 +126,7 @@ extension FavoriteViewController {
                 $0.height.equalTo(Size.underBarHeight)
             }
             
-            collectionView.snp.makeConstraints {
+            pageViewController.view.snp.makeConstraints {
                 $0.top.equalTo(stackView.snp.bottom)
                 $0.leading.trailing.equalToSuperview()
                 $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)

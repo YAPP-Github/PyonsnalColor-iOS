@@ -18,7 +18,7 @@ protocol FavoriteRouting: ViewableRouting {
 
 protocol FavoritePresentable: Presentable {
     var listener: FavoritePresentableListener? { get set }
-    func updateProducts(products: [any ProductConvertable], tab: FavoriteTab)
+    func updateProducts(products: [any ProductConvertable]?, tab: FavoriteTab)
 }
 
 protocol FavoriteListener: AnyObject {
@@ -49,8 +49,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     private var isPbPagingNumberLoadMore: Bool = true
     private var isEventPagingNumberLoadMore: Bool = true
     
-    private let pbProducts = CurrentValueSubject<[any ProductConvertable], Never>([])
-    private let eventProducts = CurrentValueSubject<[any ProductConvertable], Never>([])
+    private var productDictionary: [FavoriteTab: [any ProductConvertable]] = [:]
     
     // MARK: - Initializer
     init(
@@ -64,7 +63,6 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        bindActions()
     }
 
     override func willResignActive() {
@@ -94,7 +92,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             self.favoriteAPIService.deleteFavorite(
                 productId: product.productId,
                 productType: product.productType
-            ).sink { response in
+            ).sink { _ in
                 group.leave()
             }.store(in: &self.cancellable)
         }
@@ -130,13 +128,18 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             productType: .pb,
             model: BrandProductEntity.self
         ).sink { [weak self] response in
+            guard let self else { return }
             if let product = response.value {
-                self?.isPbPagingNumberLoadMore = !product.isLast
-                self?.pbProducts.value = product.content
+                self.isPbPagingNumberLoadMore = !product.isLast
+                self.productDictionary[.product] = product.content
+                self.presenter.updateProducts(
+                    products: self.productDictionary[.product],
+                    tab: .product
+                )
             } else {
                 // TODO: Error Handling
             }
-            self?.isPbPagingEnabled = true
+            self.isPbPagingEnabled = true
         }.store(in: &cancellable)
     }
     
@@ -154,14 +157,18 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             productType: .pb,
             model: BrandProductEntity.self
         ).sink { [weak self] response in
-            
+            guard let self else { return }
             if let product = response.value {
-                self?.isPbPagingNumberLoadMore = !product.isLast
-                self?.pbProducts.value += product.content
+                self.isPbPagingNumberLoadMore = !product.isLast
+                self.productDictionary[.product]? += product.content
+                self.presenter.updateProducts(
+                    products: self.productDictionary[.product],
+                    tab: .product
+                )
             } else {
                 // TODO: Error Handling
             }
-            self?.isPbPagingEnabled = true
+            self.isPbPagingEnabled = true
         }.store(in: &cancellable)
     }
     
@@ -174,13 +181,18 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             productType: .event,
             model: EventProductEntity.self
         ).sink { [weak self] response in
+            guard let self else { return }
             if let product = response.value {
-                self?.isEventPagingNumberLoadMore = !product.isLast
-                self?.eventProducts.value = product.content
+                self.isEventPagingNumberLoadMore = !product.isLast
+                self.productDictionary[.event] = product.content
+                self.presenter.updateProducts(
+                    products: self.productDictionary[.event],
+                    tab: .event
+                )
             } else {
                 // TODO: Error Handling
             }
-            self?.isEventPagingEnabled = true
+            self.isEventPagingEnabled = true
         }.store(in: &cancellable)
     }
     
@@ -197,13 +209,18 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             productType: .event,
             model: EventProductEntity.self
         ).sink { [weak self] response in
+            guard let self else { return }
             if let product = response.value {
-                self?.isEventPagingNumberLoadMore = !product.isLast
-                self?.eventProducts.value += product.content
+                self.isEventPagingNumberLoadMore = !product.isLast
+                self.productDictionary[.event]? += product.content
+                self.presenter.updateProducts(
+                    products: self.productDictionary[.event],
+                    tab: .event
+                )
             } else {
                 // TODO: Error Handling
             }
-            self?.isEventPagingEnabled = true
+            self.isEventPagingEnabled = true
         }.store(in: &cancellable)
     }
     
@@ -216,17 +233,4 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
             self.loadMoreEventProducts()
         }
     }
-    
-    private func bindActions() {
-        pbProducts
-            .sink { [weak self] value in
-                self?.presenter.updateProducts(products: value, tab: .product)
-            }.store(in: &cancellable)
-        
-        eventProducts
-            .sink { [weak self] value in
-                self?.presenter.updateProducts(products: value, tab: .event)
-            }.store(in: &cancellable)
-    }
-    
 }
