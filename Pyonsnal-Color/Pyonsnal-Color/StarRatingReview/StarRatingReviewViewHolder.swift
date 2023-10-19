@@ -45,8 +45,19 @@ extension StarRatingReviewViewController {
             return stackView
         }()
         
-        let storeImageView = UIImageView()
-        let productImageView = UIImageView()
+        let storeImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
+            return imageView
+        }()
+        
+        let productImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+            imageView.makeRounded(with: .spacing16)
+            return imageView
+        }()
+        
         let productNameLabel: UILabel = {
             let label = UILabel()
             label.font = .body2m
@@ -81,6 +92,14 @@ extension StarRatingReviewViewController {
             productStackView.snp.makeConstraints {
                 $0.top.equalTo(titleLabel.snp.bottom).offset(Constant.productSpacing)
                 $0.centerX.equalToSuperview()
+            }
+            
+            storeImageView.snp.makeConstraints {
+                $0.height.equalTo(30)
+            }
+            
+            productImageView.snp.makeConstraints {
+                $0.width.height.equalTo(160)
             }
             
             starRatingView.snp.makeConstraints {

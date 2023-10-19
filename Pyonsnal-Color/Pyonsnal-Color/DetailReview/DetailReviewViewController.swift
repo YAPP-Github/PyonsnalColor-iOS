@@ -121,6 +121,19 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         viewHolder.starRatedView.updateScore(to: Double(score))
     }
     
+    private func setResizedStoreIcon(_ image: UIImage?) {
+        viewHolder.storeImageView.image = image
+        if let storeIcon = image {
+            let ratio = storeIcon.size.width / storeIcon.size.height
+            let imageViewHeight = viewHolder.storeImageView.frame.height
+            let newWidth = imageViewHeight * ratio
+            
+            viewHolder.storeImageView.snp.makeConstraints {
+                $0.width.equalTo(newWidth)
+            }
+        }
+    }
+    
     func getReviewContents() -> String {
         return viewHolder.detailReviewTextView.text
     }

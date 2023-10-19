@@ -71,9 +71,10 @@ extension DetailReviewViewController {
             return stackView
         }()
         
-        private let productImageView: UIImageView = {
+        let productImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.makeBorder(width: 1, color: UIColor.gray200.cgColor)
+            imageView.makeRounded(with: .spacing16)
             return imageView
         }()
         
@@ -82,12 +83,17 @@ extension DetailReviewViewController {
             stackView.axis = .vertical
             stackView.spacing = .spacing8
             stackView.alignment = .leading
+            stackView.distribution = .equalSpacing
             return stackView
         }()
         
-        private let storeImageView = UIImageView()
+        let storeImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
+            return imageView
+        }()
         
-        private let productNameLabel: UILabel = {
+        let productNameLabel: UILabel = {
             let label = UILabel()
             label.font = .body3m
             label.numberOfLines = 1
@@ -300,6 +306,14 @@ extension DetailReviewViewController {
             
             productTotalStackView.snp.makeConstraints {
                 $0.leading.top.trailing.equalToSuperview()
+            }
+            
+            productImageView.snp.makeConstraints {
+                $0.width.height.equalTo(100)
+            }
+            
+            storeImageView.snp.makeConstraints {
+                $0.height.equalTo(20)
             }
             
             separatorView.snp.makeConstraints {
