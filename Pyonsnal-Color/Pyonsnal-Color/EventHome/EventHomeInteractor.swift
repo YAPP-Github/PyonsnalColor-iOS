@@ -13,7 +13,7 @@ protocol EventHomeRouting: ViewableRouting {
     func detachProductSearch()
     func attachEventDetail(with imageURL: String, store: ConvenienceStore)
     func detachEventDetail()
-    func attachProductDetail(with brandProduct: ProductDetailEntity)
+    func attachProductDetail(with brandProduct: ProductDetailEntity, filter: FilterEntity)
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
@@ -176,7 +176,17 @@ final class EventHomeInteractor:
     }
     
     func didSelect(with brandProduct: ProductDetailEntity) {
-        router?.attachProductDetail(with: brandProduct)
+        router?.attachProductDetail(
+            with: brandProduct,
+            filter: .init(
+                filterType: .unknown,
+                defaultText: "리뷰 정렬",
+                filterItem: [
+                    .init(name: "최신순", code: 0, image: nil),
+                    .init(name: "좋아요순", code: 0, image: nil)
+                ]
+            )
+        )
     }
     
     func popProductDetail() {
