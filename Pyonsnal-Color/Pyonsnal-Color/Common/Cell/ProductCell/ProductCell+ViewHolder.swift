@@ -1,28 +1,15 @@
 //
-//  ProductCell.swift
+//  ProductCell+ViewHolder.swift
 //  Pyonsnal-Color
 //
-//  Created by 조소정 on 2023/06/14.
+//  Created by 조소정 on 2023/09/19.
 //
 
 import UIKit
-import SnapKit
 
-final class ProductCell: UICollectionViewCell {
-    
+extension ProductCell {
     enum Size {
-        // TO DO : component margin 정리 주시면 CommonMarginManager로 분리 예정
-        static let dividerMargin: CGFloat = 12
         static let productImageViewMargin: CGFloat = 25.5
-        static let convenientTagImageViewMargin: CGFloat = 12
-        static let tagImageViewMargin: CGFloat = 12
-        static let newImageViewMargin: CGFloat = 12
-        static let titleLabelLeading: CGFloat = 4
-        static let titleLabelMargin: CGFloat = 12
-        static let priceContainerViewTop: CGFloat = 4
-        static let priceContainerViewMargin: CGFloat = 12
-        static let discountPriceLabelLeading: CGFloat = 4
-        
         static let dividerHeight: CGFloat = 1
         static let productImageContainerViewHeight: CGFloat = 160
         static let convenientTagImageViewWidth: CGFloat = 36
@@ -33,9 +20,8 @@ final class ProductCell: UICollectionViewCell {
         static let eventTagImageviewRadius: CGFloat = 10
         static let cornerRadius: CGFloat = 16
         static let borderWidth: CGFloat = 1
+        static let favoriteButtonSize: CGFloat = 20
     }
-    
-    private let viewHolder: ViewHolder = .init()
     
     final class ViewHolder: ViewHolderable {
         
@@ -123,6 +109,29 @@ final class ProductCell: UICollectionViewCell {
             return label
         }()
         
+        let favoriteButton: UIButton = {
+            let button = UIButton()
+            button.setImage(.favorite, for: .normal)
+            button.setImage(.favoriteSelected, for: .selected)
+            return button
+        }()
+        
+        let eventCloseLayerView: UIView = {
+            let view = UIView()
+            view.backgroundColor = .black.withAlphaComponent(0.2)
+            view.isHidden = true
+            view.layer.masksToBounds = true
+            return view
+        }()
+        
+        let eventCloseLabel: UILabel = {
+            let label = UILabel()
+            label.text = "행사 종료"
+            label.textColor = .white
+            label.font = .title2
+            return label
+        }()
+        
         // MARK: - Method
         func place(in view: UIView) {
             view.addSubview(stackView)
@@ -134,6 +143,7 @@ final class ProductCell: UICollectionViewCell {
             productImageContainerView.addSubview(itemImageView)
             productImageContainerView.addSubview(convenienceStoreTagImageView)
             productImageContainerView.addSubview(eventTagLabel)
+            productImageContainerView.addSubview(favoriteButton)
             
             itemInfoContainerView.addSubview(itemInfoTopStackView)
             itemInfoContainerView.addSubview(priceContainerView)
@@ -143,6 +153,10 @@ final class ProductCell: UICollectionViewCell {
             
             priceContainerView.addSubview(originalPriceLabel)
             priceContainerView.addSubview(discountPriceLabel)
+            
+            // close Layer
+            view.addSubview(eventCloseLayerView)
+            eventCloseLayerView.addSubview(eventCloseLabel)
         }
         
         func configureConstraints(for view: UIView) {
@@ -166,7 +180,7 @@ final class ProductCell: UICollectionViewCell {
             }
             
             convenienceStoreTagImageView.snp.makeConstraints {
-                $0.top.leading.equalToSuperview().inset(Size.convenientTagImageViewMargin)
+                $0.top.leading.equalToSuperview().inset(.spacing12)
                 $0.width.height.equalTo(Size.convenientTagImageViewWidth)
             }
             
@@ -175,6 +189,8 @@ final class ProductCell: UICollectionViewCell {
                 $0.width.equalTo(Size.eventTagImageViewWidth)
                 $0.height.equalTo(Size.eventTagImageViewHeight)
             }
+            
+            self.updateFavoriteButtonConstraints()
             
             itemInfoContainerView.snp.makeConstraints {
                 $0.leading.equalTo(stackView)
@@ -192,12 +208,12 @@ final class ProductCell: UICollectionViewCell {
             
             titleLabel.snp.makeConstraints {
                 $0.height.equalTo(titleLabel.font.customLineHeight)
-                $0.leading.equalTo(newTagView.snp.trailing).offset(Size.titleLabelLeading)
+                $0.leading.equalTo(newTagView.snp.trailing).offset(.spacing4)
             }
             
             priceContainerView.snp.makeConstraints {
-                $0.top.equalTo(itemInfoTopStackView.snp.bottom).offset(Size.priceContainerViewTop)
-                $0.leading.trailing.bottom.equalToSuperview().inset(Size.priceContainerViewMargin)
+                $0.top.equalTo(itemInfoTopStackView.snp.bottom).offset(.spacing4)
+                $0.leading.trailing.bottom.equalToSuperview().inset(.spacing12)
             }
             
             originalPriceLabel.snp.contentHuggingHorizontalPriority = 251
@@ -208,67 +224,25 @@ final class ProductCell: UICollectionViewCell {
             }
             
             discountPriceLabel.snp.makeConstraints {
-                $0.leading.equalTo(originalPriceLabel.snp.trailing).offset(Size.discountPriceLabelLeading)
+                $0.leading.equalTo(originalPriceLabel.snp.trailing).offset(.spacing4)
                 $0.top.trailing.bottom.equalToSuperview()
             }
-        }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
-        configureUI()
-        viewHolder.place(in: contentView)
-        viewHolder.configureConstraints(for: contentView)
-        
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureUI() {
-        let attributedText = viewHolder.discountPriceLabel.text?.strikeThrough(with: .gray500)
-        viewHolder.discountPriceLabel.attributedText = attributedText
-        viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
-        makeRounded(with: Size.cornerRadius)
-        makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
-    }
-    
-    func updateCell(with product: ProductConvertable?) {
-        guard let product else { return }
-        viewHolder.titleLabel.text = product.name
-        if let storeTypeImage = product.storeType.storeTagImage {
-            viewHolder.convenienceStoreTagImageView.setImage(storeTypeImage)
-        }
-        viewHolder.itemImageView.setImage(with: product.imageURL)
-        viewHolder.originalPriceLabel.text = product.price.addWon()
-        viewHolder.newTagView.isHidden = !(product.isNew ?? false)
-        if product.isNew ?? false {
-            viewHolder.newTagView.snp.updateConstraints { make in
-                make.width.equalTo(Size.newImageViewWidth)
+            
+            eventCloseLayerView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
             }
             
-            viewHolder.titleLabel.snp.updateConstraints { make in
-                make.leading.equalTo(viewHolder.newTagView.snp.trailing).offset(Size.titleLabelLeading)
-            }
-        } else {
-            viewHolder.newTagView.snp.updateConstraints { make in
-                make.width.equalTo(0)
-            }
-            viewHolder.titleLabel.snp.updateConstraints { make in
-                make.leading.equalTo(viewHolder.newTagView.snp.trailing)
+            eventCloseLabel.snp.makeConstraints {
+                $0.center.equalToSuperview()
             }
         }
         
-        hasEventType(product.eventType)
-    }
-    
-    private func hasEventType(_ event: EventTag?) {
-        if let eventName = event?.name, !eventName.isEmpty {
-            viewHolder.eventTagLabel.isHidden = false
-            viewHolder.eventTagLabel.text = eventName
-        } else {
-            viewHolder.eventTagLabel.isHidden = true
+        func updateFavoriteButtonConstraints() {
+            favoriteButton.snp.makeConstraints {
+                $0.size.equalTo(Size.favoriteButtonSize)
+                $0.top.trailing.equalToSuperview().inset(.spacing12)
+            }
         }
     }
+
 }

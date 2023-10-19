@@ -10,13 +10,23 @@ import ModernRIBs
 final class RootTabBarComponent: Component<RootTabBarDependency> {
 }
 
-extension RootTabBarComponent: ProductHomeDependency, EventHomeDependency, ProfileHomeDependency {
-    
+extension RootTabBarComponent: ProductHomeDependency,
+                               EventHomeDependency,
+                               FavoriteDependency,
+                               ProfileHomeDependency {
+    var client: PyonsnalColorClient {
+        return PyonsnalColorClient()
+    }
     var userAuthService: UserAuthService {
         return UserAuthService(keyChainService: KeyChainService.shared)
     }
+    
+    var favoriteAPIService: FavoriteAPIService {
+        return FavoriteAPIService(client: client, userAuthService: userAuthService)
+    }
+    
     var productAPIService: ProductAPIService {
-        return ProductAPIService(client: PyonsnalColorClient(), userAuthService: userAuthService)
+        return ProductAPIService(client: client, userAuthService: userAuthService)
     }
     
 }

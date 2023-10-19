@@ -10,6 +10,10 @@ import SnapKit
 
 final class BackNavigationView: UIView {
     // MARK: - Declaration
+    enum Size {
+        static let favoriteButtonSize: CGFloat = 20
+    }
+    
     struct Payload {
         var mode: TitleMode = .image
         var title: String?
@@ -47,6 +51,13 @@ final class BackNavigationView: UIView {
         return label
     }()
     
+    let favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.favorite, for: .normal)
+        button.setImage(.favoriteSelected, for: .selected)
+        return button
+    }()
+    
     // MARK: - Interface
     weak var delegate: BackNavigationViewDelegate?
     
@@ -70,8 +81,17 @@ final class BackNavigationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public Method
     func setText(with text: String) {
         titleLabel.text = text
+    }
+    
+    func setFavoriteButtonSelected(isSelected: Bool?) {
+        favoriteButton.isSelected = isSelected ?? false
+    }
+    
+    func getFavoriteButtonSelected() -> Bool {
+        return favoriteButton.isSelected
     }
     
     // MARK: - Private Method
@@ -97,6 +117,7 @@ final class BackNavigationView: UIView {
         contentView.addSubview(titleLabel)
         contentView.addSubview(iconImageView)
         contentView.addSubview(backButton)
+        contentView.addSubview(favoriteButton)
         setContentViewToHidden(with: mode)
         
     }
@@ -134,6 +155,11 @@ final class BackNavigationView: UIView {
         
         titleLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+        
+        favoriteButton.snp.makeConstraints {
+            $0.size.equalTo(Size.favoriteButtonSize)
+            $0.top.trailing.equalToSuperview().inset(.spacing12)
         }
     }
 }

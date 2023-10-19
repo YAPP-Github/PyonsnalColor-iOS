@@ -99,10 +99,10 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
             )
             .sink { [weak self] response in
                 if let productPage = response.value {
-                    let isLastPage = self?.pageNumber == (productPage.totalPages - 1)
+                    let isLastPage = productPage.isLast
                     let contentIsEmpty = productPage.content.count == 0
                     self?.isCanLoading = !isLastPage && !contentIsEmpty
-                    self?.totalCount = productPage.totalElements
+                    self?.totalCount = productPage.content.count
                     self?.eventProductResult = productPage.content
                 }
             }
@@ -130,10 +130,10 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
             .sink { [weak self] response in
                 if let productPage = response.value {
                     var currentProducts = self?.eventProductResult ?? []
-                    let isLastPage = self?.pageNumber == (productPage.totalPages - 1)
+                    let isLastPage = productPage.isLast
                     let contentIsEmpty = productPage.content.count == 0
                     self?.isCanLoading = !isLastPage && !contentIsEmpty
-                    self?.totalCount = productPage.totalElements
+                    self?.totalCount = productPage.content.count
                     currentProducts += productPage.content
                     self?.eventProductResult = currentProducts
                 }
@@ -163,10 +163,10 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
             )
             .sink { [weak self] response in
                 if let productPage = response.value {
-                    let isLastPage = self?.pageNumber == (productPage.totalPages - 1)
+                    let isLastPage = productPage.isLast
                     let contentIsEmpty = productPage.content.count == 0
                     self?.isCanLoading = !isLastPage && !contentIsEmpty
-                    self?.totalCount = productPage.totalElements
+                    self?.totalCount = productPage.content.count
                     self?.eventProductResult = productPage.content
                 }
             }

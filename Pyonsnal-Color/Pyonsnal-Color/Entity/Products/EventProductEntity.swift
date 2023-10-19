@@ -8,7 +8,7 @@
 import Foundation
 
 struct EventProductEntity: Decodable, ProductConvertable, Hashable {
-    let identifier: String
+    let productId: String
     let imageURL: URL
     let storeType: ConvenienceStore
     let updatedTime: String
@@ -16,12 +16,15 @@ struct EventProductEntity: Decodable, ProductConvertable, Hashable {
     let price: String
     let originalPrice: String?
     let eventType: EventTag?
+    let productType: ProductType
     let description: String?
+    let isEventExpired: Bool?
     let giftItem: String?
+    let isFavorite: Bool?
     let isNew: Bool?
     
     private enum CodingKeys: String, CodingKey {
-        case identifier = "id"
+        case productId = "id"
         case imageURL = "image"
         case storeType
         case updatedTime
@@ -29,8 +32,11 @@ struct EventProductEntity: Decodable, ProductConvertable, Hashable {
         case price
         case originalPrice = "originPrice"
         case eventType
+        case productType
         case description
+        case isEventExpired
         case giftItem = "giftImage"
+        case isFavorite
         case isNew
     }
 }

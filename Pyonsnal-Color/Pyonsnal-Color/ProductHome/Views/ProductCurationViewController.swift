@@ -98,6 +98,7 @@ final class ProductCurationViewController: UIViewController {
             case let .curation(data):
                 let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.updateCell(with: data)
+                cell.setFavoriteButton(isVisible: false)
                 return cell
             }
         }

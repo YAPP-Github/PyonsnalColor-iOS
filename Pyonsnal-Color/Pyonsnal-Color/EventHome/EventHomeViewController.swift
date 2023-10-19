@@ -15,7 +15,7 @@ protocol EventHomePresentableListener: AnyObject, FilterRenderable {
     func didTapSearchButton()
     func didChangeStore(to store: ConvenienceStore)
     func didScrollToNextPage(store: ConvenienceStore, filterList: [Int])
-    func didSelect(with brandProduct: ProductConvertable)
+    func didSelect(with brandProduct: any ProductConvertable)
     func didSelectFilter(_ filterEntity: FilterEntity?)
     func didTapRefreshFilterCell()
 }
@@ -293,7 +293,7 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
         didTapRefreshButton()
     }
     
-    func didSelect(with brandProduct: ProductConvertable) {
+    func didSelect(with brandProduct: any ProductConvertable) {
         listener?.didSelect(with: brandProduct)
     }
     

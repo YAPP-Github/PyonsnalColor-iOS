@@ -155,7 +155,7 @@ extension ProductHomePageViewController: ProductListDelegate {
         pagingDelegate?.didChangeStore(to: ConvenienceStore.allCases[index])
     }
     
-    func didSelect(with product: ProductConvertable?) {
+    func didSelect(with product: (any ProductConvertable)?) {
         guard let product else { return }
         pagingDelegate?.didSelect(with: product)
     }

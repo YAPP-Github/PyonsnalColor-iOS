@@ -89,7 +89,7 @@ final class CommonProductSectionLayout {
         return section
     }
     
-    private func itemLayout() -> NSCollectionLayoutSection {
+    private func itemLayout(isNeedHeaderView: Bool) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(Size.Item.width),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -112,7 +112,10 @@ final class CommonProductSectionLayout {
                                                         leading: 0,
                                                         bottom: Size.Item.bottomMargin,
                                                         trailing: 0)
-        section.boundarySupplementaryItems = createSupplementaryView()
+        if isNeedHeaderView {
+            section.boundarySupplementaryItems = createSupplementaryView()
+        }
+        
         return section
     }
     
@@ -152,7 +155,7 @@ extension CommonProductSectionLayout {
         case .item(type: .empty):
             return emptyLayout()
         case .item(type: .item):
-            return itemLayout()
+            return itemLayout(isNeedHeaderView: true)
         }
     }
     
@@ -164,7 +167,18 @@ extension CommonProductSectionLayout {
         case .product(type: .empty):
             return emptyLayout()
         case .product(type: .item):
-            return itemLayout()
+            return itemLayout(isNeedHeaderView: true)
         }
     }
+    
+    // For Favorite
+    func section(at type: FavoritePageTabViewController.SectionType) -> NSCollectionLayoutSection {
+        switch type {
+        case .product:
+            return itemLayout(isNeedHeaderView: false)
+        case .empty:
+            return emptyLayout()
+        }
+    }
+
 }

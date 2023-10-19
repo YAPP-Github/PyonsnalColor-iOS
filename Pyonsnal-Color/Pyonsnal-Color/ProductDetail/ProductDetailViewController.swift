@@ -5,11 +5,14 @@
 //  Created by 김진우 on 2023/06/23.
 //
 
-import ModernRIBs
 import UIKit
+import Combine
+import ModernRIBs
 
 protocol ProductDetailPresentableListener: AnyObject {
     func popViewController()
+    func addFavorite()
+    func deleteFavorite()
 }
 
 final class ProductDetailViewController:
@@ -24,12 +27,13 @@ final class ProductDetailViewController:
     
     // MARK: - Interface
     weak var listener: ProductDetailPresentableListener?
-    var product: ProductConvertable? {
+    var product: (any ProductConvertable)? {
         didSet { updateUI() }
     }
     
     // MARK: - Private Method
     private let viewHolder: ViewHolder = .init()
+    private var cancellable = Set<AnyCancellable>()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -39,6 +43,12 @@ final class ProductDetailViewController:
         viewHolder.configureConstraints(for: view)
         
         configureAction()
+        bindActions()
+    }
+    
+    // MARK: - Public Method
+    func setFavoriteState(isSelected: Bool) {
+        viewHolder.backNavigationView.setFavoriteButtonSelected(isSelected: isSelected)
     }
     
     // MARK: - Private Method
@@ -59,6 +69,7 @@ final class ProductDetailViewController:
         viewHolder.updateDateLabel.text = "\(Text.updateLabelTextPrefix) \(product.updatedTime)"
         viewHolder.productNameLabel.text = product.name
         viewHolder.productPriceLabel.text = product.price
+        viewHolder.backNavigationView.setFavoriteButtonSelected(isSelected: product.isFavorite)
         let description = product.description?
             .components(separatedBy: .whitespacesAndNewlines)
             .joined(separator: " ")
@@ -67,6 +78,21 @@ final class ProductDetailViewController:
     
     private func configureAction() {
         viewHolder.backNavigationView.delegate = self
+    }
+    
+    private func bindActions() {
+        viewHolder.backNavigationView.favoriteButton
+            .tapPublisher
+            .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                let action: FavoriteButtonAction = viewHolder.backNavigationView.getFavoriteButtonSelected() ? .delete : .add
+                if action == .add {
+                    listener?.addFavorite()
+                } else if action == .delete {
+                    listener?.deleteFavorite()
+                }
+            }.store(in: &cancellable)
     }
 }
 
