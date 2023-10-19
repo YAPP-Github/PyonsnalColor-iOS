@@ -11,12 +11,16 @@ final class ProductDetailReviewWriteCell: UICollectionViewCell {
     
     // MARK: - Declaration
     struct Payload {
+        let score: Double
+        let reviewsCount: Int
     }
     
     // MARK: - Interface
     var payload: Payload? {
-        didSet { configure() }
+        didSet { updateUI() }
     }
+    
+    var delegate: ProductDetailReviewWriteCellDelegate?
     
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
@@ -27,6 +31,7 @@ final class ProductDetailReviewWriteCell: UICollectionViewCell {
         
         configureView()
         configureConstraint()
+        configureAction()
     }
     
     required init?(coder: NSCoder) {
@@ -42,10 +47,34 @@ final class ProductDetailReviewWriteCell: UICollectionViewCell {
         viewHolder.configureConstraints(for: contentView)
     }
     
-    private func configure() {
+    private func configureAction() {
+        viewHolder.reviewWriteButton.addTapGesture(
+            target: self,
+            action: #selector(reviewWriteButtonAction(_:))
+        )
+        
+        viewHolder.sortButton.addTapGesture(
+            target: self,
+            action: #selector(reviewSortButtonAction(_:))
+        )
+    }
+    
+    private func updateUI() {
         guard let payload else {
             return
         }
-//        viewHolder.imageView.setImage(with: payload.imageURL)
+        
+        viewHolder.reviewCountLabel.text = "리뷰 \(payload.reviewsCount)개"
+        viewHolder.ratingScoreLabel.text = "\(payload.score)"
+        viewHolder.starRatedView.payload = .init(score: payload.score)
+        viewHolder.reviewWriteButton.setText(with: "상품 리뷰 작성 하기")
+    }
+    
+    @objc private func reviewWriteButtonAction(_ sender: UITapGestureRecognizer) {
+        delegate?.writeButtonDidTap()
+    }
+    
+    @objc private func reviewSortButtonAction(_ sender: UITapGestureRecognizer) {
+        delegate?.sortButtonDidTap()
     }
 }

@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol ProductDetailReviewCellDelegate: AnyObject {
+    func goodButtonDidTap(review: ReviewEntity)
+    func badButtonDidTap(review: ReviewEntity)
+}
+
 final class ProductDetailReviewCell: UICollectionViewCell {
     
     // MARK: - Declaration
@@ -18,6 +23,7 @@ final class ProductDetailReviewCell: UICollectionViewCell {
     var payload: Payload? {
         didSet { updateUI() }
     }
+    var delegate: ProductDetailReviewCellDelegate?
     
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
@@ -28,6 +34,7 @@ final class ProductDetailReviewCell: UICollectionViewCell {
         
         configureView()
         configureConstraint()
+        configureAction()
     }
     
     required init?(coder: NSCoder) {
@@ -41,6 +48,11 @@ final class ProductDetailReviewCell: UICollectionViewCell {
     
     private func configureConstraint() {
         viewHolder.configureConstraints(for: contentView)
+    }
+    
+    private func configureAction() {
+        viewHolder.goodButton.addTapGesture(target: self, action: #selector(goodButtonAction(_:)))
+        viewHolder.badButton.addTapGesture(target: self, action: #selector(badButtonAction(_:)))
     }
     
     private func updateUI() {
@@ -59,5 +71,18 @@ final class ProductDetailReviewCell: UICollectionViewCell {
             valueForMoney: review.valueForMoney
         )
         viewHolder.reviewLabel.text = review.contents
+        
+        viewHolder.goodButton.payload = .init(feedbackKind: .good, isSelected: false, count: review.likeCount)
+        viewHolder.badButton.payload = .init(feedbackKind: .bad, isSelected: false, count: review.hateCount)
+    }
+    
+    @objc private func goodButtonAction(_ sender: UITapGestureRecognizer) {
+        guard let payload else { return }
+        delegate?.goodButtonDidTap(review: payload.review)
+    }
+    
+    @objc private func badButtonAction(_ sender: UITapGestureRecognizer) {
+        guard let payload else { return }
+        delegate?.badButtonDidTap(review: payload.review)
     }
 }

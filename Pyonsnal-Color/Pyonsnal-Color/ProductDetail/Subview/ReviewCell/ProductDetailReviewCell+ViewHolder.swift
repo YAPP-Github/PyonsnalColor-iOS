@@ -68,13 +68,13 @@ extension ProductDetailReviewCell {
         
         let goodButton: ReviewFeedbackButtonView = {
             let button = ReviewFeedbackButtonView()
-            button.payload = .init(feedbackKind: .good, isSelected: false)
+            button.payload = .init(feedbackKind: .good, isSelected: false, count: 0)
             return button
         }()
         
         let badButton: ReviewFeedbackButtonView = {
             let button = ReviewFeedbackButtonView()
-            button.payload = .init(feedbackKind: .bad, isSelected: false)
+            button.payload = .init(feedbackKind: .bad, isSelected: false, count: 0)
             return button
         }()
         

@@ -15,6 +15,7 @@ final class ReviewFeedbackButtonView: UIButton {
     struct Payload {
         let feedbackKind: ReviewFeedKind
         let isSelected: Bool
+        let count: Int
     }
     
     enum Size {
@@ -27,6 +28,8 @@ final class ReviewFeedbackButtonView: UIButton {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 4
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
         return stackView
     }()
     
@@ -37,7 +40,7 @@ final class ReviewFeedbackButtonView: UIButton {
     
     private let countLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .gray700
+        label.textColor = .gray400
         label.font = .body3m
         return label
     }()
@@ -90,16 +93,24 @@ final class ReviewFeedbackButtonView: UIButton {
         switch payload.feedbackKind {
         case .good:
             if isSelected {
-                setImage(.iconThumbsUpUnfilled, for: .normal)
+                iconImageView.setImage(.iconThumbsUpUnfilled)
             } else {
-                setImage(.iconThumbsUpUnfilled, for: .normal)
+                iconImageView.setImage(.iconThumbsUpUnfilled)
             }
         case .bad:
             if isSelected {
-                setImage(.iconThumbsDownUnfilled, for: .normal)
+                iconImageView.setImage(.iconThumbsDownUnfilled)
             } else {
-                setImage(.iconThumbsDownUnfilled, for: .normal)
+                iconImageView.setImage(.iconThumbsDownUnfilled)
             }
+        }
+        
+        if payload.count == 0 {
+            countLabel.isHidden = true
+        } else {
+            countLabel.isHidden = false
+            countLabel.text = "\(payload.count)"
+            countLabel.adjustsFontSizeToFitWidth = true
         }
     }
 }

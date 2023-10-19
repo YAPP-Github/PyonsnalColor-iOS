@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class ProductDetailInformationCell: UICollectionViewCell {
     
@@ -48,14 +49,26 @@ final class ProductDetailInformationCell: UICollectionViewCell {
             return
         }
         
-        if let name = payload.productDetail.giftTitle,
-           let price = payload.productDetail.giftPrice,
-           let imageURL = payload.productDetail.giftImageURL {
-            viewHolder.giftInformationView.giftItem = .init(
-                name: name,
-                price: price,
-                imageURL: imageURL
-            )
+        if let gift = payload.productDetail.gift {
+            viewHolder.giftInformationView.isHidden = false
+            viewHolder.productDescriptionLabel.snp.makeConstraints { make in
+                make.top.equalTo(viewHolder.productPriceLabel.snp.bottom).offset(.spacing16)
+                make.leading.trailing.equalToSuperview()
+            }
+            
+            viewHolder.giftInformationView.snp.makeConstraints { make in
+                make.top.equalTo(viewHolder.productDescriptionLabel.snp.bottom).offset(.spacing40)
+                make.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview()
+            }
+            viewHolder.giftInformationView.payload = .init(giftEntity: gift)
+        } else {
+            viewHolder.giftInformationView.isHidden = true
+            viewHolder.productDescriptionLabel.snp.makeConstraints { make in
+                make.top.equalTo(viewHolder.productPriceLabel.snp.bottom).offset(.spacing16)
+                make.leading.bottom.trailing.equalToSuperview()
+            }
+            viewHolder.giftInformationView.snp.removeConstraints()
         }
         let productDetail = payload.productDetail
         viewHolder.updateDateLabel.text = productDetail.updatedTime
