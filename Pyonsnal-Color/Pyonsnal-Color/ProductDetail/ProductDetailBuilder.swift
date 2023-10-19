@@ -8,7 +8,7 @@
 import ModernRIBs
 
 protocol ProductDetailDependency: Dependency {
-    
+    var productAPIService: ProductAPIService { get }
 }
 
 final class ProductDetailComponent: Component<ProductDetailDependency> {
@@ -28,7 +28,7 @@ final class ProductDetailComponent: Component<ProductDetailDependency> {
 protocol ProductDetailBuildable: Buildable {
     func build(
         withListener listener: ProductDetailListener,
-        product: any ProductConvertable
+        product: ProductDetailEntity
     ) -> ProductDetailRouting
 }
 
@@ -38,15 +38,13 @@ final class ProductDetailBuilder: Builder<ProductDetailDependency>, ProductDetai
         super.init(dependency: dependency)
     }
 
-    func build(
-        withListener listener: ProductDetailListener,
-        product: any ProductConvertable
-    ) -> ProductDetailRouting {
+    func build(withListener listener: ProductDetailListener, product: ProductDetailEntity) -> ProductDetailRouting {
         let component = ProductDetailComponent(dependency: dependency)
         let viewController = ProductDetailViewController()
         let interactor = ProductDetailInteractor(
             presenter: viewController,
             favoriteAPIService: component.favoriteAPIService,
+            dependency: dependency,
             product: product
         )
         interactor.listener = listener

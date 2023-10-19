@@ -9,16 +9,15 @@ import ModernRIBs
 import Combine
 
 protocol ProductDetailRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
 protocol ProductDetailPresentable: Presentable {
     var listener: ProductDetailPresentableListener? { get set }
     func setFavoriteState(isSelected: Bool)
+    func reloadCollectionView(with sectionModels: [ProductDetailSectionModel])
 }
 
 protocol ProductDetailListener: AnyObject {
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
     func popProductDetail()
 }
 
@@ -28,17 +27,25 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
 
     weak var router: ProductDetailRouting?
     weak var listener: ProductDetailListener?
+
+    // MARK: - Private Property
     private let favoriteAPIService: FavoriteAPIService
-    private let product: any ProductConvertable
+    private let dependency: ProductDetailDependency
+    private let selectedProduct: ProductDetailEntity
+    private var productDetail: ProductDetailEntity?
     private var cancellable = Set<AnyCancellable>()
     
+    // in constructor.
     init(
         presenter: ProductDetailPresentable,
         favoriteAPIService: FavoriteAPIService,
-        product: any ProductConvertable
+        dependency: ProductDetailDependency,
+        product: ProductDetailEntity
     ) {
+        self.dependency = dependency
         self.favoriteAPIService = favoriteAPIService
-        self.product = product
+        self.selectedProduct = product
+        
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -46,6 +53,8 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     override func didBecomeActive() {
         super.didBecomeActive()
         // TODO: Implement business logic here.
+        
+        requestProductDetail()
     }
 
     override func willResignActive() {
@@ -82,5 +91,130 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                 }
             }.store(in: &cancellable)
         }
-
+        
+    func reloadData(with productDetail: ProductDetailEntity) {
+        self.productDetail = productDetail
+        
+        let reviews = productDetail.reviews
+        var sectionModels: [ProductDetailSectionModel] = []
+        sectionModels.append(
+            .init(
+                section: ProductDetailSection.image,
+                items: [
+                    ProductDetailSectionItem.image(imageURL: productDetail.imageURL)
+                ]
+            )
+        )
+        sectionModels.append(
+            .init(
+                section: ProductDetailSection.information,
+                items: [
+                    ProductDetailSectionItem.information(product: productDetail)
+                ]
+            )
+        )
+        if let avgScore = productDetail.avgScore {
+            sectionModels.append(
+                .init(
+                    section: ProductDetailSection.reviewWrite,
+                    items: [
+                        ProductDetailSectionItem.reviewWrite(
+                            score: avgScore,
+                            reviewsCount: reviews.count
+                        )
+                    ]
+                )
+            )
+        }
+        sectionModels.append(
+            .init(
+                section: ProductDetailSection.review,
+                items: reviews.map { ProductDetailSectionItem.review(productReview: $0) }
+            )
+        )
+        presenter.reloadCollectionView(with: sectionModels)
+    }
+    
+    func writeButtonDidTap() {
+        
+    }
+    
+    func sortButtonDidTap() {
+//
+//        router?.
+    }
+    
+    func reviewLikeButtonDidTap(review: ReviewEntity) {
+        requestReviewLike(reviewID: "review.id")
+    }
+    
+    func reviewHateButtonDidTap(review: ReviewEntity) {
+        requestReviewHate(reviewID: "review.id")
+    }
+    
+    private func requestProductDetail() {
+        switch selectedProduct.productType {
+        case "":
+            dependency.productAPIService.requestBrandProductDetail(id: selectedProduct.id)
+                .sink { [weak self] response in
+                    if let product = response.value {
+                        self?.reloadData(with: product)
+                    }
+                }
+                .store(in: &cancellable)
+        case "f":
+            dependency.productAPIService.requestEventProductDetail(id: selectedProduct.id)
+                .sink { [weak self] response in
+                    if let product = response.value {
+                        self?.reloadData(with: product)
+                    }
+                }
+                .store(in: &cancellable)
+        default: return
+        }
+    }
+    
+    private func requestReviewLike(reviewID: String) {
+        switch selectedProduct.productType {
+        case "":
+            dependency.productAPIService.requestBrandProductReviewLike(
+                productID: selectedProduct.id,
+                reviewID: "review.id"
+            )
+            .sink { [weak self] _ in
+            }
+            .store(in: &cancellable)
+        case "f":
+            dependency.productAPIService.requestEventProductReviewLike(
+                productID: selectedProduct.id,
+                reviewID: "review.id"
+            )
+            .sink { [weak self] _ in
+            }
+            .store(in: &cancellable)
+        default: return
+        }
+    }
+    
+    private func requestReviewHate(reviewID: String) {
+        switch selectedProduct.productType {
+        case "":
+            dependency.productAPIService.requestBrandProductReviewHate(
+                productID: selectedProduct.id,
+                reviewID: "review.id"
+            )
+            .sink { [weak self] _ in
+            }
+            .store(in: &cancellable)
+        case "f":
+            dependency.productAPIService.requestEventProductReviewHate(
+                productID: selectedProduct.id,
+                reviewID: "review.id"
+            )
+            .sink { [weak self] _ in
+            }
+            .store(in: &cancellable)
+        default: return
+        }
+    }
 }
