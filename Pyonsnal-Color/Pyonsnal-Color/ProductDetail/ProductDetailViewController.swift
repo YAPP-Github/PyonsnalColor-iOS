@@ -67,6 +67,7 @@ final class ProductDetailViewController:
     private func updateUI() {
         view.backgroundColor = .white
         
+        
         guard let product else { return }
         
         viewHolder.backNavigationView.payload = .init(
@@ -88,87 +89,87 @@ final class ProductDetailViewController:
             .joined(separator: " ")
         viewHolder.productDescriptionLabel.text = description
         
-//        guard var productDetail else { return }
-//        let dummyProductDetail: ProductDetailEntity = .init(
-//            id: productDetail.id,
-//            storeType: productDetail.storeType,
-//            imageURL: productDetail.imageURL,
-//            name: productDetail.name,
-//            price: productDetail.price,
-//            eventType: productDetail.eventType,
-//            productType: productDetail.productType,
-//            updatedTime: productDetail.updatedTime,
-//            description: productDetail.description,
-//            isNew: productDetail.isNew,
-//            viewCount: productDetail.viewCount,
-//            category: productDetail.category,
-//            isFavorite: productDetail.isFavorite,
-//            originPrice: productDetail.originPrice,
-//            giftImageURL: .init(string: "https://upload.wikimedia.org/wikipedia/ko/a/a6/Pok%C3%A9mon_Pikachu_art.png"),
-//            giftTitle: "Hello",
-//            giftPrice: "2,000",
-//            isEventExpired: false,
-//            reviews: [
-//                ReviewEntity(
-//                    taste: .good,
-//                    quality: .bad,
-//                    valueForMoney: .normal,
-//                    score: 4,
-//                    contents: "쪼아요\n부우웅...위이잉...\n치...킨.도미노...피짜",
-//                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                    writerId: 100,
-//                    writerName: "류이치",
-//                    createdTime: "",
-//                    updatedTime: "",
-//                    likeCount: 10,
-//                    hateCount: 32
-//                ),
-//                ReviewEntity(
-//                    taste: .good,
-//                    quality: .bad,
-//                    valueForMoney: .normal,
-//                    score: 4,
-//                    contents: "쪼아요fejwiofjeawiojfeioajfoieawjfjioaejfiaowjfeoiwajeiofjeoiwjfioejwaiojfeaiwoejf",
-//                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                    writerId: 100,
-//                    writerName: "류이치",
-//                    createdTime: "",
-//                    updatedTime: "",
-//                    likeCount: 333,
-//                    hateCount: 23
-//                ),
-//                ReviewEntity(
-//                    taste: .good,
-//                    quality: .bad,
-//                    valueForMoney: .normal,
-//                    score: 4,
-//                    contents: "쪼아요\nkkkkkhhuijoijiojoijoijiojoijojioiojij\njoijiojioj\nfaewawefa\nfewaiofjwa\nfjewiao",
-//                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                    writerId: 100,
-//                    writerName: "류이치",
-//                    createdTime: "",
-//                    updatedTime: "",
-//                    likeCount: 0,
-//                    hateCount: 0
-//                ),
-//                ReviewEntity(
-//                    taste: .good,
-//                    quality: .bad,
-//                    valueForMoney: .normal,
-//                    score: 4,
-//                    contents: "쪼아요",
-//                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                    writerId: 100,
-//                    writerName: "류이치",
-//                    createdTime: "",
-//                    updatedTime: "",
-//                    likeCount: 0,
-//                    hateCount: 0
-//                )
-//            ],
-//            avgScore: 4.5
-//        )
-//        listener?.reloadData(with: dummyProductDetail)
+        guard var productDetail else { return }
+        let dummyProductDetail: ProductDetailEntity = .init(
+            id: productDetail.id,
+            storeType: productDetail.storeType,
+            imageURL: productDetail.imageURL,
+            name: productDetail.name,
+            price: productDetail.price,
+            eventType: productDetail.eventType,
+            productType: productDetail.productType,
+            updatedTime: productDetail.updatedTime,
+            description: productDetail.description,
+            isNew: productDetail.isNew,
+            viewCount: productDetail.viewCount,
+            category: productDetail.category,
+            isFavorite: productDetail.isFavorite,
+            originPrice: productDetail.originPrice,
+            giftImageURL: .init(string: "https://upload.wikimedia.org/wikipedia/ko/a/a6/Pok%C3%A9mon_Pikachu_art.png"),
+            giftTitle: "Hello",
+            giftPrice: "2,000",
+            isEventExpired: false,
+            reviews: [
+                ReviewEntity(
+                    taste: .good,
+                    quality: .bad,
+                    valueForMoney: .normal,
+                    score: 4,
+                    contents: "쪼아요\n부우웅...위이잉...\n치...킨.도미노...피짜",
+                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+                    writerId: 100,
+                    writerName: "류이치",
+                    createdTime: "",
+                    updatedTime: "",
+                    likeCount: 10,
+                    hateCount: 32
+                ),
+                ReviewEntity(
+                    taste: .good,
+                    quality: .bad,
+                    valueForMoney: .normal,
+                    score: 4,
+                    contents: "쪼아요fejwiofjeawiojfeioajfoieawjfjioaejfiaowjfeoiwajeiofjeoiwjfioejwaiojfeaiwoejf",
+                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+                    writerId: 100,
+                    writerName: "류이치",
+                    createdTime: "",
+                    updatedTime: "",
+                    likeCount: 333,
+                    hateCount: 23
+                ),
+                ReviewEntity(
+                    taste: .good,
+                    quality: .bad,
+                    valueForMoney: .normal,
+                    score: 4,
+                    contents: "쪼아요\nkkkkkhhuijoijiojoijoijiojoijojioiojij\njoijiojioj\nfaewawefa\nfewaiofjwa\nfjewiao",
+                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+                    writerId: 100,
+                    writerName: "류이치",
+                    createdTime: "",
+                    updatedTime: "",
+                    likeCount: 0,
+                    hateCount: 0
+                ),
+                ReviewEntity(
+                    taste: .good,
+                    quality: .bad,
+                    valueForMoney: .normal,
+                    score: 4,
+                    contents: "쪼아요",
+                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+                    writerId: 100,
+                    writerName: "류이치",
+                    createdTime: "",
+                    updatedTime: "",
+                    likeCount: 0,
+                    hateCount: 0
+                )
+            ],
+            avgScore: 4.5
+        )
+        listener?.reloadData(with: dummyProductDetail)
     }
     
     private func configureAction() {
