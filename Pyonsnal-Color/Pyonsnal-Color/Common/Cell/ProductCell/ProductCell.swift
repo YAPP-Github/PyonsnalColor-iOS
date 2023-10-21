@@ -10,7 +10,7 @@ import Combine
 import SnapKit
 
 protocol ProductCellDelegate: AnyObject {
-    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction)
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
 }
 
 final class ProductCell: UICollectionViewCell {
@@ -18,7 +18,7 @@ final class ProductCell: UICollectionViewCell {
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
     private var cancellable = Set<AnyCancellable>()
-    private var product: (any ProductConvertable)?
+    private var product: (ProductDetailEntity)?
     
     weak var delegate: ProductCellDelegate?
     
@@ -49,7 +49,7 @@ final class ProductCell: UICollectionViewCell {
             }.store(in: &cancellable)
     }
     
-    func updateCell(with product: (any ProductConvertable)?) {
+    func updateCell(with product: (ProductDetailEntity)?) {
         guard let product else { return }
         self.product = product
         viewHolder.titleLabel.text = product.name
@@ -98,8 +98,8 @@ final class ProductCell: UICollectionViewCell {
         }
     }
     
-    private func hasExpiredLayerView(product: any ProductConvertable) {
-        if let product = product as? EventProductEntity,
+    private func hasExpiredLayerView(product: ProductDetailEntity) {
+        if let product = product as? ProductDetailEntity,
             let isExpired = product.isEventExpired {
             self.showEventCloseLayerView(isClosed: isExpired)
         }

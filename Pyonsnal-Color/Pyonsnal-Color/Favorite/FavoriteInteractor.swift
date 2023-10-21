@@ -12,13 +12,13 @@ import Foundation
 protocol FavoriteRouting: ViewableRouting {
     func attachProductSearch()
     func detachProductSearch()
-    func attachProductDetail(with product: any ProductConvertable)
+    func attachProductDetail(with product: ProductDetailEntity)
     func detachProductDetail()
 }
 
 protocol FavoritePresentable: Presentable {
     var listener: FavoritePresentableListener? { get set }
-    func updateProducts(products: [any ProductConvertable]?, tab: FavoriteTab)
+    func updateProducts(products: [ProductDetailEntity]?, tab: FavoriteTab)
 }
 
 protocol FavoriteListener: AnyObject {
@@ -39,7 +39,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     private var pbPageNumber: Int = 0
     private var eventPageNumber: Int = 0
     private let pageSize: Int = 20
-    private var deletedProducts = [any ProductConvertable]()
+    private var deletedProducts = [ProductDetailEntity]()
     
     private var isPbPagingEnabled: Bool = true
     private var isEventPagingEnabled: Bool = true
@@ -49,7 +49,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     private var isPbPagingNumberLoadMore: Bool = true
     private var isEventPagingNumberLoadMore: Bool = true
     
-    private var productDictionary: [FavoriteTab: [any ProductConvertable]] = [:]
+    private var productDictionary: [FavoriteTab: [ProductDetailEntity]] = [:]
     
     // MARK: - Initializer
     init(
@@ -75,13 +75,13 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         self.requestEventProducts()
     }
     
-    func appendProduct(product: any ProductConvertable) {
-        if let index = deletedProducts.firstIndex(where: { $0.productId == product.productId }) {
+    func appendProduct(product: ProductDetailEntity) {
+        if let index = deletedProducts.firstIndex(where: { $0.id == product.id }) {
             deletedProducts.remove(at: index)
         }
     }
     
-    func deleteProduct(product: any ProductConvertable) {
+    func deleteProduct(product: ProductDetailEntity) {
         deletedProducts.append(product)
     }
     
@@ -90,7 +90,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         for product in self.deletedProducts {
             group.enter()
             self.favoriteAPIService.deleteFavorite(
-                productId: product.productId,
+                productId: product.id,
                 productType: product.productType
             ).sink { _ in
                 group.leave()
@@ -111,7 +111,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         router?.detachProductSearch()
     }
     
-    func didSelect(with product: any ProductConvertable) {
+    func didSelect(with product: ProductDetailEntity) {
         router?.attachProductDetail(with: product)
     }
     
@@ -125,8 +125,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         favoriteAPIService.favorites(
             pageNumber: pbPageNumber,
             pageSize: pageSize,
-            productType: .pb,
-            model: BrandProductEntity.self
+            productType: .pb
         ).sink { [weak self] response in
             guard let self else { return }
             if let product = response.value {
@@ -154,8 +153,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         favoriteAPIService.favorites(
             pageNumber: pbPageNumber,
             pageSize: pageSize,
-            productType: .pb,
-            model: BrandProductEntity.self
+            productType: .pb
         ).sink { [weak self] response in
             guard let self else { return }
             if let product = response.value {
@@ -178,8 +176,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         favoriteAPIService.favorites(
             pageNumber: eventPageNumber,
             pageSize: pageSize,
-            productType: .event,
-            model: EventProductEntity.self
+            productType: .event
         ).sink { [weak self] response in
             guard let self else { return }
             if let product = response.value {
@@ -206,8 +203,7 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
         favoriteAPIService.favorites(
             pageNumber: eventPageNumber,
             pageSize: pageSize,
-            productType: .event,
-            model: EventProductEntity.self
+            productType: .event
         ).sink { [weak self] response in
             guard let self else { return }
             if let product = response.value {

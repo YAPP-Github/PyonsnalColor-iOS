@@ -13,6 +13,7 @@ protocol ProductDetailPresentableListener: AnyObject {
     func popViewController()
     func addFavorite()
     func deleteFavorite()
+    func refresh()
     func reloadData(with productDetail: ProductDetailEntity)
     func writeButtonDidTap()
     func sortButtonDidTap()
@@ -41,7 +42,9 @@ final class ProductDetailViewController:
     private var cancellable = Set<AnyCancellable>()
     private var sections: [ProductDetailSectionModel]? {
         didSet {
-            viewHolder.collectionView.reloadData()
+            OperationQueue.main.addOperation {
+                self.viewHolder.collectionView.reloadData()
+            }
         }
     }
     
@@ -66,28 +69,6 @@ final class ProductDetailViewController:
     // MARK: - Private Method
     private func updateUI() {
         view.backgroundColor = .white
-        
-        
-        guard let product else { return }
-        
-        viewHolder.backNavigationView.payload = .init(
-            mode: .image,
-            title: nil,
-            iconImageKind: product.storeType.storeIcon
-        )
-        viewHolder.productImageView.setImage(with: product.imageURL)
-        viewHolder.productTagListView.payload = .init(
-            isNew: product.isNew ?? false,
-            eventTags: product.eventType
-        )
-        viewHolder.updateDateLabel.text = "\(Text.updateLabelTextPrefix) \(product.updatedTime)"
-        viewHolder.productNameLabel.text = product.name
-        viewHolder.productPriceLabel.text = product.price
-        viewHolder.backNavigationView.setFavoriteButtonSelected(isSelected: product.isFavorite)
-        let description = product.description?
-            .components(separatedBy: .whitespacesAndNewlines)
-            .joined(separator: " ")
-        viewHolder.productDescriptionLabel.text = description
         
         guard var productDetail else { return }
         let dummyProductDetail: ProductDetailEntity = .init(
@@ -189,9 +170,16 @@ final class ProductDetailViewController:
                     listener?.deleteFavorite()
                 }
             }.store(in: &cancellable)
+        
+        viewHolder.collectionView.refreshControl?.addTarget(self, action: #selector(refreshControlAction), for: .valueChanged)
+    }
+    
+    @objc private func refreshControlAction() {
+        listener?.refresh()
     }
 
     func reloadCollectionView(with sectionModels: [ProductDetailSectionModel]) {
+        viewHolder.collectionView.refreshControl?.endRefreshing()  
         self.sections = sectionModels
     }
 }

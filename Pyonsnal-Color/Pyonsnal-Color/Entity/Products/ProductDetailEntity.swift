@@ -14,7 +14,7 @@ struct ProductDetailEntity {
     let name: String
     let price: String
     let eventType: EventTag? //
-    let productType: String //
+    let productType: ProductType //
     let updatedTime: String
     let description: String?
     let isNew: Bool?

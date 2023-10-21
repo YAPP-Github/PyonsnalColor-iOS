@@ -67,9 +67,10 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func addFavorite() {
+        guard let productDetail else { return }
         favoriteAPIService.addFavorite(
-            productId: product.productId,
-            productType: product.productType
+            productId: productDetail.id,
+            productType: productDetail.productType
             ).sink { [weak self] response in
                 if response.error != nil {
                     self?.presenter.setFavoriteState(isSelected: true)
@@ -80,9 +81,10 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         }
         
         func deleteFavorite() {
+            guard let productDetail else { return }
             favoriteAPIService.deleteFavorite(
-                productId: product.productId,
-                productType: product.productType
+                productId: productDetail.id,
+                productType: productDetail.productType
             ).sink { [weak self] response in
                 if response.error != nil {
                     self?.presenter.setFavoriteState(isSelected: false)
@@ -91,6 +93,10 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                 }
             }.store(in: &cancellable)
         }
+    
+    func refresh() {
+        requestProductDetail()
+    }
         
     func reloadData(with productDetail: ProductDetailEntity) {
         self.productDetail = productDetail
@@ -154,7 +160,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     
     private func requestProductDetail() {
         switch selectedProduct.productType {
-        case "":
+        case .pb:
             dependency.productAPIService.requestBrandProductDetail(id: selectedProduct.id)
                 .sink { [weak self] response in
                     if let product = response.value {
@@ -162,7 +168,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                     }
                 }
                 .store(in: &cancellable)
-        case "f":
+        case .event:
             dependency.productAPIService.requestEventProductDetail(id: selectedProduct.id)
                 .sink { [weak self] response in
                     if let product = response.value {
@@ -176,7 +182,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     
     private func requestReviewLike(reviewID: String) {
         switch selectedProduct.productType {
-        case "":
+        case .pb:
             dependency.productAPIService.requestBrandProductReviewLike(
                 productID: selectedProduct.id,
                 reviewID: "review.id"
@@ -184,7 +190,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             .sink { [weak self] _ in
             }
             .store(in: &cancellable)
-        case "f":
+        case .event:
             dependency.productAPIService.requestEventProductReviewLike(
                 productID: selectedProduct.id,
                 reviewID: "review.id"
@@ -198,7 +204,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     
     private func requestReviewHate(reviewID: String) {
         switch selectedProduct.productType {
-        case "":
+        case .pb:
             dependency.productAPIService.requestBrandProductReviewHate(
                 productID: selectedProduct.id,
                 reviewID: "review.id"
@@ -206,7 +212,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             .sink { [weak self] _ in
             }
             .store(in: &cancellable)
-        case "f":
+        case .event:
             dependency.productAPIService.requestEventProductReviewHate(
                 productID: selectedProduct.id,
                 reviewID: "review.id"
