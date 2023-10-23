@@ -36,6 +36,9 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     private var cancellable = Set<AnyCancellable>()
     private let component: DetailReviewComponent
     
+    // TODO: 임시 id 삭제
+    private let productId: String = "0147f0ffc15a4e478c78c6c2b16c4d90"
+    
     init(presenter: DetailReviewPresentable, component: DetailReviewComponent) {
         self.component = component
         super.init(presenter: presenter)
@@ -84,7 +87,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
                         self?.component.productAPIService.uploadReview(
                             reviewUploadEntity,
                             image: image,
-                            productId: "000936ab83ac4dc3b98dc84cc57100d1"
+                            productId: self?.productId ?? ""
                         )
                     }
                 }

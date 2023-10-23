@@ -47,6 +47,7 @@ final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPr
     }
     
     func routeToProductDetail() {
+        router?.detachDetailReview()
         listener?.detachStarRatingReview()
     }
     
