@@ -100,7 +100,7 @@ extension DetailReviewViewController {
             return label
         }()
         
-        let starRatedView = StarRatedView()
+        let starRatedView = StarRatedView(score: 0)
         
         private let separatorView: UIView = {
             let view = UIView()

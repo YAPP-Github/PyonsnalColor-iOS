@@ -25,7 +25,11 @@ final class DetailReviewComponent: Component<DetailReviewDependency>, ReviewPopu
 // MARK: - Builder
 
 protocol DetailReviewBuildable: Buildable {
-    func build(withListener listener: DetailReviewListener, score: Int) -> DetailReviewRouting
+    func build(
+        withListener listener: DetailReviewListener,
+        productDetail: ProductDetailEntity,
+        score: Int
+    ) -> DetailReviewRouting
 }
 
 final class DetailReviewBuilder: Builder<DetailReviewDependency>, DetailReviewBuildable {
@@ -34,9 +38,13 @@ final class DetailReviewBuilder: Builder<DetailReviewDependency>, DetailReviewBu
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: DetailReviewListener, score: Int) -> DetailReviewRouting {
+    func build(
+        withListener listener: DetailReviewListener,
+        productDetail: ProductDetailEntity,
+        score: Int
+    ) -> DetailReviewRouting {
         let component = DetailReviewComponent(dependency: dependency)
-        let viewController = DetailReviewViewController(score: score)
+        let viewController = DetailReviewViewController(productDetail: productDetail, score: score)
         let interactor = DetailReviewInteractor(presenter: viewController, component: component)
         let reviewPopupBuilder = ReviewPopupBuilder(dependency: component)
         interactor.listener = listener

@@ -10,7 +10,7 @@ import Combine
 
 protocol ProductDetailRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
-    func attachStarRatingReview()
+    func attachStarRatingReview(with productDetail: ProductDetailEntity)
     func detachStarRatingReview()
 }
 
@@ -271,8 +271,12 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             }
             .store(in: &cancellable)
         }
+    }
+    
     func attachStarRatingReview() {
-        router?.attachStarRatingReview()
+        guard let productDetail else { return }
+        
+        router?.attachStarRatingReview(with: productDetail)
     }
     
     func detachStarRatingReview() {

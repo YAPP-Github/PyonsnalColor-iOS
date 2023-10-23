@@ -19,17 +19,20 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
     enum Constant {
         static let textViewPlaceholder: String = "상품에 대한 솔직한 의견을 알려주세요."
         
+        static let storeIconHeight: CGFloat = 20
         static let imageUploadSize: CGSize = .init(width: 1080, height: 1080)
         static let imageUploadIcon: UIImage? = .init(systemName: "plus")
     }
     
     weak var listener: DetailReviewPresentableListener?
     private let viewHolder = ViewHolder()
+    private let productDetail: ProductDetailEntity
     private var cancellable = Set<AnyCancellable>()
     private(set) var reviews: [Review.Category: Review.Score] = [:]
     private(set) var score: Int
     
-    init(score: Int) {
+    init(productDetail: ProductDetailEntity, score: Int) {
+        self.productDetail = productDetail
         self.score = score
         super.init(nibName: nil, bundle: nil)
     }
@@ -43,21 +46,28 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
-        view.backgroundColor = .white
         configureView()
+        configureDelegate()
         configureImageUploadButton()
         configureDeleteImageButton()
         configureApplyReviewButton()
-        updateStarRatedView(score: score)
     }
     
     private func configureView() {
+        view.backgroundColor = .white
+        viewHolder.detailReviewTextView.text = Constant.textViewPlaceholder
+        viewHolder.productImageView.setImage(with: productDetail.imageURL)
+        viewHolder.productNameLabel.text = productDetail.name
+        setResizedStoreIcon(productDetail.storeType.storeIcon?.image)
+        updateStarRatedView(score: score)
+    }
+    
+    private func configureDelegate() {
         viewHolder.backNavigationView.delegate = self
         viewHolder.tasteReview.delegate = self
         viewHolder.qualityReview.delegate = self
         viewHolder.priceReview.delegate = self
         viewHolder.detailReviewTextView.delegate = self
-        viewHolder.detailReviewTextView.text = Constant.textViewPlaceholder
     }
     
     private func setApplyReviewButton(state isSatisfy: Bool) {
@@ -125,8 +135,7 @@ final class DetailReviewViewController: UIViewController, DetailReviewPresentabl
         viewHolder.storeImageView.image = image
         if let storeIcon = image {
             let ratio = storeIcon.size.width / storeIcon.size.height
-            let imageViewHeight = viewHolder.storeImageView.frame.height
-            let newWidth = imageViewHeight * ratio
+            let newWidth = Constant.storeIconHeight * ratio
             
             viewHolder.storeImageView.snp.makeConstraints {
                 $0.width.equalTo(newWidth)

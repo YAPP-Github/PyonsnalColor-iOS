@@ -8,7 +8,7 @@
 import ModernRIBs
 
 protocol StarRatingReviewRouting: ViewableRouting {
-    func attachDetailReview(score: Int)
+    func attachDetailReview(productDetail: ProductDetailEntity, score: Int)
     func detachDetailReview()
 }
 
@@ -24,8 +24,11 @@ final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPr
 
     weak var router: StarRatingReviewRouting?
     weak var listener: StarRatingReviewListener?
+    
+    private let productDetail: ProductDetailEntity
 
-    override init(presenter: StarRatingReviewPresentable) {
+    init(presenter: StarRatingReviewPresentable, productDetail: ProductDetailEntity) {
+        self.productDetail = productDetail
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -39,7 +42,7 @@ final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPr
     }
     
     func didTapRatingButton(score: Int) {
-        router?.attachDetailReview(score: score)
+        router?.attachDetailReview(productDetail: productDetail, score: score)
     }
     
     func detachDetailReview() {

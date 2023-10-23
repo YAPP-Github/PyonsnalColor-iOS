@@ -66,7 +66,7 @@ final class ProductDetailViewController:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        listener?.attachStarRatingReview()
+//        listener?.attachStarRatingReview()
     }
     
     // MARK: - Private Method
@@ -174,9 +174,9 @@ final class ProductDetailViewController:
                 let action: FavoriteButtonAction = viewHolder
                     .backNavigationView.getFavoriteButtonSelected() ? .delete : .add
                 if action == .add {
-                    listener?.addFavorite()
+                    self.listener?.addFavorite()
                 } else if action == .delete {
-                    listener?.deleteFavorite()
+                    self.listener?.deleteFavorite()
                 }
             }.store(in: &cancellable)
         
@@ -382,7 +382,7 @@ extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProductDetailViewController: ProductDetailReviewWriteCellDelegate {
     func writeButtonDidTap() {
-        print("Write")
+        listener?.attachStarRatingReview()
     }
     
     func sortButtonDidTap() {

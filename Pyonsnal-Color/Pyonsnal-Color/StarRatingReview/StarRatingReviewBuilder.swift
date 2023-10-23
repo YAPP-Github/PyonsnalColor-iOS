@@ -18,7 +18,10 @@ final class StarRatingReviewComponent: Component<StarRatingReviewDependency>, De
 // MARK: - Builder
 
 protocol StarRatingReviewBuildable: Buildable {
-    func build(withListener listener: StarRatingReviewListener) -> StarRatingReviewRouting
+    func build(
+        withListener listener: StarRatingReviewListener,
+        productDetail: ProductDetailEntity
+    ) -> StarRatingReviewRouting
 }
 
 final class StarRatingReviewBuilder: Builder<StarRatingReviewDependency>, StarRatingReviewBuildable {
@@ -26,11 +29,17 @@ final class StarRatingReviewBuilder: Builder<StarRatingReviewDependency>, StarRa
     override init(dependency: StarRatingReviewDependency) {
         super.init(dependency: dependency)
     }
-
-    func build(withListener listener: StarRatingReviewListener) -> StarRatingReviewRouting {
+    
+    func build(
+        withListener listener: StarRatingReviewListener,
+        productDetail: ProductDetailEntity
+    ) -> StarRatingReviewRouting {
         let component = StarRatingReviewComponent(dependency: dependency)
-        let viewController = StarRatingReviewViewController()
-        let interactor = StarRatingReviewInteractor(presenter: viewController)
+        let viewController = StarRatingReviewViewController(productDetail: productDetail)
+        let interactor = StarRatingReviewInteractor(
+            presenter: viewController,
+            productDetail: productDetail
+        )
         let detailReviewBuilder = DetailReviewBuilder(dependency: component)
         interactor.listener = listener
         return StarRatingReviewRouter(

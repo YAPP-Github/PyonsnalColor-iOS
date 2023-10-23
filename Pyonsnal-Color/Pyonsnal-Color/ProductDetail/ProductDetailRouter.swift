@@ -32,10 +32,13 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
         interactor.router = self
     }
     
-    func attachStarRatingReview() {
+    func attachStarRatingReview(with productDetail: ProductDetailEntity) {
         guard starRatingReviewRouting == nil else { return }
         
-        let starRatingReviewRouter = starRatingReviewBuilder.build(withListener: interactor)
+        let starRatingReviewRouter = starRatingReviewBuilder.build(
+            withListener: interactor,
+            productDetail: productDetail
+        )
         starRatingReviewRouting = starRatingReviewRouter
         attachChild(starRatingReviewRouter)
         viewController.pushViewController(starRatingReviewRouter.viewControllable, animated: true)

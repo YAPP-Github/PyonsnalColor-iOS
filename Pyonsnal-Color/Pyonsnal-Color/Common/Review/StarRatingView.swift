@@ -66,7 +66,7 @@ final class StarRatingView: UIView {
                 .sink { [weak self] in
                     let score = button.tag + 1
                     
-                    self?.didTapRatingButton(score)
+                    self?.didTapRatingButton(button)
                     self?.delegate?.didTapRatingButton(score: score)
                 }.store(in: &cancellable)
         }
