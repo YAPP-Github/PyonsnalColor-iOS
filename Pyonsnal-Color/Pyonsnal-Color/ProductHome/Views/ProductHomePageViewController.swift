@@ -151,8 +151,8 @@ extension ProductHomePageViewController: ProductListDelegate {
         else {
             return
         }
-        
-        pagingDelegate?.didChangeStore(to: ConvenienceStore.allCases[index])
+        // curationViewController 제외 -1
+        pagingDelegate?.didChangeStore(to: ConvenienceStore.allCases[index - 1])
     }
     
     func didSelect(with product: (any ProductConvertable)?) {
