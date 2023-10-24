@@ -15,7 +15,9 @@ protocol DetailReviewInteractable: Interactable, ReviewPopupListener {
 protocol DetailReviewViewControllable: ViewControllable {
 }
 
-final class DetailReviewRouter: ViewableRouter<DetailReviewInteractable, DetailReviewViewControllable>, DetailReviewRouting {
+final class DetailReviewRouter: ViewableRouter<DetailReviewInteractable,
+                                DetailReviewViewControllable>,
+                                DetailReviewRouting {
 
     private let reviewPopupBuildable: ReviewPopupBuildable
     private var reviewPopupRouting: ReviewPopupRouting?

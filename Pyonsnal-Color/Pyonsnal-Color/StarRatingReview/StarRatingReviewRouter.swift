@@ -15,7 +15,9 @@ protocol StarRatingReviewInteractable: Interactable, DetailReviewListener {
 protocol StarRatingReviewViewControllable: ViewControllable {
 }
 
-final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable, StarRatingReviewViewControllable>, StarRatingReviewRouting {
+final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable,
+                                    StarRatingReviewViewControllable>,
+                                    StarRatingReviewRouting {
     
     private let detailReviewBuilder: DetailReviewBuildable
     private var detailReviewRouting: DetailReviewRouting?
@@ -43,10 +45,10 @@ final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable,
         viewController.pushViewController(detailReviewRouter.viewControllable, animated: true)
     }
     
-    func detachDetailReview() {
+    func detachDetailReview(animated: Bool) {
         guard let detailReviewRouting else { return }
         
-        viewController.popViewController(animated: true)
+        viewController.popViewController(animated: animated)
         self.detailReviewRouting = nil
         detachChild(detailReviewRouting)
     }

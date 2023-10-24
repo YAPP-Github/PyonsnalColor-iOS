@@ -14,7 +14,9 @@ protocol DetailReviewPresentableListener: AnyObject {
     func didTapApplyButton()
 }
 
-final class DetailReviewViewController: UIViewController, DetailReviewPresentable, DetailReviewViewControllable {
+final class DetailReviewViewController: UIViewController,
+                                        DetailReviewPresentable,
+                                        DetailReviewViewControllable {
     
     enum Constant {
         static let textViewPlaceholder: String = "상품에 대한 솔직한 의견을 알려주세요."

@@ -20,7 +20,9 @@ protocol ReviewPopupListener: AnyObject {
     func routeToProductDetail()
 }
 
-final class ReviewPopupInteractor: PresentableInteractor<ReviewPopupPresentable>, ReviewPopupInteractable, ReviewPopupPresentableListener {
+final class ReviewPopupInteractor: PresentableInteractor<ReviewPopupPresentable>,
+                                   ReviewPopupInteractable,
+                                   ReviewPopupPresentableListener {
 
     weak var router: ReviewPopupRouting?
     weak var listener: ReviewPopupListener?

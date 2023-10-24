@@ -14,7 +14,9 @@ protocol StarRatingReviewPresentableListener: AnyObject {
     func didTapRatingButton(score: Int)
 }
 
-final class StarRatingReviewViewController: UIViewController, StarRatingReviewPresentable, StarRatingReviewViewControllable {
+final class StarRatingReviewViewController: UIViewController,
+                                            StarRatingReviewPresentable,
+                                            StarRatingReviewViewControllable {
 
     weak var listener: StarRatingReviewPresentableListener?
     private let productDetail: ProductDetailEntity

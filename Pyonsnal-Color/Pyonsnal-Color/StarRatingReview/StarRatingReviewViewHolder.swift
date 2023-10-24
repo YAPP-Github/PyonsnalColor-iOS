@@ -64,7 +64,6 @@ extension StarRatingReviewViewController {
             return label
         }()
         
-        // TODO: 별점 리뷰 뷰 추가
         let starRatingView = StarRatingView()
         
         func place(in view: UIView) {

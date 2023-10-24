@@ -9,7 +9,7 @@ import ModernRIBs
 
 protocol StarRatingReviewRouting: ViewableRouting {
     func attachDetailReview(productDetail: ProductDetailEntity, score: Int)
-    func detachDetailReview()
+    func detachDetailReview(animated: Bool)
 }
 
 protocol StarRatingReviewPresentable: Presentable {
@@ -20,7 +20,9 @@ protocol StarRatingReviewListener: AnyObject {
     func detachStarRatingReview()
 }
 
-final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPresentable>, StarRatingReviewInteractable, StarRatingReviewPresentableListener {
+final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPresentable>,
+                                        StarRatingReviewInteractable,
+                                        StarRatingReviewPresentableListener {
 
     weak var router: StarRatingReviewRouting?
     weak var listener: StarRatingReviewListener?
@@ -46,11 +48,11 @@ final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPr
     }
     
     func detachDetailReview() {
-        router?.detachDetailReview()
+        router?.detachDetailReview(animated: true)
     }
     
     func routeToProductDetail() {
-        router?.detachDetailReview()
+        router?.detachDetailReview(animated: false)
         listener?.detachStarRatingReview()
     }
     

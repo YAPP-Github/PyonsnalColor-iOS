@@ -8,11 +8,10 @@
 import ModernRIBs
 
 protocol StarRatingReviewDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
 }
 
-final class StarRatingReviewComponent: Component<StarRatingReviewDependency>, DetailReviewDependency {
+final class StarRatingReviewComponent: Component<StarRatingReviewDependency>,
+                                       DetailReviewDependency {
 }
 
 // MARK: - Builder
@@ -24,7 +23,8 @@ protocol StarRatingReviewBuildable: Buildable {
     ) -> StarRatingReviewRouting
 }
 
-final class StarRatingReviewBuilder: Builder<StarRatingReviewDependency>, StarRatingReviewBuildable {
+final class StarRatingReviewBuilder: Builder<StarRatingReviewDependency>,
+                                     StarRatingReviewBuildable {
 
     override init(dependency: StarRatingReviewDependency) {
         super.init(dependency: dependency)
