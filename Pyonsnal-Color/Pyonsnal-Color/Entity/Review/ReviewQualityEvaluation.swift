@@ -7,7 +7,7 @@
 
 struct ReviewQualityEvaluation: ReviewEvaluationProtocol {
     let name: String = "맛"
-    let goodStateText: String = "맛있어요"
-    let normalStateText: String = "맛있어요"
-    let badStateText: String = "맛있어요"
+    let goodStateText: String = "좋아요"
+    let normalStateText: String = "보통이에요"
+    let badStateText: String = "별로에요"
 }

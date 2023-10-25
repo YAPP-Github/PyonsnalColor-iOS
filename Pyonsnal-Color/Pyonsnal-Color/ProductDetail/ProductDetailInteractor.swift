@@ -31,8 +31,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     // MARK: - Private Property
     private let favoriteAPIService: FavoriteAPIService
     private let dependency: ProductDetailDependency
-    private let selectedProduct: ProductDetailEntity
-    private var productDetail: ProductDetailEntity?
+    private var selectedProduct: ProductDetailEntity
     private var cancellable = Set<AnyCancellable>()
     
     // in constructor.
@@ -67,10 +66,9 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func addFavorite() {
-        guard let productDetail else { return }
         favoriteAPIService.addFavorite(
-            productId: productDetail.id,
-            productType: productDetail.productType
+            productId: selectedProduct.id,
+            productType: selectedProduct.productType
             ).sink { [weak self] response in
                 if response.error != nil {
                     self?.presenter.setFavoriteState(isSelected: true)
@@ -81,10 +79,9 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         }
         
         func deleteFavorite() {
-            guard let productDetail else { return }
             favoriteAPIService.deleteFavorite(
-                productId: productDetail.id,
-                productType: productDetail.productType
+                productId: selectedProduct.id,
+                productType: selectedProduct.productType
             ).sink { [weak self] response in
                 if response.error != nil {
                     self?.presenter.setFavoriteState(isSelected: false)
@@ -99,7 +96,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
         
     func reloadData(with productDetail: ProductDetailEntity) {
-        self.productDetail = productDetail
+        self.selectedProduct = productDetail
         
         var sectionModels: [ProductDetailSectionModel] = []
         sectionModels.append(
@@ -272,50 +269,48 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     private func updateReviewLike(reviewID: String) {
-        guard let productDetail,
-              let memberID = UserInfoService.shared.memberID else {
+        guard let memberID = UserInfoService.shared.memberID else {
             return
         }
         
-        guard let reviewIndex = productDetail.reviews.firstIndex(
+        guard let reviewIndex = selectedProduct.reviews.firstIndex(
             where: { $0.reviewId == reviewID }
         ) else {
             return
         }
-        let review = productDetail.reviews[reviewIndex]
+        let review = selectedProduct.reviews[reviewIndex]
         var writerIds = review.likeCount.writerIds
         writerIds.append(memberID)
         let updatedReview = review.update(
             likeCount: .init(writerIds: writerIds, likeCount: review.likeCount.likeCount + 1)
         )
         
-        var updatedReviews = productDetail.reviews
+        var updatedReviews = selectedProduct.reviews
         updatedReviews[reviewIndex] = updatedReview
-        let updatedProductDetail = productDetail.updateReviews(reviews: updatedReviews)
+        let updatedProductDetail = selectedProduct.updateReviews(reviews: updatedReviews)
         reloadData(with: updatedProductDetail)
     }
     
     private func updateReviewHate(reviewID: String) {
-        guard let productDetail,
-              let memberID = UserInfoService.shared.memberID else {
+        guard let memberID = UserInfoService.shared.memberID else {
             return
         }
         
-        guard let reviewIndex = productDetail.reviews.firstIndex(
+        guard let reviewIndex = selectedProduct.reviews.firstIndex(
             where: { $0.reviewId == reviewID }
         ) else {
             return
         }
-        let review = productDetail.reviews[reviewIndex]
+        let review = selectedProduct.reviews[reviewIndex]
         var writerIds = review.hateCount.writerIds
         writerIds.append(memberID)
         let updatedReview = review.update(
             hateCount: .init(writerIds: writerIds, hateCount: review.hateCount.hateCount + 1)
         )
         
-        var updatedReviews = productDetail.reviews
+        var updatedReviews = selectedProduct.reviews
         updatedReviews[reviewIndex] = updatedReview
-        let updatedProductDetail = productDetail.updateReviews(reviews: updatedReviews)
+        let updatedProductDetail = selectedProduct.updateReviews(reviews: updatedReviews)
         reloadData(with: updatedProductDetail)
     }
 }
