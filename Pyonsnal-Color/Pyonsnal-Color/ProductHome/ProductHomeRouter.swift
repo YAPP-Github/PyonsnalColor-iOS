@@ -99,7 +99,6 @@ final class ProductHomeRouter:
         let productDetailRouter = productDetail.build(withListener: interactor, product: product)
         productDetailRouting = productDetailRouter
         attachChild(productDetailRouter)
-        (productDetailRouting?.viewControllable as? ProductDetailViewController)?.productDetail = product
         viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
     }
     

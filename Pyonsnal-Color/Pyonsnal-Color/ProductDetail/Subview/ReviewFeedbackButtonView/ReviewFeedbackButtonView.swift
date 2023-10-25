@@ -92,15 +92,19 @@ final class ReviewFeedbackButtonView: UIButton {
         
         switch payload.feedbackKind {
         case .good:
-            if isSelected {
-                iconImageView.setImage(.iconThumbsUpUnfilled)
+            if payload.isSelected {
+                countLabel.textColor = .gray700
+                iconImageView.setImage(.iconThumbsUpFilled)
             } else {
+                countLabel.textColor = .gray400
                 iconImageView.setImage(.iconThumbsUpUnfilled)
             }
         case .bad:
-            if isSelected {
-                iconImageView.setImage(.iconThumbsDownUnfilled)
+            if payload.isSelected {
+                countLabel.textColor = .gray700
+                iconImageView.setImage(.iconThumbsDownFilled)
             } else {
+                countLabel.textColor = .gray400
                 iconImageView.setImage(.iconThumbsDownUnfilled)
             }
         }

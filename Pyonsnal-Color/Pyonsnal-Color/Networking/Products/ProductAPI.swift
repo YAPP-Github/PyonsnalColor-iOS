@@ -61,17 +61,17 @@ extension ProductAPI {
         case .brandDetail(let id):
             return "/products/pb-products/\(id)"
         case .brandReviewLike(let productID, let reviewID):
-            return "/product/pb-products/\(productID)/reviews/\(reviewID)/like"
+            return "/products/pb-products/\(productID)/reviews/\(reviewID)/like"
         case .brandReviewHate(let productID, let reviewID):
-            return "/product/pb-products/\(productID)/reviews/\(reviewID)/hate"
+            return "/products/pb-products/\(productID)/reviews/\(reviewID)/hate"
         case .eventProduct:
             return "/products/event-products"
         case .eventDetail(let id):
             return "/products/event-products/\(id)"
         case .eventReviewLike(let productID, let reviewID):
-            return "/product/pb-products/\(productID)/reviews/\(reviewID)/like"
+            return "/products/pb-products/\(productID)/reviews/\(reviewID)/like"
         case .eventReviewHate(let productID, let reviewID):
-            return "/product/pb-products/\(productID)/reviews/\(reviewID)/hate"
+            return "/products/pb-products/\(productID)/reviews/\(reviewID)/hate"
         case .eventBanner:
             return "/promotions"
         case .search:

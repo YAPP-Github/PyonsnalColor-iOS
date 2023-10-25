@@ -26,7 +26,7 @@ struct ProductDetailEntity {
     let giftTitle: String?
     let giftPrice: String?
     let isEventExpired: Bool?
-    let reviews: [ReviewEntity]
+    var reviews: [ReviewEntity]
     let avgScore: Double?
 }
 
@@ -39,6 +39,34 @@ extension ProductDetailEntity {
         } else {
             return nil
         }
+    }
+}
+
+extension ProductDetailEntity {
+    func updateReviews(reviews: [ReviewEntity]) -> Self {
+        return .init(
+            id: self.id,
+            storeType: self.storeType,
+            imageURL: self.imageURL,
+            name: self.name,
+            price: self.price,
+            eventType: self.eventType,
+            productType: self.productType,
+            updatedTime: self.updatedTime,
+            description: self.description,
+            isNew: self.isNew,
+            viewCount: self.viewCount,
+            category:
+                self.category,
+            isFavorite: self.isFavorite,
+            originPrice: self.originPrice,
+            giftImageURL: self.giftImageURL,
+            giftTitle: self.giftTitle,
+            giftPrice: self.giftPrice,
+            isEventExpired: self.isEventExpired,
+            reviews: reviews,
+            avgScore: self.avgScore
+        )
     }
 }
 

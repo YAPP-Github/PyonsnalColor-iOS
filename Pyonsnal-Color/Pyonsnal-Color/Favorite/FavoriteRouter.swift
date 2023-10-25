@@ -69,8 +69,6 @@ final class FavoriteRouter: ViewableRouter<FavoriteInteractable,
         let productDetailRouter = productDetail.build(withListener: interactor, product: product)
         productDetailRouting = productDetailRouter
         attachChild(productDetailRouter)
-        let productDetailViewController = productDetailRouting?.viewControllable as? ProductDetailViewController
-        productDetailViewController?.productDetail = product
         viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
     }
     

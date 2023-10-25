@@ -33,9 +33,6 @@ final class ProductDetailViewController:
     
     // MARK: - Interface
     weak var listener: ProductDetailPresentableListener?
-    var productDetail: ProductDetailEntity? {
-        didSet { updateUI() }
-    }
     
     // MARK: - Private Method
     private let viewHolder: ViewHolder = .init()
@@ -55,6 +52,7 @@ final class ProductDetailViewController:
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         
+        configure()
         configureAction()
         bindActions()
     }
@@ -67,90 +65,95 @@ final class ProductDetailViewController:
     }
     
     // MARK: - Private Method
-    private func updateUI() {
+//    private func updateUI() {
+//        guard var productDetail else { return }
+//        let dummyProductDetail: ProductDetailEntity = .init(
+//            id: productDetail.id,
+//            storeType: productDetail.storeType,
+//            imageURL: productDetail.imageURL,
+//            name: productDetail.name,
+//            price: productDetail.price,
+//            eventType: productDetail.eventType,
+//            productType: productDetail.productType,
+//            updatedTime: productDetail.updatedTime,
+//            description: productDetail.description,
+//            isNew: productDetail.isNew,
+//            viewCount: productDetail.viewCount,
+//            category: productDetail.category,
+//            isFavorite: productDetail.isFavorite,
+//            originPrice: productDetail.originPrice,
+//            giftImageURL: .init(string: "https://upload.wikimedia.org/wikipedia/ko/a/a6/Pok%C3%A9mon_Pikachu_art.png"),
+//            giftTitle: "Hello",
+//            giftPrice: "2,000",
+//            isEventExpired: false,
+//            reviews: [
+//                ReviewEntity(
+//                    taste: .good,
+//                    quality: .bad,
+//                    valueForMoney: .normal,
+//                    score: 4,
+//                    contents: "쪼아요\n부우웅...위이잉...\n치...킨.도미노...피짜",
+//                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+//                    writerId: 100,
+//                    writerName: "류이치",
+//                    createdTime: "",
+//                    updatedTime: "",
+//                    likeCount: 10,
+//                    hateCount: 32
+//                ),
+//                ReviewEntity(
+//                    taste: .good,
+//                    quality: .bad,
+//                    valueForMoney: .normal,
+//                    score: 4,
+//                    contents: "쪼아요fejwiofjeawiojfeioajfoieawjfjioaejfiaowjfeoiwajeiofjeoiwjfioejwaiojfeaiwoejf",
+//                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+//                    writerId: 100,
+//                    writerName: "류이치",
+//                    createdTime: "",
+//                    updatedTime: "",
+//                    likeCount: 333,
+//                    hateCount: 23
+//                ),
+//                ReviewEntity(
+//                    taste: .good,
+//                    quality: .bad,
+//                    valueForMoney: .normal,
+//                    score: 4,
+//                    contents: "쪼아요\nkkkkkhhuijoijiojoijoijiojoijojioiojij\njoijiojioj\nfaewawefa\nfewaiofjwa\nfjewiao",
+//                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+//                    writerId: 100,
+//                    writerName: "류이치",
+//                    createdTime: "",
+//                    updatedTime: "",
+//                    likeCount: 0,
+//                    hateCount: 0
+//                ),
+//                ReviewEntity(
+//                    taste: .good,
+//                    quality: .bad,
+//                    valueForMoney: .normal,
+//                    score: 4,
+//                    contents: "쪼아요",
+//                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+//                    writerId: 100,
+//                    writerName: "류이치",
+//                    createdTime: "",
+//                    updatedTime: "",
+//                    likeCount: 0,
+//                    hateCount: 0
+//                )
+//            ],
+//            avgScore: 4.5
+//        )
+//        listener?.reloadData(with: dummyProductDetail)
+//    }
+    
+    private func configure() {
         view.backgroundColor = .white
         
-        guard var productDetail else { return }
-        let dummyProductDetail: ProductDetailEntity = .init(
-            id: productDetail.id,
-            storeType: productDetail.storeType,
-            imageURL: productDetail.imageURL,
-            name: productDetail.name,
-            price: productDetail.price,
-            eventType: productDetail.eventType,
-            productType: productDetail.productType,
-            updatedTime: productDetail.updatedTime,
-            description: productDetail.description,
-            isNew: productDetail.isNew,
-            viewCount: productDetail.viewCount,
-            category: productDetail.category,
-            isFavorite: productDetail.isFavorite,
-            originPrice: productDetail.originPrice,
-            giftImageURL: .init(string: "https://upload.wikimedia.org/wikipedia/ko/a/a6/Pok%C3%A9mon_Pikachu_art.png"),
-            giftTitle: "Hello",
-            giftPrice: "2,000",
-            isEventExpired: false,
-            reviews: [
-                ReviewEntity(
-                    taste: .good,
-                    quality: .bad,
-                    valueForMoney: .normal,
-                    score: 4,
-                    contents: "쪼아요\n부우웅...위이잉...\n치...킨.도미노...피짜",
-                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-                    writerId: 100,
-                    writerName: "류이치",
-                    createdTime: "",
-                    updatedTime: "",
-                    likeCount: 10,
-                    hateCount: 32
-                ),
-                ReviewEntity(
-                    taste: .good,
-                    quality: .bad,
-                    valueForMoney: .normal,
-                    score: 4,
-                    contents: "쪼아요fejwiofjeawiojfeioajfoieawjfjioaejfiaowjfeoiwajeiofjeoiwjfioejwaiojfeaiwoejf",
-                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-                    writerId: 100,
-                    writerName: "류이치",
-                    createdTime: "",
-                    updatedTime: "",
-                    likeCount: 333,
-                    hateCount: 23
-                ),
-                ReviewEntity(
-                    taste: .good,
-                    quality: .bad,
-                    valueForMoney: .normal,
-                    score: 4,
-                    contents: "쪼아요\nkkkkkhhuijoijiojoijoijiojoijojioiojij\njoijiojioj\nfaewawefa\nfewaiofjwa\nfjewiao",
-                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-                    writerId: 100,
-                    writerName: "류이치",
-                    createdTime: "",
-                    updatedTime: "",
-                    likeCount: 0,
-                    hateCount: 0
-                ),
-                ReviewEntity(
-                    taste: .good,
-                    quality: .bad,
-                    valueForMoney: .normal,
-                    score: 4,
-                    contents: "쪼아요",
-                    image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-                    writerId: 100,
-                    writerName: "류이치",
-                    createdTime: "",
-                    updatedTime: "",
-                    likeCount: 0,
-                    hateCount: 0
-                )
-            ],
-            avgScore: 4.5
-        )
-        listener?.reloadData(with: dummyProductDetail)
+        viewHolder.collectionView.dataSource = self
+        viewHolder.collectionView.delegate = self
     }
     
     private func configureAction() {
@@ -163,7 +166,8 @@ final class ProductDetailViewController:
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] _ in
                 guard let self else { return }
-                let action: FavoriteButtonAction = viewHolder.backNavigationView.getFavoriteButtonSelected() ? .delete : .add
+                let action: FavoriteButtonAction = viewHolder
+                    .backNavigationView.getFavoriteButtonSelected() ? .delete : .add
                 if action == .add {
                     listener?.addFavorite()
                 } else if action == .delete {
@@ -171,7 +175,11 @@ final class ProductDetailViewController:
                 }
             }.store(in: &cancellable)
         
-        viewHolder.collectionView.refreshControl?.addTarget(self, action: #selector(refreshControlAction), for: .valueChanged)
+        viewHolder.collectionView.refreshControl?.addTarget(
+            self,
+            action: #selector(refreshControlAction),
+            for: .valueChanged
+        )
     }
     
     @objc private func refreshControlAction() {
@@ -280,17 +288,16 @@ extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
         case .image:
             return .init(width: screenWidth, height: 320)
         case let .information(entity):
-            let width = collectionView.bounds.size.width
             let estimateHeight: CGFloat = 400
             let cell = ProductDetailInformationCell()
             cell.payload = .init(productDetail: entity)
             cell.frame = .init(
                 origin: .zero,
-                size: .init(width: width, height: estimateHeight)
+                size: .init(width: screenWidth, height: estimateHeight)
             )
             cell.layoutIfNeeded()
             let estimateSize = cell.systemLayoutSizeFitting(
-                .init(width: width, height: estimateHeight)
+                .init(width: screenWidth, height: estimateHeight)
             )
             return .init(width: screenWidth, height: estimateSize.height)
         case .reviewWrite:

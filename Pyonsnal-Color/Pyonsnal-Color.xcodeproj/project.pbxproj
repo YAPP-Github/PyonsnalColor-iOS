@@ -129,6 +129,9 @@
 		BA50FD042A680AA900721782 /* ProductSearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FD002A680AA900721782 /* ProductSearchInteractor.swift */; };
 		BA50FD062A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FD052A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift */; };
 		BA50FD092A680D2500721782 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50FD082A680D2500721782 /* SearchBarView.swift */; };
+		BA6CAB802AE84C6600B9E1BF /* UserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6CAB7F2AE84C6600B9E1BF /* UserInfoService.swift */; };
+		BA6CAB822AE8509000B9E1BF /* ReviewLikeCountEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6CAB812AE8509000B9E1BF /* ReviewLikeCountEntity.swift */; };
+		BA6CAB842AE8509900B9E1BF /* ReviewHateCountEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6CAB832AE8509900B9E1BF /* ReviewHateCountEntity.swift */; };
 		BA7532E22A595B140002659A /* UserAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7532E12A595B140002659A /* UserAuthService.swift */; };
 		BA7B31842A72AA7900A117F3 /* ImageAssetKind+TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7B31832A72AA7900A117F3 /* ImageAssetKind+TabBar.swift */; };
 		BA83224E2AB6E5DB00D2E1EB /* RatingPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA83224D2AB6E5DB00D2E1EB /* RatingPreviewView.swift */; };
@@ -395,6 +398,9 @@
 		BA50FD002A680AA900721782 /* ProductSearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchInteractor.swift; sourceTree = "<group>"; };
 		BA50FD052A680B5A00721782 /* ProductSearchViewController+ViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductSearchViewController+ViewHolder.swift"; sourceTree = "<group>"; };
 		BA50FD082A680D2500721782 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		BA6CAB7F2AE84C6600B9E1BF /* UserInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoService.swift; sourceTree = "<group>"; };
+		BA6CAB812AE8509000B9E1BF /* ReviewLikeCountEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewLikeCountEntity.swift; sourceTree = "<group>"; };
+		BA6CAB832AE8509900B9E1BF /* ReviewHateCountEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHateCountEntity.swift; sourceTree = "<group>"; };
 		BA7532E12A595B140002659A /* UserAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthService.swift; sourceTree = "<group>"; };
 		BA7B31832A72AA7900A117F3 /* ImageAssetKind+TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+TabBar.swift"; sourceTree = "<group>"; };
 		BA83224D2AB6E5DB00D2E1EB /* RatingPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingPreviewView.swift; sourceTree = "<group>"; };
@@ -770,6 +776,7 @@
 				F02C8DA62A2E149700593A2D /* AppleLoginService.swift */,
 				B2A57C3E2A2EF917005DB83E /* KakaoLoginService.swift */,
 				BA7532E12A595B140002659A /* UserAuthService.swift */,
+				BA6CAB7F2AE84C6600B9E1BF /* UserInfoService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1005,6 +1012,8 @@
 			children = (
 				BA83225D2AB77E9E00D2E1EB /* ReviewEvaluationState.swift */,
 				BA8322602AB77FCA00D2E1EB /* ReviewEntity.swift */,
+				BA6CAB812AE8509000B9E1BF /* ReviewLikeCountEntity.swift */,
+				BA6CAB832AE8509900B9E1BF /* ReviewHateCountEntity.swift */,
 				BAE252252AC6DA0800405DEC /* ReviewEvaluationKind.swift */,
 				BAE2522D2AC8059B00405DEC /* ReviewEvaluationProtocol.swift */,
 				BAE252272AC6DBF500405DEC /* ReviewTasteEvaluation.swift */,
@@ -1035,7 +1044,6 @@
 			isa = PBXGroup;
 			children = (
 				BA83225F2AB77FB000D2E1EB /* Review */,
-				BA18C0952A754259007D00BD /* Sort */,
 				F0C698662A6BB02A0019C677 /* Filter */,
 				F00352222A62BD7F00A66FF9 /* Common */,
 				F0DFBC992A5967B9003F7660 /* Member */,
@@ -1676,6 +1684,7 @@
 				BA7532E22A595B140002659A /* UserAuthService.swift in Sources */,
 				F0E915D52AAC9E3F000919DA /* CommonProductPageViewControllerRenderable.swift in Sources */,
 				BA8924562A582EE700D1B097 /* NewTagBigView.swift in Sources */,
+				BA6CAB802AE84C6600B9E1BF /* UserInfoService.swift in Sources */,
 				BAE442C22A6D2C7A00BD6582 /* LoadingReusableView.swift in Sources */,
 				F0687BED2A529679004B5EAE /* Config.swift in Sources */,
 				B28205032A346FDD00F9242F /* ProfileHomeViewController.swift in Sources */,
@@ -1736,6 +1745,7 @@
 				F00609562A5EF87F00A2A79D /* CommonConstants.swift in Sources */,
 				BA9E233D2A21EF3000A539D5 /* SceneDelegate.swift in Sources */,
 				F0EE10AE2A4B389A00B8DF4F /* AccountSettingInteractor.swift in Sources */,
+				BA6CAB822AE8509000B9E1BF /* ReviewLikeCountEntity.swift in Sources */,
 				F0D6FFAB2A39F89D00C55E27 /* UIView+.swift in Sources */,
 				F0C2B9F12AA4740000ACF3D7 /* EventHomeViewHolder.swift in Sources */,
 				BAE984412AACFC3600ED22CB /* ProductDetailImageCell+ViewHolder.swift in Sources */,
@@ -1828,6 +1838,7 @@
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				F0C698652A6BA9B00019C677 /* CategoryFilterCell.swift in Sources */,
 				B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */,
+				BA6CAB842AE8509900B9E1BF /* ReviewHateCountEntity.swift in Sources */,
 				B28A59322A73B08000431F39 /* RecommendFilterCell.swift in Sources */,
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
 				BA1E8BB32ACBC2E300964B6E /* ReviewFeedKind.swift in Sources */,

@@ -20,7 +20,7 @@ final class ProductDetailReviewWriteCell: UICollectionViewCell {
         didSet { updateUI() }
     }
     
-    var delegate: ProductDetailReviewWriteCellDelegate?
+    weak var delegate: ProductDetailReviewWriteCellDelegate?
     
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()

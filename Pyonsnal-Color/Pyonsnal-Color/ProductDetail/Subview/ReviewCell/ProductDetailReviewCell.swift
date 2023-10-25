@@ -23,7 +23,7 @@ final class ProductDetailReviewCell: UICollectionViewCell {
     var payload: Payload? {
         didSet { updateUI() }
     }
-    var delegate: ProductDetailReviewCellDelegate?
+    weak var delegate: ProductDetailReviewCellDelegate?
     
     // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
@@ -63,17 +63,49 @@ final class ProductDetailReviewCell: UICollectionViewCell {
         let review = payload.review
         viewHolder.reviewMetaView.payload = .init(review: review)
         if let imageURL = review.image {
+            viewHolder.reviewImageView.isHidden = false
             viewHolder.reviewImageView.setImage(with: imageURL)
+        } else {
+            viewHolder.reviewImageView.isHidden = true
         }
         viewHolder.reviewTagListView.payload = .init(
             taste: review.taste,
             quality: review.quality,
             valueForMoney: review.valueForMoney
         )
+        if review.contents.isEmpty {
+            viewHolder.reviewLabel.isHidden = true
+            viewHolder.reviewLabel.snp.removeConstraints()
+            viewHolder.buttonBackgroundView.snp.remakeConstraints { make in
+                make.top.equalTo(viewHolder.contentStackView.snp.bottom).offset(.spacing16)
+                make.leading.trailing.equalToSuperview().inset(.spacing16)
+                make.bottom.equalToSuperview().inset(.spacing20)
+            }
+        } else {
+            viewHolder.reviewLabel.isHidden = false
+            
+            
+            viewHolder.reviewLabel.snp.makeConstraints { make in
+                make.top.equalTo(viewHolder.contentStackView.snp.bottom).offset(.spacing12)
+                make.leading.trailing.equalToSuperview().inset(.spacing20)
+            }
+            viewHolder.buttonBackgroundView.snp.remakeConstraints { make in
+                make.top.equalTo(viewHolder.reviewLabel.snp.bottom).offset(.spacing16)
+                make.leading.trailing.equalToSuperview().inset(.spacing16)
+                make.bottom.equalToSuperview().inset(.spacing20)
+            }
+        }
         viewHolder.reviewLabel.text = review.contents
-        
-        viewHolder.goodButton.payload = .init(feedbackKind: .good, isSelected: false, count: review.likeCount)
-        viewHolder.badButton.payload = .init(feedbackKind: .bad, isSelected: false, count: review.hateCount)
+        viewHolder.goodButton.payload = .init(
+            feedbackKind: .good,
+            isSelected: review.likeCount.writerIds.contains(UserInfoService.shared.memberID ?? 0),
+            count: review.likeCount.likeCount
+        )
+        viewHolder.badButton.payload = .init(
+            feedbackKind: .bad,
+            isSelected: review.hateCount.writerIds.contains(UserInfoService.shared.memberID ?? 0),
+            count: review.hateCount.hateCount
+        )
     }
     
     @objc private func goodButtonAction(_ sender: UITapGestureRecognizer) {

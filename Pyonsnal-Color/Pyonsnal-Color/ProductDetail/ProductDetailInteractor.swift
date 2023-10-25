@@ -101,7 +101,6 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     func reloadData(with productDetail: ProductDetailEntity) {
         self.productDetail = productDetail
         
-        let reviews = productDetail.reviews
         var sectionModels: [ProductDetailSectionModel] = []
         sectionModels.append(
             .init(
@@ -126,16 +125,63 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                     items: [
                         ProductDetailSectionItem.reviewWrite(
                             score: avgScore,
-                            reviewsCount: reviews.count
+                            reviewsCount: productDetail.reviews.count
                         )
                     ]
                 )
             )
         }
+//        let dummyReviews = [
+//            ReviewEntity(
+//                reviewId: "ffwae",
+//                taste: .good,
+//                quality: .bad,
+//                valueForMoney: .normal,
+//                score: 4,
+//                contents: "쪼아요\n부우웅...위이잉...\n치...킨.도미노...피짜",
+//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+//                writerId: 100,
+//                writerName: "류이치",
+//                createdTime: "",
+//                updatedTime: "",
+//                likeCount: ReviewLikeCountEntity(writerIds: [14], likeCount: 10),
+//                hateCount: ReviewHateCountEntity(writerIds: [], hateCount: 32)
+//            ),
+//            ReviewEntity(
+//                reviewId: "fefew",
+//                taste: .good,
+//                quality: .bad,
+//                valueForMoney: .normal,
+//                score: 4,
+//                contents: "쪼아요fejwiofjeawiojfeioajfoieawjfjioaejfiaowjfeoiwajeiofjeoiwjfioejwaiojfeaiwoejf",
+//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+//                writerId: 100,
+//                writerName: "류이치",
+//                createdTime: "",
+//                updatedTime: "",
+//                likeCount: ReviewLikeCountEntity(writerIds: [], likeCount: 333),
+//                hateCount: ReviewHateCountEntity(writerIds: [14], hateCount: 32)
+//            ),
+//            ReviewEntity(
+//                reviewId: "fgeawe",
+//                taste: .good,
+//                quality: .bad,
+//                valueForMoney: .normal,
+//                score: 4,
+//                contents: "쪼아요\nkkkkkhhuijoijiojoijoijiojoijojioiojij\njoijiojioj\nfaewawefa\nfewaiofjwa\nfjewiao",
+//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
+//                writerId: 100,
+//                writerName: "류이치",
+//                createdTime: "",
+//                updatedTime: "",
+//                likeCount: ReviewLikeCountEntity(writerIds: [], likeCount: 0),
+//                hateCount: ReviewHateCountEntity(writerIds: [], hateCount: 0)
+//            )
+//        ]
         sectionModels.append(
             .init(
                 section: ProductDetailSection.review,
-                items: reviews.map { ProductDetailSectionItem.review(productReview: $0) }
+                items: productDetail.reviews.map { ProductDetailSectionItem.review(productReview: $0) }
             )
         )
         presenter.reloadCollectionView(with: sectionModels)
@@ -151,11 +197,11 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func reviewLikeButtonDidTap(review: ReviewEntity) {
-        requestReviewLike(reviewID: "review.id")
+        requestReviewLike(reviewID: review.reviewId)
     }
     
     func reviewHateButtonDidTap(review: ReviewEntity) {
-        requestReviewHate(reviewID: "review.id")
+        requestReviewHate(reviewID: review.reviewId)
     }
     
     private func requestProductDetail() {
@@ -176,7 +222,6 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                     }
                 }
                 .store(in: &cancellable)
-        default: return
         }
     }
     
@@ -185,20 +230,21 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         case .pb:
             dependency.productAPIService.requestBrandProductReviewLike(
                 productID: selectedProduct.id,
-                reviewID: "review.id"
+                reviewID: reviewID
             )
             .sink { [weak self] _ in
+                self?.updateReviewLike(reviewID: reviewID)
             }
             .store(in: &cancellable)
         case .event:
             dependency.productAPIService.requestEventProductReviewLike(
                 productID: selectedProduct.id,
-                reviewID: "review.id"
+                reviewID: reviewID
             )
             .sink { [weak self] _ in
+                self?.updateReviewLike(reviewID: reviewID)
             }
             .store(in: &cancellable)
-        default: return
         }
     }
     
@@ -207,20 +253,69 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         case .pb:
             dependency.productAPIService.requestBrandProductReviewHate(
                 productID: selectedProduct.id,
-                reviewID: "review.id"
+                reviewID: reviewID
             )
             .sink { [weak self] _ in
+                self?.updateReviewHate(reviewID: reviewID)
             }
             .store(in: &cancellable)
         case .event:
             dependency.productAPIService.requestEventProductReviewHate(
                 productID: selectedProduct.id,
-                reviewID: "review.id"
+                reviewID: reviewID
             )
             .sink { [weak self] _ in
+                self?.updateReviewHate(reviewID: reviewID)
             }
             .store(in: &cancellable)
-        default: return
         }
+    }
+    
+    private func updateReviewLike(reviewID: String) {
+        guard let productDetail,
+              let memberID = UserInfoService.shared.memberID else {
+            return
+        }
+        
+        guard let reviewIndex = productDetail.reviews.firstIndex(
+            where: { $0.reviewId == reviewID }
+        ) else {
+            return
+        }
+        let review = productDetail.reviews[reviewIndex]
+        var writerIds = review.likeCount.writerIds
+        writerIds.append(memberID)
+        let updatedReview = review.update(
+            likeCount: .init(writerIds: writerIds, likeCount: review.likeCount.likeCount + 1)
+        )
+        
+        var updatedReviews = productDetail.reviews
+        updatedReviews[reviewIndex] = updatedReview
+        let updatedProductDetail = productDetail.updateReviews(reviews: updatedReviews)
+        reloadData(with: updatedProductDetail)
+    }
+    
+    private func updateReviewHate(reviewID: String) {
+        guard let productDetail,
+              let memberID = UserInfoService.shared.memberID else {
+            return
+        }
+        
+        guard let reviewIndex = productDetail.reviews.firstIndex(
+            where: { $0.reviewId == reviewID }
+        ) else {
+            return
+        }
+        let review = productDetail.reviews[reviewIndex]
+        var writerIds = review.hateCount.writerIds
+        writerIds.append(memberID)
+        let updatedReview = review.update(
+            hateCount: .init(writerIds: writerIds, hateCount: review.hateCount.hateCount + 1)
+        )
+        
+        var updatedReviews = productDetail.reviews
+        updatedReviews[reviewIndex] = updatedReview
+        let updatedProductDetail = productDetail.updateReviews(reviews: updatedReviews)
+        reloadData(with: updatedProductDetail)
     }
 }
