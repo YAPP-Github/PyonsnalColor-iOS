@@ -21,6 +21,7 @@ final class RatingPreviewView: UIView {
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
+        imageView.setImage(.iconReview)
         return imageView
     }()
     
@@ -52,8 +53,6 @@ final class RatingPreviewView: UIView {
     
     // MARK: - Private Method
     private func updateUI() {
-        iconImageView.setImage(.iconReview)
-        
         guard let payload else {
             return
         }

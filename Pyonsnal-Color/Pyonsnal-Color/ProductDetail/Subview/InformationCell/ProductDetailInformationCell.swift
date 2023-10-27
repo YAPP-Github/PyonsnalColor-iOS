@@ -51,12 +51,12 @@ final class ProductDetailInformationCell: UICollectionViewCell {
         
         if let gift = payload.productDetail.gift {
             viewHolder.giftInformationView.isHidden = false
-            viewHolder.productDescriptionLabel.snp.makeConstraints { make in
+            viewHolder.productDescriptionLabel.snp.remakeConstraints { make in
                 make.top.equalTo(viewHolder.productPriceLabel.snp.bottom).offset(.spacing16)
                 make.leading.trailing.equalToSuperview()
             }
             
-            viewHolder.giftInformationView.snp.makeConstraints { make in
+            viewHolder.giftInformationView.snp.remakeConstraints { make in
                 make.top.equalTo(viewHolder.productDescriptionLabel.snp.bottom).offset(.spacing40)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
@@ -64,7 +64,7 @@ final class ProductDetailInformationCell: UICollectionViewCell {
             viewHolder.giftInformationView.payload = .init(giftEntity: gift)
         } else {
             viewHolder.giftInformationView.isHidden = true
-            viewHolder.productDescriptionLabel.snp.makeConstraints { make in
+            viewHolder.productDescriptionLabel.snp.remakeConstraints { make in
                 make.top.equalTo(viewHolder.productPriceLabel.snp.bottom).offset(.spacing16)
                 make.leading.bottom.trailing.equalToSuperview()
             }

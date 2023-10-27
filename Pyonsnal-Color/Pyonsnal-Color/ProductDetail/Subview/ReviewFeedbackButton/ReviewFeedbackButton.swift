@@ -1,14 +1,14 @@
 //
-//  ReviewFeedbackButtonView.swift
+//  ReviewFeedbackButton.swift
 //  Pyonsnal-Color
 //
-//  Created by 김진우 on 2023/10/03.
+//  Created by 김진우 on 2023/10/28.
 //
 
 import UIKit
 import SnapKit
 
-final class ReviewFeedbackButtonView: UIButton {
+final class ReviewFeedbackButton: UIButton {
     
     // MARK: - Declaration
     
@@ -26,6 +26,7 @@ final class ReviewFeedbackButtonView: UIButton {
     
     private let stackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isUserInteractionEnabled = false
         stackView.axis = .horizontal
         stackView.spacing = 4
         stackView.alignment = .center
@@ -35,11 +36,13 @@ final class ReviewFeedbackButtonView: UIButton {
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.isUserInteractionEnabled = false
         return imageView
     }()
     
     private let countLabel: UILabel = {
         let label = UILabel()
+        label.isUserInteractionEnabled = false
         label.textColor = .gray400
         label.font = .body3m
         return label

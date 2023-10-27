@@ -51,8 +51,16 @@ final class ProductDetailReviewCell: UICollectionViewCell {
     }
     
     private func configureAction() {
-        viewHolder.goodButton.addTapGesture(target: self, action: #selector(goodButtonAction(_:)))
-        viewHolder.badButton.addTapGesture(target: self, action: #selector(badButtonAction(_:)))
+        viewHolder.goodButton.addTarget(
+            self,
+            action: #selector(goodButtonAction(_:)),
+            for: .touchUpInside
+        )
+        viewHolder.badButton.addTarget(
+            self,
+            action: #selector(badButtonAction(_:)),
+            for: .touchUpInside
+        )
     }
     
     private func updateUI() {

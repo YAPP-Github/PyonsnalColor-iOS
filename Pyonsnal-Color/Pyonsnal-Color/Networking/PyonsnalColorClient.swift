@@ -32,11 +32,6 @@ final class PyonsnalColorClient: NetworkRequestable {
             .publishDecodable(type: T.self)
             .map { response in
                 response.mapError { _ in
-                    if let curlString = response.request?.curlString {
-                        Log.n(message: "Request curl: \(curlString)")
-                    } else {
-                        Log.n(message: "Request curl: nil")
-                    }
                     guard let responseData = response.data else {
                         Log.n(message: "\(response.error)")
                         return NetworkError.emptyResponse

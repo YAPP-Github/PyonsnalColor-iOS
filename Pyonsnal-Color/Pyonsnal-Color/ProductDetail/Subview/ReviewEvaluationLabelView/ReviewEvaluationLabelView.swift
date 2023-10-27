@@ -1,15 +1,15 @@
 //
-//  ReviewEvaluationLabel.swift
+//  ReviewEvaluationLabelView.swift
 //  Pyonsnal-Color
 //
-//  Created by 김진우 on 2023/09/29.
+//  Created by 김진우 on 2023/10/28.
 //
 
 import UIKit
 
 import SnapKit
 
-final class ReviewEvaluationLabel: UIView {
+final class ReviewEvaluationLabelView: UIView {
     
     // MARK: - Declaration
     

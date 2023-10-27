@@ -39,9 +39,7 @@ final class ProductDetailViewController:
     private var cancellable = Set<AnyCancellable>()
     private var sections: [ProductDetailSectionModel]? {
         didSet {
-            OperationQueue.main.addOperation {
-                self.viewHolder.collectionView.reloadData()
-            }
+            viewHolder.collectionView.reloadData()
         }
     }
     
@@ -189,6 +187,14 @@ final class ProductDetailViewController:
     func reloadCollectionView(with sectionModels: [ProductDetailSectionModel]) {
         viewHolder.collectionView.refreshControl?.endRefreshing()  
         self.sections = sectionModels
+    }
+    
+    func updateHeaderImage(storeIcon: ImageAssetKind.StoreIcon) {
+        viewHolder.backNavigationView.payload = .init(
+            mode: .image,
+            title: nil,
+            iconImageKind: storeIcon
+        )
     }
 }
 

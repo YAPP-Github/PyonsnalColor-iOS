@@ -84,7 +84,7 @@ final class ReviewTagListView: UIView {
         line1StackView.axis = .horizontal
         line1StackView.spacing = 8
         
-        let tasteLabel = ReviewEvaluationLabel()
+        let tasteLabel = ReviewEvaluationLabelView()
         tasteLabel.payload = .init(kind: .taste, state: payload.taste)
         tasteLabel.frame = .init(origin: .zero, size: targetEstimateSize)
         tasteLabel.layoutIfNeeded()
@@ -94,7 +94,7 @@ final class ReviewTagListView: UIView {
         currentWidth += 8
         line1StackView.addArrangedSubview(tasteLabel)
         
-        let qualityLabel = ReviewEvaluationLabel()
+        let qualityLabel = ReviewEvaluationLabelView()
         qualityLabel.payload = .init(kind: .quality, state: payload.quality)
         qualityLabel.layoutIfNeeded()
         let qualityEstimateSize = qualityLabel.systemLayoutSizeFitting(targetEstimateSize)
@@ -103,7 +103,7 @@ final class ReviewTagListView: UIView {
         currentWidth += 8
         line1StackView.addArrangedSubview(qualityLabel)
         
-        let valueForMoneyLabel = ReviewEvaluationLabel()
+        let valueForMoneyLabel = ReviewEvaluationLabelView()
         valueForMoneyLabel.payload = .init(kind: .valueForMoney, state: payload.valueForMoney)
         valueForMoneyLabel.layoutIfNeeded()
         let valueEstimateSize = valueForMoneyLabel.systemLayoutSizeFitting(targetEstimateSize)
