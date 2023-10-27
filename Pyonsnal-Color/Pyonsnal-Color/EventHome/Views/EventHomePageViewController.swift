@@ -145,7 +145,7 @@ extension EventHomePageViewController: ProductListDelegate {
         )
     }
     
-    func didSelect(with brandProduct: (any ProductConvertable)?) {
+    func didSelect(with brandProduct: ProductDetailEntity?) {
         guard let brandProduct else { return }
         pageDelegate?.didSelect(with: brandProduct)
     }

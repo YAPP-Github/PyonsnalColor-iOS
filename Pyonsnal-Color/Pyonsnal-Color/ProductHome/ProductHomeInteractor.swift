@@ -13,7 +13,7 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachProductSearch()
     func attachNotificationList()
     func detachNotificationList()
-    func attachProductDetail(with brandProduct: any ProductConvertable)
+    func attachProductDetail(with brandProduct: ProductDetailEntity)
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
@@ -22,9 +22,9 @@ protocol ProductHomeRouting: ViewableRouting {
 protocol ProductHomePresentable: Presentable {
     var listener: ProductHomePresentableListener? { get set }
     
-    func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]])
-    func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore)
-    func replaceProducts(with products: [BrandProductEntity], filterDataEntity: FilterDataEntity?, at store: ConvenienceStore)
+    func updateProducts(with products: [ConvenienceStore: [ProductDetailEntity]])
+    func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore)
+    func replaceProducts(with products: [ProductDetailEntity], filterDataEntity: FilterDataEntity?, at store: ConvenienceStore)
     func updateFilter()
     func didStartPaging()
     func didFinishPaging()
@@ -175,7 +175,7 @@ final class ProductHomeInteractor:
         }
     }
     
-    func didSelect(with brandProduct: (any ProductConvertable)?) {
+    func didSelect(with brandProduct: ProductDetailEntity?) {
         guard let brandProduct else { return }
         router?.attachProductDetail(with: brandProduct)
     }

@@ -42,12 +42,11 @@ final class FavoriteAPIService {
         )
     }
     
-    func favorites<T: ProductConvertable>(
+    func favorites(
         pageNumber: Int,
         pageSize: Int,
-        productType: ProductType,
-        model: T.Type
-    ) -> AnyPublisher<DataResponse<ProductPageEntity<T>, NetworkError>, Never> {
+        productType: ProductType
+    ) -> AnyPublisher<DataResponse<ProductPageEntity, NetworkError>, Never> {
         FavoriteAPI.accessToken = self.accessToken
         return client.request(
             FavoriteAPI.favorites(pageNumber: pageNumber, pageSize: pageSize, productType: productType),

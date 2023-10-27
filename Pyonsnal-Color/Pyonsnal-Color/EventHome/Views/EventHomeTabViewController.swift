@@ -34,7 +34,7 @@ final class EventHomeTabViewController: UIViewController {
     enum ItemType: Hashable {
         case keywordFilter(FilterItemEntity)
         case event(data: [EventBannerEntity])
-        case item(data: EventProductEntity?)
+        case item(data: ProductDetailEntity?)
     }
     
     enum Size {
@@ -200,7 +200,7 @@ final class EventHomeTabViewController: UIViewController {
     }
     
     // pagination시 apply
-    func applyEventProductsSnapshot(with products: [EventProductEntity]) {
+    func applyEventProductsSnapshot(with products: [ProductDetailEntity]) {
         guard var snapshot = dataSource?.snapshot() else { return }
         let itemSectionType = SectionType.item(type: .item)
         
@@ -212,7 +212,7 @@ final class EventHomeTabViewController: UIViewController {
     
     func applyEventBannerProducts(
         with eventBanners: [EventBannerEntity]?,
-        products: [EventProductEntity]?
+        products: [ProductDetailEntity]?
     ) {
         collectionView.isScrollEnabled = true
         let itemSectionType = SectionType.item(type: .item)

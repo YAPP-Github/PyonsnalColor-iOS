@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         usleep(300000)
+        UserInfoService.shared.configure()
         FirebaseApp.configure()
         return true
     }

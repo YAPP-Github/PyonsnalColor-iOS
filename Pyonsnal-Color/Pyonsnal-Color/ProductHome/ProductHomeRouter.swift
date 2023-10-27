@@ -93,21 +93,20 @@ final class ProductHomeRouter:
         notificationListRouting = nil
     }
     
-    func attachProductDetail(with product: any ProductConvertable) {
+    func attachProductDetail(with product: ProductDetailEntity) {
         if productDetailRouting != nil { return }
         
         let productDetailRouter = productDetail.build(withListener: interactor, product: product)
         productDetailRouting = productDetailRouter
         attachChild(productDetailRouter)
-        (productDetailRouting?.viewControllable as? ProductDetailViewController)?.product = product
         viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
     }
     
     func detachProductDetail() {
         guard let productDetailRouting else { return }
         viewController.popViewController(animated: true)
-        self.productDetailRouting = nil
         detachChild(productDetailRouting)
+        self.productDetailRouting = nil
     }
     
     func attachProductFilter(of filter: FilterEntity) {

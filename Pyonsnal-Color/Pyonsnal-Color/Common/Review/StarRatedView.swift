@@ -9,6 +9,13 @@ import UIKit
 import SnapKit
 
 final class StarRatedView: UIView {
+    
+    // MARK: - Declaration
+    
+    struct Payload {
+        let score: Double
+    }
+    
     private let totalCount: Int = 5
     private var starViews: [StarView] = []
     
@@ -18,6 +25,15 @@ final class StarRatedView: UIView {
         stackView.spacing = 4
         return stackView
     }()
+    
+    // MARK: - Interface
+    
+    var payload: Payload? {
+        didSet {
+            guard let payload else { return }
+            updateScore(to: payload.score)
+        }
+    }
     
     init(score: Double) {
         super.init(frame: .zero)

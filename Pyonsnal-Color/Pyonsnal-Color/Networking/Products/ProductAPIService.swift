@@ -25,11 +25,43 @@ final class ProductAPIService {
         pageSize: Int,
         storeType: ConvenienceStore,
         filterList: [Int]
-    ) -> AnyPublisher<DataResponse<ProductPageEntity<BrandProductEntity>, NetworkError>, Never> {
+    ) -> AnyPublisher<DataResponse<ProductPageEntity, NetworkError>, Never> {
         ProductAPI.accessToken = accessToken
         return client.request(
             ProductAPI.brandProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),
             model: ProductPageEntity.self
+        )
+    }
+    
+    func requestBrandProductDetail(
+        id: String
+    ) -> AnyPublisher<DataResponse<ProductDetailEntity, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
+        return client.request(
+            ProductAPI.brandDetail(id: id),
+            model: ProductDetailEntity.self
+        )
+    }
+    
+    func requestBrandProductReviewLike(
+        productID: String,
+        reviewID: String
+    ) -> AnyPublisher<DataResponse<EmptyResponse, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
+        return client.request(
+            ProductAPI.brandReviewLike(productID: productID, reviewID: reviewID),
+            model: EmptyResponse.self
+        )
+    }
+    
+    func requestBrandProductReviewHate(
+        productID: String,
+        reviewID: String
+    ) -> AnyPublisher<DataResponse<EmptyResponse, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
+        return client.request(
+            ProductAPI.brandReviewHate(productID: productID, reviewID: reviewID),
+            model: EmptyResponse.self
         )
     }
     
@@ -38,11 +70,43 @@ final class ProductAPIService {
         pageSize: Int,
         storeType: ConvenienceStore,
         filterList: [Int]
-    ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
+    ) -> AnyPublisher<DataResponse<ProductPageEntity, NetworkError>, Never> {
         ProductAPI.accessToken = accessToken
         return client.request(
             ProductAPI.eventProduct(pageNumber: pageNumber, pageSize: pageSize, storeType: storeType, filterList: filterList),
             model: ProductPageEntity.self
+        )
+    }
+    
+    func requestEventProductDetail(
+        id: String
+    ) -> AnyPublisher<DataResponse<ProductDetailEntity, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
+        return client.request(
+            ProductAPI.eventDetail(id: id),
+            model: ProductDetailEntity.self
+        )
+    }
+    
+    func requestEventProductReviewLike(
+        productID: String,
+        reviewID: String
+    ) -> AnyPublisher<DataResponse<EmptyResponse, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
+        return client.request(
+            ProductAPI.eventReviewLike(productID: productID, reviewID: reviewID),
+            model: EmptyResponse.self
+        )
+    }
+    
+    func requestEventProductReviewHate(
+        productID: String,
+        reviewID: String
+    ) -> AnyPublisher<DataResponse<EmptyResponse, NetworkError>, Never> {
+        ProductAPI.accessToken = accessToken
+        return client.request(
+            ProductAPI.eventReviewHate(productID: productID, reviewID: reviewID),
+            model: EmptyResponse.self
         )
     }
     
@@ -61,7 +125,7 @@ final class ProductAPIService {
         pageSize: Int,
         name: String,
         sortedCode: Int?
-    ) -> AnyPublisher<DataResponse<ProductPageEntity<EventProductEntity>, NetworkError>, Never> {
+    ) -> AnyPublisher<DataResponse<ProductPageEntity, NetworkError>, Never> {
         return client.request(
             ProductAPI.search(pageNumber: pageNumber, pageSize: pageSize, name: name, sortedCode: sortedCode),
             model: ProductPageEntity.self

@@ -13,10 +13,10 @@ import Combine
 protocol FavoritePresentableListener: AnyObject {
     func requestFavoriteProducts()
     func deleteAllProducts()
-    func appendProduct(product: any ProductConvertable)
-    func deleteProduct(product: any ProductConvertable)
+    func appendProduct(product: ProductDetailEntity)
+    func deleteProduct(product: ProductDetailEntity)
     func didTapSearchButton()
-    func didSelect(with product: any ProductConvertable)
+    func didSelect(with product: ProductDetailEntity)
     func loadMoreItems(type: ProductType)
     var isPagingEnabled: Bool { get }
 }
@@ -56,7 +56,7 @@ final class FavoriteViewController: UIViewController,
     
     // MARK: Private Property
     private let viewHolder: ViewHolder = .init()
-    private var products = [FavoriteTab: [any ProductConvertable]]()
+    private var products = [FavoriteTab: [ProductDetailEntity]]()
     private var scrollIndex = CurrentValueSubject<Int, Never>(0)
     private var cancellable = Set<AnyCancellable>()
     
@@ -90,7 +90,7 @@ final class FavoriteViewController: UIViewController,
     }
     
     // MARK: - Public Method
-    func updateProducts(products: [any ProductConvertable]?, tab: FavoriteTab) {
+    func updateProducts(products: [ProductDetailEntity]?, tab: FavoriteTab) {
         self.products[tab] = products
         viewHolder.pageViewController.updateProducts(
             to: tab.rawValue,
@@ -208,11 +208,11 @@ extension FavoriteViewController: FavoriteTabPageViewControllerDelegate {
         viewHolder.pageViewController.updatePage(to: index)
     }
     
-    func didTapProduct(product: any ProductConvertable) {
+    func didTapProduct(product: ProductDetailEntity) {
         listener?.didSelect(with: product)
     }
     
-    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction) {
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
         switch action {
         case .add:
             listener?.appendProduct(product: product)

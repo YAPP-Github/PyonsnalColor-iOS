@@ -9,8 +9,8 @@ import UIKit
 
 protocol FavoriteTabPageViewControllerDelegate: AnyObject {
     func updateSelectedTab(index: Int)
-    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction)
-    func didTapProduct(product: any ProductConvertable)
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
+    func didTapProduct(product: ProductDetailEntity)
     func loadMoreItems()
     func pullToRefresh()
     func loadProducts()
@@ -52,7 +52,7 @@ final class FavoritePageViewController: UIPageViewController {
         setViewControllers([viewController], direction: direction, animated: true)
     }
     
-    func updateProducts(to index: Int, with products: [any ProductConvertable]?) {
+    func updateProducts(to index: Int, with products: [ProductDetailEntity]?) {
         self.pageViewControllers[index].update(with: products)
     }
 }
@@ -103,11 +103,11 @@ extension FavoritePageViewController: FavoritePageTabViewControllerDelegate {
         pageDelegate?.loadProducts()
     }
     
-    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction) {
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
         pageDelegate?.didTapFavoriteButton(product: product, action: action)
     }
     
-    func didTapProduct(product: any ProductConvertable) {
+    func didTapProduct(product: ProductDetailEntity) {
         pageDelegate?.didTapProduct(product: product)
     }
     

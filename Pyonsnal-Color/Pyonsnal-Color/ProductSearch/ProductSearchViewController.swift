@@ -11,7 +11,7 @@ import Combine
 
 enum ProductCellType: Hashable {
     case empty
-    case item(EventProductEntity)
+    case item(ProductDetailEntity)
 }
 
 protocol ProductSearchPresentableListener: AnyObject {
@@ -180,6 +180,11 @@ extension ProductSearchViewController: SearchFilterHeaderDelegate {
 }
 
 extension ProductSearchViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.item)
+    }
+    
     func collectionView(
         _ collectionView: UICollectionView,
         willDisplaySupplementaryView view: UICollectionReusableView,

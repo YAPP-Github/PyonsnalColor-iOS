@@ -54,7 +54,7 @@ enum ConvenienceStore: String, Decodable, Hashable, CaseIterable {
 }
 
 extension ConvenienceStore {
-    var storeIcon: ImageAssetKind.StoreIcon? {
+    var storeIcon: ImageAssetKind.StoreIcon {
         switch self {
         case .cu:
             return .cu

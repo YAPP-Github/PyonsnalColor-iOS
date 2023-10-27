@@ -13,7 +13,7 @@ protocol EventHomeRouting: ViewableRouting {
     func detachProductSearch()
     func attachEventDetail(with imageURL: String, store: ConvenienceStore)
     func detachEventDetail()
-    func attachProductDetail(with brandProduct: any ProductConvertable)
+    func attachProductDetail(with brandProduct: ProductDetailEntity, filter: FilterEntity)
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
@@ -22,8 +22,8 @@ protocol EventHomeRouting: ViewableRouting {
 protocol EventHomePresentable: Presentable {
     var listener: EventHomePresentableListener? { get set }
     
-    func updateProducts(with products: [EventProductEntity], at store: ConvenienceStore)
-    func update(with products: [EventProductEntity], banners: [EventBannerEntity], filterDataEntity: FilterDataEntity?, at store: ConvenienceStore)
+    func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore)
+    func update(with products: [ProductDetailEntity], banners: [EventBannerEntity], filterDataEntity: FilterDataEntity?, at store: ConvenienceStore)
     func updateFilter()
     func didStartPaging()
     func didFinishPaging()
@@ -175,8 +175,18 @@ final class EventHomeInteractor:
         }
     }
     
-    func didSelect(with brandProduct: any ProductConvertable) {
-        router?.attachProductDetail(with: brandProduct)
+    func didSelect(with brandProduct: ProductDetailEntity) {
+        router?.attachProductDetail(
+            with: brandProduct,
+            filter: .init(
+                filterType: .unknown,
+                defaultText: "리뷰 정렬",
+                filterItem: [
+                    .init(name: "최신순", code: 0, image: nil),
+                    .init(name: "좋아요순", code: 0, image: nil)
+                ]
+            )
+        )
     }
     
     func popProductDetail() {

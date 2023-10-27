@@ -5,11 +5,11 @@
 //  Created by 김인호 on 2023/07/08.
 //
 
-struct ProductPageEntity<T: ProductConvertable>: Decodable {
-    let totalPages: Int?
-    let totalElements: Int?
+struct ProductPageEntity: Decodable {
+    let totalPages: Int
+    let totalElements: Int
     let size: Int
-    let content: [T]
+    let content: [ProductDetailEntity]
     let number: Int
     let sort: SortEntity
     let isFirst: Bool

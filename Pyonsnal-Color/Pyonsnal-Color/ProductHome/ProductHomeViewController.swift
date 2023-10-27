@@ -13,7 +13,7 @@ protocol ProductHomePresentableListener: AnyObject, FilterRenderable {
     func didTapSearchButton()
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore?, filterList: [Int])
-    func didSelect(with brandProduct: (any ProductConvertable)?)
+    func didSelect(with brandProduct: ProductDetailEntity?)
 }
 
 final class ProductHomeViewController:
@@ -236,7 +236,7 @@ final class ProductHomeViewController:
         present(notificationListViewController, animated: true)
     }
     
-    func updateProducts(with products: [ConvenienceStore: [BrandProductEntity]]) {
+    func updateProducts(with products: [ConvenienceStore: [ProductDetailEntity]]) {
         guard let viewController = viewHolder.productHomePageViewController.viewControllers?.first,
               let productListViewController = viewController as? ProductListViewController
         else {
@@ -248,7 +248,7 @@ final class ProductHomeViewController:
         }
     }
     
-    func updateProducts(with products: [BrandProductEntity], at store: ConvenienceStore) {
+    func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore) {
         if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
             self.currentConvenienceStore = store
             let pageViewController = viewHolder.productHomePageViewController
@@ -260,7 +260,7 @@ final class ProductHomeViewController:
     }
     
     func replaceProducts(
-        with products: [BrandProductEntity],
+        with products: [ProductDetailEntity],
         filterDataEntity: FilterDataEntity?,
         at store: ConvenienceStore
     ) {
@@ -461,7 +461,7 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
         requestProducts(store: currentConvenienceStore)
     }
     
-    func didSelect(with brandProduct: any ProductConvertable) {
+    func didSelect(with brandProduct: ProductDetailEntity) {
         listener?.didSelect(with: brandProduct)
     }
     

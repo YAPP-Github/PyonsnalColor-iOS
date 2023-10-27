@@ -14,8 +14,8 @@ enum FavoriteButtonAction {
 }
 
 protocol FavoritePageTabViewControllerDelegate: AnyObject {
-    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction)
-    func didTapProduct(product: any ProductConvertable)
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
+    func didTapProduct(product: ProductDetailEntity)
     func loadMoreItems()
     func pullToRefresh()
     func loadProducts()
@@ -32,7 +32,7 @@ final class FavoritePageTabViewController: UIViewController {
     }
     
     enum ItemType: Hashable {
-        case product(product: any ProductConvertable)
+        case product(product: ProductDetailEntity)
         case empty
         
         static func == (
@@ -41,7 +41,7 @@ final class FavoritePageTabViewController: UIViewController {
         ) -> Bool {
             switch (lhs, rhs) {
             case (.product(let lProduct), .product(let rProduct)):
-                return lProduct.productId == rProduct.productId
+                return lProduct.id == rProduct.id
             case (.empty, .empty):
                 return true
             default:
@@ -52,7 +52,7 @@ final class FavoritePageTabViewController: UIViewController {
         func hash(into hasher: inout Hasher) {
             switch self {
             case .product(let product):
-                hasher.combine(product.productId)
+                hasher.combine(product.id)
             case .empty:
                 hasher.combine(1)
             }
@@ -77,7 +77,7 @@ final class FavoritePageTabViewController: UIViewController {
     }
     
     // MARK: - Public Method
-    func update(with data: [any ProductConvertable]?) {
+    func update(with data: [ProductDetailEntity]?) {
         self.endRefreshing()
         self.makeSnapshot(with: data)
     }
@@ -133,7 +133,7 @@ final class FavoritePageTabViewController: UIViewController {
         }
     }
     
-    private func makeSnapshot(with data: [any ProductConvertable]?) {
+    private func makeSnapshot(with data: [ProductDetailEntity]?) {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
         
         if let data, !data.isEmpty {
@@ -209,7 +209,7 @@ extension FavoritePageTabViewController: UICollectionViewDelegate {
 
 // MARK: - ProductCellDelegate
 extension FavoritePageTabViewController: ProductCellDelegate {
-    func didTapFavoriteButton(product: any ProductConvertable, action: FavoriteButtonAction) {
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
         delegate?.didTapFavoriteButton(product: product, action: action)
     }
 }

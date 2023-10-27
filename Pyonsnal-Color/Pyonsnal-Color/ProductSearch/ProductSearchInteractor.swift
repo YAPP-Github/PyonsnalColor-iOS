@@ -40,7 +40,7 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     private let pageSize: Int = 20
     private var isCanLoading: Bool = false
     private var totalCount: Int = 0
-    private var eventProductResult: [EventProductEntity] = [] {
+    private var eventProductResult: [ProductDetailEntity] = [] {
         didSet {
             if eventProductResult.isEmpty {
                 presenter.presentProducts(

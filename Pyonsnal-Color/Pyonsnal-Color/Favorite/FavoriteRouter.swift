@@ -63,22 +63,20 @@ final class FavoriteRouter: ViewableRouter<FavoriteInteractable,
         detachChild(productSearchRouting)
     }
     
-    func attachProductDetail(with product: any ProductConvertable) {
+    func attachProductDetail(with product: ProductDetailEntity) {
         if productDetailRouting != nil { return }
         
         let productDetailRouter = productDetail.build(withListener: interactor, product: product)
         productDetailRouting = productDetailRouter
         attachChild(productDetailRouter)
-        let productDetailViewController = productDetailRouting?.viewControllable as? ProductDetailViewController
-        productDetailViewController?.product = product
         viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
     }
     
     func detachProductDetail() {
         guard let productDetailRouting else { return }
         viewController.popViewController(animated: true)
-        self.productDetailRouting = nil
         detachChild(productDetailRouting)
+        self.productDetailRouting = nil
     }
     
 }
