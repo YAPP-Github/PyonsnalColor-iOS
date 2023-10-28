@@ -33,14 +33,18 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     
     weak var router: DetailReviewRouting?
     weak var listener: DetailReviewListener?
+    
     private var cancellable = Set<AnyCancellable>()
     private let component: DetailReviewComponent
+    private let productDetail: ProductDetailEntity
     
-    // TODO: 임시 id 삭제
-    private let productId: String = "0147f0ffc15a4e478c78c6c2b16c4d90"
-    
-    init(presenter: DetailReviewPresentable, component: DetailReviewComponent) {
+    init(
+        presenter: DetailReviewPresentable,
+        component: DetailReviewComponent,
+        productDetail: ProductDetailEntity
+    ) {
         self.component = component
+        self.productDetail = productDetail
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -72,23 +76,28 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     
     func routeToProductDetail() {
         router?.detachPopup()
-        listener?.routeToProductDetail()
+        uploadReview { [weak self] in
+            self?.listener?.routeToProductDetail()
+        }
     }
     
-    private func uploadReview() {
+    private func uploadReview(_ closure: @escaping () -> Void) {
         let image = presenter.getReviewImage()
         
         component.memberAPIService.info()
             .sink { [weak self] response in
+                guard let self else { return }
+                
                 if let memberInfo = response.value {
-                    if let reviewUploadEntity = self?.configureReviewUploadEntity(
+                    if let reviewUploadEntity = self.configureReviewUploadEntity(
                         memberInfo: memberInfo
                     ) {
-                        self?.component.productAPIService.uploadReview(
+                        self.component.productAPIService.uploadReview(
                             reviewUploadEntity,
                             image: image,
-                            productId: self?.productId ?? ""
+                            productId: self.productDetail.id
                         )
+                        closure()
                     }
                 }
             }.store(in: &cancellable)

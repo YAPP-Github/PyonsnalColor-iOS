@@ -41,9 +41,10 @@ extension Config {
         return headers
     }
     
-    func getMultipartFormDataHeader(with id: String) -> [HTTPHeader]? {
-        let header = HTTPHeader(name: "Content-Type", value: "multipart/form-data; boundary=\(id)")
-        self.headers = [header]
+    func getMultipartFormDataHeader(with id: String, token: String) -> [HTTPHeader]? {
+        self.headers = [HTTPHeader(name: "Content-Type", value: "multipart/form-data; boundary=\(id)")]
+        self.headers? += [HTTPHeader(name: "Authorization", value: token)]
+        
         return headers
     }
     

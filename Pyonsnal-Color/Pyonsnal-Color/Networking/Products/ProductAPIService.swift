@@ -144,9 +144,12 @@ final class ProductAPIService {
     
     func uploadReview(_ review: ReviewUploadEntity, image: UIImage?, productId: String) {
         let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
         guard let reviewData = try? encoder.encode(review) else { return }
         
+        print(String(data: reviewData, encoding: .utf8)!)
         AF.upload(multipartFormData: { formData in
+            formData.append(reviewData, withName: "reviewDto", mimeType: "application/json")
             if let imageData = image?.jpegData(compressionQuality: 1) {
                 formData.append(
                     imageData,
@@ -155,10 +158,31 @@ final class ProductAPIService {
                     mimeType: "image/jpeg"
                 )
             }
-            formData.append(reviewData, withName: "reviewDto")
-        }, with: ProductAPI.pbReview(id: productId))
-        .response { _ in
-            
+            if let formData = try? formData.encode() {
+                print(String(data: formData, encoding: .utf8))
+            }
+        }, with: ProductAPI.pbReview(id: productId, review: review))
+        .response { response in
+            response.mapError { _ in
+                if let curlString = response.request?.curlString {
+                    Log.n(message: "Request curl: \(curlString)")
+                } else {
+                    Log.n(message: "Request curl: nil")
+                }
+                guard let responseData = response.data else {
+                    Log.n(message: "\(response.error)")
+                    return NetworkError.emptyResponse
+                }
+                let responseError = try? JSONDecoder().decode(ErrorResponse.self, from: responseData)
+                if let responseError {
+                    Log.n(message: "\(responseError)")
+                    return NetworkError.response(responseError)
+                } else if let responseDataString = String(data: responseData, encoding: .utf8) {
+                    Log.n(message: "Response Body: \(responseDataString)")
+                    return NetworkError.response(.init(code: nil, message: nil, bodyString: responseDataString))
+                }
+                return NetworkError.unknown
+            }
         }
     }
 }

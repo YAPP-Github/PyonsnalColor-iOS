@@ -37,8 +37,8 @@ enum ProductAPI: NetworkRequestBuilder {
     )
     case curationProduct
     case filter
-    case pbReview(id: String)
-    case eventReview(id: String)
+    case pbReview(id: String, review: ReviewUploadEntity)
+    case eventReview(id: String, review: ReviewUploadEntity)
 }
 
 extension ProductAPI {
@@ -82,9 +82,9 @@ extension ProductAPI {
             return "/products/meta-data"
         case .curationProduct:
             return "products/curation"
-        case let .pbReview(id):
+        case let .pbReview(id, _):
             return "/products/pb-products/\(id)/reviews"
-        case let .eventReview(id):
+        case let .eventReview(id, _):
             return "/products/event-products/\(id)/reviews"
         }
     }
@@ -92,9 +92,9 @@ extension ProductAPI {
     var body: [String: Any]? {
         switch self {
         case .brandProduct(_, _, _, let filterList):
-            return ["filterList" : filterList]
+            return ["filterList": filterList]
         case .eventProduct(_, _, _, let filterList):
-            return ["filterList" : filterList]
+            return ["filterList": filterList]
         default:
             return nil
         }
@@ -131,14 +131,14 @@ extension ProductAPI {
     }
     
     var headers: [HTTPHeader]? {
-        switch self {
-        case let .pbReview(id), let .eventReview(id):
-            return Config.shared.getMultipartFormDataHeader(with: id)
-        default:
-            if let accessToken = ProductAPI.accessToken {
+        if let accessToken = ProductAPI.accessToken {
+            switch self {
+            case let .pbReview(id, _), let .eventReview(id, _):
+                return Config.shared.getMultipartFormDataHeader(with: id, token: accessToken)
+            default:
                 return Config.shared.getAuthorizationHeader(with: accessToken)
             }
-            return Config.shared.getDefaultHeader()
         }
+        return Config.shared.getDefaultHeader()
     }
 }

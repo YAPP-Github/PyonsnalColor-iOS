@@ -146,7 +146,13 @@ final class DetailReviewViewController: UIViewController,
     }
     
     func getReviewContents() -> String {
-        return viewHolder.detailReviewTextView.text
+        guard var text = viewHolder.detailReviewTextView.text else { return String() }
+        text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if text == Constant.textViewPlaceholder {
+            return String()
+        }
+        return text
     }
     
     func getReviewImage() -> UIImage? {

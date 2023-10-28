@@ -41,7 +41,6 @@ final class ReviewPopupInteractor: PresentableInteractor<ReviewPopupPresentable>
     }
     
     func didTapApplyButton() {
-        // TODO: 리뷰 작성 API
         listener?.routeToProductDetail()
     }
     

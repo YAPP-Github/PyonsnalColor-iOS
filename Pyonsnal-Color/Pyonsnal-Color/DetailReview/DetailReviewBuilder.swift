@@ -45,7 +45,11 @@ final class DetailReviewBuilder: Builder<DetailReviewDependency>, DetailReviewBu
     ) -> DetailReviewRouting {
         let component = DetailReviewComponent(dependency: dependency)
         let viewController = DetailReviewViewController(productDetail: productDetail, score: score)
-        let interactor = DetailReviewInteractor(presenter: viewController, component: component)
+        let interactor = DetailReviewInteractor(
+            presenter: viewController,
+            component: component,
+            productDetail: productDetail
+        )
         let reviewPopupBuilder = ReviewPopupBuilder(dependency: component)
         interactor.listener = listener
         return DetailReviewRouter(

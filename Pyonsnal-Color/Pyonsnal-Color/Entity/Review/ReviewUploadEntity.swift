@@ -12,7 +12,7 @@ struct ReviewUploadEntity: Encodable {
     let quality: String
     let valueForMoney: String
     let score: Double
-    let contents: String?
+    let contents: String
     let writerId: Int
     let writerName: String
 }
