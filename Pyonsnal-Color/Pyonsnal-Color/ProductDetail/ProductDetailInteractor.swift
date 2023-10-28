@@ -274,9 +274,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func attachStarRatingReview() {
-        guard let productDetail else { return }
-        
-        router?.attachStarRatingReview(with: productDetail)
+        router?.attachStarRatingReview(with: product)
     }
     
     func detachStarRatingReview() {

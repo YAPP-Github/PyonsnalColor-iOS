@@ -60,7 +60,7 @@ final class DetailReviewViewController: UIViewController,
         viewHolder.detailReviewTextView.text = Constant.textViewPlaceholder
         viewHolder.productImageView.setImage(with: productDetail.imageURL)
         viewHolder.productNameLabel.text = productDetail.name
-        setResizedStoreIcon(productDetail.storeType.storeIcon?.image)
+        setResizedStoreIcon(productDetail.storeType.storeIcon.image)
         updateStarRatedView(score: score)
     }
     

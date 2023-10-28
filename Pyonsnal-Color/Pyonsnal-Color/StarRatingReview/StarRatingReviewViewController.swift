@@ -43,10 +43,8 @@ final class StarRatingReviewViewController: UIViewController,
     }
     
     private func configureView() {
-        guard let storeIcon = productDetail.storeType.storeIcon else { return }
-        
         view.backgroundColor = .white
-        viewHolder.storeImageView.setImage(storeIcon)
+        viewHolder.storeImageView.setImage(productDetail.storeType.storeIcon)
         viewHolder.productImageView.setImage(with: productDetail.imageURL)
         viewHolder.productNameLabel.text = productDetail.name
     }

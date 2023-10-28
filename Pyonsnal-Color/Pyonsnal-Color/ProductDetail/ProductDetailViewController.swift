@@ -171,7 +171,7 @@ final class ProductDetailViewController:
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] _ in
                 guard let self else { return }
-                let action: FavoriteButtonAction = viewHolder
+                let action: FavoriteButtonAction = self.viewHolder
                     .backNavigationView.getFavoriteButtonSelected() ? .delete : .add
                 if action == .add {
                     self.listener?.addFavorite()
