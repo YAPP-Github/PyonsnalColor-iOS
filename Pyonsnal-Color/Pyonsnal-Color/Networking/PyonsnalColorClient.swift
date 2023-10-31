@@ -5,7 +5,7 @@
 //  Created by 조소정 on 2023/07/03.
 //
 
-import Foundation
+import UIKit
 import Combine
 import Alamofire
 
@@ -48,5 +48,23 @@ final class PyonsnalColorClient: NetworkRequestable {
                 
                 }
             }.eraseToAnyPublisher()
+    }
+    
+    func upload(
+        _ closure: @escaping (MultipartFormData) -> Void,
+        request: NetworkRequestBuilder,
+        completion: @escaping (Result<Void, AFError>) -> Void
+    ) {
+        AF.upload(multipartFormData: closure, with: request)
+            .validate()
+            .response { response in
+                // TODO: 에러 핸들링
+                switch response.result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
     }
 }

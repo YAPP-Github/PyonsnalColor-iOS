@@ -142,14 +142,17 @@ final class ProductAPIService {
         return client.request(ProductAPI.filter, model: FilterDataEntity.self)
     }
     
-    func uploadReview(_ review: ReviewUploadEntity, image: UIImage?, productId: String) {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        guard let reviewData = try? encoder.encode(review) else { return }
-        
-        print(String(data: reviewData, encoding: .utf8)!)
-        AF.upload(multipartFormData: { formData in
-            formData.append(reviewData, withName: "reviewDto", mimeType: "application/json")
+    func uploadReview(
+        _ review: ReviewUploadEntity,
+        image: UIImage?,
+        productId: String,
+        completion: @escaping () -> Void
+    ) {
+        client.upload({ formData in
+            let encoder = JSONEncoder()
+            guard var reviewData = try? encoder.encode(review) else { return }
+            reviewData.appendString(";type=application/json")
+            formData.append(reviewData, withName: "reviewDto")
             if let imageData = image?.jpegData(compressionQuality: 1) {
                 formData.append(
                     imageData,
@@ -158,31 +161,21 @@ final class ProductAPIService {
                     mimeType: "image/jpeg"
                 )
             }
-            if let formData = try? formData.encode() {
-                print(String(data: formData, encoding: .utf8))
+        }, request: ProductAPI.pbReview(id: productId)) { result in
+            switch result {
+            case .success(_):
+                completion()
+            case .failure(let error):
+                print(error)
             }
-        }, with: ProductAPI.pbReview(id: productId, review: review))
-        .response { response in
-            response.mapError { _ in
-                if let curlString = response.request?.curlString {
-                    Log.n(message: "Request curl: \(curlString)")
-                } else {
-                    Log.n(message: "Request curl: nil")
-                }
-                guard let responseData = response.data else {
-                    Log.n(message: "\(response.error)")
-                    return NetworkError.emptyResponse
-                }
-                let responseError = try? JSONDecoder().decode(ErrorResponse.self, from: responseData)
-                if let responseError {
-                    Log.n(message: "\(responseError)")
-                    return NetworkError.response(responseError)
-                } else if let responseDataString = String(data: responseData, encoding: .utf8) {
-                    Log.n(message: "Response Body: \(responseDataString)")
-                    return NetworkError.response(.init(code: nil, message: nil, bodyString: responseDataString))
-                }
-                return NetworkError.unknown
-            }
+        }
+    }
+}
+
+extension Data {
+    mutating func appendString(_ input: String) {
+        if let input = input.data(using: .utf8) {
+            self.append(input)
         }
     }
 }

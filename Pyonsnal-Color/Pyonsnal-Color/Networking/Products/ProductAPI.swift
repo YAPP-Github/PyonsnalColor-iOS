@@ -37,8 +37,8 @@ enum ProductAPI: NetworkRequestBuilder {
     )
     case curationProduct
     case filter
-    case pbReview(id: String, review: ReviewUploadEntity)
-    case eventReview(id: String, review: ReviewUploadEntity)
+    case pbReview(id: String)
+    case eventReview(id: String)
 }
 
 extension ProductAPI {
@@ -82,9 +82,9 @@ extension ProductAPI {
             return "/products/meta-data"
         case .curationProduct:
             return "products/curation"
-        case let .pbReview(id, _):
+        case let .pbReview(id):
             return "/products/pb-products/\(id)/reviews"
-        case let .eventReview(id, _):
+        case let .eventReview(id):
             return "/products/event-products/\(id)/reviews"
         }
     }
@@ -133,7 +133,7 @@ extension ProductAPI {
     var headers: [HTTPHeader]? {
         if let accessToken = ProductAPI.accessToken {
             switch self {
-            case let .pbReview(id, _), let .eventReview(id, _):
+            case let .pbReview(id), let .eventReview(id):
                 return Config.shared.getMultipartFormDataHeader(with: id, token: accessToken)
             default:
                 return Config.shared.getAuthorizationHeader(with: accessToken)

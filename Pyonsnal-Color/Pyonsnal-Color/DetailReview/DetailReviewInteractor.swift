@@ -35,6 +35,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     weak var listener: DetailReviewListener?
     
     private var cancellable = Set<AnyCancellable>()
+    private var memberInfo: MemberInfoEntity?
     private let component: DetailReviewComponent
     private let productDetail: ProductDetailEntity
     
@@ -51,6 +52,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     
     override func didBecomeActive() {
         super.didBecomeActive()
+        requestMemberInfo()
     }
     
     override func willResignActive() {
@@ -81,26 +83,25 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
         }
     }
     
-    private func uploadReview(_ closure: @escaping () -> Void) {
-        let image = presenter.getReviewImage()
-        
+    private func requestMemberInfo() {
         component.memberAPIService.info()
             .sink { [weak self] response in
-                guard let self else { return }
-                
                 if let memberInfo = response.value {
-                    if let reviewUploadEntity = self.configureReviewUploadEntity(
-                        memberInfo: memberInfo
-                    ) {
-                        self.component.productAPIService.uploadReview(
-                            reviewUploadEntity,
-                            image: image,
-                            productId: self.productDetail.id
-                        )
-                        closure()
-                    }
+                    self?.memberInfo = memberInfo
                 }
             }.store(in: &cancellable)
+    }
+    
+    private func uploadReview(_ closure: @escaping () -> Void) {
+        guard let memberInfo else { return }
+    
+        let image = presenter.getReviewImage()
+        if let reviewUploadEntity = configureReviewUploadEntity(memberInfo: memberInfo) {
+            component.productAPIService.uploadReview(
+                reviewUploadEntity,
+                image: image,
+                productId: productDetail.id) { closure() }
+        }
     }
     
     private func configureReviewUploadEntity(memberInfo: MemberInfoEntity) -> ReviewUploadEntity? {
