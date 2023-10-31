@@ -78,6 +78,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     
     func routeToProductDetail() {
         router?.detachPopup()
+        // 리뷰 작성 API 호출 위치
         uploadReview { [weak self] in
             self?.listener?.routeToProductDetail()
         }

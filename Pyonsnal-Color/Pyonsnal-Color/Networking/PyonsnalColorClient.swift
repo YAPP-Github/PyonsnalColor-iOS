@@ -58,6 +58,7 @@ final class PyonsnalColorClient: NetworkRequestable {
         AF.upload(multipartFormData: closure, with: request)
             .validate()
             .response { response in
+                // response 디버깅 하면 body 부분에 데이터가 안채워져 있슴..
                 // TODO: 에러 핸들링
                 switch response.result {
                 case .success:
