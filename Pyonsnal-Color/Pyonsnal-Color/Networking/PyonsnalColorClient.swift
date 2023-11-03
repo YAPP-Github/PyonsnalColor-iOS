@@ -56,14 +56,13 @@ final class PyonsnalColorClient: NetworkRequestable {
         completion: @escaping (Result<Void, AFError>) -> Void
     ) {
         AF.upload(multipartFormData: closure, with: request)
-            .validate()
+            .validate(statusCode: 200..<300)
             .response { response in
-                // response 디버깅 하면 body 부분에 데이터가 안채워져 있슴..
-                // TODO: 에러 핸들링
                 switch response.result {
                 case .success:
                     completion(.success(()))
                 case .failure(let error):
+                    Log.n(message: "\(error)")
                     completion(.failure(error))
                 }
             }

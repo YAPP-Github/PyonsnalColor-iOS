@@ -150,15 +150,14 @@ final class ProductAPIService {
     ) {
         client.upload({ formData in
             let encoder = JSONEncoder()
-            guard var reviewData = try? encoder.encode(review) else { return }
+            guard let reviewData = try? encoder.encode(review) else { return }
             
-            // 리뷰 엔티티 인코딩해서 업로드 요청
-            formData.append(reviewData, withName: "reviewDto")
+            formData.append(reviewData, withName: "reviewDto", mimeType: "application/json")
             if let imageData = image?.jpegData(compressionQuality: 1) {
                 formData.append(
                     imageData,
-                    withName: "image",
-                    fileName: "\(imageData).jpeg",
+                    withName: "imageFile",
+                    fileName: "image.jpeg",
                     mimeType: "image/jpeg"
                 )
             }

@@ -36,6 +36,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     
     private var cancellable = Set<AnyCancellable>()
     private var memberInfo: MemberInfoEntity?
+    private var isReviewUploading: Bool = false
     private let component: DetailReviewComponent
     private let productDetail: ProductDetailEntity
     
@@ -78,9 +79,12 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     
     func routeToProductDetail() {
         router?.detachPopup()
-        // 리뷰 작성 API 호출 위치
-        uploadReview { [weak self] in
-            self?.listener?.routeToProductDetail()
+        
+        if !isReviewUploading {
+            uploadReview { [weak self] in
+                self?.isReviewUploading = false
+                self?.listener?.routeToProductDetail()
+            }
         }
     }
     
@@ -98,6 +102,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     
         let image = presenter.getReviewImage()
         if let reviewUploadEntity = configureReviewUploadEntity(memberInfo: memberInfo) {
+            isReviewUploading = true
             component.productAPIService.uploadReview(
                 reviewUploadEntity,
                 image: image,
