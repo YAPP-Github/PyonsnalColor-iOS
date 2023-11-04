@@ -133,53 +133,6 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                 )
             )
         }
-//        let dummyReviews = [
-//            ReviewEntity(
-//                reviewId: "ffwae",
-//                taste: .good,
-//                quality: .bad,
-//                valueForMoney: .normal,
-//                score: 4,
-//                contents: "쪼아요\n부우웅...위이잉...\n치...킨.도미노...피짜",
-//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                writerId: 100,
-//                writerName: "류이치",
-//                createdTime: "",
-//                updatedTime: "",
-//                likeCount: ReviewLikeCountEntity(writerIds: [14], likeCount: 10),
-//                hateCount: ReviewHateCountEntity(writerIds: [], hateCount: 32)
-//            ),
-//            ReviewEntity(
-//                reviewId: "fefew",
-//                taste: .good,
-//                quality: .bad,
-//                valueForMoney: .normal,
-//                score: 4,
-//                contents: "쪼아요fejwiofjeawiojfeioajfoieawjfjioaejfiaowjfeoiwajeiofjeoiwjfioejwaiojfeaiwoejf",
-//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                writerId: 100,
-//                writerName: "류이치",
-//                createdTime: "",
-//                updatedTime: "",
-//                likeCount: ReviewLikeCountEntity(writerIds: [], likeCount: 333),
-//                hateCount: ReviewHateCountEntity(writerIds: [14], hateCount: 32)
-//            ),
-//            ReviewEntity(
-//                reviewId: "fgeawe",
-//                taste: .good,
-//                quality: .bad,
-//                valueForMoney: .normal,
-//                score: 4,
-//                contents: "쪼아요\nkkkkkhhuijoijiojoijoijiojoijojioiojij\njoijiojioj\nfaewawefa\nfewaiofjwa\nfjewiao",
-//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                writerId: 100,
-//                writerName: "류이치",
-//                createdTime: "",
-//                updatedTime: "",
-//                likeCount: ReviewLikeCountEntity(writerIds: [], likeCount: 0),
-//                hateCount: ReviewHateCountEntity(writerIds: [], hateCount: 0)
-//            )
-//        ]
         sectionModels.append(
             .init(
                 section: ProductDetailSection.review,
