@@ -65,7 +65,7 @@ final class ProductDetailReviewWriteCell: UICollectionViewCell {
         }
         
         viewHolder.reviewCountLabel.text = "리뷰 \(payload.reviewsCount)개"
-        viewHolder.ratingScoreLabel.text = "\(payload.score)"
+        viewHolder.ratingScoreLabel.text = "\(round(payload.score * 10) / 10)"
         viewHolder.starRatedView.payload = .init(score: payload.score)
         viewHolder.reviewWriteButton.setText(with: "상품 리뷰 작성 하기")
     }
