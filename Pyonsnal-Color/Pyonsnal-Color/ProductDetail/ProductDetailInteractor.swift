@@ -152,11 +152,21 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func reviewLikeButtonDidTap(review: ReviewEntity) {
-        requestReviewLike(reviewID: review.reviewId)
+        guard let memberID =  UserInfoService.shared.memberID,
+              !review.likeCount.writerIds.contains(memberID) else {
+            return
+        }
+        requestReviewLike(reviewID: review.reviewId, writerID: "\(memberID)")
     }
     
     func reviewHateButtonDidTap(review: ReviewEntity) {
-        requestReviewHate(reviewID: review.reviewId)
+        guard let memberID =  UserInfoService.shared.memberID,
+              !review.hateCount.writerIds.contains(memberID) else {
+            return
+        }
+        requestReviewHate(reviewID: review.reviewId, writerID: "\(memberID)")
+    }
+    
     }
     
     private func requestProductDetail() {
