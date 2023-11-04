@@ -12,6 +12,8 @@ protocol ProductDetailRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
     func attachStarRatingReview(with productDetail: ProductDetailEntity)
     func detachStarRatingReview()
+    func attachProductFilter(of filter: FilterEntity)
+    func detachProductFilter()
 }
 
 protocol ProductDetailPresentable: Presentable {
@@ -28,7 +30,7 @@ protocol ProductDetailListener: AnyObject {
 final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresentable>,
                                      ProductDetailInteractable,
                                      ProductDetailPresentableListener {
-
+    
     weak var router: ProductDetailRouting?
     weak var listener: ProductDetailListener?
 
@@ -36,6 +38,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     private let favoriteAPIService: FavoriteAPIService
     private let dependency: ProductDetailDependency
     private(set) var product: ProductDetailEntity
+    private var sortItem: FilterItemEntity = .init(name: "최신순", code: 0, image: nil, isSelected: true)
     private var cancellable = Set<AnyCancellable>()
     
     // in constructor.
@@ -127,7 +130,8 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                     items: [
                         ProductDetailSectionItem.reviewWrite(
                             score: avgScore,
-                            reviewsCount: productDetail.reviews.count
+                            reviewsCount: productDetail.reviews.count,
+                            sortItem: sortItem
                         )
                     ]
                 )
@@ -147,8 +151,20 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func sortButtonDidTap() {
-//
-//        router?.
+        var filterItems: [FilterItemEntity] = [
+            .init(name: "최신순", code: 0, image: nil),
+            .init(name: "좋아요순", code: 1, image: nil)
+        ]
+        if let index = filterItems.firstIndex { $0.code == sortItem.code } {
+            filterItems[index] = sortItem
+        }
+        router?.attachProductFilter(
+            of: .init(
+                filterType: .sort,
+                defaultText: "최신순",
+                filterItem: filterItems
+            )
+        )
     }
     
     func reviewLikeButtonDidTap(review: ReviewEntity) {
@@ -167,6 +183,35 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         requestReviewHate(reviewID: review.reviewId, writerID: "\(memberID)")
     }
     
+    func applyFilterItems(_ items: [FilterItemEntity], type: FilterType) {
+    }
+    
+    func applySortFilter(item: FilterItemEntity) {
+        sortItem = item
+        sortItem.isSelected = true
+        updateReviewSort(item: item)
+        router?.detachProductFilter()
+    }
+    
+    func productFilterDidTapCloseButton() {
+        router?.detachProductFilter()
+    }
+    
+    private func updateReviewSort(item: FilterItemEntity) {
+        switch item.code {
+        case 0:
+            var updatedReviews = product.reviews
+            updatedReviews.sort(by: { $0.createdTime.date ?? .init() > $1.createdTime.date ?? .init() })
+            let updatedProduct = product.updateReviews(reviews: updatedReviews)
+            reloadData(with: updatedProduct)
+        case 1:
+            var updatedReviews = product.reviews
+            updatedReviews.sort(by: { $0.likeCount.likeCount > $1.likeCount.likeCount })
+            let updatedProduct = product.updateReviews(reviews: updatedReviews)
+            reloadData(with: updatedProduct)
+        default:
+            return
+        }
     }
     
     private func requestProductDetail() {

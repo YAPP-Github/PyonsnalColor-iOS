@@ -35,4 +35,11 @@ extension String {
     var encodedURLString: String? {
         return self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
     }
+    
+    var date: Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = .current
+        return dateFormatter.date(from: self)
+    }
 }

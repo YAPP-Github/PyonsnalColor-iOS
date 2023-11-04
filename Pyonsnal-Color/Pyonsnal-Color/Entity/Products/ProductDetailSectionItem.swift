@@ -10,6 +10,6 @@ import Foundation
 enum ProductDetailSectionItem {
     case image(imageURL: URL)
     case information(product: ProductDetailEntity)
-    case reviewWrite(score: Double, reviewsCount: Int)
+    case reviewWrite(score: Double, reviewsCount: Int, sortItem: FilterItemEntity)
     case review(productReview: ReviewEntity)
 }

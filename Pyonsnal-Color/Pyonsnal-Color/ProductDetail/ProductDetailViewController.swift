@@ -168,11 +168,15 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             )
             informationCell.payload = .init(productDetail: entity)
             return informationCell
-        case let .reviewWrite(score, reviewsCount):
+        case let .reviewWrite(score, reviewsCount, sortItem):
             let reviewWriteCell: ProductDetailReviewWriteCell = collectionView.dequeueReusableCell(
                 for: indexPath
             )
-            reviewWriteCell.payload = .init(score: score, reviewsCount: reviewsCount)
+            reviewWriteCell.payload = .init(
+                score: score,
+                reviewsCount: reviewsCount,
+                sortItem: sortItem
+            )
             reviewWriteCell.delegate = self
             return reviewWriteCell
         case let .review(entity):
@@ -303,7 +307,7 @@ extension ProductDetailViewController: ProductDetailReviewWriteCellDelegate {
     }
     
     func sortButtonDidTap() {
-        print("Sort")
+        listener?.sortButtonDidTap()
     }
 }
 

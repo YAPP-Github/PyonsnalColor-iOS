@@ -11,7 +11,9 @@ protocol ProductDetailDependency: Dependency {
     var productAPIService: ProductAPIService { get }
 }
 
-final class ProductDetailComponent: Component<ProductDetailDependency>, StarRatingReviewDependency {
+final class ProductDetailComponent: Component<ProductDetailDependency>, 
+                                    StarRatingReviewDependency,
+                                    ProductFilterDependency {
 
     fileprivate let favoriteAPIService: FavoriteAPIService
     let client = PyonsnalColorClient()
@@ -48,11 +50,14 @@ final class ProductDetailBuilder: Builder<ProductDetailDependency>, ProductDetai
             product: product
         )
         let starRatingReviewBuilder = StarRatingReviewBuilder(dependency: component)
+        let productFilter: ProductFilterBuilder = .init(dependency: component)
+        
         interactor.listener = listener
         return ProductDetailRouter(
             interactor: interactor,
             viewController: viewController,
-            starRatingReviewBuilder: starRatingReviewBuilder
+            starRatingReviewBuilder: starRatingReviewBuilder,
+            productFilter: productFilter
         )
     }
 }
