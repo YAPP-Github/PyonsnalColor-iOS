@@ -20,6 +20,8 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
     
     private let productFilter: ProductFilterBuildable
     private var productFilterRouting: ProductFilterRouting?
+    private let starRatingReviewBuilder: StarRatingReviewBuildable
+    private var starRatingReviewRouting: StarRatingReviewRouting?
 
     // TODO: Constructor inject child builder protocols to allow building children.
 
@@ -53,6 +55,7 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
         viewController.popViewController(animated: true)
         self.starRatingReviewRouting = nil
         detachChild(starRatingReviewRouting)
+    }
 
     func attachProductFilter(of filter: FilterEntity) {
         guard productFilterRouting == nil else { return }
