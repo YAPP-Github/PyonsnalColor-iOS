@@ -157,7 +157,7 @@ final class DetailReviewViewController: UIViewController,
     
     func getReviewImage() -> UIImage? {
         guard let image = viewHolder.imageUploadButton.imageView?.image,
-              image != UIImage(systemName: "plus")
+              image != Constant.imageUploadIcon
         else {
             return nil
         }
@@ -182,7 +182,8 @@ extension DetailReviewViewController: UITextViewDelegate {
     }
 }
 
-extension DetailReviewViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension DetailReviewViewController: UIImagePickerControllerDelegate,
+                                      UINavigationControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]

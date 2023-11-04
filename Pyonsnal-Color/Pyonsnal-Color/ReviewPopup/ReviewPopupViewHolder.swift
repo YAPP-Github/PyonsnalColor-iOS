@@ -11,7 +11,6 @@ import SnapKit
 extension ReviewPopupViewController {
     final class ViewHolder: ViewHolderable {
         enum Constant {
-            enum Size {
                 static let topBottomMargin: CGFloat = .spacing40
                 static let leftRightMargin: CGFloat = .spacing20
                 static let titleStackViewSpacing: CGFloat = .spacing8
@@ -20,7 +19,6 @@ extension ReviewPopupViewController {
                 static let popupHeight: CGFloat = 228
                 static let buttonWidth: CGFloat = 151
                 static let buttonHeight: CGFloat = 52
-            }
         }
         
         private let containerView: UIView = .init(frame: .zero)
@@ -35,7 +33,7 @@ extension ReviewPopupViewController {
         private let textStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.spacing = Constant.Size.titleStackViewSpacing
+            stackView.spacing = Constant.titleStackViewSpacing
             stackView.alignment = .center
             return stackView
         }()
@@ -57,7 +55,7 @@ extension ReviewPopupViewController {
         private let buttonStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .horizontal
-            stackView.spacing = Constant.Size.buttonStackViewSpacing
+            stackView.spacing = Constant.buttonStackViewSpacing
             stackView.alignment = .center
             return stackView
         }()
@@ -101,16 +99,16 @@ extension ReviewPopupViewController {
                 $0.centerX.centerY.equalToSuperview()
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.trailing.equalToSuperview().inset(.spacing16)
-                $0.height.equalTo(Constant.Size.popupHeight)
+                $0.height.equalTo(Constant.popupHeight)
             }
             
             textStackView.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(Constant.Size.topBottomMargin)
+                $0.top.equalToSuperview().offset(Constant.topBottomMargin)
                 $0.centerX.equalToSuperview()
             }
             
             buttonStackView.snp.makeConstraints {
-                $0.bottom.equalToSuperview().inset(Constant.Size.topBottomMargin)
+                $0.bottom.equalToSuperview().inset(Constant.topBottomMargin)
                 $0.centerX.equalToSuperview()
             }
             
@@ -123,13 +121,13 @@ extension ReviewPopupViewController {
             }
             
             dismissButton.snp.makeConstraints {
-                $0.width.equalTo(Constant.Size.buttonWidth)
-                $0.height.equalTo(Constant.Size.buttonHeight)
+                $0.width.equalTo(Constant.buttonWidth)
+                $0.height.equalTo(Constant.buttonHeight)
             }
             
             confirmButton.snp.makeConstraints {
-                $0.width.equalTo(Constant.Size.buttonWidth)
-                $0.height.equalTo(Constant.Size.buttonHeight)
+                $0.width.equalTo(Constant.buttonWidth)
+                $0.height.equalTo(Constant.buttonHeight)
             }
         }
     }

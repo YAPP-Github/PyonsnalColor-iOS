@@ -73,10 +73,10 @@ final class StarRatingView: UIView {
     }
     
     private func didTapRatingButton(_ sender: UIButton) {
-        let index = sender.tag
+        let selectedIndex = sender.tag
         
         for (index, starView) in starViews.enumerated() {
-            if index <= index {
+            if index <= selectedIndex {
                 starView.setFilledStarImage()
             } else {
                 starView.setStarImage()

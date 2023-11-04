@@ -17,6 +17,9 @@ extension StarRatingReviewViewController {
             static let titleSpacing: CGFloat = 100
             static let productSpacing: CGFloat = 40
             static let starRatingSpacing: CGFloat = 60
+            
+            static let storeImageHeight: CGFloat = 30
+            static let productImageSize: CGFloat = 160
         }
         
         let backNavigationView: BackNavigationView = {
@@ -94,11 +97,11 @@ extension StarRatingReviewViewController {
             }
             
             storeImageView.snp.makeConstraints {
-                $0.height.equalTo(30)
+                $0.height.equalTo(Constant.storeImageHeight)
             }
             
             productImageView.snp.makeConstraints {
-                $0.width.height.equalTo(160)
+                $0.width.height.equalTo(Constant.productImageSize)
             }
             
             starRatingView.snp.makeConstraints {

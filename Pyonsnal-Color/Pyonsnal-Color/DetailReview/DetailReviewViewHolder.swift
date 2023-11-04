@@ -35,6 +35,8 @@ extension DetailReviewViewController {
             
             static let applyReviewTitle: String = "작성 완료"
             static let optionalText: String = " (선택)"
+            
+            static let imageUploadIcon: UIImage? = .init(systemName: "plus")
         }
         
         let backNavigationView: BackNavigationView = {
@@ -229,7 +231,7 @@ extension DetailReviewViewController {
             button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
             button.makeRounded(with: .spacing16)
             button.backgroundColor = .gray100
-            button.setImage(.init(systemName: "plus"), for: .normal)
+            button.setImage(Constant.imageUploadIcon, for: .normal)
             button.tintColor = .gray400
             return button
         }()
