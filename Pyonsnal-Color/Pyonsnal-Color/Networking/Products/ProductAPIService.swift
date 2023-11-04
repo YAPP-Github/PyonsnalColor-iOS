@@ -46,22 +46,24 @@ final class ProductAPIService {
     
     func requestBrandProductReviewLike(
         productID: String,
-        reviewID: String
+        reviewID: String,
+        writerID: String
     ) -> AnyPublisher<DataResponse<EmptyResponse, NetworkError>, Never> {
         ProductAPI.accessToken = accessToken
         return client.request(
-            ProductAPI.brandReviewLike(productID: productID, reviewID: reviewID),
+            ProductAPI.brandReviewLike(productID: productID, reviewID: reviewID, writerID: writerID),
             model: EmptyResponse.self
         )
     }
     
     func requestBrandProductReviewHate(
         productID: String,
-        reviewID: String
+        reviewID: String,
+        writerID: String
     ) -> AnyPublisher<DataResponse<EmptyResponse, NetworkError>, Never> {
         ProductAPI.accessToken = accessToken
         return client.request(
-            ProductAPI.brandReviewHate(productID: productID, reviewID: reviewID),
+            ProductAPI.brandReviewHate(productID: productID, reviewID: reviewID, writerID: writerID),
             model: EmptyResponse.self
         )
     }
@@ -91,22 +93,24 @@ final class ProductAPIService {
     
     func requestEventProductReviewLike(
         productID: String,
-        reviewID: String
+        reviewID: String,
+        writerID: String
     ) -> AnyPublisher<DataResponse<EmptyResponse, NetworkError>, Never> {
         ProductAPI.accessToken = accessToken
         return client.request(
-            ProductAPI.eventReviewLike(productID: productID, reviewID: reviewID),
+            ProductAPI.eventReviewLike(productID: productID, reviewID: reviewID, writerID: writerID),
             model: EmptyResponse.self
         )
     }
     
     func requestEventProductReviewHate(
         productID: String,
-        reviewID: String
+        reviewID: String,
+        writerID: String
     ) -> AnyPublisher<DataResponse<EmptyResponse, NetworkError>, Never> {
         ProductAPI.accessToken = accessToken
         return client.request(
-            ProductAPI.eventReviewHate(productID: productID, reviewID: reviewID),
+            ProductAPI.eventReviewHate(productID: productID, reviewID: reviewID, writerID: writerID),
             model: EmptyResponse.self
         )
     }

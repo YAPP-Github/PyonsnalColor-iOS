@@ -17,8 +17,8 @@ enum ProductAPI: NetworkRequestBuilder {
         filterList: [Int]
     )
     case brandDetail(id: String)
-    case brandReviewLike(productID: String, reviewID: String)
-    case brandReviewHate(productID: String, reviewID: String)
+    case brandReviewLike(productID: String, reviewID: String, writerID: String)
+    case brandReviewHate(productID: String, reviewID: String, writerID: String)
     case eventProduct(
         pageNumber: Int,
         pageSize: Int,
@@ -27,8 +27,8 @@ enum ProductAPI: NetworkRequestBuilder {
     )
     case eventBanner(storeType: ConvenienceStore)
     case eventDetail(id: String)
-    case eventReviewLike(productID: String, reviewID: String)
-    case eventReviewHate(productID: String, reviewID: String)
+    case eventReviewLike(productID: String, reviewID: String, writerID: String)
+    case eventReviewHate(productID: String, reviewID: String, writerID: String)
     case search(
         pageNumber: Int,
         pageSize: Int,
@@ -62,17 +62,17 @@ extension ProductAPI {
             return "/products/pb-products"
         case .brandDetail(let id):
             return "/products/pb-products/\(id)"
-        case .brandReviewLike(let productID, let reviewID):
+        case .brandReviewLike(let productID, let reviewID, _):
             return "/products/pb-products/\(productID)/reviews/\(reviewID)/like"
-        case .brandReviewHate(let productID, let reviewID):
+        case .brandReviewHate(let productID, let reviewID, _):
             return "/products/pb-products/\(productID)/reviews/\(reviewID)/hate"
         case .eventProduct:
             return "/products/event-products"
         case .eventDetail(let id):
             return "/products/event-products/\(id)"
-        case .eventReviewLike(let productID, let reviewID):
+        case .eventReviewLike(let productID, let reviewID, _):
             return "/products/pb-products/\(productID)/reviews/\(reviewID)/like"
-        case .eventReviewHate(let productID, let reviewID):
+        case .eventReviewHate(let productID, let reviewID, _):
             return "/products/pb-products/\(productID)/reviews/\(reviewID)/hate"
         case .eventBanner:
             return "/promotions"
@@ -121,6 +121,14 @@ extension ProductAPI {
             if let sortedCode {
                 queryItems.append(URLQueryItem(name: "sortedCode", value: "\(sortedCode)"))
             }
+        case let .brandReviewLike(_, _, writerID):
+            queryItems.append(.init(name: "writerId", value: writerID))
+        case let .brandReviewHate(_, _, writerID):
+            queryItems.append(.init(name: "writerId", value: writerID))
+        case let .eventReviewLike(_, _, writerID):
+            queryItems.append(.init(name: "writerId", value: writerID))
+        case let .eventReviewHate(_, _, writerID):
+            queryItems.append(.init(name: "writerId", value: writerID))
         case .curationProduct:
             break
         case .filter, .brandDetail, .eventDetail, .brandReviewLike, .brandReviewHate, .eventReviewLike, .eventReviewHate, .pbReview, .eventReview:

@@ -190,12 +190,13 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         }
     }
     
-    private func requestReviewLike(reviewID: String) {
+    private func requestReviewLike(reviewID: String, writerID: String) {
         switch product.productType {
         case .pb:
             dependency.productAPIService.requestBrandProductReviewLike(
                 productID: product.id,
-                reviewID: reviewID
+                reviewID: reviewID,
+                writerID: writerID
             )
             .sink { [weak self] _ in
                 self?.updateReviewLike(reviewID: reviewID)
@@ -204,7 +205,8 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         case .event:
             dependency.productAPIService.requestEventProductReviewLike(
                 productID: product.id,
-                reviewID: reviewID
+                reviewID: reviewID,
+                writerID: writerID
             )
             .sink { [weak self] _ in
                 self?.updateReviewLike(reviewID: reviewID)
@@ -213,12 +215,13 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         }
     }
     
-    private func requestReviewHate(reviewID: String) {
+    private func requestReviewHate(reviewID: String, writerID: String) {
         switch product.productType {
         case .pb:
             dependency.productAPIService.requestBrandProductReviewHate(
                 productID: product.id,
-                reviewID: reviewID
+                reviewID: reviewID,
+                writerID: writerID
             )
             .sink { [weak self] _ in
                 self?.updateReviewHate(reviewID: reviewID)
@@ -227,7 +230,8 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         case .event:
             dependency.productAPIService.requestEventProductReviewHate(
                 productID: product.id,
-                reviewID: reviewID
+                reviewID: reviewID,
+                writerID: writerID
             )
             .sink { [weak self] _ in
                 self?.updateReviewHate(reviewID: reviewID)
@@ -255,10 +259,14 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             return
         }
         let review = product.reviews[reviewIndex]
-        var writerIds = review.likeCount.writerIds
-        writerIds.append(memberID)
+        var likeWriterIds = review.likeCount.writerIds
+        likeWriterIds.append(memberID)
+        
+        let hateWriterIds = review.hateCount.writerIds.filter { $0 != memberID }
+        let hateCount = hateWriterIds.count
         let updatedReview = review.update(
-            likeCount: .init(writerIds: writerIds, likeCount: review.likeCount.likeCount + 1)
+            likeCount: .init(writerIds: likeWriterIds, likeCount: review.likeCount.likeCount + 1),
+            hateCount: .init(writerIds: hateWriterIds, hateCount: hateCount)
         )
         
         var updatedReviews = product.reviews
@@ -278,10 +286,15 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             return
         }
         let review = product.reviews[reviewIndex]
-        var writerIds = review.hateCount.writerIds
-        writerIds.append(memberID)
+        var hateWriterIds = review.hateCount.writerIds
+        hateWriterIds.append(memberID)
+        
+        let likeWriterIds = review.hateCount.writerIds.filter { $0 != memberID }
+        let likeCount = likeWriterIds.count
+        
         let updatedReview = review.update(
-            hateCount: .init(writerIds: writerIds, hateCount: review.hateCount.hateCount + 1)
+            likeCount: .init(writerIds: likeWriterIds, likeCount: likeCount),
+            hateCount: .init(writerIds: hateWriterIds, hateCount: review.hateCount.hateCount + 1)
         )
         
         var updatedReviews = product.reviews
