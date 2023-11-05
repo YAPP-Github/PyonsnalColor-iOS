@@ -8,17 +8,9 @@
 import UIKit
 
 extension UIImage {
-    func resize(targetSize: CGSize, opaque: Bool = false) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(targetSize, opaque, 0)
-        guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        
-        context.interpolationQuality = .high
-        let newRect = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
-        draw(in: newRect)
-
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        
-        UIGraphicsEndImageContext()
-        return newImage
+    func resize(targetSize: CGSize) -> UIImage? {
+        return UIGraphicsImageRenderer(size: targetSize).image { _ in
+            draw(in: .init(origin: .zero, size: targetSize))
+        }
     }
 }

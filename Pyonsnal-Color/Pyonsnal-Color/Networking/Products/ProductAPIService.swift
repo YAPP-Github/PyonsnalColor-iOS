@@ -166,7 +166,7 @@ final class ProductAPIService {
             case .success(_):
                 completion()
             case .failure(let error):
-                print(error)
+                Log.n(message: "error: \(error)")
             }
         }
     }
