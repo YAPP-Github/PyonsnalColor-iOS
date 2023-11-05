@@ -21,6 +21,17 @@ enum ReviewEvaluationKind {
         }
     }
     
+    var detailReviewTitle: String {
+        switch self {
+        case .taste:
+            return "상품의 맛은 어떤가요?"
+        case .quality:
+            return "상품의 퀄리티는 어떤가요?"
+        case .valueForMoney:
+            return "상품의 가격은 어떤가요?"
+        }
+    }
+    
     var goodStateText: String {
         switch self {
         case .taste:

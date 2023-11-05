@@ -13,6 +13,7 @@ extension ImageAssetKind {
         case iconPyonsnalColor = "icon_pyonsnalColor"
         case iconSearch = "icon_search"
         case iconDelete = "icon_delete"
+        case iconDeleteMedium = "icon_delete_medium"
         case iconCheck = "icon_check"
         case iconReview = "icon_review"
         case iconThumbsDownFilled = "icon_thumbsDown_filled"

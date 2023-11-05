@@ -9,6 +9,9 @@ import ModernRIBs
 import Combine
 
 protocol ProductDetailRouting: ViewableRouting {
+    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func attachStarRatingReview(with productDetail: ProductDetailEntity)
+    func detachStarRatingReview()
 }
 
 protocol ProductDetailPresentable: Presentable {
@@ -268,6 +271,14 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             }
             .store(in: &cancellable)
         }
+    }
+    
+    func attachStarRatingReview() {
+        router?.attachStarRatingReview(with: product)
+    }
+    
+    func detachStarRatingReview() {
+        router?.detachStarRatingReview()
     }
     
     private func updateReviewLike(reviewID: String) {

@@ -60,14 +60,13 @@ final class StarRatedView: UIView {
     
     private func configureStarViews() {
         for index in 0..<totalCount {
-            let starView = StarView(mode: .medium)
-            starView.tag = index
+            let starView = StarView(index: index, mode: .medium)
             starViews.append(starView)
             stackView.addArrangedSubview(starView)
         }
     }
     
-    private func updateScore(to score: Double) {
+    func updateScore(to score: Double) {
         for (index, starView) in starViews.enumerated() {
             if index < Int(score) {
                 starView.setFilledStarImage()

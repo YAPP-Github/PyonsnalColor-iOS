@@ -19,6 +19,7 @@ protocol ProductDetailPresentableListener: AnyObject {
     func sortButtonDidTap()
     func reviewLikeButtonDidTap(review: ReviewEntity)
     func reviewHateButtonDidTap(review: ReviewEntity)
+    func attachStarRatingReview()
 }
 
 final class ProductDetailViewController:
@@ -60,6 +61,12 @@ final class ProductDetailViewController:
         viewHolder.backNavigationView.setFavoriteButtonSelected(isSelected: isSelected)
         viewHolder.collectionView.dataSource = self
         viewHolder.collectionView.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        listener?.attachStarRatingReview()
     }
     
     // MARK: - Private Method
@@ -164,12 +171,12 @@ final class ProductDetailViewController:
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] _ in
                 guard let self else { return }
-                let action: FavoriteButtonAction = viewHolder
+                let action: FavoriteButtonAction = self.viewHolder
                     .backNavigationView.getFavoriteButtonSelected() ? .delete : .add
                 if action == .add {
-                    listener?.addFavorite()
+                    self.listener?.addFavorite()
                 } else if action == .delete {
-                    listener?.deleteFavorite()
+                    self.listener?.deleteFavorite()
                 }
             }.store(in: &cancellable)
         
@@ -375,7 +382,7 @@ extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProductDetailViewController: ProductDetailReviewWriteCellDelegate {
     func writeButtonDidTap() {
-        print("Write")
+        listener?.attachStarRatingReview()
     }
     
     func sortButtonDidTap() {
