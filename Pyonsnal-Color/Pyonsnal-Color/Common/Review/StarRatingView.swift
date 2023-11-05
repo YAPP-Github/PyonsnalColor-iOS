@@ -51,8 +51,7 @@ final class StarRatingView: UIView {
     
     private func configureStarViews() {
         for index in 0..<totalCount {
-            let starView = StarView(mode: .large)
-            starView.tag = index
+            let starView = StarView(index: index, mode: .large)
             starViews.append(starView)
             stackView.addArrangedSubview(starView)
         }
@@ -64,7 +63,7 @@ final class StarRatingView: UIView {
             button
                 .tapPublisher
                 .sink { [weak self] in
-                    let score = button.tag + 1
+                    let score = button.index + 1
                     
                     self?.didTapRatingButton(button)
                     self?.delegate?.didTapRatingButton(score: score)
@@ -73,7 +72,8 @@ final class StarRatingView: UIView {
     }
     
     private func didTapRatingButton(_ sender: UIButton) {
-        let selectedIndex = sender.tag
+        guard let starView = sender as? StarView else { return }
+        let selectedIndex = starView.index
         
         for (index, starView) in starViews.enumerated() {
             if index <= selectedIndex {

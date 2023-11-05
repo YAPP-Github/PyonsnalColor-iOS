@@ -17,6 +17,7 @@ final class StarView: UIButton {
         static let starFilled: String = "star_filled"
     }
     
+    let index: Int
     private let mode: ViewMode
     private let maxScore: Double = 1.0
     private var starImage: UIImage? {
@@ -26,7 +27,8 @@ final class StarView: UIButton {
         return UIImage(named: "\(Image.starFilled)_\(mode.rawValue)")
     }
     
-    init(mode: ViewMode) {
+    init(index: Int, mode: ViewMode) {
+        self.index = index
         self.mode = mode
         super.init(frame: .zero)
 

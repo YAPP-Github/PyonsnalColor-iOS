@@ -60,8 +60,7 @@ final class StarRatedView: UIView {
     
     private func configureStarViews() {
         for index in 0..<totalCount {
-            let starView = StarView(mode: .medium)
-            starView.tag = index
+            let starView = StarView(index: index, mode: .medium)
             starViews.append(starView)
             stackView.addArrangedSubview(starView)
         }
