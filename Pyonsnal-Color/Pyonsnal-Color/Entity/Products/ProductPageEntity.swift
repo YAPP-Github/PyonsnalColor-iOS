@@ -6,8 +6,8 @@
 //
 
 struct ProductPageEntity: Decodable {
-    let totalPages: Int
-    let totalElements: Int
+    let totalPages: Int?
+    let totalElements: Int?
     let size: Int
     let content: [ProductDetailEntity]
     let number: Int
