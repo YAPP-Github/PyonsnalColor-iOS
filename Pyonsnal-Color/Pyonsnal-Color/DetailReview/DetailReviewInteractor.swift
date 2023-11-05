@@ -98,15 +98,28 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     }
     
     private func uploadReview(_ closure: @escaping () -> Void) {
-        guard let memberInfo else { return }
+        guard let memberInfo,
+              let reviewUploadEntity = configureReviewUploadEntity(memberInfo: memberInfo)
+        else {
+            return
+        }
     
         let image = presenter.getReviewImage()
-        if let reviewUploadEntity = configureReviewUploadEntity(memberInfo: memberInfo) {
-            isReviewUploading = true
-            component.productAPIService.uploadReview(
+        
+        isReviewUploading = true
+        switch productDetail.productType {
+        case .pb:
+            component.productAPIService.uploadPBReview(
                 reviewUploadEntity,
                 image: image,
-                productId: productDetail.id) { closure() }
+                productId: productDetail.id
+            ) { closure() }
+        case .event:
+            component.productAPIService.uploadEventReview(
+                reviewUploadEntity,
+                image: image,
+                productId: productDetail.id
+            ) { closure() }
         }
     }
     

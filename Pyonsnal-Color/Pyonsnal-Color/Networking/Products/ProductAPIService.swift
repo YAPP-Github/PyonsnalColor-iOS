@@ -146,7 +146,7 @@ final class ProductAPIService {
         return client.request(ProductAPI.filter, model: FilterDataEntity.self)
     }
     
-    func uploadReview(
+    func uploadPBReview(
         _ review: ReviewUploadEntity,
         image: UIImage?,
         productId: String,
@@ -166,6 +166,35 @@ final class ProductAPIService {
                 )
             }
         }, request: ProductAPI.pbReview(id: productId)) { result in
+            switch result {
+            case .success(_):
+                completion()
+            case .failure(let error):
+                Log.n(message: "error: \(error)")
+            }
+        }
+    }
+    
+    func uploadEventReview(
+        _ review: ReviewUploadEntity,
+        image: UIImage?,
+        productId: String,
+        completion: @escaping () -> Void
+    ) {
+        client.upload({ formData in
+            let encoder = JSONEncoder()
+            guard let reviewData = try? encoder.encode(review) else { return }
+            
+            formData.append(reviewData, withName: "reviewDto", mimeType: "application/json")
+            if let imageData = image?.jpegData(compressionQuality: 1) {
+                formData.append(
+                    imageData,
+                    withName: "imageFile",
+                    fileName: "image.jpeg",
+                    mimeType: "image/jpeg"
+                )
+            }
+        }, request: ProductAPI.eventReview(id: productId)) { result in
             switch result {
             case .success(_):
                 completion()
