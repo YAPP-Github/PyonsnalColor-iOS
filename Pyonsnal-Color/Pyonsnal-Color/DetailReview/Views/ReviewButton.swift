@@ -37,11 +37,7 @@ final class ReviewButton: UIButton {
         setTitle(text, for: .normal)
     }
     
-    func setSelectedState() {
-        removeBorder()
-    }
-    
-    func setUnselectedState() {
+    private func setUnselectedState() {
         makeBorder(width: Constant.borderWidth, color: UIColor.gray200.cgColor)
     }
 }

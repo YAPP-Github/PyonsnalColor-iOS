@@ -171,11 +171,3 @@ final class ProductAPIService {
         }
     }
 }
-
-extension Data {
-    mutating func appendString(_ input: String) {
-        if let input = input.data(using: .utf8) {
-            self.append(input)
-        }
-    }
-}
