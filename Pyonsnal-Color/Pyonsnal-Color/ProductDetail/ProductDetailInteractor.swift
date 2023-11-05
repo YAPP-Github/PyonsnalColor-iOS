@@ -12,6 +12,8 @@ protocol ProductDetailRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
     func attachStarRatingReview(with productDetail: ProductDetailEntity)
     func detachStarRatingReview()
+    func attachProductFilter(of filter: FilterEntity)
+    func detachProductFilter()
 }
 
 protocol ProductDetailPresentable: Presentable {
@@ -28,7 +30,7 @@ protocol ProductDetailListener: AnyObject {
 final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresentable>,
                                      ProductDetailInteractable,
                                      ProductDetailPresentableListener {
-
+    
     weak var router: ProductDetailRouting?
     weak var listener: ProductDetailListener?
 
@@ -36,6 +38,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     private let favoriteAPIService: FavoriteAPIService
     private let dependency: ProductDetailDependency
     private(set) var product: ProductDetailEntity
+    private var sortItem: FilterItemEntity = .init(name: "최신순", code: 0, image: nil, isSelected: true)
     private var cancellable = Set<AnyCancellable>()
     
     // in constructor.
@@ -127,59 +130,13 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                     items: [
                         ProductDetailSectionItem.reviewWrite(
                             score: avgScore,
-                            reviewsCount: productDetail.reviews.count
+                            reviewsCount: productDetail.reviews.count,
+                            sortItem: sortItem
                         )
                     ]
                 )
             )
         }
-//        let dummyReviews = [
-//            ReviewEntity(
-//                reviewId: "ffwae",
-//                taste: .good,
-//                quality: .bad,
-//                valueForMoney: .normal,
-//                score: 4,
-//                contents: "쪼아요\n부우웅...위이잉...\n치...킨.도미노...피짜",
-//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                writerId: 100,
-//                writerName: "류이치",
-//                createdTime: "",
-//                updatedTime: "",
-//                likeCount: ReviewLikeCountEntity(writerIds: [14], likeCount: 10),
-//                hateCount: ReviewHateCountEntity(writerIds: [], hateCount: 32)
-//            ),
-//            ReviewEntity(
-//                reviewId: "fefew",
-//                taste: .good,
-//                quality: .bad,
-//                valueForMoney: .normal,
-//                score: 4,
-//                contents: "쪼아요fejwiofjeawiojfeioajfoieawjfjioaejfiaowjfeoiwajeiofjeoiwjfioejwaiojfeaiwoejf",
-//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                writerId: 100,
-//                writerName: "류이치",
-//                createdTime: "",
-//                updatedTime: "",
-//                likeCount: ReviewLikeCountEntity(writerIds: [], likeCount: 333),
-//                hateCount: ReviewHateCountEntity(writerIds: [14], hateCount: 32)
-//            ),
-//            ReviewEntity(
-//                reviewId: "fgeawe",
-//                taste: .good,
-//                quality: .bad,
-//                valueForMoney: .normal,
-//                score: 4,
-//                contents: "쪼아요\nkkkkkhhuijoijiojoijoijiojoijojioiojij\njoijiojioj\nfaewawefa\nfewaiofjwa\nfjewiao",
-//                image: .init(string: "https://products.shureweb.eu/shure_product_db/product_images/files/35f/9c0/aa-/setcard/7b97831f8f26a63b8164cf8fe84fd4e9.jpeg"),
-//                writerId: 100,
-//                writerName: "류이치",
-//                createdTime: "",
-//                updatedTime: "",
-//                likeCount: ReviewLikeCountEntity(writerIds: [], likeCount: 0),
-//                hateCount: ReviewHateCountEntity(writerIds: [], hateCount: 0)
-//            )
-//        ]
         sectionModels.append(
             .init(
                 section: ProductDetailSection.review,
@@ -194,16 +151,67 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func sortButtonDidTap() {
-//
-//        router?.
+        var filterItems: [FilterItemEntity] = [
+            .init(name: "최신순", code: 0, image: nil),
+            .init(name: "좋아요순", code: 1, image: nil)
+        ]
+        if let index = filterItems.firstIndex { $0.code == sortItem.code } {
+            filterItems[index] = sortItem
+        }
+        router?.attachProductFilter(
+            of: .init(
+                filterType: .sort,
+                defaultText: "최신순",
+                filterItem: filterItems
+            )
+        )
     }
     
     func reviewLikeButtonDidTap(review: ReviewEntity) {
-        requestReviewLike(reviewID: review.reviewId)
+        guard let memberID =  UserInfoService.shared.memberID,
+              !review.likeCount.writerIds.contains(memberID) else {
+            return
+        }
+        requestReviewLike(reviewID: review.reviewId, writerID: "\(memberID)")
     }
     
     func reviewHateButtonDidTap(review: ReviewEntity) {
-        requestReviewHate(reviewID: review.reviewId)
+        guard let memberID =  UserInfoService.shared.memberID,
+              !review.hateCount.writerIds.contains(memberID) else {
+            return
+        }
+        requestReviewHate(reviewID: review.reviewId, writerID: "\(memberID)")
+    }
+    
+    func applyFilterItems(_ items: [FilterItemEntity], type: FilterType) {
+    }
+    
+    func applySortFilter(item: FilterItemEntity) {
+        sortItem = item
+        sortItem.isSelected = true
+        updateReviewSort(item: item)
+        router?.detachProductFilter()
+    }
+    
+    func productFilterDidTapCloseButton() {
+        router?.detachProductFilter()
+    }
+    
+    private func updateReviewSort(item: FilterItemEntity) {
+        switch item.code {
+        case 0:
+            var updatedReviews = product.reviews
+            updatedReviews.sort(by: { $0.createdTime.date ?? .init() > $1.createdTime.date ?? .init() })
+            let updatedProduct = product.updateReviews(reviews: updatedReviews)
+            reloadData(with: updatedProduct)
+        case 1:
+            var updatedReviews = product.reviews
+            updatedReviews.sort(by: { $0.likeCount.likeCount > $1.likeCount.likeCount })
+            let updatedProduct = product.updateReviews(reviews: updatedReviews)
+            reloadData(with: updatedProduct)
+        default:
+            return
+        }
     }
     
     private func requestProductDetail() {
@@ -227,12 +235,13 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         }
     }
     
-    private func requestReviewLike(reviewID: String) {
+    private func requestReviewLike(reviewID: String, writerID: String) {
         switch product.productType {
         case .pb:
             dependency.productAPIService.requestBrandProductReviewLike(
                 productID: product.id,
-                reviewID: reviewID
+                reviewID: reviewID,
+                writerID: writerID
             )
             .sink { [weak self] _ in
                 self?.updateReviewLike(reviewID: reviewID)
@@ -241,7 +250,8 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         case .event:
             dependency.productAPIService.requestEventProductReviewLike(
                 productID: product.id,
-                reviewID: reviewID
+                reviewID: reviewID,
+                writerID: writerID
             )
             .sink { [weak self] _ in
                 self?.updateReviewLike(reviewID: reviewID)
@@ -250,12 +260,13 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         }
     }
     
-    private func requestReviewHate(reviewID: String) {
+    private func requestReviewHate(reviewID: String, writerID: String) {
         switch product.productType {
         case .pb:
             dependency.productAPIService.requestBrandProductReviewHate(
                 productID: product.id,
-                reviewID: reviewID
+                reviewID: reviewID,
+                writerID: writerID
             )
             .sink { [weak self] _ in
                 self?.updateReviewHate(reviewID: reviewID)
@@ -264,7 +275,8 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         case .event:
             dependency.productAPIService.requestEventProductReviewHate(
                 productID: product.id,
-                reviewID: reviewID
+                reviewID: reviewID,
+                writerID: writerID
             )
             .sink { [weak self] _ in
                 self?.updateReviewHate(reviewID: reviewID)
@@ -292,10 +304,14 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             return
         }
         let review = product.reviews[reviewIndex]
-        var writerIds = review.likeCount.writerIds
-        writerIds.append(memberID)
+        var likeWriterIds = review.likeCount.writerIds
+        likeWriterIds.append(memberID)
+        
+        let hateWriterIds = review.hateCount.writerIds.filter { $0 != memberID }
+        let hateCount = hateWriterIds.count
         let updatedReview = review.update(
-            likeCount: .init(writerIds: writerIds, likeCount: review.likeCount.likeCount + 1)
+            likeCount: .init(writerIds: likeWriterIds, likeCount: review.likeCount.likeCount + 1),
+            hateCount: .init(writerIds: hateWriterIds, hateCount: hateCount)
         )
         
         var updatedReviews = product.reviews
@@ -315,10 +331,15 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             return
         }
         let review = product.reviews[reviewIndex]
-        var writerIds = review.hateCount.writerIds
-        writerIds.append(memberID)
+        var hateWriterIds = review.hateCount.writerIds
+        hateWriterIds.append(memberID)
+        
+        let likeWriterIds = review.hateCount.writerIds.filter { $0 != memberID }
+        let likeCount = likeWriterIds.count
+        
         let updatedReview = review.update(
-            hateCount: .init(writerIds: writerIds, hateCount: review.hateCount.hateCount + 1)
+            likeCount: .init(writerIds: likeWriterIds, likeCount: likeCount),
+            hateCount: .init(writerIds: hateWriterIds, hateCount: review.hateCount.hateCount + 1)
         )
         
         var updatedReviews = product.reviews

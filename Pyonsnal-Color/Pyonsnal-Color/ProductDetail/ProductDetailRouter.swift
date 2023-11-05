@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol ProductDetailInteractable: Interactable, StarRatingReviewListener {
+protocol ProductDetailInteractable: Interactable, StarRatingReviewListener, ProductFilterListener {
     var router: ProductDetailRouting? { get set }
     var listener: ProductDetailListener? { get set }
 }
@@ -17,17 +17,22 @@ protocol ProductDetailViewControllable: ViewControllable {
 }
 
 final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, ProductDetailViewControllable>, ProductDetailRouting {
-
-    // TODO: Constructor inject child builder protocols to allow building children.
+    
+    private let productFilter: ProductFilterBuildable
+    private var productFilterRouting: ProductFilterRouting?
     private let starRatingReviewBuilder: StarRatingReviewBuildable
     private var starRatingReviewRouting: StarRatingReviewRouting?
-    
+
+    // TODO: Constructor inject child builder protocols to allow building children.
+
     init(
         interactor: ProductDetailInteractable,
         viewController: ProductDetailViewControllable,
-        starRatingReviewBuilder: StarRatingReviewBuildable
+        starRatingReviewBuilder: StarRatingReviewBuildable,
+        productFilter: ProductFilterBuildable
     ) {
         self.starRatingReviewBuilder = starRatingReviewBuilder
+        self.productFilter = productFilter
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -50,5 +55,26 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
         viewController.popViewController(animated: true)
         self.starRatingReviewRouting = nil
         detachChild(starRatingReviewRouting)
+    }
+
+    func attachProductFilter(of filter: FilterEntity) {
+        guard productFilterRouting == nil else { return }
+        
+        let productFilterRouter = productFilter.build(
+            withListener: interactor,
+            filterEntity: filter
+        )
+        let productFilterViewController = productFilterRouter.viewControllable.uiviewController
+        productFilterViewController.modalPresentationStyle = .overFullScreen
+        productFilterRouting = productFilterRouter
+        attachChild(productFilterRouter)
+        viewControllable.uiviewController.present(productFilterViewController, animated: true)
+    }
+    
+    func detachProductFilter() {
+        guard let productFilterRouting else { return }
+        viewController.uiviewController.dismiss(animated: true)
+        self.productFilterRouting = nil
+        detachChild(productFilterRouting)
     }
 }

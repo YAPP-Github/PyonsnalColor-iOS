@@ -61,6 +61,28 @@ extension ReviewEntity {
         )
         return review
     }
+    
+    func update(
+        likeCount: ReviewLikeCountEntity,
+        hateCount: ReviewHateCountEntity
+    ) -> ReviewEntity {
+        let review = ReviewEntity(
+            reviewId: self.reviewId,
+            taste: self.taste,
+            quality: self.quality,
+            valueForMoney: self.valueForMoney,
+            score: self.score,
+            contents: self.contents,
+            image: self.image,
+            writerId: self.writerId,
+            writerName: self.writerName,
+            createdTime: self.createdTime,
+            updatedTime: self.updatedTime,
+            likeCount: likeCount,
+            hateCount: hateCount
+        )
+        return review
+    }
 }
 
 extension ReviewEntity: Hashable {}
