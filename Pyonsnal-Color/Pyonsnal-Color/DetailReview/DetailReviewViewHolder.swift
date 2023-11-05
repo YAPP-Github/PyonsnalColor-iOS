@@ -13,21 +13,6 @@ extension DetailReviewViewController {
         enum Constant {
             static let navigationTitle: String = "상품 리뷰 작성하기"
             
-            static let tasteReviewTitle: String = "상품의 맛은 어떤가요?"
-            static let tasteGood: String = "맛있어요"
-            static let tasteOkay: String = "보통이예요"
-            static let tasteBad: String = "별로예요"
-            
-            static let qualityReviewTitle: String = "상품의 퀄리티는 어떤가요?"
-            static let qualityGood: String = "좋아요"
-            static let qualityOkay: String = "보통이예요"
-            static let qualityBad: String = "별로예요"
-            
-            static let priceReviewTitle: String = "상품의 가격은 어떤가요?"
-            static let priceGood: String = "합리적이예요"
-            static let priceOkay: String = "적당해요"
-            static let priceBad: String = "비싸요"
-            
             static let detailReviewTitle: String = "좀 더 자세하게 알려주세요!"
             static let detailReviewPlaceholder: String = "상품에 대한 솔직한 의견을 알려주세요."
             
@@ -124,38 +109,9 @@ extension DetailReviewViewController {
             return stackView
         }()
         
-        let tasteReview: SingleLineReview = {
-            let review = SingleLineReview(category: .taste)
-            review.configureReviewTitle(
-                title: Constant.tasteReviewTitle,
-                first: Constant.tasteGood,
-                second: Constant.tasteOkay,
-                third: Constant.tasteBad
-            )
-            return review
-        }()
-        
-        let qualityReview: SingleLineReview = {
-            let review = SingleLineReview(category: .quality)
-            review.configureReviewTitle(
-                title: Constant.qualityReviewTitle,
-                first: Constant.qualityGood,
-                second: Constant.qualityOkay,
-                third: Constant.qualityBad
-            )
-            return review
-        }()
-        
-        let priceReview: SingleLineReview = {
-            let review = SingleLineReview(category: .price)
-            review.configureReviewTitle(
-                title: Constant.priceReviewTitle,
-                first: Constant.priceGood,
-                second: Constant.priceOkay,
-                third: Constant.priceBad
-            )
-            return review
-        }()
+        let tasteReview: SingleLineReview = .init(evaluationKind: .taste)
+        let qualityReview: SingleLineReview = .init(evaluationKind: .quality)
+        let priceReview: SingleLineReview = .init(evaluationKind: .valueForMoney)
         
         private let detailReviewStackView: UIStackView = {
             let stackView = UIStackView()

@@ -16,18 +16,19 @@ protocol SingleLineReviewDelegate: AnyObject {
 final class SingleLineReview: UIView {
 
     private let viewHolder = ViewHolder()
-    private let category: Review.Category
+    private let evaluationKind: ReviewEvaluationKind
     private var cancellable = Set<AnyCancellable>()
     weak var delegate: SingleLineReviewDelegate?
     
-    init(category: Review.Category) {
-        self.category = category
+    init(evaluationKind: ReviewEvaluationKind) {
+        self.evaluationKind = evaluationKind
         super.init(frame: .zero)
         
         viewHolder.place(in: self)
         viewHolder.configureConstraints(for: self)
+        configureReviewTitle()
         configureButtonAction()
-        configureButtonTag()
+        configureReviewButtons()
     }
     
     required init?(coder: NSCoder) {
@@ -36,7 +37,7 @@ final class SingleLineReview: UIView {
     
     private func configureButtonAction() {
         viewHolder.reviewButtonStackView.subviews
-            .compactMap { $0 as? UIButton }
+            .compactMap { $0 as? ReviewButton }
             .forEach { button in
                 button
                     .tapPublisher
@@ -46,14 +47,14 @@ final class SingleLineReview: UIView {
         }
     }
     
-    private func configureButtonTag() {
-        for (tag, button) in viewHolder.reviewButtonStackView.subviews.enumerated() {
-            button.tag = tag
-        }
+    private func configureReviewButtons() {
+        viewHolder.goodReviewButton.payload = .init(kind: evaluationKind, state: .good)
+        viewHolder.normalReviewButton.payload = .init(kind: evaluationKind, state: .normal)
+        viewHolder.badReviewButton.payload = .init(kind: evaluationKind, state: .bad)
     }
     
-    private func setSelectedButtonState(at tag: Int) {
-        guard let button = viewHolder.reviewButtonStackView.subviews[tag] as? UIButton else {
+    private func setSelectedButtonState(at index: Int) {
+        guard let button = viewHolder.reviewButtonStackView.subviews[index] as? UIButton else {
             return
         }
         
@@ -62,8 +63,8 @@ final class SingleLineReview: UIView {
         button.removeBorder()
     }
     
-    private func setDeselectedButtonState(at tag: Int) {
-        guard let button = viewHolder.reviewButtonStackView.subviews[tag] as? UIButton else {
+    private func setDeselectedButtonState(at index: Int) {
+        guard let button = viewHolder.reviewButtonStackView.subviews[index] as? UIButton else {
             return
         }
         
@@ -72,22 +73,20 @@ final class SingleLineReview: UIView {
         button.makeBorder(width: 1, color: UIColor.gray200.cgColor)
     }
 
-    private func didSelectReviewButton(_ sender: UIButton) {
-        let tag = sender.tag
-        let score = Review.Score.allCases[tag]
-        let review = Review(category: category, score: score)
+    private func didSelectReviewButton(_ sender: ReviewButton) {
+        let index = sender.index
+        guard let payload = sender.payload else { return }
         
-        viewHolder.reviewButtonStackView.subviews.forEach {
-            $0.tag == tag ? setSelectedButtonState(at: tag) : setDeselectedButtonState(at: $0.tag)
-        }
-        delegate?.didSelectReview(review)
+        viewHolder.reviewButtonStackView.subviews
+            .compactMap { $0 as? ReviewButton }
+            .forEach {
+                $0.index == index ? setSelectedButtonState(at: index) : setDeselectedButtonState(at: $0.index)
+            }
+        delegate?.didSelectReview(Review(kind: payload.kind, state: payload.state))
     }
     
-    func configureReviewTitle(title: String, first: String, second: String, third: String) {
-        viewHolder.titleLabel.text = title
-        viewHolder.firstReviewButton.configureButtonTitle(text: first)
-        viewHolder.secondReviewButton.configureButtonTitle(text: second)
-        viewHolder.thirdReviewButton.configureButtonTitle(text: third)
+    private func configureReviewTitle() {
+        viewHolder.titleLabel.text = evaluationKind.detailReviewTitle
     }
     
     func hasSelected() -> Bool {
@@ -117,17 +116,17 @@ extension SingleLineReview {
             return stackView
         }()
         
-        let firstReviewButton = ReviewButton()
-        let secondReviewButton = ReviewButton()
-        let thirdReviewButton = ReviewButton()
+        let goodReviewButton = ReviewButton(index: 0)
+        let normalReviewButton = ReviewButton(index: 1)
+        let badReviewButton = ReviewButton(index: 2)
         
         func place(in view: UIView) {
             view.addSubview(titleLabel)
             view.addSubview(reviewButtonStackView)
             
-            reviewButtonStackView.addArrangedSubview(firstReviewButton)
-            reviewButtonStackView.addArrangedSubview(secondReviewButton)
-            reviewButtonStackView.addArrangedSubview(thirdReviewButton)
+            reviewButtonStackView.addArrangedSubview(goodReviewButton)
+            reviewButtonStackView.addArrangedSubview(normalReviewButton)
+            reviewButtonStackView.addArrangedSubview(badReviewButton)
         }
         
         func configureConstraints(for view: UIView) {

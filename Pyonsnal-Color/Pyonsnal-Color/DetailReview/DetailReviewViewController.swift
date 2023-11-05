@@ -30,7 +30,7 @@ final class DetailReviewViewController: UIViewController,
     private let viewHolder = ViewHolder()
     private let productDetail: ProductDetailEntity
     private var cancellable = Set<AnyCancellable>()
-    private(set) var reviews: [Review.Category: Review.Score] = [:]
+    private(set) var reviews: [ReviewEvaluationKind: ReviewEvaluationState] = [:]
     private(set) var score: Int
     
     init(productDetail: ProductDetailEntity, score: Int) {
@@ -204,7 +204,7 @@ extension DetailReviewViewController: BackNavigationViewDelegate {
 
 extension DetailReviewViewController: SingleLineReviewDelegate {
     func didSelectReview(_ review: Review) {
-        reviews[review.category] = review.score
+        reviews[review.kind] = review.state
         
         let state = isReviewAllSatisfy()
         setApplyReviewButton(state: state)

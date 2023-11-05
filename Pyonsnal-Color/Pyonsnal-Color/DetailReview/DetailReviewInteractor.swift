@@ -16,7 +16,7 @@ protocol DetailReviewRouting: ViewableRouting {
 
 protocol DetailReviewPresentable: Presentable {
     var listener: DetailReviewPresentableListener? { get set }
-    var reviews: [Review.Category: Review.Score] { get }
+    var reviews: [ReviewEvaluationKind: ReviewEvaluationState] { get }
     var score: Int { get }
     func getReviewContents() -> String
     func getReviewImage() -> UIImage?
@@ -113,7 +113,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     private func configureReviewUploadEntity(memberInfo: MemberInfoEntity) -> ReviewUploadEntity? {
         guard let taste = presenter.reviews[.taste],
               let quality = presenter.reviews[.quality],
-              let price = presenter.reviews[.price]
+              let price = presenter.reviews[.valueForMoney]
         else {
             return nil
         }
