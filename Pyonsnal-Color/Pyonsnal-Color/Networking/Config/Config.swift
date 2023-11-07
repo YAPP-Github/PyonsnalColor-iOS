@@ -15,7 +15,6 @@ final class Config {
     private init() {}
     
     let baseURLString = "https://pyonsnalcolor.store"
-    private var headers: [HTTPHeader]?
     
     private let defaultHeaders: [HTTPHeader] = [
         HTTPHeader(name: "Content-Type", value: "application/json"),
@@ -25,32 +24,17 @@ final class Config {
 
 extension Config {
     
-    func setHeaders(headers: [HTTPHeader]) {
-        setDefaultHeader()
-        self.headers? += headers
-    }
-    
     func getDefaultHeader() -> [HTTPHeader]? {
-        setDefaultHeader()
-        return headers
+        return defaultHeaders
     }
     
     func getAuthorizationHeader(with token: String) -> [HTTPHeader]? {
-        setDefaultHeader()
-        setHeaders(headers: [HTTPHeader(name: "Authorization", value: token)])
-        return headers
+        return [HTTPHeader(name: "Authorization", value: token)] + defaultHeaders
     }
     
     func getMultipartFormDataHeader(with id: String, token: String) -> [HTTPHeader]? {
-        self.headers = [HTTPHeader(name: "Content-Type", value: "multipart/form-data; boundary=\(id)")]
-        self.headers? += [HTTPHeader(name: "Authorization", value: token)]
-        
-        return headers
-    }
-    
-    private func setDefaultHeader() {
-        self.headers = []
-        self.headers = defaultHeaders
+        return [HTTPHeader(name: "Content-Type", value: "multipart/form-data; boundary=\(id)"),
+                HTTPHeader(name: "Authorization", value: token)]
     }
     
 }
