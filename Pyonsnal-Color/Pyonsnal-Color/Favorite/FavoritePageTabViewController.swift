@@ -205,6 +205,13 @@ extension FavoritePageTabViewController: UICollectionViewDelegate {
             delegate?.loadMoreItems()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let item = dataSource?.itemIdentifier(for: indexPath),
+           case let .product(product) = item {
+            delegate?.didTapProduct(product: product)
+        }
+    }
 }
 
 // MARK: - ProductCellDelegate
