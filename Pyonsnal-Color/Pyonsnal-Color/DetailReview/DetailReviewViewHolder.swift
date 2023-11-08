@@ -36,7 +36,11 @@ extension DetailReviewViewController {
             return navigationView
         }()
         
-        private let totalScrollView = UIScrollView()
+        private let totalScrollView: UIScrollView = {
+            let scrollView = UIScrollView()
+            scrollView.keyboardDismissMode = .onDrag
+            return scrollView
+        }()
         
         private let contentStackView: UIStackView = {
             let stackView = UIStackView()
