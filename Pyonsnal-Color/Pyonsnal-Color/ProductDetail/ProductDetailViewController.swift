@@ -57,10 +57,8 @@ final class ProductDetailViewController:
     }
     
     // MARK: - Public Method
-    func setFavoriteState(isSelected: Bool) {
+    func setFavoriteState(isSelected: Bool?) {
         viewHolder.backNavigationView.setFavoriteButtonSelected(isSelected: isSelected)
-        viewHolder.collectionView.dataSource = self
-        viewHolder.collectionView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {

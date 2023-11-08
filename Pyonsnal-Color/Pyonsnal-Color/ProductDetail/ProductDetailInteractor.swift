@@ -18,7 +18,7 @@ protocol ProductDetailRouting: ViewableRouting {
 
 protocol ProductDetailPresentable: Presentable {
     var listener: ProductDetailPresentableListener? { get set }
-    func setFavoriteState(isSelected: Bool)
+    func setFavoriteState(isSelected: Bool?)
     func reloadCollectionView(with sectionModels: [ProductDetailSectionModel])
     func updateHeaderImage(storeIcon: ImageAssetKind.StoreIcon)
 }
@@ -62,6 +62,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         
         requestProductDetail()
         presenter.updateHeaderImage(storeIcon: product.storeType.storeIcon)
+        presenter.setFavoriteState(isSelected: product.isFavorite)
     }
 
     override func willResignActive() {
@@ -78,11 +79,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             productId: product.id,
             productType: product.productType
             ).sink { [weak self] response in
-                if response.error != nil {
-                    self?.presenter.setFavoriteState(isSelected: true)
-                } else {
-                   // TODO: error handling
-                }
+                self?.presenter.setFavoriteState(isSelected: true)
             }.store(in: &cancellable)
         }
         
@@ -91,11 +88,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
                 productId: product.id,
                 productType: product.productType
             ).sink { [weak self] response in
-                if response.error != nil {
-                    self?.presenter.setFavoriteState(isSelected: false)
-                } else {
-                    // TODO: error handling
-                }
+                self?.presenter.setFavoriteState(isSelected: false)
             }.store(in: &cancellable)
         }
     
