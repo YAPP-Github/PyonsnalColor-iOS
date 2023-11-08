@@ -31,11 +31,16 @@ extension DetailReviewViewController {
                 title: Constant.navigationTitle,
                 iconImageKind: nil
             )
+            navigationView.favoriteButton.isHidden = true
             navigationView.setText(with: Constant.navigationTitle)
             return navigationView
         }()
         
-        private let totalScrollView = UIScrollView()
+        private let totalScrollView: UIScrollView = {
+            let scrollView = UIScrollView()
+            scrollView.keyboardDismissMode = .onDrag
+            return scrollView
+        }()
         
         private let contentStackView: UIStackView = {
             let stackView = UIStackView()
@@ -256,7 +261,8 @@ extension DetailReviewViewController {
             }
             
             applyReviewButton.snp.makeConstraints {
-                $0.bottom.equalTo(totalScrollView.frameLayoutGuide)
+                $0.bottom.equalTo(view.safeAreaLayoutGuide).priority(.high)
+                $0.bottom.lessThanOrEqualTo(view).inset(.spacing20)
                 $0.leading.equalToSuperview().offset(16)
                 $0.trailing.equalToSuperview().inset(16)
                 $0.height.equalTo(52)
