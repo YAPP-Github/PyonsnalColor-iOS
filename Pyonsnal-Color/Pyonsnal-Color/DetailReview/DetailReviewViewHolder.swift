@@ -257,7 +257,8 @@ extension DetailReviewViewController {
             }
             
             applyReviewButton.snp.makeConstraints {
-                $0.bottom.equalTo(totalScrollView.frameLayoutGuide)
+                $0.bottom.equalTo(view.safeAreaLayoutGuide).priority(.high)
+                $0.bottom.lessThanOrEqualTo(view).inset(.spacing20)
                 $0.leading.equalToSuperview().offset(16)
                 $0.trailing.equalToSuperview().inset(16)
                 $0.height.equalTo(52)
