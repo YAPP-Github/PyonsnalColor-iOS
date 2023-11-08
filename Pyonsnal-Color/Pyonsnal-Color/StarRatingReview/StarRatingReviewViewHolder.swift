@@ -29,6 +29,7 @@ extension StarRatingReviewViewController {
                 title: Constant.navigationTitle,
                 iconImageKind: nil
             )
+            navigationView.favoriteButton.isHidden = true
             navigationView.setText(with: Constant.navigationTitle)
             return navigationView
         }()
