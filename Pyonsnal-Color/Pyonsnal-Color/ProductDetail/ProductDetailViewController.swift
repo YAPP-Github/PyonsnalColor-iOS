@@ -66,7 +66,7 @@ final class ProductDetailViewController:
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        listener?.attachStarRatingReview()
+        listener?.refresh()
     }
     
     // MARK: - Private Method
