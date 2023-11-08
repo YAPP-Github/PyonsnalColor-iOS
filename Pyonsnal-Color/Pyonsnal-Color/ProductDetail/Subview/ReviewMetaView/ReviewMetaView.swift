@@ -74,7 +74,7 @@ final class ReviewMetaView: UIView {
         profileImageView.setImage(.tagStore)
         nameLabel.text = review.writerName
         ratingPreviewView.payload = .init(ratingCount: Int(review.score))
-//        dateLabel.text = review.
+        dateLabel.text = review.updatedTime
     }
     
     private func configureView() {
