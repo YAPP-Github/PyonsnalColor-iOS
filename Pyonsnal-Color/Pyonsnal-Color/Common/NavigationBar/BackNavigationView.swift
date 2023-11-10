@@ -143,8 +143,8 @@ final class BackNavigationView: UIView {
         }
         
         backButton.snp.makeConstraints { make in
-            make.size.equalTo(24)
-            make.leading.equalToSuperview().offset(.spacing16)
+            make.size.equalTo(48)
+            make.leading.equalToSuperview().offset(.spacing4)
             make.centerY.equalToSuperview()
         }
         

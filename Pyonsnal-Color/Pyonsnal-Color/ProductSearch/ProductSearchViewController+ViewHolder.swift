@@ -13,7 +13,7 @@ extension ProductSearchViewController {
         // MARK: - Declaration
         enum Size {
             static let navigationBarBackgroundViewHeight: CGFloat = 48
-            static let backButtonSize: CGFloat = 24
+            static let backButtonSize: CGFloat = 48
         }
         
         // MARK: - UI Component
@@ -76,13 +76,13 @@ extension ProductSearchViewController {
             
             backButton.snp.makeConstraints { make in
                 make.size.equalTo(Size.backButtonSize)
-                make.top.bottom.equalToSuperview().inset(.spacing12)
-                make.leading.equalToSuperview().offset(.spacing16)
+                make.centerY.equalToSuperview()
+                make.leading.equalToSuperview().offset(.spacing4)
             }
             
             searchBarView.snp.makeConstraints { make in
                 make.height.equalTo(32)
-                make.leading.equalTo(backButton.snp.trailing).offset(.spacing12)
+                make.leading.equalTo(backButton.snp.trailing)
                 make.top.equalToSuperview().offset(.spacing8)
                 make.trailing.equalToSuperview().inset(.spacing12)
             }
