@@ -50,15 +50,15 @@ final class ProductFilterViewController:
         configureCollectionView()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         resizeCollectionViewHeight()
+        showFilter()
     }
     
     // MARK: - Private Method
     private func configureView() {
-        view.backgroundColor = .black.withAlphaComponent(0.7)
         setFilterTitle()
         setMultiSelect()
         hideApplyButton()
@@ -179,6 +179,29 @@ final class ProductFilterViewController:
         }
     }
     
+    private func showFilter() {
+        viewHolder.containerView.snp.remakeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        UIView.animate(withDuration: 0.15, delay: 0, options: .curveLinear) { [weak self] in
+            self?.view.backgroundColor = .black.withAlphaComponent(0.7)
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
+    private func hideFilter(_ completion: @escaping () -> Void) {
+        viewHolder.containerView.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(view.snp.bottom)
+        }
+        UIView.animate(withDuration: 0.15, delay: 0, options: .curveLinear) { [weak self] in
+            self?.view.backgroundColor = .clear
+            self?.view.layoutIfNeeded()
+        } completion: { _ in
+            completion()
+        }
+    }
+    
     private func setApplyButtonState() {
         guard filterEntity.filterType != .sort else { return }
         
@@ -205,11 +228,15 @@ final class ProductFilterViewController:
     }
     
     @objc private func didTapCloseButton() {
-        listener?.didTapCloseButton()
+        hideFilter { [weak self] in
+            self?.listener?.didTapCloseButton()
+        }
     }
     
     @objc private func didTapBackgroundView() {
-        listener?.didTapCloseButton()
+        hideFilter { [weak self] in
+            self?.listener?.didTapCloseButton()
+        }
     }
 }
 
@@ -332,6 +359,7 @@ extension ProductFilterViewController {
         func configureConstraints(for view: UIView) {
             containerView.snp.makeConstraints {
                 $0.leading.trailing.bottom.equalTo(view)
+                $0.top.equalTo(view.snp.bottom)
             }
             
             grabView.snp.makeConstraints {
