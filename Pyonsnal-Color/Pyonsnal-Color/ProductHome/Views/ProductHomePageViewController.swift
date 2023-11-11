@@ -175,6 +175,10 @@ extension ProductHomePageViewController: ProductListDelegate {
     func didFinishUpdateSnapshot() {
         pagingDelegate?.didFinishUpdateSnapshot()
     }
+    
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        pagingDelegate?.didTapFavoriteButton(product: product, action: action)
+    }
 }
 
 // MARK: - CurationDelegate

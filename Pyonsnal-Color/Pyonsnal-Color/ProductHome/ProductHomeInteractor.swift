@@ -155,6 +155,33 @@ final class ProductHomeInteractor:
         router?.detachProductSearch()
     }
     
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        switch action {
+        case .add:
+            addFavorite(with: product)
+        case .delete:
+            deleteFavorite(with: product)
+        }
+    }
+    
+    private func addFavorite(with product: ProductDetailEntity) {
+        dependency.favoriteAPIService.addFavorite(
+            productId: product.id,
+            productType: product.productType
+            ).sink { [weak self] response in
+                // nothing
+            }.store(in: &cancellable)
+        }
+        
+    private func deleteFavorite(with product: ProductDetailEntity) {
+        dependency.favoriteAPIService.deleteFavorite(
+            productId: product.id,
+            productType: product.productType
+        ).sink { [weak self] response in
+            // nothing
+        }.store(in: &cancellable)
+    }
+    
     func didTapNotificationButton() {
         router?.attachNotificationList()
     }

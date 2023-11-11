@@ -18,6 +18,7 @@ protocol EventHomePresentableListener: AnyObject, FilterRenderable {
     func didSelect(with brandProduct: ProductDetailEntity)
     func didSelectFilter(_ filterEntity: FilterEntity?)
     func didTapRefreshFilterCell()
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
 }
 
 final class EventHomeViewController: UIViewController,
@@ -283,7 +284,6 @@ final class EventHomeViewController: UIViewController,
         }
         return currentTabViewController
     }
-    
 }
 
 // MARK: - EventHomePageViewControllerDelegate
@@ -317,6 +317,10 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     
     func didFinishUpdateSnapshot() {
         isRequestingInitialProducts = false
+    }
+    
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        listener?.didTapFavoriteButton(product: product, action: action)
     }
 }
 

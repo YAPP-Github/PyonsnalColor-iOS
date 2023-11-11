@@ -62,7 +62,6 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         
         requestProductDetail()
         presenter.updateHeaderImage(storeIcon: product.storeType.storeIcon)
-        presenter.setFavoriteState(isSelected: product.isFavorite)
     }
 
     override func willResignActive() {
@@ -83,14 +82,14 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             }.store(in: &cancellable)
         }
         
-        func deleteFavorite() {
-            favoriteAPIService.deleteFavorite(
-                productId: product.id,
-                productType: product.productType
-            ).sink { [weak self] response in
-                self?.presenter.setFavoriteState(isSelected: false)
-            }.store(in: &cancellable)
-        }
+    func deleteFavorite() {
+        favoriteAPIService.deleteFavorite(
+            productId: product.id,
+            productType: product.productType
+        ).sink { [weak self] response in
+            self?.presenter.setFavoriteState(isSelected: false)
+        }.store(in: &cancellable)
+    }
     
     func refresh() {
         requestProductDetail()
@@ -137,6 +136,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
             )
         )
         presenter.reloadCollectionView(with: sectionModels)
+        presenter.setFavoriteState(isSelected: productDetail.isFavorite)
     }
     
     func writeButtonDidTap() {

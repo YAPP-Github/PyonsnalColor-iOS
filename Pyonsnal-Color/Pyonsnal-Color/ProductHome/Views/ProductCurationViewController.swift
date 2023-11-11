@@ -98,7 +98,7 @@ final class ProductCurationViewController: UIViewController {
             case let .curation(data):
                 let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.updateCell(with: data)
-                cell.setFavoriteButton(isVisible: false)
+                cell.delegate = self
                 return cell
             }
         }
@@ -174,5 +174,12 @@ extension ProductCurationViewController: UICollectionViewDelegate {
         if case let .curation(product) = item {
             delegate?.didSelect(with: product)
         }
+    }
+}
+
+// MARK: - ProductCellDelegate
+extension ProductCurationViewController: ProductCellDelegate {
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        delegate?.didTapFavoriteButton(product: product, action: action)
     }
 }

@@ -14,7 +14,7 @@ protocol ScrollDelegate: AnyObject {
     func didEndDragging(scrollView: UIScrollView)
 }
 
-protocol EventHomeTabViewControllerDelegate: AnyObject {
+protocol EventHomeTabViewControllerDelegate: FavoriteButtonDelegate {
     func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
     func deleteKeywordFilter(_ filter: FilterItemEntity)
     func refreshFilterButton()
@@ -153,7 +153,7 @@ final class EventHomeTabViewController: UIViewController {
                 } else {
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                     cell.updateCell(with: item)
-                    cell.setFavoriteButton(isVisible: false)
+                    cell.delegate = self
                     return cell
                 }
             case .event(let item):
@@ -319,5 +319,12 @@ extension EventHomeTabViewController: KeywordFilterCellDelegate {
 extension EventHomeTabViewController: EmptyProductCellDelegate {
     func didTapRefreshFilterButton() {
         listDelegate?.refreshFilterButton()
+    }
+}
+
+// MARK: - ProductCellDelegate
+extension EventHomeTabViewController: ProductCellDelegate {
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        delegate?.didTapFavoriteButton(product: product, action: action)
     }
 }

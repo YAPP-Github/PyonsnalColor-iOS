@@ -13,8 +13,7 @@ enum FavoriteButtonAction {
     case delete
 }
 
-protocol FavoritePageTabViewControllerDelegate: AnyObject {
-    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
+protocol FavoritePageTabViewControllerDelegate: FavoriteButtonDelegate {
     func didTapProduct(product: ProductDetailEntity)
     func loadMoreItems()
     func pullToRefresh()
@@ -113,8 +112,6 @@ final class FavoritePageTabViewController: UIViewController {
             case .product(let product):
                 let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.updateCell(with: product)
-                cell.setFavoriteButton(isVisible: true)
-                cell.setFavoriteButtonSelected(isSelected: true)
                 cell.delegate = self
                 return cell
             }
