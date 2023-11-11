@@ -182,7 +182,9 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     func applySortFilter(item: FilterItemEntity) {
         sortItem = item
         sortItem.isSelected = true
-        updateReviewSort(item: item)
+        if let updatedProduct = updateReviewSort(product: product, item: item) {
+            reloadData(with: updatedProduct)
+        }
         router?.detachProductFilter()
     }
     
@@ -190,20 +192,23 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         router?.detachProductFilter()
     }
     
-    private func updateReviewSort(item: FilterItemEntity) {
+    private func updateReviewSort(
+        product: ProductDetailEntity,
+        item: FilterItemEntity
+    ) -> ProductDetailEntity?{
         switch item.code {
         case 0:
             var updatedReviews = product.reviews
             updatedReviews.sort(by: { $0.createdTime.date ?? .init() > $1.createdTime.date ?? .init() })
             let updatedProduct = product.updateReviews(reviews: updatedReviews)
-            reloadData(with: updatedProduct)
+            return updatedProduct
         case 1:
             var updatedReviews = product.reviews
             updatedReviews.sort(by: { $0.likeCount.likeCount > $1.likeCount.likeCount })
             let updatedProduct = product.updateReviews(reviews: updatedReviews)
-            reloadData(with: updatedProduct)
+            return updatedProduct
         default:
-            return
+            return nil
         }
     }
     
@@ -212,16 +217,20 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         case .pb:
             dependency.productAPIService.requestBrandProductDetail(id: product.id)
                 .sink { [weak self] response in
-                    if let product = response.value {
-                        self?.reloadData(with: product)
+                    if let self,
+                       let product = response.value,
+                       let updatedProduct = self.updateReviewSort(product: product, item: self.sortItem) {
+                        self.reloadData(with: updatedProduct)
                     }
                 }
                 .store(in: &cancellable)
         case .event:
             dependency.productAPIService.requestEventProductDetail(id: product.id)
                 .sink { [weak self] response in
-                    if let product = response.value {
-                        self?.reloadData(with: product)
+                    if let self,
+                       let product = response.value,
+                       let updatedProduct = self.updateReviewSort(product: product, item: self.sortItem) {
+                        self.reloadData(with: updatedProduct)
                     }
                 }
                 .store(in: &cancellable)
@@ -327,7 +336,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         var hateWriterIds = review.hateCount.writerIds
         hateWriterIds.append(memberID)
         
-        let likeWriterIds = review.hateCount.writerIds.filter { $0 != memberID }
+        let likeWriterIds = review.likeCount.writerIds.filter { $0 != memberID }
         let likeCount = likeWriterIds.count
         
         let updatedReview = review.update(
