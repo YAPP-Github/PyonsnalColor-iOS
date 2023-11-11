@@ -20,6 +20,7 @@ protocol ProductSearchPresentableListener: AnyObject {
     func loadMoreItems()
     func setSort(sort: FilterItemEntity)
     func didTapSortButton(filterItem: FilterItemEntity)
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
 }
 
 final class ProductSearchViewController: UIViewController,
@@ -112,7 +113,7 @@ final class ProductSearchViewController: UIViewController,
                 case let .item(product):
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                     cell.updateCell(with: product)
-                    cell.setFavoriteButton(isVisible: false)
+                    cell.delegate = self
                     return cell
                 }
             }
@@ -290,5 +291,12 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
 extension ProductSearchViewController {
     @objc private func touchEventAction(_ tapGesture: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+}
+
+// MARK: - ProductCellDelegate
+extension ProductSearchViewController: ProductCellDelegate {
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        listener?.didTapFavoriteButton(product: product, action: action)
     }
 }

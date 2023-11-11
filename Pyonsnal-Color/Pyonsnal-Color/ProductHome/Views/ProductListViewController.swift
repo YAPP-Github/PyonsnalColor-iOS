@@ -133,7 +133,7 @@ final class ProductListViewController: UIViewController {
                 } else {
                     let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                     cell.updateCell(with: brandProduct)
-                    cell.setFavoriteButton(isVisible: false)
+                    cell.delegate = self
                     return cell
                 }
             }
@@ -300,3 +300,11 @@ extension ProductListViewController: EmptyProductCellDelegate {
         delegate?.refreshFilterButton()
     }
 }
+
+// MARK: - ProductCellDelegate
+extension ProductListViewController: ProductCellDelegate {
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        delegate?.didTapFavoriteButton(product: product, action: action)
+    }
+}
+

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CommonProductPageViewControllerRenderable: AnyObject {
+protocol CommonProductPageViewControllerRenderable: FavoriteButtonDelegate {
     func updateSelectedStoreCell(index: Int)
     func didChangeStore(to store: ConvenienceStore)
     func didSelect(with brandProduct: ProductDetailEntity)

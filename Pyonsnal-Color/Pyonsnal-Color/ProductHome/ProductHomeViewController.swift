@@ -14,6 +14,7 @@ protocol ProductHomePresentableListener: AnyObject, FilterRenderable {
     func didTapNotificationButton()
     func didScrollToNextPage(store: ConvenienceStore?, filterList: [Int])
     func didSelect(with brandProduct: ProductDetailEntity?)
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
 }
 
 final class ProductHomeViewController:
@@ -475,6 +476,10 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     
     func curationWillAppear() {
         hideFilterCollectionView()
+    }
+    
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        listener?.didTapFavoriteButton(product: product, action: action)
     }
 }
 

@@ -9,6 +9,7 @@ import ModernRIBs
 
 protocol ProductSearchDependency: Dependency {
     var productAPIService: ProductAPIService { get }
+    var favoriteAPIService: FavoriteAPIService { get }
 }
 
 final class ProductSearchComponent: Component<ProductSearchDependency>,

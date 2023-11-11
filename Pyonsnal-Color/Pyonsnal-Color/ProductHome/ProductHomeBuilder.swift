@@ -9,6 +9,7 @@ import ModernRIBs
 
 protocol ProductHomeDependency: Dependency {
     var productAPIService: ProductAPIService { get }
+    var favoriteAPIService: FavoriteAPIService { get }
 }
 
 final class ProductHomeComponent: Component<ProductHomeDependency>,
@@ -17,9 +18,11 @@ final class ProductHomeComponent: Component<ProductHomeDependency>,
                                   ProductDetailDependency,
                                   ProductFilterDependency {
     let productAPIService: ProductAPIService
+    let favoriteAPIService: FavoriteAPIService
     
     override init(dependency: ProductHomeDependency) {
         self.productAPIService = dependency.productAPIService
+        self.favoriteAPIService = dependency.favoriteAPIService
         super.init(dependency: dependency)
     }
 }

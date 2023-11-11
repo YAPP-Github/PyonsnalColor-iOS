@@ -131,6 +131,10 @@ extension EventHomePageViewController: EventHomeTabViewControllerDelegate {
     func deleteKeywordFilter(_ filter: FilterItemEntity) {
         pageDelegate?.deleteKeywordFilter(filter)
     }
+    
+    func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        pageDelegate?.didTapFavoriteButton(product: product, action: action)
+    }
 }
 
 extension EventHomePageViewController: ProductListDelegate {

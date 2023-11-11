@@ -77,6 +77,7 @@ final class ProductCell: UICollectionViewCell {
         }
         hasExpiredLayerView(product: product)
         hasEventType(product.eventType)
+        setFavoriteButtonSelected(isSelected: product.isFavorite ?? false)
     }
     
     // MARK: - Private Method
@@ -86,7 +87,6 @@ final class ProductCell: UICollectionViewCell {
         viewHolder.convenienceStoreTagImageView.makeRounded(with: Size.convenientTagImageViewWidth / 2)
         makeRounded(with: Size.cornerRadius)
         makeBorder(width: Size.borderWidth, color: UIColor.gray200.cgColor)
-        setFavoriteButton(isVisible: true)
     }
     
     private func hasEventType(_ event: EventTag?) {
@@ -103,10 +103,6 @@ final class ProductCell: UICollectionViewCell {
             let isExpired = product.isEventExpired {
             self.showEventCloseLayerView(isClosed: isExpired)
         }
-    }
-    
-    func setFavoriteButton(isVisible: Bool) {
-        viewHolder.favoriteButton.isHidden = !isVisible
     }
     
     func setFavoriteButtonSelected(isSelected: Bool) {
