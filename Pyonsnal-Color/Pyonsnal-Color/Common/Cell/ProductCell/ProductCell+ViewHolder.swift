@@ -20,7 +20,7 @@ extension ProductCell {
         static let eventTagImageviewRadius: CGFloat = 10
         static let cornerRadius: CGFloat = 16
         static let borderWidth: CGFloat = 1
-        static let favoriteButtonSize: CGFloat = 48
+        static let favoriteButtonSize: CGFloat = 44
     }
     
     final class ViewHolder: ViewHolderable {
