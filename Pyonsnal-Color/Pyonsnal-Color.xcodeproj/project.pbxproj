@@ -1404,6 +1404,17 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		F075D0C02B051D6900DD0F5E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F0DEAB9B2AAF410B00941A5F /* FavoriteHomeViewController.swift */,
+				F033E8F72AC5C31700B021C8 /* FavoriteHomeViewController+ViewHolder.swift */,
+				F0B90DCB2ADD2167005DE34A /* FavoriteHomePageViewController.swift */,
+				F0B90DCD2ADD21C0005DE34A /* FavoriteHomePageTabViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F097EF232A5605CD00A7FB9C /* Button */ = {
 			isa = PBXGroup;
 			children = (
@@ -1551,13 +1562,10 @@
 		F0DEAB992AAF40E300941A5F /* FavoriteHome */ = {
 			isa = PBXGroup;
 			children = (
+				F075D0C02B051D6900DD0F5E /* View */,
 				F0DEAB9A2AAF410B00941A5F /* FavoriteHomeRouter.swift */,
-				F0DEAB9B2AAF410B00941A5F /* FavoriteHomeViewController.swift */,
 				F0DEAB9C2AAF410B00941A5F /* FavoriteHomeBuilder.swift */,
 				F0DEAB9D2AAF410B00941A5F /* FavoriteHomeInteractor.swift */,
-				F033E8F72AC5C31700B021C8 /* FavoriteHomeViewController+ViewHolder.swift */,
-				F0B90DCB2ADD2167005DE34A /* FavoriteHomePageViewController.swift */,
-				F0B90DCD2ADD21C0005DE34A /* FavoriteHomePageTabViewController.swift */,
 			);
 			path = FavoriteHome;
 			sourceTree = "<group>";

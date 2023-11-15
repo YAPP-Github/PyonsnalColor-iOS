@@ -68,6 +68,7 @@ final class FavoriteHomePageTabViewController: UIViewController {
         super.viewDidLoad()
         viewHolder.place(in: self.view)
         viewHolder.configureConstraints(for: self.view)
+        configureUI()
         registerCell()
         configureCollectionView()
         configureDataSource()
@@ -86,6 +87,10 @@ final class FavoriteHomePageTabViewController: UIViewController {
     }
     
     // MARK: - Private Method
+    private func configureUI() {
+        viewHolder.collectionView.backgroundColor = .gray100
+    }
+    
     private func registerCell() {
         viewHolder.collectionView.register(ProductCell.self)
         viewHolder.collectionView.register(EmptyCell.self)

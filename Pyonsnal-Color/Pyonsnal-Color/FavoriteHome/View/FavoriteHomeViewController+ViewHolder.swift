@@ -32,12 +32,14 @@ extension FavoriteHomeViewController {
         
         private let productSubView: UIView = {
             let view = UIView()
+            view.backgroundColor = .white
             return view
         }()
         
         let productTabButton: UIButton = {
             let button = UIButton()
             button.setText(with: Text.productTab)
+            button.backgroundColor = .white
             button.titleLabel?.font = .label1
             button.setTitleColor(.black, for: .selected)
             button.setTitleColor(.gray400, for: .normal)
@@ -46,6 +48,7 @@ extension FavoriteHomeViewController {
         
         private let eventSubView: UIView = {
             let view = UIView()
+            view.backgroundColor = .white
             return view
         }()
         
@@ -53,6 +56,7 @@ extension FavoriteHomeViewController {
             let button = UIButton()
             button.setText(with: Text.eventTab)
             button.titleLabel?.font = .label1
+            button.backgroundColor = .white
             button.setTitleColor(.black, for: .selected)
             button.setTitleColor(.gray400, for: .normal)
             return button

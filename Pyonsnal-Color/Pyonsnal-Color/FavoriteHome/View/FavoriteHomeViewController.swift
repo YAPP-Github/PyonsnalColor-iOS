@@ -78,6 +78,7 @@ final class FavoriteHomeViewController: UIViewController,
         super.viewDidLoad()
         viewHolder.place(in: self.view)
         viewHolder.configureConstraints(for: self.view)
+        configureUI()
         setTabSelectedState(to: .product)
         configureNavigationView()
         setPageViewController()
@@ -99,6 +100,10 @@ final class FavoriteHomeViewController: UIViewController,
     }
     
     // MARK: - Private Method
+    private func configureUI() {
+        view.backgroundColor = .white
+    }
+    
     private func configureTabBarItem() {
         tabBarItem.setTitleTextAttributes([.font: UIFont.label2], for: .normal)
         tabBarItem = UITabBarItem(
