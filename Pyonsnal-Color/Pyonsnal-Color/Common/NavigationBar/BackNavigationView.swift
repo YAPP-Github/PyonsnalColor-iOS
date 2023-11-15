@@ -11,7 +11,7 @@ import SnapKit
 final class BackNavigationView: UIView {
     // MARK: - Declaration
     enum Size {
-        static let favoriteButtonSize: CGFloat = 20
+        static let height: CGFloat = 48
     }
     
     struct Payload {
@@ -88,7 +88,6 @@ final class BackNavigationView: UIView {
     }
     
     func setFavoriteButtonSelected(isSelected: Bool?) {
-        favoriteButton.isHidden = false
         favoriteButton.isSelected = isSelected ?? false
     }
     
@@ -140,12 +139,12 @@ final class BackNavigationView: UIView {
     
     private func configureConstraint() {
         contentView.snp.makeConstraints { make in
-            make.height.equalTo(48)
+            make.height.equalTo(Size.height)
             make.edges.equalToSuperview()
         }
         
         backButton.snp.makeConstraints { make in
-            make.size.equalTo(48)
+            make.size.equalTo(Size.height)
             make.leading.equalToSuperview().offset(.spacing4)
             make.centerY.equalToSuperview()
         }
@@ -160,8 +159,9 @@ final class BackNavigationView: UIView {
         }
         
         favoriteButton.snp.makeConstraints {
-            $0.size.equalTo(Size.favoriteButtonSize)
-            $0.top.trailing.equalToSuperview().inset(.spacing12)
+            $0.size.equalTo(Size.height)
+            $0.top.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(.spacing12)
         }
     }
 }

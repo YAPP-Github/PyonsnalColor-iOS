@@ -68,10 +68,9 @@ final class ProductDetailViewController:
     }
     
     // MARK: - Private Method
-    
     private func configure() {
         view.backgroundColor = .white
-        
+        viewHolder.backNavigationView.favoriteButton.isHidden = false
         viewHolder.collectionView.dataSource = self
         viewHolder.collectionView.delegate = self
     }

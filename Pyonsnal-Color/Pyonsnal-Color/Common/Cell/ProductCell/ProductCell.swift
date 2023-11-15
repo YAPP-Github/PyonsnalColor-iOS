@@ -99,8 +99,7 @@ final class ProductCell: UICollectionViewCell {
     }
     
     private func hasExpiredLayerView(product: ProductDetailEntity) {
-        if let product = product as? ProductDetailEntity,
-            let isExpired = product.isEventExpired {
+        if let isExpired = product.isEventExpired {
             self.showEventCloseLayerView(isClosed: isExpired)
         }
     }
