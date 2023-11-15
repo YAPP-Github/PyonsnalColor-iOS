@@ -53,6 +53,7 @@ final class BackNavigationView: UIView {
     
     let favoriteButton: UIButton = {
         let button = UIButton()
+        button.isHidden = true
         button.setImage(.favorite, for: .normal)
         button.setImage(.favoriteSelected, for: .selected)
         return button
@@ -87,6 +88,7 @@ final class BackNavigationView: UIView {
     }
     
     func setFavoriteButtonSelected(isSelected: Bool?) {
+        favoriteButton.isHidden = false
         favoriteButton.isSelected = isSelected ?? false
     }
     
