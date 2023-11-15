@@ -1,5 +1,5 @@
 //
-//  FavoriteViewController+ViewHolder.swift
+//  FavoriteHomeViewController+ViewHolder.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/09/28.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-extension FavoriteViewController {
+extension FavoriteHomeViewController {
     final class ViewHolder: ViewHolderable {
         
         let titleNavigationView: TitleNavigationView = {
@@ -70,7 +70,7 @@ extension FavoriteViewController {
             return view
         }()
         
-        let pageViewController = FavoritePageViewController(
+        let pageViewController = FavoriteHomePageViewController(
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
         )

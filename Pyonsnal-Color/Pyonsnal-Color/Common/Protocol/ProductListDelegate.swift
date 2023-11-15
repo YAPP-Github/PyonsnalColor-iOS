@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ProductListDelegate: FavoriteButtonDelegate {
+protocol ProductListDelegate: FavoriteHomeDelegate {
     func didLoadPageList(store: ConvenienceStore)
     func refreshByPull()
     func didSelect(with product: ProductDetailEntity?)

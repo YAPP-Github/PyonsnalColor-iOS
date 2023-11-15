@@ -14,7 +14,7 @@ protocol ScrollDelegate: AnyObject {
     func didEndDragging(scrollView: UIScrollView)
 }
 
-protocol EventHomeTabViewControllerDelegate: FavoriteButtonDelegate {
+protocol EventHomeTabViewControllerDelegate: FavoriteHomeDelegate {
     func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore)
     func deleteKeywordFilter(_ filter: FilterItemEntity)
     func refreshFilterButton()

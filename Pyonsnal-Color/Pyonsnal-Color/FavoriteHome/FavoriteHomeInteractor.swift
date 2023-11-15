@@ -1,5 +1,5 @@
 //
-//  FavoriteInteractor.swift
+//  FavoriteHomeInteractor.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/09/11.
@@ -9,28 +9,28 @@ import ModernRIBs
 import Combine
 import Foundation
 
-protocol FavoriteRouting: ViewableRouting {
+protocol FavoriteHomeRouting: ViewableRouting {
     func attachProductSearch()
     func detachProductSearch()
     func attachProductDetail(with product: ProductDetailEntity)
     func detachProductDetail()
 }
 
-protocol FavoritePresentable: Presentable {
-    var listener: FavoritePresentableListener? { get set }
-    func updateProducts(products: [ProductDetailEntity]?, tab: FavoriteTab)
+protocol FavoriteHomePresentable: Presentable {
+    var listener: FavoriteHomePresentableListener? { get set }
+    func updateProducts(products: [ProductDetailEntity]?, tab: FavoriteHomeTab)
 }
 
-protocol FavoriteListener: AnyObject {
+protocol FavoriteHomeListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
-final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
-                                FavoriteInteractable,
-                                FavoritePresentableListener {
+final class FavoriteHomeInteractor: PresentableInteractor<FavoriteHomePresentable>,
+                                    FavoriteHomeInteractable,
+                                    FavoriteHomePresentableListener {
     // MARK: - Interfaces
-    weak var router: FavoriteRouting?
-    weak var listener: FavoriteListener?
+    weak var router: FavoriteHomeRouting?
+    weak var listener: FavoriteHomeListener?
     
     // MARK: - Private Proverty
     private let favoriteAPIService: FavoriteAPIService
@@ -49,11 +49,11 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>,
     private var isPbPagingNumberLoadMore: Bool = true
     private var isEventPagingNumberLoadMore: Bool = true
     
-    private var productDictionary: [FavoriteTab: [ProductDetailEntity]] = [:]
+    private var productDictionary: [FavoriteHomeTab: [ProductDetailEntity]] = [:]
     
     // MARK: - Initializer
     init(
-        presenter: FavoritePresentable,
+        presenter: FavoriteHomePresentable,
         favoriteAPIService: FavoriteAPIService
     ) {
         self.favoriteAPIService = favoriteAPIService
