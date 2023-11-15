@@ -9,6 +9,9 @@ import ModernRIBs
 import Combine
 
 protocol ProfileHomeRouting: ViewableRouting {
+    func attachProfileEdit(with memberInfo: MemberInfoEntity)
+    func detachProfileEdit()
+    
     func attachCommonWebView(with settingInfo: SettingInfo)
     func detachCommonWebView()
     
@@ -66,6 +69,10 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
     
     func didTapTeams(with settingInfo: SettingInfo) {
         router?.attachCommonWebView(with: settingInfo)
+    }
+    
+    func didTapProfileEditButton(memberInfo: MemberInfoEntity) {
+        router?.attachProfileEdit(with: memberInfo)
     }
     
     func didTapBackButton() {

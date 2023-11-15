@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Combine
 import ModernRIBs
 import SnapKit
 
 protocol ProfileHomePresentableListener: AnyObject {
+    func didTapProfileEditButton(memberInfo: MemberInfoEntity) // 프로파일 편집
     func didTapTeams(with settingInfo: SettingInfo) // 만든 사람들
     func didTapAccountSetting() // 계정 설정
 }
@@ -20,6 +22,7 @@ final class ProfileHomeViewController: UIViewController,
 
     enum Size {
         static let profileImageViewSize: CGFloat = 40
+        static let profileEditButtonSize: CGFloat = 48
         static let profileImageViewLeading: CGFloat = 17
         static let profileContainerViewHeight: CGFloat = 104
         
@@ -36,6 +39,8 @@ final class ProfileHomeViewController: UIViewController,
     
     //MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
+    private var cancellable = Set<AnyCancellable>()
+    private var memberInfo: MemberInfoEntity?
     private let sections: [Section] = [.setting]
     private let settings = [
         SettingInfo(title: "기타"),
@@ -61,10 +66,12 @@ final class ProfileHomeViewController: UIViewController,
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureTableView()
+        bindActions()
     }
     
-    func update(with member: MemberInfoEntity) {
-        viewHolder.nickNameLabel.text = member.nickname
+    func update(with memberInfo: MemberInfoEntity) {
+        self.memberInfo = memberInfo
+        viewHolder.nickNameLabel.text = memberInfo.nickname
     }
     
     //MARK: - Private Method
@@ -72,6 +79,16 @@ final class ProfileHomeViewController: UIViewController,
         viewHolder.tableView.delegate = self
         viewHolder.tableView.dataSource = self
         viewHolder.tableView.register(ProfileCell.self)
+    }
+    
+    private func bindActions() {
+        viewHolder.profileEditButton
+            .tapPublisher
+            .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
+            .sink { [weak self] _ in
+                guard let self, let memberInfo else { return }
+                self.listener?.didTapProfileEditButton(memberInfo: memberInfo)
+            }.store(in: &cancellable)
     }
     
     private func configureTabBarItem() {
@@ -173,10 +190,15 @@ extension ProfileHomeViewController {
         let nickNameLabel: UILabel = {
             let label = UILabel()
             label.font = .title2
-            label.text = "양볼 빵빵 다람쥐"
             label.textColor = .black
             label.numberOfLines = 1
             return label
+        }()
+        
+        let profileEditButton: UIButton = {
+            let button = UIButton()
+            button.setImage(ImageAssetKind.Profile.profileEdit.image, for: .normal)
+            return button
         }()
         
         let tableView: UITableView = {
@@ -194,8 +216,9 @@ extension ProfileHomeViewController {
         
         func place(in view: UIView) {
             view.addSubview(profileContainerView)
-            profileContainerView.addSubview(nickNameLabel)
             profileContainerView.addSubview(profileImageView)
+            profileContainerView.addSubview(nickNameLabel)
+            profileContainerView.addSubview(profileEditButton)
             view.addSubview(dividerView)
             view.addSubview(tableView)
         }
@@ -217,6 +240,12 @@ extension ProfileHomeViewController {
                 $0.leading.equalTo(profileImageView.snp.trailing).offset(.spacing12)
                 $0.centerY.equalTo(profileContainerView.snp.centerY)
                 $0.trailing.greaterThanOrEqualToSuperview().inset(.spacing12)
+            }
+            
+            profileEditButton.snp.makeConstraints {
+                $0.top.equalToSuperview().offset(.spacing28)
+                $0.trailing.equalToSuperview().offset(.spacing4)
+                $0.size.equalTo(Size.profileEditButtonSize)
             }
             
             dividerView.snp.makeConstraints {

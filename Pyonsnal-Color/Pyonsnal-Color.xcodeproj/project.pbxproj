@@ -242,6 +242,11 @@
 		F0687BED2A529679004B5EAE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0687BEC2A529679004B5EAE /* Config.swift */; };
 		F068A9702A99E76A000AFD52 /* FilterRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F068A96F2A99E76A000AFD52 /* FilterRenderable.swift */; };
 		F069DBE62A30B9850001D3DD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F069DBE52A30B9850001D3DD /* UIFont+.swift */; };
+		F075D0C22B052B2E00DD0F5E /* ImageAssetKind+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F075D0C12B052B2E00DD0F5E /* ImageAssetKind+Profile.swift */; };
+		F075D0C82B052EF300DD0F5E /* ProfileEditRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F075D0C42B052EF300DD0F5E /* ProfileEditRouter.swift */; };
+		F075D0C92B052EF300DD0F5E /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F075D0C52B052EF300DD0F5E /* ProfileEditViewController.swift */; };
+		F075D0CA2B052EF300DD0F5E /* ProfileEditBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F075D0C62B052EF300DD0F5E /* ProfileEditBuilder.swift */; };
+		F075D0CB2B052EF300DD0F5E /* ProfileEditInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F075D0C72B052EF300DD0F5E /* ProfileEditInteractor.swift */; };
 		F082381F2A49C0C2001C2ABE /* ClassNameRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */; };
 		F0964E422A2A44500028DCA2 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0964E412A2A44500028DCA2 /* KeyChainService.swift */; };
 		F097EF222A5603AD00A7FB9C /* TermsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038B4F82A55EB67008D5BF0 /* TermsButton.swift */; };
@@ -539,6 +544,11 @@
 		F069DBE82A30BA8C0001D3DD /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		F069DBE92A30BA8C0001D3DD /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		F069DBEA2A30BA8C0001D3DD /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		F075D0C12B052B2E00DD0F5E /* ImageAssetKind+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+Profile.swift"; sourceTree = "<group>"; };
+		F075D0C42B052EF300DD0F5E /* ProfileEditRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditRouter.swift; sourceTree = "<group>"; };
+		F075D0C52B052EF300DD0F5E /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		F075D0C62B052EF300DD0F5E /* ProfileEditBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditBuilder.swift; sourceTree = "<group>"; };
+		F075D0C72B052EF300DD0F5E /* ProfileEditInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditInteractor.swift; sourceTree = "<group>"; };
 		F082381E2A49C0C2001C2ABE /* ClassNameRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassNameRenderable.swift; sourceTree = "<group>"; };
 		F0964E3D2A2A16D10028DCA2 /* Pyonsnal-Color.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pyonsnal-Color.entitlements"; sourceTree = "<group>"; };
 		F0964E412A2A44500028DCA2 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
@@ -963,6 +973,7 @@
 				BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */,
 				BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */,
 				F0C698692A6BB1000019C677 /* ImageAsset+Filter.swift */,
+				F075D0C12B052B2E00DD0F5E /* ImageAssetKind+Profile.swift */,
 			);
 			path = ImageAssetKind;
 			sourceTree = "<group>";
@@ -1172,6 +1183,7 @@
 		BA9E23392A21EF3000A539D5 /* Pyonsnal-Color */ = {
 			isa = PBXGroup;
 			children = (
+				F075D0C32B052ED500DD0F5E /* ProfileEdit */,
 				B224964D2ABC1BCA00BC6B09 /* ReviewPopup */,
 				B22496412ABC110F00BC6B09 /* StarRatingReview */,
 				B2F258112AAF03000022013E /* DetailReview */,
@@ -1413,6 +1425,17 @@
 				F0B90DCD2ADD21C0005DE34A /* FavoriteHomePageTabViewController.swift */,
 			);
 			path = View;
+            sourceTree = "<group>";
+        };
+		F075D0C32B052ED500DD0F5E /* ProfileEdit */ = {
+			isa = PBXGroup;
+			children = (
+				F075D0C42B052EF300DD0F5E /* ProfileEditRouter.swift */,
+				F075D0C52B052EF300DD0F5E /* ProfileEditViewController.swift */,
+				F075D0C62B052EF300DD0F5E /* ProfileEditBuilder.swift */,
+				F075D0C72B052EF300DD0F5E /* ProfileEditInteractor.swift */,
+			);
+			path = ProfileEdit;
 			sourceTree = "<group>";
 		};
 		F097EF232A5605CD00A7FB9C /* Button */ = {
@@ -1802,6 +1825,7 @@
 				BA7532E22A595B140002659A /* UserAuthService.swift in Sources */,
 				F0E915D52AAC9E3F000919DA /* CommonProductPageViewControllerRenderable.swift in Sources */,
 				BA8924562A582EE700D1B097 /* NewTagBigView.swift in Sources */,
+				F075D0C82B052EF300DD0F5E /* ProfileEditRouter.swift in Sources */,
 				BA6CAB802AE84C6600B9E1BF /* UserInfoService.swift in Sources */,
 				BAE442C22A6D2C7A00BD6582 /* LoadingReusableView.swift in Sources */,
 				F0687BED2A529679004B5EAE /* Config.swift in Sources */,
@@ -1835,6 +1859,7 @@
 				B22496472ABC112B00BC6B09 /* StarRatingReviewViewController.swift in Sources */,
 				F0DFBC9F2A596953003F7660 /* MemberInfoEntity.swift in Sources */,
 				BA9E233B2A21EF3000A539D5 /* AppDelegate.swift in Sources */,
+				F075D0C92B052EF300DD0F5E /* ProfileEditViewController.swift in Sources */,
 				BAEA1BFD2A3477B10028A90A /* ViewHolable.swift in Sources */,
 				BA0BFB722A5463BD0019AED7 /* EventTag.swift in Sources */,
 				F0C698762A6D4EBD0019C677 /* TopCollectionViewDatasource.swift in Sources */,
@@ -1858,6 +1883,7 @@
 				B2A529492A57F2220010656A /* LogoutPopupRouter.swift in Sources */,
 				B2F258172AAF03160022013E /* DetailReviewViewController.swift in Sources */,
 				B24F1D3C2A456C2400AA03DC /* UICollectionView+.swift in Sources */,
+				F075D0C22B052B2E00DD0F5E /* ImageAssetKind+Profile.swift in Sources */,
 				B2F2581E2AB1963F0022013E /* SingleLineReview.swift in Sources */,
 				B2674D0D2A42DBCA004193DE /* ProductHomeViewHolder.swift in Sources */,
 				B24F1D4E2A4C5F2F00AA03DC /* NotificationCell.swift in Sources */,
@@ -1915,6 +1941,7 @@
 				B2A5294C2A57F2220010656A /* LogoutPopupInteractor.swift in Sources */,
 				BA87E3CF2A45C5A1000A9DEC /* ProductDetailInteractor.swift in Sources */,
 				BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */,
+				F075D0CA2B052EF300DD0F5E /* ProfileEditBuilder.swift in Sources */,
 				F0F203122AB5C04300D4CB6A /* FavoriteAPI.swift in Sources */,
 				B24CAAE42A55AC2F005BE499 /* NotificationListInteractor.swift in Sources */,
 				F0F203082AB5971300D4CB6A /* ProductType.swift in Sources */,
@@ -1976,6 +2003,7 @@
 				BA1E8BB32ACBC2E300964B6E /* ReviewFeedKind.swift in Sources */,
 				BA83225A2AB7299800D2E1EB /* ProductDetailSection.swift in Sources */,
 				B24CAAE62A55AC35005BE499 /* NotificationListRouter.swift in Sources */,
+				F075D0CB2B052EF300DD0F5E /* ProfileEditInteractor.swift in Sources */,
 				B24259122A594AB7006C5223 /* ProductAPI.swift in Sources */,
 				B206F2572A629C2500959884 /* ProductPresentable.swift in Sources */,
 				BA1807602A2F1D6C00295398 /* AuthRouter.swift in Sources */,

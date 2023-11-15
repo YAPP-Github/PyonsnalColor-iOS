@@ -8,6 +8,7 @@
 import ModernRIBs
 
 protocol ProfileHomeInteractable: Interactable,
+                                  ProfileEditListener,
                                   AccountSettingListener,
                                   CommonWebListener {
     var router: ProfileHomeRouting? { get set }
@@ -21,6 +22,8 @@ protocol ProfileHomeViewControllable: ViewControllable {
 final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
                                ProfileHomeViewControllable>,
                                ProfileHomeRouting {
+    private let profileEditBuilder: ProfileEditBuildable
+    private var profileEditRouting: ViewableRouting?
     
     private let commonWebBuilder: CommonWebBuildable
     private var commonWebRouting: ViewableRouting?
@@ -31,13 +34,30 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
     init(
         interactor: ProfileHomeInteractable,
         viewController: ProfileHomeViewControllable,
+        profileEditBuilder: ProfileEditBuildable,
         accountSettingBuilder: AccountSettingBuildable,
         commonWebBuilder: CommonWebBuilder
     ) {
+        self.profileEditBuilder = profileEditBuilder
         self.accountSettingBuilder = accountSettingBuilder
         self.commonWebBuilder = commonWebBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func attachProfileEdit(with memberInfo: MemberInfoEntity) {
+        if profileEditRouting != nil { return }
+        let profileEditRouter = profileEditBuilder.build(withListener: interactor)
+        profileEditRouting = profileEditRouter
+        attachChild(profileEditRouter)
+        viewController.pushViewController(profileEditRouter.viewControllable, animated: true)
+    }
+    
+    func detachProfileEdit() {
+        guard let profileEditRouting else { return }
+        viewController.popViewController(animated: true)
+        self.profileEditRouting = nil
+        detachChild(profileEditRouting)
     }
     
     func attachAccountSetting() {

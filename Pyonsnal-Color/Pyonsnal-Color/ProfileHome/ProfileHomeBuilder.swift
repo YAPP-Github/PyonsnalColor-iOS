@@ -11,6 +11,7 @@ protocol ProfileHomeDependency: Dependency {
 }
 
 final class ProfileHomeComponent: Component<ProfileHomeDependency>,
+                                  ProfileEditDependency,
                                   AccountSettingDependency,
                                   CommonWebDependency {
     var memberAPIService: MemberAPIService
@@ -44,11 +45,13 @@ final class ProfileHomeBuilder: Builder<ProfileHomeDependency>,
         let viewController = ProfileHomeViewController()
         let interactor = ProfileHomeInteractor(presenter: viewController, component: component)
         interactor.listener = listener
+        let profileEditBuilder = ProfileEditBuilder(dependency: component)
         let accountSettingBuilder = AccountSettingBuilder(dependency: component)
         let commonWebBuilder = CommonWebBuilder(dependency: component)
         return ProfileHomeRouter(
             interactor: interactor,
-            viewController: viewController,
+            viewController: viewController, 
+            profileEditBuilder: profileEditBuilder,
             accountSettingBuilder: accountSettingBuilder,
             commonWebBuilder: commonWebBuilder
         )

@@ -29,6 +29,7 @@ extension Spacing {
     static let spacing16: Spacing = .init(value: 16)
     static let spacing20: Spacing = .init(value: 20)
     static let spacing24: Spacing = .init(value: 24)
+    static let spacing28: Spacing = .init(value: 28)
     static let spacing32: Spacing = .init(value: 32)
     static let spacing40: Spacing = .init(value: 40)
 }
