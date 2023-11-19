@@ -5,6 +5,7 @@
 //  Created by 김진우 on 2023/07/19.
 //
 
+import Foundation
 import ModernRIBs
 import Combine
 
@@ -13,6 +14,8 @@ protocol ProductSearchRouting: ViewableRouting {
     func detachSortBottomSheet()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
+    func attachProductDetail(with product: ProductDetailEntity)
+    func detachProductDetail()
 }
 
 protocol ProductSearchPresentable: Presentable {
@@ -78,6 +81,17 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didSelectProduct(with indexPath: IndexPath) {
+        if eventProductResult.count > indexPath.item {
+            let product = eventProductResult[indexPath.item]
+            router?.attachProductDetail(with: product)
+        }
+    }
+    
+    func popProductDetail() {
+        router?.detachProductDetail()
     }
     
     func popViewController() {

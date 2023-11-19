@@ -21,6 +21,7 @@ protocol ProductSearchPresentableListener: AnyObject {
     func setSort(sort: FilterItemEntity)
     func didTapSortButton(filterItem: FilterItemEntity)
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
+    func didSelectProduct(with indexPath: IndexPath)
 }
 
 final class ProductSearchViewController: UIViewController,
@@ -88,8 +89,6 @@ final class ProductSearchViewController: UIViewController,
             for: .touchUpInside
         )
         viewHolder.searchBarView.delegate = self
-        
-        viewHolder.contentView.addTapGesture(target: self, action: #selector(touchEventAction(_:)))
     }
     
     private func configureCollectionView() {
@@ -182,8 +181,13 @@ extension ProductSearchViewController: SearchFilterHeaderDelegate {
 
 extension ProductSearchViewController: UICollectionViewDelegate {
     
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.item)
+        listener?.didSelectProduct(with: indexPath)
+        view.endEditing(true)
     }
     
     func collectionView(
@@ -285,12 +289,6 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
         } else {
             return Size.collectionViewEdgeInset
         }
-    }
-}
-
-extension ProductSearchViewController {
-    @objc private func touchEventAction(_ tapGesture: UITapGestureRecognizer) {
-        view.endEditing(true)
     }
 }
 
