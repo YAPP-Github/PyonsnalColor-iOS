@@ -47,7 +47,10 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
     
     func attachProfileEdit(with memberInfo: MemberInfoEntity) {
         if profileEditRouting != nil { return }
-        let profileEditRouter = profileEditBuilder.build(withListener: interactor)
+        let profileEditRouter = profileEditBuilder.build(
+            withListener: interactor,
+            memberInfo: memberInfo
+        )
         profileEditRouting = profileEditRouter
         attachChild(profileEditRouter)
         viewController.pushViewController(profileEditRouter.viewControllable, animated: true)
@@ -62,7 +65,6 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
     
     func attachAccountSetting() {
         if accountSetting != nil { return }
-        
         let accountSettingRouter = accountSettingBuilder.build(withListener: interactor)
         accountSetting = accountSettingRouter
         attachChild(accountSettingRouter)

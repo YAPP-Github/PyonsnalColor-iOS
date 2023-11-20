@@ -239,12 +239,12 @@ extension ProfileHomeViewController {
             nickNameLabel.snp.makeConstraints {
                 $0.leading.equalTo(profileImageView.snp.trailing).offset(.spacing12)
                 $0.centerY.equalTo(profileContainerView.snp.centerY)
-                $0.trailing.greaterThanOrEqualToSuperview().inset(.spacing12)
+                $0.trailing.greaterThanOrEqualTo(profileEditButton.snp.leading).inset(.spacing12)
             }
             
             profileEditButton.snp.makeConstraints {
                 $0.top.equalToSuperview().offset(.spacing28)
-                $0.trailing.equalToSuperview().offset(.spacing4)
+                $0.trailing.equalToSuperview().inset(.spacing4)
                 $0.size.equalTo(Size.profileEditButtonSize)
             }
             

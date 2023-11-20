@@ -14,6 +14,7 @@ extension RootTabBarComponent: ProductHomeDependency,
                                EventHomeDependency,
                                FavoriteHomeDependency,
                                ProfileHomeDependency {
+
     var client: PyonsnalColorClient {
         return PyonsnalColorClient()
     }

@@ -8,19 +8,21 @@
 import ModernRIBs
 
 protocol ProfileEditDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+    var memberAPIService: MemberAPIService { get }
 }
 
 final class ProfileEditComponent: Component<ProfileEditDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    var memberInfo: MemberInfoEntity
+    init(dependency: ProfileEditDependency, memberInfo: MemberInfoEntity) {
+        self.memberInfo = memberInfo
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder
 
 protocol ProfileEditBuildable: Buildable {
-    func build(withListener listener: ProfileEditListener) -> ProfileEditRouting
+    func build(withListener listener: ProfileEditListener, memberInfo: MemberInfoEntity) -> ProfileEditRouting
 }
 
 final class ProfileEditBuilder: Builder<ProfileEditDependency>, ProfileEditBuildable {
@@ -29,10 +31,13 @@ final class ProfileEditBuilder: Builder<ProfileEditDependency>, ProfileEditBuild
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: ProfileEditListener) -> ProfileEditRouting {
-        let component = ProfileEditComponent(dependency: dependency)
+    func build(
+        withListener listener: ProfileEditListener,
+        memberInfo: MemberInfoEntity
+    ) -> ProfileEditRouting {
+        let component = ProfileEditComponent(dependency: dependency, memberInfo: memberInfo)
         let viewController = ProfileEditViewController()
-        let interactor = ProfileEditInteractor(presenter: viewController)
+        let interactor = ProfileEditInteractor(presenter: viewController, component: component)
         interactor.listener = listener
         return ProfileEditRouter(interactor: interactor, viewController: viewController)
     }

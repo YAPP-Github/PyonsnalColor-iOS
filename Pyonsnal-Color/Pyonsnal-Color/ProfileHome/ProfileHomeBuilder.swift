@@ -14,6 +14,7 @@ final class ProfileHomeComponent: Component<ProfileHomeDependency>,
                                   ProfileEditDependency,
                                   AccountSettingDependency,
                                   CommonWebDependency {
+    
     var memberAPIService: MemberAPIService
     
     override init(dependency: ProfileHomeDependency) {

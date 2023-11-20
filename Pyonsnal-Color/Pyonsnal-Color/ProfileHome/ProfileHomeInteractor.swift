@@ -86,4 +86,9 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
     func detachCommonWebView() {
         router?.detachCommonWebView()
     }
+    
+    func detachProfileEditView() {
+        router?.detachProfileEdit()
+    }
+    
 }
