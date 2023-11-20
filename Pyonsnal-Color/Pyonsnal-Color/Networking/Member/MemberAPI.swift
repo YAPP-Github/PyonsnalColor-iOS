@@ -14,6 +14,8 @@ enum MemberAPI: NetworkRequestBuilder {
     case info
     case withdraw
     case logout(accessToken: String, refreshToken: String)
+    case validate(nickname: String)
+    case editProfile(nicknameEntity: NicknameEntity, imageFile: String)
 }
 
 extension MemberAPI {
@@ -29,6 +31,10 @@ extension MemberAPI {
             return "/member/withdraw"
         case .logout:
             return "/member/logout"
+        case .validate:
+            return "/member/nickname"
+        case .editProfile:
+            return "/member/profile"
         }
     }
     
@@ -36,7 +42,7 @@ extension MemberAPI {
         switch self {
         case .logout(let accessToken, _):
             return [URLQueryItem(name: "tokenDto", value: accessToken)]
-        case .info, .withdraw:
+        case .info, .withdraw, .validate, .editProfile:
             return nil
         }
     }
@@ -47,6 +53,10 @@ extension MemberAPI {
             return .get
         case .withdraw, .logout:
             return .delete
+        case .validate:
+            return .post
+        case .editProfile:
+            return .patch
         }
     }
     
@@ -63,6 +73,10 @@ extension MemberAPI {
             return ["accessToken": accessToken, "refreshToken": refreshToken]
         case .info, .withdraw:
             return nil
+        case .validate(let nickname):
+            return ["nickname" : "\(nickname)"]
+        case .editProfile(let nicknameEntity, let imageFile):
+            return ["nicknameRequestDto" : nicknameEntity.asDictionary()?.toJsonString(), "imageFile": imageFile]
         }
     }
 }

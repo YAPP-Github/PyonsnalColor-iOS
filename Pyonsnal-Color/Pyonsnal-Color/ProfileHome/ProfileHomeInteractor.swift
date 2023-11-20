@@ -49,7 +49,7 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
         component.memberAPIService.info()
             .sink { [weak self] response in
                 if let memberInfo = response.value {
-                    print("info success: \(memberInfo)")
+                    Log.d(message: "info success: \(memberInfo)")
                     self?.presenter.update(with: memberInfo)
                 } else if response.error != nil {
                     // TODO: error handling

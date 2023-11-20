@@ -48,4 +48,12 @@ final class MemberAPIService {
             model: MemberInfoEntity.self
         )
     }
+    
+    func validate(nickname: String) -> ResponsePublisher<EmptyResponse> {
+        MemberAPI.accessToken = accessToken
+        return client.request(
+            MemberAPI.validate(nickname: nickname),
+            model: EmptyResponse.self
+        )
+    }
 }

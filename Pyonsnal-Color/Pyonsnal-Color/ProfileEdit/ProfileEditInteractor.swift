@@ -5,6 +5,7 @@
 //  Created by 조소정 on 11/16/23.
 //
 
+import Combine
 import ModernRIBs
 
 protocol ProfileEditRouting: ViewableRouting {
@@ -14,6 +15,7 @@ protocol ProfileEditRouting: ViewableRouting {
 protocol ProfileEditPresentable: Presentable {
     var listener: ProfileEditPresentableListener? { get set }
     func loadInfo(with memberInfo: MemberInfoEntity?)
+    func updateNicknameStatus(status: NetworkErrorType)
 }
 
 protocol ProfileEditListener: AnyObject {
@@ -24,7 +26,8 @@ final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>
 
     weak var router: ProfileEditRouting?
     weak var listener: ProfileEditListener?
-    var component: ProfileEditComponent?
+    private var cancellable = Set<AnyCancellable>()
+    private var component: ProfileEditComponent?
     
     init(presenter: ProfileEditPresentable, component: ProfileEditComponent) {
         self.component = component
@@ -43,10 +46,31 @@ final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>
     }
     
     func didTapEditButton() {
-        
+//        component?.dependency.memberAPIService
     }
     
     func didTapBackButton() {
         listener?.detachProfileEditView()
+    }
+    
+    func editNickname(nickname: String) {
+        component?.dependency.memberAPIService
+            .validate(nickname: nickname)
+            .sink { [weak self] response in
+                guard let self else { return }
+                if let error = response.error {
+                    if isInvalidNicknameStatus(errorType: error.type) {
+                        self.presenter.updateNicknameStatus(status: error.type)
+                    } else if error.type == .emptyResponse { // 빈 값일때 정상
+                        self.presenter.updateNicknameStatus(status: .validNickname)
+                    }
+                } else {
+                    self.presenter.updateNicknameStatus(status: .validNickname)
+                }
+            }.store(in: &cancellable)
+    }
+    
+    private func isInvalidNicknameStatus(errorType: NetworkErrorType) -> Bool {
+        return errorType == .invalidBlankNickname || errorType == .invalidParameter || errorType == .nicknameAlreadyExist
     }
 }

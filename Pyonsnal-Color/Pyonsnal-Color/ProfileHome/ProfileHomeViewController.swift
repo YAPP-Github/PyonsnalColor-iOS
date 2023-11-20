@@ -71,6 +71,10 @@ final class ProfileHomeViewController: UIViewController,
     
     func update(with memberInfo: MemberInfoEntity) {
         self.memberInfo = memberInfo
+        if let profileImage = memberInfo.profileImage,
+            let url = URL(string: profileImage) {
+            viewHolder.profileImageView.setImage(with: url)
+        }
         viewHolder.nickNameLabel.text = memberInfo.nickname
     }
     
@@ -180,7 +184,7 @@ extension ProfileHomeViewController {
             return view
         }()
         
-        private let profileImageView: UIImageView = {
+        let profileImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
             imageView.setImage(.tagStore)

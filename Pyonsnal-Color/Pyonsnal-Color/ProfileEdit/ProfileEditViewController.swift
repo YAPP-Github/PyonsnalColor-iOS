@@ -12,6 +12,7 @@ import ModernRIBs
 protocol ProfileEditPresentableListener: AnyObject {
     func didTapEditButton()
     func didTapBackButton()
+    func editNickname(nickname: String)
 }
 
 final class ProfileEditViewController: UIViewController, ProfileEditPresentable, ProfileEditViewControllable {
@@ -19,6 +20,7 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
     weak var listener: ProfileEditPresentableListener?
     private var viewHolder: ViewHolder = .init()
     private var cancellable = Set<AnyCancellable>()
+    private var maximumNicknameCount: Int = 15
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +31,25 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
     }
     
     func loadInfo(with memberInfo: MemberInfoEntity?) {
-        // viewHolder.profileImageView.image =
-        setNickNamePlaceHolder(nickName: memberInfo?.nickname)
+        if let profileImage = memberInfo?.profileImage,
+            let url = URL(string: profileImage) {
+            viewHolder.profileImageView.setImage(with: url)
+        }
+        setNicknamePlaceHolder(nickname: memberInfo?.nickname)
+    }
+    
+    func updateNicknameStatus(status: NetworkErrorType) {
+        self.resetValidateLabelIfNicknameEmpty()
+        viewHolder.nicknameValidateLabel.text = status.rawValue
+        viewHolder.nicknameValidateLabel.textColor = status.textColor
+    }
+    
+    private func resetValidateLabelIfNicknameEmpty() {
+        if let nicknameText = viewHolder.nicknameTextField.text,
+           nicknameText.isEmpty {
+            viewHolder.nicknameValidateLabel.text = ""
+            updateNicknameCountLabel()
+        }
     }
     
     private func configureUI() {
@@ -39,6 +58,7 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
     
     private func bindActions() {
         viewHolder.backNavigationView.delegate = self
+        viewHolder.nicknameTextField.delegate = self
         viewHolder.imageContainerView
             .gesturePublisher()
             .sink { [weak self] _ in
@@ -47,10 +67,18 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
                 
             }.store(in: &cancellable)
         
-        viewHolder.nickNameTextField
+        viewHolder.nicknameTextField
             .textPublisher
+            .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] text in
-                print("text \(text)")
+                guard let self,
+                      let text,
+                      !text.isEmpty else { 
+                    self?.resetValidateLabelIfNicknameEmpty()
+                    return
+                }
+                self.listener?.editNickname(nickname: text)
+                self.updateNicknameCountLabel()
             }.store(in: &cancellable)
         
         viewHolder.editButton
@@ -62,26 +90,46 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
             
     }
     
-    private func setNickNamePlaceHolder(nickName: String?) {
-        guard let nickName else { return }
+    private func setNicknamePlaceHolder(nickname: String?) {
+        guard let nickname else { return }
         let placeHolderText = NSMutableAttributedString()
-        placeHolderText.appendAttributes(string: nickName, font: .body2r, color: .gray400)
-        viewHolder.nickNameTextField.attributedPlaceholder = placeHolderText
+        placeHolderText.appendAttributes(string: nickname, font: .body2r, color: .gray400)
+        viewHolder.nicknameTextField.attributedPlaceholder = placeHolderText
+    }
+    
+    private func updateNicknameCountLabel() {
+        let count = viewHolder.nicknameTextField.text?.count ?? 0
+        viewHolder.nicknameCountLabel.text = "\(count)/\(Constant.maximumNicknameCount)"
     }
 }
 
+// MARK: - BackNavigationViewDelegate
 extension ProfileEditViewController: BackNavigationViewDelegate {
     func didTapBackButton() {
         listener?.didTapBackButton()
     }
 }
 
+// MARK: - UITextFieldDelegate
+extension ProfileEditViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return false }
+        if string.isBackSpace() { return true }
+        if text.count >= Constant.maximumNicknameCount {
+            return false
+        }
+        return true
+    }
+}
+
 extension ProfileEditViewController {
     enum Constant {
+        static let maximumNicknameCount: Int = 15
         static let navigationTitle = "프로필 수정"
         static let editButtonTitle = "프로필 수정 완료"
     }
     
+    // MARK: - ViewHolder
     final class ViewHolder: ViewHolderable {
         
         let backNavigationView: BackNavigationView = {
@@ -111,6 +159,7 @@ extension ProfileEditViewController {
         let profileAddImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
+            imageView.tintColor = .gray400
             imageView.image = UIImage(systemName: "plus.circle.fill")
             return imageView
         }()
@@ -122,7 +171,7 @@ extension ProfileEditViewController {
             return stackView
         }()
         
-        private let nickNameStackView: UIStackView = {
+        private let nicknameStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .horizontal
             stackView.distribution = .fillProportionally
@@ -137,21 +186,28 @@ extension ProfileEditViewController {
             return label
         }()
         
-        private let nicknameCountLabel: UILabel = {
+        let nicknameCountLabel: UILabel = {
             let label = UILabel()
-            label.text = "0/10"
+            label.text = "0/\(Constant.maximumNicknameCount)"
             label.textColor = .gray600
             label.font = .body3r
             return label
         }()
         
-        let nickNameTextField: UITextField = {
+        let nicknameTextField: UITextField = {
             let textField = UITextField()
             textField.backgroundColor = .gray100
             textField.addLeftPaddingView(point: 12)
             textField.makeRounded(with: 16)
             textField.makeBorder(width: 1, color: UIColor.gray200.cgColor)
             return textField
+        }()
+        
+        let nicknameValidateLabel: UILabel = {
+            let label = UILabel()
+            label.textAlignment = .right
+            label.font = .body3r
+            return label
         }()
         
         let editButton: PrimaryButton = {
@@ -167,12 +223,13 @@ extension ProfileEditViewController {
             imageContainerView.addSubview(profileAddImageView)
             
             view.addSubview(stackView)
-            stackView.addArrangedSubview(nickNameStackView)
-            nickNameStackView.addArrangedSubview(nicknameLabel)
-            nickNameStackView.addArrangedSubview(nicknameCountLabel)
+            stackView.addArrangedSubview(nicknameStackView)
+            nicknameStackView.addArrangedSubview(nicknameLabel)
+            nicknameStackView.addArrangedSubview(nicknameCountLabel)
             nicknameCountLabel.snp.contentHuggingHorizontalPriority = 1000
             
-            stackView.addArrangedSubview(nickNameTextField)
+            stackView.addArrangedSubview(nicknameTextField)
+            stackView.addArrangedSubview(nicknameValidateLabel)
             view.addSubview(editButton)
         }
         
@@ -204,7 +261,7 @@ extension ProfileEditViewController {
                 $0.trailing.equalToSuperview().inset(.spacing16)
             }
             
-            nickNameTextField.snp.makeConstraints {
+            nicknameTextField.snp.makeConstraints {
                 $0.height.equalTo(44)
             }
             
