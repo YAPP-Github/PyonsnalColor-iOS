@@ -62,6 +62,10 @@ final class DetailReviewViewController: UIViewController,
         viewHolder.productNameLabel.text = productDetail.name
         setResizedStoreIcon(productDetail.storeType.storeIcon.image)
         updateStarRatedView(score: score)
+        viewHolder.totalScrollView.addTapGesture(
+            target: self,
+            action: #selector(touchEventAction(_:))
+        )
     }
     
     private func configureDelegate() {
@@ -143,6 +147,10 @@ final class DetailReviewViewController: UIViewController,
                 $0.width.equalTo(newWidth)
             }
         }
+    }
+    
+    @objc private func touchEventAction(_ tapGesture: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
     
     func getReviewContents() -> String {
