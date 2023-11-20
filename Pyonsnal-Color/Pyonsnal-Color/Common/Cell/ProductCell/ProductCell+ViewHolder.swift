@@ -20,7 +20,7 @@ extension ProductCell {
         static let eventTagImageviewRadius: CGFloat = 10
         static let cornerRadius: CGFloat = 16
         static let borderWidth: CGFloat = 1
-        static let favoriteButtonSize: CGFloat = 20
+        static let favoriteButtonSize: CGFloat = 44
     }
     
     final class ViewHolder: ViewHolderable {
@@ -240,7 +240,7 @@ extension ProductCell {
         func updateFavoriteButtonConstraints() {
             favoriteButton.snp.makeConstraints {
                 $0.size.equalTo(Size.favoriteButtonSize)
-                $0.top.trailing.equalToSuperview().inset(.spacing12)
+                $0.top.trailing.equalToSuperview()
             }
         }
     }

@@ -1,5 +1,5 @@
 //
-//  FavoritePageViewController.swift
+//  FavoriteHomePageViewController.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/10/16.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol FavoriteTabPageViewControllerDelegate: AnyObject {
+protocol FavoriteHomeTabPageViewControllerDelegate: AnyObject {
     func updateSelectedTab(index: Int)
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
     func didTapProduct(product: ProductDetailEntity)
@@ -16,11 +16,11 @@ protocol FavoriteTabPageViewControllerDelegate: AnyObject {
     func loadProducts()
 }
 
-final class FavoritePageViewController: UIPageViewController {
+final class FavoriteHomePageViewController: UIPageViewController {
     
-    private var pageViewControllers = [FavoritePageTabViewController]()
+    private var pageViewControllers = [FavoriteHomePageTabViewController]()
     var currentIndex: Int = 0
-    weak var pageDelegate: FavoriteTabPageViewControllerDelegate?
+    weak var pageDelegate: FavoriteHomeTabPageViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +28,8 @@ final class FavoritePageViewController: UIPageViewController {
     }
     
     private func setPageViewControllers() {
-        FavoriteTab.allCases.forEach { _ in
-            let viewController = FavoritePageTabViewController()
+        FavoriteHomeTab.allCases.forEach { _ in
+            let viewController = FavoriteHomePageTabViewController()
             viewController.delegate = self
             pageViewControllers.append(viewController)
         }
@@ -57,7 +57,7 @@ final class FavoritePageViewController: UIPageViewController {
     }
 }
 
-extension FavoritePageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+extension FavoriteHomePageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func pageViewController(
         _ pageViewController: UIPageViewController,
         didFinishAnimating finished: Bool,
@@ -65,7 +65,7 @@ extension FavoritePageViewController: UIPageViewControllerDelegate, UIPageViewCo
         transitionCompleted completed: Bool
     ) {
         guard let viewControllers = pageViewController.viewControllers,
-              let viewController = viewControllers.first as? FavoritePageTabViewController,
+              let viewController = viewControllers.first as? FavoriteHomePageTabViewController,
               let index = pageViewControllers.firstIndex(of: viewController) else {
             return
         }
@@ -75,7 +75,7 @@ extension FavoritePageViewController: UIPageViewControllerDelegate, UIPageViewCo
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        if let viewController = viewController as? FavoritePageTabViewController {
+        if let viewController = viewController as? FavoriteHomePageTabViewController {
             guard let index = pageViewControllers.firstIndex(of: viewController) else { return nil }
             let beforeIndex = index - 1
             if beforeIndex >= 0, beforeIndex < pageViewControllers.count {
@@ -87,7 +87,7 @@ extension FavoritePageViewController: UIPageViewControllerDelegate, UIPageViewCo
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        if let viewController =  viewController as? FavoritePageTabViewController {
+        if let viewController =  viewController as? FavoriteHomePageTabViewController {
             guard let index = pageViewControllers.firstIndex(of: viewController) else { return nil }
             let afterIndex = index + 1
             if afterIndex >= 0, afterIndex < pageViewControllers.count {
@@ -98,7 +98,7 @@ extension FavoritePageViewController: UIPageViewControllerDelegate, UIPageViewCo
     }
 }
 
-extension FavoritePageViewController: FavoritePageTabViewControllerDelegate {
+extension FavoriteHomePageViewController: FavoriteHomePageTabViewControllerDelegate {
     func loadProducts() {
         pageDelegate?.loadProducts()
     }

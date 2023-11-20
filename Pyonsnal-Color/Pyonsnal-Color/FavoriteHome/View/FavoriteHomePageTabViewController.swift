@@ -1,5 +1,5 @@
 //
-//  FavoritePageTabViewController.swift
+//  FavoriteHomePageTabViewController.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/10/16.
@@ -13,14 +13,14 @@ enum FavoriteButtonAction {
     case delete
 }
 
-protocol FavoritePageTabViewControllerDelegate: FavoriteButtonDelegate {
+protocol FavoriteHomePageTabViewControllerDelegate: FavoriteHomeDelegate {
     func didTapProduct(product: ProductDetailEntity)
     func loadMoreItems()
     func pullToRefresh()
     func loadProducts()
 }
 
-final class FavoritePageTabViewController: UIViewController {
+final class FavoriteHomePageTabViewController: UIViewController {
     
     // MARK: - Interfaces
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
@@ -35,8 +35,8 @@ final class FavoritePageTabViewController: UIViewController {
         case empty
         
         static func == (
-            lhs: FavoritePageTabViewController.ItemType,
-            rhs: FavoritePageTabViewController.ItemType
+            lhs: FavoriteHomePageTabViewController.ItemType,
+            rhs: FavoriteHomePageTabViewController.ItemType
         ) -> Bool {
             switch (lhs, rhs) {
             case (.product(let lProduct), .product(let rProduct)):
@@ -58,7 +58,7 @@ final class FavoritePageTabViewController: UIViewController {
         }
     }
     
-    weak var delegate: FavoritePageTabViewControllerDelegate?
+    weak var delegate: FavoriteHomePageTabViewControllerDelegate?
     
     // MARK: - Private Property
     private let viewHolder = ViewHolder()
@@ -68,6 +68,7 @@ final class FavoritePageTabViewController: UIViewController {
         super.viewDidLoad()
         viewHolder.place(in: self.view)
         viewHolder.configureConstraints(for: self.view)
+        configureUI()
         registerCell()
         configureCollectionView()
         configureDataSource()
@@ -86,6 +87,10 @@ final class FavoritePageTabViewController: UIViewController {
     }
     
     // MARK: - Private Method
+    private func configureUI() {
+        viewHolder.collectionView.backgroundColor = .gray100
+    }
+    
     private func registerCell() {
         viewHolder.collectionView.register(ProductCell.self)
         viewHolder.collectionView.register(EmptyCell.self)
@@ -192,7 +197,7 @@ final class FavoritePageTabViewController: UIViewController {
 }
 
 // MARK: - UICollectionViewDelegate
-extension FavoritePageTabViewController: UICollectionViewDelegate {
+extension FavoriteHomePageTabViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentSizeHeight = self.viewHolder.collectionView.contentSize.height
         let contentOffsetY = self.viewHolder.collectionView.contentOffset.y
@@ -212,7 +217,7 @@ extension FavoritePageTabViewController: UICollectionViewDelegate {
 }
 
 // MARK: - ProductCellDelegate
-extension FavoritePageTabViewController: ProductCellDelegate {
+extension FavoriteHomePageTabViewController: ProductCellDelegate {
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
         delegate?.didTapFavoriteButton(product: product, action: action)
     }

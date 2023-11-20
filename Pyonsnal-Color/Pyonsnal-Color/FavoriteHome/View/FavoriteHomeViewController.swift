@@ -1,5 +1,5 @@
 //
-//  FavoriteViewController.swift
+//  FavoriteHomeViewController.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/09/11.
@@ -10,7 +10,7 @@ import SnapKit
 import ModernRIBs
 import Combine
 
-protocol FavoritePresentableListener: AnyObject {
+protocol FavoriteHomePresentableListener: AnyObject {
     func requestFavoriteProducts()
     func deleteAllProducts()
     func appendProduct(product: ProductDetailEntity)
@@ -21,7 +21,7 @@ protocol FavoritePresentableListener: AnyObject {
     var isPagingEnabled: Bool { get }
 }
 
-enum FavoriteTab: Int, CaseIterable {
+enum FavoriteHomeTab: Int, CaseIterable {
     case product = 0
     case event
     
@@ -35,9 +35,9 @@ enum FavoriteTab: Int, CaseIterable {
     }
 }
 
-final class FavoriteViewController: UIViewController,
-                                    FavoritePresentable,
-                                    FavoriteViewControllable {
+final class FavoriteHomeViewController: UIViewController,
+                                    FavoriteHomePresentable,
+                                    FavoriteHomeViewControllable {
     // MARK: Interface
     enum Size {
         static let headerViewHeight: CGFloat = 48
@@ -52,11 +52,11 @@ final class FavoriteViewController: UIViewController,
         static let eventTab = "행사 상품"
     }
     
-    weak var listener: FavoritePresentableListener?
+    weak var listener: FavoriteHomePresentableListener?
     
     // MARK: Private Property
     private let viewHolder: ViewHolder = .init()
-    private var products = [FavoriteTab: [ProductDetailEntity]]()
+    private var products = [FavoriteHomeTab: [ProductDetailEntity]]()
     private var scrollIndex = CurrentValueSubject<Int, Never>(0)
     private var cancellable = Set<AnyCancellable>()
     
@@ -78,6 +78,7 @@ final class FavoriteViewController: UIViewController,
         super.viewDidLoad()
         viewHolder.place(in: self.view)
         viewHolder.configureConstraints(for: self.view)
+        configureUI()
         setTabSelectedState(to: .product)
         configureNavigationView()
         setPageViewController()
@@ -90,7 +91,7 @@ final class FavoriteViewController: UIViewController,
     }
     
     // MARK: - Public Method
-    func updateProducts(products: [ProductDetailEntity]?, tab: FavoriteTab) {
+    func updateProducts(products: [ProductDetailEntity]?, tab: FavoriteHomeTab) {
         self.products[tab] = products
         viewHolder.pageViewController.updateProducts(
             to: tab.rawValue,
@@ -99,6 +100,10 @@ final class FavoriteViewController: UIViewController,
     }
     
     // MARK: - Private Method
+    private func configureUI() {
+        view.backgroundColor = .white
+    }
+    
     private func configureTabBarItem() {
         tabBarItem.setTitleTextAttributes([.font: UIFont.label2], for: .normal)
         tabBarItem = UITabBarItem(
@@ -108,7 +113,7 @@ final class FavoriteViewController: UIViewController,
         )
     }
     
-    private func setTabSelectedState(to state: FavoriteTab) {
+    private func setTabSelectedState(to state: FavoriteHomeTab) {
         switch state {
         case .product:
             setSelectedState(
@@ -141,7 +146,7 @@ final class FavoriteViewController: UIViewController,
         underBarView.isHidden = true
     }
     
-    private func didTapButton(selectedTab: FavoriteTab) {
+    private func didTapButton(selectedTab: FavoriteHomeTab) {
         scrollIndex.send(selectedTab.rawValue)
         viewHolder.pageViewController.updatePage(to: selectedTab.rawValue)
     }
@@ -171,7 +176,7 @@ final class FavoriteViewController: UIViewController,
         
         scrollIndex
             .sink { [weak self] index in
-            let tab = FavoriteTab(rawValue: index) ?? .product
+            let tab = FavoriteHomeTab(rawValue: index) ?? .product
             self?.setTabSelectedState(to: tab)
         }.store(in: &cancellable)
         
@@ -180,7 +185,7 @@ final class FavoriteViewController: UIViewController,
 }
 
 // MARK: - TitleNavigationViewDelegate
-extension FavoriteViewController: TitleNavigationViewDelegate {
+extension FavoriteHomeViewController: TitleNavigationViewDelegate {
     func didTabSearchButton() {
         listener?.didTapSearchButton()
     }
@@ -190,15 +195,15 @@ extension FavoriteViewController: TitleNavigationViewDelegate {
 }
 
 // MARK: - ProductPresentable
-extension FavoriteViewController: ProductPresentable {
+extension FavoriteHomeViewController: ProductPresentable {
     func didTabRootTabBar() {
-        guard let currentTabViewController = viewHolder.pageViewController.viewControllers?.first as? FavoritePageTabViewController else { return }
+        guard let currentTabViewController = viewHolder.pageViewController.viewControllers?.first as? FavoriteHomePageTabViewController else { return }
         currentTabViewController.scrollCollectionViewToTop()
     }
 }
 
-// MARK: - FavoriteTabPageViewControllerDelegate
-extension FavoriteViewController: FavoriteTabPageViewControllerDelegate {
+// MARK: - FavoriteHomeTabPageViewControllerDelegate
+extension FavoriteHomeViewController: FavoriteHomeTabPageViewControllerDelegate {
     func loadProducts() {
         listener?.requestFavoriteProducts()
     }
@@ -227,7 +232,7 @@ extension FavoriteViewController: FavoriteTabPageViewControllerDelegate {
     
     func loadMoreItems() {
         if listener?.isPagingEnabled ?? false {
-            let tab = FavoriteTab(rawValue: scrollIndex.value) ?? .product
+            let tab = FavoriteHomeTab(rawValue: scrollIndex.value) ?? .product
             listener?.loadMoreItems(type: tab.productType)
         }
     }

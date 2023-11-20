@@ -1,5 +1,5 @@
 //
-//  FavoriteRouter.swift
+//  FavoriteHomeRouter.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 2023/09/11.
@@ -7,20 +7,20 @@
 
 import ModernRIBs
 
-protocol FavoriteInteractable: Interactable,
-                               ProductSearchListener,
-                               ProductDetailListener {
-    var router: FavoriteRouting? { get set }
-    var listener: FavoriteListener? { get set }
+protocol FavoriteHomeInteractable: Interactable,
+                                   ProductSearchListener,
+                                   ProductDetailListener {
+    var router: FavoriteHomeRouting? { get set }
+    var listener: FavoriteHomeListener? { get set }
 }
 
-protocol FavoriteViewControllable: ViewControllable {
+protocol FavoriteHomeViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
-final class FavoriteRouter: ViewableRouter<FavoriteInteractable,
-                            FavoriteViewControllable>,
-                            FavoriteRouting {
+final class FavoriteHomeRouter: ViewableRouter<FavoriteHomeInteractable,
+                            FavoriteHomeViewControllable>,
+                            FavoriteHomeRouting {
 
     private let productSearch: ProductSearchBuildable
     private var productSearchRouting: ProductSearchRouting?
@@ -29,8 +29,8 @@ final class FavoriteRouter: ViewableRouter<FavoriteInteractable,
     private var productDetailRouting: ProductDetailRouting?
     
     init(
-        interactor: FavoriteInteractable,
-        viewController: FavoriteViewControllable,
+        interactor: FavoriteHomeInteractable,
+        viewController: FavoriteHomeViewControllable,
         productSearch: ProductSearchBuildable,
         productDetail: ProductDetailBuildable
     ) {

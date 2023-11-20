@@ -172,7 +172,7 @@ extension CommonProductSectionLayout {
     }
     
     // For Favorite
-    func section(at type: FavoritePageTabViewController.SectionType) -> NSCollectionLayoutSection {
+    func section(at type: FavoriteHomePageTabViewController.SectionType) -> NSCollectionLayoutSection {
         switch type {
         case .product:
             return itemLayout(isNeedHeaderView: false)
