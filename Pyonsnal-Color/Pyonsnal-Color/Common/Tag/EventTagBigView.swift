@@ -12,7 +12,7 @@ final class EventTagBigView: UIView {
     // MARK: - Declaration
     enum Constant {
         enum Size {
-            static let round5: CGFloat = 12
+            static let round4: CGFloat = 4
         }
     }
     
@@ -24,7 +24,7 @@ final class EventTagBigView: UIView {
     private let contentView: UIView = {
         let view: UIView = .init(frame: .zero)
         view.backgroundColor = .green500
-        view.makeRounded(with: Constant.Size.round5)
+        view.makeRounded(with: Constant.Size.round4)
         return view
     }()
     
