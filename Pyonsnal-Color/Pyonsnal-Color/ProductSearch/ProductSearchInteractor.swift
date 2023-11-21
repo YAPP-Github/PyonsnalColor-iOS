@@ -5,6 +5,7 @@
 //  Created by 김진우 on 2023/07/19.
 //
 
+import Foundation
 import ModernRIBs
 import Combine
 
@@ -13,6 +14,8 @@ protocol ProductSearchRouting: ViewableRouting {
     func detachSortBottomSheet()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
+    func attachProductDetail(with product: ProductDetailEntity)
+    func detachProductDetail()
 }
 
 protocol ProductSearchPresentable: Presentable {
@@ -35,7 +38,7 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     private let dependency: ProductSearchDependency
     private var cancellable = Set<AnyCancellable>()
     private var keyword: String?
-    private var filterItem: FilterItemEntity = .init(name: "최신순", code: 0, image: nil, isSelected: true)
+    private var filterItem: FilterItemEntity = .init(name: "최신순", code: 1, image: nil, isSelected: true)
     private var pageNumber: Int = 0
     private let pageSize: Int = 20
     private var isCanLoading: Bool = false
@@ -80,6 +83,17 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
         super.willResignActive()
     }
     
+    func didSelectProduct(with indexPath: IndexPath) {
+        if eventProductResult.count > indexPath.item {
+            let product = eventProductResult[indexPath.item]
+            router?.attachProductDetail(with: product)
+        }
+    }
+    
+    func popProductDetail() {
+        router?.detachProductDetail()
+    }
+    
     func popViewController() {
         listener?.popProductSearch()
     }
@@ -87,7 +101,7 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     func search(with keyword: String?) {
         self.keyword = keyword
         self.pageNumber = 0
-        self.filterItem = .init(name: "최신순", code: 2, image: nil, isSelected: true)
+        self.filterItem = .init(name: "최신순", code: 1, image: nil, isSelected: true)
         
         if let keyword,
            !keyword.isEmpty {
@@ -213,9 +227,9 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     
     func didTapSortButton(filterItem: FilterItemEntity) {
         var filterItems: [FilterItemEntity] = [
-            .init(name: "최신순", code: 2, image: nil),
+            .init(name: "최신순", code: 1, image: nil),
             .init(name: "낮은 가격 순", code: 3, image: nil),
-            .init(name: "높은 가격 순", code: 1, image: nil)
+            .init(name: "높은 가격 순", code: 4, image: nil)
         ]
         if let index = filterItems.firstIndex(where: { item in
             return item.code == filterItem.code

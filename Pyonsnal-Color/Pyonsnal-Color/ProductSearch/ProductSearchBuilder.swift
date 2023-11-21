@@ -14,9 +14,15 @@ protocol ProductSearchDependency: Dependency {
 
 final class ProductSearchComponent: Component<ProductSearchDependency>,
                                     ProductSearchSortBottomSheetDependency,
-                                    ProductFilterDependency {
+                                    ProductFilterDependency,
+                                    ProductDetailDependency {
+    var productAPIService: ProductAPIService
     
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    override init(dependency: ProductSearchDependency) {
+        self.productAPIService = dependency.productAPIService
+        
+        super.init(dependency: dependency)
+    }
 }
 
 // MARK: - Builder
@@ -40,13 +46,15 @@ final class ProductSearchBuilder: Builder<ProductSearchDependency>, ProductSearc
             dependency: component
         )
         let productFilter: ProductFilterBuilder = .init(dependency: component)
+        let productDetail: ProductDetailBuilder = .init(dependency: component)
         
         interactor.listener = listener
         return ProductSearchRouter(
             interactor: interactor,
             viewController: viewController,
             productSearchSortBottomSheet: prodcutSearchSortBottomSheet,
-            productFilter: productFilter
+            productFilter: productFilter,
+            productDetail: productDetail
         )
     }
 }

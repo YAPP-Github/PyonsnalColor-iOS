@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol ProductSearchInteractable: Interactable, ProductSearchSortBottomSheetListener, ProductFilterListener {
+protocol ProductSearchInteractable: Interactable, ProductSearchSortBottomSheetListener, ProductFilterListener, ProductDetailListener {
     var router: ProductSearchRouting? { get set }
     var listener: ProductSearchListener? { get set }
 }
@@ -23,15 +23,21 @@ final class ProductSearchRouter: ViewableRouter<ProductSearchInteractable, Produ
     
     private let productFilter: ProductFilterBuildable
     private var productFilterRouting: ProductFilterRouting?
+    
+    private let productDetail: ProductDetailBuildable
+    private var productDetailRouting: ProductDetailRouting?
 
     init(
         interactor: ProductSearchInteractable,
         viewController: ProductSearchViewControllable,
         productSearchSortBottomSheet: ProductSearchSortBottomSheetBuildable,
-        productFilter: ProductFilterBuildable
+        productFilter: ProductFilterBuildable,
+        productDetail: ProductDetailBuildable
     ) {
         self.productSearchSortBottomSheet = productSearchSortBottomSheet
         self.productFilter = productFilter
+        self.productDetail = productDetail
+        
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -78,5 +84,21 @@ final class ProductSearchRouter: ViewableRouter<ProductSearchInteractable, Produ
         viewController.uiviewController.dismiss(animated: true)
         self.productFilterRouting = nil
         detachChild(productFilterRouting)
+    }
+    
+    func attachProductDetail(with product: ProductDetailEntity) {
+        if productDetailRouting != nil { return }
+        
+        let productDetailRouter = productDetail.build(withListener: interactor, product: product)
+        productDetailRouting = productDetailRouter
+        attachChild(productDetailRouter)
+        viewControllable.pushViewController(productDetailRouter.viewControllable, animated: true)
+    }
+    
+    func detachProductDetail() {
+        guard let productDetailRouting else { return }
+        viewController.popViewController(animated: true)
+        detachChild(productDetailRouting)
+        self.productDetailRouting = nil
     }
 }
