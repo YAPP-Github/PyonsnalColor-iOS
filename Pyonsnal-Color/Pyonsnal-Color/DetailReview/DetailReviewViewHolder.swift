@@ -36,7 +36,7 @@ extension DetailReviewViewController {
             return navigationView
         }()
         
-        private let totalScrollView: UIScrollView = {
+        let totalScrollView: UIScrollView = {
             let scrollView = UIScrollView()
             scrollView.keyboardDismissMode = .onDrag
             return scrollView

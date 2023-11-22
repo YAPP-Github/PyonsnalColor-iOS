@@ -124,13 +124,13 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         attachChild(productFilterRouter)
         viewControllable.uiviewController.present(
             productFilterViewController,
-            animated: true
+            animated: false
         )
     }
     
     func detachProductFilter() {
         guard let productFilterRouting else { return }
-        viewController.uiviewController.dismiss(animated: true)
+        viewController.uiviewController.dismiss(animated: false)
         detachChild(productFilterRouting)
         self.productFilterRouting = nil
     }
