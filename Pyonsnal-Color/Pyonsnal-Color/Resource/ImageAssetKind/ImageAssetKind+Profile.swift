@@ -10,6 +10,7 @@ import UIKit
 extension ImageAssetKind {
     enum Profile: String {
         case profileEdit = "profile_edit"
+        case profilePlus = "profile_plus"
         
         var image: UIImage? {
             return .init(named: self.rawValue)

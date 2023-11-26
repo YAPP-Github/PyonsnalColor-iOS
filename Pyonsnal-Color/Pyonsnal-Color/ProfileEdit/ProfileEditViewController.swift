@@ -80,8 +80,10 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
             .throttle(for: 0.2, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] text in
                 guard let self, let text else { return }
-                if text.isEmpty { clearNicknameValidateLabel() }
+                let isTextEmpty = text.isEmpty
+                if isTextEmpty { clearNicknameValidateLabel() }
                 self.listener?.editNickname(nickname: text)
+                self.updateTextFieldBorderColor(isFilled: !isTextEmpty)
                 self.updateNicknameCountLabel()
             }.store(in: &cancellable)
         
@@ -108,6 +110,11 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
         let placeHolderText = NSMutableAttributedString()
         placeHolderText.appendAttributes(string: nickname, font: .body2r, color: .gray400)
         viewHolder.nicknameTextField.attributedPlaceholder = placeHolderText
+    }
+    
+    private func updateTextFieldBorderColor(isFilled: Bool) {
+        let highlightColor: UIColor = isFilled ? .gray700 : .gray200
+        viewHolder.nicknameTextField.makeBorder(width: 1, color: highlightColor.cgColor)
     }
     
     private func updateNicknameCountLabel() {
@@ -229,6 +236,17 @@ extension ProfileEditViewController {
         static let maximumNicknameCount: Int = 15
         static let navigationTitle = "프로필 수정"
         static let editButtonTitle = "프로필 수정 완료"
+        
+        enum Size {
+            static let leftPaddingMargin: Int = 12
+            static let nicknameTextFieldCornerRadius: CGFloat = 16
+            static let profileImageViewSize: CGFloat = 100
+            static let imageContainerViewTop: CGFloat = 40
+            static let imageContainerViewBottom: CGFloat = 52
+            static let profileAddImageViewSize: CGFloat = 32
+            static let nicknameTextFieldHeight: CGFloat = 44
+            static let editButtonHeight: CGFloat = 52
+        }
     }
     
     // MARK: - ViewHolder
@@ -254,7 +272,7 @@ extension ProfileEditViewController {
         let profileImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFill
-            imageView.makeRounded(with: 50)
+            imageView.makeRounded(with: Constant.Size.profileImageViewSize / 2)
             imageView.makeBorder(width: 1, color: UIColor.gray300.cgColor)
             imageView.setImage(.tagStore)
             return imageView
@@ -264,7 +282,7 @@ extension ProfileEditViewController {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
             imageView.tintColor = .gray400
-            imageView.image = UIImage(systemName: "plus.circle.fill")
+            imageView.setImage(.profilePlus)
             return imageView
         }()
         
@@ -301,8 +319,8 @@ extension ProfileEditViewController {
         let nicknameTextField: UITextField = {
             let textField = UITextField()
             textField.backgroundColor = .gray100
-            textField.addLeftPaddingView(point: 12)
-            textField.makeRounded(with: 16)
+            textField.addLeftPaddingView(point: Constant.Size.leftPaddingMargin)
+            textField.makeRounded(with: Constant.Size.nicknameTextFieldCornerRadius)
             textField.makeBorder(width: 1, color: UIColor.gray200.cgColor)
             return textField
         }()
@@ -344,35 +362,35 @@ extension ProfileEditViewController {
             }
             
             imageContainerView.snp.makeConstraints {
-                $0.top.equalTo(backNavigationView.snp.bottom).offset(40)
+                $0.top.equalTo(backNavigationView.snp.bottom).offset(Constant.Size.imageContainerViewTop)
                 $0.centerX.equalToSuperview()
             }
             
             profileImageView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
-                $0.size.equalTo(100)
+                $0.size.equalTo(Constant.Size.profileImageViewSize)
             }
             
             profileAddImageView.snp.makeConstraints {
                 $0.trailing.equalToSuperview().offset(5)
                 $0.bottom.equalToSuperview().offset(3)
-                $0.size.equalTo(32)
+                $0.size.equalTo(Constant.Size.profileAddImageViewSize)
             }
             
             stackView.snp.makeConstraints {
-                $0.top.equalTo(imageContainerView.snp.bottom).offset(52)
+                $0.top.equalTo(imageContainerView.snp.bottom).offset(Constant.Size.imageContainerViewBottom)
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.trailing.equalToSuperview().inset(.spacing16)
             }
             
             nicknameTextField.snp.makeConstraints {
-                $0.height.equalTo(44)
+                $0.height.equalTo(Constant.Size.nicknameTextFieldHeight)
             }
             
             editButton.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(.spacing16)
                 $0.trailing.equalToSuperview().inset(.spacing16)
-                $0.height.equalTo(52)
+                $0.height.equalTo(Constant.Size.editButtonHeight)
                 $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom)
                 $0.bottom.equalToSuperview().inset(.spacing16).priority(.low)
             }

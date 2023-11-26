@@ -37,7 +37,7 @@ final class ProfileHomeViewController: UIViewController,
     
     weak var listener: ProfileHomePresentableListener?
     
-    //MARK: - Private Property
+    // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
     private var cancellable = Set<AnyCancellable>()
     private var memberInfo: MemberInfoEntity?
@@ -48,7 +48,7 @@ final class ProfileHomeViewController: UIViewController,
         SettingInfo(title: "만든 사람들"),
         SettingInfo(title: "계정 설정")
     ]
-    //MARK: - Initializer
+    // MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
         configureTabBarItem()
@@ -58,7 +58,7 @@ final class ProfileHomeViewController: UIViewController,
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - View life cycle
+    // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,7 +78,7 @@ final class ProfileHomeViewController: UIViewController,
         viewHolder.nickNameLabel.text = memberInfo.nickname
     }
     
-    //MARK: - Private Method
+    // MARK: - Private Method
     private func configureTableView() {
         viewHolder.tableView.delegate = self
         viewHolder.tableView.dataSource = self
@@ -106,7 +106,7 @@ final class ProfileHomeViewController: UIViewController,
     }
 }
 
-//MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 extension ProfileHomeViewController: UITableViewDataSource {
     private func isSectionIndex(with index: Int) -> Bool {
         return index == 0
@@ -145,7 +145,7 @@ extension ProfileHomeViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 extension ProfileHomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -174,7 +174,7 @@ extension ProfileHomeViewController: UITableViewDelegate {
     }
 }
 
-//MARK: - UI Component
+// MARK: - UI Component
 extension ProfileHomeViewController {
     class ViewHolder: ViewHolderable {
         
@@ -187,6 +187,7 @@ extension ProfileHomeViewController {
         let profileImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFit
+            imageView.makeRounded(with: Size.profileImageViewSize / 2)
             imageView.setImage(.tagStore)
             return imageView
         }()
