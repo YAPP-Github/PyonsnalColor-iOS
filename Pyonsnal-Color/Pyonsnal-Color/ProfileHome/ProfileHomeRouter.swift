@@ -13,6 +13,7 @@ protocol ProfileHomeInteractable: Interactable,
                                   CommonWebListener {
     var router: ProfileHomeRouting? { get set }
     var listener: ProfileHomeListener? { get set }
+    func requestMemberInfo()
 }
 
 protocol ProfileHomeViewControllable: ViewControllable {
@@ -61,6 +62,7 @@ final class ProfileHomeRouter: ViewableRouter<ProfileHomeInteractable,
         viewController.popViewController(animated: true)
         self.profileEditRouting = nil
         detachChild(profileEditRouting)
+        interactor.requestMemberInfo()
     }
     
     func attachAccountSetting() {

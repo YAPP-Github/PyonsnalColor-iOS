@@ -12,7 +12,7 @@ import PhotosUI
 
 protocol ProfileEditPresentableListener: AnyObject {
     var isEditButtonEnabled: AnyPublisher<Bool, Never> { get }
-    func didTapEditButton()
+    func didTapEditButton(with nickname: String, profileImage: UIImage?)
     func didTapBackButton()
     func editNickname(nickname: String?)
     func editProfileImage(image: UIImage?)
@@ -88,8 +88,11 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
         viewHolder.editButton
             .tapPublisher
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
-            .sink {
-                // TODO: 전송
+            .sink { [weak self] in
+                guard let self else { return }
+                let nickname = getCurrentNickname()
+                let profileImage = self.viewHolder.profileImageView.image
+                self.listener?.didTapEditButton(with: nickname, profileImage: profileImage)
             }.store(in: &cancellable)
         
         listener?.isEditButtonEnabled
@@ -110,6 +113,14 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
     private func updateNicknameCountLabel() {
         let count = viewHolder.nicknameTextField.text?.count ?? 0
         viewHolder.nicknameCountLabel.text = "\(count)/\(Constant.maximumNicknameCount)"
+    }
+    
+    private func getCurrentNickname() -> String {
+        guard let nickname = viewHolder.nicknameTextField.text,
+                !nickname.isEmpty else {
+            return viewHolder.nicknameTextField.attributedPlaceholder?.string ?? ""
+        }
+        return nickname
     }
     
     private func showActionSheet() {

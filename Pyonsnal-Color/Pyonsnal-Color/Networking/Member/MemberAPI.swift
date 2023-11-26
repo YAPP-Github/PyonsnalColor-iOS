@@ -15,7 +15,7 @@ enum MemberAPI: NetworkRequestBuilder {
     case withdraw
     case logout(accessToken: String, refreshToken: String)
     case validate(nickname: String)
-    case editProfile(nicknameEntity: NicknameEntity, imageFile: String)
+    case editProfile
 }
 
 extension MemberAPI {
@@ -62,7 +62,12 @@ extension MemberAPI {
     
     var headers: [HTTPHeader]? {
         if let accessToken = MemberAPI.accessToken {
-            return Config.shared.getAuthorizationHeader(with: accessToken)
+            switch self {
+            case .editProfile:
+                return Config.shared.getMultipartFormDataHeader(token: accessToken)
+            default:
+                return Config.shared.getAuthorizationHeader(with: accessToken)
+            }
         }
         return Config.shared.getDefaultHeader()
     }
@@ -75,8 +80,8 @@ extension MemberAPI {
             return nil
         case .validate(let nickname):
             return ["nickname" : "\(nickname)"]
-        case .editProfile(let nicknameEntity, let imageFile):
-            return ["nicknameRequestDto" : nicknameEntity.asDictionary()?.toJsonString(), "imageFile": imageFile]
+        case .editProfile:
+            return nil
         }
     }
 }

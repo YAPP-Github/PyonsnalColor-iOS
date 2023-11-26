@@ -46,21 +46,21 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        requestMemberInfo()
+    }
+
+    override func willResignActive() {
+        super.willResignActive()
+    }
+    
+    func requestMemberInfo() {
         component.memberAPIService.info()
             .sink { [weak self] response in
                 if let memberInfo = response.value {
                     Log.d(message: "info success: \(memberInfo)")
                     self?.presenter.update(with: memberInfo)
-                } else if response.error != nil {
-                    // TODO: error handling
-                } else {
-                    // TODO: error handling
                 }
             }.store(in: &cancellable)
-    }
-
-    override func willResignActive() {
-        super.willResignActive()
     }
     
     func didTapAccountSetting() {

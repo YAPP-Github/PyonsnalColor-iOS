@@ -57,8 +57,17 @@ final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>
         super.willResignActive()
     }
     
-    func didTapEditButton() {
-//        component?.dependency.memberAPIService
+    func didTapEditButton(with nickname: String, profileImage: UIImage?) {
+        let nickNameEntity = NicknameEntity(nickname: nickname)
+        let imageData = profileImage?.jpegData(compressionQuality: 1)
+        component?.dependency.memberAPIService
+            .editProfile(
+                nicknameEntity: nickNameEntity,
+                imageData: imageData
+            ){ [weak self] in
+                self?.listener?.detachProfileEditView()
+            }
+            
     }
     
     func didTapBackButton() {
