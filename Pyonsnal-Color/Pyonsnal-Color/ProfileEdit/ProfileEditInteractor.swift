@@ -5,12 +5,11 @@
 //  Created by 조소정 on 11/16/23.
 //
 
+import UIKit
 import Combine
 import ModernRIBs
 
-protocol ProfileEditRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
-}
+protocol ProfileEditRouting: ViewableRouting {}
 
 protocol ProfileEditPresentable: Presentable {
     var listener: ProfileEditPresentableListener? { get set }
@@ -22,12 +21,26 @@ protocol ProfileEditListener: AnyObject {
     func detachProfileEditView()
 }
 
-final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>, ProfileEditInteractable, ProfileEditPresentableListener {
+final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>,
+                                   ProfileEditInteractable,
+                                   ProfileEditPresentableListener {
 
     weak var router: ProfileEditRouting?
     weak var listener: ProfileEditListener?
     private var cancellable = Set<AnyCancellable>()
     private var component: ProfileEditComponent?
+    private var editProfileImageSubject = CurrentValueSubject<UIImage?, Never>(nil)
+    private var userNameValidStateSubject = CurrentValueSubject<NetworkErrorType, Never>(.invalidBlankNickname)
+    
+    var isEditButtonEnabled: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest(isNicknameValid(), isChangedProfileImage())
+            .map { nicknameValid, profileEdited in
+                if nicknameValid || profileEdited || (nicknameValid && profileEdited) {
+                    return true
+                }
+                return false
+            }.eraseToAnyPublisher()
+    }
     
     init(presenter: ProfileEditPresentable, component: ProfileEditComponent) {
         self.component = component
@@ -42,7 +55,6 @@ final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>
 
     override func willResignActive() {
         super.willResignActive()
-        // TODO: Pause any business logic.
     }
     
     func didTapEditButton() {
@@ -53,24 +65,53 @@ final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>
         listener?.detachProfileEditView()
     }
     
-    func editNickname(nickname: String) {
+    func isChangedProfileImage() -> AnyPublisher<Bool, Never> {
+        return editProfileImageSubject
+            .map { $0 != nil }
+            .eraseToAnyPublisher()
+    }
+    
+    func isNicknameValid() -> AnyPublisher<Bool, Never> {
+        return userNameValidStateSubject
+            .map { $0 == .validNickname }
+            .eraseToAnyPublisher()
+    }
+    
+    func editNickname(nickname: String?) {
+        guard let nickname, !nickname.isEmpty else { 
+            self.userNameValidStateSubject.send(.invalidBlankNickname)
+            return
+        }
         component?.dependency.memberAPIService
             .validate(nickname: nickname)
             .sink { [weak self] response in
                 guard let self else { return }
+                var resultType: NetworkErrorType?
                 if let error = response.error {
-                    if isInvalidNicknameStatus(errorType: error.type) {
-                        self.presenter.updateNicknameStatus(status: error.type)
-                    } else if error.type == .emptyResponse { // 빈 값일때 정상
-                        self.presenter.updateNicknameStatus(status: .validNickname)
+                    if isNicknameStatus(errorType: error.type) {
+                        resultType = error.type
+                        if error.type == .emptyResponse { resultType = .validNickname }
                     }
                 } else {
-                    self.presenter.updateNicknameStatus(status: .validNickname)
+                    resultType = .validNickname
                 }
+                guard let resultType else { return }
+                self.userNameValidStateSubject.send(resultType)
+                self.presenter.updateNicknameStatus(status: resultType)
             }.store(in: &cancellable)
     }
     
-    private func isInvalidNicknameStatus(errorType: NetworkErrorType) -> Bool {
-        return errorType == .invalidBlankNickname || errorType == .invalidParameter || errorType == .nicknameAlreadyExist
+    func editProfileImage(image: UIImage?) {
+        editProfileImageSubject.send(image)
+    }
+    
+    private func isNicknameStatus(errorType: NetworkErrorType) -> Bool {
+        let nicknameResponseType: [NetworkErrorType] = [
+            .invalidBlankNickname,
+            .invalidParameter,
+            .nicknameAlreadyExist,
+            .emptyResponse
+        ]
+        return !nicknameResponseType.map { $0 == errorType }.isEmpty
     }
 }

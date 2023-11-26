@@ -11,9 +11,11 @@ import ModernRIBs
 import PhotosUI
 
 protocol ProfileEditPresentableListener: AnyObject {
+    var isEditButtonEnabled: AnyPublisher<Bool, Never> { get }
     func didTapEditButton()
     func didTapBackButton()
-    func editNickname(nickname: String)
+    func editNickname(nickname: String?)
+    func editProfileImage(image: UIImage?)
 }
 
 enum EditActionSheetSection: String {
@@ -39,6 +41,10 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
         bindActions()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     func loadInfo(with memberInfo: MemberInfoEntity?) {
         if let profileImage = memberInfo?.profileImage,
             let url = URL(string: profileImage) {
@@ -48,17 +54,12 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
     }
     
     func updateNicknameStatus(status: NetworkErrorType) {
-        self.resetValidateLabelIfNicknameEmpty()
         viewHolder.nicknameValidateLabel.text = status.rawValue
         viewHolder.nicknameValidateLabel.textColor = status.textColor
     }
     
-    private func resetValidateLabelIfNicknameEmpty() {
-        if let nicknameText = viewHolder.nicknameTextField.text,
-           nicknameText.isEmpty {
-            viewHolder.nicknameValidateLabel.text = ""
-            updateNicknameCountLabel()
-        }
+    private func clearNicknameValidateLabel() {
+        viewHolder.nicknameValidateLabel.text = ""
     }
     
     private func configureUI() {
@@ -76,14 +77,10 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
         
         viewHolder.nicknameTextField
             .textPublisher
-            .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
+            .throttle(for: 0.2, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] text in
-                guard let self,
-                      let text,
-                      !text.isEmpty else { 
-                    self?.resetValidateLabelIfNicknameEmpty()
-                    return
-                }
+                guard let self, let text else { return }
+                if text.isEmpty { clearNicknameValidateLabel() }
                 self.listener?.editNickname(nickname: text)
                 self.updateNicknameCountLabel()
             }.store(in: &cancellable)
@@ -93,6 +90,12 @@ final class ProfileEditViewController: UIViewController, ProfileEditPresentable,
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink {
                 // TODO: 전송
+            }.store(in: &cancellable)
+        
+        listener?.isEditButtonEnabled
+            .sink { [weak self] isValid in
+                let validState = PrimaryButton.ButtonSelectable(rawValue: isValid) ?? .disabled
+                self?.viewHolder.editButton.setState(with: validState)
             }.store(in: &cancellable)
             
     }
@@ -168,6 +171,11 @@ extension ProfileEditViewController: UITextFieldDelegate {
         }
         return true
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 // MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
@@ -177,6 +185,7 @@ extension ProfileEditViewController: UIImagePickerControllerDelegate, UINavigati
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             let resizedImage = editedImage.resize(targetSize: imageUploadSize)
             viewHolder.profileImageView.image = resizedImage
+            listener?.editProfileImage(image: resizedImage)
         }
         
     }
@@ -197,6 +206,7 @@ extension ProfileEditViewController: PHPickerViewControllerDelegate {
                 let resizedImage = image.resize(targetSize: imageUploadSize)
                 DispatchQueue.main.async {
                     self.viewHolder.profileImageView.image = resizedImage
+                    self.listener?.editProfileImage(image: resizedImage)
                 }
             }
         }
