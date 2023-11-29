@@ -59,14 +59,16 @@ final class MemberAPIService {
     }
     
     func editProfile(
-        nicknameEntity: NicknameEntity,
+        nicknameEntity: NicknameEntity?,
         imageData: Data?,
         completion: @escaping () -> Void
     ) {
         MemberAPI.accessToken = accessToken
         client.upload({ formData in
-            guard let nickname = try? JSONEncoder().encode(nicknameEntity) else { return }
-            formData.append(nickname, withName: "nicknameRequestDto", mimeType: "application/json")
+            if let nicknameEntity {
+                guard let nickname = try? JSONEncoder().encode(nicknameEntity) else { return }
+                formData.append(nickname, withName: "nicknameRequestDto", mimeType: "application/json")
+            }
             if let imageData {
                 formData.append(
                     imageData,

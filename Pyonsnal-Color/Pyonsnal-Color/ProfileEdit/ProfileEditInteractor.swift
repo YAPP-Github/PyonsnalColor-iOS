@@ -58,20 +58,27 @@ final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>
     }
     
     func didTapEditButton(with nickname: String, profileImage: UIImage?) {
-        let nickNameEntity = NicknameEntity(nickname: nickname)
+        let nicknameEntity = getNicknameEntity(nickname: nickname)
         let imageData = profileImage?.jpegData(compressionQuality: 1)
         component?.dependency.memberAPIService
             .editProfile(
-                nicknameEntity: nickNameEntity,
+                nicknameEntity: nicknameEntity,
                 imageData: imageData
             ){ [weak self] in
                 self?.listener?.detachProfileEditView()
-            }
-            
+            } 
     }
     
     func didTapBackButton() {
         listener?.detachProfileEditView()
+    }
+    
+    private func getNicknameEntity(nickname: String) -> NicknameEntity? {
+        if let previousNickname = component?.memberInfo.nickname,
+           previousNickname != nickname {
+            return NicknameEntity(nickname: nickname)
+        }
+        return nil
     }
     
     func isChangedProfileImage() -> AnyPublisher<Bool, Never> {

@@ -186,7 +186,7 @@ extension ProfileHomeViewController {
         
         let profileImageView: UIImageView = {
             let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFit
+            imageView.contentMode = .scaleAspectFill
             imageView.makeRounded(with: Size.profileImageViewSize / 2)
             imageView.setImage(.tagStore)
             return imageView
