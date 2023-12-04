@@ -112,7 +112,7 @@ final class ReviewFeedbackButton: UIButton {
             }
         }
         
-        if payload.count == 0 {
+        if payload.count == 0 || payload.feedbackKind == .bad {
             countLabel.isHidden = true
         } else {
             countLabel.isHidden = false
