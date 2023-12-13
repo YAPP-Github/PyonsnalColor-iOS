@@ -34,11 +34,8 @@ final class ProfileEditInteractor: PresentableInteractor<ProfileEditPresentable>
     
     var isEditButtonEnabled: AnyPublisher<Bool, Never> {
         Publishers.CombineLatest(isNicknameValid(), isChangedProfileImage())
-            .map { nicknameValid, profileImageEdited in
-                if nicknameValid || profileImageEdited || (nicknameValid && profileImageEdited) {
-                    return true
-                }
-                return false
+            .map { isNicknameValid, profileImageEdited in
+                return (isNicknameValid || profileImageEdited)
             }.eraseToAnyPublisher()
     }
     
