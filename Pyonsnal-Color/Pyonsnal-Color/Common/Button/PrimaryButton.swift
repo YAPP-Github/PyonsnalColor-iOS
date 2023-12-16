@@ -9,12 +9,17 @@ import UIKit
 
 final class PrimaryButton: UIButton {
     
-    enum ButtonSelectable {
+    enum ButtonSelectable: RawRepresentable {
+        typealias RawValue = Bool
         case disabled
         case enabled
         case normal
         
-        var bool: Bool {
+        init?(rawValue: Bool) {
+            self = rawValue ? .enabled : .disabled
+        }
+        
+        var rawValue: Bool {
             switch self {
             case .disabled:
                 return false
@@ -73,7 +78,7 @@ final class PrimaryButton: UIButton {
     
     // MARK: - Method
     func setState(with state: ButtonSelectable) {
-        self.isEnabled = state.bool
+        self.isEnabled = state.rawValue
         updateUI(attribute: state.attributes)
     }
     

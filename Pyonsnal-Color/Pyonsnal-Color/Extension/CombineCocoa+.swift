@@ -26,7 +26,7 @@ extension UITextField {
 }
 
 extension UIView {
-    func gesturePublisher(with delegate: UIGestureRecognizerDelegate) -> GesturePublisher {
+    func gesturePublisher(with delegate: UIGestureRecognizerDelegate? = nil) -> GesturePublisher {
         /// 현재는 tapGesture가 default. 추후 다른 gesture가 필요로 되면 gestureRecognizer 확장하여 사용.
         let gestureRecognizer = UITapGestureRecognizer()
         gestureRecognizer.delegate = delegate

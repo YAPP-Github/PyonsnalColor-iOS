@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 final class MemberAPIService {
     
@@ -47,5 +48,42 @@ final class MemberAPIService {
             MemberAPI.info,
             model: MemberInfoEntity.self
         )
+    }
+    
+    func validate(nickname: String) -> ResponsePublisher<EmptyResponse> {
+        MemberAPI.accessToken = accessToken
+        return client.request(
+            MemberAPI.validate(nickname: nickname),
+            model: EmptyResponse.self
+        )
+    }
+    
+    func editProfile(
+        nicknameEntity: NicknameEntity?,
+        imageData: Data?,
+        completion: @escaping () -> Void
+    ) {
+        MemberAPI.accessToken = accessToken
+        client.upload({ formData in
+            if let nicknameEntity {
+                guard let nickname = try? JSONEncoder().encode(nicknameEntity) else { return }
+                formData.append(nickname, withName: "nicknameRequestDto", mimeType: "application/json")
+            }
+            if let imageData {
+                formData.append(
+                    imageData,
+                    withName: "imageFile",
+                    fileName: "image.jpeg",
+                    mimeType: "image/jpeg"
+                )
+            }
+        }, request: MemberAPI.editProfile) { result in
+            switch result {
+            case .success:
+                completion()
+            case .failure(let error):
+                Log.n(message: "error: \(error)")
+            }
+        }
     }
 }

@@ -9,6 +9,9 @@ import ModernRIBs
 import Combine
 
 protocol ProfileHomeRouting: ViewableRouting {
+    func attachProfileEdit(with memberInfo: MemberInfoEntity)
+    func detachProfileEdit()
+    
     func attachCommonWebView(with settingInfo: SettingInfo)
     func detachCommonWebView()
     
@@ -43,21 +46,21 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        component.memberAPIService.info()
-            .sink { [weak self] response in
-                if let memberInfo = response.value {
-                    print("info success: \(memberInfo)")
-                    self?.presenter.update(with: memberInfo)
-                } else if response.error != nil {
-                    // TODO: error handling
-                } else {
-                    // TODO: error handling
-                }
-            }.store(in: &cancellable)
+        requestMemberInfo()
     }
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func requestMemberInfo() {
+        component.memberAPIService.info()
+            .sink { [weak self] response in
+                if let memberInfo = response.value {
+                    Log.d(message: "info success: \(memberInfo)")
+                    self?.presenter.update(with: memberInfo)
+                }
+            }.store(in: &cancellable)
     }
     
     func didTapAccountSetting() {
@@ -66,6 +69,10 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
     
     func didTapTeams(with settingInfo: SettingInfo) {
         router?.attachCommonWebView(with: settingInfo)
+    }
+    
+    func didTapProfileEditButton(memberInfo: MemberInfoEntity) {
+        router?.attachProfileEdit(with: memberInfo)
     }
     
     func didTapBackButton() {
@@ -79,4 +86,9 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
     func detachCommonWebView() {
         router?.detachCommonWebView()
     }
+    
+    func detachProfileEditView() {
+        router?.detachProfileEdit()
+    }
+    
 }

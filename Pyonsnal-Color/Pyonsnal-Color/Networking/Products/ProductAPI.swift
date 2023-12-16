@@ -142,7 +142,7 @@ extension ProductAPI {
         if let accessToken = ProductAPI.accessToken {
             switch self {
             case let .pbReview(id), let .eventReview(id):
-                return Config.shared.getMultipartFormDataHeader(with: id, token: accessToken)
+                return Config.shared.getMultipartFormDataHeader(id: id, token: accessToken)
             default:
                 return Config.shared.getAuthorizationHeader(with: accessToken)
             }

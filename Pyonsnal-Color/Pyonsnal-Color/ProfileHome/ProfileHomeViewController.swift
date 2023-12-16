@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Combine
 import ModernRIBs
 import SnapKit
 
 protocol ProfileHomePresentableListener: AnyObject {
+    func didTapProfileEditButton(memberInfo: MemberInfoEntity) // 프로파일 편집
     func didTapTeams(with settingInfo: SettingInfo) // 만든 사람들
     func didTapAccountSetting() // 계정 설정
 }
@@ -20,6 +22,7 @@ final class ProfileHomeViewController: UIViewController,
 
     enum Size {
         static let profileImageViewSize: CGFloat = 40
+        static let profileEditButtonSize: CGFloat = 48
         static let profileImageViewLeading: CGFloat = 17
         static let profileContainerViewHeight: CGFloat = 104
         
@@ -34,8 +37,10 @@ final class ProfileHomeViewController: UIViewController,
     
     weak var listener: ProfileHomePresentableListener?
     
-    //MARK: - Private Property
+    // MARK: - Private Property
     private let viewHolder: ViewHolder = .init()
+    private var cancellable = Set<AnyCancellable>()
+    private var memberInfo: MemberInfoEntity?
     private let sections: [Section] = [.setting]
     private let settings = [
         SettingInfo(title: "기타"),
@@ -43,7 +48,7 @@ final class ProfileHomeViewController: UIViewController,
         SettingInfo(title: "만든 사람들"),
         SettingInfo(title: "계정 설정")
     ]
-    //MARK: - Initializer
+    // MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
         configureTabBarItem()
@@ -53,7 +58,7 @@ final class ProfileHomeViewController: UIViewController,
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - View life cycle
+    // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,17 +66,33 @@ final class ProfileHomeViewController: UIViewController,
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureTableView()
+        bindActions()
     }
     
-    func update(with member: MemberInfoEntity) {
-        viewHolder.nickNameLabel.text = member.nickname
+    func update(with memberInfo: MemberInfoEntity) {
+        self.memberInfo = memberInfo
+        if let profileImage = memberInfo.profileImage,
+            let url = URL(string: profileImage) {
+            viewHolder.profileImageView.setImage(with: url)
+        }
+        viewHolder.nickNameLabel.text = memberInfo.nickname
     }
     
-    //MARK: - Private Method
+    // MARK: - Private Method
     private func configureTableView() {
         viewHolder.tableView.delegate = self
         viewHolder.tableView.dataSource = self
         viewHolder.tableView.register(ProfileCell.self)
+    }
+    
+    private func bindActions() {
+        viewHolder.profileEditButton
+            .tapPublisher
+            .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
+            .sink { [weak self] _ in
+                guard let self, let memberInfo else { return }
+                self.listener?.didTapProfileEditButton(memberInfo: memberInfo)
+            }.store(in: &cancellable)
     }
     
     private func configureTabBarItem() {
@@ -85,7 +106,7 @@ final class ProfileHomeViewController: UIViewController,
     }
 }
 
-//MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 extension ProfileHomeViewController: UITableViewDataSource {
     private func isSectionIndex(with index: Int) -> Bool {
         return index == 0
@@ -124,7 +145,7 @@ extension ProfileHomeViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 extension ProfileHomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -153,7 +174,7 @@ extension ProfileHomeViewController: UITableViewDelegate {
     }
 }
 
-//MARK: - UI Component
+// MARK: - UI Component
 extension ProfileHomeViewController {
     class ViewHolder: ViewHolderable {
         
@@ -163,9 +184,10 @@ extension ProfileHomeViewController {
             return view
         }()
         
-        private let profileImageView: UIImageView = {
+        let profileImageView: UIImageView = {
             let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFit
+            imageView.contentMode = .scaleAspectFill
+            imageView.makeRounded(with: Size.profileImageViewSize / 2)
             imageView.setImage(.tagStore)
             return imageView
         }()
@@ -173,10 +195,15 @@ extension ProfileHomeViewController {
         let nickNameLabel: UILabel = {
             let label = UILabel()
             label.font = .title2
-            label.text = "양볼 빵빵 다람쥐"
             label.textColor = .black
             label.numberOfLines = 1
             return label
+        }()
+        
+        let profileEditButton: UIButton = {
+            let button = UIButton()
+            button.setImage(ImageAssetKind.Profile.profileEdit.image, for: .normal)
+            return button
         }()
         
         let tableView: UITableView = {
@@ -194,8 +221,9 @@ extension ProfileHomeViewController {
         
         func place(in view: UIView) {
             view.addSubview(profileContainerView)
-            profileContainerView.addSubview(nickNameLabel)
             profileContainerView.addSubview(profileImageView)
+            profileContainerView.addSubview(nickNameLabel)
+            profileContainerView.addSubview(profileEditButton)
             view.addSubview(dividerView)
             view.addSubview(tableView)
         }
@@ -216,7 +244,13 @@ extension ProfileHomeViewController {
             nickNameLabel.snp.makeConstraints {
                 $0.leading.equalTo(profileImageView.snp.trailing).offset(.spacing12)
                 $0.centerY.equalTo(profileContainerView.snp.centerY)
-                $0.trailing.greaterThanOrEqualToSuperview().inset(.spacing12)
+                $0.trailing.greaterThanOrEqualTo(profileEditButton.snp.leading).inset(.spacing12)
+            }
+            
+            profileEditButton.snp.makeConstraints {
+                $0.top.equalToSuperview().offset(.spacing28)
+                $0.trailing.equalToSuperview().inset(.spacing4)
+                $0.size.equalTo(Size.profileEditButtonSize)
             }
             
             dividerView.snp.makeConstraints {

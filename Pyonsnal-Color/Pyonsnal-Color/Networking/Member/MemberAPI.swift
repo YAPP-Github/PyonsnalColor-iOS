@@ -14,6 +14,8 @@ enum MemberAPI: NetworkRequestBuilder {
     case info
     case withdraw
     case logout(accessToken: String, refreshToken: String)
+    case validate(nickname: String)
+    case editProfile
 }
 
 extension MemberAPI {
@@ -29,6 +31,10 @@ extension MemberAPI {
             return "/member/withdraw"
         case .logout:
             return "/member/logout"
+        case .validate:
+            return "/member/nickname"
+        case .editProfile:
+            return "/member/profile"
         }
     }
     
@@ -36,7 +42,7 @@ extension MemberAPI {
         switch self {
         case .logout(let accessToken, _):
             return [URLQueryItem(name: "tokenDto", value: accessToken)]
-        case .info, .withdraw:
+        case .info, .withdraw, .validate, .editProfile:
             return nil
         }
     }
@@ -47,12 +53,21 @@ extension MemberAPI {
             return .get
         case .withdraw, .logout:
             return .delete
+        case .validate:
+            return .post
+        case .editProfile:
+            return .patch
         }
     }
     
     var headers: [HTTPHeader]? {
         if let accessToken = MemberAPI.accessToken {
-            return Config.shared.getAuthorizationHeader(with: accessToken)
+            switch self {
+            case .editProfile:
+                return Config.shared.getMultipartFormDataHeader(token: accessToken)
+            default:
+                return Config.shared.getAuthorizationHeader(with: accessToken)
+            }
         }
         return Config.shared.getDefaultHeader()
     }
@@ -62,6 +77,10 @@ extension MemberAPI {
         case .logout(let accessToken, let refreshToken):
             return ["accessToken": accessToken, "refreshToken": refreshToken]
         case .info, .withdraw:
+            return nil
+        case .validate(let nickname):
+            return ["nickname" : "\(nickname)"]
+        case .editProfile:
             return nil
         }
     }

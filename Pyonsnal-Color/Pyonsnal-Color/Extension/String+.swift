@@ -42,4 +42,12 @@ extension String {
         dateFormatter.timeZone = .current
         return dateFormatter.date(from: self)
     }
+    
+    func isBackSpace() -> Bool {
+        if let char = self.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b") == -92
+            if isBackSpace { return true }
+        }
+        return false
+    }
 }
