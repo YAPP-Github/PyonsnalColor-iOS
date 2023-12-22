@@ -19,6 +19,7 @@ final class ProductCurationViewController: UIViewController {
     enum Section: Hashable {
         case image
         case curation(data: CurationEntity)
+        case advertisment // google AdMob
     }
     
     enum Item: Hashable {

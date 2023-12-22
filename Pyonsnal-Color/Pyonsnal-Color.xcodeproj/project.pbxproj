@@ -220,6 +220,7 @@
 		F00352242A62BD9F00A66FF9 /* UserLoginStatusEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00352232A62BD9F00A66FF9 /* UserLoginStatusEntity.swift */; };
 		F00609522A5EED4600A2A79D /* SettingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00609512A5EED4600A2A79D /* SettingInfo.swift */; };
 		F00609562A5EF87F00A2A79D /* CommonConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00609552A5EF87F00A2A79D /* CommonConstants.swift */; };
+		F0081FB92B2D9222009B3435 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = F0081FB82B2D9222009B3435 /* GoogleMobileAds */; };
 		F013DECB2AFF6BFA00A1F34C /* FavoriteHomeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F013DECA2AFF6BFA00A1F34C /* FavoriteHomeDelegate.swift */; };
 		F015353B2A45A51000A2A8F2 /* EventHomeTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015353A2A45A51000A2A8F2 /* EventHomeTabViewController.swift */; };
 		F01535412A45A5A700A2A8F2 /* EventHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01535402A45A5A700A2A8F2 /* EventHomePageViewController.swift */; };
@@ -634,6 +635,7 @@
 				BA3EB3002A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B2A57BEF2A2C7596005DB83E /* KakaoSDKUser in Frameworks */,
 				BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */,
+				F0081FB92B2D9222009B3435 /* GoogleMobileAds in Frameworks */,
 				BA3EB2FC2A6074080091C8DB /* FirebaseAnalytics in Frameworks */,
 				BA3EB3022A6074090091C8DB /* FirebaseCrashlytics in Frameworks */,
 				B2B289DE2A3459FD00F7F1C4 /* Kingfisher in Frameworks */,
@@ -1680,6 +1682,7 @@
 				BA3EB2FF2A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport */,
 				BA3EB3012A6074090091C8DB /* FirebaseCrashlytics */,
 				F0C9E0C72A7BF63600A53166 /* Lottie */,
+				F0081FB82B2D9222009B3435 /* GoogleMobileAds */,
 			);
 			productName = "Pyonsnal-Color";
 			productReference = BA9E23372A21EF3000A539D5 /* Pyonsnal-Color.app */;
@@ -1717,6 +1720,7 @@
 				B2B289DC2A3459FD00F7F1C4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				BA3EB2FA2A6074080091C8DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				F0C9E0C62A7BF63600A53166 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				F0081FB72B2D9222009B3435 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = BA9E23382A21EF3000A539D5 /* Products */;
 			projectDirPath = "";
@@ -2334,6 +2338,14 @@
 				minimumVersion = 1.0.2;
 			};
 		};
+		F0081FB72B2D9222009B3435 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.14.0;
+			};
+		};
 		F0C9E0C62A7BF63600A53166 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
@@ -2399,6 +2411,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA437F052A2357DF00C5DFA8 /* XCRemoteSwiftPackageReference "ModernRIBs" */;
 			productName = ModernRIBs;
+		};
+		F0081FB82B2D9222009B3435 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0081FB72B2D9222009B3435 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 		F0C9E0C72A7BF63600A53166 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
