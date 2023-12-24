@@ -224,6 +224,29 @@ final class ProductFilterViewController:
     // MARK: - Objective Method
     @objc private func didTapApplyButton() {
         let selectedItems = filterEntity.filterItem.filter { $0.isSelected == true }
+    
+        let gaEventName: GAEventName?
+        let gaParameterKey: GAParameterKey?
+        switch filterEntity.filterType {
+        case .recommend:
+            gaEventName = .recommendFilterClick
+            gaParameterKey = .recommendFilterName
+        case .category:
+            gaEventName = .categoryFilterClick
+            gaParameterKey = .categoryFilterName
+        case .event:
+            gaEventName = .eventFilterClick
+            gaParameterKey = .eventFilterName
+        default:
+            gaEventName = nil
+            gaParameterKey = nil
+        }
+        if let gaEventName,
+           let gaParameterKey {
+            logging(gaEventName, parameter: [
+                gaParameterKey: selectedItems.map { $0.name }.joined(separator: ", ")
+            ])
+        }
         listener?.didTapApplyButton(with: selectedItems, type: filterEntity.filterType)
     }
     

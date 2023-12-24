@@ -44,11 +44,20 @@ final class AccountSettingViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureTableView()
         configureUI()
         configureAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "account_set"
+        ])
     }
     
     //MARK: - Private Method
@@ -77,6 +86,9 @@ final class AccountSettingViewController: UIViewController,
     
     @objc
     private func didTapDeleteAccountButton() {
+        logging(.withdrawalClick, parameter: [
+            .count: "count"
+        ])
         listener?.didTapDeleteAccountButton()
     }
 }

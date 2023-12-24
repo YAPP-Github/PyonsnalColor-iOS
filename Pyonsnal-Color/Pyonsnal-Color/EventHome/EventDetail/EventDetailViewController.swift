@@ -33,6 +33,14 @@ final class EventDetailViewController: UIViewController,
         configureAction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "event"
+        ])
+    }
+    
     // MARK: - EventDetailPresentable
     func update(with imageURL: String, store: ConvenienceStore) {
         if let imageURL = URL(string: imageURL) {

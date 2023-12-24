@@ -71,11 +71,18 @@ final class FavoriteHomeViewController: UIViewController,
     
     // MARK: - View Life Cycle
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "main_like"
+        ])
+        
         listener?.requestFavoriteProducts()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         viewHolder.place(in: self.view)
         viewHolder.configureConstraints(for: self.view)
         configureUI()

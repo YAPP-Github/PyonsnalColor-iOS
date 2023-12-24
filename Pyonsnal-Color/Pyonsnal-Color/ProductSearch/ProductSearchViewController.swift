@@ -15,6 +15,7 @@ enum ProductCellType: Hashable {
 }
 
 protocol ProductSearchPresentableListener: AnyObject {
+    var keyword: String? { get }
     func popViewController()
     func search(with keyword: String?)
     func loadMoreItems()
@@ -64,6 +65,14 @@ final class ProductSearchViewController: UIViewController,
         configureUI()
         configureAction()
         bind()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "search"
+        ])
     }
     
     // MARK: - Private Method
@@ -295,6 +304,16 @@ extension ProductSearchViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - ProductCellDelegate
 extension ProductSearchViewController: ProductCellDelegate {
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        switch action {
+        case .add:
+            logging(.like, parameter: [
+                .searchProductName: product.name
+            ])
+        case .delete:
+            logging(.unlike, parameter: [
+                .searchProductName: product.name
+            ])
+        }
         listener?.didTapFavoriteButton(product: product, action: action)
     }
 }

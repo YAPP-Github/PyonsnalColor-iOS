@@ -62,7 +62,11 @@ final class ProductDetailViewController:
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "items"
+        ])
         
         listener?.refresh()
     }

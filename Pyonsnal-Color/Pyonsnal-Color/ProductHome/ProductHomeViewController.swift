@@ -70,6 +70,10 @@ final class ProductHomeViewController:
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        logging(.pageView, parameter: [
+            .screenName: "main_home"
+        ])
+        
         hideFilterCollectionView()
     }
     
@@ -393,6 +397,24 @@ extension ProductHomeViewController: UICollectionViewDelegate {
             
             switch selectedItem {
             case .convenienceStore:
+                var storeName: String?
+                switch indexPath.item {
+                case 0:
+                    storeName = "pick"
+                case 1:
+                    storeName = "cu"
+                case 2:
+                    storeName = "gs25"
+                case 3:
+                    storeName = "emart24"
+                case 4:
+                    storeName = "7eleven"
+                default:
+                    storeName = nil
+                }
+                logging(.navbarClick, parameter: [
+                    .pbNavName: storeName ?? "nil"
+                ])
                 currentConvenienceStore = currentListViewController()?.convenienceStore
                 viewHolder.productHomePageViewController.updatePage(to: indexPath.item)
                 indexPath.item == 0 ? hideFilterCollectionView() : showFilterCollectionView()

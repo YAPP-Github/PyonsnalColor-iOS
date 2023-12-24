@@ -55,9 +55,18 @@ final class TermsOfUseViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "termofuse"
+        ])
     }
     
     func configureAction() {

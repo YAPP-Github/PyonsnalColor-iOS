@@ -42,6 +42,14 @@ final class StarRatingReviewViewController: UIViewController,
         configureStarRatingView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "select_star_review"
+        ])
+    }
+    
     private func configureView() {
         view.backgroundColor = .white
         viewHolder.storeImageView.setImage(productDetail.storeType.storeIcon)
@@ -60,6 +68,9 @@ final class StarRatingReviewViewController: UIViewController,
 
 extension StarRatingReviewViewController: BackNavigationViewDelegate {
     func didTapBackButton() {
+        logging(.closeScreen, parameter: [
+            .screenName: "review"
+        ])
         listener?.didTapBackButton()
     }
 }

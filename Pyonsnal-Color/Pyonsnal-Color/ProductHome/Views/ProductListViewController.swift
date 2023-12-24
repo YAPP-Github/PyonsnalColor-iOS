@@ -270,6 +270,9 @@ final class ProductListViewController: UIViewController {
 extension ProductListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let item = dataSource?.itemIdentifier(for: indexPath), case let .item(product) = item {
+            logging(.itemClick, parameter: [
+                .productName: product?.name ?? ""
+            ])
             listDelegate?.didSelect(with: product)
         }
     }
@@ -304,7 +307,16 @@ extension ProductListViewController: EmptyProductCellDelegate {
 // MARK: - ProductCellDelegate
 extension ProductListViewController: ProductCellDelegate {
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        switch action {
+        case .add:
+            logging(.like, parameter: [
+                .productName: product.name
+            ])
+        case .delete:
+            logging(.unlike, parameter: [
+                .productName: product.name
+            ])
+        }
         delegate?.didTapFavoriteButton(product: product, action: action)
     }
 }
-

@@ -67,6 +67,7 @@ final class EventHomeViewController: UIViewController,
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureNavigationView()
@@ -78,6 +79,14 @@ final class EventHomeViewController: UIViewController,
         setScrollView()
         configureUI()
         loadFirstEventProducts()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "main_event"
+        ])
     }
     
     // MARK: - Private method
@@ -304,6 +313,21 @@ extension EventHomeViewController: EventHomePageViewControllerDelegate {
     }
     
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
+        
+        var gaParameterKey: GAParameterKey
+        switch store {
+        case .cu:
+            gaParameterKey = .cuEventName
+        case .gs25:
+            gaParameterKey = .gsEventName
+        case .emart24:
+            gaParameterKey = .emartEventName
+        case .sevenEleven:
+            gaParameterKey = .sevenEventName
+        }
+        logging(.eventClick, parameter: [
+            gaParameterKey: imageURL
+        ])
         listener?.didTapEventBannerCell(with: imageURL, store: store)
     }
     
@@ -338,6 +362,22 @@ extension EventHomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == viewHolder.collectionView {
+            var storeName: String?
+            switch indexPath.item {
+            case 0:
+                storeName = "cu"
+            case 1:
+                storeName = "gs25"
+            case 2:
+                storeName = "emart24"
+            case 3:
+                storeName = "7eleven"
+            default:
+                storeName = nil
+            }
+            logging(.navbarClick, parameter: [
+                .eventNavName: storeName ?? "nil"
+            ])
             guard let selectedItem = storeDataSource?.itemIdentifier(for: indexPath) else { return }
             
             if case .convenienceStore(_) = selectedItem {

@@ -37,7 +37,7 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     // MARK: - Private Property
     private let dependency: ProductSearchDependency
     private var cancellable = Set<AnyCancellable>()
-    private var keyword: String?
+    private(set) var keyword: String?
     private var filterItem: FilterItemEntity = .init(name: "최신순", code: 1, image: nil, isSelected: true)
     private var pageNumber: Int = 0
     private let pageSize: Int = 20
@@ -86,6 +86,9 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     func didSelectProduct(with indexPath: IndexPath) {
         if eventProductResult.count > indexPath.item {
             let product = eventProductResult[indexPath.item]
+            logging(.itemClick, parameter: [
+                .searchProductName: product.name
+            ])
             router?.attachProductDetail(with: product)
         }
     }
@@ -105,6 +108,9 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
         
         if let keyword,
            !keyword.isEmpty {
+            logging(.keywordSearch, parameter: [
+                .searchKeyword: keyword
+            ])
             dependency.productAPIService.requestSearch(
                 pageNumber: pageNumber,
                 pageSize: pageSize,
@@ -260,6 +266,20 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     }
     
     func applySortFilter(item: FilterItemEntity) {
+        var filterName: String?
+        switch item.code {
+        case 1:
+            filterName = "recent"
+        case 3:
+            filterName = "low_price"
+        case 4:
+            filterName = "high_price"
+        default:
+            filterName = nil
+        }
+        logging(.sortFilterClick, parameter: [
+            .searchSortFilterName: filterName ?? "nil"
+        ])
         requestSort(filterItem: item)
         router?.detachProductFilter()
     }

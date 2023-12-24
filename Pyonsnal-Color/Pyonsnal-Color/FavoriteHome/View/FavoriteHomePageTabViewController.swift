@@ -211,6 +211,9 @@ extension FavoriteHomePageTabViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let item = dataSource?.itemIdentifier(for: indexPath),
            case let .product(product) = item {
+            logging(.itemClick, parameter: [
+                .productName: product.name
+            ])
             delegate?.didTapProduct(product: product)
         }
     }
@@ -219,6 +222,16 @@ extension FavoriteHomePageTabViewController: UICollectionViewDelegate {
 // MARK: - ProductCellDelegate
 extension FavoriteHomePageTabViewController: ProductCellDelegate {
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        switch action {
+        case .add:
+            logging(.like, parameter: [
+                .productName: product.name
+            ])
+        case .delete:
+            logging(.unlike, parameter: [
+                .productName: product.name
+            ])
+        }
         delegate?.didTapFavoriteButton(product: product, action: action)
     }
 }
