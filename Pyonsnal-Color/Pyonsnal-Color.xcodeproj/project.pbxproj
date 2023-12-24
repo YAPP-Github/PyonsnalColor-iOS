@@ -135,6 +135,7 @@
 		BA3EB2FE2A6074090091C8DB /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA3EB2FD2A6074090091C8DB /* FirebaseAnalyticsSwift */; };
 		BA3EB3002A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = BA3EB2FF2A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		BA3EB3022A6074090091C8DB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = BA3EB3012A6074090091C8DB /* FirebaseCrashlytics */; };
+		BA4183DD2B25EE0D008FB3D6 /* Firebase+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4183DC2B25EE0D008FB3D6 /* Firebase+.swift */; };
 		BA437F072A2357DF00C5DFA8 /* ModernRIBs in Frameworks */ = {isa = PBXBuildFile; productRef = BA437F062A2357DF00C5DFA8 /* ModernRIBs */; };
 		BA437F162A235F5100C5DFA8 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */; };
 		BA437F172A235F5100C5DFA8 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */; };
@@ -435,6 +436,7 @@
 		BA18C0AF2A759EAC007D00BD /* ProductSearchSortBottomSheetInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchSortBottomSheetInteractor.swift; sourceTree = "<group>"; };
 		BA1E8BB22ACBC2E300964B6E /* ReviewFeedKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFeedKind.swift; sourceTree = "<group>"; };
 		BA3EB2F82A60736F0091C8DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BA4183DC2B25EE0D008FB3D6 /* Firebase+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+.swift"; sourceTree = "<group>"; };
 		BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
 		BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
 		BA437F142A235F5100C5DFA8 /* LoggedOutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutBuilder.swift; sourceTree = "<group>"; };
@@ -921,6 +923,7 @@
 			children = (
 				BA00B73B2A46B98700BB3795 /* SnapKit+.swift */,
 				B21C1A8B2A513FBB007D98E9 /* RIBs+.swift */,
+				BA4183DC2B25EE0D008FB3D6 /* Firebase+.swift */,
 			);
 			path = 3rdParty;
 			sourceTree = "<group>";
@@ -1774,6 +1777,7 @@
 			files = (
 				BA18C0A42A7596E1007D00BD /* BottomSheetDismissAnimator.swift in Sources */,
 				BA18C0B22A759EAC007D00BD /* ProductSearchSortBottomSheetBuilder.swift in Sources */,
+				BA4183DD2B25EE0D008FB3D6 /* Firebase+.swift in Sources */,
 				F097EF222A5603AD00A7FB9C /* TermsButton.swift in Sources */,
 				B282050A2A34700300F9242F /* EventHomeRouter.swift in Sources */,
 				B2F169E02A34D07F008199D8 /* CALayer+.swift in Sources */,
