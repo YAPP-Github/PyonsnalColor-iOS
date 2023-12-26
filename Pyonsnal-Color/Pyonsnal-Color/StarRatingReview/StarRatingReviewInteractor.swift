@@ -10,6 +10,8 @@ import ModernRIBs
 protocol StarRatingReviewRouting: ViewableRouting {
     func attachDetailReview(productDetail: ProductDetailEntity, score: Int)
     func detachDetailReview(animated: Bool)
+    func attachPopup(isApply: Bool)
+    func detachPopup()
 }
 
 protocol StarRatingReviewPresentable: Presentable {
@@ -57,6 +59,15 @@ final class StarRatingReviewInteractor: PresentableInteractor<StarRatingReviewPr
     }
     
     func didTapBackButton() {
+        router?.attachPopup(isApply: false)
+    }
+    
+    func popupDidTapDismissButton() {
+        router?.detachPopup()
+    }
+    
+    func popupDidTapBackButton() {
+        router?.detachPopup()
         listener?.detachStarRatingReview()
     }
 }

@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol StarRatingReviewInteractable: Interactable, DetailReviewListener {
+protocol StarRatingReviewInteractable: Interactable, DetailReviewListener, ReviewPopupListener {
     var router: StarRatingReviewRouting? { get set }
     var listener: StarRatingReviewListener? { get set }
 }
@@ -21,13 +21,18 @@ final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable,
     
     private let detailReviewBuilder: DetailReviewBuildable
     private var detailReviewRouting: DetailReviewRouting?
+    
+    private let reviewPopupBuilder: ReviewPopupBuildable
+    private var reviewPopupRouting: ReviewPopupRouting?
 
     init(
         interactor: StarRatingReviewInteractable,
         viewController: StarRatingReviewViewControllable,
-        detailReviewBuilder: DetailReviewBuildable
+        detailReviewBuilder: DetailReviewBuildable,
+        reviewPopupBuilder: ReviewPopupBuildable
     ) {
         self.detailReviewBuilder = detailReviewBuilder
+        self.reviewPopupBuilder = reviewPopupBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -51,5 +56,27 @@ final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable,
         viewController.popViewController(animated: animated)
         self.detailReviewRouting = nil
         detachChild(detailReviewRouting)
+    }
+    
+    func attachPopup(isApply: Bool) {
+        guard reviewPopupRouting == nil else { return }
+        
+        let reviewPopupRouter = reviewPopupBuilder.build(
+            withListener: interactor,
+            isApply: isApply
+        )
+        reviewPopupRouting = reviewPopupRouter
+        attachChild(reviewPopupRouter)
+        let reviewPopup = reviewPopupRouter.viewControllable.uiviewController
+        reviewPopup.modalPresentationStyle = .overFullScreen
+        viewController.uiviewController.present(reviewPopup, animated: false)
+    }
+    
+    func detachPopup() {
+        guard let reviewPopupRouting else { return }
+        
+        viewControllable.uiviewController.dismiss(animated: false)
+        self.reviewPopupRouting = nil
+        detachChild(reviewPopupRouting)
     }
 }

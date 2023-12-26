@@ -61,7 +61,7 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     }
     
     func didTapBackButton() {
-        router?.attachPopup(isApply: false)
+        listener?.detachDetailReview()
     }
     
     func didTapApplyButton() {
