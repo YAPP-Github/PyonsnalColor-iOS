@@ -30,6 +30,8 @@
 		B24259102A594862006C5223 /* SortEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B242590F2A594862006C5223 /* SortEntity.swift */; };
 		B24259122A594AB7006C5223 /* ProductAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24259112A594AB7006C5223 /* ProductAPI.swift */; };
 		B248916B2B3D5A75009D0FBF /* UserReviewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = B248916A2B3D5A75009D0FBF /* UserReviewInput.swift */; };
+		B24891632B3AD2E5009D0FBF /* HomeBannerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24891622B3AD2E5009D0FBF /* HomeBannerEntity.swift */; };
+		B24891652B3AD343009D0FBF /* EventImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24891642B3AD342009D0FBF /* EventImageEntity.swift */; };
 		B24CAAE22A55AC2B005BE499 /* NotificationListViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D472A4AD7ED00AA03DC /* NotificationListViewHolder.swift */; };
 		B24CAAE32A55AC2D005BE499 /* NotificationListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D412A4AD7B600AA03DC /* NotificationListBuilder.swift */; };
 		B24CAAE42A55AC2F005BE499 /* NotificationListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D422A4AD7B600AA03DC /* NotificationListInteractor.swift */; };
@@ -349,6 +351,8 @@
 		B242590D2A5947E7006C5223 /* PageableEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageableEntity.swift; sourceTree = "<group>"; };
 		B242590F2A594862006C5223 /* SortEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortEntity.swift; sourceTree = "<group>"; };
 		B24259112A594AB7006C5223 /* ProductAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductAPI.swift; sourceTree = "<group>"; };
+		B24891622B3AD2E5009D0FBF /* HomeBannerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerEntity.swift; sourceTree = "<group>"; };
+		B24891642B3AD342009D0FBF /* EventImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventImageEntity.swift; sourceTree = "<group>"; };
 		B248916A2B3D5A75009D0FBF /* UserReviewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReviewInput.swift; sourceTree = "<group>"; };
 		B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStoreCell.swift; sourceTree = "<group>"; };
 		B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
@@ -716,6 +720,16 @@
 				BA8322642AB7890000D2E1EB /* ProductDetailSectionModel.swift */,
 			);
 			path = Products;
+			sourceTree = "<group>";
+		};
+		B248915F2B3ACB00009D0FBF /* Curation */ = {
+			isa = PBXGroup;
+			children = (
+				B28A59162A6E995500431F39 /* CurationEntity.swift */,
+				B24891622B3AD2E5009D0FBF /* HomeBannerEntity.swift */,
+				B24891642B3AD342009D0FBF /* EventImageEntity.swift */,
+			);
+			path = Curation;
 			sourceTree = "<group>";
 		};
 		B24F1D342A43E30D00AA03DC /* Views */ = {
@@ -1179,7 +1193,7 @@
 				B242590C2A5943F6006C5223 /* Products */,
 				BA0BFB712A5463BD0019AED7 /* EventTag.swift */,
 				B24259022A590ECA006C5223 /* ConvenienceStore.swift */,
-				B28A59162A6E995500431F39 /* CurationEntity.swift */,
+				B248915F2B3ACB00009D0FBF /* Curation */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1825,6 +1839,7 @@
 				F0DFBC962A59622A003F7660 /* MemberAPIService.swift in Sources */,
 				F0168D542A500AC900978ED9 /* EventDetailInteractor.swift in Sources */,
 				BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */,
+				B24891632B3AD2E5009D0FBF /* HomeBannerEntity.swift in Sources */,
 				B2F169D62A347208008199D8 /* RootTabBarBuilder.swift in Sources */,
 				BA50FD092A680D2500721782 /* SearchBarView.swift in Sources */,
 				BAE984472AACFFEF00ED22CB /* ProductDetailReviewCell.swift in Sources */,
@@ -2039,6 +2054,7 @@
 				F02C8DA72A2E149700593A2D /* AppleLoginService.swift in Sources */,
 				F0C698652A6BA9B00019C677 /* CategoryFilterCell.swift in Sources */,
 				B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */,
+				B24891652B3AD343009D0FBF /* EventImageEntity.swift in Sources */,
 				BA6CAB842AE8509900B9E1BF /* ReviewHateCountEntity.swift in Sources */,
 				B28A59322A73B08000431F39 /* RecommendFilterCell.swift in Sources */,
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
