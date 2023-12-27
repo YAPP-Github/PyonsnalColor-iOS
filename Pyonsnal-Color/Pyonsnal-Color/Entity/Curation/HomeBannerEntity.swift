@@ -7,41 +7,45 @@
 
 import Foundation
 
+struct HomeBanner: Decodable {
+    let homeBanner: [HomeBannerEntity]
+}
+
 struct HomeBannerEntity: Decodable {
     let type: String
-    let value: HomeBannerValue
+    let value: [HomeBannerValue]
 }
 
 struct HomeBannerValue: Decodable {
-    let curation: CurationEntity?
-    let eventImage: EventImageEntity?
+    let curationProducts: CurationEntity?
+    let eventImages: EventImageEntity?
     
     enum CodingKeys: CodingKey {
-        case curation
-        case eventImage
+        case curationProducts
+        case eventImages
     }
     
-    init(curation: CurationEntity? = nil, eventImage: EventImageEntity? = nil) {
-        self.curation = curation
-        self.eventImage = eventImage
+    init(curationProducts: CurationEntity? = nil, eventImages: EventImageEntity? = nil) {
+        self.curationProducts = curationProducts
+        self.eventImages = eventImages
     }
     
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.singleValueContainer()
         
-        if let value = try? container.decode(CurationEntity.self, forKey: .curation) {
-            self = .init(curation: value)
+        if let value = try? container.decode(CurationEntity.self) {
+            self = .init(curationProducts: value)
             return
         }
         
-        if let value = try? container.decode(EventImageEntity.self, forKey: .eventImage) {
-            self = .init(eventImage: value)
+        if let value = try? container.decode(EventImageEntity.self) {
+            self = .init(eventImages: value)
             return
         }
         
         throw DecodingError.typeMismatch(
             HomeBannerValue.self, 
-                .init(codingPath: decoder.codingPath, debugDescription: "Type Mismatch")
+            .init(codingPath: decoder.codingPath, debugDescription: "Type Mismatch")
         )
     }
 }

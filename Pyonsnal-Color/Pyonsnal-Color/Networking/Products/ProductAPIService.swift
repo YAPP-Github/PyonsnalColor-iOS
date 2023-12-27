@@ -203,4 +203,8 @@ final class ProductAPIService {
             }
         }
     }
+    
+    func requestHomeBannerEntity() -> AnyPublisher<DataResponse<HomeBanner, NetworkError>, Never> {
+        return client.request(ProductAPI.homeBanner, model: HomeBanner.self)
+    }
 }
