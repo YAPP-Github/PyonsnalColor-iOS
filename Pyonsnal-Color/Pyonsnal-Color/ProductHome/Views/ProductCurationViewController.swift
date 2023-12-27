@@ -19,14 +19,14 @@ final class ProductCurationViewController: UIViewController {
     enum Section: Hashable {
         case image
         case curation(data: CurationEntity)
-//        case eventImage(data: EventImageEntity)
+        case eventImage(data: EventImageEntity)
         case adMob
     }
     
     enum Item: Hashable {
         case image(data: UIImage?)
         case curation(data: ProductDetailEntity)
-//        case eventImage(data: UIImage?)
+        case eventImage(data: String)
         case adMob
     }
     
@@ -92,9 +92,11 @@ final class ProductCurationViewController: UIViewController {
     private func registerCells() {
         curationCollectionView.register(CurationImageCell.self)
         curationCollectionView.register(ProductCell.self)
+        curationCollectionView.register(EventBannerItemCell.self)
         curationCollectionView.register(CurationAdCell.self)
         curationCollectionView.registerHeaderView(CurationHeaderView.self)
         curationCollectionView.registerFooterView(CurationFooterView.self)
+        curationCollectionView.registerHeaderView(EventBannerHeaderView.self)
     }
     
     private func configureDataSource() {
@@ -110,6 +112,9 @@ final class ProductCurationViewController: UIViewController {
                 cell.updateCell(with: data)
                 cell.delegate = self
                 return cell
+            case let .eventImage(data):
+                let cell: EventBannerItemCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.update(with: data)
             case .adMob:
                 let cell: CurationAdCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.setAdMobManagerIfNeeded(adMobManager: self.adMobManager)
@@ -121,21 +126,35 @@ final class ProductCurationViewController: UIViewController {
     private func configureSupplementaryView() {
         dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
             if kind == UICollectionView.elementKindSectionHeader {
-                guard let headerView = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: String(describing: CurationHeaderView.self),
-                    for: indexPath
-                ) as? CurationHeaderView else {
+                guard let section = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section] else {
                     return nil
                 }
                 
-                if let section = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section] {
-                    if case let .curation(curation) = section {
-                        headerView.configureHeaderView(with: curation)
+                if case let .curation(curation) = section {
+                    guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                        ofKind: kind,
+                        withReuseIdentifier: CurationHeaderView.identifier,
+                        for: indexPath
+                    ) as? CurationHeaderView else {
+                        return nil
                     }
+                    
+                    headerView.configureHeaderView(with: curation)
+                    return headerView
+                } else if case let .eventImage(eventImage) = section {
+                    guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                        ofKind: kind,
+                        withReuseIdentifier: EventBannerHeaderView.identifier,
+                        for: indexPath
+                    ) as? EventBannerHeaderView else {
+                        return nil
+                    }
+                    
+                    headerView.configureHeaderView(title: eventImage.title)
+                    return headerView
+                } else {
+                    return nil
                 }
-
-                return headerView
             } else if kind == UICollectionView.elementKindSectionFooter {
                 guard let footerView = collectionView.dequeueReusableSupplementaryView(
                     ofKind: kind,
@@ -188,18 +207,18 @@ final class ProductCurationViewController: UIViewController {
         items.forEach { item in
             item.value.forEach { value in
                 if let curation = value.curationProducts {
-                    print(curation)
+                    snapshot.appendSections([.curation(data: curation)])
+                    curation.products.forEach { product in
+                        snapshot.appendItems([.curation(data: product)])
+                    }
                 } else if let eventImages = value.eventImages {
-                    print(eventImages)
+                    snapshot.appendSections([.eventImage(data: eventImages)])
+                    snapshot.appendItems([.eventImage(data: eventImages.imageURL)])
                 }
             }
-            
-//            snapshot.appendSections([.curation(data: curation)])
-//            curation.products.forEach { product in
-//                snapshot.appendItems([.curation(data: product)])
-//            }
         }
-//        dataSource?.apply(snapshot, animatingDifferences: true)
+        
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     // MARK: - Method
