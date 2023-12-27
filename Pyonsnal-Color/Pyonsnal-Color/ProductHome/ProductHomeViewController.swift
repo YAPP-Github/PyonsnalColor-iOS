@@ -308,6 +308,13 @@ final class ProductHomeViewController:
         }
     }
     
+    func updateHomeBanner(with items: [HomeBannerEntity]) {
+        let pageViewController = viewHolder.productHomePageViewController
+        if let viewController = pageViewController.productListViewControllers.first as? ProductCurationViewController {
+            viewController.applySnapshot(with: items)
+        }
+    }
+    
     func currentListViewController() -> ProductListViewController? {
         let pageViewController = viewHolder.productHomePageViewController.viewControllers?.first
         if let productListViewController = pageViewController as? ProductListViewController {

@@ -19,12 +19,14 @@ final class ProductCurationViewController: UIViewController {
     enum Section: Hashable {
         case image
         case curation(data: CurationEntity)
+//        case eventImage(data: EventImageEntity)
         case adMob
     }
     
     enum Item: Hashable {
         case image(data: UIImage?)
         case curation(data: ProductDetailEntity)
+//        case eventImage(data: UIImage?)
         case adMob
     }
     
@@ -175,6 +177,29 @@ final class ProductCurationViewController: UIViewController {
         }
         
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func applySnapshot(with items: [HomeBannerEntity]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        
+        snapshot.appendSections([.image])
+        snapshot.appendItems([.image(data: UIImage(systemName: ""))])
+        
+        items.forEach { item in
+            item.value.forEach { value in
+                if let curation = value.curationProducts {
+                    print(curation)
+                } else if let eventImages = value.eventImages {
+                    print(eventImages)
+                }
+            }
+            
+//            snapshot.appendSections([.curation(data: curation)])
+//            curation.products.forEach { product in
+//                snapshot.appendItems([.curation(data: product)])
+//            }
+        }
+//        dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     // MARK: - Method
