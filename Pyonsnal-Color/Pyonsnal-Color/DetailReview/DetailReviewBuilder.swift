@@ -28,7 +28,8 @@ protocol DetailReviewBuildable: Buildable {
     func build(
         withListener listener: DetailReviewListener,
         productDetail: ProductDetailEntity,
-        score: Int
+        score: Int,
+        userReviewInput: UserReviewInput
     ) -> DetailReviewRouting
 }
 
@@ -41,10 +42,15 @@ final class DetailReviewBuilder: Builder<DetailReviewDependency>, DetailReviewBu
     func build(
         withListener listener: DetailReviewListener,
         productDetail: ProductDetailEntity,
-        score: Int
+        score: Int,
+        userReviewInput: UserReviewInput
     ) -> DetailReviewRouting {
         let component = DetailReviewComponent(dependency: dependency)
-        let viewController = DetailReviewViewController(productDetail: productDetail, score: score)
+        let viewController = DetailReviewViewController(
+            productDetail: productDetail,
+            score: score,
+            userReviewInput: userReviewInput
+        )
         let interactor = DetailReviewInteractor(
             presenter: viewController,
             component: component,

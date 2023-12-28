@@ -5,6 +5,7 @@
 //  Created by 김인호 on 2023/09/21.
 //
 
+import UIKit
 import ModernRIBs
 
 protocol StarRatingReviewInteractable: Interactable, DetailReviewListener, ReviewPopupListener {
@@ -37,13 +38,18 @@ final class StarRatingReviewRouter: ViewableRouter<StarRatingReviewInteractable,
         interactor.router = self
     }
     
-    func attachDetailReview(productDetail: ProductDetailEntity, score: Int) {
+    func attachDetailReview(
+        productDetail: ProductDetailEntity,
+        score: Int,
+        userReviewInput: UserReviewInput
+    ) {
         guard detailReviewRouting == nil else { return }
         
         let detailReviewRouter = detailReviewBuilder.build(
             withListener: interactor,
             productDetail: productDetail,
-            score: score
+            score: score,
+            userReviewInput: userReviewInput
         )
         detailReviewRouting = detailReviewRouter
         attachChild(detailReviewRouter)
