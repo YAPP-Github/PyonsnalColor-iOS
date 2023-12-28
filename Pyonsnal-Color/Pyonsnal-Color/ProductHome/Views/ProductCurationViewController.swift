@@ -30,6 +30,10 @@ final class ProductCurationViewController: UIViewController {
         case adMob
     }
     
+    enum Constant {
+        static let firstCurationIndex: Int = 1
+    }
+    
     // MARK: Property
     weak var delegate: ProductListDelegate?
     weak var curationDelegate: CurationDelegate?
@@ -214,6 +218,12 @@ final class ProductCurationViewController: UIViewController {
                 } else if let eventImages = value.eventImages {
                     snapshot.appendSections([.eventImage(data: eventImages)])
                     snapshot.appendItems([.eventImage(data: eventImages.imageURL)])
+                    
+                    let curationSection = snapshot.sectionIdentifiers[Constant.firstCurationIndex]
+                    snapshot.moveSection(
+                        .eventImage(data: eventImages),
+                        afterSection: curationSection
+                    )
                 }
             }
         }
