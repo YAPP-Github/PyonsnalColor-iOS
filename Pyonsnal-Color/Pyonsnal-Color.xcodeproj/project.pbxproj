@@ -33,6 +33,7 @@
 		B24891632B3AD2E5009D0FBF /* HomeBannerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24891622B3AD2E5009D0FBF /* HomeBannerEntity.swift */; };
 		B24891652B3AD343009D0FBF /* EventImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24891642B3AD342009D0FBF /* EventImageEntity.swift */; };
 		B24891672B3C2525009D0FBF /* EventBannerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24891662B3C2525009D0FBF /* EventBannerHeaderView.swift */; };
+		B248916D2B443970009D0FBF /* EventImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B248916C2B443970009D0FBF /* EventImageCell.swift */; };
 		B24CAAE22A55AC2B005BE499 /* NotificationListViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D472A4AD7ED00AA03DC /* NotificationListViewHolder.swift */; };
 		B24CAAE32A55AC2D005BE499 /* NotificationListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D412A4AD7B600AA03DC /* NotificationListBuilder.swift */; };
 		B24CAAE42A55AC2F005BE499 /* NotificationListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24F1D422A4AD7B600AA03DC /* NotificationListInteractor.swift */; };
@@ -355,6 +356,7 @@
 		B24891622B3AD2E5009D0FBF /* HomeBannerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerEntity.swift; sourceTree = "<group>"; };
 		B24891642B3AD342009D0FBF /* EventImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventImageEntity.swift; sourceTree = "<group>"; };
 		B24891662B3C2525009D0FBF /* EventBannerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBannerHeaderView.swift; sourceTree = "<group>"; };
+		B248916C2B443970009D0FBF /* EventImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventImageCell.swift; sourceTree = "<group>"; };
 		B248916A2B3D5A75009D0FBF /* UserReviewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReviewInput.swift; sourceTree = "<group>"; };
 		B24F1D302A431E1700AA03DC /* ConvenienceStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceStoreCell.swift; sourceTree = "<group>"; };
 		B24F1D352A43E5B500AA03DC /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
@@ -845,6 +847,7 @@
 				B28A591A2A6E9F3D00431F39 /* CurationImageCell.swift */,
 				F06F40312B35EE2800897396 /* CurationAdCell.swift */,
 				F06F40362B37361500897396 /* NativeAdView.swift */,
+				B248916C2B443970009D0FBF /* EventImageCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1837,6 +1840,7 @@
 				F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */,
 				BA50FD012A680AA900721782 /* ProductSearchRouter.swift in Sources */,
 				BA50FD032A680AA900721782 /* ProductSearchBuilder.swift in Sources */,
+				B248916D2B443970009D0FBF /* EventImageCell.swift in Sources */,
 				B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */,
 				F033E8F82AC5C31700B021C8 /* FavoriteHomeViewController+ViewHolder.swift in Sources */,
 				F0DFBC962A59622A003F7660 /* MemberAPIService.swift in Sources */,

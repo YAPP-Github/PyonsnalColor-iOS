@@ -181,6 +181,7 @@ final class ProductCurationViewController: UIViewController {
         }
     }
     
+    // TODO: 기존 curation 메서드 삭제
     func applySnapshot(with products: [CurationEntity]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
 
@@ -217,7 +218,9 @@ final class ProductCurationViewController: UIViewController {
                     }
                 } else if let eventImages = value.eventImages {
                     snapshot.appendSections([.eventImage(data: eventImages)])
-                    snapshot.appendItems([.eventImage(data: eventImages.imageURL)])
+                    eventImages.imageURL.forEach { imageURL in
+                        snapshot.appendItems([.eventImage(data: imageURL)])
+                    }
                     
                     let curationSection = snapshot.sectionIdentifiers[Constant.firstCurationIndex]
                     snapshot.moveSection(

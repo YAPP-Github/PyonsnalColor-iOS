@@ -9,10 +9,10 @@ import Foundation
 
 struct EventImageEntity: Decodable, Hashable {
     let title: String
-    let imageURL: String
+    let imageURL: [String]
     
     private enum CodingKeys: String, CodingKey {
         case title
-        case imageURL = "image"
+        case imageURL = "images"
     }
 }
