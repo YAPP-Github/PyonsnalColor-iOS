@@ -97,6 +97,14 @@ final class SingleLineReview: UIView {
         
         return result == 1 ? true : false
     }
+    
+    func selectReviewButton(_ state: ReviewEvaluationState) {
+        let result = viewHolder.reviewButtonStackView.subviews
+            .compactMap { $0 as? ReviewButton }
+            .filter { $0.payload?.state == state }
+        
+        result.forEach { didSelectReviewButton($0) }
+    }
 }
 
 extension SingleLineReview {
