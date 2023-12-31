@@ -130,7 +130,6 @@
 		BA18C0B22A759EAC007D00BD /* ProductSearchSortBottomSheetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18C0AE2A759EAC007D00BD /* ProductSearchSortBottomSheetBuilder.swift */; };
 		BA18C0B32A759EAC007D00BD /* ProductSearchSortBottomSheetInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18C0AF2A759EAC007D00BD /* ProductSearchSortBottomSheetInteractor.swift */; };
 		BA1E8BB32ACBC2E300964B6E /* ReviewFeedKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1E8BB22ACBC2E300964B6E /* ReviewFeedKind.swift */; };
-		BA3EB2F92A60736F0091C8DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA3EB2F82A60736F0091C8DB /* GoogleService-Info.plist */; };
 		BA3EB2FC2A6074080091C8DB /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BA3EB2FB2A6074080091C8DB /* FirebaseAnalytics */; };
 		BA3EB2FE2A6074090091C8DB /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA3EB2FD2A6074090091C8DB /* FirebaseAnalyticsSwift */; };
 		BA3EB3002A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = BA3EB2FF2A6074090091C8DB /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -163,6 +162,7 @@
 		BA83225E2AB77E9E00D2E1EB /* ReviewEvaluationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA83225D2AB77E9E00D2E1EB /* ReviewEvaluationState.swift */; };
 		BA8322612AB77FCA00D2E1EB /* ReviewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8322602AB77FCA00D2E1EB /* ReviewEntity.swift */; };
 		BA8322652AB7890000D2E1EB /* ProductDetailSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8322642AB7890000D2E1EB /* ProductDetailSectionModel.swift */; };
+		BA83895F2B414E2A00F9E449 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA83895E2B414E2A00F9E449 /* GoogleService-Info.plist */; };
 		BA87501C2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */; };
 		BA87501E2A519B3900B80088 /* ImageAssetKind+HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */; };
 		BA87E3CC2A45C5A1000A9DEC /* ProductDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA87E3C82A45C5A1000A9DEC /* ProductDetailRouter.swift */; };
@@ -435,7 +435,6 @@
 		BA18C0AE2A759EAC007D00BD /* ProductSearchSortBottomSheetBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchSortBottomSheetBuilder.swift; sourceTree = "<group>"; };
 		BA18C0AF2A759EAC007D00BD /* ProductSearchSortBottomSheetInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchSortBottomSheetInteractor.swift; sourceTree = "<group>"; };
 		BA1E8BB22ACBC2E300964B6E /* ReviewFeedKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFeedKind.swift; sourceTree = "<group>"; };
-		BA3EB2F82A60736F0091C8DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BA4183DC2B25EE0D008FB3D6 /* Firebase+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+.swift"; sourceTree = "<group>"; };
 		BA437F122A235F5100C5DFA8 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
 		BA437F132A235F5100C5DFA8 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
@@ -463,6 +462,7 @@
 		BA83225D2AB77E9E00D2E1EB /* ReviewEvaluationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewEvaluationState.swift; sourceTree = "<group>"; };
 		BA8322602AB77FCA00D2E1EB /* ReviewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewEntity.swift; sourceTree = "<group>"; };
 		BA8322642AB7890000D2E1EB /* ProductDetailSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailSectionModel.swift; sourceTree = "<group>"; };
+		BA83895E2B414E2A00F9E449 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BA87501B2A519A9200B80088 /* ImageAssetKind+StoreIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+StoreIcon.swift"; sourceTree = "<group>"; };
 		BA87501D2A519B3900B80088 /* ImageAssetKind+HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAssetKind+HeaderView.swift"; sourceTree = "<group>"; };
 		BA87E3C82A45C5A1000A9DEC /* ProductDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailRouter.swift; sourceTree = "<group>"; };
@@ -1049,8 +1049,8 @@
 		BA437F082A23583400C5DFA8 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				BA83895E2B414E2A00F9E449 /* GoogleService-Info.plist */,
 				F0C9E0D22A7BFA0F00A53166 /* Lottie */,
-				BA3EB2F82A60736F0091C8DB /* GoogleService-Info.plist */,
 				F00609532A5EF83500A2A79D /* Constants */,
 				F069DBE72A30BA7A0001D3DD /* Font */,
 				BA1807562A2F152800295398 /* ImageAssetKind */,
@@ -1737,12 +1737,12 @@
 			files = (
 				BA9E23502A234B4D00A539D5 /* .swiftlint.yml in Resources */,
 				BA9E23472A21EF3100A539D5 /* LaunchScreen.storyboard in Resources */,
+				BA83895F2B414E2A00F9E449 /* GoogleService-Info.plist in Resources */,
 				B2674D0F2A42DFFC004193DE /* Pretendard-Regular.otf in Resources */,
 				BA9E23442A21EF3100A539D5 /* Assets.xcassets in Resources */,
 				B2134DC22A7D09E1009CB1EB /* main.json in Resources */,
 				B2674D0E2A42DFF9004193DE /* Pretendard-SemiBold.otf in Resources */,
 				B2674D102A42DFFE004193DE /* Pretendard-Medium.otf in Resources */,
-				BA3EB2F92A60736F0091C8DB /* GoogleService-Info.plist in Resources */,
 				F0C9E0DC2A7C0A5300A53166 /* login.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
