@@ -26,7 +26,7 @@ final class ProductCurationViewController: UIViewController {
     enum Item: Hashable {
         case image(data: UIImage?)
         case curation(data: ProductDetailEntity)
-        case eventImage(data: String)
+        case eventImage(data: [String])
         case adMob
     }
     
@@ -96,7 +96,7 @@ final class ProductCurationViewController: UIViewController {
     private func registerCells() {
         curationCollectionView.register(CurationImageCell.self)
         curationCollectionView.register(ProductCell.self)
-        curationCollectionView.register(EventBannerItemCell.self)
+        curationCollectionView.register(EventImageCell.self)
         curationCollectionView.register(CurationAdCell.self)
         curationCollectionView.registerHeaderView(CurationHeaderView.self)
         curationCollectionView.registerFooterView(CurationFooterView.self)
@@ -117,8 +117,9 @@ final class ProductCurationViewController: UIViewController {
                 cell.delegate = self
                 return cell
             case let .eventImage(data):
-                let cell: EventBannerItemCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.update(with: data)
+                let cell: EventImageCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.update(data)
+                cell.delegate = self
             case .adMob:
                 let cell: CurationAdCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.setAdMobManagerIfNeeded(adMobManager: self.adMobManager)
@@ -218,9 +219,8 @@ final class ProductCurationViewController: UIViewController {
                     }
                 } else if let eventImages = value.eventImages {
                     snapshot.appendSections([.eventImage(data: eventImages)])
-                    eventImages.imageURL.forEach { imageURL in
-                        snapshot.appendItems([.eventImage(data: imageURL)])
-                    }
+                    // TODO: URL.first 삭제 예정 (중복으로 인한 크래시 방지)
+                    snapshot.appendItems([.eventImage(data: [eventImages.imageURL.first ?? ""])])
                     
                     let curationSection = snapshot.sectionIdentifiers[Constant.firstCurationIndex]
                     snapshot.moveSection(
@@ -268,5 +268,12 @@ extension ProductCurationViewController: ProductCellDelegate {
             ])
         }
         delegate?.didTapFavoriteButton(product: product, action: action)
+    }
+}
+
+// MARK: - EventImageCellDelegate
+extension ProductCurationViewController: EventImageCellDelegate {
+    func didTapEventImageCell(with imageURL: String) {
+        // TODO: 이벤트 상세페이지 이동 로직 작성 예정
     }
 }

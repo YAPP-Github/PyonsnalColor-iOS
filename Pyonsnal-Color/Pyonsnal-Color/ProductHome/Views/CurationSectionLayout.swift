@@ -17,7 +17,7 @@ final class CurationSectionLayout {
         static let adHeight: CGFloat = 50
         static let headerHeight: CGFloat = 78
         static let footerHeight: CGFloat = 12
-        static let eventBannerHeaderHeight: CGFloat = 50
+        static let eventBannerHeaderHeight: CGFloat = 66
         static let spacing: CGFloat = Spacing.spacing12.value
         static let inset: NSDirectionalEdgeInsets = .init(
             top: Spacing.spacing16.value,
@@ -98,7 +98,7 @@ final class CurationSectionLayout {
 
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = Size.inset
-        section.boundarySupplementaryItems = createEventBannerSupplementaryView()
+        section.boundarySupplementaryItems = createEventImageSupplementaryView()
 
         return section
     }
@@ -123,7 +123,7 @@ final class CurationSectionLayout {
         return [sectionHeader, sectionFooter]
     }
     
-    private func createEventBannerSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
+    private func createEventImageSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
