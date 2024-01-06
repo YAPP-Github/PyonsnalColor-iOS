@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import ModernRIBs
 import SnapKit
+import MessageUI
 
 protocol ProfileHomePresentableListener: AnyObject {
     func didTapProfileEditButton(memberInfo: MemberInfoEntity) // 프로파일 편집
@@ -44,6 +45,7 @@ final class ProfileHomeViewController: UIViewController,
     private let sections: [Section] = [.setting]
     private let settings = [
         SettingInfo(title: "기타"),
+        SettingInfo(title: "1:1 문의"),
         SettingInfo(title: "버전정보"),
         SettingInfo(title: "만든 사람들"),
         SettingInfo(title: "계정 설정")
@@ -112,6 +114,19 @@ final class ProfileHomeViewController: UIViewController,
             selectedImage: ImageAssetKind.TabBar.mySelected.image
         )
     }
+    
+    private func showEmailReport() {
+        guard MFMailComposeViewController.canSendMail() else {
+            return
+        }
+        
+        let mail = MFMailComposeViewController()
+        mail.mailComposeDelegate = self
+        mail.setToRecipients(["pallete@pyonsnalcolor.store"])
+        DispatchQueue.main.async {
+            self.present(mail, animated: true)
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -121,7 +136,7 @@ extension ProfileHomeViewController: UITableViewDataSource {
     }
     
     private func isSubLabelToShow(section: Section, index: Int) -> Bool {
-        let versionInfoIndex = 1
+        let versionInfoIndex = 2
         return (section == .setting) && (index == versionInfoIndex)
     }
     
@@ -164,12 +179,15 @@ extension ProfileHomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sections[indexPath.section]
-        let teamsIndex = 2
-        let accountSettingIndex = 3
+        let emailReportIndex = 1
+        let teamsIndex = 3
+        let accountSettingIndex = 4
         if !isSectionIndex(with: indexPath.row) {
             switch section {
             case .setting:
-                if indexPath.row == teamsIndex {
+                if indexPath.row == emailReportIndex {
+                    showEmailReport()
+                } else if indexPath.row == teamsIndex {
                     let title = settings[indexPath.row].title
                     let settingInfo = SettingInfo(title: title, infoUrl: .teams)
                     listener?.didTapTeams(with: settingInfo)
@@ -272,6 +290,18 @@ extension ProfileHomeViewController {
                 $0.leading.trailing.bottom.equalToSuperview()
             }
             
+        }
+    }
+}
+
+extension ProfileHomeViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(
+        _ controller: MFMailComposeViewController,
+        didFinishWith result: MFMailComposeResult,
+        error: Error?
+    ) {
+        DispatchQueue.main.async {
+            controller.dismiss(animated: true)
         }
     }
 }
