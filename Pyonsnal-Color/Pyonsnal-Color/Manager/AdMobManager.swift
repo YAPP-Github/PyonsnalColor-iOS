@@ -45,7 +45,7 @@ final class AdMobManager: NSObject {
     }()
     
     init(
-        fromViewController: UIViewController,
+        fromViewController: UIViewController?,
         loadAdType: [GADAdLoaderAdType],
         adUnitIdType: AdUnitIdType
     ) {

@@ -65,7 +65,6 @@ final class NativeAdView: GADNativeAdView {
         
         func configureConstraints(for view: UIView) {
             iconImageView.snp.makeConstraints { make in
-                iconImageView.backgroundColor = .red
                 make.leading.top.equalToSuperview().offset(.spacing8)
                 make.size.equalTo(34)
             }

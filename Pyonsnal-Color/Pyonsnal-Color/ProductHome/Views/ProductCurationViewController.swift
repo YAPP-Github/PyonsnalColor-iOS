@@ -34,7 +34,7 @@ final class ProductCurationViewController: UIViewController {
     
     private var dataSource: DataSource?
     lazy var adMobManager = AdMobManager(
-        fromViewController: self,
+        fromViewController: nil,
         loadAdType: [.native],
         adUnitIdType: .curationMiddleAd
     )

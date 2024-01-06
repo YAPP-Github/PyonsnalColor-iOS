@@ -8,6 +8,8 @@
 	<string>This identifier will be used to deliver personalized ads to you.</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-5808818560574239~9989786069</string>
+    <key>GADNativeAdValidatorEnabled</key>
+    <false/>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
