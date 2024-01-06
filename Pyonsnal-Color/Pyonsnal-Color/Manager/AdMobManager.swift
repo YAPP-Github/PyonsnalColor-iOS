@@ -22,9 +22,8 @@ class AdMobManager: NSObject {
     weak var delegate: AdMobManagerDelegate?
     private var loadAdType: [GADAdLoaderAdType]
     private var adUnitID: String? {
-        return "ca-app-pub-3940256099942544/3986624511"
-//        return "ca-app-pub-5808818560574239/7697776597"
-//        Bundle.main.object(forInfoDictionaryKey: Key.GADApplicationIdentifier.rawValue) as? String
+//        return "ca-app-pub-3940256099942544/3986624511"
+        return "ca-app-pub-5808818560574239/7697776597"
     }
     
     lazy var adLoader: GADAdLoader? = {
@@ -53,12 +52,10 @@ class AdMobManager: NSObject {
 
 extension AdMobManager: GADNativeAdLoaderDelegate {
     func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
-        // A native ad has loaded, and can be displayed.
         delegate?.didReceive(nativeAd: nativeAd)
     }
     
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
-        // The adLoader has finished loading ads, and a new request can be sent.
         delegate?.didFailToReceiveAd(with: error)
     }
 }

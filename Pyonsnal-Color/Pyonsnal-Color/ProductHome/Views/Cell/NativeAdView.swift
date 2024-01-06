@@ -14,6 +14,17 @@ final class NativeAdView : GADNativeAdView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        viewHolder.place(in: self)
+        viewHolder.configureConstraints(for: self)
+        bindViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func bindViews() {
+        Log.d(message: "id \(UserInfoService.shared.adId)")
         headlineView = viewHolder.headlineLabel
         callToActionView = viewHolder.installButton
         iconView = viewHolder.iconImageView
@@ -23,12 +34,6 @@ final class NativeAdView : GADNativeAdView {
         starRatingView = viewHolder.adStarRatedView
         advertiserView = viewHolder.advertiserLabel
         mediaView = viewHolder.adMediaView
-        viewHolder.place(in: self)
-        viewHolder.configureConstraints(for: self)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     final class ViewHolder: ViewHolderable {

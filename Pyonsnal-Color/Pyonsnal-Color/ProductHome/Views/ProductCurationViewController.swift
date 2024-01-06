@@ -86,7 +86,7 @@ final class ProductCurationViewController: UIViewController {
     private func registerCells() {
         curationCollectionView.register(CurationImageCell.self)
         curationCollectionView.register(ProductCell.self)
-        curationCollectionView.register(NativeAdCell.self)
+        curationCollectionView.register(CurationAdCell.self)
         curationCollectionView.registerHeaderView(CurationHeaderView.self)
         curationCollectionView.registerFooterView(CurationFooterView.self)
     }
@@ -105,7 +105,7 @@ final class ProductCurationViewController: UIViewController {
                 cell.delegate = self
                 return cell
             case .adMob:
-                let cell: NativeAdCell = collectionView.dequeueReusableCell(for: indexPath)
+                let cell: CurationAdCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.setAdMobManagerIfNeeded(adMobManager: self.adMobManager)
                 return cell
             }

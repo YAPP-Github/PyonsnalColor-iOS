@@ -1,5 +1,5 @@
 //
-//  NativeAdCell.swift
+//  CurationAdCell.swift
 //  Pyonsnal-Color
 //
 //  Created by 조소정 on 12/23/23.
@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 import GoogleMobileAds
 
-final class NativeAdCell: UICollectionViewCell {
+final class CurationAdCell: UICollectionViewCell {
     private var adMobManager: AdMobManager?
-    let nativeAdView = NativeAdView()
+    private let nativeAdView = NativeAdView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,9 +38,9 @@ final class NativeAdCell: UICollectionViewCell {
 }
 
 // MARK: - NativeAdCell
-extension NativeAdCell: AdMobManagerDelegate {
+extension CurationAdCell: AdMobManagerDelegate {
     func didReceive(nativeAd: GADNativeAd) {
-        // nativeAd.delegate = self
+//         nativeAd.delegate = self
         print("Received native ad: \(nativeAd)")
         // Populate the native ad view with the native ad assets.
         // The headline and mediaContent are guaranteed to be present in every native ad.

@@ -46,18 +46,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func requestAppTransparency() {
-        ATTrackingManager.requestTrackingAuthorization { status in
-            switch status {
-            case .notDetermined:
-                break
-            case .restricted:
-                break
-            case .denied:
-                break
-            case .authorized:
-                let adfa = ASIdentifierManager.shared().advertisingIdentifier
-            @unknown default:
-                break
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .notDetermined, .restricted, .denied:
+                    break
+                case .authorized:
+                    Log.i(message: "\(ASIdentifierManager.shared().advertisingIdentifier)")
+                @unknown default:
+                    break
+                }
             }
         }
     }
