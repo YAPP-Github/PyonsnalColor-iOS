@@ -172,6 +172,9 @@ extension ProductCurationViewController: UICollectionViewDelegate {
         let item = dataSource?.itemIdentifier(for: indexPath)
         
         if case let .curation(product) = item {
+            logging(.itemClick, parameter: [
+                .productName: product.name
+            ])
             delegate?.didSelect(with: product)
         }
     }
@@ -180,6 +183,16 @@ extension ProductCurationViewController: UICollectionViewDelegate {
 // MARK: - ProductCellDelegate
 extension ProductCurationViewController: ProductCellDelegate {
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
+        switch action {
+        case .add:
+            logging(.like, parameter: [
+                .productName: product.name
+            ])
+        case .delete:
+            logging(.unlike, parameter: [
+                .productName: product.name
+            ])
+        }
         delegate?.didTapFavoriteButton(product: product, action: action)
     }
 }

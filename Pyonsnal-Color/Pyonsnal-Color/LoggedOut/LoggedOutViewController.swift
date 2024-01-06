@@ -5,6 +5,7 @@
 //  Created by 김진우 on 2023/05/28.
 //
 
+import FirebaseAnalytics
 import KakaoSDKUser
 import UIKit
 import ModernRIBs
@@ -27,12 +28,20 @@ final class LoggedOutViewController:
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
 
         configureUI()
         configureAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "social_login"
+        ])
     }
 
     // MARK: - Private Method

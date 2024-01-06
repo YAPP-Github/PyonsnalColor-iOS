@@ -182,6 +182,18 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     func applySortFilter(item: FilterItemEntity) {
         sortItem = item
         sortItem.isSelected = true
+        var filterName: String?
+        switch item.code {
+        case 0:
+            filterName = "recent"
+        case 1:
+            filterName = "like"
+        default:
+            filterName = nil
+        }
+        logging(.sortFilterClick, parameter: [
+            .reviewSortFilterName: filterName ?? "nil"
+        ])
         if let updatedProduct = updateReviewSort(product: product, item: item) {
             reloadData(with: updatedProduct)
         }
@@ -288,6 +300,9 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func attachStarRatingReview() {
+        logging(.writeReviewClick, parameter: [
+            .productName: product.name
+        ])
         router?.attachStarRatingReview(with: product)
     }
     

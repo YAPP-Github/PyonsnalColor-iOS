@@ -26,11 +26,20 @@ final class CommonWebViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureBackButton()
         configureWebView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "common_web"
+        ])
     }
     
     func update(with subTermsInfo: SubTerms) {

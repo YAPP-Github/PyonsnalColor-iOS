@@ -55,6 +55,14 @@ final class DetailReviewViewController: UIViewController,
         configureApplyReviewButton()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "write_review"
+        ])
+    }
+    
     private func configureView() {
         view.backgroundColor = .white
         viewHolder.detailReviewTextView.text = Constant.textViewPlaceholder

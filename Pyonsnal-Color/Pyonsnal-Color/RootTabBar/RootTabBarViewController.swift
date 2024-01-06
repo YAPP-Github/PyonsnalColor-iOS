@@ -53,6 +53,24 @@ final class RootTabBarViewController:
 
 extension RootTabBarViewController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if let index = tabBar.items?.firstIndex(of: item) {
+            var gaTab: GATabName?
+            switch index {
+            case 0:
+                gaTab = .home
+            case 1:
+                gaTab = .event
+            case 2:
+                gaTab = .favorite
+            case 3:
+                gaTab = .profile
+            default:
+                gaTab = nil
+            }
+            logging(.tabbarClick, parameter: [
+                .tabName: gaTab?.rawValue ?? "nil"
+            ])
+        }
         if lastSelectedItem == nil { lastSelectedItem = item }
         
         guard lastSelectedItem == item else {

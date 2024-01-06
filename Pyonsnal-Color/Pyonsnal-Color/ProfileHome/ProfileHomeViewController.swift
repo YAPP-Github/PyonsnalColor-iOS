@@ -69,6 +69,14 @@ final class ProfileHomeViewController: UIViewController,
         bindActions()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        logging(.pageView, parameter: [
+            .screenName: "main_my"
+        ])
+    }
+    
     func update(with memberInfo: MemberInfoEntity) {
         self.memberInfo = memberInfo
         if let profileImage = memberInfo.profileImage,
