@@ -13,23 +13,30 @@ protocol AdMobManagerDelegate: AnyObject {
     func didFailToReceiveAd(with error: Error)
 }
 
-class AdMobManager: NSObject {
-    enum Key: String {
-        case GADApplicationIdentifier
+final class AdMobManager: NSObject {
+    enum AdUnitIdType: String {
+        case curationMiddleAd // 큐레이션 중간 광고
+        
+        var adUnitId: String {
+            switch self {
+            case .curationMiddleAd:
+                #if DEBUG
+                    return "ca-app-pub-5808818560574239/7697776597"
+                #else
+                    return "ca-app-pub-3940256099942544/3986624511"
+                #endif
+            }
+        }
     }
     
     weak var fromViewController: UIViewController?
     weak var delegate: AdMobManagerDelegate?
     private var loadAdType: [GADAdLoaderAdType]
-    private var adUnitID: String? {
-//        return "ca-app-pub-3940256099942544/3986624511"
-        return "ca-app-pub-5808818560574239/7697776597"
-    }
+    private var adUnitIdType: AdUnitIdType
     
-    lazy var adLoader: GADAdLoader? = {
-        guard let adUnitID else { return nil }
+    lazy var adLoader: GADAdLoader = {
         let loader = GADAdLoader(
-            adUnitID: adUnitID,
+            adUnitID: adUnitIdType.adUnitId,
             rootViewController: fromViewController,
             adTypes: loadAdType,
             options: []
@@ -37,15 +44,20 @@ class AdMobManager: NSObject {
         return loader
     }()
     
-    init(fromViewController: UIViewController, loadAdType: [GADAdLoaderAdType]) {
+    init(
+        fromViewController: UIViewController,
+        loadAdType: [GADAdLoaderAdType],
+        adUnitIdType: AdUnitIdType
+    ) {
         self.fromViewController = fromViewController
         self.loadAdType = loadAdType
+        self.adUnitIdType = adUnitIdType
     }
     
     func loadAd() {
-        adLoader?.delegate = self
+        adLoader.delegate = self
         let reuqest = GADRequest()
-        adLoader?.load(reuqest)
+        adLoader.load(reuqest)
     }
 
 }

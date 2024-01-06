@@ -12,7 +12,7 @@ final class CurationSectionLayout {
     enum Size {
         static let cellHeight: CGFloat = 233
         static let imageHeight: CGFloat = 270
-        static let adHeight: CGFloat = 200
+        static let adHeight: CGFloat = 50
         static let headerHeight: CGFloat = 78
         static let footerHeight: CGFloat = 12
         static let spacing: CGFloat = Spacing.spacing12.value

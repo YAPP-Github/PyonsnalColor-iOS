@@ -33,7 +33,11 @@ final class ProductCurationViewController: UIViewController {
     weak var curationDelegate: CurationDelegate?
     
     private var dataSource: DataSource?
-    lazy var adMobManager = AdMobManager(fromViewController: self, loadAdType: [.native])
+    lazy var adMobManager = AdMobManager(
+        fromViewController: self,
+        loadAdType: [.native],
+        adUnitIdType: .curationMiddleAd
+    )
     
     lazy var curationCollectionView: UICollectionView = {
         let layout = createLayout()
