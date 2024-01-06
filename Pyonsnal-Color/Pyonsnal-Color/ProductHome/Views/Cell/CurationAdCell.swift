@@ -37,7 +37,7 @@ final class CurationAdCell: UICollectionViewCell {
     }
 }
 
-// MARK: - NativeAdCell
+// MARK: - AdMobManagerDelegate
 extension CurationAdCell: AdMobManagerDelegate {
     func didReceive(nativeAd: GADNativeAd) {
         (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline

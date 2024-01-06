@@ -10,6 +10,11 @@ import SnapKit
 import GoogleMobileAds
 
 final class NativeAdView: GADNativeAdView {
+    
+    private enum Size {
+        static let iconSize: CGFloat = 34
+    }
+    
     private let viewHolder: ViewHolder = .init()
     
     override init(frame: CGRect) {
@@ -66,7 +71,7 @@ final class NativeAdView: GADNativeAdView {
         func configureConstraints(for view: UIView) {
             iconImageView.snp.makeConstraints { make in
                 make.leading.top.equalToSuperview().offset(.spacing8)
-                make.size.equalTo(34)
+                make.size.equalTo(Size.iconSize)
             }
             
             headlineLabel.snp.makeConstraints { make in
