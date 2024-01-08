@@ -25,6 +25,7 @@ protocol DetailReviewPresentable: Presentable {
 protocol DetailReviewListener: AnyObject {
     func detachDetailReview()
     func routeToProductDetail()
+    func saveReviewInput(_ input: UserReviewInput)
 }
 
 final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentable>,
@@ -61,7 +62,14 @@ final class DetailReviewInteractor: PresentableInteractor<DetailReviewPresentabl
     }
     
     func didTapBackButton() {
-        router?.attachPopup(isApply: false)
+        let review = UserReviewInput(
+            reviews: presenter.reviews,
+            reviewContents: presenter.getReviewContents(),
+            reviewImage: presenter.getReviewImage()
+        )
+        
+        listener?.saveReviewInput(review)
+        listener?.detachDetailReview()
     }
     
     func didTapApplyButton() {

@@ -204,6 +204,12 @@ extension DetailReviewViewController {
             return button
         }()
         
+        private let applyButtonBackgroundView: UIView = {
+            let view = UIView()
+            view.backgroundColor = .white
+            return view
+        }()
+        
         let applyReviewButton: PrimaryButton = {
             let button = PrimaryButton(state: .disabled)
             button.setText(with: Constant.applyReviewTitle)
@@ -215,7 +221,9 @@ extension DetailReviewViewController {
             view.addSubview(totalScrollView)
             
             totalScrollView.addSubview(contentStackView)
-            totalScrollView.addSubview(applyReviewButton)
+            totalScrollView.addSubview(applyButtonBackgroundView)
+            
+            applyButtonBackgroundView.addSubview(applyReviewButton)
             
             contentStackView.addArrangedSubview(productTotalStackView)
             contentStackView.addArrangedSubview(separatorView)
@@ -260,12 +268,17 @@ extension DetailReviewViewController {
                 $0.height.greaterThanOrEqualToSuperview()
             }
             
-            applyReviewButton.snp.makeConstraints {
+            applyButtonBackgroundView.snp.makeConstraints {
+                $0.leading.trailing.equalToSuperview()
                 $0.bottom.equalTo(view.safeAreaLayoutGuide).priority(.high)
                 $0.bottom.lessThanOrEqualTo(view).inset(.spacing20)
+                $0.height.equalTo(52)
+            }
+            
+            applyReviewButton.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(16)
                 $0.trailing.equalToSuperview().inset(16)
-                $0.height.equalTo(52)
+                $0.height.equalToSuperview()
             }
             
             productTotalStackView.snp.makeConstraints {

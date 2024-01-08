@@ -11,7 +11,8 @@ protocol StarRatingReviewDependency: Dependency {
 }
 
 final class StarRatingReviewComponent: Component<StarRatingReviewDependency>,
-                                       DetailReviewDependency {
+                                       DetailReviewDependency,
+                                       ReviewPopupDependency {
 }
 
 // MARK: - Builder
@@ -41,11 +42,13 @@ final class StarRatingReviewBuilder: Builder<StarRatingReviewDependency>,
             productDetail: productDetail
         )
         let detailReviewBuilder = DetailReviewBuilder(dependency: component)
+        let reviewPopupBuilder = ReviewPopupBuilder(dependency: component)
         interactor.listener = listener
         return StarRatingReviewRouter(
             interactor: interactor,
             viewController: viewController,
-            detailReviewBuilder: detailReviewBuilder
+            detailReviewBuilder: detailReviewBuilder, 
+            reviewPopupBuilder: reviewPopupBuilder
         )
     }
 }

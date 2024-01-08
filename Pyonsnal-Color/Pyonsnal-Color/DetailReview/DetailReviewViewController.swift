@@ -32,10 +32,12 @@ final class DetailReviewViewController: UIViewController,
     private var cancellable = Set<AnyCancellable>()
     private(set) var reviews: [ReviewEvaluationKind: ReviewEvaluationState] = [:]
     private(set) var score: Int
+    private(set) var userReviewInput: UserReviewInput
     
-    init(productDetail: ProductDetailEntity, score: Int) {
+    init(productDetail: ProductDetailEntity, score: Int, userReviewInput: UserReviewInput) {
         self.productDetail = productDetail
         self.score = score
+        self.userReviewInput = userReviewInput
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,6 +55,7 @@ final class DetailReviewViewController: UIViewController,
         configureImageUploadButton()
         configureDeleteImageButton()
         configureApplyReviewButton()
+        configureUserReviewInput()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,6 +122,28 @@ final class DetailReviewViewController: UIViewController,
             .sink { [weak self] in
                 self?.listener?.didTapApplyButton()
             }.store(in: &cancellable)
+    }
+    
+    private func configureUserReviewInput() {
+        userReviewInput.reviews.forEach { (value, state) in
+            switch value {
+            case .quality:
+                viewHolder.qualityReview.selectReviewButton(state)
+            case .taste:
+                viewHolder.tasteReview.selectReviewButton(state)
+            case .valueForMoney:
+                viewHolder.priceReview.selectReviewButton(state)
+            }
+        }
+        
+        if !userReviewInput.reviewContents.isEmpty {
+            viewHolder.detailReviewTextView.text = userReviewInput.reviewContents
+            viewHolder.detailReviewTextView.textColor = .black
+        }
+        
+        if let image = userReviewInput.reviewImage {
+            updateProductImage(image)
+        }
     }
     
     private func showImageLibrary() {

@@ -59,6 +59,8 @@ final class ProductFilterViewController:
     
     // MARK: - Private Method
     private func configureView() {
+        // TODO: 임시 Hidden - swipe gesture 추가 예정
+        viewHolder.grabView.isHidden = true
         setFilterTitle()
         setMultiSelect()
         hideApplyButton()
@@ -325,7 +327,7 @@ extension ProductFilterViewController {
             return view
         }()
         
-        private let grabView: UIView = {
+        let grabView: UIView = {
             let view = UIView()
             view.makeRounded(with: Size.grabViewRadius)
             view.backgroundColor = .gray400
