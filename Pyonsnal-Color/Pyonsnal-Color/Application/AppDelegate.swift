@@ -7,6 +7,9 @@
 
 import UIKit
 import FirebaseCore
+import AdSupport
+import AppTrackingTransparency
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         usleep(300000)
         UserInfoService.shared.configure()
         FirebaseApp.configure()
+        requestAppTransparency()
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         return true
     }
 
@@ -38,5 +43,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>
     ) {
+    }
+    
+    private func requestAppTransparency() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .notDetermined, .restricted, .denied:
+                    break
+                case .authorized:
+                    Log.i(message: "\(ASIdentifierManager.shared().advertisingIdentifier)")
+                @unknown default:
+                    break
+                }
+            }
+        }
     }
 }

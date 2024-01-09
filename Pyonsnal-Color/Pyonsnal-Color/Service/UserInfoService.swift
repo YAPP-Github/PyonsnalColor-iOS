@@ -6,6 +6,8 @@
 //
 
 import Combine
+import AdSupport
+
 final class UserInfoService {
     
     static let shared = UserInfoService()
@@ -13,14 +15,18 @@ final class UserInfoService {
     // MARK: - Private Property
     
     private var memberInfo: MemberInfoEntity?
-    var memberID: Int? {
-        return memberInfo?.memberId
-    }
     private var cancellable = Set<AnyCancellable>()
     
     private let client = PyonsnalColorClient()
     private let userAuthService = UserAuthService(keyChainService: .shared)
     private lazy var memberAPIService = MemberAPIService(client: client, userAuthService: userAuthService)
+    
+    var memberID: Int? {
+        return memberInfo?.memberId
+    }
+    var adId: String {
+        ASIdentifierManager.shared().advertisingIdentifier.uuidString
+    }
     
     // MARK: - Initializer
     

@@ -19,11 +19,13 @@ final class ProductCurationViewController: UIViewController {
     enum Section: Hashable {
         case image
         case curation(data: CurationEntity)
+        case adMob
     }
     
     enum Item: Hashable {
         case image(data: UIImage?)
         case curation(data: ProductDetailEntity)
+        case adMob
     }
     
     // MARK: Property
@@ -31,6 +33,11 @@ final class ProductCurationViewController: UIViewController {
     weak var curationDelegate: CurationDelegate?
     
     private var dataSource: DataSource?
+    lazy var adMobManager = AdMobManager(
+        fromViewController: nil,
+        loadAdType: [.native],
+        adUnitIdType: .curationMiddleAd
+    )
     
     lazy var curationCollectionView: UICollectionView = {
         let layout = createLayout()
@@ -83,6 +90,7 @@ final class ProductCurationViewController: UIViewController {
     private func registerCells() {
         curationCollectionView.register(CurationImageCell.self)
         curationCollectionView.register(ProductCell.self)
+        curationCollectionView.register(CurationAdCell.self)
         curationCollectionView.registerHeaderView(CurationHeaderView.self)
         curationCollectionView.registerFooterView(CurationFooterView.self)
     }
@@ -99,6 +107,10 @@ final class ProductCurationViewController: UIViewController {
                 let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.updateCell(with: data)
                 cell.delegate = self
+                return cell
+            case .adMob:
+                let cell: CurationAdCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.setAdMobManagerIfNeeded(adMobManager: self.adMobManager)
                 return cell
             }
         }
@@ -146,17 +158,22 @@ final class ProductCurationViewController: UIViewController {
     
     func applySnapshot(with products: [CurationEntity]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        
-        // TODO: 이미지 변경
+
         snapshot.appendSections([.image])
         snapshot.appendItems([.image(data: UIImage(systemName: ""))])
-        
+
         products.forEach { curation in
             snapshot.appendSections([.curation(data: curation)])
             curation.products.forEach { product in
                 snapshot.appendItems([.curation(data: product)])
             }
         }
+        
+        if let lastSection = snapshot.sectionIdentifiers.last {
+            snapshot.insertSections([.adMob], beforeSection: lastSection)
+            snapshot.appendItems([.adMob], toSection: .adMob)
+        }
+        
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
