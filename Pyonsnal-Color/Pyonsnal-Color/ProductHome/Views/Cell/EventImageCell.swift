@@ -19,7 +19,7 @@ final class EventImageCell: UICollectionViewCell {
     }
     
     enum ItemType: Hashable {
-        case event(imageURL: String)
+        case event(eventBannerDetail: EventBannerDetailEntity)
     }
     
     // MARK: - Constants
@@ -46,7 +46,7 @@ final class EventImageCell: UICollectionViewCell {
             updatePageCountLabel(with: currentIndex)
         }
     }
-    private var imageURLs: [String] = []
+    private var eventBannerDetails: [EventBannerDetailEntity] = []
     
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -66,11 +66,11 @@ final class EventImageCell: UICollectionViewCell {
         self.stopTimer()
     }
     
-    func update(_ imageURLs: [String]) {
+    func update(_ eventBannerDetails: [EventBannerDetailEntity]) {
         self.setTimer()
-        self.imageURLs = imageURLs
+        self.eventBannerDetails = eventBannerDetails
         
-        makeSnapshot(with: imageURLs)
+        makeSnapshot(with: eventBannerDetails)
     }
     
     // MARK: - Private Method
@@ -85,10 +85,10 @@ final class EventImageCell: UICollectionViewCell {
             collectionView: viewHolder.collectionView
         ) { collectionView, indexPath, item -> UICollectionViewCell? in
             switch item {
-            case .event(let imageURL):
+            case .event(let eventBannerDetail):
                 let cell: EventBannerItemCell = collectionView.dequeueReusableCell(for: indexPath)
     
-                cell.update(with: imageURL)
+                cell.update(with: eventBannerDetail.thumbnailImage)
                 cell.delegate = self
                 self.updatePageCountLabel(with: self.currentIndex)
                 return cell
@@ -105,16 +105,14 @@ final class EventImageCell: UICollectionViewCell {
         viewHolder.collectionView.register(EventBannerItemCell.self)
     }
     
-    private func makeSnapshot(with imageURLs: [String]) {
+    private func makeSnapshot(with eventBannerDetails: [EventBannerDetailEntity]) {
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
 
-        if !imageURLs.isEmpty {
-            snapshot.appendSections([.event])
-            let eventUrls = imageURLs.map { imageURL in
-                return ItemType.event(imageURL: imageURL)
-            }
-            snapshot.appendItems(eventUrls, toSection: .event)
+        snapshot.appendSections([.event])
+        let eventBannerDetails = eventBannerDetails.map { bannerDetail in
+            return ItemType.event(eventBannerDetail: bannerDetail)
         }
+        snapshot.appendItems(eventBannerDetails)
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
@@ -124,6 +122,7 @@ final class EventImageCell: UICollectionViewCell {
 extension EventImageCell {
     private func setTimer() {
         if timer != nil { stopTimer() }
+        
         DispatchQueue.main.async { [weak self] in
             self?.timer = Timer.scheduledTimer(
                 withTimeInterval: Constants.timeInterval,
@@ -139,7 +138,7 @@ extension EventImageCell {
         var indexPath: IndexPath
         var animated: Bool = true
         
-        if updatedIndex < imageURLs.count {
+        if updatedIndex < eventBannerDetails.count {
             indexPath = IndexPath(item: updatedIndex, section: 0)
         } else {
             indexPath = IndexPath(item: Constants.initialIndex, section: 0)
@@ -151,8 +150,8 @@ extension EventImageCell {
     }
     
     private func updatePageCountLabel(with index: Int) {
-        guard !imageURLs.isEmpty,
-              index < imageURLs.count else { return }
+        guard index < eventBannerDetails.count else { return }
+        
         let updatedIndex = currentIndex + 1
         setPageCountLabelText(with: updatedIndex)
     }
@@ -165,7 +164,7 @@ extension EventImageCell {
             color: .white
         )
         attributedText.appendAttributes(
-            string: "/\(imageURLs.count)",
+            string: "/\(eventBannerDetails.count)",
             font: .body4r,
             color: .gray300
         )
@@ -191,8 +190,8 @@ extension EventImageCell: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageURL = imageURLs[indexPath.row]
-        delegate?.didTapEventImageCell(with: imageURL)
+        let eventBannerDetail = eventBannerDetails[indexPath.row]
+        delegate?.didTapEventImageCell(with: eventBannerDetail.detailImage)
     }
 }
 
@@ -216,6 +215,7 @@ extension EventImageCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - ViewHolder
 extension EventImageCell {
     final class ViewHolder: ViewHolderable {
         let collectionView: UICollectionView = {

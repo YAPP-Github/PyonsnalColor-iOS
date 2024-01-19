@@ -26,7 +26,7 @@ final class ProductCurationViewController: UIViewController {
     enum Item: Hashable {
         case image(data: UIImage?)
         case curation(data: ProductDetailEntity)
-        case eventImage(data: [String])
+        case eventImage(data: [EventBannerDetailEntity])
         case adMob
     }
     
@@ -118,8 +118,10 @@ final class ProductCurationViewController: UIViewController {
                 return cell
             case let .eventImage(data):
                 let cell: EventImageCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.update(data)
+                // TODO: [0] 삭제 예정 (중복으로 인한 크래시 임시 방지)
+                cell.update([data[0]])
                 cell.delegate = self
+                return cell
             case .adMob:
                 let cell: CurationAdCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.setAdMobManagerIfNeeded(adMobManager: self.adMobManager)
@@ -196,11 +198,6 @@ final class ProductCurationViewController: UIViewController {
             }
         }
         
-        if let lastSection = snapshot.sectionIdentifiers.last {
-            snapshot.insertSections([.adMob], beforeSection: lastSection)
-            snapshot.appendItems([.adMob], toSection: .adMob)
-        }
-        
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
@@ -219,8 +216,8 @@ final class ProductCurationViewController: UIViewController {
                     }
                 } else if let eventImages = value.eventImages {
                     snapshot.appendSections([.eventImage(data: eventImages)])
-                    // TODO: URL.first 삭제 예정 (중복으로 인한 크래시 방지)
-                    snapshot.appendItems([.eventImage(data: [eventImages.imageURL.first ?? ""])])
+                    // TODO: [0] 삭제 예정 (중복으로 인한 크래시 임시 방지)
+                    snapshot.appendItems([.eventImage(data: [eventImages.bannerDetails[0]])])
                     
                     let curationSection = snapshot.sectionIdentifiers[Constant.firstCurationIndex]
                     snapshot.moveSection(
@@ -229,6 +226,11 @@ final class ProductCurationViewController: UIViewController {
                     )
                 }
             }
+        }
+        
+        if let lastSection = snapshot.sectionIdentifiers.last {
+            snapshot.insertSections([.adMob], beforeSection: lastSection)
+            snapshot.appendItems([.adMob], toSection: .adMob)
         }
         
         dataSource?.apply(snapshot, animatingDifferences: true)
