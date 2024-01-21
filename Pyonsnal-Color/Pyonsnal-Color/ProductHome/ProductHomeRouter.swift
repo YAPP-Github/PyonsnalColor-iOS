@@ -143,7 +143,6 @@ final class ProductHomeRouter:
         let eventDetailRouter = eventDetail.build(
             withListener: interactor,
             imageURL: imageURL,
-            store: nil,
             links: links
         )
         eventDetailRouting = eventDetailRouter
@@ -153,6 +152,7 @@ final class ProductHomeRouter:
     
     func detachEventDetail() {
         guard let eventDetailRouting else { return }
+        
         viewController.popViewController(animated: true)
         detachChild(eventDetailRouting)
         self.eventDetailRouting = nil
