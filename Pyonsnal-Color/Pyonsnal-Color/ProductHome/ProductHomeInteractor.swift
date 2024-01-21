@@ -22,8 +22,8 @@ protocol ProductHomeRouting: ViewableRouting {
 protocol ProductHomePresentable: Presentable {
     var listener: ProductHomePresentableListener? { get set }
     
-    func updateProducts(with products: [ConvenienceStore: [ProductDetailEntity]])
     func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore)
+    func updateProduct(with product: ProductDetailEntity)
     func replaceProducts(with products: [ProductDetailEntity], filterDataEntity: FilterDataEntity?, at store: ConvenienceStore)
     func updateFilter()
     func didStartPaging()
@@ -169,7 +169,7 @@ final class ProductHomeInteractor:
             productId: product.id,
             productType: product.productType
             ).sink { [weak self] response in
-                // nothing
+                self?.presenter.updateProduct(with: product)
             }.store(in: &cancellable)
         }
         
@@ -178,7 +178,7 @@ final class ProductHomeInteractor:
             productId: product.id,
             productType: product.productType
         ).sink { [weak self] response in
-            // nothing
+            self?.presenter.updateProduct(with: product)
         }.store(in: &cancellable)
     }
     

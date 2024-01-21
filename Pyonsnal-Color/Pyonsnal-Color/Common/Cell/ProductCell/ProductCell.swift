@@ -40,8 +40,9 @@ final class ProductCell: UICollectionViewCell {
             .tapPublisher
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] _ in
-                guard let self, let product = self.product else { return }
+                guard let self, var product = self.product else { return }
                 let isSelected = !self.viewHolder.favoriteButton.isSelected
+                product = product.updateFavorite(isFavorite: isSelected)
                 self.setFavoriteButtonSelected(isSelected: isSelected)
                 
                 let action: FavoriteButtonAction = self.getFavoriteButtonSelected() ? .add : .delete

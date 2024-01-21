@@ -241,27 +241,38 @@ final class ProductHomeViewController:
         present(notificationListViewController, animated: true)
     }
     
-    func updateProducts(with products: [ConvenienceStore: [ProductDetailEntity]]) {
-        guard let viewController = viewHolder.productHomePageViewController.viewControllers?.first,
-              let productListViewController = viewController as? ProductListViewController
-        else {
-            return
-        }
+//    func updateProducts(with products: [ConvenienceStore: [ProductDetailEntity]]) {
+//        guard let viewController = viewHolder.productHomePageViewController.viewControllers?.first,
+//              let productListViewController = viewController as? ProductListViewController
+//        else {
+//            return
+//        }
+//        
+//        if let products = products[productListViewController.convenienceStore] {
+//            productListViewController.applySnapshot(with: products)
+//        }
+//    }
+    
+    func updateProduct(with product: ProductDetailEntity) {
+        guard let currentConvenienceStore else { return }
+        guard let storeIndex = ConvenienceStore.allCases.firstIndex(of: currentConvenienceStore) else { return }
         
-        if let products = products[productListViewController.convenienceStore] {
-            productListViewController.applySnapshot(with: products)
+        if let viewController = getCurrentViewController(at: storeIndex + 1) {
+            viewController.updateFavoriteSnapshot(with: product)
         }
     }
     
     func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore) {
-        if let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) {
-            self.currentConvenienceStore = store
-            let pageViewController = viewHolder.productHomePageViewController
-            let storeIndex = storeIndex + 1 // curation index
-            if let viewController = pageViewController.productListViewControllers[storeIndex] as? ProductListViewController {
-                viewController.applySnapshot(with: products)
-            }
+        self.currentConvenienceStore = store
+        guard let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) else { return }
+        if let viewController = getCurrentViewController(at: storeIndex + 1) {
+            viewController.applySnapshot(with: products)
         }
+    }
+    
+    private func getCurrentViewController(at storeIndex: Int) -> ProductListViewController? {
+        guard let viewController = viewHolder.productHomePageViewController.productListViewControllers[storeIndex] as? ProductListViewController else { return nil }
+        return viewController
     }
     
     func replaceProducts(

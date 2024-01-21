@@ -33,6 +33,29 @@ final class ProductListViewController: UIViewController {
     enum ItemType: Hashable {
         case keywordFilter(data: FilterItemEntity)
         case item(data: ProductDetailEntity?)
+        
+        static func == (
+            lhs: ProductListViewController.ItemType,
+            rhs: ProductListViewController.ItemType
+        ) -> Bool {
+            switch (lhs, rhs) {
+            case (.item(let lProduct), .item(let rProduct)):
+                guard let lProduct, let rProduct else { return false }
+                return lProduct.id == rProduct.id
+            default:
+                return false
+            }
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            switch self {
+            case .item(let product):
+                guard let product else { return }
+                hasher.combine(product.id)
+            case .keywordFilter:
+                hasher.combine(1)
+            }
+        }
     }
     
     // MARK: - Private Property
@@ -180,6 +203,51 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl = refreshControl
     }
     
+    func updateFavoriteSnapshot(with updatedProduct: ProductDetailEntity?) {
+        guard let updatedProduct else { return }
+        guard var snapshot = dataSource?.snapshot() else { return }
+        let itemType = snapshot.itemIdentifiers(inSection: .product(type: .item))
+//        let item = itemType.first(where: { item in
+//            if case let .item(product) = item {
+//                if let product {
+//                    return product.id == updatedProduct.id
+//                }
+//            }
+//            return false
+//        })
+        
+        let datas = itemType.compactMap { item in
+            if case let .item(product) = item {
+                if let product {
+                    if product.id == updatedProduct.id {
+                        return updatedProduct
+                    } else {
+                        return product
+                    }
+                }
+                return nil
+            }
+            return nil
+        }
+        
+        updateSnapshot(with: datas)
+//        guard let item else { return }
+//        var newSnapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
+//        
+//        
+//        if #available(iOS 15.0, *) {
+//            snapshot.reconfigureItems([ItemType.item(data: updatedProduct)])
+//        } else {
+//            snapshot.reloadItems([ItemType.item(data: updatedProduct)])
+//        }
+//        if #available(iOS 15.0, *) {
+//            Log.d(message: "\(snapshot.reloadedItemIdentifiers)")
+//        } else {
+//            // Fallback on earlier versions
+//        }
+//        dataSource?.apply(snapshot)
+    }
+    
     func applySnapshot(with products: [ProductDetailEntity]?) {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
@@ -317,6 +385,7 @@ extension ProductListViewController: ProductCellDelegate {
                 .productName: product.name
             ])
         }
+        
         delegate?.didTapFavoriteButton(product: product, action: action)
     }
 }

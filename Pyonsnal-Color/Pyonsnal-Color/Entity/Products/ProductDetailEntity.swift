@@ -20,7 +20,7 @@ struct ProductDetailEntity {
     let isNew: Bool?
     let viewCount: Int
     let category: String?
-    let isFavorite: Bool?
+    var isFavorite: Bool?
     let originPrice: String?
     let giftImageURL: URL?
     let giftTitle: String?
@@ -70,7 +70,14 @@ extension ProductDetailEntity {
     }
 }
 
-extension ProductDetailEntity: Hashable {}
+extension ProductDetailEntity {
+    mutating func updateFavorite(isFavorite: Bool) -> Self {
+        self.isFavorite = isFavorite
+        return self
+    }
+}
+
+extension ProductDetailEntity: Hashable, Identifiable {}
 
 extension ProductDetailEntity: Decodable {
     enum CodingKeys: String, CodingKey {
