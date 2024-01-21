@@ -61,9 +61,7 @@ final class EventDetailBuilder: Builder<EventDetailDependency>, EventDetailBuild
         let viewController = EventDetailViewController()
         let interactor = EventDetailInteractor(
             presenter: viewController,
-            imageURL: imageURL,
-            store: store,
-            links: links
+            component: component
         )
         interactor.listener = listener
         return EventDetailRouter(interactor: interactor, viewController: viewController)

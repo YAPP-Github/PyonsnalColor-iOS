@@ -25,22 +25,16 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
                                    EventDetailInteractable,
                                    EventDetailPresentableListener {
     
-    private var imageURL: String
-    private var store: ConvenienceStore?
-    private var links: [String]?
+    private let component: EventDetailComponent
     
     weak var router: EventDetailRouting?
     weak var listener: EventDetailListener?
 
     init(
         presenter: EventDetailPresentable,
-        imageURL: String,
-        store: ConvenienceStore? = nil,
-        links: [String]? = nil
+        component: EventDetailComponent
     ) {
-        self.imageURL = imageURL
-        self.store = store
-        self.links = links
+        self.component = component
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -48,10 +42,10 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
     override func didBecomeActive() {
         super.didBecomeActive()
         
-        if let store {
-            presenter.update(with: imageURL, store: store)
-        } else if let links {
-            presenter.update(with: imageURL, links: links)
+        if let store = component.store {
+            presenter.update(with: component.imageURL, store: store)
+        } else if let links = component.links {
+            presenter.update(with: component.imageURL, links: links)
         }
     }
 
