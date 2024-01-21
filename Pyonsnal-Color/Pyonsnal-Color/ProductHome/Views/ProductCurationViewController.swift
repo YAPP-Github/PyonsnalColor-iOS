@@ -10,6 +10,7 @@ import SnapKit
 
 protocol CurationDelegate: AnyObject {
     func curationWillAppear()
+    func didTapEventBanner(detailImage: String, links: [String])
 }
 
 final class ProductCurationViewController: UIViewController {
@@ -118,8 +119,8 @@ final class ProductCurationViewController: UIViewController {
                 return cell
             case let .eventImage(data):
                 let cell: EventImageCell = collectionView.dequeueReusableCell(for: indexPath)
-                // TODO: [0] 삭제 예정 (중복으로 인한 크래시 임시 방지)
-                cell.update([data[0]])
+
+                cell.update(data)
                 cell.delegate = self
                 return cell
             case .adMob:
@@ -216,8 +217,7 @@ final class ProductCurationViewController: UIViewController {
                     }
                 } else if let eventImages = value.eventImages {
                     snapshot.appendSections([.eventImage(data: eventImages)])
-                    // TODO: [0] 삭제 예정 (중복으로 인한 크래시 임시 방지)
-                    snapshot.appendItems([.eventImage(data: [eventImages.bannerDetails[0]])])
+                    snapshot.appendItems([.eventImage(data: eventImages.bannerDetails)])
                     
                     let curationSection = snapshot.sectionIdentifiers[Constant.firstCurationIndex]
                     snapshot.moveSection(
@@ -275,7 +275,7 @@ extension ProductCurationViewController: ProductCellDelegate {
 
 // MARK: - EventImageCellDelegate
 extension ProductCurationViewController: EventImageCellDelegate {
-    func didTapEventImageCell(with imageURL: String) {
-        // TODO: 이벤트 상세페이지 이동 로직 작성 예정
+    func didTapEventImageCell(imageURL: String, links: [String]) {
+        curationDelegate?.didTapEventBanner(detailImage: imageURL, links: links)
     }
 }

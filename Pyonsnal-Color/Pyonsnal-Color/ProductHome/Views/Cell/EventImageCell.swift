@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol EventImageCellDelegate: AnyObject {
-    func didTapEventImageCell(with imageURL: String)
+    func didTapEventImageCell(imageURL: String, links: [String])
 }
 
 final class EventImageCell: UICollectionViewCell {
@@ -87,9 +87,7 @@ final class EventImageCell: UICollectionViewCell {
             switch item {
             case .event(let eventBannerDetail):
                 let cell: EventBannerItemCell = collectionView.dequeueReusableCell(for: indexPath)
-    
                 cell.update(with: eventBannerDetail.thumbnailImage)
-                cell.delegate = self
                 self.updatePageCountLabel(with: self.currentIndex)
                 return cell
             }
@@ -191,14 +189,10 @@ extension EventImageCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let eventBannerDetail = eventBannerDetails[indexPath.row]
-        delegate?.didTapEventImageCell(with: eventBannerDetail.detailImage)
-    }
-}
-
-// MARK: - EventBannerItemCellDelegate
-extension EventImageCell: EventBannerItemCellDelegate {
-    func didTapEventBannerCell(with imageUrl: String, store: ConvenienceStore) {
-        delegate?.didTapEventImageCell(with: imageUrl)
+        delegate?.didTapEventImageCell(
+            imageURL: eventBannerDetail.detailImage,
+            links: eventBannerDetail.links
+        )
     }
 }
 

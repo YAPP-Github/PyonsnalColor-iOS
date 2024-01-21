@@ -201,7 +201,6 @@ extension EventBannerCell: EventBannerItemCellDelegate {
     func didTapEventBannerCell(with imageURL: String, store: ConvenienceStore) {
         delegate?.didTapEventBannerCell(with: imageURL, store: store)
     }
-
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout

@@ -11,6 +11,7 @@ import SnapKit
 protocol ProductHomePageViewControllerDelegate: CommonProductPageViewControllerRenderable {
     func didAppearProductList()
     func curationWillAppear()
+    func didTapEventBanner(detailImage: String, links: [String])
 }
 
 final class ProductHomePageViewController: UIPageViewController {
@@ -185,5 +186,9 @@ extension ProductHomePageViewController: ProductListDelegate {
 extension ProductHomePageViewController: CurationDelegate {
     func curationWillAppear() {
         pagingDelegate?.curationWillAppear()
+    }
+    
+    func didTapEventBanner(detailImage: String, links: [String]) {
+        pagingDelegate?.didTapEventBanner(detailImage: detailImage, links: links)
     }
 }

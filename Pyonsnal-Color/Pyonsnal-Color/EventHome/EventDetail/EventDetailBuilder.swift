@@ -14,14 +14,18 @@ protocol EventDetailDependency: Dependency {
 
 final class EventDetailComponent: Component<EventDetailDependency> {
     var imageURL: String
-    var store: ConvenienceStore
+    var store: ConvenienceStore?
+    var links: [String]?
+    
     init(
         imageURL: String,
-        store: ConvenienceStore,
+        store: ConvenienceStore? = nil,
+        links: [String]? = nil,
         dependency: EventDetailDependency
     ) {
         self.imageURL = imageURL
         self.store = store
+        self.links = links
         super.init(dependency: dependency)
     }
 }
@@ -32,7 +36,8 @@ protocol EventDetailBuildable: Buildable {
     func build(
         withListener listener: EventDetailListener,
         imageURL: String,
-        store: ConvenienceStore
+        store: ConvenienceStore?,
+        links: [String]?
     ) -> EventDetailRouting
 }
 
@@ -45,7 +50,8 @@ final class EventDetailBuilder: Builder<EventDetailDependency>, EventDetailBuild
     func build(
         withListener listener: EventDetailListener,
         imageURL: String,
-        store: ConvenienceStore
+        store: ConvenienceStore? = nil,
+        links: [String]? = nil
     ) -> EventDetailRouting {
         let component = EventDetailComponent(
             imageURL: imageURL,
@@ -56,7 +62,8 @@ final class EventDetailBuilder: Builder<EventDetailDependency>, EventDetailBuild
         let interactor = EventDetailInteractor(
             presenter: viewController,
             imageURL: imageURL,
-            store: store
+            store: store,
+            links: links
         )
         interactor.listener = listener
         return EventDetailRouter(interactor: interactor, viewController: viewController)

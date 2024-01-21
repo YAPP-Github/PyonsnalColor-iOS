@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol ProductHomeInteractable: Interactable, ProductSearchListener, NotificationListListener, ProductDetailListener, ProductFilterListener {
+protocol ProductHomeInteractable: Interactable, ProductSearchListener, NotificationListListener, ProductDetailListener, ProductFilterListener, EventDetailListener {
     var router: ProductHomeRouting? { get set }
     var listener: ProductHomeListener? { get set }
 }
@@ -23,11 +23,13 @@ final class ProductHomeRouter:
     private let notificationList: NotificationListBuildable
     private let productDetail: ProductDetailBuildable
     private let productFilter: ProductFilterBuildable
+    private let eventDetail: EventDetailBuildable
     
     private var productSearchRouting: ProductSearchRouting?
     private var notificationListRouting: NotificationListRouting?
     private var productDetailRouting: ProductDetailRouting?
     private var productFilterRouting: ProductFilterRouting?
+    private var eventDetailRouting: EventDetailRouting?
     
     init(
         interactor: ProductHomeInteractable,
@@ -35,12 +37,14 @@ final class ProductHomeRouter:
         productSearch: ProductSearchBuildable,
         notificationList: NotificationListBuildable,
         productDetail: ProductDetailBuildable,
-        productFilter: ProductFilterBuildable
+        productFilter: ProductFilterBuildable,
+        eventDetail: EventDetailBuildable
     ) {
         self.productSearch = productSearch
         self.notificationList = notificationList
         self.productDetail = productDetail
         self.productFilter = productFilter
+        self.eventDetail = eventDetail
         super.init(interactor: interactor, viewController: viewController)
         
         interactor.router = self
@@ -131,5 +135,26 @@ final class ProductHomeRouter:
         viewController.uiviewController.dismiss(animated: false)
         detachChild(productFilterRouting)
         self.productFilterRouting = nil
+    }
+    
+    func attachEventDetail(imageURL: String, links: [String]) {
+        guard eventDetailRouting == nil else { return }
+        
+        let eventDetailRouter = eventDetail.build(
+            withListener: interactor,
+            imageURL: imageURL,
+            store: nil,
+            links: links
+        )
+        eventDetailRouting = eventDetailRouter
+        attachChild(eventDetailRouter)
+        viewControllable.pushViewController(eventDetailRouter.viewControllable, animated: true)
+    }
+    
+    func detachEventDetail() {
+        guard let eventDetailRouting else { return }
+        viewController.popViewController(animated: true)
+        detachChild(eventDetailRouting)
+        self.eventDetailRouting = nil
     }
 }

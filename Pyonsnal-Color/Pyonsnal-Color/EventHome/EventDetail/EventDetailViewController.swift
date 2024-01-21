@@ -55,6 +55,14 @@ final class EventDetailViewController: UIViewController,
         )
     }
     
+    func update(with imageURL: String, links: [String]) {
+        if let imageURL = URL(string: imageURL) {
+            viewHolder.eventImageView.setImage(with: imageURL) { [weak self] in
+                self?.viewHolder.updateImageViewHeight()
+            }
+        }
+    }
+    
     // MARK: - Private Method
     private func configureUI() {
         view.backgroundColor = .white

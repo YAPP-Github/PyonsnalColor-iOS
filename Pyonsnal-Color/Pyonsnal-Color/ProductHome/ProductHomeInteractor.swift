@@ -17,6 +17,8 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
+    func attachEventDetail(imageURL: String, links: [String])
+    func detachEventDetail()
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -175,6 +177,14 @@ final class ProductHomeInteractor:
         case .delete:
             deleteFavorite(with: product)
         }
+    }
+    
+    func didTapEventBanner(detailImage: String, links: [String]) {
+        router?.attachEventDetail(imageURL: detailImage, links: links)
+    }
+    
+    func didTapBackButton() {
+        router?.detachEventDetail()
     }
     
     private func addFavorite(with product: ProductDetailEntity) {
