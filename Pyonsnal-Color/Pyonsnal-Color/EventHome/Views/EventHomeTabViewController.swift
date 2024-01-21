@@ -35,6 +35,31 @@ final class EventHomeTabViewController: UIViewController {
         case keywordFilter(FilterItemEntity)
         case event(data: [EventBannerEntity])
         case item(data: ProductDetailEntity?)
+        
+        static func == (
+            lhs: EventHomeTabViewController.ItemType,
+            rhs: EventHomeTabViewController.ItemType
+        ) -> Bool {
+            switch (lhs, rhs) {
+            case (.item(let lProduct), .item(let rProduct)):
+                guard let lProduct, let rProduct else { return false }
+                return lProduct.id == rProduct.id
+            default:
+                return false
+            }
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            switch self {
+            case .item(let product):
+                guard let product else { return }
+                hasher.combine(product.id)
+            case .keywordFilter:
+                hasher.combine(1)
+            case .event:
+                hasher.combine(2)
+            }
+        }
     }
     
     enum Size {
@@ -54,7 +79,7 @@ final class EventHomeTabViewController: UIViewController {
     // MARK: - Private property
     typealias DataSource = UICollectionViewDiffableDataSource<SectionType, ItemType>
     private var dataSource: DataSource?
-    private var eventUrls: [EventBannerEntity] = []
+    private var eventUrls: [EventBannerEntity]?
     private let refreshControl = UIRefreshControl()
     private var lastContentOffSetY: CGFloat = 0
     
@@ -210,6 +235,16 @@ final class EventHomeTabViewController: UIViewController {
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
+    func applyFavoriteSnapshot(with updatedProduct: ProductDetailEntity) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        let updatedProducts: [ProductDetailEntity]? = snapshot.itemIdentifiers(inSection: .item(type: .item))
+            .compactMap { item in
+                guard case let ItemType.item(data: product) = item, let product else { return nil }
+                return product.id == updatedProduct.id ? updatedProduct : product
+            }
+        self.applyEventBannerProducts(with: self.eventUrls, products: updatedProducts)
+    }
+    
     func applyEventBannerProducts(
         with eventBanners: [EventBannerEntity]?,
         products: [ProductDetailEntity]?
@@ -218,7 +253,7 @@ final class EventHomeTabViewController: UIViewController {
         let itemSectionType = SectionType.item(type: .item)
         let emtpySectionType = SectionType.item(type: .empty)
         var snapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-        
+        self.eventUrls = eventBanners
         guard let products, !products.isEmpty else { // 필터링 된 상품이 없을 경우 EmptyProductCell만 보여준다.
             collectionView.isScrollEnabled = false
             snapshot.appendSections([emtpySectionType])

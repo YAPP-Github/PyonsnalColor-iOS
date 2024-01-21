@@ -24,7 +24,6 @@ protocol EventHomePresentableListener: AnyObject, FilterRenderable {
 final class EventHomeViewController: UIViewController,
                                      EventHomePresentable,
                                      EventHomeViewControllable {
-    
     enum Header {
         static let title = "행사 상품 모아보기"
     }
@@ -247,8 +246,17 @@ final class EventHomeViewController: UIViewController,
     
     func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore) {
         if let storeIndex = convenienceStores.firstIndex(of: store.convenienceStoreCellName) {
+            self.currentConvenienceStore = store
             let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
             tabViewController.applyEventProductsSnapshot(with: products)
+        }
+    }
+    
+    func updateProduct(with updateProduct: ProductDetailEntity) {
+        if let currentConvenienceStore,
+            let storeIndex = convenienceStores.firstIndex(of: currentConvenienceStore.convenienceStoreCellName) {
+            let tabViewController = viewHolder.pageViewController.pageViewControllers[storeIndex]
+            tabViewController.applyFavoriteSnapshot(with: updateProduct)
         }
     }
     

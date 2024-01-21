@@ -23,7 +23,7 @@ final class ProductCurationViewController: UIViewController {
     }
     
     enum Item: Hashable {
-        case image(data: UIImage?)
+        case image
         case curation(data: ProductDetailEntity)
         case adMob
     }
@@ -31,6 +31,7 @@ final class ProductCurationViewController: UIViewController {
     // MARK: Property
     weak var delegate: ProductListDelegate?
     weak var curationDelegate: CurationDelegate?
+    private var curationEntities: [CurationEntity]?
     
     private var dataSource: DataSource?
     lazy var adMobManager = AdMobManager(
@@ -48,13 +49,11 @@ final class ProductCurationViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         curationDelegate?.curationWillAppear()
     }
     
@@ -81,7 +80,6 @@ final class ProductCurationViewController: UIViewController {
     
     private func configureLayout() {
         view.addSubview(curationCollectionView)
-        
         curationCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -157,10 +155,11 @@ final class ProductCurationViewController: UIViewController {
     }
     
     func applySnapshot(with products: [CurationEntity]) {
+        self.curationEntities = products
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
 
         snapshot.appendSections([.image])
-        snapshot.appendItems([.image(data: UIImage(systemName: ""))])
+        snapshot.appendItems([.image])
 
         products.forEach { curation in
             snapshot.appendSections([.curation(data: curation)])
@@ -175,6 +174,20 @@ final class ProductCurationViewController: UIViewController {
         }
         
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func applyFavoriteProduct(With product: ProductDetailEntity) {
+        var updateProduct = product
+        let oldProduct = updateProduct.updateFavorite(
+            isFavorite: !(updateProduct.isFavorite ?? false)
+        )
+        guard var snapshot = dataSource?.snapshot() else { return }
+        snapshot.insertItems(
+            [Item.curation(data: product)],
+            beforeItem: Item.curation(data: oldProduct)
+        )
+        snapshot.deleteItems([Item.curation(data: oldProduct)])
+        dataSource?.apply(snapshot)
     }
     
     // MARK: - Method
@@ -210,6 +223,7 @@ extension ProductCurationViewController: ProductCellDelegate {
                 .productName: product.name
             ])
         }
+        self.applyFavoriteProduct(With: product)
         delegate?.didTapFavoriteButton(product: product, action: action)
     }
 }

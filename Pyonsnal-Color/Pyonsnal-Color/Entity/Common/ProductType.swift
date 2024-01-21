@@ -10,4 +10,13 @@ import Foundation
 enum ProductType: String, Decodable {
     case pb = "PB"
     case event = "EVENT"
+    
+    var favoriteHomeTab: FavoriteHomeTab {
+        switch self {
+        case .pb:
+            return .product
+        case .event:
+            return .event
+        }
+    }
 }

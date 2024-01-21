@@ -106,6 +106,16 @@ final class FavoriteHomeViewController: UIViewController,
         )
     }
     
+    func updateProduct(updatedProduct: ProductDetailEntity, tab: FavoriteHomeTab) {
+        let updatedProducts = self.products[tab]?.compactMap { product in
+            return product.id == updatedProduct.id ? updatedProduct : product
+        }
+        viewHolder.pageViewController.updateProducts(
+            to: tab.rawValue,
+            with: updatedProducts
+        )
+    }
+    
     // MARK: - Private Method
     private func configureUI() {
         view.backgroundColor = .white

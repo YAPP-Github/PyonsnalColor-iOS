@@ -20,7 +20,6 @@ protocol ProductSearchRouting: ViewableRouting {
 
 protocol ProductSearchPresentable: Presentable {
     var listener: ProductSearchPresentableListener? { get set }
-    
     func presentProducts(with items: [ProductCellType], isCanLoading: Bool, totalCount: Int, filterItem: FilterItemEntity)
 }
 
@@ -182,8 +181,8 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
         dependency.favoriteAPIService.addFavorite(
             productId: product.id,
             productType: product.productType
-            ).sink { [weak self] response in
-                // nothing
+            ).sink { [weak self] _ in
+                self?.updateFavoriteProduct(updatedProduct: product)
             }.store(in: &cancellable)
         }
         
@@ -191,9 +190,14 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
         dependency.favoriteAPIService.deleteFavorite(
             productId: product.id,
             productType: product.productType
-        ).sink { [weak self] response in
-            // nothing
+        ).sink { [weak self] _ in
+            self?.updateFavoriteProduct(updatedProduct: product)
         }.store(in: &cancellable)
+    }
+    
+    private func updateFavoriteProduct(updatedProduct: ProductDetailEntity) {
+        guard let productIndex = self.eventProductResult.firstIndex(where: { $0.id == updatedProduct.id }) else { return }
+        self.eventProductResult[productIndex] = updatedProduct
     }
     
     private func requestSort(filterItem: FilterItemEntity) {

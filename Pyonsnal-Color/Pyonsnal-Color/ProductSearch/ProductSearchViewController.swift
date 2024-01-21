@@ -28,6 +28,7 @@ protocol ProductSearchPresentableListener: AnyObject {
 final class ProductSearchViewController: UIViewController,
                                          ProductSearchPresentable,
                                          ProductSearchViewControllable {
+    
     // MARK: - Declaration
     enum Size {
         static let collectionViewLineSpacing: CGFloat = 12

@@ -241,17 +241,13 @@ final class ProductHomeViewController:
         present(notificationListViewController, animated: true)
     }
     
-//    func updateProducts(with products: [ConvenienceStore: [ProductDetailEntity]]) {
-//        guard let viewController = viewHolder.productHomePageViewController.viewControllers?.first,
-//              let productListViewController = viewController as? ProductListViewController
-//        else {
-//            return
-//        }
-//        
-//        if let products = products[productListViewController.convenienceStore] {
-//            productListViewController.applySnapshot(with: products)
-//        }
-//    }
+    func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore) {
+        self.currentConvenienceStore = store
+        guard let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) else { return }
+        if let viewController = getCurrentViewController(at: storeIndex + 1) {
+            viewController.applySnapshot(with: products)
+        }
+    }
     
     func updateProduct(with product: ProductDetailEntity) {
         guard let currentConvenienceStore else { return }
@@ -259,14 +255,6 @@ final class ProductHomeViewController:
         
         if let viewController = getCurrentViewController(at: storeIndex + 1) {
             viewController.updateFavoriteSnapshot(with: product)
-        }
-    }
-    
-    func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore) {
-        self.currentConvenienceStore = store
-        guard let storeIndex = ConvenienceStore.allCases.firstIndex(of: store) else { return }
-        if let viewController = getCurrentViewController(at: storeIndex + 1) {
-            viewController.applySnapshot(with: products)
         }
     }
     

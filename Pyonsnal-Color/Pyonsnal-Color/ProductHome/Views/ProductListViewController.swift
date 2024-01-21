@@ -134,8 +134,8 @@ final class ProductListViewController: UIViewController {
         productCollectionView.register(ProductCell.self)
         productCollectionView.register(EmptyProductCell.self)
         productCollectionView.register(ItemHeaderTitleView.self,
-                                forSupplementaryViewOfKind: ItemHeaderTitleView.className,
-                                withReuseIdentifier: ItemHeaderTitleView.className)
+                                       forSupplementaryViewOfKind: ItemHeaderTitleView.className,
+                                       withReuseIdentifier: ItemHeaderTitleView.className)
     }
     
     private func configureDataSource() {
@@ -203,51 +203,6 @@ final class ProductListViewController: UIViewController {
         productCollectionView.refreshControl = refreshControl
     }
     
-    func updateFavoriteSnapshot(with updatedProduct: ProductDetailEntity?) {
-        guard let updatedProduct else { return }
-        guard var snapshot = dataSource?.snapshot() else { return }
-        let itemType = snapshot.itemIdentifiers(inSection: .product(type: .item))
-//        let item = itemType.first(where: { item in
-//            if case let .item(product) = item {
-//                if let product {
-//                    return product.id == updatedProduct.id
-//                }
-//            }
-//            return false
-//        })
-        
-        let datas = itemType.compactMap { item in
-            if case let .item(product) = item {
-                if let product {
-                    if product.id == updatedProduct.id {
-                        return updatedProduct
-                    } else {
-                        return product
-                    }
-                }
-                return nil
-            }
-            return nil
-        }
-        
-        updateSnapshot(with: datas)
-//        guard let item else { return }
-//        var newSnapshot = NSDiffableDataSourceSnapshot<SectionType, ItemType>()
-//        
-//        
-//        if #available(iOS 15.0, *) {
-//            snapshot.reconfigureItems([ItemType.item(data: updatedProduct)])
-//        } else {
-//            snapshot.reloadItems([ItemType.item(data: updatedProduct)])
-//        }
-//        if #available(iOS 15.0, *) {
-//            Log.d(message: "\(snapshot.reloadedItemIdentifiers)")
-//        } else {
-//            // Fallback on earlier versions
-//        }
-//        dataSource?.apply(snapshot)
-    }
-    
     func applySnapshot(with products: [ProductDetailEntity]?) {
         productCollectionView.isScrollEnabled = true
         let itemSectionType = SectionType.product(type: .item)
@@ -288,6 +243,20 @@ final class ProductListViewController: UIViewController {
         dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.delegate?.didFinishUpdateSnapshot()
         }
+    }
+    
+    func updateFavoriteSnapshot(with updatedProduct: ProductDetailEntity?) {
+        guard let updatedProduct,
+              let snapshot = dataSource?.snapshot() else { return }
+        
+        let updatedProducts: [ProductDetailEntity]? = snapshot
+            .itemIdentifiers(inSection: .product(type: .item))
+            .compactMap { item in
+                guard case let ItemType.item(data: product) = item,
+                      let product else { return nil }
+                return product.id == updatedProduct.id ? updatedProduct : product
+            }
+        self.updateSnapshot(with: updatedProducts)
     }
     
     func applyKeywordFilterSnapshot(with keywordItems: [FilterItemEntity]?) {

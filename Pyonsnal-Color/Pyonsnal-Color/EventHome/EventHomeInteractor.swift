@@ -21,7 +21,7 @@ protocol EventHomeRouting: ViewableRouting {
 
 protocol EventHomePresentable: Presentable {
     var listener: EventHomePresentableListener? { get set }
-    
+    func updateProduct(with updateProduct: ProductDetailEntity)
     func updateProducts(with products: [ProductDetailEntity], at store: ConvenienceStore)
     func update(with products: [ProductDetailEntity], banners: [EventBannerEntity], filterDataEntity: FilterDataEntity?, at store: ConvenienceStore)
     func updateFilter()
@@ -141,8 +141,8 @@ final class EventHomeInteractor:
         dependency.favoriteAPIService.addFavorite(
             productId: product.id,
             productType: product.productType
-            ).sink { [weak self] response in
-                // nothing
+            ).sink { [weak self] _ in
+                self?.presenter.updateProduct(with: product)
             }.store(in: &cancellable)
         }
         
@@ -150,8 +150,8 @@ final class EventHomeInteractor:
         dependency.favoriteAPIService.deleteFavorite(
             productId: product.id,
             productType: product.productType
-        ).sink { [weak self] response in
-            // nothing
+        ).sink { [weak self] _ in
+            self?.presenter.updateProduct(with: product)
         }.store(in: &cancellable)
     }
     

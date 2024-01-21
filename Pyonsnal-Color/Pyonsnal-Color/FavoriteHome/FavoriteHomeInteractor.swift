@@ -18,6 +18,7 @@ protocol FavoriteHomeRouting: ViewableRouting {
 
 protocol FavoriteHomePresentable: Presentable {
     var listener: FavoriteHomePresentableListener? { get set }
+    func updateProduct(updatedProduct: ProductDetailEntity, tab: FavoriteHomeTab)
     func updateProducts(products: [ProductDetailEntity]?, tab: FavoriteHomeTab)
 }
 
@@ -78,11 +79,13 @@ final class FavoriteHomeInteractor: PresentableInteractor<FavoriteHomePresentabl
     func appendProduct(product: ProductDetailEntity) {
         if let index = deletedProducts.firstIndex(where: { $0.id == product.id }) {
             deletedProducts.remove(at: index)
+            self.presenter.updateProduct(updatedProduct: product, tab: product.productType.favoriteHomeTab)
         }
     }
     
     func deleteProduct(product: ProductDetailEntity) {
         deletedProducts.append(product)
+        self.presenter.updateProduct(updatedProduct: product, tab: product.productType.favoriteHomeTab)
     }
     
     func deleteAllProducts() {
