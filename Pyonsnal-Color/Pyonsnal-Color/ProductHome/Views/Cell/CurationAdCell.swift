@@ -50,6 +50,6 @@ extension CurationAdCell: AdMobManagerDelegate {
     }
     
     func didFailToReceiveAd(with error: Error) {
-        Log.d(message: "error")
+        Log.d(message: "\(error.localizedDescription)")
     }
 }

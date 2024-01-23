@@ -21,9 +21,9 @@ final class AdMobManager: NSObject {
             switch self {
             case .curationMiddleAd:
                 #if DEBUG
-                    return "ca-app-pub-5808818560574239/7697776597"
-                #else
                     return "ca-app-pub-3940256099942544/3986624511"
+                #else
+                    return "ca-app-pub-5808818560574239/7697776597"
                 #endif
             }
         }
@@ -56,6 +56,7 @@ final class AdMobManager: NSObject {
     
     func loadAd() {
         adLoader.delegate = self
+        print(adUnitIdType.adUnitId)
         let reuqest = GADRequest()
         adLoader.load(reuqest)
     }
