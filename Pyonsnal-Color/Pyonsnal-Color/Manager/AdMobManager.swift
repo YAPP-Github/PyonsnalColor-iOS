@@ -56,7 +56,6 @@ final class AdMobManager: NSObject {
     
     func loadAd() {
         adLoader.delegate = self
-        print(adUnitIdType.adUnitId)
         let reuqest = GADRequest()
         adLoader.load(reuqest)
     }
