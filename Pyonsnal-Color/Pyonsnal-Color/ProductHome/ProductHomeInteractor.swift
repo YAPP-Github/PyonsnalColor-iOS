@@ -31,7 +31,6 @@ protocol ProductHomePresentable: Presentable {
     func didStartPaging()
     func didFinishPaging()
     func requestInitialProduct()
-    func updateCuration(with products: [CurationEntity])
     func updateHomeBanner(with items: [HomeBannerEntity])
 }
 
@@ -84,7 +83,6 @@ final class ProductHomeInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
-		requestCurationProducts()
         requestHomeBannerItems()
         requestFilter()
     }
@@ -136,17 +134,6 @@ final class ProductHomeInteractor:
             if let filter = response.value {
                 self?.filterStateManager = FilterStateManager(filterDataEntity: filter)
                 self?.presenter.updateFilter()
-            }
-        }.store(in: &cancellable)
-    }
-    
-    private func requestCurationProducts() {
-        dependency.productAPIService.requestCuration()
-            .sink { [weak self] response in
-            if let curationPage = response.value {
-                self?.presenter.updateCuration(with: curationPage.curationProducts)
-            } else if response.error != nil {
-                // TODO: Error Handling
             }
         }.store(in: &cancellable)
     }

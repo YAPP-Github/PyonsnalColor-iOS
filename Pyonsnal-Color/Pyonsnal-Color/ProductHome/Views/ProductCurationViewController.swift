@@ -18,21 +18,26 @@ final class ProductCurationViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     
     enum Section: Hashable {
+        // TODO: 런칭 이벤트 노출을 위해 이미지 섹션 임시 삭제 & 이벤트 종료 후 다시 유지될 수도 있다고 합니다..
+        /*
         case image
+         */
         case curation(data: CurationEntity)
         case eventImage(data: EventImageEntity)
         case adMob
     }
     
     enum Item: Hashable {
+        /*
         case image(data: UIImage?)
+         */
         case curation(data: ProductDetailEntity)
         case eventImage(data: [EventBannerDetailEntity])
         case adMob
     }
     
     enum Constant {
-        static let firstCurationIndex: Int = 1
+        static let firstCurationIndex: Int = 0
     }
     
     // MARK: Property
@@ -109,9 +114,11 @@ final class ProductCurationViewController: UIViewController {
             collectionView: curationCollectionView
         ) { collectionView, indexPath, item in
             switch item {
+            /*
             case .image:
                 let cell: CurationImageCell = collectionView.dequeueReusableCell(for: indexPath)
                 return cell
+             */
             case let .curation(data):
                 let cell: ProductCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.updateCell(with: data)
@@ -121,6 +128,7 @@ final class ProductCurationViewController: UIViewController {
                 let cell: EventImageCell = collectionView.dequeueReusableCell(for: indexPath)
 
                 cell.update(data)
+                cell.makeRounded(with: 0)
                 cell.delegate = self
                 return cell
             case .adMob:
@@ -185,29 +193,13 @@ final class ProductCurationViewController: UIViewController {
         }
     }
     
-    // TODO: 기존 curation 메서드 삭제
-    func applySnapshot(with products: [CurationEntity]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-
-        snapshot.appendSections([.image])
-        snapshot.appendItems([.image(data: UIImage(systemName: ""))])
-
-        products.forEach { curation in
-            snapshot.appendSections([.curation(data: curation)])
-            curation.products.forEach { product in
-                snapshot.appendItems([.curation(data: product)])
-            }
-        }
-        
-        dataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
     func applySnapshot(with items: [HomeBannerEntity]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         
+        /*
         snapshot.appendSections([.image])
         snapshot.appendItems([.image(data: UIImage(systemName: ""))])
-        
+        */
         items.forEach { item in
             item.value.forEach { value in
                 if let curation = value.curationProducts {
@@ -215,14 +207,14 @@ final class ProductCurationViewController: UIViewController {
                     curation.products.forEach { product in
                         snapshot.appendItems([.curation(data: product)])
                     }
-                } else if let eventImages = value.eventImages {
+                } else if let eventImages = value.eventBanners {
                     snapshot.appendSections([.eventImage(data: eventImages)])
                     snapshot.appendItems([.eventImage(data: eventImages.bannerDetails)])
                     
                     let curationSection = snapshot.sectionIdentifiers[Constant.firstCurationIndex]
                     snapshot.moveSection(
                         .eventImage(data: eventImages),
-                        afterSection: curationSection
+                        beforeSection: curationSection
                     )
                 }
             }

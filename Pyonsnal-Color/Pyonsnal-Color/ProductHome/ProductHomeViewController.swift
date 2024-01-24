@@ -301,14 +301,6 @@ final class ProductHomeViewController:
         isRequestingInitialProducts = true
     }
     
-    func updateCuration(with products: [CurationEntity]) {
-        let pageViewController = viewHolder.productHomePageViewController
-        if let viewController = pageViewController.productListViewControllers.first as?
-            ProductCurationViewController {
-            viewController.applySnapshot(with: products)
-        }
-    }
-    
     func updateHomeBanner(with items: [HomeBannerEntity]) {
         let pageViewController = viewHolder.productHomePageViewController
         if let viewController = pageViewController.productListViewControllers.first as? ProductCurationViewController {

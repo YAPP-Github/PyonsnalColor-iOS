@@ -12,7 +12,7 @@ final class CurationSectionLayout {
     enum Size {
         static let cellHeight: CGFloat = 233
         static let imageHeight: CGFloat = 270
-        static let eventImageHeight: CGFloat = 184
+        static let eventImageHeight: CGFloat = 220
         static let curationHeaderHeight: CGFloat = 78
         static let adHeight: CGFloat = 50
         static let headerHeight: CGFloat = 78
@@ -97,8 +97,6 @@ final class CurationSectionLayout {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = Size.inset
-        section.boundarySupplementaryItems = createEventImageSupplementaryView()
 
         return section
     }
@@ -147,8 +145,10 @@ final class CurationSectionLayout {
 extension CurationSectionLayout {
     func createSection(at section: ProductCurationViewController.Section) -> NSCollectionLayoutSection {
         switch section {
+        /*
         case .image:
             return createImageSection()
+         */
         case .curation:
             return createCurationSection()
         case .eventImage:
