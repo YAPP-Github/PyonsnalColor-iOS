@@ -249,21 +249,8 @@ final class ProductHomeInteractor:
     
     func applySortFilter(item: FilterItemEntity) {
         router?.detachProductFilter()
-        var filterName: String?
-        switch item.code {
-        case 1:
-            filterName = "recent"
-        case 2:
-            filterName = "view_count"
-        case 3:
-            filterName = "low_price"
-        case 4:
-            filterName = "high_price"
-        default:
-            filterName = nil
-        }
         logging(.sortFilterClick, parameter: [
-            .sortFilterName: filterName ?? "nil"
+            .sortFilterName: item.name
         ])
         let filterCodeList = [item.code]
         filterStateManager?.appendFilterCodeList(filterCodeList, type: .sort)
