@@ -17,6 +17,8 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
+    func attachEventDetail(eventDetail: EventBannerDetailEntity)
+    func detachEventDetail()
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -29,7 +31,7 @@ protocol ProductHomePresentable: Presentable {
     func didStartPaging()
     func didFinishPaging()
     func requestInitialProduct()
-    func updateCuration(with products: [CurationEntity])
+    func updateHomeBanner(with items: [HomeBannerEntity])
 }
 
 protocol ProductHomeListener: AnyObject {
@@ -81,7 +83,7 @@ final class ProductHomeInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
-		requestCurationProducts()
+        requestHomeBannerItems()
         requestFilter()
     }
 
@@ -136,11 +138,11 @@ final class ProductHomeInteractor:
         }.store(in: &cancellable)
     }
     
-    private func requestCurationProducts() {
-        dependency.productAPIService.requestCuration()
+    private func requestHomeBannerItems() {
+        dependency.productAPIService.requestHomeBannerEntity()
             .sink { [weak self] response in
-            if let curationPage = response.value {
-                self?.presenter.updateCuration(with: curationPage.curationProducts)
+            if let homeBannerItems = response.value?.homeBanner {
+                self?.presenter.updateHomeBanner(with: homeBannerItems)
             } else if response.error != nil {
                 // TODO: Error Handling
             }
@@ -162,6 +164,14 @@ final class ProductHomeInteractor:
         case .delete:
             deleteFavorite(with: product)
         }
+    }
+    
+    func didTapEventBanner(eventDetail: EventBannerDetailEntity) {
+        router?.attachEventDetail(eventDetail: eventDetail)
+    }
+    
+    func didTapBackButton() {
+        router?.detachEventDetail()
     }
     
     private func addFavorite(with product: ProductDetailEntity) {

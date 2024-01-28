@@ -39,6 +39,7 @@ enum ProductAPI: NetworkRequestBuilder {
     case filter
     case pbReview(id: String)
     case eventReview(id: String)
+    case homeBanner
 }
 
 extension ProductAPI {
@@ -47,7 +48,7 @@ extension ProductAPI {
     
     var method: HTTPMethod {
         switch self {
-        case .eventBanner, .search, .filter, .curationProduct, .brandDetail, .eventDetail:
+        case .eventBanner, .search, .filter, .curationProduct, .brandDetail, .eventDetail, .homeBanner:
             return .get
         case .brandProduct, .eventProduct, .pbReview, .eventReview:
             return .post
@@ -86,6 +87,8 @@ extension ProductAPI {
             return "/products/pb-products/\(id)/reviews"
         case let .eventReview(id):
             return "/products/event-products/\(id)/reviews"
+        case .homeBanner:
+            return "/products/home-banner"
         }
     }
     
@@ -131,7 +134,7 @@ extension ProductAPI {
             queryItems.append(.init(name: "writerId", value: writerID))
         case .curationProduct:
             break
-        case .filter, .brandDetail, .eventDetail, .brandReviewLike, .brandReviewHate, .eventReviewLike, .eventReviewHate, .pbReview, .eventReview:
+        case .filter, .brandDetail, .eventDetail, .brandReviewLike, .brandReviewHate, .eventReviewLike, .eventReviewHate, .pbReview, .eventReview, .homeBanner:
             return nil
         }
         

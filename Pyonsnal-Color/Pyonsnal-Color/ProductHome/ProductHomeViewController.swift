@@ -15,6 +15,7 @@ protocol ProductHomePresentableListener: AnyObject, FilterRenderable {
     func didScrollToNextPage(store: ConvenienceStore?, filterList: [Int])
     func didSelect(with brandProduct: ProductDetailEntity?)
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction)
+    func didTapEventBanner(eventDetail: EventBannerDetailEntity)
 }
 
 final class ProductHomeViewController:
@@ -300,11 +301,10 @@ final class ProductHomeViewController:
         isRequestingInitialProducts = true
     }
     
-    func updateCuration(with products: [CurationEntity]) {
+    func updateHomeBanner(with items: [HomeBannerEntity]) {
         let pageViewController = viewHolder.productHomePageViewController
-        if let viewController = pageViewController.productListViewControllers.first as?
-            ProductCurationViewController {
-            viewController.applySnapshot(with: products)
+        if let viewController = pageViewController.productListViewControllers.first as? ProductCurationViewController {
+            viewController.applySnapshot(with: items)
         }
     }
     
@@ -502,6 +502,10 @@ extension ProductHomeViewController: ProductHomePageViewControllerDelegate {
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
         listener?.didTapFavoriteButton(product: product, action: action)
+    }
+    
+    func didTapEventBanner(eventDetail: EventBannerDetailEntity) {
+        listener?.didTapEventBanner(eventDetail: eventDetail)
     }
 }
 

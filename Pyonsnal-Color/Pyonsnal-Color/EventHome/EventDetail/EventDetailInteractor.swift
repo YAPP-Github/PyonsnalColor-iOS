@@ -8,12 +8,14 @@
 import ModernRIBs
 
 protocol EventDetailRouting: ViewableRouting {
-    
+    func attachCommonWeb(with userEventDetail: UserEventDetail)
+    func detachCommonWeb()
 }
 
 protocol EventDetailPresentable: Presentable {
     var listener: EventDetailPresentableListener? { get set }
     func update(with imageURL: String, store: ConvenienceStore)
+    func update(with eventDetail: EventBannerDetailEntity)
 }
 
 protocol EventDetailListener: AnyObject {
@@ -24,21 +26,29 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
                                    EventDetailInteractable,
                                    EventDetailPresentableListener {
     
-    private var imageURL: String
-    private var store: ConvenienceStore
+    private let component: EventDetailComponent
+    
     weak var router: EventDetailRouting?
     weak var listener: EventDetailListener?
 
-    init(presenter: EventDetailPresentable, imageURL: String, store: ConvenienceStore) {
-        self.imageURL = imageURL
-        self.store = store
+    init(
+        presenter: EventDetailPresentable,
+        component: EventDetailComponent
+    ) {
+        self.component = component
         super.init(presenter: presenter)
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        presenter.update(with: imageURL, store: store)
+        
+        if let store = component.store {
+            presenter.update(with: component.imageURL, store: store)
+        } else if let eventDetail = component.eventDetail {
+//            let urls = Array(repeating: "https://www.metavv.com/ko/content/preview/result/10895901/1?score=INFJ", count: 48)
+            presenter.update(with: eventDetail)
+        }
     }
 
     override func willResignActive() {
@@ -48,5 +58,14 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
     
     func didTapBackButton() {
         listener?.didTapBackButton()
+    }
+    
+    func didTapUserEvent(with urlString: String) {
+        let userEventDetail = UserEventDetail(title: "이벤트", urlString: urlString)
+        router?.attachCommonWeb(with: userEventDetail)
+    }
+    
+    func detachCommonWebView() {
+        router?.detachCommonWeb()
     }
 }

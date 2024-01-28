@@ -52,6 +52,11 @@ final class CommonWebViewController: UIViewController,
         loadWebView(with: settingInfo.infoUrl?.urlString)
     }
     
+    func update(with userEventDetail: UserEventDetail) {
+        setNavigationViewTitle(with: userEventDetail.title)
+        loadWebView(with: userEventDetail.urlString)
+    }
+    
     // MARK: - Private method
     private func configureBackButton() {
         viewHolder.backNavigationView.delegate = self

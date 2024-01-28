@@ -11,6 +11,7 @@ import Kingfisher
 
 protocol EventDetailPresentableListener: AnyObject {
     func didTapBackButton()
+    func didTapUserEvent(with urlString: String)
 }
 
 final class EventDetailViewController: UIViewController,
@@ -55,6 +56,16 @@ final class EventDetailViewController: UIViewController,
         )
     }
     
+    func update(with eventDetail: EventBannerDetailEntity) {
+        if let imageURL = URL(string: eventDetail.detailImage) {
+            viewHolder.eventImageView.setImage(with: imageURL) { [weak self] in
+                self?.viewHolder.updateImageViewHeight()
+                self?.addEventView(userEvent: eventDetail.userEvent, links: eventDetail.links)
+            }
+        }
+        viewHolder.backNavigationView.payload = .init(mode: .text, title: "이벤트")
+    }
+    
     // MARK: - Private Method
     private func configureUI() {
         view.backgroundColor = .white
@@ -63,6 +74,28 @@ final class EventDetailViewController: UIViewController,
     private func configureAction() {
         viewHolder.backNavigationView.delegate = self
     }
+    
+    private func addEventView(userEvent: UserEvent, links: [String]) {
+        switch userEvent {
+        case .foodChemistryEvent:
+            let urls = Array(repeating: "https://www.metavv.com/ko/content/preview/result/10895901/1?score=INFJ", count: 48)
+            let foodChemistryView = FoodChemistryEventView(links: urls)
+            foodChemistryView.delegate = self
+            
+            viewHolder.eventImageView.addSubview(foodChemistryView)
+            foodChemistryView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        case .launchingEvent:
+            let launchingEventView = LaunchingEventView(links: links)
+            launchingEventView.delegate = self
+            
+            viewHolder.eventImageView.addSubview(launchingEventView)
+            launchingEventView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        }
+    }
 
 }
 
@@ -70,6 +103,13 @@ final class EventDetailViewController: UIViewController,
 extension EventDetailViewController: BackNavigationViewDelegate {
     @objc func didTapBackButton() {
         listener?.didTapBackButton()
+    }
+}
+
+// MARK: - FoodChemistryEventDelegate
+extension EventDetailViewController: FoodChemistryEventDelegate {
+    func didSelectFoodResult(urlString: String) {
+        listener?.didTapUserEvent(with: urlString)
     }
 }
 
@@ -89,6 +129,7 @@ extension EventDetailViewController {
         
         let eventImageView: UIImageView = {
             let imageView = UIImageView()
+            imageView.isUserInteractionEnabled = true
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()

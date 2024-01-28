@@ -12,9 +12,12 @@ final class CurationSectionLayout {
     enum Size {
         static let cellHeight: CGFloat = 233
         static let imageHeight: CGFloat = 270
+        static let eventImageHeight: CGFloat = 250
+        static let curationHeaderHeight: CGFloat = 78
         static let adHeight: CGFloat = 50
         static let headerHeight: CGFloat = 78
         static let footerHeight: CGFloat = 12
+        static let eventBannerHeaderHeight: CGFloat = 66
         static let spacing: CGFloat = Spacing.spacing12.value
         static let inset: NSDirectionalEdgeInsets = .init(
             top: Spacing.spacing16.value,
@@ -79,12 +82,50 @@ final class CurationSectionLayout {
         
         return section
     }
+
+	private func createEventImageSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .fractionalHeight(1)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(Size.eventImageHeight)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+
+        return section
+    }
     
     private func createSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(Size.headerHeight)
+                heightDimension: .absolute(Size.curationHeaderHeight)
+            ),
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .absolute(UIScreen.main.bounds.width),
+                heightDimension: .absolute(Size.footerHeight)
+            ),
+            elementKind: UICollectionView.elementKindSectionFooter,
+            alignment: .bottom
+        )
+        return [sectionHeader, sectionFooter]
+    }
+    
+    private func createEventImageSupplementaryView() -> [NSCollectionLayoutBoundarySupplementaryItem] {
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(Size.eventBannerHeaderHeight)
             ),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
@@ -104,10 +145,14 @@ final class CurationSectionLayout {
 extension CurationSectionLayout {
     func createSection(at section: ProductCurationViewController.Section) -> NSCollectionLayoutSection {
         switch section {
+        /*
         case .image:
             return createImageSection()
+         */
         case .curation:
             return createCurationSection()
+        case .eventImage:
+            return createEventImageSection()
         case .adMob:
             return createAdSection()
         }
