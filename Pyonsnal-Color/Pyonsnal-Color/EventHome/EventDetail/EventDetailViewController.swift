@@ -129,6 +129,7 @@ extension EventDetailViewController {
         
         let eventImageView: UIImageView = {
             let imageView = UIImageView()
+            imageView.isUserInteractionEnabled = true
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
