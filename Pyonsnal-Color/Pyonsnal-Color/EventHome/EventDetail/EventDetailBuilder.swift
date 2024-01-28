@@ -12,20 +12,20 @@ protocol EventDetailDependency: Dependency {
     // created by this RIB.
 }
 
-final class EventDetailComponent: Component<EventDetailDependency> {
+final class EventDetailComponent: Component<EventDetailDependency>, CommonWebDependency {
     var imageURL: String
     var store: ConvenienceStore?
-    var links: [String]?
+    var eventDetail: EventBannerDetailEntity?
     
     init(
         imageURL: String,
         store: ConvenienceStore? = nil,
-        links: [String]? = nil,
+        eventDetail: EventBannerDetailEntity? = nil,
         dependency: EventDetailDependency
     ) {
         self.imageURL = imageURL
         self.store = store
-        self.links = links
+        self.eventDetail = eventDetail
         super.init(dependency: dependency)
     }
 }
@@ -41,8 +41,7 @@ protocol EventDetailBuildable: Buildable {
     
     func build(
         withListener listener: EventDetailListener,
-        imageURL: String,
-        links: [String]
+        eventDetail: EventBannerDetailEntity
     ) -> EventDetailRouting
 }
 
@@ -73,12 +72,11 @@ final class EventDetailBuilder: Builder<EventDetailDependency>, EventDetailBuild
     
     func build(
         withListener listener: EventDetailListener,
-        imageURL: String,
-        links: [String]
+        eventDetail: EventBannerDetailEntity
     ) -> EventDetailRouting {
         let component = EventDetailComponent(
-            imageURL: imageURL,
-            links: links,
+            imageURL: eventDetail.detailImage,
+            eventDetail: eventDetail,
             dependency: dependency
         )
         let viewController = EventDetailViewController()
@@ -86,7 +84,12 @@ final class EventDetailBuilder: Builder<EventDetailDependency>, EventDetailBuild
             presenter: viewController,
             component: component
         )
+        let commonWebBuilder = CommonWebBuilder(dependency: component)
         interactor.listener = listener
-        return EventDetailRouter(interactor: interactor, viewController: viewController)
+        return EventDetailRouter(
+            interactor: interactor,
+            viewController: viewController,
+            commonWebBuilder: commonWebBuilder
+        )
     }
 }

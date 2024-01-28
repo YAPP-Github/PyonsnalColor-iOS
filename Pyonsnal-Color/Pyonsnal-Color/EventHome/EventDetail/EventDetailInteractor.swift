@@ -8,13 +8,14 @@
 import ModernRIBs
 
 protocol EventDetailRouting: ViewableRouting {
-    
+    func attachCommonWeb(with userEventDetail: UserEventDetail)
+    func detachCommonWeb()
 }
 
 protocol EventDetailPresentable: Presentable {
     var listener: EventDetailPresentableListener? { get set }
     func update(with imageURL: String, store: ConvenienceStore)
-    func update(with imageURL: String, links: [String])
+    func update(with eventDetail: EventBannerDetailEntity)
 }
 
 protocol EventDetailListener: AnyObject {
@@ -44,8 +45,9 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
         
         if let store = component.store {
             presenter.update(with: component.imageURL, store: store)
-        } else if let links = component.links {
-            presenter.update(with: component.imageURL, links: links)
+        } else if let eventDetail = component.eventDetail {
+//            let urls = Array(repeating: "https://www.metavv.com/ko/content/preview/result/10895901/1?score=INFJ", count: 48)
+            presenter.update(with: eventDetail)
         }
     }
 
@@ -56,5 +58,14 @@ final class EventDetailInteractor: PresentableInteractor<EventDetailPresentable>
     
     func didTapBackButton() {
         listener?.didTapBackButton()
+    }
+    
+    func didTapUserEvent(with urlString: String) {
+        let userEventDetail = UserEventDetail(title: "이벤트", urlString: urlString)
+        router?.attachCommonWeb(with: userEventDetail)
+    }
+    
+    func detachCommonWebView() {
+        router?.detachCommonWeb()
     }
 }
