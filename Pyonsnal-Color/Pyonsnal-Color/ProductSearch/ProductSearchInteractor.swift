@@ -38,13 +38,15 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     private let dependency: ProductSearchDependency
     private var cancellable = Set<AnyCancellable>()
     private(set) var keyword: String?
-    private var filterItem: FilterItemEntity = .init(name: "최신순", code: 1, image: nil, isSelected: true)
+    private var filterEntity: FilterEntity?
+    private var filterItem: FilterItemEntity?
     private var pageNumber: Int = 0
     private let pageSize: Int = 20
     private var isCanLoading: Bool = false
     private var totalCount: Int = 0
     private var eventProductResult: [ProductDetailEntity] = [] {
         didSet {
+            guard let filterItem else { return }
             if eventProductResult.isEmpty {
                 presenter.presentProducts(
                     with: [.empty],
@@ -77,6 +79,8 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        
+        requestFilters()
     }
 
     override func willResignActive() {
@@ -104,8 +108,9 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     func search(with keyword: String?) {
         self.keyword = keyword
         self.pageNumber = 0
-        self.filterItem = .init(name: "최신순", code: 1, image: nil, isSelected: true)
+        self.filterItem = filterEntity?.filterItem.first
         
+        guard let filterItem else { return }
         if let keyword,
            !keyword.isEmpty {
             logging(.keywordSearch, parameter: [
@@ -138,6 +143,7 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     }
     
     func loadMoreItems() {
+        guard let filterItem else { return }
         if let keyword,
            !keyword.isEmpty {
             pageNumber += 1
@@ -196,6 +202,20 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
         }.store(in: &cancellable)
     }
     
+    private func requestFilters() {
+        dependency.productAPIService.requestFilter()
+            .sink { [weak self] response in
+                if let filter = response.value {
+                    let filterEntity = filter.data.filter { $0.filterType == .sort }.first
+                    self?.filterEntity = filterEntity
+                    if let firstItem = filterEntity?.filterItem.first {
+                        self?.filterItem = .init(name: firstItem.name, code: firstItem.code, image: firstItem.image, isSelected: true)
+                    }
+                }
+            }
+            .store(in: &cancellable)
+    }
+    
     private func requestSort(filterItem: FilterItemEntity) {
         self.pageNumber = 0
         self.filterItem = filterItem
@@ -232,11 +252,8 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     }
     
     func didTapSortButton(filterItem: FilterItemEntity) {
-        var filterItems: [FilterItemEntity] = [
-            .init(name: "최신순", code: 1, image: nil),
-            .init(name: "낮은 가격 순", code: 3, image: nil),
-            .init(name: "높은 가격 순", code: 4, image: nil)
-        ]
+        guard var filterItems = filterEntity?.filterItem else { return }
+        filterItems = filterItems.map { .init(name: $0.name, code: $0.code, image: $0.image, isSelected: false) }
         if let index = filterItems.firstIndex(where: { item in
             return item.code == filterItem.code
         }) {
@@ -266,19 +283,8 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     }
     
     func applySortFilter(item: FilterItemEntity) {
-        var filterName: String?
-        switch item.code {
-        case 1:
-            filterName = "recent"
-        case 3:
-            filterName = "low_price"
-        case 4:
-            filterName = "high_price"
-        default:
-            filterName = nil
-        }
         logging(.sortFilterClick, parameter: [
-            .searchSortFilterName: filterName ?? "nil"
+            .searchSortFilterName: item.name
         ])
         requestSort(filterItem: item)
         router?.detachProductFilter()
