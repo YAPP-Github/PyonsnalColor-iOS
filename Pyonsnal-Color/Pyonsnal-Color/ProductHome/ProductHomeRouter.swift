@@ -137,13 +137,12 @@ final class ProductHomeRouter:
         self.productFilterRouting = nil
     }
     
-    func attachEventDetail(imageURL: String, links: [String]) {
+    func attachEventDetail(eventDetail: EventBannerDetailEntity) {
         guard eventDetailRouting == nil else { return }
         
-        let eventDetailRouter = eventDetail.build(
+        let eventDetailRouter = self.eventDetail.build(
             withListener: interactor,
-            imageURL: imageURL,
-            links: links
+            eventDetail: eventDetail
         )
         eventDetailRouting = eventDetailRouter
         attachChild(eventDetailRouter)

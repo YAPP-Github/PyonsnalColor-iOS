@@ -17,7 +17,7 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
-    func attachEventDetail(imageURL: String, links: [String])
+    func attachEventDetail(eventDetail: EventBannerDetailEntity)
     func detachEventDetail()
 }
 
@@ -166,8 +166,8 @@ final class ProductHomeInteractor:
         }
     }
     
-    func didTapEventBanner(detailImage: String, links: [String]) {
-        router?.attachEventDetail(imageURL: detailImage, links: links)
+    func didTapEventBanner(eventDetail: EventBannerDetailEntity) {
+        router?.attachEventDetail(eventDetail: eventDetail)
     }
     
     func didTapBackButton() {

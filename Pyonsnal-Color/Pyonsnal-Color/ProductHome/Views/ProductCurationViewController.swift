@@ -10,7 +10,7 @@ import SnapKit
 
 protocol CurationDelegate: AnyObject {
     func curationWillAppear()
-    func didTapEventBanner(detailImage: String, links: [String])
+    func didTapEventBanner(eventDetail: EventBannerDetailEntity)
 }
 
 final class ProductCurationViewController: UIViewController {
@@ -267,7 +267,7 @@ extension ProductCurationViewController: ProductCellDelegate {
 
 // MARK: - EventImageCellDelegate
 extension ProductCurationViewController: EventImageCellDelegate {
-    func didTapEventImageCell(imageURL: String, links: [String]) {
-        curationDelegate?.didTapEventBanner(detailImage: imageURL, links: links)
+    func didTapEventImageCell(eventDetail: EventBannerDetailEntity) {
+        curationDelegate?.didTapEventBanner(eventDetail: eventDetail)
     }
 }

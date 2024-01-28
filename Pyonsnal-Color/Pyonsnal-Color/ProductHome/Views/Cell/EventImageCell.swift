@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol EventImageCellDelegate: AnyObject {
-    func didTapEventImageCell(imageURL: String, links: [String])
+    func didTapEventImageCell(eventDetail: EventBannerDetailEntity)
 }
 
 final class EventImageCell: UICollectionViewCell {
@@ -189,10 +189,7 @@ extension EventImageCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let eventBannerDetail = eventBannerDetails[indexPath.row]
-        delegate?.didTapEventImageCell(
-            imageURL: eventBannerDetail.detailImage,
-            links: eventBannerDetail.links
-        )
+        delegate?.didTapEventImageCell(eventDetail: eventBannerDetail)
     }
 }
 
