@@ -15,6 +15,7 @@ protocol CommonWebPresentable: Presentable {
     var listener: CommonWebPresentableListener? { get set }
     func update(with subTermsInfo: SubTerms)
     func update(with settingInfo: SettingInfo)
+    func update(with userEventDetail: UserEventDetail)
 }
 
 protocol CommonWebListener: AnyObject {
@@ -44,7 +45,9 @@ final class CommonWebInteractor: PresentableInteractor<CommonWebPresentable>, Co
             self.presenter.update(with: subTerms)
         }else if let settingInfo = component.settingInfo {
             self.presenter.update(with: settingInfo)
-        }
+        } else if let userEventDetail = component.userEventDetail {
+            self.presenter.update(with: userEventDetail)
+        } 
     }
 
     override func willResignActive() {
