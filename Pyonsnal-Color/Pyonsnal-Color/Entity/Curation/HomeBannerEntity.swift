@@ -18,16 +18,16 @@ struct HomeBannerEntity: Decodable {
 
 struct HomeBannerValue: Decodable {
     let curationProducts: CurationEntity?
-    let eventImages: EventImageEntity?
+    let eventBanners: EventImageEntity?
     
     enum CodingKeys: CodingKey {
         case curationProducts
-        case eventImages
+        case eventBanners
     }
     
-    init(curationProducts: CurationEntity? = nil, eventImages: EventImageEntity? = nil) {
+    init(curationProducts: CurationEntity? = nil, eventBanners: EventImageEntity? = nil) {
         self.curationProducts = curationProducts
-        self.eventImages = eventImages
+        self.eventBanners = eventBanners
     }
     
     init(from decoder: Decoder) throws {
@@ -39,7 +39,7 @@ struct HomeBannerValue: Decodable {
         }
         
         if let value = try? container.decode(EventImageEntity.self) {
-            self = .init(eventImages: value)
+            self = .init(eventBanners: value)
             return
         }
         
