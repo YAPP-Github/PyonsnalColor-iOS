@@ -46,7 +46,8 @@ final class EventDetailViewController: UIViewController,
     func update(with imageURL: String, store: ConvenienceStore) {
         if let imageURL = URL(string: imageURL) {
             viewHolder.eventImageView.setImage(with: imageURL) { [weak self] in
-                self?.viewHolder.updateImageViewHeight()
+                guard let self else { return }
+                self.viewHolder.updateImageViewHeight(with: self.view)
             }
         }
         viewHolder.backNavigationView.payload = .init(
@@ -59,8 +60,9 @@ final class EventDetailViewController: UIViewController,
     func update(with eventDetail: EventBannerDetailEntity) {
         if let imageURL = URL(string: eventDetail.detailImage) {
             viewHolder.eventImageView.setImage(with: imageURL) { [weak self] in
-                self?.viewHolder.updateImageViewHeight()
-                self?.addEventView(userEvent: eventDetail.userEvent, links: eventDetail.links)
+                guard let self else { return }
+                self.viewHolder.updateImageViewHeight(with: self.view)
+                self.addEventView(userEvent: eventDetail.userEvent, links: eventDetail.links)
             }
         }
         viewHolder.backNavigationView.payload = .init(mode: .text, title: "이벤트")
@@ -158,12 +160,13 @@ extension EventDetailViewController {
             }
         }
         
-        func updateImageViewHeight() {
+        func updateImageViewHeight(with view: UIView) {
+            guard let image = eventImageView.image,
+                  image.size.width > 0 else { return }
             eventImageView.snp.makeConstraints {
-                if let image = eventImageView.image {
-                    let scale = image.size.width / eventImageView.bounds.width
-                    $0.height.equalTo(image.size.height / scale)
-                }
+                let ratio = view.bounds.width / image.size.width
+                let scaledHeight = image.size.height * ratio
+                $0.height.equalTo(scaledHeight)
             }
         }
           
