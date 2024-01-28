@@ -139,6 +139,7 @@ extension FoodChemistryEventView: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension FoodChemistryEventView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard links.count > indexPath.item else { return }
         let url = links[indexPath.item]
         delegate?.didSelectFoodResult(urlString: url)
     }

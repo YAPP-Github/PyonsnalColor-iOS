@@ -77,17 +77,17 @@ final class LaunchingEventView: UIView {
         foodTestButton
             .tapPublisher
             .sink { [weak self] in
-                guard let self else { return }
+                guard let link = self?.links.first else { return }
                 
-                self.delegate?.didSelectFoodResult(urlString: self.links[0])
+                self?.delegate?.didSelectFoodResult(urlString: link)
             }.store(in: &cancellable)
         
         eventVerifyButton
             .tapPublisher
             .sink { [weak self] in
-                guard let self else { return }
+                guard let link = self?.links.last else { return }
                 
-                self.delegate?.didSelectFoodResult(urlString: self.links[1])
+                self?.delegate?.didSelectFoodResult(urlString: link)
             }.store(in: &cancellable)
     }
 }
