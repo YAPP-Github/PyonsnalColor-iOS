@@ -80,8 +80,7 @@ final class EventDetailViewController: UIViewController,
     private func addEventView(userEvent: UserEvent, links: [String]) {
         switch userEvent {
         case .foodChemistryEvent:
-            let urls = Array(repeating: "https://www.metavv.com/ko/content/preview/result/10895901/1?score=INFJ", count: 48)
-            let foodChemistryView = FoodChemistryEventView(links: urls)
+            let foodChemistryView = FoodChemistryEventView(links: links)
             foodChemistryView.delegate = self
             
             viewHolder.eventImageView.addSubview(foodChemistryView)
