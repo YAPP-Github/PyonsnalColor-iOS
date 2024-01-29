@@ -41,6 +41,7 @@ final class FoodChemistryEventView: UIView {
     let foodCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
