@@ -112,6 +112,16 @@ extension CommonWebViewController: WKNavigationDelegate {
         setIndicatorView(isToShow: false)
     }
     
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url,
+           navigationAction.navigationType == .linkActivated {
+            UIApplication.shared.open(url)
+        }
+        return decisionHandler(.allow)
+    }
+
+    
 }
 
 extension CommonWebViewController {
