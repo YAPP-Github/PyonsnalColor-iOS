@@ -103,6 +103,8 @@
 		B2C25CDA2B65166E005C6F0D /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C25CD72B65166E005C6F0D /* EmptyResponse.swift */; };
 		B2C25CDB2B65166E005C6F0D /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C25CD82B65166E005C6F0D /* ProductType.swift */; };
 		B2C25CDC2B65166E005C6F0D /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C25CD92B65166E005C6F0D /* ErrorResponse.swift */; };
+		B2EECB692B6A6EFD00B328C1 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB682B6A6EFD00B328C1 /* PopupView.swift */; };
+		B2EECB6B2B6A71E000B328C1 /* PopupViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB6A2B6A71E000B328C1 /* PopupViewDelegate.swift */; };
 		B2EFFAB92ACBF63D007AF2EE /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFAB82ACBF63D007AF2EE /* StarView.swift */; };
 		B2EFFABB2ACBF680007AF2EE /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */; };
 		B2EFFABD2ACBF69C007AF2EE /* StarRatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */; };
@@ -422,6 +424,8 @@
 		B2C25CD72B65166E005C6F0D /* EmptyResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		B2C25CD82B65166E005C6F0D /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		B2C25CD92B65166E005C6F0D /* ErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		B2EECB682B6A6EFD00B328C1 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		B2EECB6A2B6A71E000B328C1 /* PopupViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewDelegate.swift; sourceTree = "<group>"; };
 		B2EFFAB82ACBF63D007AF2EE /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatedView.swift; sourceTree = "<group>"; };
@@ -962,6 +966,15 @@
 			path = LauncingEvent;
 			sourceTree = "<group>";
 		};
+		B2EECB672B6A6EEC00B328C1 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				B2EECB682B6A6EFD00B328C1 /* PopupView.swift */,
+				B2EECB6A2B6A71E000B328C1 /* PopupViewDelegate.swift */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
 		B2F169D42A3471EB008199D8 /* RootTabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1401,6 +1414,7 @@
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B2EECB672B6A6EEC00B328C1 /* Popup */,
 				B248917D2B5FA086009D0FBF /* UserEvent */,
 				B224963E2ABAEB8E00BC6B09 /* Review */,
 				F0E915AD2AA87B86000919DA /* Combine */,
@@ -2114,6 +2128,7 @@
 				F0C698652A6BA9B00019C677 /* CategoryFilterCell.swift in Sources */,
 				B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */,
 				B24891652B3AD343009D0FBF /* EventImageEntity.swift in Sources */,
+				B2EECB692B6A6EFD00B328C1 /* PopupView.swift in Sources */,
 				BA6CAB842AE8509900B9E1BF /* ReviewHateCountEntity.swift in Sources */,
 				B28A59322A73B08000431F39 /* RecommendFilterCell.swift in Sources */,
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
@@ -2132,6 +2147,7 @@
 				F097EF2C2A57181B00A7FB9C /* TermsOfUseUrl.swift in Sources */,
 				F00352212A62B9F000A66FF9 /* AuthType.swift in Sources */,
 				BA8322512AB6F40A00D2E1EB /* ReviewMetaView.swift in Sources */,
+				B2EECB6B2B6A71E000B328C1 /* PopupViewDelegate.swift in Sources */,
 				F013DECB2AFF6BFA00A1F34C /* FavoriteHomeDelegate.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				F01535452A45A6F800A2A8F2 /* ItemHeaderTitleView.swift in Sources */,
