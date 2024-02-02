@@ -17,6 +17,8 @@ protocol EventHomeRouting: ViewableRouting {
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
+    func attachLoginPopup()
+    func detachLoginPopup()
 }
 
 protocol EventHomePresentable: Presentable {
@@ -129,11 +131,15 @@ final class EventHomeInteractor:
     }
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
-        switch action {
-        case .add:
-            addFavorite(with: product)
-        case .delete:
-            deleteFavorite(with: product)
+        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            switch action {
+            case .add:
+                addFavorite(with: product)
+            case .delete:
+                deleteFavorite(with: product)
+            }
         }
     }
     
@@ -300,5 +306,14 @@ final class EventHomeInteractor:
         filterStateManager?.updateAllFilterItemState(to: false)
         filterStateManager?.deleteAllFilterList()
         filterStateManager?.setSortFilterDefaultText()
+    }
+    
+    func popupDidTapDismiss() {
+        router?.detachLoginPopup()
+    }
+    
+    func popupDidTapConfirm() {
+        router?.detachLoginPopup()
+        // TODO: LoggedOut 이동
     }
 }

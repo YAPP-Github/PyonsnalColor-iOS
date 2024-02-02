@@ -7,7 +7,10 @@
 
 import ModernRIBs
 
-protocol ProductDetailInteractable: Interactable, StarRatingReviewListener, ProductFilterListener {
+protocol ProductDetailInteractable: Interactable, 
+                                    StarRatingReviewListener,
+                                    ProductFilterListener,
+                                    LoginPopupListener {
     var router: ProductDetailRouting? { get set }
     var listener: ProductDetailListener? { get set }
 }
@@ -20,19 +23,26 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
     
     private let productFilter: ProductFilterBuildable
     private var productFilterRouting: ProductFilterRouting?
-    private let starRatingReviewBuilder: StarRatingReviewBuildable
+    
+    private let starRatingReview: StarRatingReviewBuildable
     private var starRatingReviewRouting: StarRatingReviewRouting?
+    
+    private let loginPopup: LoginPopupBuildable
+    private var loginPopupRouting: LoginPopupRouting?
 
     // TODO: Constructor inject child builder protocols to allow building children.
 
     init(
         interactor: ProductDetailInteractable,
         viewController: ProductDetailViewControllable,
-        starRatingReviewBuilder: StarRatingReviewBuildable,
-        productFilter: ProductFilterBuildable
+        starRatingReview: StarRatingReviewBuildable,
+        productFilter: ProductFilterBuildable,
+        loginPopup: LoginPopupBuildable
     ) {
-        self.starRatingReviewBuilder = starRatingReviewBuilder
+        self.starRatingReview = starRatingReview
         self.productFilter = productFilter
+        self.loginPopup = loginPopup
+        
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -40,7 +50,7 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
     func attachStarRatingReview(with productDetail: ProductDetailEntity) {
         guard starRatingReviewRouting == nil else { return }
         
-        let starRatingReviewRouter = starRatingReviewBuilder.build(
+        let starRatingReviewRouter = starRatingReview.build(
             withListener: interactor,
             productDetail: productDetail
         )
@@ -76,5 +86,28 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
         viewController.uiviewController.dismiss(animated: false)
         self.productFilterRouting = nil
         detachChild(productFilterRouting)
+    }
+    
+    func attachLoginPopup() {
+        guard loginPopupRouting == nil else { return }
+        
+        let loginPopupRouter = loginPopup.build(withListener: interactor)
+        let viewController = loginPopupRouter.viewControllable.uiviewController
+        
+        loginPopupRouting = loginPopupRouter
+        attachChild(loginPopupRouter)
+        viewController.modalPresentationStyle = .overFullScreen
+        viewControllable.uiviewController.present(
+            loginPopupRouter.viewControllable.uiviewController,
+            animated: false
+        )
+    }
+    
+    func detachLoginPopup() {
+        guard let loginPopupRouting else { return }
+        
+        viewControllable.uiviewController.dismiss(animated: false)
+        detachChild(loginPopupRouting)
+        self.loginPopupRouting = nil
     }
 }

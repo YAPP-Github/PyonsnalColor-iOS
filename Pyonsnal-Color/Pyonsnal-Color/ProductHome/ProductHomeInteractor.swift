@@ -160,7 +160,7 @@ final class ProductHomeInteractor:
     }
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
-        if let isGuest = UserInfoService.shared.isMemberGuest {
+        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
             router?.attachLoginPopup()
         } else {
             switch action {

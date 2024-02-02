@@ -11,7 +11,8 @@ protocol EventHomeInteractable: Interactable,
                                 ProductSearchListener,
                                 EventDetailListener,
                                 ProductDetailListener,
-                                ProductFilterListener {
+                                ProductFilterListener,
+                                LoginPopupListener {
     var router: EventHomeRouting? { get set }
     var listener: EventHomeListener? { get set }
 }
@@ -27,11 +28,13 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
     private let eventDetailBuilder: EventDetailBuilder
     private let productDetail: ProductDetailBuildable
     private let productFilter: ProductFilterBuildable
+    private let loginPopup: LoginPopupBuildable
     
     private var productSearchRouting: ProductSearchRouting?
     private var eventDetailRouting: ViewableRouting?
     private var productDetailRouting: ProductDetailRouting?
     private var productFilterRouting: ProductFilterRouting?
+    private var loginPopupRouting: LoginPopupRouting?
 
     init(
         interactor: EventHomeInteractable,
@@ -39,12 +42,14 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         productSearch: ProductSearchBuildable,
         eventDetailBuilder: EventDetailBuilder,
         productDetail: ProductDetailBuildable,
-        productFilter: ProductFilterBuildable
+        productFilter: ProductFilterBuildable,
+        loginPopup: LoginPopupBuildable
     ) {
         self.productSearch = productSearch
         self.eventDetailBuilder = eventDetailBuilder
         self.productDetail = productDetail
         self.productFilter = productFilter
+        self.loginPopup = loginPopup
         super.init(interactor: interactor,
                    viewController: viewController)
         interactor.router = self
@@ -133,5 +138,28 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         viewController.uiviewController.dismiss(animated: false)
         detachChild(productFilterRouting)
         self.productFilterRouting = nil
+    }
+    
+    func attachLoginPopup() {
+        guard loginPopupRouting == nil else { return }
+        
+        let loginPopupRouter = loginPopup.build(withListener: interactor)
+        let viewController = loginPopupRouter.viewControllable.uiviewController
+        
+        loginPopupRouting = loginPopupRouter
+        attachChild(loginPopupRouter)
+        viewController.modalPresentationStyle = .overFullScreen
+        viewControllable.uiviewController.present(
+            loginPopupRouter.viewControllable.uiviewController,
+            animated: false
+        )
+    }
+    
+    func detachLoginPopup() {
+        guard let loginPopupRouting else { return }
+        
+        viewControllable.uiviewController.dismiss(animated: false)
+        detachChild(loginPopupRouting)
+        self.loginPopupRouting = nil
     }
 }

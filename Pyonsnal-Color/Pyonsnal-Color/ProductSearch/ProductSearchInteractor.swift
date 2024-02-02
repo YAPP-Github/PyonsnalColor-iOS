@@ -16,6 +16,8 @@ protocol ProductSearchRouting: ViewableRouting {
     func detachProductFilter()
     func attachProductDetail(with product: ProductDetailEntity)
     func detachProductDetail()
+    func attachLoginPopup()
+    func detachLoginPopup()
 }
 
 protocol ProductSearchPresentable: Presentable {
@@ -176,11 +178,15 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     }
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
-        switch action {
-        case .add:
-            addFavorite(with: product)
-        case .delete:
-            deleteFavorite(with: product)
+        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            switch action {
+            case .add:
+                addFavorite(with: product)
+            case .delete:
+                deleteFavorite(with: product)
+            }
         }
     }
     
@@ -289,4 +295,13 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
         requestSort(filterItem: item)
         router?.detachProductFilter()
     }
+    
+    func popupDidTapDismiss() {
+        router?.detachLoginPopup()
+    }
+    
+    func popupDidTapConfirm() {
+        router?.detachLoginPopup()
+    }
+
 }

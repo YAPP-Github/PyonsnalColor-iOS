@@ -16,7 +16,8 @@ final class EventHomeComponent: Component<EventHomeDependency>,
                                 ProductSearchDependency,
                                 EventDetailDependency,
                                 ProductDetailDependency,
-                                ProductFilterDependency {
+                                ProductFilterDependency,
+                                LoginPopupDependency {
     let productAPIService: ProductAPIService
     let favoriteAPIService: FavoriteAPIService
     
@@ -45,17 +46,21 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
         let eventDetailBuilder = EventDetailBuilder(dependency: component)
         let productDetail: ProductDetailBuilder = .init(dependency: component)
         let productFilter: ProductFilterBuilder = .init(dependency: component)
+        let loginPopup: LoginPopupBuilder = .init(dependency: component)
         let interactor = EventHomeInteractor(
             presenter: viewController,
             dependency: dependency
         )
         let productSearch: ProductSearchBuilder = .init(dependency: component)
         interactor.listener = listener
-        return EventHomeRouter(interactor: interactor,
-                               viewController: viewController,
-                               productSearch: productSearch,
-                               eventDetailBuilder: eventDetailBuilder,
-                               productDetail: productDetail,
-                               productFilter: productFilter)
+        return EventHomeRouter(
+            interactor: interactor,
+            viewController: viewController,
+            productSearch: productSearch,
+            eventDetailBuilder: eventDetailBuilder,
+            productDetail: productDetail,
+            productFilter: productFilter,
+            loginPopup: loginPopup
+        )
     }
 }
