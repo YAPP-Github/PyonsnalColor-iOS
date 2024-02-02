@@ -33,7 +33,7 @@ extension LoginPopupViewController {
         
         func configureConstraints(for view: UIView) {
             backgroundView.snp.makeConstraints {
-                $0.edges.equalTo(view.safeAreaLayoutGuide)
+                $0.edges.equalTo(view)
             }
             
             popupView.snp.makeConstraints {

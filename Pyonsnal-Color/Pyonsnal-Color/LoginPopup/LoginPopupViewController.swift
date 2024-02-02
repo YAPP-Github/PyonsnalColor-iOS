@@ -17,7 +17,7 @@ final class LoginPopupViewController: UIViewController, LoginPopupPresentable, L
 
     enum Constant {
         static let popupTitle: String = "로그인이 필요한 기능입니다."
-        static let popupDescription: String = "지금 바로 편스널컬러의 회원이 되어 모든 기능을 이용해보세요!"
+        static let popupDescription: String = "지금 바로 편스널컬러의 회원이 되어\n모든 기능을 이용해보세요!"
         static let dismissText: String = "닫기"
         static let confirmText: String = "로그인하기"
     }

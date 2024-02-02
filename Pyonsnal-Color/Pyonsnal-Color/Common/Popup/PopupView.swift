@@ -62,12 +62,13 @@ final class PopupView: UIView {
 extension PopupView {
     
     enum Constant {
-            static let topBottomMargin: CGFloat = .spacing40
-            static let leftRightMargin: CGFloat = .spacing20
-            static let titleStackViewSpacing: CGFloat = .spacing8
-            static let buttonStackViewSpacing: CGFloat = .spacing16
-            static let buttonWidth: CGFloat = 151
-            static let buttonHeight: CGFloat = 52
+        static let topMargin: CGFloat = .spacing40
+        static let bottomMargin: CGFloat = .spacing20
+        static let leftRightMargin: CGFloat = .spacing20
+        static let titleStackViewSpacing: CGFloat = .spacing8
+        static let buttonStackViewSpacing: CGFloat = .spacing16
+        static let buttonWidth: CGFloat = 151
+        static let buttonHeight: CGFloat = 52
     }
     
     final class ViewHolder: ViewHolderable {
@@ -97,6 +98,8 @@ extension PopupView {
             let label = UILabel()
             label.font = .body2r
             label.textColor = .gray500
+            label.numberOfLines = 0
+            label.textAlignment = .center
             return label
         }()
         
@@ -142,12 +145,12 @@ extension PopupView {
             }
             
             textStackView.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(Constant.topBottomMargin)
+                $0.top.lessThanOrEqualToSuperview().offset(Constant.topMargin)
                 $0.centerX.equalToSuperview()
             }
             
             buttonStackView.snp.makeConstraints {
-                $0.bottom.equalToSuperview().inset(Constant.topBottomMargin)
+                $0.bottom.equalToSuperview().inset(Constant.bottomMargin)
                 $0.centerX.equalToSuperview()
             }
             
@@ -156,7 +159,7 @@ extension PopupView {
             }
             
             descriptionLabel.snp.makeConstraints {
-                $0.height.equalTo(titleLabel.font.customLineHeight)
+                $0.height.greaterThanOrEqualTo(titleLabel.font.customLineHeight)
             }
             
             dismissButton.snp.makeConstraints {
