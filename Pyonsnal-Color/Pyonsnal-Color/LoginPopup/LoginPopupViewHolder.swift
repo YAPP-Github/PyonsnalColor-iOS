@@ -23,7 +23,7 @@ extension LoginPopupViewController {
             return view
         }()
         
-        let popupView = PopupView()
+        let popupView = PopupView(state: .normal)
         
         func place(in view: UIView) {
             view.addSubview(backgroundView)

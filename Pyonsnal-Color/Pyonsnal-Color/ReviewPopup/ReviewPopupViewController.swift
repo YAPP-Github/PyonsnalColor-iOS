@@ -40,8 +40,7 @@ final class ReviewPopupViewController: UIViewController, ReviewPopupPresentable,
     convenience init(isApply: Bool) {
         self.init()
         
-        configureText(isApply: isApply)
-        configureButtonAction(isApply: isApply)
+        configurePopupView(isApply: isApply)
     }
     
     override func viewDidLoad() {
@@ -52,75 +51,47 @@ final class ReviewPopupViewController: UIViewController, ReviewPopupPresentable,
         configureView()
     }
     
-    private func configureText(isApply: Bool) {
+    private func configurePopupView(isApply: Bool) {
         if isApply {
-            viewHolder.titleLabel.text = Text.Apply.title
-            viewHolder.descriptionLabel.text = Text.Apply.description
-            viewHolder.dismissButton.setCustomFont(
-                text: Text.Apply.dismiss,
-                color: .black,
-                font: .body2m
-            )
-            viewHolder.confirmButton.setCustomFont(
-                text: Text.Apply.confirm,
-                color: .red500,
-                font: .body2m
+            viewHolder.popupView = .init(state: .normal)
+            viewHolder.popupView.delegate = self
+            viewHolder.popupView.configurePopup(
+                title: Text.Apply.title,
+                description: Text.Apply.description,
+                dismissText: Text.Apply.dismiss,
+                confirmText: Text.Apply.confirm
             )
         } else {
-            viewHolder.titleLabel.text = Text.Cancel.title
-            viewHolder.descriptionLabel.text = Text.Cancel.description
-            viewHolder.dismissButton.setCustomFont(
-                text: Text.Cancel.dismiss,
-                color: .black,
-                font: .body2m
+            viewHolder.popupView = .init(state: .reversed)
+            viewHolder.popupView.delegate = self
+            viewHolder.popupView.configurePopup(
+                title: Text.Cancel.title,
+                description: Text.Cancel.description,
+                dismissText: Text.Cancel.confirm,
+                confirmText: Text.Cancel.dismiss
             )
-            viewHolder.confirmButton.setCustomFont(
-                text: Text.Cancel.confirm,
-                color: .red500,
-                font: .body2m
-            )
-        }
-    }
-    
-    private func configureButtonAction(isApply: Bool) {
-        if isApply {
-            viewHolder.dismissButton
-                .tapPublisher
-                .sink { [weak self] in
-                    self?.didTapDismissButton()
-                }.store(in: &cancellable)
-            viewHolder.confirmButton
-                .tapPublisher
-                .sink { [weak self] in
-                    self?.didTapApplyButton()
-                }.store(in: &cancellable)
-        } else {
-            viewHolder.dismissButton
-                .tapPublisher
-                .sink { [weak self] in
-                    self?.didTapBackButton()
-                }.store(in: &cancellable)
-            viewHolder.confirmButton
-                .tapPublisher
-                .sink { [weak self] in
-                    self?.didTapDismissButton()
-                }.store(in: &cancellable)
         }
     }
     
     private func configureView() {
-        view.backgroundColor = .black.withAlphaComponent(0.7)
+        view.backgroundColor = .black.withAlphaComponent(0.4)
+    }
+}
+
+extension ReviewPopupViewController: PopupViewDelegate {
+    func didTapDismissButton() {
+        if viewHolder.popupView.state == .normal {
+            listener?.didTapDismissButton()
+        } else {
+            listener?.didTapBackButton()
+        }
     }
     
-    private func didTapDismissButton() {
-        listener?.didTapDismissButton()
-    }
-    
-    private func didTapApplyButton() {
-        listener?.didTapApplyButton()
-    }
-    
-    private func didTapBackButton() {
-        listener?.didTapBackButton()
+    func didTapConfirmButton() {
+        if viewHolder.popupView.state == .normal {
+            listener?.didTapApplyButton()
+        } else {
+            listener?.didTapDismissButton()
+        }
     }
 }

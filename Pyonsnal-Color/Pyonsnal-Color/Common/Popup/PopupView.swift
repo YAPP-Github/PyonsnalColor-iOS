@@ -11,15 +11,22 @@ import SnapKit
 
 final class PopupView: UIView {
     
+    enum State {
+        case normal
+        case reversed
+    }
+    
     // MARK: Property
     private let viewHolder: ViewHolder = .init()
     private var cancellable: Set<AnyCancellable> = .init()
+    private(set) var state: State
     
     // MARK: Interface
     weak var delegate: PopupViewDelegate?
     
     // MARK: Initializer
-    init() {
+    init(state: State) {
+        self.state = state
         super.init(frame: .zero)
         
         viewHolder.place(in: self)
@@ -46,17 +53,32 @@ final class PopupView: UIView {
     
     // MARK: Private Method
     private func configureButtons() {
-        viewHolder.dismissButton
-            .tapPublisher
-            .sink { [weak self] in
-                self?.delegate?.didTapDismissButton()
-            }.store(in: &cancellable)
-        
-        viewHolder.confirmButton
-            .tapPublisher
-            .sink { [weak self] in
-                self?.delegate?.didTapConfirmButton()
-            }.store(in: &cancellable)
+        switch state {
+        case .normal:
+            viewHolder.dismissButton
+                .tapPublisher
+                .sink { [weak self] in
+                    self?.delegate?.didTapDismissButton()
+                }.store(in: &cancellable)
+            
+            viewHolder.confirmButton
+                .tapPublisher
+                .sink { [weak self] in
+                    self?.delegate?.didTapConfirmButton()
+                }.store(in: &cancellable)
+        case .reversed:
+            viewHolder.dismissButton
+                .tapPublisher
+                .sink { [weak self] in
+                    self?.delegate?.didTapConfirmButton()
+                }.store(in: &cancellable)
+            
+            viewHolder.confirmButton
+                .tapPublisher
+                .sink { [weak self] in
+                    self?.delegate?.didTapDismissButton()
+                }.store(in: &cancellable)
+        }
     }
 }
 
