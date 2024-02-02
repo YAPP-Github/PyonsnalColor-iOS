@@ -7,7 +7,7 @@
 
 import ModernRIBs
 
-protocol ProductHomeInteractable: Interactable, ProductSearchListener, NotificationListListener, ProductDetailListener, ProductFilterListener, EventDetailListener {
+protocol ProductHomeInteractable: Interactable, ProductSearchListener, NotificationListListener, ProductDetailListener, ProductFilterListener, EventDetailListener, LoginPopupListener {
     var router: ProductHomeRouting? { get set }
     var listener: ProductHomeListener? { get set }
 }
@@ -24,12 +24,14 @@ final class ProductHomeRouter:
     private let productDetail: ProductDetailBuildable
     private let productFilter: ProductFilterBuildable
     private let eventDetail: EventDetailBuildable
+    private let loginPopup: LoginPopupBuildable
     
     private var productSearchRouting: ProductSearchRouting?
     private var notificationListRouting: NotificationListRouting?
     private var productDetailRouting: ProductDetailRouting?
     private var productFilterRouting: ProductFilterRouting?
     private var eventDetailRouting: EventDetailRouting?
+    private var loginPopupRouting: LoginPopupRouting?
     
     init(
         interactor: ProductHomeInteractable,
@@ -38,13 +40,15 @@ final class ProductHomeRouter:
         notificationList: NotificationListBuildable,
         productDetail: ProductDetailBuildable,
         productFilter: ProductFilterBuildable,
-        eventDetail: EventDetailBuildable
+        eventDetail: EventDetailBuildable,
+        loginPopup: LoginPopupBuildable
     ) {
         self.productSearch = productSearch
         self.notificationList = notificationList
         self.productDetail = productDetail
         self.productFilter = productFilter
         self.eventDetail = eventDetail
+        self.loginPopup = loginPopup
         super.init(interactor: interactor, viewController: viewController)
         
         interactor.router = self
@@ -155,5 +159,28 @@ final class ProductHomeRouter:
         viewController.popViewController(animated: true)
         detachChild(eventDetailRouting)
         self.eventDetailRouting = nil
+    }
+    
+    func attachLoginPopup() {
+        guard loginPopupRouting == nil else { return }
+        
+        let loginPopupRouter = loginPopup.build(withListener: interactor)
+        let viewController = loginPopupRouter.viewControllable.uiviewController
+        
+        loginPopupRouting = loginPopupRouter
+        attachChild(loginPopupRouter)
+        viewController.modalPresentationStyle = .overFullScreen
+        viewControllable.uiviewController.present(
+            loginPopupRouter.viewControllable.uiviewController,
+            animated: false
+        )
+    }
+    
+    func detachLoginPopup() {
+        guard let loginPopupRouting else { return }
+        
+        viewControllable.uiviewController.dismiss(animated: false)
+        detachChild(loginPopupRouting)
+        self.loginPopupRouting = nil
     }
 }

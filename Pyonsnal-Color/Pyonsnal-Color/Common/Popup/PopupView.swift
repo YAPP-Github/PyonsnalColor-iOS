@@ -24,6 +24,7 @@ final class PopupView: UIView {
         
         viewHolder.place(in: self)
         viewHolder.configureConstraints(for: self)
+        configureButtons()
     }
     
     required init?(coder: NSCoder) {

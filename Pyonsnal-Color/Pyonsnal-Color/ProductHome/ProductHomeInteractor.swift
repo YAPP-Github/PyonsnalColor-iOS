@@ -19,6 +19,8 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachProductFilter()
     func attachEventDetail(eventDetail: EventBannerDetailEntity)
     func detachEventDetail()
+    func attachLoginPopup()
+    func detachLoginPopup()
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -158,11 +160,15 @@ final class ProductHomeInteractor:
     }
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
-        switch action {
-        case .add:
-            addFavorite(with: product)
-        case .delete:
-            deleteFavorite(with: product)
+        if let isGuest = UserInfoService.shared.isMemberGuest {
+            router?.attachLoginPopup()
+        } else {
+            switch action {
+            case .add:
+                addFavorite(with: product)
+            case .delete:
+                deleteFavorite(with: product)
+            }
         }
     }
     
@@ -287,5 +293,14 @@ final class ProductHomeInteractor:
         filterStateManager?.updateAllFilterItemState(to: false)
         filterStateManager?.deleteAllFilterList()
         filterStateManager?.setSortFilterDefaultText()
+    }
+    
+    func popupDidTapDismiss() {
+        router?.detachLoginPopup()
+    }
+    
+    func popupDidTapConfirm() {
+        router?.detachLoginPopup()
+        // TODO: LoggedOut 리블렛 연결
     }
 }

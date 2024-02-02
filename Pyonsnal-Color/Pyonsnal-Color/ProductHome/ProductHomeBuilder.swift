@@ -17,7 +17,8 @@ final class ProductHomeComponent: Component<ProductHomeDependency>,
                                   NotificationListDependency,
                                   ProductDetailDependency,
                                   ProductFilterDependency,
-                                  EventDetailDependency {
+                                  EventDetailDependency,
+                                  LoginPopupDependency {
     let productAPIService: ProductAPIService
     let favoriteAPIService: FavoriteAPIService
     
@@ -53,6 +54,7 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         let productDetail: ProductDetailBuilder = .init(dependency: component)
         let productFilter: ProductFilterBuilder = .init(dependency: component)
         let eventDetail: EventDetailBuilder = .init(dependency: component)
+        let loginPopup: LoginPopupBuilder = .init(dependency: component)
         
         interactor.listener = listener
         return ProductHomeRouter(
@@ -62,7 +64,8 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
             notificationList: notificationList,
             productDetail: productDetail,
             productFilter: productFilter,
-            eventDetail: eventDetail
+            eventDetail: eventDetail,
+            loginPopup: loginPopup
         )
     }
 }
