@@ -17,6 +17,7 @@ protocol RootTabBarPresentable: Presentable {
 
 protocol RootTabBarListener: AnyObject {
     func routeToLoggedOut()
+    func routeToLoggedIn()
 }
 
 final class RootTabBarInteractor:
@@ -44,5 +45,9 @@ final class RootTabBarInteractor:
     
     func routeToLoggedOut() {
         listener?.routeToLoggedOut()
+    }
+    
+    func routeToLoggedIn() {
+        listener?.routeToLoggedIn()
     }
 }

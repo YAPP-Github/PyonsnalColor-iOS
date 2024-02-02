@@ -13,12 +13,13 @@ final class ProductAPIService {
     
     private let client: PyonsnalColorClient
     private let userAuthService: UserAuthService
-    private var accessToken: String?
+    private var accessToken: String? {
+        return userAuthService.getAccessToken()
+    }
     
     init(client: PyonsnalColorClient, userAuthService: UserAuthService) {
         self.client = client
         self.userAuthService = userAuthService
-        self.accessToken = userAuthService.getAccessToken()
     }
     
     func requestBrandProduct(

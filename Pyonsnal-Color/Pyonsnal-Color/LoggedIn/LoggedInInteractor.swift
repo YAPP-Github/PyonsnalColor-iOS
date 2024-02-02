@@ -13,7 +13,8 @@ protocol LoggedInRouting: Routing {
 }
 
 protocol LoggedInListener: AnyObject {
-    func routeToLoggedOutFromLogout()
+    func routeToLoggedOutFromLoggedIn()
+    func routeToLoggedInFromLoggedOut()
 }
 
 final class LoggedInInteractor: Interactor, LoggedInInteractable {
@@ -33,6 +34,10 @@ final class LoggedInInteractor: Interactor, LoggedInInteractable {
     }
     
     func routeToLoggedOut() {
-        listener?.routeToLoggedOutFromLogout()
+        listener?.routeToLoggedOutFromLoggedIn()
+    }
+    
+    func routeToLoggedIn() {
+        listener?.routeToLoggedInFromLoggedOut()
     }
 }

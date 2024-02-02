@@ -7,6 +7,7 @@
 
 struct UserAuthEntity: Codable {
     let isFirstLogin: Bool
+    let isGuest: Bool
     let accessToken: String
     let refreshToken: String
 }

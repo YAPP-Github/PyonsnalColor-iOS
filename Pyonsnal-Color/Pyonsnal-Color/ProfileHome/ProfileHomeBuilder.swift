@@ -13,14 +13,22 @@ protocol ProfileHomeDependency: Dependency {
 final class ProfileHomeComponent: Component<ProfileHomeDependency>,
                                   ProfileEditDependency,
                                   AccountSettingDependency,
-                                  CommonWebDependency {
-    
+                                  CommonWebDependency,
+                                  LoggedOutDependency {
+    var appleLoginService: AppleLoginService
+    var kakaoLoginService: KakaoLoginService
+    var authClient: AuthAPIService
+    var userAuthService: UserAuthService
     var memberAPIService: MemberAPIService
     
     override init(dependency: ProfileHomeDependency) {
         let pyonsnalColorClient = PyonsnalColorClient()
         let keyChainService = KeyChainService.shared
         let usetAuthService = UserAuthService(keyChainService: keyChainService)
+        self.appleLoginService = AppleLoginService()
+        self.kakaoLoginService = KakaoLoginService()
+        self.authClient = .init(client: pyonsnalColorClient)
+        self.userAuthService = usetAuthService
         self.memberAPIService = .init(client: pyonsnalColorClient,
                                       userAuthService: usetAuthService)
         super.init(dependency: dependency)
@@ -49,12 +57,15 @@ final class ProfileHomeBuilder: Builder<ProfileHomeDependency>,
         let profileEditBuilder = ProfileEditBuilder(dependency: component)
         let accountSettingBuilder = AccountSettingBuilder(dependency: component)
         let commonWebBuilder = CommonWebBuilder(dependency: component)
+        let loggedOutBuilder = LoggedOutBuilder(dependency: component)
+        
         return ProfileHomeRouter(
             interactor: interactor,
             viewController: viewController, 
             profileEditBuilder: profileEditBuilder,
             accountSettingBuilder: accountSettingBuilder,
-            commonWebBuilder: commonWebBuilder
+            commonWebBuilder: commonWebBuilder,
+            loggedOutBuilder: loggedOutBuilder
         )
     }
 }

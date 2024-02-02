@@ -22,7 +22,12 @@ final class KeyChainService: NSObject {
             kSecValueData : tokenData
         ]
         let status: OSStatus = SecItemAdd(query as CFDictionary, nil)
-        return status == errSecSuccess
+        if status == errSecSuccess { return true }
+        else if status == errSecDuplicateItem {
+            delete(with: key)
+            set(value: value, to: key)
+        }
+        return false
     }
     
     func get(with key: String) -> String? {

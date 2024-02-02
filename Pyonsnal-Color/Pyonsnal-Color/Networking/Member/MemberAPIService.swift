@@ -13,13 +13,14 @@ final class MemberAPIService {
     // MARK: - Private Property
     private let client: PyonsnalColorClient
     private let userAuthService: UserAuthService
-    private var accessToken: String?
+    private var accessToken: String? {
+        return userAuthService.getAccessToken()
+    }
     
     // MARK: - Initializer
     init(client: PyonsnalColorClient, userAuthService: UserAuthService) {
         self.client = client
         self.userAuthService = userAuthService
-        self.accessToken = userAuthService.getAccessToken()
     }
     
     // MARK: - Interface
