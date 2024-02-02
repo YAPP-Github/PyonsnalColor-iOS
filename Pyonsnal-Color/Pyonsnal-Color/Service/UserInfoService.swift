@@ -27,6 +27,9 @@ final class UserInfoService {
     var adId: String {
         ASIdentifierManager.shared().advertisingIdentifier.uuidString
     }
+    var isMemberGuest: Bool? {
+        return memberInfo?.isGuest
+    }
     
     // MARK: - Initializer
     
