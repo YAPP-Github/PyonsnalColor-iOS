@@ -41,9 +41,12 @@ final class ProductCell: UICollectionViewCell {
             .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
             .sink { [weak self] _ in
                 guard let self, let product = self.product else { return }
-                let isSelected = !self.viewHolder.favoriteButton.isSelected
-                self.setFavoriteButtonSelected(isSelected: isSelected)
                 
+                if let isGuest = UserInfoService.shared.isMemberGuest, !isGuest {
+                    let isSelected = !self.viewHolder.favoriteButton.isSelected
+                    self.setFavoriteButtonSelected(isSelected: isSelected)
+                }
+
                 let action: FavoriteButtonAction = self.getFavoriteButtonSelected() ? .add : .delete
                 self.delegate?.didTapFavoriteButton(product: product, action: action)
             }.store(in: &cancellable)

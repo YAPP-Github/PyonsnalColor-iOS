@@ -18,13 +18,23 @@ final class ProductHomeComponent: Component<ProductHomeDependency>,
                                   ProductDetailDependency,
                                   ProductFilterDependency,
                                   EventDetailDependency,
-                                  LoginPopupDependency {
+                                  LoginPopupDependency,
+                                  LoggedOutDependency {
+    var appleLoginService: AppleLoginService
+    var kakaoLoginService: KakaoLoginService
+    var authClient: AuthAPIService
+    var userAuthService: UserAuthService
     let productAPIService: ProductAPIService
     let favoriteAPIService: FavoriteAPIService
     
     override init(dependency: ProductHomeDependency) {
+        self.appleLoginService = AppleLoginService()
+        self.kakaoLoginService = KakaoLoginService()
+        self.authClient = AuthAPIService(client: PyonsnalColorClient())
+        self.userAuthService = UserAuthService(keyChainService: KeyChainService.shared)
         self.productAPIService = dependency.productAPIService
         self.favoriteAPIService = dependency.favoriteAPIService
+        
         super.init(dependency: dependency)
     }
 }
@@ -55,6 +65,7 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         let productFilter: ProductFilterBuilder = .init(dependency: component)
         let eventDetail: EventDetailBuilder = .init(dependency: component)
         let loginPopup: LoginPopupBuilder = .init(dependency: component)
+        let loggedOut: LoggedOutBuilder = .init(dependency: component)
         
         interactor.listener = listener
         return ProductHomeRouter(
@@ -65,7 +76,8 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
             productDetail: productDetail,
             productFilter: productFilter,
             eventDetail: eventDetail,
-            loginPopup: loginPopup
+            loginPopup: loginPopup,
+            loggedOut: loggedOut
         )
     }
 }

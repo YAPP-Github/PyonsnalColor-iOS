@@ -10,5 +10,4 @@ struct UserAuthEntity: Codable {
     let isGuest: Bool
     let accessToken: String
     let refreshToken: String
-    let isGuest: Bool
 }

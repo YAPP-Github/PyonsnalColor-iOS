@@ -229,4 +229,7 @@ final class FavoriteHomeInteractor: PresentableInteractor<FavoriteHomePresentabl
             self.loadMoreEventProducts()
         }
     }
+    
+    func routeToLoggedIn() {
+    }
 }

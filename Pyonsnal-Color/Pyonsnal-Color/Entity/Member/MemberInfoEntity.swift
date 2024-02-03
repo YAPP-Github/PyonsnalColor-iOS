@@ -15,5 +15,4 @@ struct MemberInfoEntity: Decodable {
     var memberId: Int
     var nickname: String
     var email: String
-    var isGuest: Bool
   }

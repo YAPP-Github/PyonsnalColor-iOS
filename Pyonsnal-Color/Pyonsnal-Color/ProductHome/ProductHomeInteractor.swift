@@ -21,6 +21,8 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachEventDetail()
     func attachLoginPopup()
     func detachLoginPopup()
+    func attachLoggedOut()
+    func detachLoggedOut(animated: Bool)
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -37,12 +39,12 @@ protocol ProductHomePresentable: Presentable {
 }
 
 protocol ProductHomeListener: AnyObject {
+    func routeToLoggedIn()
 }
 
-final class ProductHomeInteractor:
-    PresentableInteractor<ProductHomePresentable>,
-    ProductHomeInteractable,
-    ProductHomePresentableListener {
+final class ProductHomeInteractor: PresentableInteractor<ProductHomePresentable>,
+                                   ProductHomeInteractable,
+                                   ProductHomePresentableListener {
     
     weak var router: ProductHomeRouting?
     weak var listener: ProductHomeListener?
@@ -301,6 +303,15 @@ final class ProductHomeInteractor:
     
     func popupDidTapConfirm() {
         router?.detachLoginPopup()
-        // TODO: LoggedOut 리블렛 연결
+        router?.attachLoggedOut()
+    }
+    
+    func routeToLoggedIn() {
+        router?.detachLoggedOut(animated: false)
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut(animated: true)
     }
 }

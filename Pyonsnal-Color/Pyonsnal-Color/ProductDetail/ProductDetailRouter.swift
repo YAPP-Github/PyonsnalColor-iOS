@@ -10,7 +10,8 @@ import ModernRIBs
 protocol ProductDetailInteractable: Interactable, 
                                     StarRatingReviewListener,
                                     ProductFilterListener,
-                                    LoginPopupListener {
+                                    LoginPopupListener,
+                                    LoggedOutListener {
     var router: ProductDetailRouting? { get set }
     var listener: ProductDetailListener? { get set }
 }
@@ -29,6 +30,9 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
     
     private let loginPopup: LoginPopupBuildable
     private var loginPopupRouting: LoginPopupRouting?
+    
+    private let loggedOut: LoggedOutBuildable
+    private var loggedOutRouting: LoggedOutRouting?
 
     // TODO: Constructor inject child builder protocols to allow building children.
 
@@ -37,11 +41,13 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
         viewController: ProductDetailViewControllable,
         starRatingReview: StarRatingReviewBuildable,
         productFilter: ProductFilterBuildable,
-        loginPopup: LoginPopupBuildable
+        loginPopup: LoginPopupBuildable,
+        loggedOut: LoggedOutBuildable
     ) {
         self.starRatingReview = starRatingReview
         self.productFilter = productFilter
         self.loginPopup = loginPopup
+        self.loggedOut = loggedOut
         
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
@@ -109,5 +115,28 @@ final class ProductDetailRouter: ViewableRouter<ProductDetailInteractable, Produ
         viewControllable.uiviewController.dismiss(animated: false)
         detachChild(loginPopupRouting)
         self.loginPopupRouting = nil
+    }
+    
+    func attachLoggedOut() {
+        guard loggedOutRouting == nil else { return }
+        
+        let loggedOutRouter = loggedOut.build(withListener: interactor)
+        let viewController = loggedOutRouter.viewControllable.uiviewController
+        
+        loggedOutRouting = loggedOutRouter
+        attachChild(loggedOutRouter)
+        viewController.modalPresentationStyle = .overFullScreen
+        viewControllable.uiviewController.present(
+            viewController,
+            animated: true
+        )
+    }
+    
+    func detachLoggedOut(animated: Bool = true) {
+        guard let loggedOutRouting else { return }
+        
+        viewControllable.uiviewController.dismiss(animated: animated)
+        detachChild(loggedOutRouting)
+        self.loggedOutRouting = nil
     }
 }

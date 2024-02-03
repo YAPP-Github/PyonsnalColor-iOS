@@ -18,6 +18,8 @@ protocol ProductSearchRouting: ViewableRouting {
     func detachProductDetail()
     func attachLoginPopup()
     func detachLoginPopup()
+    func attachLoggedOut()
+    func detachLoggedOut(animated: Bool)
 }
 
 protocol ProductSearchPresentable: Presentable {
@@ -29,6 +31,7 @@ protocol ProductSearchPresentable: Presentable {
 protocol ProductSearchListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
     func popProductSearch()
+    func routeToLoggedIn()
 }
 
 final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresentable>, ProductSearchInteractable, ProductSearchPresentableListener {
@@ -302,6 +305,15 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     
     func popupDidTapConfirm() {
         router?.detachLoginPopup()
+        router?.attachLoggedOut()
     }
 
+    func routeToLoggedIn() {
+        router?.detachLoggedOut(animated: false)
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut(animated: true)
+    }
 }

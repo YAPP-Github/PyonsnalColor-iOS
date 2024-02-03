@@ -19,6 +19,8 @@ protocol EventHomeRouting: ViewableRouting {
     func detachProductFilter()
     func attachLoginPopup()
     func detachLoginPopup()
+    func attachLoggedOut()
+    func detachLoggedOut(animated: Bool)
 }
 
 protocol EventHomePresentable: Presentable {
@@ -33,6 +35,7 @@ protocol EventHomePresentable: Presentable {
 }
 
 protocol EventHomeListener: AnyObject {
+    func routeToLoggedIn()
 }
 
 final class EventHomeInteractor:
@@ -314,6 +317,15 @@ final class EventHomeInteractor:
     
     func popupDidTapConfirm() {
         router?.detachLoginPopup()
-        // TODO: LoggedOut 이동
+        router?.attachLoggedOut()
+    }
+    
+    func routeToLoggedIn() {
+        router?.detachLoggedOut(animated: false)
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut(animated: true)
     }
 }

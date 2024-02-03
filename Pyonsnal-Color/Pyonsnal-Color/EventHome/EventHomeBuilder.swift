@@ -17,11 +17,20 @@ final class EventHomeComponent: Component<EventHomeDependency>,
                                 EventDetailDependency,
                                 ProductDetailDependency,
                                 ProductFilterDependency,
-                                LoginPopupDependency {
+                                LoginPopupDependency,
+                                LoggedOutDependency {
+    var appleLoginService: AppleLoginService
+    var kakaoLoginService: KakaoLoginService
+    var authClient: AuthAPIService
+    var userAuthService: UserAuthService
     let productAPIService: ProductAPIService
     let favoriteAPIService: FavoriteAPIService
     
     override init(dependency: EventHomeDependency) {
+        self.appleLoginService = AppleLoginService()
+        self.kakaoLoginService = KakaoLoginService()
+        self.authClient = AuthAPIService(client: PyonsnalColorClient())
+        self.userAuthService = UserAuthService(keyChainService: KeyChainService.shared)
         self.productAPIService = dependency.productAPIService
         self.favoriteAPIService = dependency.favoriteAPIService
         super.init(dependency: dependency)
@@ -47,6 +56,8 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
         let productDetail: ProductDetailBuilder = .init(dependency: component)
         let productFilter: ProductFilterBuilder = .init(dependency: component)
         let loginPopup: LoginPopupBuilder = .init(dependency: component)
+        let loggedOut: LoggedOutBuilder = .init(dependency: component)
+        
         let interactor = EventHomeInteractor(
             presenter: viewController,
             dependency: dependency
@@ -60,7 +71,8 @@ final class EventHomeBuilder: Builder<EventHomeDependency>, EventHomeBuildable {
             eventDetailBuilder: eventDetailBuilder,
             productDetail: productDetail,
             productFilter: productFilter,
-            loginPopup: loginPopup
+            loginPopup: loginPopup,
+            loggedOut: loggedOut
         )
     }
 }

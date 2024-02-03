@@ -14,14 +14,21 @@ protocol ProductDetailDependency: Dependency {
 final class ProductDetailComponent: Component<ProductDetailDependency>, 
                                     StarRatingReviewDependency,
                                     ProductFilterDependency,
-                                    LoginPopupDependency {
+                                    LoginPopupDependency,
+                                    LoggedOutDependency {
 
     fileprivate let favoriteAPIService: FavoriteAPIService
     let client = PyonsnalColorClient()
     let userAuthService = UserAuthService(keyChainService: KeyChainService.shared)
+    let appleLoginService: AppleLoginService
+    let kakaoLoginService: KakaoLoginService
+    let authClient: AuthAPIService
     
     override init(dependency: ProductDetailDependency) {
         self.favoriteAPIService = FavoriteAPIService(client: client, userAuthService: userAuthService)
+        self.appleLoginService = AppleLoginService()
+        self.kakaoLoginService = KakaoLoginService()
+        self.authClient = AuthAPIService(client: client)
         super.init(dependency: dependency)
     }
 }
@@ -53,6 +60,7 @@ final class ProductDetailBuilder: Builder<ProductDetailDependency>, ProductDetai
         let starRatingReview: StarRatingReviewBuilder = .init(dependency: component)
         let productFilter: ProductFilterBuilder = .init(dependency: component)
         let loginPopup: LoginPopupBuilder = .init(dependency: component)
+        let loggedOut: LoggedOutBuilder = .init(dependency: component)
         
         interactor.listener = listener
         return ProductDetailRouter(
@@ -60,7 +68,8 @@ final class ProductDetailBuilder: Builder<ProductDetailDependency>, ProductDetai
             viewController: viewController,
             starRatingReview: starRatingReview,
             productFilter: productFilter,
-            loginPopup: loginPopup
+            loginPopup: loginPopup,
+            loggedOut: loggedOut
         )
     }
 }

@@ -16,6 +16,8 @@ protocol ProductDetailRouting: ViewableRouting {
     func detachProductFilter()
     func attachLoginPopup()
     func detachLoginPopup()
+    func attachLoggedOut()
+    func detachLoggedOut(animated: Bool)
 }
 
 protocol ProductDetailPresentable: Presentable {
@@ -27,6 +29,7 @@ protocol ProductDetailPresentable: Presentable {
 
 protocol ProductDetailListener: AnyObject {
     func popProductDetail()
+    func routeToLoggedIn()
 }
 
 final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresentable>,
@@ -393,5 +396,15 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     
     func popupDidTapConfirm() {
         router?.detachLoginPopup()
+        router?.attachLoggedOut()
+    }
+    
+    func routeToLoggedIn() {
+        router?.detachLoggedOut(animated: false)
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut(animated: true)
     }
 }
