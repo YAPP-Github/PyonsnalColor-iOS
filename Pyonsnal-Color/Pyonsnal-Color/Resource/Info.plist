@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>카메라 권한 사용을 허용합니다.</string>
+	<string>프로필 이미지를 찍기 위해 권한이 필요합니다.</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>This identifier will be used to deliver personalized ads to you.</string>
+	<string>맞춤 추천을 제공하기 위해 권한이 필요합니다.</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-5808818560574239~9989786069</string>
-    <key>GADNativeAdValidatorEnabled</key>
-    <false/>
+	<key>GADNativeAdValidatorEnabled</key>
+	<false/>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
