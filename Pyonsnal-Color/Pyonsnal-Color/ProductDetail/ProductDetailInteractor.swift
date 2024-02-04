@@ -14,6 +14,10 @@ protocol ProductDetailRouting: ViewableRouting {
     func detachStarRatingReview()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
+    func attachLoginPopup()
+    func detachLoginPopup()
+    func attachLoggedOut()
+    func detachLoggedOut(animated: Bool)
 }
 
 protocol ProductDetailPresentable: Presentable {
@@ -25,6 +29,7 @@ protocol ProductDetailPresentable: Presentable {
 
 protocol ProductDetailListener: AnyObject {
     func popProductDetail()
+    func routeToLoggedIn()
 }
 
 final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresentable>,
@@ -74,21 +79,29 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func addFavorite() {
-        favoriteAPIService.addFavorite(
-            productId: product.id,
-            productType: product.productType
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            favoriteAPIService.addFavorite(
+                productId: product.id,
+                productType: product.productType
             ).sink { [weak self] response in
                 self?.presenter.setFavoriteState(isSelected: true)
             }.store(in: &cancellable)
         }
+    }
         
     func deleteFavorite() {
-        favoriteAPIService.deleteFavorite(
-            productId: product.id,
-            productType: product.productType
-        ).sink { [weak self] response in
-            self?.presenter.setFavoriteState(isSelected: false)
-        }.store(in: &cancellable)
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            favoriteAPIService.deleteFavorite(
+                productId: product.id,
+                productType: product.productType
+            ).sink { [weak self] response in
+                self?.presenter.setFavoriteState(isSelected: false)
+            }.store(in: &cancellable)
+        }
     }
     
     func refresh() {
@@ -161,19 +174,27 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func reviewLikeButtonDidTap(review: ReviewEntity) {
-        guard let memberID =  UserInfoService.shared.memberID,
-              !review.likeCount.writerIds.contains(memberID) else {
-            return
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            guard let memberID =  UserInfoService.shared.memberID,
+                  !review.likeCount.writerIds.contains(memberID) else {
+                return
+            }
+            requestReviewLike(reviewID: review.reviewId, writerID: "\(memberID)")
         }
-        requestReviewLike(reviewID: review.reviewId, writerID: "\(memberID)")
     }
     
     func reviewHateButtonDidTap(review: ReviewEntity) {
-        guard let memberID =  UserInfoService.shared.memberID,
-              !review.hateCount.writerIds.contains(memberID) else {
-            return
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            guard let memberID =  UserInfoService.shared.memberID,
+                  !review.hateCount.writerIds.contains(memberID) else {
+                return
+            }
+            requestReviewHate(reviewID: review.reviewId, writerID: "\(memberID)")
         }
-        requestReviewHate(reviewID: review.reviewId, writerID: "\(memberID)")
     }
     
     func applyFilterItems(_ items: [FilterItemEntity], type: FilterType) {
@@ -300,10 +321,14 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func attachStarRatingReview() {
-        logging(.writeReviewClick, parameter: [
-            .productName: product.name
-        ])
-        router?.attachStarRatingReview(with: product)
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            logging(.writeReviewClick, parameter: [
+                .productName: product.name
+            ])
+            router?.attachStarRatingReview(with: product)
+        }
     }
     
     func detachStarRatingReview() {
@@ -363,5 +388,23 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
         updatedReviews[reviewIndex] = updatedReview
         let updatedProductDetail = product.updateReviews(reviews: updatedReviews)
         reloadData(with: updatedProductDetail)
+    }
+    
+    func popupDidTapDismiss() {
+        router?.detachLoginPopup()
+    }
+    
+    func popupDidTapConfirm() {
+        router?.detachLoginPopup()
+        router?.attachLoggedOut()
+    }
+    
+    func routeToLoggedIn() {
+        router?.detachLoggedOut(animated: false)
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut(animated: true)
     }
 }

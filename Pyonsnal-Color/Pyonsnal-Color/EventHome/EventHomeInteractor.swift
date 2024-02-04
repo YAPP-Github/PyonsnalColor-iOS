@@ -17,6 +17,10 @@ protocol EventHomeRouting: ViewableRouting {
     func detachProductDetail()
     func attachProductFilter(of filter: FilterEntity)
     func detachProductFilter()
+    func attachLoginPopup()
+    func detachLoginPopup()
+    func attachLoggedOut()
+    func detachLoggedOut(animated: Bool)
 }
 
 protocol EventHomePresentable: Presentable {
@@ -31,6 +35,7 @@ protocol EventHomePresentable: Presentable {
 }
 
 protocol EventHomeListener: AnyObject {
+    func routeToLoggedIn()
 }
 
 final class EventHomeInteractor:
@@ -129,11 +134,15 @@ final class EventHomeInteractor:
     }
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
-        switch action {
-        case .add:
-            addFavorite(with: product)
-        case .delete:
-            deleteFavorite(with: product)
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            switch action {
+            case .add:
+                addFavorite(with: product)
+            case .delete:
+                deleteFavorite(with: product)
+            }
         }
     }
     
@@ -300,5 +309,23 @@ final class EventHomeInteractor:
         filterStateManager?.updateAllFilterItemState(to: false)
         filterStateManager?.deleteAllFilterList()
         filterStateManager?.setSortFilterDefaultText()
+    }
+    
+    func popupDidTapDismiss() {
+        router?.detachLoginPopup()
+    }
+    
+    func popupDidTapConfirm() {
+        router?.detachLoginPopup()
+        router?.attachLoggedOut()
+    }
+    
+    func routeToLoggedIn() {
+        router?.detachLoggedOut(animated: false)
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut(animated: true)
     }
 }

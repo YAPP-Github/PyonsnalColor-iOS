@@ -103,6 +103,13 @@
 		B2C25CDA2B65166E005C6F0D /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C25CD72B65166E005C6F0D /* EmptyResponse.swift */; };
 		B2C25CDB2B65166E005C6F0D /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C25CD82B65166E005C6F0D /* ProductType.swift */; };
 		B2C25CDC2B65166E005C6F0D /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C25CD92B65166E005C6F0D /* ErrorResponse.swift */; };
+		B2EECB692B6A6EFD00B328C1 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB682B6A6EFD00B328C1 /* PopupView.swift */; };
+		B2EECB6B2B6A71E000B328C1 /* PopupViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB6A2B6A71E000B328C1 /* PopupViewDelegate.swift */; };
+		B2EECB722B6A894200B328C1 /* LoginPopupRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB6E2B6A894200B328C1 /* LoginPopupRouter.swift */; };
+		B2EECB732B6A894200B328C1 /* LoginPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB6F2B6A894200B328C1 /* LoginPopupViewController.swift */; };
+		B2EECB742B6A894200B328C1 /* LoginPopupBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB702B6A894200B328C1 /* LoginPopupBuilder.swift */; };
+		B2EECB752B6A894200B328C1 /* LoginPopupInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB712B6A894200B328C1 /* LoginPopupInteractor.swift */; };
+		B2EECB772B6A896600B328C1 /* LoginPopupViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EECB762B6A896600B328C1 /* LoginPopupViewHolder.swift */; };
 		B2EFFAB92ACBF63D007AF2EE /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFAB82ACBF63D007AF2EE /* StarView.swift */; };
 		B2EFFABB2ACBF680007AF2EE /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */; };
 		B2EFFABD2ACBF69C007AF2EE /* StarRatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */; };
@@ -422,6 +429,13 @@
 		B2C25CD72B65166E005C6F0D /* EmptyResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		B2C25CD82B65166E005C6F0D /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		B2C25CD92B65166E005C6F0D /* ErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		B2EECB682B6A6EFD00B328C1 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		B2EECB6A2B6A71E000B328C1 /* PopupViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewDelegate.swift; sourceTree = "<group>"; };
+		B2EECB6E2B6A894200B328C1 /* LoginPopupRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPopupRouter.swift; sourceTree = "<group>"; };
+		B2EECB6F2B6A894200B328C1 /* LoginPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPopupViewController.swift; sourceTree = "<group>"; };
+		B2EECB702B6A894200B328C1 /* LoginPopupBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPopupBuilder.swift; sourceTree = "<group>"; };
+		B2EECB712B6A894200B328C1 /* LoginPopupInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPopupInteractor.swift; sourceTree = "<group>"; };
+		B2EECB762B6A896600B328C1 /* LoginPopupViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPopupViewHolder.swift; sourceTree = "<group>"; };
 		B2EFFAB82ACBF63D007AF2EE /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		B2EFFABA2ACBF680007AF2EE /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		B2EFFABC2ACBF69C007AF2EE /* StarRatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatedView.swift; sourceTree = "<group>"; };
@@ -962,6 +976,27 @@
 			path = LauncingEvent;
 			sourceTree = "<group>";
 		};
+		B2EECB672B6A6EEC00B328C1 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				B2EECB682B6A6EFD00B328C1 /* PopupView.swift */,
+				B2EECB6A2B6A71E000B328C1 /* PopupViewDelegate.swift */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
+		B2EECB6D2B6A892900B328C1 /* LoginPopup */ = {
+			isa = PBXGroup;
+			children = (
+				B2EECB6E2B6A894200B328C1 /* LoginPopupRouter.swift */,
+				B2EECB6F2B6A894200B328C1 /* LoginPopupViewController.swift */,
+				B2EECB762B6A896600B328C1 /* LoginPopupViewHolder.swift */,
+				B2EECB702B6A894200B328C1 /* LoginPopupBuilder.swift */,
+				B2EECB712B6A894200B328C1 /* LoginPopupInteractor.swift */,
+			);
+			path = LoginPopup;
+			sourceTree = "<group>";
+		};
 		B2F169D42A3471EB008199D8 /* RootTabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1291,6 +1326,7 @@
 				F097EF2F2A571DB000A7FB9C /* CommonWeb */,
 				F0C582BC2A55E81700DAD387 /* TermsOfUse */,
 				B2A529442A57F1E30010656A /* LogoutPopup */,
+				B2EECB6D2B6A892900B328C1 /* LoginPopup */,
 				F0EE10A62A4B387A00B8DF4F /* AccountSetting */,
 				BA00B73A2A46B95300BB3795 /* 3rdParty */,
 				BA00B7372A46B8A600BB3795 /* DesignSystem */,
@@ -1401,6 +1437,7 @@
 		BAEA1BFB2A3477A80028A90A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B2EECB672B6A6EEC00B328C1 /* Popup */,
 				B248917D2B5FA086009D0FBF /* UserEvent */,
 				B224963E2ABAEB8E00BC6B09 /* Review */,
 				F0E915AD2AA87B86000919DA /* Combine */,
@@ -1885,9 +1922,11 @@
 				BAED88302A24C3E600DA6257 /* RootViewController.swift in Sources */,
 				F01535472A45A70300A2A8F2 /* EventBannerCell.swift in Sources */,
 				BA50FD012A680AA900721782 /* ProductSearchRouter.swift in Sources */,
+				B2EECB752B6A894200B328C1 /* LoginPopupInteractor.swift in Sources */,
 				BA50FD032A680AA900721782 /* ProductSearchBuilder.swift in Sources */,
 				B248917C2B598412009D0FBF /* EventBannerDetailEntity.swift in Sources */,
 				B248916D2B443970009D0FBF /* EventImageCell.swift in Sources */,
+				B2EECB732B6A894200B328C1 /* LoginPopupViewController.swift in Sources */,
 				B2F169D82A3472D7008199D8 /* RootTabBarInteractor.swift in Sources */,
 				F033E8F82AC5C31700B021C8 /* FavoriteHomeViewController+ViewHolder.swift in Sources */,
 				F0DFBC962A59622A003F7660 /* MemberAPIService.swift in Sources */,
@@ -1914,6 +1953,7 @@
 				BA8322532AB7021D00D2E1EB /* ProductDetailEntity.swift in Sources */,
 				BABBB9662A69951700BC36A0 /* SearchBarViewDelegate.swift in Sources */,
 				BAE252262AC6DA0800405DEC /* ReviewEvaluationKind.swift in Sources */,
+				B2EECB722B6A894200B328C1 /* LoginPopupRouter.swift in Sources */,
 				F049E8C52A51CAE700E61199 /* ImageAssetKind+StoreTag.swift in Sources */,
 				F097EF372A571DD300A7FB9C /* CommonWebInteractor.swift in Sources */,
 				BA18C0A22A758FD0007D00BD /* BottomSheetPresentationController.swift in Sources */,
@@ -2033,6 +2073,7 @@
 				B2538B952A34551D00B7C3F0 /* LoggedInInteractor.swift in Sources */,
 				BAF8725F2AD41953001427DF /* ProductDetailReviewWriteCellDelegate.swift in Sources */,
 				BA4818CF2A59410B00BF9CAD /* UserAuthEntity.swift in Sources */,
+				B2EECB742B6A894200B328C1 /* LoginPopupBuilder.swift in Sources */,
 				B2EFFABB2ACBF680007AF2EE /* StarRatingView.swift in Sources */,
 				B28205052A346FDD00F9242F /* ProfileHomeInteractor.swift in Sources */,
 				F0D8FEBE2A3EDB6B000B530A /* UIColor+.swift in Sources */,
@@ -2082,6 +2123,7 @@
 				BA8924542A582ED200D1B097 /* EventTagBigView.swift in Sources */,
 				BA8924582A583AD400D1B097 /* ImageAssetKind+Icon.swift in Sources */,
 				B2F258192AAF03160022013E /* DetailReviewInteractor.swift in Sources */,
+				B2EECB772B6A896600B328C1 /* LoginPopupViewHolder.swift in Sources */,
 				F0A8A3B02A70053D00601DAE /* FilterType.swift in Sources */,
 				F06F40322B35EE2800897396 /* CurationAdCell.swift in Sources */,
 				BA87E3D72A45D40A000A9DEC /* GiftInformationView.swift in Sources */,
@@ -2114,6 +2156,7 @@
 				F0C698652A6BA9B00019C677 /* CategoryFilterCell.swift in Sources */,
 				B24259032A590ECA006C5223 /* ConvenienceStore.swift in Sources */,
 				B24891652B3AD343009D0FBF /* EventImageEntity.swift in Sources */,
+				B2EECB692B6A6EFD00B328C1 /* PopupView.swift in Sources */,
 				BA6CAB842AE8509900B9E1BF /* ReviewHateCountEntity.swift in Sources */,
 				B28A59322A73B08000431F39 /* RecommendFilterCell.swift in Sources */,
 				BA00B7362A46B83A00BB3795 /* CGFloat+.swift in Sources */,
@@ -2132,6 +2175,7 @@
 				F097EF2C2A57181B00A7FB9C /* TermsOfUseUrl.swift in Sources */,
 				F00352212A62B9F000A66FF9 /* AuthType.swift in Sources */,
 				BA8322512AB6F40A00D2E1EB /* ReviewMetaView.swift in Sources */,
+				B2EECB6B2B6A71E000B328C1 /* PopupViewDelegate.swift in Sources */,
 				F013DECB2AFF6BFA00A1F34C /* FavoriteHomeDelegate.swift in Sources */,
 				B28205022A346FDD00F9242F /* ProfileHomeRouter.swift in Sources */,
 				F01535452A45A6F800A2A8F2 /* ItemHeaderTitleView.swift in Sources */,

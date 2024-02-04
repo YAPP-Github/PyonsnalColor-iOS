@@ -11,7 +11,9 @@ protocol EventHomeInteractable: Interactable,
                                 ProductSearchListener,
                                 EventDetailListener,
                                 ProductDetailListener,
-                                ProductFilterListener {
+                                ProductFilterListener,
+                                LoginPopupListener,
+                                LoggedOutListener {
     var router: EventHomeRouting? { get set }
     var listener: EventHomeListener? { get set }
 }
@@ -27,11 +29,15 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
     private let eventDetailBuilder: EventDetailBuilder
     private let productDetail: ProductDetailBuildable
     private let productFilter: ProductFilterBuildable
+    private let loginPopup: LoginPopupBuildable
+    private let loggedOut: LoggedOutBuildable
     
     private var productSearchRouting: ProductSearchRouting?
     private var eventDetailRouting: ViewableRouting?
     private var productDetailRouting: ProductDetailRouting?
     private var productFilterRouting: ProductFilterRouting?
+    private var loginPopupRouting: LoginPopupRouting?
+    private var loggedOutRouting: LoggedOutRouting?
 
     init(
         interactor: EventHomeInteractable,
@@ -39,12 +45,16 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         productSearch: ProductSearchBuildable,
         eventDetailBuilder: EventDetailBuilder,
         productDetail: ProductDetailBuildable,
-        productFilter: ProductFilterBuildable
+        productFilter: ProductFilterBuildable,
+        loginPopup: LoginPopupBuildable,
+        loggedOut: LoggedOutBuildable
     ) {
         self.productSearch = productSearch
         self.eventDetailBuilder = eventDetailBuilder
         self.productDetail = productDetail
         self.productFilter = productFilter
+        self.loginPopup = loginPopup
+        self.loggedOut = loggedOut
         super.init(interactor: interactor,
                    viewController: viewController)
         interactor.router = self
@@ -133,5 +143,51 @@ final class EventHomeRouter: ViewableRouter<EventHomeInteractable, EventHomeView
         viewController.uiviewController.dismiss(animated: false)
         detachChild(productFilterRouting)
         self.productFilterRouting = nil
+    }
+    
+    func attachLoginPopup() {
+        guard loginPopupRouting == nil else { return }
+        
+        let loginPopupRouter = loginPopup.build(withListener: interactor)
+        let viewController = loginPopupRouter.viewControllable.uiviewController
+        
+        loginPopupRouting = loginPopupRouter
+        attachChild(loginPopupRouter)
+        viewController.modalPresentationStyle = .overFullScreen
+        viewControllable.uiviewController.present(
+            loginPopupRouter.viewControllable.uiviewController,
+            animated: false
+        )
+    }
+    
+    func detachLoginPopup() {
+        guard let loginPopupRouting else { return }
+        
+        viewControllable.uiviewController.dismiss(animated: false)
+        detachChild(loginPopupRouting)
+        self.loginPopupRouting = nil
+    }
+    
+    func attachLoggedOut() {
+        guard loggedOutRouting == nil else { return }
+        
+        let loggedOutRouter = loggedOut.build(withListener: interactor)
+        let viewController = loggedOutRouter.viewControllable.uiviewController
+        
+        loggedOutRouting = loggedOutRouter
+        attachChild(loggedOutRouter)
+        viewController.modalPresentationStyle = .overFullScreen
+        viewControllable.uiviewController.present(
+            viewController,
+            animated: true
+        )
+    }
+    
+    func detachLoggedOut(animated: Bool = true) {
+        guard let loggedOutRouting else { return }
+        
+        viewControllable.uiviewController.dismiss(animated: animated)
+        detachChild(loggedOutRouting)
+        self.loggedOutRouting = nil
     }
 }

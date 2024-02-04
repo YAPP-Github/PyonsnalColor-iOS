@@ -50,12 +50,16 @@ final class LogoutPopupInteractor:
         super.willResignActive()
     }
     
-    func didTabDismissButton(_ text: String?) {
-        if let text, text == Text.dismiss {
-            listener?.popupDidTabDismissButton()
-        } else { // 회원 탈퇴
-            deleteAccount()
-        }
+    func didTapDismissButton() {
+        listener?.popupDidTabDismissButton()
+    }
+    
+    func didTapLogoutButton() {
+        logout()
+    }
+    
+    func didTapDeleteAccountButton() {
+        deleteAccount()
     }
     
     private func logout() {
@@ -86,14 +90,6 @@ final class LogoutPopupInteractor:
                     // Error handling
                 }
             }.store(in: &cancellable)
-    }
-    
-    func didTabConfirmButton(_ text: String?) {
-        if let text, text == Text.dismiss {
-            listener?.popupDidTabDismissButton()
-        } else { // 로그아웃
-            logout()
-        }
     }
     
     private func deleteToken() {

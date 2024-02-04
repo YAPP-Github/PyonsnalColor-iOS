@@ -74,6 +74,7 @@ final class LoggedOutInteractor:
                     Log.d(message: "guest login success: \(userAuth)")
                     self?.setUserAuthEntity(userAuth: userAuth)
                     self?.listener?.routeToLoggedIn()
+                    UserInfoService.shared.configure()
                 }
             }.store(in: &cancellable)
     }
@@ -85,6 +86,7 @@ final class LoggedOutInteractor:
                     Log.d(message: "login success: \(userAuth)")
                     self?.setUserAuthEntity(userAuth: userAuth)
                     self?.listener?.routeToLoggedIn()
+                    UserInfoService.shared.configure()
                 }
             }.store(in: &cancellable)
     }

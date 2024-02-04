@@ -16,6 +16,10 @@ protocol ProductSearchRouting: ViewableRouting {
     func detachProductFilter()
     func attachProductDetail(with product: ProductDetailEntity)
     func detachProductDetail()
+    func attachLoginPopup()
+    func detachLoginPopup()
+    func attachLoggedOut()
+    func detachLoggedOut(animated: Bool)
 }
 
 protocol ProductSearchPresentable: Presentable {
@@ -27,6 +31,7 @@ protocol ProductSearchPresentable: Presentable {
 protocol ProductSearchListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
     func popProductSearch()
+    func routeToLoggedIn()
 }
 
 final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresentable>, ProductSearchInteractable, ProductSearchPresentableListener {
@@ -176,11 +181,15 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
     }
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
-        switch action {
-        case .add:
-            addFavorite(with: product)
-        case .delete:
-            deleteFavorite(with: product)
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            switch action {
+            case .add:
+                addFavorite(with: product)
+            case .delete:
+                deleteFavorite(with: product)
+            }
         }
     }
     
@@ -288,5 +297,23 @@ final class ProductSearchInteractor: PresentableInteractor<ProductSearchPresenta
         ])
         requestSort(filterItem: item)
         router?.detachProductFilter()
+    }
+    
+    func popupDidTapDismiss() {
+        router?.detachLoginPopup()
+    }
+    
+    func popupDidTapConfirm() {
+        router?.detachLoginPopup()
+        router?.attachLoggedOut()
+    }
+
+    func routeToLoggedIn() {
+        router?.detachLoggedOut(animated: false)
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut(animated: true)
     }
 }
