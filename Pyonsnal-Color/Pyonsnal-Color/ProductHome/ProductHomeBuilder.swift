@@ -17,13 +17,24 @@ final class ProductHomeComponent: Component<ProductHomeDependency>,
                                   NotificationListDependency,
                                   ProductDetailDependency,
                                   ProductFilterDependency,
-                                  EventDetailDependency {
+                                  EventDetailDependency,
+                                  LoginPopupDependency,
+                                  LoggedOutDependency {
+    var appleLoginService: AppleLoginService
+    var kakaoLoginService: KakaoLoginService
+    var authClient: AuthAPIService
+    var userAuthService: UserAuthService
     let productAPIService: ProductAPIService
     let favoriteAPIService: FavoriteAPIService
     
     override init(dependency: ProductHomeDependency) {
+        self.appleLoginService = AppleLoginService()
+        self.kakaoLoginService = KakaoLoginService()
+        self.authClient = AuthAPIService(client: PyonsnalColorClient())
+        self.userAuthService = UserAuthService(keyChainService: KeyChainService.shared)
         self.productAPIService = dependency.productAPIService
         self.favoriteAPIService = dependency.favoriteAPIService
+        
         super.init(dependency: dependency)
     }
 }
@@ -53,6 +64,8 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
         let productDetail: ProductDetailBuilder = .init(dependency: component)
         let productFilter: ProductFilterBuilder = .init(dependency: component)
         let eventDetail: EventDetailBuilder = .init(dependency: component)
+        let loginPopup: LoginPopupBuilder = .init(dependency: component)
+        let loggedOut: LoggedOutBuilder = .init(dependency: component)
         
         interactor.listener = listener
         return ProductHomeRouter(
@@ -62,7 +75,9 @@ final class ProductHomeBuilder: Builder<ProductHomeDependency>, ProductHomeBuild
             notificationList: notificationList,
             productDetail: productDetail,
             productFilter: productFilter,
-            eventDetail: eventDetail
+            eventDetail: eventDetail,
+            loginPopup: loginPopup,
+            loggedOut: loggedOut
         )
     }
 }

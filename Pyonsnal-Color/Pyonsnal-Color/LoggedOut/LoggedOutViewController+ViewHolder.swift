@@ -17,10 +17,18 @@ extension LoggedOutViewController {
                 static let logoImageViewHeight: CGFloat = 46
                 static let logoImageViewTopOffset: CGFloat = 80
                 static let descriptionLabelBottom: CGFloat = 60
-                static let loginButtonSize: CGFloat = 72
+                static let loginButtonCornerRadius: CGFloat = 16
                 static let loginSize: CGFloat = 250
-                static let loginStackViewBottomInset: CGFloat = 60
-                static let loginStackViewSpacing: CGFloat = 24
+                static let loginStackViewTop: CGFloat = 102
+                static let loginStackViewBottomInset: CGFloat = 15
+                static let loginStackViewSpacing: CGFloat = 8
+                static let loginButtonHeight: CGFloat = 52
+                static let closeButtonSize: CGFloat = 48
+            }
+            
+            enum Text {
+                static let guestLoginButtonText: String = "로그인 없이 둘러보기"
+                static let descriptionText: String = "나에게 딱 맞는 편의점 상품 정보"
             }
         }
         // MARK: - UI Component
@@ -50,13 +58,13 @@ extension LoggedOutViewController {
             label.textColor = .gray500
             label.textAlignment = .center
             label.numberOfLines = 0
-            label.text = "나에게 딱 맞는 편의점 상품 정보"
+            label.text = Constant.Text.descriptionText
             return label
         }()
 
         private let loginButtonStackView: UIStackView = {
             let stackView: UIStackView = .init(frame: .zero)
-            stackView.axis = .horizontal
+            stackView.axis = .vertical
             stackView.spacing = Constant.Size.loginStackViewSpacing
             return stackView
         }()
@@ -64,17 +72,33 @@ extension LoggedOutViewController {
         let kakaoLoginButton: UIButton = {
             let button: UIButton = .init(frame: .zero)
             button.setImage(.loginKakao, for: .normal)
-            button.layer.cornerRadius = Constant.Size.loginButtonSize / 2
+            button.layer.cornerRadius = Constant.Size.loginButtonCornerRadius
             return button
         }()
 
         let appleLoginButton: UIButton = {
             let button: UIButton = .init(frame: .zero)
             button.setImage(.loginApple, for: .normal)
-            button.layer.cornerRadius = Constant.Size.loginButtonSize / 2
+            button.layer.cornerRadius = Constant.Size.loginButtonCornerRadius
             return button
         }()
 
+        let guestLoginButton: UIButton = {
+            let button: UIButton = .init(frame: .zero)
+            button.setTitle(Constant.Text.guestLoginButtonText, for: .normal)
+            button.setTitleColor(.gray500, for: .normal)
+            button.titleLabel?.font = .body2m
+            button.backgroundColor = .white
+            button.layer.cornerRadius = Constant.Size.loginButtonCornerRadius
+            return button
+        }()
+        
+        let closeButton: UIButton = {
+            let button: UIButton = .init(frame: .zero)
+            button.setImage(.iconClose, for: .normal)
+            return button
+        }()
+        
         // MAKR: - Method
         func place(in view: UIView) {
             view.addSubview(contentView)
@@ -83,9 +107,11 @@ extension LoggedOutViewController {
             contentView.addSubview(descriptionLabel)
             contentView.addSubview(loginImageView)
             contentView.addSubview(loginButtonStackView)
+            contentView.addSubview(closeButton)
 
             loginButtonStackView.addArrangedSubview(kakaoLoginButton)
             loginButtonStackView.addArrangedSubview(appleLoginButton)
+            loginButtonStackView.addArrangedSubview(guestLoginButton)
         }
 
         func configureConstraints(for view: UIView) {
@@ -112,16 +138,28 @@ extension LoggedOutViewController {
             }
 
             loginButtonStackView.snp.makeConstraints { make in
-                make.bottom.equalToSuperview().inset(Constant.Size.loginStackViewBottomInset)
+                make.top.equalTo(self.loginImageView.snp.bottom).offset(Constant.Size.loginStackViewTop)
+                make.leading.equalToSuperview().offset(.spacing16)
+                make.bottom.greaterThanOrEqualTo(view.safeAreaLayoutGuide).inset(.spacing16)
+                make.bottom.greaterThanOrEqualToSuperview().inset(.spacing16)
                 make.centerX.equalToSuperview()
             }
 
             kakaoLoginButton.snp.makeConstraints { make in
-                make.size.equalTo(Constant.Size.loginButtonSize)
+                make.height.equalTo(Constant.Size.loginButtonHeight)
             }
 
             appleLoginButton.snp.makeConstraints { make in
-                make.size.equalTo(Constant.Size.loginButtonSize)
+                make.height.equalTo(Constant.Size.loginButtonHeight)
+            }
+            
+            guestLoginButton.snp.makeConstraints { make in
+                make.height.equalTo(Constant.Size.loginButtonHeight)
+            }
+            
+            closeButton.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(.spacing4)
+                make.size.equalTo(Constant.Size.closeButtonSize)
             }
         }
     }

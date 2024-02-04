@@ -9,7 +9,7 @@ import ModernRIBs
 
 protocol RootRouting: ViewableRouting {
     func routeToLoggedIn()
-    func routeToLoggedOutFromLogout()
+    func routeToLoggedOutFromLogIn()
     func routeToLoggedOut()
 }
 
@@ -50,16 +50,24 @@ final class RootInteractor:
         router?.routeToLoggedIn()
     }
     
-    func routeToLoggedOutFromLogout() {
-        router?.routeToLoggedOutFromLogout()
+    func routeToLoggedOutFromLoggedIn() {
+        router?.routeToLoggedOutFromLogIn()
 	}
+    
+    func routeToLoggedInFromLoggedOut() {
+        routeToLoggedIn()
+    }
 	
     func checkLoginedIn() {
         if let accessToken = dependency.userAuthService.getAccessToken() {
-            print("Access Token: \(accessToken)")
+            Log.d(message: "Access Token: \(accessToken)")
             router?.routeToLoggedIn()
         } else {
             router?.routeToLoggedOut()
         }
+    }
+    
+    func detachLoggedOut() {
+        Log.d(message: "not implemented")
     }
 }

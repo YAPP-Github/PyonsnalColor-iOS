@@ -16,10 +16,12 @@ protocol LoggedOutRouting: ViewableRouting {
 
 protocol LoggedOutPresentable: Presentable {
     var listener: LoggedOutPresentableListener? { get set }
+    func setLoginView(with isFirstLogin: Bool)
 }
 
 protocol LoggedOutListener: AnyObject {
     func routeToLoggedIn()
+    func detachLoggedOut()
 }
 
 final class LoggedOutInteractor:
@@ -49,6 +51,8 @@ final class LoggedOutInteractor:
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        let isFirstLogin = dependency.userAuthService.getAccessToken() == nil
+        presenter.setLoginView(with: isFirstLogin)
     }
 
     override func willResignActive() {
@@ -63,20 +67,33 @@ final class LoggedOutInteractor:
         dependency.kakaoLoginService.requestKakaoLogin()
     }
     
+    func requestGuestLogin() {
+        dependency.authClient.guestLogin()
+            .sink { [weak self] response in
+                if let userAuth = response.value {
+                    Log.d(message: "guest login success: \(userAuth)")
+                    self?.setUserAuthEntity(userAuth: userAuth)
+                    self?.listener?.routeToLoggedIn()
+                    UserInfoService.shared.configure()
+                }
+            }.store(in: &cancellable)
+    }
+    
     private func requestLogin(with token: String, authType: AuthType) {
         dependency.authClient.login(token: token, authType: authType)
             .sink { [weak self] response in
                 if let userAuth = response.value {
-                    print("login success: \(userAuth.accessToken)")
-                    self?.dependency.userAuthService.setAccessToken(userAuth.accessToken)
-                    self?.dependency.userAuthService.setRefreshToken(userAuth.refreshToken)
+                    Log.d(message: "login success: \(userAuth)")
+                    self?.setUserAuthEntity(userAuth: userAuth)
                     self?.listener?.routeToLoggedIn()
-                } else if response.error != nil {
-                    // TODO: error handling
-                } else {
-                    // TODO: error handling
+                    UserInfoService.shared.configure()
                 }
             }.store(in: &cancellable)
+    }
+    
+    private func setUserAuthEntity(userAuth: UserAuthEntity) {
+        self.dependency.userAuthService.setAccessToken(userAuth.accessToken)
+        self.dependency.userAuthService.setRefreshToken(userAuth.refreshToken)
     }
     
     private func resumeLoginProcess() {
@@ -98,6 +115,10 @@ final class LoggedOutInteractor:
     
     func termsOfUseAcceptButtonDidTap() {
         resumeLoginProcess()
+    }
+    
+    func dismissLoggedOut() {
+        listener?.detachLoggedOut()
     }
     
     private func checkLoginStatus(token: String, authType: AuthType) {

@@ -19,6 +19,10 @@ protocol ProductHomeRouting: ViewableRouting {
     func detachProductFilter()
     func attachEventDetail(eventDetail: EventBannerDetailEntity)
     func detachEventDetail()
+    func attachLoginPopup()
+    func detachLoginPopup()
+    func attachLoggedOut()
+    func detachLoggedOut(animated: Bool)
 }
 
 protocol ProductHomePresentable: Presentable {
@@ -35,12 +39,12 @@ protocol ProductHomePresentable: Presentable {
 }
 
 protocol ProductHomeListener: AnyObject {
+    func routeToLoggedIn()
 }
 
-final class ProductHomeInteractor:
-    PresentableInteractor<ProductHomePresentable>,
-    ProductHomeInteractable,
-    ProductHomePresentableListener {
+final class ProductHomeInteractor: PresentableInteractor<ProductHomePresentable>,
+                                   ProductHomeInteractable,
+                                   ProductHomePresentableListener {
     
     weak var router: ProductHomeRouting?
     weak var listener: ProductHomeListener?
@@ -158,11 +162,15 @@ final class ProductHomeInteractor:
     }
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
-        switch action {
-        case .add:
-            addFavorite(with: product)
-        case .delete:
-            deleteFavorite(with: product)
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
+            router?.attachLoginPopup()
+        } else {
+            switch action {
+            case .add:
+                addFavorite(with: product)
+            case .delete:
+                deleteFavorite(with: product)
+            }
         }
     }
     
@@ -287,5 +295,23 @@ final class ProductHomeInteractor:
         filterStateManager?.updateAllFilterItemState(to: false)
         filterStateManager?.deleteAllFilterList()
         filterStateManager?.setSortFilterDefaultText()
+    }
+    
+    func popupDidTapDismiss() {
+        router?.detachLoginPopup()
+    }
+    
+    func popupDidTapConfirm() {
+        router?.detachLoginPopup()
+        router?.attachLoggedOut()
+    }
+    
+    func routeToLoggedIn() {
+        router?.detachLoggedOut(animated: false)
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut(animated: true)
     }
 }

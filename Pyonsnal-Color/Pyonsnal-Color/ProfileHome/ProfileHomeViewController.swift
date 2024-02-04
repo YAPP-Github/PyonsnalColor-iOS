@@ -36,6 +36,24 @@ final class ProfileHomeViewController: UIViewController,
         case setting
     }
     
+    enum Setting: Int {
+        case etc = 0
+        case email
+        case version
+        case teams
+        case account
+        
+        var title: String {
+            switch self {
+            case .etc: "기타"
+            case .email: "1:1 문의"
+            case .version: "버전정보"
+            case .teams: "만든 사람들"
+            case .account: "계정 설정"
+            }
+        }
+    }
+    
     weak var listener: ProfileHomePresentableListener?
     
     // MARK: - Private Property
@@ -43,13 +61,8 @@ final class ProfileHomeViewController: UIViewController,
     private var cancellable = Set<AnyCancellable>()
     private var memberInfo: MemberInfoEntity?
     private let sections: [Section] = [.setting]
-    private let settings = [
-        SettingInfo(title: "기타"),
-        SettingInfo(title: "1:1 문의"),
-        SettingInfo(title: "버전정보"),
-        SettingInfo(title: "만든 사람들"),
-        SettingInfo(title: "계정 설정")
-    ]
+    private var settings: [Setting] = [.etc, .email, .version, .teams, .account]
+    
     // MARK: - Initializer
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -63,7 +76,6 @@ final class ProfileHomeViewController: UIViewController,
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
@@ -86,6 +98,10 @@ final class ProfileHomeViewController: UIViewController,
             viewHolder.profileImageView.setImage(with: url)
         }
         viewHolder.nickNameLabel.text = memberInfo.nickname
+        if memberInfo.isGuest {
+            settings.remove(at: Setting.account.rawValue)
+            viewHolder.profileEditButton.setImage(.iconDetail, for: .normal)
+        }
     }
     
     // MARK: - Private Method
@@ -136,8 +152,7 @@ extension ProfileHomeViewController: UITableViewDataSource {
     }
     
     private func isSubLabelToShow(section: Section, index: Int) -> Bool {
-        let versionInfoIndex = 2
-        return (section == .setting) && (index == versionInfoIndex)
+        return (section == .setting) && (index == Setting.version.rawValue)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -172,26 +187,22 @@ extension ProfileHomeViewController: UITableViewDataSource {
 extension ProfileHomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = sections[indexPath.section]
         let defaultHeight = Size.cellHeight
         return defaultHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = sections[indexPath.section]
-        let emailReportIndex = 1
-        let teamsIndex = 3
-        let accountSettingIndex = 4
         if !isSectionIndex(with: indexPath.row) {
             switch section {
             case .setting:
-                if indexPath.row == emailReportIndex {
+                if indexPath.row == Setting.email.rawValue {
                     showEmailReport()
-                } else if indexPath.row == teamsIndex {
+                } else if indexPath.row == Setting.teams.rawValue {
                     let title = settings[indexPath.row].title
                     let settingInfo = SettingInfo(title: title, infoUrl: .teams)
                     listener?.didTapTeams(with: settingInfo)
-                } else if indexPath.row == accountSettingIndex {
+                } else if indexPath.row == Setting.account.rawValue {
                     listener?.didTapAccountSetting()
                 }
                 

@@ -10,6 +10,7 @@ import Foundation
 struct MemberInfoEntity: Decodable {
     var oauthId: String
     var oauthType: String
+    var isGuest: Bool
     var profileImage: String?
     var memberId: Int
     var nickname: String

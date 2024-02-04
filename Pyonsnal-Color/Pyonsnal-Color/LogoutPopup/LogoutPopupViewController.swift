@@ -10,8 +10,9 @@ import SnapKit
 import UIKit
 
 protocol LogoutPopupPresentableListener: AnyObject {
-    func didTabDismissButton(_ text: String?)
-    func didTabConfirmButton(_ text: String?)
+    func didTapLogoutButton()
+    func didTapDismissButton()
+    func didTapDeleteAccountButton()
 }
 
 final class LogoutPopupViewController:
@@ -42,7 +43,7 @@ final class LogoutPopupViewController:
     convenience init(isLogout: Bool) {
         self.init()
 
-        configureText(isLogout: isLogout)
+        configurePopupView(isLogout: isLogout)
     }
     
     override func viewDidLoad() {
@@ -51,62 +52,46 @@ final class LogoutPopupViewController:
         viewHolder.place(in: view)
         viewHolder.configureConstraints(for: view)
         configureView()
-        configureAction()
     }
     
     private func configureView() {
-        view.backgroundColor = .black.withAlphaComponent(0.5)
+        view.backgroundColor = .black.withAlphaComponent(0.4)
     }
     
-    private func configureText(isLogout: Bool) {
+    private func configurePopupView(isLogout: Bool) {
         if isLogout {
-            viewHolder.titleLabel.text = Text.Logout.title
-            viewHolder.descriptionLabel.text = Text.Logout.description
-            viewHolder.dismissButton.setCustomFont(
-                text: Text.Logout.dismissButtonText,
-                color: .black,
-                font: .body2m
-            )
-            viewHolder.confirmButton.setCustomFont(
-                text: Text.Logout.confirmButtonText,
-                color: .red500,
-                font: .body2m
+            viewHolder.popupView = .init(state: .normal)
+            viewHolder.popupView.delegate = self
+            viewHolder.popupView.configurePopup(
+                title: Text.Logout.title,
+                description: Text.Logout.description,
+                dismissText: Text.Logout.dismissButtonText,
+                confirmText: Text.Logout.confirmButtonText
             )
         } else {
-            viewHolder.titleLabel.text = Text.DeleteAccount.title
-            viewHolder.descriptionLabel.text = Text.DeleteAccount.description
-            viewHolder.dismissButton.setCustomFont(
-                text: Text.DeleteAccount.dismissButtonText,
-                color: .black,
-                font: .body2m
-            )
-            viewHolder.confirmButton.setCustomFont(
-                text: Text.DeleteAccount.confirmButtonText,
-                color: .red500,
-                font: .body2m
+            viewHolder.popupView = .init(state: .reversed)
+            viewHolder.popupView.delegate = self
+            viewHolder.popupView.configurePopup(
+                title: Text.DeleteAccount.title,
+                description: Text.DeleteAccount.description,
+                dismissText: Text.DeleteAccount.dismissButtonText,
+                confirmText: Text.DeleteAccount.confirmButtonText
             )
         }
     }
-    
-    private func configureAction() {
-        viewHolder.dismissButton.addTarget(
-            self,
-            action: #selector(didTabDismissButton(_:)),
-            for: .touchUpInside
-        )
-        viewHolder.confirmButton.addTarget(
-            self,
-            action: #selector(didTabConfirmButton(_:)),
-            for: .touchUpInside
-        )
+}
+
+extension LogoutPopupViewController: PopupViewDelegate {
+    func didTapConfirmButton() {
+        if viewHolder.popupView.state == .normal {
+            listener?.didTapLogoutButton()
+        } else {
+            listener?.didTapDeleteAccountButton()
+        }
     }
     
-    @objc func didTabDismissButton(_ sender: UIButton) {
-        listener?.didTabDismissButton(sender.titleLabel?.text)
-    }
-    
-    @objc func didTabConfirmButton(_ sender: UIButton) {
-        listener?.didTabConfirmButton(sender.titleLabel?.text)
+    func didTapDismissButton() {
+        listener?.didTapDismissButton()
     }
 }
 
@@ -114,86 +99,17 @@ extension LogoutPopupViewController {
     final class ViewHolder: ViewHolderable {
         
         enum Constant {
-            enum Size {
-                static let topBottomMargin: CGFloat = 40
-                static let leftRightMargin: CGFloat = 20
-                static let titleStackViewSpacing: CGFloat = .spacing8
-                static let buttonStackViewSpacing: CGFloat = .spacing16
-                static let popupWidth: CGFloat = 358
-                static let popupHeight: CGFloat = 228
-                static let buttonWidth: CGFloat = 151
-                static let buttonHeight: CGFloat = 52
-            }
+            static let popupHeight: CGFloat = 208
         }
         
         private let containerView: UIView = .init(frame: .zero)
         
-        private let mainPopupView: UIView = {
-            let view = UIView()
-            view.makeRounded(with: .spacing16)
-            view.backgroundColor = .white
-            return view
-        }()
-        
-        private let textStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .vertical
-            stackView.spacing = Constant.Size.titleStackViewSpacing
-            stackView.alignment = .center
-            return stackView
-        }()
-        
-        let titleLabel: UILabel = {
-            let label = UILabel()
-            label.font = .title1
-            label.textColor = .black
-            return label
-        }()
-        
-        let descriptionLabel: UILabel = {
-            let label = UILabel()
-            label.font = .body2r
-            label.textColor = .init(rgbHexString: "#808084")
-            return label
-        }()
-        
-        private let buttonStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.spacing = Constant.Size.buttonStackViewSpacing
-            stackView.alignment = .center
-            return stackView
-        }()
-        
-        let dismissButton: UIButton = {
-            let button = UIButton()
-            button.makeBorder(width: 1, color: UIColor.black.cgColor)
-            button.makeRounded(with: .spacing16)
-
-            return button
-        }()
-        
-        let confirmButton: UIButton = {
-            let button = UIButton()
-            button.makeBorder(width: 1, color: UIColor.black.cgColor)
-            button.makeRounded(with: .spacing16)
-            button.backgroundColor = .black
-            return button
-        }()
+        var popupView: PopupView = .init(state: .normal)
         
         func place(in view: UIView) {
             view.addSubview(containerView)
             
-            containerView.addSubview(mainPopupView)
-            
-            mainPopupView.addSubview(textStackView)
-            mainPopupView.addSubview(buttonStackView)
-            
-            textStackView.addArrangedSubview(titleLabel)
-            textStackView.addArrangedSubview(descriptionLabel)
-            
-            buttonStackView.addArrangedSubview(dismissButton)
-            buttonStackView.addArrangedSubview(confirmButton)
+            containerView.addSubview(popupView)
         }
         
         func configureConstraints(for view: UIView) {
@@ -201,39 +117,11 @@ extension LogoutPopupViewController {
                 make.edges.equalTo(view.safeAreaLayoutGuide)
             }
             
-            mainPopupView.snp.makeConstraints { make in
-                make.centerX.centerY.equalToSuperview()
-                make.leading.equalToSuperview().offset(.spacing16)
-                make.trailing.equalToSuperview().inset(.spacing16)
-                make.height.equalTo(Constant.Size.popupHeight)
-            }
-            
-            textStackView.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(Constant.Size.topBottomMargin)
-                make.centerX.equalToSuperview()
-            }
-            
-            buttonStackView.snp.makeConstraints { make in
-                make.bottom.equalToSuperview().inset(Constant.Size.topBottomMargin)
-                make.centerX.equalToSuperview()
-            }
-            
-            titleLabel.snp.makeConstraints { make in
-                make.height.equalTo(titleLabel.font.customLineHeight)
-            }
-            
-            descriptionLabel.snp.makeConstraints { make in
-                make.height.equalTo(titleLabel.font.customLineHeight)
-            }
-            
-            dismissButton.snp.makeConstraints { make in
-                make.width.equalTo(Constant.Size.buttonWidth)
-                make.height.equalTo(Constant.Size.buttonHeight)
-            }
-            
-            confirmButton.snp.makeConstraints { make in
-                make.width.equalTo(Constant.Size.buttonWidth)
-                make.height.equalTo(Constant.Size.buttonHeight)
+            popupView.snp.makeConstraints {
+                $0.leading.equalToSuperview().offset(.spacing16)
+                $0.trailing.equalToSuperview().inset(.spacing16)
+                $0.centerY.equalToSuperview()
+                $0.height.equalTo(Constant.popupHeight)
             }
         }
 

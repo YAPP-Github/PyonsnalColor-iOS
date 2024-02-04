@@ -30,6 +30,7 @@ enum ImageAssetKind: String {
     /// TermsOfUse
     case iconClose = "icon_close"
     case iconCloseSmall = "icon_close_small"
+    case iconDetail = "icon_detail"
     case check = "check"
     case checkSelected = "check.selected"
     case checkSelectedRed = "check.selected.red"

@@ -17,6 +17,9 @@ protocol ProfileHomeRouting: ViewableRouting {
     
     func attachAccountSetting()
     func detachAccountSetting()
+    
+    func attachLoggedOut()
+    func detachLoggedOut()
 }
 
 protocol ProfileHomePresentable: Presentable {
@@ -26,13 +29,13 @@ protocol ProfileHomePresentable: Presentable {
 
 protocol ProfileHomeListener: AnyObject {
     func routeToLoggedOut()
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+    func routeToLoggedIn()
 }
 
 final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>,
                                    ProfileHomeInteractable,
                                    ProfileHomePresentableListener {
-
+    
     weak var router: ProfileHomeRouting?
     weak var listener: ProfileHomeListener?
     private var cancellable = Set<AnyCancellable>()
@@ -58,6 +61,7 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
             .sink { [weak self] response in
                 if let memberInfo = response.value {
                     Log.d(message: "info success: \(memberInfo)")
+                    Log.d(message: "isGuest \(memberInfo.isGuest)")
                     self?.presenter.update(with: memberInfo)
                 }
             }.store(in: &cancellable)
@@ -72,11 +76,19 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
     }
     
     func didTapProfileEditButton(memberInfo: MemberInfoEntity) {
+        guard !memberInfo.isGuest else {
+            self.attachLoggedOut()
+            return
+        }
         router?.attachProfileEdit(with: memberInfo)
     }
     
     func didTapBackButton() {
         router?.detachAccountSetting()
+    }
+    
+    func attachLoggedOut() {
+        router?.attachLoggedOut()
     }
     
     func routeToLoggedOut() {
@@ -89,6 +101,14 @@ final class ProfileHomeInteractor: PresentableInteractor<ProfileHomePresentable>
     
     func detachProfileEditView() {
         router?.detachProfileEdit()
+    }
+    
+    func routeToLoggedIn() {
+        listener?.routeToLoggedIn()
+    }
+    
+    func detachLoggedOut() {
+        router?.detachLoggedOut()
     }
     
 }

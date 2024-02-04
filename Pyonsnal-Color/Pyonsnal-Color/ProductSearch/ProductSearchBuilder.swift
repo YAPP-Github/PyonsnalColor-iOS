@@ -15,10 +15,20 @@ protocol ProductSearchDependency: Dependency {
 final class ProductSearchComponent: Component<ProductSearchDependency>,
                                     ProductSearchSortBottomSheetDependency,
                                     ProductFilterDependency,
-                                    ProductDetailDependency {
+                                    ProductDetailDependency,
+                                    LoginPopupDependency,
+                                    LoggedOutDependency {
+    var appleLoginService: AppleLoginService
+    var kakaoLoginService: KakaoLoginService
+    var authClient: AuthAPIService
+    var userAuthService: UserAuthService
     var productAPIService: ProductAPIService
     
     override init(dependency: ProductSearchDependency) {
+        self.appleLoginService = AppleLoginService()
+        self.kakaoLoginService = KakaoLoginService()
+        self.authClient = AuthAPIService(client: PyonsnalColorClient())
+        self.userAuthService = UserAuthService(keyChainService: KeyChainService.shared)
         self.productAPIService = dependency.productAPIService
         
         super.init(dependency: dependency)
@@ -47,6 +57,8 @@ final class ProductSearchBuilder: Builder<ProductSearchDependency>, ProductSearc
         )
         let productFilter: ProductFilterBuilder = .init(dependency: component)
         let productDetail: ProductDetailBuilder = .init(dependency: component)
+        let loginPopup: LoginPopupBuilder = .init(dependency: component)
+        let loggedOut: LoggedOutBuilder = .init(dependency: component)
         
         interactor.listener = listener
         return ProductSearchRouter(
@@ -54,7 +66,9 @@ final class ProductSearchBuilder: Builder<ProductSearchDependency>, ProductSearc
             viewController: viewController,
             productSearchSortBottomSheet: prodcutSearchSortBottomSheet,
             productFilter: productFilter,
-            productDetail: productDetail
+            productDetail: productDetail,
+            loginPopup: loginPopup,
+            loggedOut: loggedOut
         )
     }
 }

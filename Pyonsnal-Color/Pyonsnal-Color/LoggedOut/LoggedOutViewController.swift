@@ -14,6 +14,8 @@ import AuthenticationServices
 protocol LoggedOutPresentableListener: AnyObject {
     func didTapAppleLoginButton()
     func requestKakaoLogin()
+    func requestGuestLogin()
+    func dismissLoggedOut()
 }
 
 final class LoggedOutViewController:
@@ -44,6 +46,16 @@ final class LoggedOutViewController:
         ])
     }
 
+    func setLoginView(with isFirstLogin: Bool) {
+        if isFirstLogin {
+            viewHolder.closeButton.isHidden = true
+            viewHolder.guestLoginButton.isHidden = false
+        } else {
+            viewHolder.closeButton.isHidden = false
+            viewHolder.guestLoginButton.isHidden = true
+        }
+    }
+
     // MARK: - Private Method
     private func configureUI() {
         view.backgroundColor = .white
@@ -60,6 +72,16 @@ final class LoggedOutViewController:
             action: #selector(didTapKakaoLoginButton),
             for: .touchUpInside
         )
+        viewHolder.guestLoginButton.addTarget(
+            self,
+            action: #selector(didTapGuestLoginButton),
+            for: .touchUpInside
+        )
+        viewHolder.closeButton.addTarget(
+            self,
+            action: #selector(didTapCloseButton),
+            for: .touchUpInside
+        )
     }
 
     @objc
@@ -70,6 +92,16 @@ final class LoggedOutViewController:
     @objc
     private func didTapKakaoLoginButton() {
         listener?.requestKakaoLogin()
+    }
+    
+    @objc
+    private func didTapGuestLoginButton() {
+        listener?.requestGuestLogin()
+    }
+    
+    @objc
+    private func didTapCloseButton() {
+        listener?.dismissLoggedOut()
     }
 
 }

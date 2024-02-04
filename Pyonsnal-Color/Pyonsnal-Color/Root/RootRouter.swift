@@ -61,13 +61,21 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         attachChild(loggedIn)
     }
     
-    func routeToLoggedOutFromLogout() {
+    func routeToLoggedOutFromLogIn() {
         if let loggedIn {
             detachChild(loggedIn)
             self.loggedIn = nil
         }
         
         routeToLoggedOut()
+    }
+    
+    func routeToLoggedInFromLoggedOut() {
+        if let loggedOut {
+            detachChild(loggedOut)
+            self.loggedOut = nil
+        }
+        routeToLoggedIn()
     }
     
 }
