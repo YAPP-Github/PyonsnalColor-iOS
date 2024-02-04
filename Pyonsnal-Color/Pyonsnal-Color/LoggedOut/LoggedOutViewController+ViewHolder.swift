@@ -37,6 +37,16 @@ extension LoggedOutViewController {
             return view
         }()
         
+        private let graphicContentLayoutView: UIView = {
+            let view: UIView = .init(frame: .zero)
+            return view
+        }()
+        
+        private let graphicContentView: UIView = {
+            let view: UIView = .init(frame: .zero)
+            return view
+        }()
+        
         private let loginImageView: LottieAnimationView = {
             let animation = LottieAnimation.named("login")
             let animationView = LottieAnimationView(animation: animation)
@@ -103,11 +113,15 @@ extension LoggedOutViewController {
         func place(in view: UIView) {
             view.addSubview(contentView)
 
-            contentView.addSubview(logoImageView)
-            contentView.addSubview(descriptionLabel)
-            contentView.addSubview(loginImageView)
+            contentView.addSubview(graphicContentLayoutView)
             contentView.addSubview(loginButtonStackView)
             contentView.addSubview(closeButton)
+            
+            graphicContentLayoutView.addSubview(graphicContentView)
+            
+            graphicContentView.addSubview(logoImageView)
+            graphicContentView.addSubview(descriptionLabel)
+            graphicContentView.addSubview(loginImageView)
 
             loginButtonStackView.addArrangedSubview(kakaoLoginButton)
             loginButtonStackView.addArrangedSubview(appleLoginButton)
@@ -118,10 +132,18 @@ extension LoggedOutViewController {
             contentView.snp.makeConstraints { make in
                 make.edges.equalTo(view.safeAreaLayoutGuide)
             }
+            
+            graphicContentLayoutView.snp.makeConstraints { make in
+                make.top.leading.trailing.equalToSuperview()
+            }
 
+            graphicContentView.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+            
             logoImageView.snp.makeConstraints { make in
                 make.height.equalTo(Constant.Size.logoImageViewHeight)
-                make.top.equalToSuperview().offset(Constant.Size.logoImageViewTopOffset)
+                make.top.equalToSuperview()
                 make.centerX.equalToSuperview()
             }
 
@@ -134,11 +156,12 @@ extension LoggedOutViewController {
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(Constant.Size.descriptionLabelBottom)
                 make.width.equalTo(Constant.Size.loginSize)
                 make.height.equalTo(Constant.Size.loginSize)
+                make.bottom.equalToSuperview()
                 make.centerX.equalToSuperview()
             }
 
             loginButtonStackView.snp.makeConstraints { make in
-                make.top.equalTo(self.loginImageView.snp.bottom).offset(Constant.Size.loginStackViewTop)
+                make.top.equalTo(graphicContentLayoutView.snp.bottom)
                 make.leading.equalToSuperview().offset(.spacing16)
                 make.bottom.greaterThanOrEqualTo(view.safeAreaLayoutGuide).inset(.spacing16)
                 make.bottom.greaterThanOrEqualToSuperview().inset(.spacing16)
