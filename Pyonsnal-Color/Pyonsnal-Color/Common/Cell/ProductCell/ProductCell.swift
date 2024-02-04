@@ -42,7 +42,7 @@ final class ProductCell: UICollectionViewCell {
             .sink { [weak self] _ in
                 guard let self, let product = self.product else { return }
                 
-                if let isGuest = UserInfoService.shared.isMemberGuest, !isGuest {
+                if let isGuest = UserInfoService.shared.isGuest, !isGuest {
                     let isSelected = !self.viewHolder.favoriteButton.isSelected
                     self.setFavoriteButtonSelected(isSelected: isSelected)
                 }

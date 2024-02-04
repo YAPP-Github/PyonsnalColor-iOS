@@ -134,7 +134,7 @@ final class EventHomeInteractor:
     }
     
     func didTapFavoriteButton(product: ProductDetailEntity, action: FavoriteButtonAction) {
-        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
             router?.attachLoginPopup()
         } else {
             switch action {

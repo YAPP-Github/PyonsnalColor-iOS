@@ -79,7 +79,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func addFavorite() {
-        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
             router?.attachLoginPopup()
         } else {
             favoriteAPIService.addFavorite(
@@ -92,7 +92,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
         
     func deleteFavorite() {
-        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
             router?.attachLoginPopup()
         } else {
             favoriteAPIService.deleteFavorite(
@@ -174,7 +174,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func reviewLikeButtonDidTap(review: ReviewEntity) {
-        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
             router?.attachLoginPopup()
         } else {
             guard let memberID =  UserInfoService.shared.memberID,
@@ -186,7 +186,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func reviewHateButtonDidTap(review: ReviewEntity) {
-        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
             router?.attachLoginPopup()
         } else {
             guard let memberID =  UserInfoService.shared.memberID,
@@ -321,7 +321,7 @@ final class ProductDetailInteractor: PresentableInteractor<ProductDetailPresenta
     }
     
     func attachStarRatingReview() {
-        if let isGuest = UserInfoService.shared.isMemberGuest, isGuest {
+        if let isGuest = UserInfoService.shared.isGuest, isGuest {
             router?.attachLoginPopup()
         } else {
             logging(.writeReviewClick, parameter: [
