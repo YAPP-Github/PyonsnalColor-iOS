@@ -189,6 +189,9 @@ extension ProductHomePageViewController: CurationDelegate {
     }
     
     func didTapEventBanner(eventDetail: EventBannerDetailEntity) {
+        logging(.bannerClick, parameter: [
+            .bannerName: eventDetail.links.first ?? "nil"
+        ])
         pagingDelegate?.didTapEventBanner(eventDetail: eventDetail)
     }
 }

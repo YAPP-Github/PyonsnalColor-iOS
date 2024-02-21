@@ -23,6 +23,7 @@ enum GAEventName: String {
     case withdrawalClick = "withdrawal_click"
     case writeReviewClick = "writeReviewClick"
     case closeScreen = "close_screen"
+    case bannerClick = "banner_click"
 }
 
 enum GAScreenName: String {
@@ -57,6 +58,7 @@ enum GAParameterKey: String {
     case sevenEventName = "sevene_event_name"
     case searchKeyword = "search_keyword"
     case count = "count"
+    case bannerName = "banner_name"
 }
 
 func logging(_ event: GAEventName, parameter: [GAParameterKey: String]) {
