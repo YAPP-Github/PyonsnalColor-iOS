@@ -32,10 +32,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         launchRouter.launch(from: window)
         
         KakaoSDK.initSDK(appKey: "ab08022b3cceb8820b6d466a9ba01847")
+        
+        if let userActivity = connectionOptions.userActivities.first {
+            self.scene(scene, continue: userActivity)
+        } else {
+            self.scene(scene, openURLContexts: connectionOptions.urlContexts)
+        }
+    }
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        // Naver tracker
+        // Universal Link URL. App is running or suspended in memory
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            dump(userActivity.webpageURL)
+        }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {
+            dump(url)
             if AuthApi.isKakaoTalkLoginUrl(url) {
                 _ = AuthController.handleOpenUrl(url: url)
             }
