@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_tab_sale_selected.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_tab_my_unselected.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
